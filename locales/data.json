@@ -671,12 +671,6 @@
         "value": "Cancel"
       }
     ],
-    "change": [
-      {
-        "type": 0,
-        "value": "Change"
-      }
-    ],
     "chartCostForecastConeLegendLabel": [
       {
         "type": 0,
@@ -997,6 +991,12 @@
         "value": "Close"
       }
     ],
+    "cloudIntegration": [
+      {
+        "type": 0,
+        "value": "Cloud integration"
+      }
+    ],
     "cluster": [
       {
         "type": 0,
@@ -1019,18 +1019,6 @@
       {
         "type": 0,
         "value": "Clusters"
-      }
-    ],
-    "copyToClipboard": [
-      {
-        "type": 0,
-        "value": "Copy to clipboard"
-      }
-    ],
-    "copyToClipboardSuccessfull": [
-      {
-        "type": 0,
-        "value": "Successfully copied to clipboard!"
       }
     ],
     "cost": [
@@ -2302,18 +2290,6 @@
         },
         "type": 5,
         "value": "units"
-      }
-    ],
-    "current": [
-      {
-        "type": 0,
-        "value": "Current"
-      }
-    ],
-    "currentConfiguration": [
-      {
-        "type": 0,
-        "value": "Current configuration"
       }
     ],
     "dashboardCumulativeCostComparison": [
@@ -9723,12 +9699,6 @@
         "value": "Learn more"
       }
     ],
-    "limits": [
-      {
-        "type": 0,
-        "value": "Limits"
-      }
-    ],
     "loadingStateDesc": [
       {
         "type": 0,
@@ -10385,12 +10355,6 @@
         "value": "Settings in Cost Management"
       }
     ],
-    "notificationsAlertTitle": [
-      {
-        "type": 0,
-        "value": "Duration based notifications"
-      }
-    ],
     "oci": [
       {
         "type": 0,
@@ -10585,12 +10549,6 @@
         "value": "Memory usage and requests"
       }
     ],
-    "ocpSource": [
-      {
-        "type": 0,
-        "value": "OpenShift source:"
-      }
-    ],
     "ocpVolumeUsageAndRequests": [
       {
         "type": 0,
@@ -10625,248 +10583,6 @@
       {
         "type": 0,
         "value": "Optimizations"
-      }
-    ],
-    "optimizationsDetails": [
-      {
-        "offset": 0,
-        "options": {
-          "=0": {
-            "value": [
-              {
-                "type": 0,
-                "value": "No optimizations"
-              }
-            ]
-          },
-          "=1": {
-            "value": [
-              {
-                "type": 1,
-                "value": "count"
-              },
-              {
-                "type": 0,
-                "value": " optimization"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "count"
-              },
-              {
-                "type": 0,
-                "value": " optimizations"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
-      }
-    ],
-    "optimizationsInfo": [
-      {
-        "type": 0,
-        "value": "Assess and monitor your usage so you can optimize your OpenShift resources."
-      }
-    ],
-    "optimizationsInfoArialLabel": [
-      {
-        "type": 0,
-        "value": "A description of optimizations"
-      }
-    ],
-    "optimizationsInfoButtonArialLabel": [
-      {
-        "type": 0,
-        "value": "A dialog with a description of optimizations"
-      }
-    ],
-    "optimizationsLoadingStateDesc": [
-      {
-        "type": 0,
-        "value": "Searching for your optimizations. Do not refresh the browser"
-      }
-    ],
-    "optimizationsLoadingStateTitle": [
-      {
-        "type": 0,
-        "value": "Looking for optimizations..."
-      }
-    ],
-    "optimizationsLongTerm": [
-      {
-        "type": 0,
-        "value": "Last 15 days"
-      }
-    ],
-    "optimizationsMediumTerm": [
-      {
-        "type": 0,
-        "value": "Last 7 days"
-      }
-    ],
-    "optimizationsNames": [
-      {
-        "options": {
-          "cluster": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cluster names"
-              }
-            ]
-          },
-          "container": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Container names"
-              }
-            ]
-          },
-          "last_reported": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Last reported"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "project": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Project names"
-              }
-            ]
-          },
-          "workload": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload names"
-              }
-            ]
-          },
-          "workload_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload types"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "optimizationsPerspective": [
-      {
-        "type": 0,
-        "value": "View optimizations based on"
-      }
-    ],
-    "optimizationsShortTerm": [
-      {
-        "type": 0,
-        "value": "Last 24 hrs"
-      }
-    ],
-    "optimizationsTableAriaLabel": [
-      {
-        "type": 0,
-        "value": "Optimizations table"
-      }
-    ],
-    "optimizationsValue": [
-      {
-        "type": 1,
-        "value": "value"
-      },
-      {
-        "type": 1,
-        "value": "units"
-      }
-    ],
-    "optimizationsValues": [
-      {
-        "options": {
-          "cluster": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cluster name"
-              }
-            ]
-          },
-          "container": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Container name"
-              }
-            ]
-          },
-          "last_reported": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Last reported"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "project": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Project name"
-              }
-            ]
-          },
-          "workload": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload name"
-              }
-            ]
-          },
-          "workload_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Workload type"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "optimizationsViewAll": [
-      {
-        "type": 0,
-        "value": "View all optimizations for this project"
-      }
-    ],
-    "optimizationsViewAllDisabled": [
-      {
-        "type": 0,
-        "value": "This project has not reported data this month."
       }
     ],
     "overhead": [
@@ -11039,44 +10755,6 @@
       {
         "type": 0,
         "value": " % of cost"
-      }
-    ],
-    "percentPlus": [
-      {
-        "offset": 0,
-        "options": {
-          "one": {
-            "value": [
-              {
-                "type": 0,
-                "value": "+"
-              },
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": "%"
-              }
-            ]
-          },
-          "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              },
-              {
-                "type": 0,
-                "value": "%"
-              }
-            ]
-          }
-        },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
       }
     ],
     "percentSymbol": [
@@ -11412,18 +11090,6 @@
       {
         "type": 0,
         "value": "You have read only permissions"
-      }
-    ],
-    "recommended": [
-      {
-        "type": 0,
-        "value": "Recommended"
-      }
-    ],
-    "recommendedConfiguration": [
-      {
-        "type": 0,
-        "value": "Recommended configuration"
       }
     ],
     "redHatIntegration": [
@@ -11973,6 +11639,57 @@
       {
         "type": 1,
         "value": "dateRange"
+      }
+    ],
+    "source": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services source:"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure source:"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform source:"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure source:"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OpenShift source:"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "sourceType": [
