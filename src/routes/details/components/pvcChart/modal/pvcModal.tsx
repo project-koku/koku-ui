@@ -1,5 +1,3 @@
-import './pvcModal.scss';
-
 import { Modal } from '@patternfly/react-core';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -34,7 +32,7 @@ class PvcModalBase extends React.Component<PvcModalProps, any> {
     const { isOpen, title } = this.props;
 
     return (
-      <Modal className="modalOverride" isOpen={isOpen} onClose={this.handleClose} title={title} width={'50%'}>
+      <Modal isOpen={isOpen} onClose={this.handleClose} title={title} width={'50%'}>
         <PvcContent />
       </Modal>
     );

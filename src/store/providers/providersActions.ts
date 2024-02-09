@@ -1,5 +1,4 @@
-import type { Providers } from 'api/providers';
-import type { ProviderType } from 'api/providers';
+import type { Providers, ProviderType } from 'api/providers';
 import { fetchProviders as apiGetProviders } from 'api/providers';
 import type { AxiosError } from 'axios';
 import type { ThunkAction } from 'store/common';
@@ -32,7 +31,7 @@ export function fetchProviders(reportType: ProviderType, reportQueryString: stri
 
     dispatch(fetchProvidersRequest(meta));
 
-    return apiGetProviders(reportQueryString)
+    return apiGetProviders(reportQueryString, reportType)
       .then(res => {
         dispatch(fetchProvidersSuccess(res.data, meta));
       })
