@@ -205,11 +205,6 @@ export default defineMessages({
     description: 'Cancel',
     id: 'cancel',
   },
-  change: {
-    defaultMessage: 'Change',
-    description: 'Change',
-    id: 'change',
-  },
   chartCostForecastConeLegendLabel: {
     defaultMessage: 'Cost confidence ({dateRange})',
     description: 'Cost confidence (Jan 1-31)',
@@ -350,6 +345,11 @@ export default defineMessages({
     description: 'Close',
     id: 'close',
   },
+  cloudIntegration: {
+    defaultMessage: 'Cloud integration',
+    description: 'Cloud integration',
+    id: 'cloudIntegration',
+  },
   cluster: {
     defaultMessage: 'Cluster',
     description: 'Cluster',
@@ -369,16 +369,6 @@ export default defineMessages({
     defaultMessage: 'Clusters',
     description: 'Clusters',
     id: 'clusters',
-  },
-  copyToClipboard: {
-    defaultMessage: 'Copy to clipboard',
-    description: 'Copy to clipboard',
-    id: 'copyToClipboard',
-  },
-  copyToClipboardSuccessfull: {
-    defaultMessage: 'Successfully copied to clipboard!',
-    description: 'Successfully copied to clipboard!',
-    id: 'copyToClipboardSuccessfull',
   },
   cost: {
     defaultMessage: 'Cost',
@@ -1085,16 +1075,6 @@ export default defineMessages({
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'currencyUnits',
-  },
-  current: {
-    defaultMessage: 'Current',
-    description: 'Current',
-    id: 'current',
-  },
-  currentConfiguration: {
-    defaultMessage: 'Current configuration',
-    description: 'Current configuration',
-    id: 'currentConfiguration',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',
@@ -2229,11 +2209,6 @@ export default defineMessages({
     description: 'Learn more',
     id: 'learnMore',
   },
-  limits: {
-    defaultMessage: 'Limits',
-    description: 'Limits',
-    id: 'limits',
-  },
   loadingStateDesc: {
     defaultMessage: 'Searching for your integrations. Do not refresh the browser',
     description: 'Searching for your integrations. Do not refresh the browser',
@@ -2580,11 +2555,6 @@ export default defineMessages({
     description: 'Settings in Cost Management',
     id: 'notAuthorizedStateSettings',
   },
-  notificationsAlertTitle: {
-    defaultMessage: 'Duration based notifications',
-    description: 'Duration based notifications',
-    id: 'notificationsAlertTitle',
-  },
   oci: {
     defaultMessage: 'Oracle Cloud Infrastructure',
     description: 'Oracle Cloud Infrastructure',
@@ -2702,11 +2672,6 @@ export default defineMessages({
     description: 'Memory usage and requests',
     id: 'ocpMemoryUsageAndRequests',
   },
-  ocpSource: {
-    defaultMessage: 'OpenShift source:',
-    description: 'OpenShift source',
-    id: 'ocpSource',
-  },
   ocpVolumeUsageAndRequests: {
     defaultMessage: 'Volume usage and requests',
     description: 'Volume usage and requests',
@@ -2740,102 +2705,6 @@ export default defineMessages({
     defaultMessage: 'Optimizations',
     description: 'Optimizations',
     id: 'optimizations',
-  },
-  optimizationsDetails: {
-    defaultMessage: '{count, plural, =0 {No optimizations} =1 {{count} optimization} other {{count} optimizations}}',
-    description: 'Recommendation details',
-    id: 'optimizationsDetails',
-  },
-  optimizationsInfo: {
-    defaultMessage: 'Assess and monitor your usage so you can optimize your OpenShift resources.',
-    description: 'Assess and monitor your usage so you can optimize your OpenShift resources.',
-    id: 'optimizationsInfo',
-  },
-  optimizationsInfoArialLabel: {
-    defaultMessage: 'A description of optimizations',
-    description: 'A description of optimizations',
-    id: 'optimizationsInfoArialLabel',
-  },
-  optimizationsInfoButtonArialLabel: {
-    defaultMessage: 'A dialog with a description of optimizations',
-    description: 'A dialog with a description of optimizations',
-    id: 'optimizationsInfoButtonArialLabel',
-  },
-  optimizationsLoadingStateDesc: {
-    defaultMessage: 'Searching for your optimizations. Do not refresh the browser',
-    description: 'Searching for your optimizations. Do not refresh the browser',
-    id: 'optimizationsLoadingStateDesc',
-  },
-  optimizationsLoadingStateTitle: {
-    defaultMessage: 'Looking for optimizations...',
-    description: 'Looking for optimizations',
-    id: 'optimizationsLoadingStateTitle',
-  },
-  optimizationsLongTerm: {
-    defaultMessage: 'Last 15 days',
-    description: 'Last 15 days',
-    id: 'optimizationsLongTerm',
-  },
-  optimizationsMediumTerm: {
-    defaultMessage: 'Last 7 days',
-    description: 'Last 7 days',
-    id: 'optimizationsMediumTerm',
-  },
-  optimizationsNames: {
-    defaultMessage:
-      '{value, select, ' +
-      'cluster {Cluster names} ' +
-      'container {Container names} ' +
-      'last_reported {Last reported} ' +
-      'project {Project names} ' +
-      'workload {Workload names} ' +
-      'workload_type {Workload types} ' +
-      'other {}}',
-    description: 'Selected items for export',
-    id: 'optimizationsNames',
-  },
-  optimizationsPerspective: {
-    defaultMessage: 'View optimizations based on',
-    description: 'View optimizations based on',
-    id: 'optimizationsPerspective',
-  },
-  optimizationsShortTerm: {
-    defaultMessage: 'Last 24 hrs',
-    description: 'Last 24 hrs',
-    id: 'optimizationsShortTerm',
-  },
-  optimizationsTableAriaLabel: {
-    defaultMessage: 'Optimizations table',
-    description: 'Optimizations table',
-    id: 'optimizationsTableAriaLabel',
-  },
-  optimizationsValue: {
-    defaultMessage: '{value}{units}',
-    description: '2 GiB',
-    id: 'optimizationsValue',
-  },
-  optimizationsValues: {
-    defaultMessage:
-      '{value, select, ' +
-      'cluster {Cluster name} ' +
-      'container {Container name} ' +
-      'last_reported {Last reported} ' +
-      'project {Project name} ' +
-      'workload {Workload name} ' +
-      'workload_type {Workload type} ' +
-      'other {}}',
-    description: 'Selected items for export',
-    id: 'optimizationsValues',
-  },
-  optimizationsViewAll: {
-    defaultMessage: 'View all optimizations for this project',
-    description: 'View all optimizations for this project',
-    id: 'optimizationsViewAll',
-  },
-  optimizationsViewAllDisabled: {
-    defaultMessage: 'This project has not reported data this month.',
-    description: 'This project has not reported data this month.',
-    id: 'optimizationsViewAllDisabled',
   },
   overhead: {
     defaultMessage: 'Overhead',
@@ -2945,11 +2814,6 @@ export default defineMessages({
     defaultMessage: '{value} % of cost',
     description: '{value} % of cost',
     id: 'percentOfCost',
-  },
-  percentPlus: {
-    defaultMessage: '{count, plural, one {+{value}%} other {{value}%}}',
-    description: 'Percent value with plus symbol',
-    id: 'percentPlus',
   },
   percentSymbol: {
     defaultMessage: '%',
@@ -3104,16 +2968,6 @@ export default defineMessages({
     defaultMessage: 'You have read only permissions',
     description: 'You have read only permissions',
     id: 'readOnlyPermissions',
-  },
-  recommended: {
-    defaultMessage: 'Recommended',
-    description: 'Recommended',
-    id: 'recommended',
-  },
-  recommendedConfiguration: {
-    defaultMessage: 'Recommended configuration',
-    description: 'Recommended configuration',
-    id: 'recommendedConfiguration',
   },
   redHatIntegration: {
     defaultMessage: 'Red Hat integration',
@@ -3343,6 +3197,18 @@ export default defineMessages({
     defaultMessage: '{dateRange}',
     description: 'Jan 1-31',
     id: 'sinceDate',
+  },
+  source: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Amazon Web Services source:} ' +
+      'azure {Microsoft Azure source:} ' +
+      'oci {Oracle Cloud Infrastructure source:} ' +
+      'gcp {Google Cloud Platform source:} ' +
+      'ocp {OpenShift source:} ' +
+      'other {}}',
+    description: 'Select from the following {value} integrations:',
+    id: 'source',
   },
   sourceType: {
     defaultMessage: 'Integration',
