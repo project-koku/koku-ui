@@ -1,5 +1,3 @@
-import './summaryModal.scss';
-
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';

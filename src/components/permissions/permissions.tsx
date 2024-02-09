@@ -72,7 +72,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     switch (pathname) {
       case formatPath(routes.explorer.path):
       case formatPath(routes.overview.path):
-        return aws || azure || costModel || gcp || ibm || ocp || oci;
+        return aws || azure || gcp || ibm || ocp || oci;
       case formatPath(routes.awsBreakdown.path):
       case formatPath(routes.awsDetails.path):
         return aws;
