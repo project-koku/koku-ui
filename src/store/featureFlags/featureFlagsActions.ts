@@ -7,6 +7,7 @@ export interface FeatureFlagsActionMeta {
   isIbmFeatureEnabled?: boolean;
   isRosFeatureEnabled?: boolean;
   isSettingsPlatformFeatureEnabled?: boolean;
+  isTagMappingFeatureEnabled?: boolean;
 }
 
 export const setFeatureFlags = createAction('feature/init_feature_flags')<FeatureFlagsActionMeta>();

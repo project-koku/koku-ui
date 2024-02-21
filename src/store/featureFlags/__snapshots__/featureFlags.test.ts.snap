@@ -9,5 +9,6 @@ exports[`default state 1`] = `
   "isIbmFeatureEnabled": false,
   "isRosFeatureEnabled": false,
   "isSettingsPlatformFeatureEnabled": false,
+  "isTagMappingFeatureEnabled": false,
 }
 `;
