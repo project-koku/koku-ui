@@ -57,10 +57,10 @@
     "@patternfly/react-icons": "^5.2.0",
     "@patternfly/react-table": "^5.2.0",
     "@patternfly/react-tokens": "^5.2.0",
-    "@redhat-cloud-services/frontend-components": "^4.2.3",
+    "@redhat-cloud-services/frontend-components": "^4.2.4",
     "@redhat-cloud-services/frontend-components-notifications": "^4.1.0",
     "@redhat-cloud-services/frontend-components-translations": "^3.2.7",
-    "@redhat-cloud-services/frontend-components-utilities": "^4.0.5",
+    "@redhat-cloud-services/frontend-components-utilities": "^4.0.6",
     "@redhat-cloud-services/rbac-client": "^1.2.13",
     "@reduxjs/toolkit": "^2.2.1",
     "@unleash/proxy-client-react": "^4.1.2",
@@ -79,7 +79,7 @@
     "typesafe-actions": "^5.1.0",
     "unleash-proxy-client": "^3.3.1",
     "victory-core": "36.8.6",
-    "yaml": "^2.3.4"
+    "yaml": "^2.4.0"
   },
   "devDependencies": {
     "@formatjs/cli": "^6.2.7",
