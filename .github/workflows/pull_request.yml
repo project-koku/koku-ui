@@ -44,6 +44,3 @@ jobs:
       - name: Test
         if: ${{ success() }}
         run: npm test --coverage --maxWorkers=4
-      - name: Code coverage
-        if: ${{ success() }}
-        uses: codecov/codecov-action@v1
