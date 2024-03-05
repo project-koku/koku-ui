@@ -18,6 +18,9 @@ updates:
       lint-dependencies:
         patterns:
           - "*eslint*"
+      patternfly-dependencies:
+        patterns:
+          - "@patternfly*"
       test-dependencies:
         patterns:
           - "*jest*"
