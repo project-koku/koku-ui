@@ -370,7 +370,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
+              title={(datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })) as any}
             />
           ),
         } as any)

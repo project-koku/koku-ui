@@ -1,6 +1,6 @@
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
-import { useUnleashClient, useUnleashContext } from '@unleash/proxy-client-react';
-import { useLayoutEffect, useRef } from 'react';
+import { useUnleashClient } from '@unleash/proxy-client-react';
+import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { featureFlagsActions } from 'store/featureFlags';
 
@@ -18,59 +18,22 @@ export const enum FeatureToggle {
 
 // The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
 const useFeatureFlags = () => {
-  const updateContext = useUnleashContext();
   const client = useUnleashClient();
   const dispatch = useDispatch();
-  const { auth, isBeta } = useChrome();
+  const { isBeta } = useChrome();
 
-  const fetchUser = callback => {
-    auth.getUser().then(user => {
-      callback((user as any).identity.account_number);
-    });
-  };
-
-  const isMounted = useRef(false);
   useLayoutEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
+    // Workaround for code that doesn't use hooks
+    const flags = {
+      isClusterInfoFeatureEnabled: client.isEnabled(FeatureToggle.clusterInfo),
+      isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
+      isFinsightsFeatureEnabled: client.isEnabled(FeatureToggle.finsights),
+      isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
+      isRosFeatureEnabled: client.isEnabled(FeatureToggle.ros) || (client.isEnabled(FeatureToggle.rosBeta) && isBeta()), // Need to check beta in prod
+      isSettingsPlatformFeatureEnabled: client.isEnabled(FeatureToggle.settingsPlatform),
+      isTagMappingFeatureEnabled: client.isEnabled(FeatureToggle.tagMapping),
     };
-  }, []);
-
-  // Update everytime or flags may be false
-  useLayoutEffect(() => {
-    fetchUser(userId => {
-      if (isMounted.current) {
-        updateContext({
-          userId,
-        });
-      }
-    });
-  });
-
-  useLayoutEffect(() => {
-    // Wait for the new flags to pull in from the different context
-    const fetchFlags = async userId => {
-      await updateContext({ userId }).then(() => {
-        dispatch(
-          featureFlagsActions.setFeatureFlags({
-            isClusterInfoFeatureEnabled: client.isEnabled(FeatureToggle.clusterInfo),
-            isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
-            isFinsightsFeatureEnabled: client.isEnabled(FeatureToggle.finsights),
-            isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
-            isRosFeatureEnabled:
-              client.isEnabled(FeatureToggle.ros) || (client.isEnabled(FeatureToggle.rosBeta) && isBeta()), // Need to check beta in prod
-            isSettingsPlatformFeatureEnabled: client.isEnabled(FeatureToggle.settingsPlatform),
-            isTagMappingFeatureEnabled: client.isEnabled(FeatureToggle.tagMapping),
-          })
-        );
-      });
-    };
-    fetchUser(userId => {
-      if (isMounted.current) {
-        fetchFlags(userId);
-      }
-    });
+    dispatch(featureFlagsActions.setFeatureFlags(flags));
   });
 };
 
