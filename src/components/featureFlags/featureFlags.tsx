@@ -16,24 +16,67 @@ export const enum FeatureToggle {
   tagMapping = 'cost-management.ui.tag.mapping', // https://issues.redhat.com/browse/COST-3824
 }
 
-// The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
-const useFeatureFlags = () => {
+const useIsFlagEnabled = (flag: FeatureToggle) => {
   const client = useUnleashClient();
-  const dispatch = useDispatch();
+  return client.isEnabled(flag);
+};
+
+export const useIsClusterInfoFeatureEnabled = () => {
+  return useIsFlagEnabled(FeatureToggle.clusterInfo);
+};
+
+export const useIsExportsFeatureEnabled = () => {
+  return useIsFlagEnabled(FeatureToggle.exports);
+};
+
+export const useIsFinsightsFeatureEnabled = () => {
+  return useIsFlagEnabled(FeatureToggle.finsights);
+};
+
+export const useIsIbmFeatureEnabled = () => {
+  return useIsFlagEnabled(FeatureToggle.ibm);
+};
+
+export const useIsRosFeatureEnabled = () => {
   const { isBeta } = useChrome();
+  const isRosFeatureEnabled = useIsFlagEnabled(FeatureToggle.ros);
+  const isRosFeatureBetaEnabled = useIsFlagEnabled(FeatureToggle.rosBeta) && isBeta(); // Enabled for prod-beta
+  return isRosFeatureEnabled || isRosFeatureBetaEnabled;
+};
+
+export const useIsSettingsPlatformFeatureEnabled = () => {
+  return useIsFlagEnabled(FeatureToggle.settingsPlatform);
+};
+
+export const useIsTagMappingFeatureEnabled = () => {
+  return useIsFlagEnabled(FeatureToggle.tagMapping);
+};
+
+// The FeatureFlags component saves feature flags in store for places where Unleash hooks not available
+export const useFeatureFlags = () => {
+  const dispatch = useDispatch();
+
+  const isClusterInfoFeatureEnabled = useIsClusterInfoFeatureEnabled();
+  const isExportsFeatureEnabled = useIsExportsFeatureEnabled();
+  const isFinsightsFeatureEnabled = useIsFinsightsFeatureEnabled();
+  const isIbmFeatureEnabled = useIsIbmFeatureEnabled();
+  const isRosFeatureEnabled = useIsRosFeatureEnabled();
+  const isSettingsPlatformFeatureEnabled = useIsSettingsPlatformFeatureEnabled();
+  const isTagMappingFeatureEnabled = useIsTagMappingFeatureEnabled();
 
   useLayoutEffect(() => {
     // Workaround for code that doesn't use hooks
-    const flags = {
-      isClusterInfoFeatureEnabled: client.isEnabled(FeatureToggle.clusterInfo),
-      isExportsFeatureEnabled: client.isEnabled(FeatureToggle.exports),
-      isFinsightsFeatureEnabled: client.isEnabled(FeatureToggle.finsights),
-      isIbmFeatureEnabled: client.isEnabled(FeatureToggle.ibm),
-      isRosFeatureEnabled: client.isEnabled(FeatureToggle.ros) || (client.isEnabled(FeatureToggle.rosBeta) && isBeta()), // Need to check beta in prod
-      isSettingsPlatformFeatureEnabled: client.isEnabled(FeatureToggle.settingsPlatform),
-      isTagMappingFeatureEnabled: client.isEnabled(FeatureToggle.tagMapping),
-    };
-    dispatch(featureFlagsActions.setFeatureFlags(flags));
+    dispatch(
+      featureFlagsActions.setFeatureFlags({
+        isClusterInfoFeatureEnabled,
+        isExportsFeatureEnabled,
+        isFinsightsFeatureEnabled,
+        isIbmFeatureEnabled,
+        isRosFeatureEnabled,
+        isSettingsPlatformFeatureEnabled,
+        isTagMappingFeatureEnabled,
+      })
+    );
   });
 };
 
