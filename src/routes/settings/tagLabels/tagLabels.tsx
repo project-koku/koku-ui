@@ -4,6 +4,7 @@ import { getQuery } from 'api/queries/query';
 import type { Settings, SettingsData } from 'api/settings';
 import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
+import { useIsTagMappingFeatureEnabled } from 'components/featureFlags';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -15,7 +16,6 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
 import { settingsActions, settingsSelectors } from 'store/settings';
 import { useStateCallback } from 'utils/hooks';
 
@@ -288,9 +288,7 @@ const useMapToProps = ({ query }: TagLabelsMapProps): TagLabelsStateProps => {
   }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
 
   return {
-    isTagMappingFeatureEnabled: useSelector((state: RootState) =>
-      featureFlagsSelectors.selectIsTagMappingFeatureEnabled(state)
-    ),
+    isTagMappingFeatureEnabled: useIsTagMappingFeatureEnabled(),
     settings,
     settingsError,
     settingsStatus,
