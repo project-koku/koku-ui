@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@patternfly/patternfly": "^5.2.0",
-    "@patternfly/react-charts": "^7.2.1",
+    "@patternfly/react-charts": "^7.2.2",
     "@patternfly/react-component-groups": "^5.0.0",
     "@patternfly/react-core": "^5.2.0",
     "@patternfly/react-icons": "^5.2.0",
@@ -78,8 +78,7 @@
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0",
     "unleash-proxy-client": "^3.3.1",
-    "victory-core": "^36.9.1",
-    "yaml": "^2.4.0"
+    "victory-core": "^36.9.1"
   },
   "devDependencies": {
     "@formatjs/cli": "^6.2.7",
@@ -96,7 +95,7 @@
     "@types/jest": "^29.5.12",
     "@types/qs": "^6.9.12",
     "@types/react": "^18.2.63",
-    "@types/react-dom": "^18.2.19",
+    "@types/react-dom": "^18.2.20",
     "@types/react-redux": "^7.1.33",
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^7.1.1",

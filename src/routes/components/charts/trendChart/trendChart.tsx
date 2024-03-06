@@ -348,7 +348,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={(datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })) as any}
+              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
         } as any)

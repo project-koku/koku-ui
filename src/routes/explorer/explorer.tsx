@@ -39,7 +39,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
@@ -81,7 +81,7 @@ interface ExplorerStateProps {
   dateRangeType: DateRangeType;
   gcpProviders: Providers;
   ibmProviders: Providers;
-  isFinsightsFeatureEnabled?: boolean;
+  isFinsightsToggleEnabled?: boolean;
   ocpProviders: Providers;
   perspective: PerspectiveType;
   providers: Providers;
@@ -421,8 +421,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   };
 
   private isRhelAvailable = () => {
-    const { isFinsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
-    return isFinsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+    const { isFinsightsToggleEnabled, rhelProviders, userAccess } = this.props;
+    return isFinsightsToggleEnabled && isRhelAvailable(userAccess, rhelProviders);
   };
 
   private updateReport = () => {
@@ -664,7 +664,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     dateRangeType,
     gcpProviders,
     ibmProviders,
-    isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
+    isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
     ociProviders,
     ocpProviders,
     perspective,

@@ -400,7 +400,7 @@ class DailyTrendChartBase extends React.Component<DailyTrendChartProps, State> {
           labelComponent: (
             <ChartLegendTooltip
               legendData={getLegendData(series, hiddenSeries, true)}
-              title={(datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })) as any}
+              title={datum => intl.formatMessage(messages.chartDayOfTheMonth, { day: datum.x })}
             />
           ),
         } as any)

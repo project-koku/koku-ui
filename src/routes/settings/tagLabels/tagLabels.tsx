@@ -4,7 +4,7 @@ import { getQuery } from 'api/queries/query';
 import type { Settings, SettingsData } from 'api/settings';
 import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
-import { useIsTagMappingFeatureEnabled } from 'components/featureFlags';
+import { useIsTagMappingToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -32,7 +32,7 @@ export interface TagLabelsMapProps {
 }
 
 export interface TagLabelsStateProps {
-  isTagMappingFeatureEnabled?: boolean;
+  isTagMappingToggleEnabled?: boolean;
   settings?: Settings;
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
@@ -56,7 +56,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { isTagMappingFeatureEnabled, settings, settingsError, settingsStatus } = useMapToProps({ query });
+  const { isTagMappingToggleEnabled, settings, settingsError, settingsStatus } = useMapToProps({ query });
 
   const getTags = () => {
     if (settings) {
@@ -241,7 +241,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
         <>
           {getTable()}
           <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
-          {isTagMappingFeatureEnabled && <span>TEST</span>}
+          {isTagMappingToggleEnabled && <span>TEST</span>}
         </>
       )}
     </PageSection>
@@ -288,7 +288,7 @@ const useMapToProps = ({ query }: TagLabelsMapProps): TagLabelsStateProps => {
   }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
 
   return {
-    isTagMappingFeatureEnabled: useIsTagMappingFeatureEnabled(),
+    isTagMappingToggleEnabled: useIsTagMappingToggleEnabled(),
     settings,
     settingsError,
     settingsStatus,
