@@ -38,7 +38,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -55,7 +55,7 @@ import { styles } from './ocpDetails.styles';
 export interface OcpDetailsStateProps {
   costDistribution?: string;
   currency?: string;
-  isRosFeatureEnabled?: boolean;
+  isRosToggleEnabled?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
@@ -248,7 +248,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   private getTable = () => {
-    const { costDistribution, isRosFeatureEnabled, query, report, reportFetchStatus, reportQueryString, router } =
+    const { costDistribution, isRosToggleEnabled, query, report, reportFetchStatus, reportQueryString, router } =
       this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
@@ -266,7 +266,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isRosFeatureEnabled={isRosFeatureEnabled}
+        isRosToggleEnabled={isRosToggleEnabled}
         onSelect={this.handleOnSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -519,7 +519,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   return {
     costDistribution,
     currency,
-    isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+    isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     query,

@@ -65,7 +65,7 @@ export interface BreakdownStateProps {
   groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
   isOptimizationsTab?: boolean;
-  isRosFeatureEnabled?: boolean;
+  isRosToggleEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   optimizationsComponent?: React.ReactNode;
   providers?: Providers;
@@ -125,7 +125,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   }
 
   private getAvailableTabs = () => {
-    const { costOverviewComponent, historicalDataComponent, isRosFeatureEnabled, optimizationsComponent } = this.props;
+    const { costOverviewComponent, historicalDataComponent, isRosToggleEnabled, optimizationsComponent } = this.props;
 
     const availableTabs = [];
     if (costOverviewComponent) {
@@ -140,7 +140,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         tab: BreakdownTab.historicalData,
       });
     }
-    if (optimizationsComponent && isRosFeatureEnabled) {
+    if (optimizationsComponent && isRosToggleEnabled) {
       availableTabs.push({
         contentRef: React.createRef(),
         showBadge: true,

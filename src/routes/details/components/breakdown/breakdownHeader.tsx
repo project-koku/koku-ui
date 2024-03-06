@@ -18,7 +18,7 @@ import { Currency } from 'routes/components/currency';
 import { TagLink } from 'routes/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
@@ -50,7 +50,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  isClusterInfoFeatureEnabled?: boolean;
+  isClusterInfoToggleEnabled?: boolean;
 }
 
 interface BreakdownHeaderDispatchProps {
@@ -98,7 +98,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       description,
       groupBy,
       intl,
-      isClusterInfoFeatureEnabled,
+      isClusterInfoToggleEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
@@ -160,7 +160,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
               {description && (
                 <div>
                   <span style={styles.description}>{description}</span>
-                  {clusterInfoComponent && isClusterInfoFeatureEnabled ? clusterInfoComponent : null}
+                  {clusterInfoComponent && isClusterInfoToggleEnabled ? clusterInfoComponent : null}
                 </div>
               )}
             </Title>
@@ -201,7 +201,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
 const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
   return {
-    isClusterInfoFeatureEnabled: featureFlagsSelectors.selectIsClusterInfoFeatureEnabled(state),
+    isClusterInfoToggleEnabled: FeatureToggleSelectors.selectIsClusterInfoToggleEnabled(state),
   };
 });
 

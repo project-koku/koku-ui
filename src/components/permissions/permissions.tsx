@@ -9,7 +9,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
@@ -32,9 +32,9 @@ interface PermissionsOwnProps extends ChromeComponentProps {
 }
 
 interface PermissionsStateProps {
-  isFinsightsFeatureEnabled?: boolean;
-  isIbmFeatureEnabled?: boolean;
-  isRosFeatureEnabled?: boolean;
+  isFinsightsToggleEnabled?: boolean;
+  isIbmToggleEnabled?: boolean;
+  isRosToggleEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -46,9 +46,9 @@ type PermissionsProps = PermissionsOwnProps & PermissionsStateProps;
 const PermissionsBase: React.FC<PermissionsProps> = ({
   children = null,
   // chrome,
-  isFinsightsFeatureEnabled,
-  isIbmFeatureEnabled,
-  isRosFeatureEnabled,
+  isFinsightsToggleEnabled,
+  isIbmToggleEnabled,
+  isRosToggleEnabled,
   userAccess,
   userAccessError,
   userAccessFetchStatus,
@@ -62,11 +62,11 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const azure = hasAzureAccess(userAccess);
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
-    const ibm = isIbmFeatureEnabled && hasIbmAccess(userAccess);
+    const ibm = isIbmToggleEnabled && hasIbmAccess(userAccess);
     const oci = hasOciAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
-    const rhel = isFinsightsFeatureEnabled && hasRhelAccess(userAccess);
-    const ros = isRosFeatureEnabled && hasRosAccess(userAccess);
+    const rhel = isFinsightsToggleEnabled && hasRhelAccess(userAccess);
+    const ros = isRosToggleEnabled && hasRosAccess(userAccess);
     const settings = costModel || hasSettingsAccess(userAccess);
 
     switch (pathname) {
@@ -133,9 +133,9 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   );
 
   return {
-    isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
-    isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
-    isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+    isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
+    isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
+    isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,
