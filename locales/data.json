@@ -1941,6 +1941,12 @@
         "value": "Create rate"
       }
     ],
+    "createTagMapping": [
+      {
+        "type": 0,
+        "value": "Create tag mapping"
+      }
+    ],
     "currency": [
       {
         "type": 0,
@@ -3528,6 +3534,12 @@
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models"
+      }
+    ],
+    "docsTagMappings": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index"
       }
     ],
     "docsTags": [
@@ -11888,6 +11900,42 @@
       {
         "type": 0,
         "value": "Tags and labels"
+      }
+    ],
+    "tagLabelsEnable": [
+      {
+        "type": 0,
+        "value": "Enable tags and labels"
+      }
+    ],
+    "tagLabelsMap": [
+      {
+        "type": 0,
+        "value": "Map tags and labels"
+      }
+    ],
+    "tagMappingDesc": [
+      {
+        "type": 0,
+        "value": "Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. "
+      },
+      {
+        "type": 1,
+        "value": "warning"
+      },
+      {
+        "type": 0,
+        "value": " Changes will be reflected within 24 hours. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "tagMappingWarning": [
+      {
+        "type": 0,
+        "value": "You must enable tags to use tag mapping."
       }
     ],
     "tagNames": [

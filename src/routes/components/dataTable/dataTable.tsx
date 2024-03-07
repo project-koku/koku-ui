@@ -119,7 +119,7 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isActionsCell = false, isLoading, isSelectable = true, rows } = this.props;
+    const { columns, intl, isActionsCell = false, isLoading, isSelectable, rows } = this.props;
 
     return (
       <>

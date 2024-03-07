@@ -130,6 +130,7 @@ class CostCategoryBase extends React.Component<CostCategoryProps, CostCategorySt
         columns={columns}
         filterBy={filterBy}
         isLoading={isLoading}
+        isSelectable
         onSelect={onSelect}
         onSort={onSort}
         orderBy={orderBy}

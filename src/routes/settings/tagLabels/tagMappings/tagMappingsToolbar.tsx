@@ -8,13 +8,10 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
-import { styles } from './tagLabels.styles';
-
-interface TagToolbarOwnProps {
+interface TagMappingsToolbarOwnProps {
   canWrite?: boolean;
   enabledTagsCount?: number;
   enabledTagsLimit?: number;
@@ -24,34 +21,33 @@ interface TagToolbarOwnProps {
   isSecondaryActionDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelect(action: string);
-  onDisableTags();
-  onEnableTags();
+  onCreateTagMapping();
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: OcpQuery;
-  selectedItems?: ComputedReportItem[];
-  showBulkSelectAll?: boolean;
 }
 
-interface TagToolbarStateProps {
+interface TagMappingsToolbarStateProps {
   // TBD...
 }
 
-interface TagToolbarDispatchProps {
+interface TagMappingsToolbarDispatchProps {
   // TBD...
 }
 
-interface TagToolbarState {
+interface TagMappingsToolbarState {
   categoryOptions?: ToolbarChipGroupExt[];
 }
 
-type TagToolbarProps = TagToolbarOwnProps & TagToolbarStateProps & TagToolbarDispatchProps & WrappedComponentProps;
+type TagMappingsToolbarProps = TagMappingsToolbarOwnProps &
+  TagMappingsToolbarStateProps &
+  TagMappingsToolbarDispatchProps &
+  WrappedComponentProps;
 
-export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarState> {
-  protected defaultState: TagToolbarState = {};
-  public state: TagToolbarState = { ...this.defaultState };
+export class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, TagMappingsToolbarState> {
+  protected defaultState: TagMappingsToolbarState = {};
+  public state: TagMappingsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -60,51 +56,20 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
   }
 
   private getActions = () => {
-    const {
-      canWrite,
-      enabledTagsCount = 0,
-      enabledTagsLimit = 0,
-      intl,
-      isPrimaryActionDisabled,
-      isSecondaryActionDisabled,
-      onDisableTags,
-      onEnableTags,
-      selectedItems,
-    } = this.props;
+    const { canWrite, intl, isDisabled, onCreateTagMapping } = this.props;
 
-    const disabledItems = selectedItems.filter((item: any) => !item.enabled);
-    const isLimit = disabledItems.length + enabledTagsCount > enabledTagsLimit;
-    const isDisabled = !canWrite || selectedItems.length === 0;
-    const enableTagsTooltip = intl.formatMessage(
-      !canWrite ? messages.readOnlyPermissions : isLimit ? messages.deselectTags : messages.selectTags,
-      { count: enabledTagsLimit }
-    );
-    const disableTagsTooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectTags);
+    const getTooltip = children => {
+      if (!canWrite) {
+        const disableTagsTooltip = intl.formatMessage(messages.readOnlyPermissions);
+        return <Tooltip content={disableTagsTooltip}>{children}</Tooltip>;
+      }
+      return children;
+    };
 
-    return (
-      <>
-        <Tooltip content={enableTagsTooltip}>
-          <Button
-            isAriaDisabled={isDisabled || isPrimaryActionDisabled || isLimit}
-            key="save"
-            onClick={onEnableTags}
-            variant={ButtonVariant.primary}
-          >
-            {intl.formatMessage(messages.enableTags)}
-          </Button>
-        </Tooltip>
-        <Tooltip content={disableTagsTooltip}>
-          <Button
-            isAriaDisabled={isDisabled || isSecondaryActionDisabled}
-            key="reset"
-            onClick={onDisableTags}
-            style={styles.action}
-            variant={ButtonVariant.secondary}
-          >
-            {intl.formatMessage(messages.disableTags)}
-          </Button>
-        </Tooltip>
-      </>
+    return getTooltip(
+      <Button isAriaDisabled={isDisabled} key="save" onClick={onCreateTagMapping} variant={ButtonVariant.primary}>
+        {intl.formatMessage(messages.createTagMapping)}
+      </Button>
     );
   };
 
@@ -176,13 +141,10 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
       isDisabled,
       itemsPerPage,
       itemsTotal,
-      onBulkSelect,
       onFilterAdded,
       onFilterRemoved,
       pagination,
       query,
-      selectedItems,
-      showBulkSelectAll,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -195,34 +157,30 @@ export class TagToolbarBase extends React.Component<TagToolbarProps, TagToolbarS
         isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onBulkSelect={onBulkSelect}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
         resourcePathsType={ResourcePathsType.ocp}
-        selectedItems={selectedItems}
-        showBulkSelect
         showFilter
-        showBulkSelectAll={showBulkSelectAll}
       />
     );
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<TagToolbarOwnProps, TagToolbarStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<TagMappingsToolbarOwnProps, TagMappingsToolbarStateProps>(() => {
   return {
     // TBD...
   };
 });
 
-const mapDispatchToProps: TagToolbarDispatchProps = {
+const mapDispatchToProps: TagMappingsToolbarDispatchProps = {
   // TBD...
 };
 
-const TagToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(TagToolbarBase);
-const TagToolbar = injectIntl(TagToolbarConnect);
+const TagMappingsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(TagMappingsToolbarBase);
+const TagMappingsToolbar = injectIntl(TagMappingsToolbarConnect);
 
-export { TagToolbar };
-export type { TagToolbarProps };
+export { TagMappingsToolbar };
+export type { TagMappingsToolbarProps };
