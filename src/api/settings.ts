@@ -40,6 +40,7 @@ export const enum SettingsType {
   tags = 'tags',
   tagsEnable = 'tagsEnable',
   tagsDisable = 'tagsDisable',
+  tagsMappings = 'tagsMappings',
 }
 
 export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
@@ -52,6 +53,7 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
   [SettingsType.tags]: 'settings/tags',
   [SettingsType.tagsEnable]: 'settings/tags/enable/',
   [SettingsType.tagsDisable]: 'settings/tags/disable/',
+  [SettingsType.tagsMappings]: 'settings/tags/mappings',
 };
 
 export function fetchSettings(settingsType: SettingsType, query: string) {

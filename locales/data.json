@@ -10205,6 +10205,36 @@
         "value": "There are no export files available"
       }
     ],
+    "noMappedTags": [
+      {
+        "type": 0,
+        "value": "No mapped tags"
+      }
+    ],
+    "noMappedTagsDesc": [
+      {
+        "type": 0,
+        "value": "Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. "
+      },
+      {
+        "type": 1,
+        "value": "warning"
+      },
+      {
+        "type": 0,
+        "value": " Changes will be reflected within 24 hours. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "noMappedTagsWarning": [
+      {
+        "type": 0,
+        "value": "Tags must be enabled to be mapped."
+      }
+    ],
     "noOptimizationsDesc": [
       {
         "type": 0,
