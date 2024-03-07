@@ -11,7 +11,7 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface TagTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface TagsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   canWrite?: boolean;
   filterBy?: any;
   isAllSelected?: boolean;
@@ -23,15 +23,15 @@ interface TagTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   settings: Settings;
 }
 
-interface TagTableState {
+interface TagsTableState {
   columns?: any[];
   rows?: any[];
 }
 
-type TagTableProps = TagTableOwnProps;
+type TagsTableProps = TagsTableOwnProps;
 
-class TagTableBase extends React.Component<TagTableProps, TagTableState> {
-  public state: TagTableState = {
+class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
+  public state: TagsTableState = {
     columns: [],
     rows: [],
   };
@@ -40,7 +40,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: TagTableProps) {
+  public componentDidUpdate(prevProps: TagsTableProps) {
     const { selectedItems, settings } = this.props;
     const currentReport = settings?.data ? JSON.stringify(settings.data) : '';
     const previousReport = prevProps?.settings.data ? JSON.stringify(prevProps.settings.data) : '';
@@ -125,6 +125,7 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
         columns={columns}
         filterBy={filterBy}
         isLoading={isLoading}
+        isSelectable
         onSelect={onSelect}
         onSort={onSort}
         orderBy={orderBy}
@@ -135,6 +136,6 @@ class TagTableBase extends React.Component<TagTableProps, TagTableState> {
   }
 }
 
-const TagTable = injectIntl(withRouter(TagTableBase));
+const TagsTable = injectIntl(withRouter(TagsTableBase));
 
-export { TagTable };
+export { TagsTable };

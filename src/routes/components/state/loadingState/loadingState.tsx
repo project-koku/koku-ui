@@ -14,7 +14,6 @@ interface LoadingStateProps extends WrappedComponentProps {
 // defaultIntl required for testing
 const LoadingStateBase: React.FC<LoadingStateProps> = ({
   intl = defaultIntl,
-
   body = intl.formatMessage(messages.loadingStateDesc),
   heading = intl.formatMessage(messages.loadingStateTitle),
 }) => {

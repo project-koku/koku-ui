@@ -391,6 +391,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         filterBy={filterBy}
         isActionsCell
         isLoading={isLoading}
+        isSelectable
         onSelect={onSelect}
         onSort={onSort}
         orderBy={orderBy}

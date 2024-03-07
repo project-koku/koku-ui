@@ -1003,6 +1003,11 @@ export default defineMessages({
     description: 'Create rate',
     id: 'createRate',
   },
+  createTagMapping: {
+    defaultMessage: 'Create tag mapping',
+    description: 'Create tag mapping',
+    id: 'createTagMapping',
+  },
   currency: {
     defaultMessage: 'Currency',
     description: 'Currency',
@@ -1429,6 +1434,13 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models',
     id: 'docsPlatformProjects',
+  },
+  docsTagMappings: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index',
+    id: 'docsTagMappings',
   },
   docsTags: {
     defaultMessage:
@@ -3295,10 +3307,32 @@ export default defineMessages({
     description: 'Value',
     id: 'tagHeadingValue',
   },
+  tagLabelsEnable: {
+    defaultMessage: 'Enable tags and labels',
+    description: 'Enable tags and labels',
+    id: 'tagLabelsEnable',
+  },
+  tagLabelsMap: {
+    defaultMessage: 'Map tags and labels',
+    description: 'Map tags and labels',
+    id: 'tagLabelsMap',
+  },
   tagLabelsTitle: {
     defaultMessage: 'Tags and labels',
     description: 'Tags and labels',
     id: 'tagLabels',
+  },
+  tagMappingDesc: {
+    defaultMessage:
+      'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    description:
+      'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    id: 'tagMappingDesc',
+  },
+  tagMappingWarning: {
+    defaultMessage: 'You must enable tags to use tag mapping.',
+    description: 'You must enable tags to use tag mapping.',
+    id: 'tagMappingWarning',
   },
   tagNames: {
     defaultMessage: 'Tag names',
