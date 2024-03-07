@@ -20,7 +20,7 @@ const LoadingStateBase: React.FC<LoadingStateProps> = ({
   return (
     <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
       <Spinner size="lg" />
-      <EmptyStateHeader titleText={<>{heading}</>} headingLevel="h5" />
+      <EmptyStateHeader titleText={heading} headingLevel="h5" />
       <EmptyStateBody>{body}</EmptyStateBody>
     </EmptyState>
   );

@@ -1,3 +1,4 @@
+import Unavailable from '@patternfly/react-component-groups/dist/esm/UnavailableContent';
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
@@ -10,7 +11,6 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
@@ -213,7 +213,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
   };
 
   if (settingsError) {
-    return <NotAvailable />;
+    return <Unavailable />;
   }
 
   const tags = getTags();

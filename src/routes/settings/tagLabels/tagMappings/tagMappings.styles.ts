@@ -6,6 +6,9 @@ export const styles = {
   action: {
     marginLeft: global_spacer_md.var,
   },
+  emptyStateContainer: {
+    paddingTop: global_spacer_md.value,
+  },
   pagination: {
     backgroundColor: global_BackgroundColor_light_100.value,
     paddingBottom: global_spacer_md.value,

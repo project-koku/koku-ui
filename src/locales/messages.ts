@@ -2418,6 +2418,23 @@ export default defineMessages({
     description: 'There are no export files available',
     id: 'noExportsStateTitle',
   },
+  noMappedTags: {
+    defaultMessage: 'No mapped tags',
+    description: 'No mapped tags',
+    id: 'noMappedTags',
+  },
+  noMappedTagsDesc: {
+    defaultMessage:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    description:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    id: 'noMappedTagsDesc',
+  },
+  noMappedTagsWarning: {
+    defaultMessage: 'Tags must be enabled to be mapped.',
+    description: 'Tags must be enabled to be mapped.',
+    id: 'noMappedTagsWarning',
+  },
   noOptimizationsDesc: {
     defaultMessage:
       'Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right.  Otherwise, there is not enough data available to generate an optimization.',

@@ -1,3 +1,4 @@
+import Unavailable from '@patternfly/react-component-groups/dist/esm/UnavailableContent';
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
@@ -10,7 +11,6 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
@@ -18,6 +18,7 @@ import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
 import { styles } from './tagMappings.styles';
+import { TagMappingsEmptyState } from './tagMappingsEmptyState';
 import { TagMappingsTable } from './tagMappingsTable';
 import { TagMappingsToolbar } from './tagMappingsToolbar';
 
@@ -43,7 +44,7 @@ const baseQuery: Query = {
   offset: 0,
   filter_by: {},
   order_by: {
-    key: 'asc',
+    parent: 'asc',
   },
 };
 
@@ -100,14 +101,14 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
     );
   };
 
-  const getToolbar = (tags: SettingsData[]) => {
+  const getToolbar = (mappings: SettingsData[]) => {
     const itemsTotal = settings?.meta ? settings.meta.count : 0;
 
     return (
       <TagMappingsToolbar
         canWrite={canWrite}
-        isDisabled={tags.length === 0}
-        itemsPerPage={tags.length}
+        isDisabled={mappings.length === 0}
+        itemsPerPage={mappings.length}
         itemsTotal={itemsTotal}
         onCreateTagMapping={handleOnCreateTagMapping}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
@@ -148,11 +149,12 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
   };
 
   if (settingsError) {
-    return <NotAvailable />;
+    return <Unavailable />;
   }
 
-  const tags = getMappings();
-  const isDisabled = tags.length === 0;
+  const mappings = getMappings();
+  const isDisabled = mappings.length === 0;
+  const hasMappings = mappings.length > 0 && !Object.keys(query.filter_by).length; // no filter applied
 
   return (
     <>
@@ -166,14 +168,18 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
           warning: <b>{intl.formatMessage(messages.tagMappingWarning)}</b>,
         })}
       </div>
-      {getToolbar(tags)}
+      {hasMappings && getToolbar(mappings)}
       {settingsStatus === FetchStatus.inProgress ? (
         <LoadingState />
-      ) : (
+      ) : hasMappings ? (
         <>
           {getTable()}
           <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
         </>
+      ) : (
+        <div style={styles.emptyStateContainer}>
+          <TagMappingsEmptyState canWrite={canWrite} onCreateTagMapping={handleOnCreateTagMapping} />
+        </div>
       )}
     </>
   );
@@ -191,32 +197,20 @@ const useMapToProps = ({ query }: MappingsMapProps): MappingsStateProps => {
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
-    settingsSelectors.selectSettings(state, SettingsType.tags, settingsQueryString)
+    settingsSelectors.selectSettings(state, SettingsType.tagsMappings, settingsQueryString)
   );
   const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.tags, settingsQueryString)
+    settingsSelectors.selectSettingsStatus(state, SettingsType.tagsMappings, settingsQueryString)
   );
   const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.tags, settingsQueryString)
-  );
-
-  const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsDisable)
-  );
-  const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsEnable)
+    settingsSelectors.selectSettingsError(state, SettingsType.tagsMappings, settingsQueryString)
   );
 
   useEffect(() => {
-    if (
-      !settingsError &&
-      settingsStatus !== FetchStatus.inProgress &&
-      settingsUpdateDisableStatus !== FetchStatus.inProgress &&
-      settingsUpdateEnableStatus !== FetchStatus.inProgress
-    ) {
-      dispatch(settingsActions.fetchSettings(SettingsType.tags, settingsQueryString));
+    if (!settingsError && settingsStatus !== FetchStatus.inProgress) {
+      dispatch(settingsActions.fetchSettings(SettingsType.tagsMappings, settingsQueryString));
     }
-  }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+  }, [query]);
 
   return {
     settings,
