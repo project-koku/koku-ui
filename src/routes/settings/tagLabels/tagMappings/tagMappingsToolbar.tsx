@@ -1,4 +1,3 @@
-import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
@@ -11,6 +10,8 @@ import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/co
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
+import { TagMappingsWizard } from '../tagMappingsWizard';
+
 interface TagMappingsToolbarOwnProps {
   canWrite?: boolean;
   enabledTagsCount?: number;
@@ -21,7 +22,6 @@ interface TagMappingsToolbarOwnProps {
   isSecondaryActionDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onCreateTagMapping();
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
@@ -54,24 +54,6 @@ export class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarPr
       categoryOptions: this.getCategoryOptions(),
     });
   }
-
-  private getActions = () => {
-    const { canWrite, intl, isDisabled, onCreateTagMapping } = this.props;
-
-    const getTooltip = children => {
-      if (!canWrite) {
-        const disableTagsTooltip = intl.formatMessage(messages.readOnlyPermissions);
-        return <Tooltip content={disableTagsTooltip}>{children}</Tooltip>;
-      }
-      return children;
-    };
-
-    return getTooltip(
-      <Button isAriaDisabled={isDisabled} key="save" onClick={onCreateTagMapping} variant={ButtonVariant.primary}>
-        {intl.formatMessage(messages.createTagMapping)}
-      </Button>
-    );
-  };
 
   private getCategoryOptions = (): ToolbarChipGroupExt[] => {
     const { intl } = this.props;
@@ -150,7 +132,7 @@ export class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarPr
 
     return (
       <BasicToolbar
-        actions={this.getActions()}
+        actions={<TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} />}
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}

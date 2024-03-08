@@ -16,7 +16,7 @@ import { FetchStatus } from 'store/common';
 import { providersActions, providersSelectors } from 'store/providers';
 import { formatPath, getReleasePath } from 'utils/paths';
 
-import { styles } from './clusterInfo.styles';
+import { styles } from './tagMappingsWizard.styles';
 
 interface CloudIntegrationOwnProps {
   uuid?: string;

@@ -21,7 +21,7 @@ import { providersActions, providersQuery, providersSelectors } from 'store/prov
 import { formatPath, getReleasePath } from 'utils/paths';
 
 import { CloudIntegration } from './cloudIntegration';
-import { styles } from './modal.styles';
+import { styles } from './clusterInfo.styles';
 
 interface ClusterInfoContentOwnProps {
   clusterId?: string;
