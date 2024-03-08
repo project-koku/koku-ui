@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { ClusterContent } from './clusterContent';
-import { styles } from './modal.styles';
+import { styles } from './clusterInfo.styles';
 
 interface ClusterInfoOwnProps {
   clusterId?: string;
@@ -17,7 +17,7 @@ const ClusterInfo: React.FC<ClusterInfoProps> = ({ clusterId }: ClusterInfoProps
   const intl = useIntl();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClose = () => {
+  const handleOnClose = () => {
     setIsOpen(false);
   };
 
@@ -33,7 +33,7 @@ const ClusterInfo: React.FC<ClusterInfoProps> = ({ clusterId }: ClusterInfoProps
       <Button onClick={handleOnClick} style={styles.clusterInfo} variant={ButtonVariant.link}>
         {intl.formatMessage(messages.clusterInfo)}
       </Button>
-      <Modal className="costManagement" isOpen={isOpen} onClose={handleClose} variant={ModalVariant.medium}>
+      <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.medium}>
         <ModalHeader title={intl.formatMessage(messages.clusterInfo)} />
         <ModalBody>
           <ClusterContent clusterId={clusterId} />

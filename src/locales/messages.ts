@@ -3339,17 +3339,61 @@ export default defineMessages({
     description: 'Tags and labels',
     id: 'tagLabels',
   },
-  tagMappingDesc: {
+  tagMappingsDesc: {
     defaultMessage:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
     description:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
-    id: 'tagMappingDesc',
+    id: 'tagMappingsDesc',
   },
-  tagMappingWarning: {
+  tagMappingsWarning: {
     defaultMessage: 'You must enable tags to use tag mapping.',
     description: 'You must enable tags to use tag mapping.',
-    id: 'tagMappingWarning',
+    id: 'tagMappingsWarning',
+  },
+  tagMappingsWizardDesc: {
+    defaultMessage:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
+    description:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
+    id: 'tagMappingsWizardDesc',
+  },
+  tagMappingsWizardNavToCreateTagMapping: {
+    defaultMessage: 'Create another tag mapping',
+    description: 'Create another tag mapping',
+    id: 'tagMappingsWizardNavToCreateTagMapping',
+  },
+  tagMappingsWizardNavToTagMappings: {
+    defaultMessage: 'Go back to Cost Management Settings',
+    description: 'Go back to Cost Management Settings',
+    id: 'tagMappingsWizardNavToTagMappings',
+  },
+  tagMappingsWizardReview: {
+    defaultMessage: 'Review details',
+    description: 'Review details',
+    id: 'tagMappingsWizardReview',
+  },
+  tagMappingsWizardSelectChildTags: {
+    defaultMessage: 'Select child tags',
+    description: 'Select child tags',
+    id: 'tagMappingsWizardSelectChildTags',
+  },
+  tagMappingsWizardSelectParentTag: {
+    defaultMessage: 'Select parent tag',
+    description: 'Select parent tag',
+    id: 'tagMappingsWizardSelectParentTag',
+  },
+  tagMappingsWizardSuccess: {
+    defaultMessage: 'Tag mapping successful',
+    description: 'Tag mapping successful',
+    id: 'tagMappingsWizardSuccess',
+  },
+  tagMappingsWizardSuccessDesc: {
+    defaultMessage:
+      'Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours.',
+    description:
+      'Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours.',
+    id: 'tagMappingsWizardSuccessDesc',
   },
   tagNames: {
     defaultMessage: 'Tag names',

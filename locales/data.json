@@ -11944,7 +11944,7 @@
         "value": "Map tags and labels"
       }
     ],
-    "tagMappingDesc": [
+    "tagMappingsDesc": [
       {
         "type": 0,
         "value": "Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. "
@@ -11962,10 +11962,58 @@
         "value": "learnMore"
       }
     ],
-    "tagMappingWarning": [
+    "tagMappingsWarning": [
       {
         "type": 0,
         "value": "You must enable tags to use tag mapping."
+      }
+    ],
+    "tagMappingsWizardDesc": [
+      {
+        "type": 0,
+        "value": "Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingsWizardNavToCreateTagMapping": [
+      {
+        "type": 0,
+        "value": "Create another tag mapping"
+      }
+    ],
+    "tagMappingsWizardNavToTagMappings": [
+      {
+        "type": 0,
+        "value": "Go back to Cost Management Settings"
+      }
+    ],
+    "tagMappingsWizardReview": [
+      {
+        "type": 0,
+        "value": "Review details"
+      }
+    ],
+    "tagMappingsWizardSelectChildTags": [
+      {
+        "type": 0,
+        "value": "Select child tags"
+      }
+    ],
+    "tagMappingsWizardSelectParentTag": [
+      {
+        "type": 0,
+        "value": "Select parent tag"
+      }
+    ],
+    "tagMappingsWizardSuccess": [
+      {
+        "type": 0,
+        "value": "Tag mapping successful"
+      }
+    ],
+    "tagMappingsWizardSuccessDesc": [
+      {
+        "type": 0,
+        "value": "Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours."
       }
     ],
     "tagNames": [

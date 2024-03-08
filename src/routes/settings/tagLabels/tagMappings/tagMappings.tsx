@@ -110,17 +110,12 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
         isDisabled={mappings.length === 0}
         itemsPerPage={mappings.length}
         itemsTotal={itemsTotal}
-        onCreateTagMapping={handleOnCreateTagMapping}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination(isDisabled)}
         query={query}
       />
     );
-  };
-
-  const handleOnCreateTagMapping = () => {
-    // Todo: Open wizard
   };
 
   const handleOnFilterAdded = filter => {
@@ -159,13 +154,13 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
   return (
     <>
       <div>
-        {intl.formatMessage(messages.tagMappingDesc, {
+        {intl.formatMessage(messages.tagMappingsDesc, {
           learnMore: (
             <a href={intl.formatMessage(messages.docsTagMappings)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
-          warning: <b>{intl.formatMessage(messages.tagMappingWarning)}</b>,
+          warning: <b>{intl.formatMessage(messages.tagMappingsWarning)}</b>,
         })}
       </div>
       {hasMappings && getToolbar(mappings)}
@@ -178,7 +173,7 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
         </>
       ) : (
         <div style={styles.emptyStateContainer}>
-          <TagMappingsEmptyState canWrite={canWrite} onCreateTagMapping={handleOnCreateTagMapping} />
+          <TagMappingsEmptyState canWrite={canWrite} />
         </div>
       )}
     </>
