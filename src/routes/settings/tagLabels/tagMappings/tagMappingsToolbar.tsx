@@ -1,5 +1,4 @@
 import type { OcpQuery } from 'api/queries/ocpQuery';
-import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -23,6 +22,7 @@ interface TagMappingsToolbarOwnProps {
   itemsTotal?: number;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
+  onWizardClose();
   pagination?: React.ReactNode;
   query?: OcpQuery;
 }
@@ -124,6 +124,7 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
       itemsTotal,
       onFilterAdded,
       onFilterRemoved,
+      onWizardClose,
       pagination,
       query,
     } = this.props;
@@ -131,7 +132,7 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
 
     return (
       <BasicToolbar
-        actions={<TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} />}
+        actions={<TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />}
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
@@ -142,7 +143,6 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        resourcePathsType={ResourcePathsType.ocp}
         showFilter
       />
     );

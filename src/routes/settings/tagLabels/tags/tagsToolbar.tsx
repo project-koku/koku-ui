@@ -1,6 +1,5 @@
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { ResourcePathsType } from 'api/resources/resource';
 import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
@@ -200,7 +199,6 @@ export class TagsToolbarBase extends React.Component<TagsToolbarProps, TagsToolb
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        resourcePathsType={ResourcePathsType.ocp}
         selectedItems={selectedItems}
         showBulkSelect
         showFilter

@@ -10,7 +10,7 @@ import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/co
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
-interface ChildTagsToolbarOwnProps {
+interface ParentTagsToolbarOwnProps {
   enabledTagsCount?: number;
   enabledTagsLimit?: number;
   isAllSelected?: boolean;
@@ -19,7 +19,6 @@ interface ChildTagsToolbarOwnProps {
   isSecondaryActionDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelect(action: string);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
@@ -27,26 +26,26 @@ interface ChildTagsToolbarOwnProps {
   query?: Query;
 }
 
-interface ChildTagsToolbarStateProps {
+interface ParentTagsToolbarStateProps {
   // TBD...
 }
 
-interface ChildTagsToolbarDispatchProps {
+interface ParentTagsToolbarDispatchProps {
   // TBD...
 }
 
-interface ChildTagsToolbarState {
+interface ParentTagsToolbarState {
   categoryOptions?: ToolbarChipGroupExt[];
 }
 
-type ChildTagsToolbarProps = ChildTagsToolbarOwnProps &
-  ChildTagsToolbarStateProps &
-  ChildTagsToolbarDispatchProps &
+type ParentTagsToolbarProps = ParentTagsToolbarOwnProps &
+  ParentTagsToolbarStateProps &
+  ParentTagsToolbarDispatchProps &
   WrappedComponentProps;
 
-class ChildTagsToolbarBase extends React.Component<ChildTagsToolbarProps, ChildTagsToolbarState> {
-  protected defaultState: ChildTagsToolbarState = {};
-  public state: ChildTagsToolbarState = { ...this.defaultState };
+class ParentTagsToolbarBase extends React.Component<ParentTagsToolbarProps, ParentTagsToolbarState> {
+  protected defaultState: ParentTagsToolbarState = {};
+  public state: ParentTagsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -105,7 +104,6 @@ class ChildTagsToolbarBase extends React.Component<ChildTagsToolbarProps, ChildT
       isDisabled,
       itemsPerPage,
       itemsTotal,
-      onBulkSelect,
       onFilterAdded,
       onFilterRemoved,
       pagination,
@@ -121,14 +119,11 @@ class ChildTagsToolbarBase extends React.Component<ChildTagsToolbarProps, ChildT
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onBulkSelect={onBulkSelect}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
         selectedItems={selectedItems}
-        showBulkSelect
-        showBulkSelectAll={false}
         showFilter
       />
     );
@@ -136,17 +131,17 @@ class ChildTagsToolbarBase extends React.Component<ChildTagsToolbarProps, ChildT
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ChildTagsToolbarOwnProps, ChildTagsToolbarStateProps>(() => {
+const mapStateToProps = createMapStateToProps<ParentTagsToolbarOwnProps, ParentTagsToolbarStateProps>(() => {
   return {
     // TBD...
   };
 });
 
-const mapDispatchToProps: ChildTagsToolbarDispatchProps = {
+const mapDispatchToProps: ParentTagsToolbarDispatchProps = {
   // TBD...
 };
 
-const ChildTagsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ChildTagsToolbarBase);
-const ChildTagsToolbar = injectIntl(ChildTagsToolbarConnect);
+const ParentTagsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ParentTagsToolbarBase);
+const ParentTagsToolbar = injectIntl(ParentTagsToolbarConnect);
 
-export { ChildTagsToolbar };
+export { ParentTagsToolbar };

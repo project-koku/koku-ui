@@ -16,6 +16,7 @@ import { TagMappingsWizard } from 'routes/settings/tagLabels/tagMappings/tagMapp
 interface TagMappingsEmptyStateOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
+  onWizardClose();
 }
 
 type TagMappingsEmptyStateProps = TagMappingsEmptyStateOwnProps;
@@ -23,6 +24,7 @@ type TagMappingsEmptyStateProps = TagMappingsEmptyStateOwnProps;
 const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
   canWrite,
   isDisabled,
+  onWizardClose,
 }: TagMappingsEmptyStateOwnProps) => {
   const intl = useIntl();
 
@@ -45,7 +47,7 @@ const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
       </EmptyStateBody>
       <EmptyStateFooter>
         <EmptyStateActions>
-          <TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} />
+          <TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />
         </EmptyStateActions>
       </EmptyStateFooter>
     </EmptyState>
