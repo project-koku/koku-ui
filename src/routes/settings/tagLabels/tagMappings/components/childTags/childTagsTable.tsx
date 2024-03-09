@@ -1,7 +1,7 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Label } from '@patternfly/react-core';
-import type { Settings, SettingsData } from 'api/settings';
+import type { Settings } from 'api/settings';
+import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -10,8 +10,7 @@ import { DataTable } from 'routes/components/dataTable';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface TagsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
-  canWrite?: boolean;
+interface ChildTagsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   filterBy?: any;
   isAllSelected?: boolean;
   isLoading?: boolean;
@@ -22,15 +21,15 @@ interface TagsTableOwnProps extends RouterComponentProps, WrappedComponentProps 
   settings: Settings;
 }
 
-interface TagsTableState {
+interface ChildTagsTableState {
   columns?: any[];
   rows?: any[];
 }
 
-type TagsTableProps = TagsTableOwnProps;
+type ChildTagsTableProps = ChildTagsTableOwnProps;
 
-class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
-  public state: TagsTableState = {
+class ChildTagsTableBase extends React.Component<ChildTagsTableProps, ChildTagsTableState> {
+  public state: ChildTagsTableState = {
     columns: [],
     rows: [],
   };
@@ -39,7 +38,7 @@ class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: TagsTableProps) {
+  public componentDidUpdate(prevProps: ChildTagsTableProps) {
     const { selectedItems, settings } = this.props;
     const currentReport = settings?.data ? JSON.stringify(settings.data) : '';
     const previousReport = prevProps?.settings.data ? JSON.stringify(prevProps.settings.data) : '';
@@ -50,7 +49,7 @@ class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
   }
 
   private initDatum = () => {
-    const { canWrite, intl, selectedItems, settings } = this.props;
+    const { intl, selectedItems, settings } = this.props;
     if (!settings) {
       return;
     }
@@ -59,17 +58,13 @@ class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
     const tags = settings?.data ? (settings.data as any) : [];
 
     const columns = [
+      // Sorting with tag keys is not supported
       {
-        name: '', // Selection column
+        name: '',
       },
       {
         orderBy: 'key',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
-        ...(tags.length && { isSortable: true }),
-      },
-      {
-        orderBy: 'enabled',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'status' }),
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'tag_key' }),
         ...(tags.length && { isSortable: true }),
       },
       {
@@ -82,16 +77,11 @@ class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
     tags.map(item => {
       rows.push({
         cells: [
-          {}, // Empty cell for row selection
           {
-            value: item.key ? item.key : '',
+            name: '',
           },
           {
-            value: item.enabled ? (
-              <Label color="green">{intl.formatMessage(messages.enabled)}</Label>
-            ) : (
-              <Label>{intl.formatMessage(messages.disabled)}</Label>
-            ),
+            value: item.key ? item.key : '',
           },
           {
             value: intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() }),
@@ -99,7 +89,6 @@ class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
         ],
         item,
         selected: selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined,
-        selectionDisabled: !canWrite,
       });
     });
 
@@ -116,7 +105,7 @@ class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
   };
 
   public render() {
-    const { filterBy, isLoading, onSelect, onSort, orderBy, selectedItems } = this.props;
+    const { filterBy, isLoading, onSelect, onSort, orderBy } = this.props;
     const { columns, rows } = this.state;
 
     return (
@@ -129,12 +118,11 @@ class TagsTableBase extends React.Component<TagsTableProps, TagsTableState> {
         onSort={onSort}
         orderBy={orderBy}
         rows={rows}
-        selectedItems={selectedItems}
       />
     );
   }
 }
 
-const TagsTable = injectIntl(withRouter(TagsTableBase));
+const ChildTagsTable = injectIntl(withRouter(ChildTagsTableBase));
 
-export { TagsTable };
+export { ChildTagsTable };

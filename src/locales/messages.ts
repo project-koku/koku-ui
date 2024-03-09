@@ -814,7 +814,7 @@ export default defineMessages({
     defaultMessage:
       'Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
     description:
-      'Review and confirm your cost model configuration and assignments. Click {Create} to create the cost model, or {Back} to revise.',
+      'Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
     id: 'costModelsWizardReviewStatusSubDetails',
   },
   costModelsWizardReviewStatusSubTitle: {
@@ -1238,6 +1238,7 @@ export default defineMessages({
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
       'tag {Tag names} ' +
+      'tag_key {Tag keys} ' +
       'other {}}',
     description: 'Details table resource names',
     id: 'detailsResourceNames',
@@ -1911,6 +1912,7 @@ export default defineMessages({
       'workload {Filter by workload name} ' +
       'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
+      'tag_key {Filter by tag key} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'filterByPlaceholder',
@@ -1961,6 +1963,7 @@ export default defineMessages({
       'storage_class {StorageClass} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
+      'tag_key {Tag Key} ' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
       'other {}}',
@@ -3196,8 +3199,10 @@ export default defineMessages({
   settingsSuccessTags: {
     defaultMessage:
       '{value, select, ' +
+      'add {{count, plural, one {{count} tag key added} other {{count} tag key added}}} ' +
       'enable {{count, plural, one {{count} tag enabled} other {{count} tags enabled}}} ' +
       'disable {{count, plural, one {{count} tag disabled} other {{count} tags disabled}}} ' +
+      'remove {{count, plural, one {{count} tag key removed} other {{count} tag key removed}}} ' +
       'other {}}',
     description: 'Cost category keys enabled or disabled',
     id: 'settingsSuccessTags',
@@ -3324,6 +3329,16 @@ export default defineMessages({
     description: 'Value',
     id: 'tagHeadingValue',
   },
+  tagKeyChild: {
+    defaultMessage: 'Child tag key',
+    description: 'Child tag key',
+    id: 'tagKeyChild',
+  },
+  tagKeyParent: {
+    defaultMessage: 'Parent tag key',
+    description: 'Parent tag key',
+    id: 'tagKeyParent',
+  },
   tagLabelsEnable: {
     defaultMessage: 'Enable tags and labels',
     description: 'Enable tags and labels',
@@ -3372,6 +3387,13 @@ export default defineMessages({
     defaultMessage: 'Review details',
     description: 'Review details',
     id: 'tagMappingsWizardReview',
+  },
+  tagMappingsWizardReviewDesc: {
+    defaultMessage:
+      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
+    description:
+      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
+    id: 'tagMappingsWizardReviewDesc',
   },
   tagMappingsWizardSelectChildTags: {
     defaultMessage: 'Select child tags',
@@ -3486,6 +3508,11 @@ export default defineMessages({
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'units',
+  },
+  unknown: {
+    defaultMessage: 'Unknown',
+    description: 'Unknown',
+    id: 'unknown',
   },
   usage: {
     defaultMessage: 'Usage',

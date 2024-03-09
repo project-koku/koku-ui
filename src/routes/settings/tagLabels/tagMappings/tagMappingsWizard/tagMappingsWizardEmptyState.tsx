@@ -17,15 +17,15 @@ import { useIntl } from 'react-intl';
 import { styles } from './tagMappingsWizard.styles';
 
 interface TagMappingsEmptyStateOwnProps {
-  onNavToTagMappings(event);
-  onNavToCreateTagMapping(event);
+  onClose(event);
+  onReset(event);
 }
 
 type TagMappingsEmptyStateProps = TagMappingsEmptyStateOwnProps;
 
 const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
-  onNavToTagMappings,
-  onNavToCreateTagMapping,
+  onClose,
+  onReset,
 }: TagMappingsEmptyStateProps) => {
   const intl = useIntl();
 
@@ -52,12 +52,12 @@ const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
       </EmptyStateBody>
       <EmptyStateFooter>
         <div>
-          <Button onClick={onNavToTagMappings} variant={ButtonVariant.primary}>
+          <Button onClick={onClose} variant={ButtonVariant.primary}>
             {intl.formatMessage(messages.tagMappingsWizardNavToTagMappings)}
           </Button>
         </div>
         <div>
-          <Button onClick={onNavToCreateTagMapping} variant={ButtonVariant.link}>
+          <Button onClick={onReset} variant={ButtonVariant.link}>
             {intl.formatMessage(messages.tagMappingsWizardNavToCreateTagMapping)}
           </Button>
         </div>

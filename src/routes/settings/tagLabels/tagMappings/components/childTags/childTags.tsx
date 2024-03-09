@@ -16,47 +16,45 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
-import { useStateCallback } from 'utils/hooks';
 
-import { styles } from './tags.styles';
-import { TagsTable } from './tagsTable';
-import { TagsToolbar } from './tagsToolbar';
+import { ChildTagsTable } from './childTagsTable';
+import { styles } from './childTagsTable.styles';
+import { ChildTagsToolbar } from './childTagsToolbar';
 
-interface TagsOwnProps {
-  canWrite?: boolean;
+interface ChildTagsOwnProps {
+  onBulkSelect(items: SettingsData[]);
+  onSelect(items: SettingsData[], isSelected: boolean);
+  selectedItems?: SettingsData[];
 }
 
-export interface TagsMapProps {
+export interface ChildTagsMapProps {
   query?: Query;
 }
 
-interface TagsStateProps {
+export interface ChildTagsStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
   settingsQueryString?: string;
 }
 
-type TagsProps = TagsOwnProps;
+type ChildTagsProps = ChildTagsOwnProps;
 
 const baseQuery: Query = {
   limit: 10,
   offset: 0,
   filter_by: {},
   order_by: {
-    key: 'asc',
+    parent: 'asc',
   },
 };
 
-const Tags: React.FC<TagsProps> = ({ canWrite }) => {
+const ChildTags: React.FC<ChildTagsProps> = ({ onBulkSelect, onSelect, selectedItems }: ChildTagsProps) => {
   const [query, setQuery] = useState({ ...baseQuery });
-  const [selectedItems, setSelectedItems] = useStateCallback([]);
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
   const intl = useIntl();
 
-  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
-
-  const getTags = () => {
+  const getMappings = () => {
     if (settings) {
       return settings.data as any;
     }
@@ -92,84 +90,47 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
 
   const getTable = () => {
     return (
-      <TagsTable
-        canWrite={canWrite}
+      <ChildTagsTable
         filterBy={query.filter_by}
         isLoading={settingsStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
-        onSelect={handleOnSelect}
+        onSelect={onSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
-        settings={settings}
         selectedItems={selectedItems}
+        settings={settings}
       />
     );
   };
 
-  const getToolbar = (tags: SettingsData[]) => {
-    const hasEnabledItem = selectedItems.find(item => item.enabled);
-    const hasDisabledItem = selectedItems.find(item => !item.enabled);
+  const getToolbar = (mappings: SettingsData[]) => {
     const itemsTotal = settings?.meta ? settings.meta.count : 0;
-    const enabledTagsCount = settings?.meta ? settings.meta.enabled_tags_count : 0;
-    const enabledTagsLimit = settings?.meta ? settings.meta.enabled_tags_limit : 0;
 
     return (
-      <TagsToolbar
-        canWrite={canWrite}
-        enabledTagsCount={enabledTagsCount}
-        enabledTagsLimit={enabledTagsLimit}
-        isDisabled={tags.length === 0}
-        isPrimaryActionDisabled={!hasDisabledItem}
-        isSecondaryActionDisabled={!hasEnabledItem}
-        itemsPerPage={tags.length}
+      <ChildTagsToolbar
+        isDisabled={mappings.length === 0}
+        itemsPerPage={mappings.length}
         itemsTotal={itemsTotal}
         onBulkSelect={handleOnBulkSelect}
-        onDisableTags={handleOnDisableTags}
-        onEnableTags={handleOnEnableTags}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination(isDisabled)}
-        query={query}
         selectedItems={selectedItems}
-        showBulkSelectAll={false}
+        query={query}
       />
     );
   };
 
   const handleOnBulkSelect = (action: string) => {
     if (action === 'none') {
-      setSelectedItems([]);
+      onBulkSelect([]);
     } else if (action === 'page') {
       const newSelectedItems = [...selectedItems];
-      getTags().map(val => {
+      getMappings().map(val => {
         if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
           newSelectedItems.push(val);
         }
       });
-      setSelectedItems(newSelectedItems);
-    }
-  };
-
-  const handleOnDisableTags = () => {
-    if (selectedItems.length > 0) {
-      setSelectedItems([], () => {
-        dispatch(
-          settingsActions.updateSettings(SettingsType.tagsDisable, {
-            ids: selectedItems.map(item => item.uuid),
-          })
-        );
-      });
-    }
-  };
-
-  const handleOnEnableTags = () => {
-    if (selectedItems.length > 0) {
-      setSelectedItems([], () => {
-        dispatch(
-          settingsActions.updateSettings(SettingsType.tagsEnable, {
-            ids: selectedItems.map(item => item.uuid),
-          })
-        );
-      });
+      onBulkSelect(newSelectedItems);
     }
   };
 
@@ -193,20 +154,6 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
     setQuery(newQuery);
   };
 
-  const handleOnSelect = (items: SettingsData[], isSelected: boolean = false) => {
-    let newItems = [...selectedItems];
-    if (items && items.length > 0) {
-      if (isSelected) {
-        items.map(item => newItems.push(item));
-      } else {
-        items.map(item => {
-          newItems = newItems.filter(val => val.uuid !== item.uuid);
-        });
-      }
-    }
-    setSelectedItems(newItems);
-  };
-
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
@@ -216,25 +163,16 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
     return <Unavailable />;
   }
 
-  const tags = getTags();
-  const isDisabled = tags.length === 0;
-  const enabledTagsLimit = settings?.meta ? settings.meta.enabled_tags_limit : 0;
+  const mappings = getMappings();
+  const isDisabled = mappings.length === 0;
 
   return (
     <>
-      <div>
-        {intl.formatMessage(messages.tagDesc, {
-          count: enabledTagsLimit,
-          learnMore: (
-            <a href={intl.formatMessage(messages.docsTags)} rel="noreferrer" target="_blank">
-              {intl.formatMessage(messages.learnMore)}
-            </a>
-          ),
-        })}
-      </div>
-      {getToolbar(tags)}
+      {getToolbar(mappings)}
       {settingsStatus === FetchStatus.inProgress ? (
-        <LoadingState />
+        <div style={styles.loading}>
+          <LoadingState />
+        </div>
       ) : (
         <>
           {getTable()}
@@ -246,7 +184,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
+const useMapToProps = ({ query }: ChildTagsMapProps): ChildTagsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const settingsQuery = {
@@ -257,32 +195,20 @@ const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
-    settingsSelectors.selectSettings(state, SettingsType.tags, settingsQueryString)
+    settingsSelectors.selectSettings(state, SettingsType.tagsMappingsChild, settingsQueryString)
   );
   const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.tags, settingsQueryString)
+    settingsSelectors.selectSettingsStatus(state, SettingsType.tagsMappingsChild, settingsQueryString)
   );
   const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.tags, settingsQueryString)
-  );
-
-  const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsDisable)
-  );
-  const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsEnable)
+    settingsSelectors.selectSettingsError(state, SettingsType.tagsMappingsChild, settingsQueryString)
   );
 
   useEffect(() => {
-    if (
-      !settingsError &&
-      settingsStatus !== FetchStatus.inProgress &&
-      settingsUpdateDisableStatus !== FetchStatus.inProgress &&
-      settingsUpdateEnableStatus !== FetchStatus.inProgress
-    ) {
-      dispatch(settingsActions.fetchSettings(SettingsType.tags, settingsQueryString));
+    if (!settingsError && settingsStatus !== FetchStatus.inProgress) {
+      dispatch(settingsActions.fetchSettings(SettingsType.tagsMappingsChild, settingsQueryString));
     }
-  }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+  }, [query]);
 
   return {
     settings,
@@ -292,4 +218,4 @@ const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
   };
 };
 
-export default Tags;
+export default ChildTags;
