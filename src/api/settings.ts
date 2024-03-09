@@ -10,6 +10,7 @@ export interface SettingsData {
   uuid?: string;
   key?: string;
   enabled?: boolean;
+  source_type?: string;
 }
 
 export interface PagedMetaDataExt extends PagedMetaData {
@@ -26,6 +27,8 @@ export interface Settings {
 }
 
 export interface SettingsPayload {
+  parent?: string;
+  children?: string[];
   ids?: string[];
 }
 
@@ -41,6 +44,11 @@ export const enum SettingsType {
   tagsEnable = 'tagsEnable',
   tagsDisable = 'tagsDisable',
   tagsMappings = 'tagsMappings',
+  tagsMappingsChild = 'tagsMappingsChild',
+  tagsMappingsChildAdd = 'tagsMappingsChildAdd',
+  tagsMappingsChildRemove = 'tagsMappingsChildRemove',
+  tagsMappingsParent = 'tagsMappingsParent',
+  tagsMappingsParentRemove = 'tagsMappingsParentRemove',
 }
 
 export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
@@ -54,6 +62,11 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
   [SettingsType.tagsEnable]: 'settings/tags/enable/',
   [SettingsType.tagsDisable]: 'settings/tags/disable/',
   [SettingsType.tagsMappings]: 'settings/tags/mappings',
+  [SettingsType.tagsMappingsChild]: 'settings/tags/mappings/child',
+  [SettingsType.tagsMappingsChildAdd]: 'settings/tags/mappings/child/add',
+  [SettingsType.tagsMappingsChildRemove]: 'settings/tags/mappings/child/remove',
+  [SettingsType.tagsMappingsParent]: 'settings/tags/mappings/parent',
+  [SettingsType.tagsMappingsParentRemove]: 'settings/tags/mappings/parent/remove',
 };
 
 export function fetchSettings(settingsType: SettingsType, query: string) {

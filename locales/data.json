@@ -2898,6 +2898,14 @@
                 "value": "Tag names"
               }
             ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tag keys"
+              }
+            ]
           }
         },
         "type": 5,
@@ -7300,6 +7308,14 @@
               }
             ]
           },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by tag key"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
@@ -7532,6 +7548,14 @@
               {
                 "type": 0,
                 "value": "Tag"
+              }
+            ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tag Key"
               }
             ]
           },
@@ -11926,6 +11950,18 @@
         "value": "Value"
       }
     ],
+    "tagKeyChild": [
+      {
+        "type": 0,
+        "value": "Child tag key"
+      }
+    ],
+    "tagKeyParent": [
+      {
+        "type": 0,
+        "value": "Parent tag key"
+      }
+    ],
     "tagLabels": [
       {
         "type": 0,
@@ -11990,6 +12026,28 @@
       {
         "type": 0,
         "value": "Review details"
+      }
+    ],
+    "tagMappingsWizardReviewDesc": [
+      {
+        "type": 0,
+        "value": "Review and confirm the tag mappings. Click "
+      },
+      {
+        "type": 1,
+        "value": "create"
+      },
+      {
+        "type": 0,
+        "value": " to create the mappings, or "
+      },
+      {
+        "type": 1,
+        "value": "back"
+      },
+      {
+        "type": 0,
+        "value": " to revise. Changes to the reports will be reflected within 24 hours."
       }
     ],
     "tagMappingsWizardSelectChildTags": [
@@ -12351,6 +12409,12 @@
         },
         "type": 5,
         "value": "units"
+      }
+    ],
+    "unknown": [
+      {
+        "type": 0,
+        "value": "Unknown"
       }
     ],
     "usage": [

@@ -11,8 +11,7 @@ import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circ
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-
-import { TagMappingsWizard } from '../tagMappingsWizard';
+import { TagMappingsWizard } from 'routes/settings/tagLabels/tagMappings/tagMappingsWizard';
 
 interface TagMappingsEmptyStateOwnProps {
   canWrite?: boolean;

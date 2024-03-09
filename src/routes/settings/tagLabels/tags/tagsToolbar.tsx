@@ -1,6 +1,7 @@
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
-import type { OcpQuery } from 'api/queries/ocpQuery';
+import type { Query } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
+import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -8,7 +9,6 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
@@ -30,8 +30,8 @@ interface TagsToolbarOwnProps {
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
-  query?: OcpQuery;
-  selectedItems?: ComputedReportItem[];
+  query?: Query;
+  selectedItems?: SettingsData[];
   showBulkSelectAll?: boolean;
 }
 

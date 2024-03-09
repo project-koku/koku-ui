@@ -7,10 +7,9 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
+import { TagMappingsWizard } from 'routes/settings/tagLabels/tagMappings/tagMappingsWizard';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
-
-import { TagMappingsWizard } from '../tagMappingsWizard';
 
 interface TagMappingsToolbarOwnProps {
   canWrite?: boolean;
@@ -45,7 +44,7 @@ type TagMappingsToolbarProps = TagMappingsToolbarOwnProps &
   TagMappingsToolbarDispatchProps &
   WrappedComponentProps;
 
-export class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, TagMappingsToolbarState> {
+class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, TagMappingsToolbarState> {
   protected defaultState: TagMappingsToolbarState = {};
   public state: TagMappingsToolbarState = { ...this.defaultState };
 
@@ -165,4 +164,3 @@ const TagMappingsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(T
 const TagMappingsToolbar = injectIntl(TagMappingsToolbarConnect);
 
 export { TagMappingsToolbar };
-export type { TagMappingsToolbarProps };
