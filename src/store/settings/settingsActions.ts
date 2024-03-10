@@ -28,6 +28,8 @@ export const updateSettingsSuccess = createAction('settings/update/success')<
 >();
 export const updateSettingsFailure = createAction('settings/update/failure')<AxiosError, SettingsActionMeta>();
 
+export const resetSettingsState = createAction('settings/reset_state')();
+
 export function fetchSettings(settingsType: SettingsType, settingsQueryString: string): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();

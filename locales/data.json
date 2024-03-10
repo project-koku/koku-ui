@@ -7100,6 +7100,30 @@
                 "value": "Input for tag name"
               }
             ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for tag key"
+              }
+            ]
+          },
+          "tag_key_child": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for child tag key"
+              }
+            ]
+          },
+          "tag_key_parent": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for parent tag key"
+              }
+            ]
           }
         },
         "type": 5,
@@ -7313,6 +7337,22 @@
               {
                 "type": 0,
                 "value": "Filter by tag key"
+              }
+            ]
+          },
+          "tag_key_child": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by child tag key"
+              }
+            ]
+          },
+          "tag_key_parent": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by parent tag key"
               }
             ]
           },
@@ -7556,6 +7596,22 @@
               {
                 "type": 0,
                 "value": "Tag Key"
+              }
+            ]
+          },
+          "tag_key_child": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Child tag Key"
+              }
+            ]
+          },
+          "tag_key_parent": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Parent tag Key"
               }
             ]
           },
@@ -11581,6 +11637,42 @@
     "settingsSuccessTags": [
       {
         "options": {
+          "add": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key added"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key added"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
           "disable": {
             "value": [
               {
@@ -11655,6 +11747,42 @@
           },
           "other": {
             "value": []
+          },
+          "remove": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key removed"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key removed"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
           }
         },
         "type": 5,

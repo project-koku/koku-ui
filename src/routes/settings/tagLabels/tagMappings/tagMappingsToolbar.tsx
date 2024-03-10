@@ -1,4 +1,4 @@
-import type { OcpQuery } from 'api/queries/ocpQuery';
+import type { Query } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -24,7 +24,7 @@ interface TagMappingsToolbarOwnProps {
   onFilterRemoved(filter: Filter);
   onWizardClose();
   pagination?: React.ReactNode;
-  query?: OcpQuery;
+  query?: Query;
 }
 
 interface TagMappingsToolbarStateProps {
@@ -59,10 +59,16 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
 
     const options = [
       {
-        ariaLabelKey: 'name',
-        placeholderKey: 'name',
-        key: 'key',
-        name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
+        ariaLabelKey: 'tag_key_parent',
+        placeholderKey: 'tag_key_parent',
+        key: 'parent',
+        name: intl.formatMessage(messages.filterByValues, { value: 'tag_key_parent' }),
+      },
+      {
+        ariaLabelKey: 'tag_key_child',
+        placeholderKey: 'tag_key_child',
+        key: 'child',
+        name: intl.formatMessage(messages.filterByValues, { value: 'tag_key_child' }),
       },
       {
         key: 'source_type',
@@ -92,22 +98,6 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
           {
             key: 'OCP',
             name: intl.formatMessage(messages.openShift),
-          },
-        ],
-      },
-      {
-        ariaLabelKey: 'status',
-        placeholderKey: 'status',
-        key: 'enabled',
-        name: intl.formatMessage(messages.filterByValues, { value: 'status' }),
-        selectOptions: [
-          {
-            name: intl.formatMessage(messages.enabled),
-            key: 'true',
-          },
-          {
-            name: intl.formatMessage(messages.disabled),
-            key: 'false',
           },
         ],
       },

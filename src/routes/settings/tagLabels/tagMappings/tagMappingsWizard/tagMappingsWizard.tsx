@@ -26,8 +26,8 @@ interface TagMappingsWizardOwnProps {
 }
 
 interface TagMappingsWizardStateProps {
-  settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
+  settingsUpdateError?: AxiosError;
+  settingsUpdateStatus?: FetchStatus;
 }
 
 type TagMappingsWizardProps = TagMappingsWizardOwnProps;
@@ -37,15 +37,15 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
   isDisabled,
   onClose,
 }: TagMappingsWizardProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
   const [childTags, setChildTags] = useState([]);
+  const [isFinished, setIsFinished] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [parentTags, setParentTags] = useState([]);
 
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { settingsError, settingsStatus } = useMapToProps();
+  const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
 
   const getActions = () => {
     const getTooltip = children => {
@@ -57,7 +57,7 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
     };
 
     return getTooltip(
-      <Button isAriaDisabled={isDisabled} onClick={handleOnClick} variant={ButtonVariant.primary}>
+      <Button isAriaDisabled={!canWrite || isDisabled} onClick={handleOnClick} variant={ButtonVariant.primary}>
         {intl.formatMessage(messages.createTagMapping)}
       </Button>
     );
@@ -128,8 +128,8 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
             <TagMappingsWizardReview
               childTags={childTags}
               parentTags={parentTags}
-              settingsError={settingsError}
-              settingsStatus={settingsStatus}
+              settingsError={settingsUpdateError}
+              settingsStatus={settingsUpdateStatus}
             />
           </WizardStep>
         </Wizard>
@@ -146,15 +146,15 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
   };
 
   const handleOnClose = () => {
+    handleOnReset();
     setIsOpen(false);
-    setIsFinished(false);
     if (onClose) {
       onClose();
     }
   };
 
   const handleOnCreateTagMapping = () => {
-    if (settingsStatus !== FetchStatus.inProgress) {
+    if (settingsUpdateStatus !== FetchStatus.inProgress) {
       dispatch(
         settingsActions.updateSettings(SettingsType.tagsMappingsChildAdd, {
           parent: parentTags.length ? parentTags[0].uuid : undefined,
@@ -165,7 +165,10 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
   };
 
   const handleOnReset = () => {
+    setChildTags([]);
+    setParentTags([]);
     setIsFinished(false);
+    dispatch(settingsActions.resetSettingsState());
   };
 
   const handleOnSelectChild = (items: SettingsData[], isSelected: boolean = false) => {
@@ -197,10 +200,10 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
   };
 
   useEffect(() => {
-    if (settingsStatus === FetchStatus.complete && !settingsError) {
+    if (settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
       setIsFinished(true);
     }
-  }, [settingsError, settingsStatus]);
+  }, [settingsUpdateError, settingsUpdateStatus]);
 
   return (
     <>
@@ -211,16 +214,16 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
 };
 
 const useMapToProps = (): TagMappingsWizardStateProps => {
-  const settingsStatus = useSelector((state: RootState) =>
+  const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
   );
-  const settingsError = useSelector((state: RootState) =>
+  const settingsUpdateError = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsMappingsChildAdd)
   );
 
   return {
-    settingsError,
-    settingsStatus,
+    settingsUpdateError,
+    settingsUpdateStatus,
   };
 };
 

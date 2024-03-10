@@ -5,7 +5,12 @@ import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
-import { updateSettingsFailure, updateSettingsRequest, updateSettingsSuccess } from './settingsActions';
+import {
+  resetSettingsState,
+  updateSettingsFailure,
+  updateSettingsRequest,
+  updateSettingsSuccess,
+} from './settingsActions';
 import { fetchSettingsFailure, fetchSettingsRequest, fetchSettingsSuccess } from './settingsActions';
 
 export type SettingsState = Readonly<{
@@ -27,12 +32,14 @@ export type SettingsAction = ActionType<
   | typeof updateSettingsFailure
   | typeof updateSettingsRequest
   | typeof updateSettingsSuccess
+  | typeof resetSettingsState
   | typeof resetState
 >;
 
 export function settingsReducer(state = defaultState, action: SettingsAction): SettingsState {
   switch (action.type) {
     case getType(resetState):
+    case getType(resetSettingsState):
       state = defaultState;
       return state;
 

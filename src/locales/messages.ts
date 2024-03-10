@@ -1870,6 +1870,9 @@ export default defineMessages({
       'subscription_guid {Input for account name} ' +
       'status {Input for status value} ' +
       'tag {Input for tag name} ' +
+      'tag_key {Input for tag key} ' +
+      'tag_key_child {Input for child tag key} ' +
+      'tag_key_parent {Input for parent tag key} ' +
       'other {}}',
     description: 'Input for {value} name',
     id: 'filterByInputAriaLabel',
@@ -1913,6 +1916,8 @@ export default defineMessages({
       'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
       'tag_key {Filter by tag key} ' +
+      'tag_key_child {Filter by child tag key} ' +
+      'tag_key_parent {Filter by parent tag key} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'filterByPlaceholder',
@@ -1964,6 +1969,8 @@ export default defineMessages({
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
       'tag_key {Tag Key} ' +
+      'tag_key_child {Child tag Key} ' +
+      'tag_key_parent {Parent tag Key} ' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
       'other {}}',
