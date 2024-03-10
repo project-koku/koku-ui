@@ -83,7 +83,7 @@ const ChildTags: React.FC<ChildTagsProps> = ({ onBulkSelect, onSelect, selectedI
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
+        widgetId={`pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };
