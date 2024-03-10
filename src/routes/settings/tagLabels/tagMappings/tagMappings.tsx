@@ -35,8 +35,6 @@ export interface MappingsStateProps {
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
   settingsQueryString?: string;
-  settingsUpdateError?: AxiosError;
-  settingsUpdateStatus?: FetchStatus;
 }
 
 type MappingsProps = MappingsOwnProps;
@@ -52,7 +50,7 @@ const baseQuery: Query = {
 
 const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
   const [query, setQuery] = useState({ ...baseQuery });
-  const { settings, settingsError, settingsStatus, settingsUpdateError, settingsUpdateStatus } = useMapToProps({
+  const { settings, settingsError, settingsStatus } = useMapToProps({
     query,
   });
 
@@ -100,9 +98,9 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
         filterBy={query.filter_by}
         isDisabled={isDisabled}
         isLoading={settingsStatus === FetchStatus.inProgress}
-        orderBy={query.order_by}
-        onDeleteChild={handleOnDeleteChild}
+        onDelete={handleOnDelete}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        orderBy={query.order_by}
         settings={settings}
       />
     );
@@ -119,21 +117,20 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
-        onWizardClose={refresh}
+        onWizardClose={handleOnClose}
         pagination={getPagination(isDisabled)}
         query={query}
       />
     );
   };
 
-  const handleOnDeleteChild = (item: SettingsData) => {
-    if (settingsUpdateStatus !== FetchStatus.inProgress) {
-      dispatch(
-        settingsActions.updateSettings(SettingsType.tagsMappingsChildRemove, {
-          ids: [item.uuid],
-        })
-      );
-    }
+  const handleOnClose = () => {
+    refresh();
+  };
+
+  const handleOnDelete = () => {
+    dispatch(settingsActions.resetSettingsState());
+    refresh();
   };
 
   const handleOnFilterAdded = filter => {
@@ -161,15 +158,10 @@ const TagMappings: React.FC<MappingsProps> = ({ canWrite }) => {
     setQuery(newQuery);
   };
 
+  // Force refresh
   const refresh = () => {
-    setQuery({ ...query }); // Force refresh
+    setQuery({ ...query });
   };
-
-  useEffect(() => {
-    if (settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
-      refresh();
-    }
-  }, [settingsUpdateError, settingsUpdateStatus]);
 
   if (settingsError) {
     return <Unavailable />;
@@ -229,13 +221,6 @@ const useMapToProps = ({ query }: MappingsMapProps): MappingsStateProps => {
     settingsSelectors.selectSettingsError(state, SettingsType.tagsMappings, settingsQueryString)
   );
 
-  const settingsUpdateStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildRemove)
-  );
-  const settingsUpdateError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsMappingsChildRemove)
-  );
-
   useEffect(() => {
     if (!settingsError && settingsStatus !== FetchStatus.inProgress) {
       dispatch(settingsActions.fetchSettings(SettingsType.tagsMappings, settingsQueryString));
@@ -247,8 +232,6 @@ const useMapToProps = ({ query }: MappingsMapProps): MappingsStateProps => {
     settingsError,
     settingsStatus,
     settingsQueryString,
-    settingsUpdateError,
-    settingsUpdateStatus,
   };
 };
 

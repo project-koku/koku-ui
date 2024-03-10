@@ -4,86 +4,128 @@ import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
 import type { Settings } from 'api/settings';
 import type { SettingsData } from 'api/settings';
+import { SettingsType } from 'api/settings';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
 import { ExpandableTable } from 'routes/components/dataTable';
-import type { RouterComponentProps } from 'utils/router';
-import { withRouter } from 'utils/router';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { settingsActions, settingsSelectors } from 'store/settings';
 
 import { styles } from './tagMappings.styles';
 
-interface TagMappingsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface TagMappingsTableOwnProps {
   canWrite?: boolean;
   filterBy?: any;
-  isAllSelected?: boolean;
   isDisabled?: boolean;
   isLoading?: boolean;
-  onDeleteChild(item: SettingsData);
+  onDelete();
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   settings: Settings;
 }
 
-interface TagMappingsTableState {
-  columns?: any[];
-  rows?: any[];
+export interface TagMappingsTableStateProps {
+  settingsUpdateError?: AxiosError;
+  settingsUpdateStatus?: FetchStatus;
 }
 
 type TagMappingsTableProps = TagMappingsTableOwnProps;
 
-class TagMappingsTableBase extends React.Component<TagMappingsTableProps, TagMappingsTableState> {
-  public state: TagMappingsTableState = {
-    columns: [],
-    rows: [],
+const TagMappingsTable: React.FC<TagMappingsTableProps> = ({
+  canWrite,
+  filterBy,
+  isDisabled,
+  isLoading,
+  onDelete,
+  onSort,
+  orderBy,
+  settings,
+}) => {
+  const [columns, setColumns] = useState([]);
+  const [rows, setRows] = useState([]);
+  const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
+
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const intl = useIntl();
+
+  const getChildActions = (item: SettingsData) => {
+    const getTooltip = children => {
+      if (!canWrite) {
+        const disableTagsTooltip = intl.formatMessage(messages.readOnlyPermissions);
+        return <Tooltip content={disableTagsTooltip}>{children}</Tooltip>;
+      }
+      return children;
+    };
+
+    return getTooltip(
+      <Button
+        aria-label={intl.formatMessage(messages.delete)}
+        isAriaDisabled={!canWrite || isDisabled}
+        onClick={() => handleOnDeleteChild(item)}
+        size="sm"
+        variant={ButtonVariant.plain}
+      >
+        <MinusCircleIcon />
+      </Button>
+    );
   };
 
-  public componentDidMount() {
-    this.initDatum();
-  }
-
-  public componentDidUpdate(prevProps: TagMappingsTableProps) {
-    const { settings } = this.props;
-    const currentReport = settings?.data ? JSON.stringify(settings.data) : '';
-    const previousReport = prevProps?.settings.data ? JSON.stringify(prevProps.settings.data) : '';
-
-    if (previousReport !== currentReport) {
-      this.initDatum();
+  const handleOnDeleteChild = (item: SettingsData) => {
+    if (settingsUpdateStatus !== FetchStatus.inProgress) {
+      dispatch(
+        settingsActions.updateSettings(SettingsType.tagsMappingsChildRemove, {
+          ids: [item.uuid],
+        })
+      );
     }
-  }
+  };
 
-  private initDatum = () => {
-    const { intl, settings } = this.props;
+  // const handleOnDeleteParent = (item: SettingsData) => {
+  //   if (settingsUpdateStatus !== FetchStatus.inProgress) {
+  //     dispatch(
+  //       settingsActions.updateSettings(SettingsType.tagsMappingsParentRemove, {
+  //         ids: [item.uuid],
+  //       })
+  //     );
+  //   }
+  // };
+
+  const initDatum = () => {
     if (!settings) {
       return;
     }
 
-    const rows = [];
-    const tags = settings?.data ? (settings.data as any) : [];
+    const newRows = [];
+    const tagMappings = settings?.data ? (settings.data as any) : [];
 
-    const columns = [
+    const newColumns = [
       {
         name: '',
       },
       {
         orderBy: 'parent',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'tag_key' }),
-        ...(tags.length && { isSortable: true }),
+        ...(tagMappings.length && { isSortable: true }),
       },
       {
         orderBy: 'source_type',
         name: intl.formatMessage(messages.sourceType),
-        ...(tags.length && { isSortable: true }),
+        ...(tagMappings.length && { isSortable: true }),
       },
       {
         name: '',
       },
     ];
 
-    tags.map(item => {
+    tagMappings.map(item => {
       const parent = item.parent;
-      rows.push({
+      newRows.push({
         cells: [
           {}, // Empty cell for expand toggle
           {
@@ -109,7 +151,7 @@ class TagMappingsTableBase extends React.Component<TagMappingsTableProps, TagMap
                 style: styles.expandableRowContent,
               },
               {
-                value: this.getChildActions(child),
+                value: getChildActions(child),
               },
             ],
             item: child,
@@ -119,63 +161,53 @@ class TagMappingsTableBase extends React.Component<TagMappingsTableProps, TagMap
       });
     });
 
-    const filteredColumns = (columns as any[]).filter(column => !column.hidden);
-    const filteredRows = rows.map(({ ...row }) => {
+    const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
+    const filteredRows = newRows.map(({ ...row }) => {
       row.cells = row.cells.filter(cell => !cell.hidden);
       return row;
     });
 
-    this.setState({
-      columns: filteredColumns,
-      rows: filteredRows,
-    });
+    setColumns(filteredColumns);
+    setRows(filteredRows);
   };
 
-  private getChildActions = (item: SettingsData) => {
-    const { canWrite, intl, isDisabled, onDeleteChild } = this.props;
+  useEffect(() => {
+    initDatum();
+  }, [settings]);
 
-    const getTooltip = children => {
-      if (!canWrite) {
-        const disableTagsTooltip = intl.formatMessage(messages.readOnlyPermissions);
-        return <Tooltip content={disableTagsTooltip}>{children}</Tooltip>;
-      }
-      return children;
-    };
+  useEffect(() => {
+    if (settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
+      onDelete();
+    }
+  }, [settingsUpdateError, settingsUpdateStatus]);
 
-    return getTooltip(
-      <Button
-        aria-label={intl.formatMessage(messages.delete)}
-        isAriaDisabled={!canWrite || isDisabled}
-        onClick={() => onDeleteChild(item)}
-        size="sm"
-        variant={ButtonVariant.plain}
-      >
-        <MinusCircleIcon />
-      </Button>
-    );
+  return (
+    <ExpandableTable
+      columns={columns}
+      filterBy={filterBy}
+      isActionsCell
+      isAllExpanded={filterBy ? Object.keys(filterBy).find(key => key === 'child') : false}
+      isLoading={isLoading}
+      onSort={onSort}
+      orderBy={orderBy}
+      rows={rows}
+    />
+  );
+};
+
+// eslint-disable-next-line no-empty-pattern
+const useMapToProps = (): TagMappingsTableStateProps => {
+  const settingsUpdateStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildRemove)
+  );
+  const settingsUpdateError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsMappingsChildRemove)
+  );
+
+  return {
+    settingsUpdateError,
+    settingsUpdateStatus,
   };
-
-  public render() {
-    const { filterBy, isLoading, onSort, orderBy } = this.props;
-    const { columns, rows } = this.state;
-
-    const isAllExpanded = filterBy ? Object.keys(filterBy).find(key => key === 'child') : false;
-
-    return (
-      <ExpandableTable
-        columns={columns}
-        filterBy={filterBy}
-        isActionsCell
-        isAllExpanded={isAllExpanded}
-        isLoading={isLoading}
-        onSort={onSort}
-        orderBy={orderBy}
-        rows={rows}
-      />
-    );
-  }
-}
-
-const TagMappingsTable = injectIntl(withRouter(TagMappingsTableBase));
+};
 
 export { TagMappingsTable };
