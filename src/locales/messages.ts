@@ -3361,6 +3361,16 @@ export default defineMessages({
     description: 'Tags and labels',
     id: 'tagLabels',
   },
+  tagMappingsDelete: {
+    defaultMessage: 'Delete tag mapping',
+    description: 'Delete tag mapping',
+    id: 'tagMappingsDelete',
+  },
+  tagMappingsDeleteDesc: {
+    defaultMessage: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    description: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    id: 'tagMappingsDeleteDesc',
+  },
   tagMappingsDesc: {
     defaultMessage:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',

@@ -12108,6 +12108,26 @@
         "value": "Map tags and labels"
       }
     ],
+    "tagMappingsDelete": [
+      {
+        "type": 0,
+        "value": "Delete tag mapping"
+      }
+    ],
+    "tagMappingsDeleteDesc": [
+      {
+        "type": 0,
+        "value": "This action will remove the "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tag mapping. Changes will be reflected within 24 hours."
+      }
+    ],
     "tagMappingsDesc": [
       {
         "type": 0,
