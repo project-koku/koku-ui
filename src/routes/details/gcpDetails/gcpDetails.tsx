@@ -193,7 +193,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
+        widgetId={`pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };

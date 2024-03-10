@@ -242,7 +242,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
+        widgetId={`pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };

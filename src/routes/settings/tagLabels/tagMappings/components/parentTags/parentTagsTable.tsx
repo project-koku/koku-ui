@@ -10,7 +10,7 @@ import { DataTable } from 'routes/components/dataTable';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface ChildTagsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface ParentTagsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   filterBy?: any;
   isAllSelected?: boolean;
   isLoading?: boolean;
@@ -21,15 +21,15 @@ interface ChildTagsTableOwnProps extends RouterComponentProps, WrappedComponentP
   settings: Settings;
 }
 
-interface ChildTagsTableState {
+interface ParentTagsTableState {
   columns?: any[];
   rows?: any[];
 }
 
-type ChildTagsTableProps = ChildTagsTableOwnProps;
+type ParentTagsTableProps = ParentTagsTableOwnProps;
 
-class ChildTagsTableBase extends React.Component<ChildTagsTableProps, ChildTagsTableState> {
-  public state: ChildTagsTableState = {
+class ParentTagsTableBase extends React.Component<ParentTagsTableProps, ParentTagsTableState> {
+  public state: ParentTagsTableState = {
     columns: [],
     rows: [],
   };
@@ -38,7 +38,7 @@ class ChildTagsTableBase extends React.Component<ChildTagsTableProps, ChildTagsT
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: ChildTagsTableProps) {
+  public componentDidUpdate(prevProps: ParentTagsTableProps) {
     const { selectedItems, settings } = this.props;
     const currentReport = settings?.data ? JSON.stringify(settings.data) : '';
     const previousReport = prevProps?.settings.data ? JSON.stringify(prevProps.settings.data) : '';
@@ -118,11 +118,12 @@ class ChildTagsTableBase extends React.Component<ChildTagsTableProps, ChildTagsT
         onSort={onSort}
         orderBy={orderBy}
         rows={rows}
+        variant="radio"
       />
     );
   }
 }
 
-const ChildTagsTable = injectIntl(withRouter(ChildTagsTableBase));
+const ParentTagsTable = injectIntl(withRouter(ParentTagsTableBase));
 
-export { ChildTagsTable };
+export { ParentTagsTable };

@@ -193,7 +193,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
+        widgetId={`pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };

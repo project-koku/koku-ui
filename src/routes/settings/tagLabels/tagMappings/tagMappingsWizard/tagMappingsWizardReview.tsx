@@ -23,7 +23,7 @@ import { styles } from './tagMappingsWizard.styles';
 
 interface tagMappingsWizardReviewOwnProps {
   childTags?: SettingsData[];
-  parentTag?: string;
+  parentTags?: SettingsData[];
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
 }
@@ -32,7 +32,7 @@ type tagMappingsWizardReviewProps = tagMappingsWizardReviewOwnProps;
 
 const TagMappingsWizardReview: React.FC<tagMappingsWizardReviewProps> = ({
   childTags = [],
-  parentTag = '',
+  parentTags = [],
   settingsError,
   settingsStatus,
 }: tagMappingsWizardReviewProps) => {
@@ -110,7 +110,11 @@ const TagMappingsWizardReview: React.FC<tagMappingsWizardReviewProps> = ({
               <TextListItem component={TextListItemVariants.dt}>
                 {intl.formatMessage(messages.tagKeyParent)}
               </TextListItem>
-              <TextListItem component={TextListItemVariants.dd}>{parentTag}</TextListItem>
+              {parentTags.map((val, index) => (
+                <TextListItem component={TextListItemVariants.dd} key={`parent-key-${index}`}>
+                  {val.key}
+                </TextListItem>
+              ))}
             </TextList>
           </TextContent>
         </StackItem>

@@ -1,5 +1,4 @@
 import type { Query } from 'api/queries/query';
-import { ResourcePathsType } from 'api/resources/resource';
 import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
@@ -65,6 +64,37 @@ class ChildTagsToolbarBase extends React.Component<ChildTagsToolbarProps, ChildT
         key: 'key',
         name: intl.formatMessage(messages.filterByValues, { value: 'tag_key' }),
       },
+      {
+        key: 'source_type',
+        name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
+        selectOptions: [
+          {
+            key: 'AWS',
+            name: intl.formatMessage(messages.aws),
+          },
+          {
+            key: 'Azure',
+            name: intl.formatMessage(messages.azure),
+          },
+          {
+            key: 'GCP',
+            name: intl.formatMessage(messages.gcp),
+          },
+          // {
+          //   key: 'IBM',
+          //   name: intl.formatMessage(messages.ibm), // Todo: enable when supported by API
+          // },
+          {
+            key: 'OCI',
+            name: intl.formatMessage(messages.oci),
+          },
+          {
+            key: 'OCP',
+            name: intl.formatMessage(messages.openShift),
+          },
+        ],
+      },
     ];
     return options;
   };
@@ -80,6 +110,7 @@ class ChildTagsToolbarBase extends React.Component<ChildTagsToolbarProps, ChildT
       onFilterRemoved,
       pagination,
       query,
+      selectedItems,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -95,7 +126,7 @@ class ChildTagsToolbarBase extends React.Component<ChildTagsToolbarProps, ChildT
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        resourcePathsType={ResourcePathsType.ocp}
+        selectedItems={selectedItems}
         showBulkSelect
         showBulkSelectAll={false}
         showFilter

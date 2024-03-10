@@ -243,7 +243,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
+        widgetId={`pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };

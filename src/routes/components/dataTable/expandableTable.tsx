@@ -22,24 +22,31 @@ import { withRouter } from 'utils/router';
 
 import { styles } from './dataTable.styles';
 
-interface DataTableOwnProps {
+interface ExpandableTableOwnProps {
   columns?: any[];
   emptyState?: React.ReactNode;
   filterBy: any;
   isActionsCell?: boolean;
+  isAllExpanded?: boolean;
   isLoading?: boolean;
-  isSelectable?: boolean;
-  onSelect(items: any[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
-  variant?: 'checkbox' | 'radio';
 }
 
-type DataTableProps = DataTableOwnProps & RouterComponentProps & WrappedComponentProps;
+interface ExpandableTableState {
+  expandedRows?: Set<any>;
+  rows?: any[];
+}
 
-class DataTable extends React.Component<DataTableProps, any> {
+type ExpandableTableProps = ExpandableTableOwnProps & RouterComponentProps & WrappedComponentProps;
+
+class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTableState> {
+  public state: ExpandableTableState = {
+    expandedRows: new Set(),
+  };
+
   private getEmptyState = () => {
     const { emptyState, filterBy, intl } = this.props;
 
@@ -81,28 +88,6 @@ class DataTable extends React.Component<DataTableProps, any> {
     };
   };
 
-  private handleOnSelect = (isSelected, rowId) => {
-    const { onSelect, rows } = this.props;
-
-    let newRows;
-    let items = [];
-    if (rowId === -1) {
-      newRows = rows.map(row => {
-        row.selected = isSelected;
-        return row;
-      });
-    } else {
-      newRows = [...rows];
-      newRows[rowId].selected = isSelected;
-      items = [newRows[rowId].item];
-    }
-    this.setState({ rows }, () => {
-      if (onSelect) {
-        onSelect(items, isSelected);
-      }
-    });
-  };
-
   private handleOnSort = (index, direction) => {
     const { columns, onSort } = this.props;
 
@@ -113,8 +98,20 @@ class DataTable extends React.Component<DataTableProps, any> {
     }
   };
 
+  private handleOnToggle = (item: any) => {
+    const { expandedRows } = this.state;
+
+    if (expandedRows.has(item)) {
+      expandedRows.delete(item);
+    } else {
+      expandedRows.add(item);
+    }
+    this.setState({ expandedRows });
+  };
+
   public render() {
-    const { columns, intl, isActionsCell, isLoading, isSelectable, rows, variant } = this.props;
+    const { columns, intl, isActionsCell, isAllExpanded, isLoading, rows } = this.props;
+    const { expandedRows } = this.state;
 
     return (
       <>
@@ -150,37 +147,60 @@ class DataTable extends React.Component<DataTableProps, any> {
                 </Td>
               </Tr>
             ) : (
-              rows.map((row, rowIndex) => (
-                <Tr key={`row-${rowIndex}`}>
-                  {row.cells.map((item, cellIndex) =>
-                    cellIndex === 0 && isSelectable ? (
-                      <Td
-                        dataLabel={columns[cellIndex].name}
-                        key={`cell-${cellIndex}-${rowIndex}`}
-                        modifier="nowrap"
-                        select={{
-                          isDisabled: row.selectionDisabled, // Disable select for "no-project"
-                          isSelected: row.selected,
-                          onSelect: (_evt, isSelected) => this.handleOnSelect(isSelected, rowIndex),
-                          rowIndex,
-                          variant,
-                        }}
-                        style={item.style}
-                      />
-                    ) : (
-                      <Td
-                        dataLabel={columns[cellIndex].name}
-                        key={`cell-${rowIndex}-${cellIndex}`}
-                        modifier="nowrap"
-                        isActionCell={isActionsCell && cellIndex === row.cells.length - 1}
-                        style={item.style}
+              rows.map((row, rowIndex) => {
+                const isExpanded = isAllExpanded || expandedRows.has(row?.item);
+                return (
+                  <React.Fragment key={`fragment-${rowIndex}`}>
+                    <Tr key={`row-${rowIndex}`} style={isExpanded ? styles.expandableRowBorder : undefined}>
+                      {row.cells.map((item, cellIndex) =>
+                        cellIndex === 0 ? (
+                          <Td
+                            expand={{
+                              rowIndex,
+                              isExpanded: isAllExpanded || expandedRows.has(row?.item),
+                              onToggle: () => this.handleOnToggle(row?.item),
+                            }}
+                            key={`cell-${cellIndex}-${rowIndex}`}
+                          />
+                        ) : (
+                          <Td
+                            dataLabel={columns[cellIndex].name}
+                            key={`cell-${rowIndex}-${cellIndex}`}
+                            modifier="nowrap"
+                            isActionCell={isActionsCell && cellIndex === row.cells.length - 1}
+                            style={item.style}
+                          >
+                            {item.value}
+                          </Td>
+                        )
+                      )}
+                    </Tr>
+                    {row?.children.map((child, childIndex) => (
+                      <Tr
+                        isExpanded={isExpanded}
+                        key={`row-children-${childIndex}-${rowIndex}`}
+                        style={childIndex !== row.children.length - 1 ? styles.expandableRowBorder : undefined}
                       >
-                        {item.value}
-                      </Td>
-                    )
-                  )}
-                </Tr>
-              ))
+                        {child.cells.map((item, cellIndex) =>
+                          cellIndex === 0 ? (
+                            <Td key={`child-cell-${cellIndex}-${rowIndex}`} />
+                          ) : (
+                            <Td
+                              dataLabel={columns[cellIndex].name}
+                              key={`child-cell-${rowIndex}-${cellIndex}`}
+                              modifier="nowrap"
+                              isActionCell={isActionsCell && cellIndex === child.cells.length - 1}
+                              style={item.style}
+                            >
+                              {item.value}
+                            </Td>
+                          )
+                        )}
+                      </Tr>
+                    ))}
+                  </React.Fragment>
+                );
+              })
             )}
           </Tbody>
         </Table>
@@ -190,4 +210,4 @@ class DataTable extends React.Component<DataTableProps, any> {
   }
 }
 
-export default injectIntl(withRouter(DataTable));
+export default injectIntl(withRouter(ExpandableTable));

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { ChildTags } from 'routes/settings/tagLabels/tagMappings/components/childTags';
+import { ParentTags } from 'routes/settings/tagLabels/tagMappings/components/parentTags';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
@@ -21,25 +22,30 @@ import { TagMappingsWizardReview } from './tagMappingsWizardReview';
 interface TagMappingsWizardOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
+  onClose();
 }
 
 interface TagMappingsWizardStateProps {
-  settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
+  settingsUpdateError?: AxiosError;
+  settingsUpdateStatus?: FetchStatus;
 }
 
 type TagMappingsWizardProps = TagMappingsWizardOwnProps;
 
-const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisabled }: TagMappingsWizardProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
+const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
+  canWrite,
+  isDisabled,
+  onClose,
+}: TagMappingsWizardProps) => {
   const [childTags, setChildTags] = useState([]);
-  const [parentTag] = useState('test');
+  const [isFinished, setIsFinished] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [parentTags, setParentTags] = useState([]);
 
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { settingsError, settingsStatus } = useMapToProps();
+  const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
 
   const getActions = () => {
     const getTooltip = children => {
@@ -51,7 +57,7 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisab
     };
 
     return getTooltip(
-      <Button isAriaDisabled={isDisabled} onClick={handleOnClick} variant={ButtonVariant.primary}>
+      <Button isAriaDisabled={!canWrite || isDisabled} onClick={handleOnClick} variant={ButtonVariant.primary}>
         {intl.formatMessage(messages.createTagMapping)}
       </Button>
     );
@@ -72,24 +78,6 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisab
         </div>
       </Modal>
     );
-  };
-
-  const handleOnBulkSelect = (items: SettingsData[]) => {
-    setChildTags(items);
-  };
-
-  const handleOnSelect = (items: SettingsData[], isSelected: boolean = false) => {
-    let newItems = [...childTags];
-    if (items && items.length > 0) {
-      if (isSelected) {
-        items.map(item => newItems.push(item));
-      } else {
-        items.map(item => {
-          newItems = newItems.filter(val => val.uuid !== item.uuid);
-        });
-      }
-    }
-    setChildTags(newItems);
   };
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
@@ -116,17 +104,17 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisab
             id="step-1"
             name={intl.formatMessage(messages.tagMappingsWizardSelectChildTags)}
           >
-            <ChildTags onBulkSelect={handleOnBulkSelect} onSelect={handleOnSelect} selectedItems={childTags} />
+            <ChildTags onBulkSelect={handleOnBulkSelect} onSelect={handleOnSelectChild} selectedItems={childTags} />
           </WizardStep>
           <WizardStep
             footer={{
-              isNextDisabled: !parentTag,
+              isNextDisabled: parentTags.length === 0,
             }}
             id="step-2"
             isDisabled={childTags.length === 0}
             name={intl.formatMessage(messages.tagMappingsWizardSelectParentTag)}
           >
-            Step 2 content
+            <ParentTags onSelect={handleOnSelectParent} selectedItems={parentTags} />
           </WizardStep>
           <WizardStep
             footer={{
@@ -139,9 +127,9 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisab
           >
             <TagMappingsWizardReview
               childTags={childTags}
-              parentTag={parentTag}
-              settingsError={settingsError}
-              settingsStatus={settingsStatus}
+              parentTags={parentTags}
+              settingsError={settingsUpdateError}
+              settingsStatus={settingsUpdateStatus}
             />
           </WizardStep>
         </Wizard>
@@ -149,20 +137,27 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisab
     );
   };
 
-  const handleOnClose = () => {
-    setIsOpen(false);
-    setIsFinished(false);
+  const handleOnBulkSelect = (items: SettingsData[]) => {
+    setChildTags(items);
   };
 
   const handleOnClick = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleOnClose = () => {
+    handleOnReset();
+    setIsOpen(false);
+    if (onClose) {
+      onClose();
+    }
+  };
+
   const handleOnCreateTagMapping = () => {
-    if (settingsStatus !== FetchStatus.inProgress) {
+    if (settingsUpdateStatus !== FetchStatus.inProgress) {
       dispatch(
         settingsActions.updateSettings(SettingsType.tagsMappingsChildAdd, {
-          parent: parentTag,
+          parent: parentTags.length ? parentTags[0].uuid : undefined,
           children: childTags.map(item => item.uuid),
         })
       );
@@ -170,14 +165,45 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisab
   };
 
   const handleOnReset = () => {
+    setChildTags([]);
+    setParentTags([]);
     setIsFinished(false);
+    dispatch(settingsActions.resetSettingsState());
+  };
+
+  const handleOnSelectChild = (items: SettingsData[], isSelected: boolean = false) => {
+    let newItems = [...childTags];
+    if (items && items.length > 0) {
+      if (isSelected) {
+        items.map(item => newItems.push(item));
+      } else {
+        items.map(item => {
+          newItems = newItems.filter(val => val.uuid !== item.uuid);
+        });
+      }
+    }
+    setChildTags(newItems);
+  };
+
+  const handleOnSelectParent = (items: SettingsData[], isSelected: boolean = false) => {
+    let newItems = [];
+    if (items && items.length > 0) {
+      if (isSelected) {
+        items.map(item => newItems.push(item));
+      } else {
+        items.map(item => {
+          newItems = newItems.filter(val => val.uuid !== item.uuid);
+        });
+      }
+    }
+    setParentTags(newItems);
   };
 
   useEffect(() => {
-    if (settingsStatus === FetchStatus.complete && !settingsError) {
+    if (settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
       setIsFinished(true);
     }
-  }, [settingsError, settingsStatus]);
+  }, [settingsUpdateError, settingsUpdateStatus]);
 
   return (
     <>
@@ -188,16 +214,16 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({ canWrite, isDisab
 };
 
 const useMapToProps = (): TagMappingsWizardStateProps => {
-  const settingsStatus = useSelector((state: RootState) =>
+  const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
   );
-  const settingsError = useSelector((state: RootState) =>
+  const settingsUpdateError = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsMappingsChildAdd)
   );
 
   return {
-    settingsError,
-    settingsStatus,
+    settingsUpdateError,
+    settingsUpdateStatus,
   };
 };
 

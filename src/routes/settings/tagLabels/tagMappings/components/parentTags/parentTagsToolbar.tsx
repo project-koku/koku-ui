@@ -1,4 +1,5 @@
 import type { Query } from 'api/queries/query';
+import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -6,12 +7,10 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import { TagMappingsWizard } from 'routes/settings/tagLabels/tagMappings/tagMappingsWizard';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
-interface TagMappingsToolbarOwnProps {
-  canWrite?: boolean;
+interface ParentTagsToolbarOwnProps {
   enabledTagsCount?: number;
   enabledTagsLimit?: number;
   isAllSelected?: boolean;
@@ -22,31 +21,31 @@ interface TagMappingsToolbarOwnProps {
   itemsTotal?: number;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
-  onWizardClose();
   pagination?: React.ReactNode;
+  selectedItems?: SettingsData[];
   query?: Query;
 }
 
-interface TagMappingsToolbarStateProps {
+interface ParentTagsToolbarStateProps {
   // TBD...
 }
 
-interface TagMappingsToolbarDispatchProps {
+interface ParentTagsToolbarDispatchProps {
   // TBD...
 }
 
-interface TagMappingsToolbarState {
+interface ParentTagsToolbarState {
   categoryOptions?: ToolbarChipGroupExt[];
 }
 
-type TagMappingsToolbarProps = TagMappingsToolbarOwnProps &
-  TagMappingsToolbarStateProps &
-  TagMappingsToolbarDispatchProps &
+type ParentTagsToolbarProps = ParentTagsToolbarOwnProps &
+  ParentTagsToolbarStateProps &
+  ParentTagsToolbarDispatchProps &
   WrappedComponentProps;
 
-class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, TagMappingsToolbarState> {
-  protected defaultState: TagMappingsToolbarState = {};
-  public state: TagMappingsToolbarState = { ...this.defaultState };
+class ParentTagsToolbarBase extends React.Component<ParentTagsToolbarProps, ParentTagsToolbarState> {
+  protected defaultState: ParentTagsToolbarState = {};
+  public state: ParentTagsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -59,16 +58,10 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
 
     const options = [
       {
-        ariaLabelKey: 'tag_key_parent',
-        placeholderKey: 'tag_key_parent',
-        key: 'parent',
-        name: intl.formatMessage(messages.filterByValues, { value: 'tag_key_parent' }),
-      },
-      {
-        ariaLabelKey: 'tag_key_child',
-        placeholderKey: 'tag_key_child',
-        key: 'child',
-        name: intl.formatMessage(messages.filterByValues, { value: 'tag_key_child' }),
+        ariaLabelKey: 'tag_key',
+        placeholderKey: 'tag_key',
+        key: 'key',
+        name: intl.formatMessage(messages.filterByValues, { value: 'tag_key' }),
       },
       {
         key: 'source_type',
@@ -107,32 +100,30 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
 
   public render() {
     const {
-      canWrite,
       isAllSelected,
       isDisabled,
       itemsPerPage,
       itemsTotal,
       onFilterAdded,
       onFilterRemoved,
-      onWizardClose,
       pagination,
       query,
+      selectedItems,
     } = this.props;
     const { categoryOptions } = this.state;
 
     return (
       <BasicToolbar
-        actions={<TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />}
         categoryOptions={categoryOptions}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
-        isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        selectedItems={selectedItems}
         showFilter
       />
     );
@@ -140,17 +131,17 @@ class TagMappingsToolbarBase extends React.Component<TagMappingsToolbarProps, Ta
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<TagMappingsToolbarOwnProps, TagMappingsToolbarStateProps>(() => {
+const mapStateToProps = createMapStateToProps<ParentTagsToolbarOwnProps, ParentTagsToolbarStateProps>(() => {
   return {
     // TBD...
   };
 });
 
-const mapDispatchToProps: TagMappingsToolbarDispatchProps = {
+const mapDispatchToProps: ParentTagsToolbarDispatchProps = {
   // TBD...
 };
 
-const TagMappingsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(TagMappingsToolbarBase);
-const TagMappingsToolbar = injectIntl(TagMappingsToolbarConnect);
+const ParentTagsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ParentTagsToolbarBase);
+const ParentTagsToolbar = injectIntl(ParentTagsToolbarConnect);
 
-export { TagMappingsToolbar };
+export { ParentTagsToolbar };
