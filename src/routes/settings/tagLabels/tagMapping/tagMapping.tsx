@@ -97,8 +97,8 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
         filterBy={query.filter_by}
         isDisabled={isDisabled}
         isLoading={settingsStatus === FetchStatus.inProgress}
-        onDelete={handleOnDelete}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        onUpdate={handleOnUpdate}
         orderBy={query.order_by}
         settings={settings}
       />
@@ -127,10 +127,6 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
     refresh();
   };
 
-  const handleOnDelete = () => {
-    refresh();
-  };
-
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
@@ -154,6 +150,10 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
+  };
+
+  const handleOnUpdate = () => {
+    refresh();
   };
 
   // Force refresh

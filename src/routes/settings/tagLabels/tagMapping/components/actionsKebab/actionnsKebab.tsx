@@ -7,25 +7,37 @@ import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 
 import { DeleteModal } from '../deleteModal';
+import { TagMappingModal } from '../tagMappingModal';
 
 interface ActionsKebabOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   item: SettingsData;
-  onDelete();
+  onUpdate();
 }
 
 type ActionsKebabProps = ActionsKebabOwnProps;
 
-const ActionnsKebab: React.FC<ActionsKebabProps> = ({ canWrite, isDisabled, item, onDelete }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ActionnsKebab: React.FC<ActionsKebabProps> = ({ canWrite, isDisabled, item, onUpdate }) => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isTagMappingModalOpen, setIsTagMappingModalOpen] = useState(false);
   const intl = useIntl();
 
   const getItems = () => {
     const items: DropdownWrapperItem[] = [
       {
         isDisabled: isDisabled || !canWrite,
-        onClick: handleOnClick,
+        onClick: handleOnTagMappingModalClick,
+        toString: () => intl.formatMessage(messages.tagMappingAddChildTags),
+        ...(!canWrite && {
+          tooltipProps: {
+            content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
+          },
+        }),
+      },
+      {
+        isDisabled: isDisabled || !canWrite,
+        onClick: handleOnDeleteModalClick,
         toString: () => intl.formatMessage(messages.tagMappingDelete),
         ...(!canWrite && {
           tooltipProps: {
@@ -37,22 +49,36 @@ const ActionnsKebab: React.FC<ActionsKebabProps> = ({ canWrite, isDisabled, item
     return items;
   };
 
-  const handleOnClose = () => {
-    setIsOpen(false);
+  const handleOnDeleteModalClose = () => {
+    setIsDeleteModalOpen(false);
   };
 
-  const handleOnClick = () => {
-    setIsOpen(!isOpen);
+  const handleOnDeleteModalClick = () => {
+    setIsDeleteModalOpen(!isDeleteModalOpen);
+  };
+
+  const handleOnTagMappingModalClose = () => {
+    setIsTagMappingModalOpen(false);
+  };
+
+  const handleOnTagMappingModalClick = () => {
+    setIsTagMappingModalOpen(!isTagMappingModalOpen);
   };
 
   return (
     <>
       <DeleteModal
-        isOpen={isOpen}
+        isOpen={isDeleteModalOpen}
         item={item}
-        onClose={handleOnClose}
-        onDelete={onDelete}
+        onClose={handleOnDeleteModalClose}
+        onUpdate={onUpdate}
         settingsType={SettingsType.tagsMappingsParentRemove}
+      />
+      <TagMappingModal
+        isOpen={isTagMappingModalOpen}
+        onClose={handleOnTagMappingModalClose}
+        onUpdate={onUpdate}
+        item={item}
       />
       <DropdownWrapper isKebab items={getItems()} position="right" />
     </>

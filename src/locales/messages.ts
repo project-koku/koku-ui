@@ -3361,6 +3361,18 @@ export default defineMessages({
     description: 'Tags and labels',
     id: 'tagLabels',
   },
+  tagMappingAddChildTags: {
+    defaultMessage: 'Add child tags',
+    description: 'Add child tags',
+    id: 'tagMappingAddChildTags',
+  },
+  tagMappingAddChildTagsDesc: {
+    defaultMessage:
+      'Select additional tag key(s) that will be mapped to the {value} tag map. Tags that have been already mapped will not be available for selection.',
+    description:
+      'Select additional tag key(s) that will be mapped to the {value} tag map. Tags that have been already mapped will not be available for selection.',
+    id: 'tagMappingAddChildTagsDesc',
+  },
   tagMappingDelete: {
     defaultMessage: 'Delete tag mapping',
     description: 'Delete tag mapping',

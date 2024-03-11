@@ -15,8 +15,8 @@ interface TagMappingTableOwnProps {
   filterBy?: any;
   isDisabled?: boolean;
   isLoading?: boolean;
-  onDelete();
   onSort(value: string, isSortAscending: boolean);
+  onUpdate();
   orderBy?: any;
   settings: Settings;
 }
@@ -28,8 +28,8 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
   filterBy,
   isDisabled,
   isLoading,
-  onDelete,
   onSort,
+  onUpdate,
   orderBy,
   settings,
 }) => {
@@ -77,7 +77,7 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
             value: intl.formatMessage(messages.sourceTypes, { value: parent?.source_type?.toLowerCase() }),
           },
           {
-            value: <ActionsKebab canWrite={canWrite} isDisabled={isDisabled} item={parent} onDelete={onDelete} />,
+            value: <ActionsKebab canWrite={canWrite} isDisabled={isDisabled} item={parent} onUpdate={onUpdate} />,
           },
         ],
         children: parent.children.map(child => {
@@ -93,7 +93,7 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
                 style: styles.expandableRowContent,
               },
               {
-                value: <DeleteAction canWrite={canWrite} isDisabled={isDisabled} item={child} onDelete={onDelete} />,
+                value: <DeleteAction canWrite={canWrite} isDisabled={isDisabled} item={child} onUpdate={onUpdate} />,
               },
             ],
             item: child,

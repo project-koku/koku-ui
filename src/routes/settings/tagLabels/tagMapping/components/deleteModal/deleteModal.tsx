@@ -19,7 +19,7 @@ interface DeleteModalOwnProps {
   isOpen?: boolean;
   item: SettingsData;
   onClose();
-  onDelete();
+  onUpdate();
   settingsType: SettingsType;
 }
 
@@ -34,7 +34,7 @@ interface DeleteModalStateProps {
 
 type DeleteModalProps = DeleteModalOwnProps;
 
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, item, onClose, onDelete, settingsType }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, item, onClose, onUpdate, settingsType }) => {
   const [isFinish, setIsFinish] = useState(false);
   const { settingsUpdateError, settingsUpdateStatus } = useMapToProps({ settingsType });
 
@@ -54,7 +54,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, item, onClose, onDele
 
   useEffect(() => {
     if (isFinish && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
-      onDelete();
+      onUpdate();
     }
   }, [isFinish, settingsUpdateError, settingsUpdateStatus]);
 

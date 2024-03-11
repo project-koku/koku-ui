@@ -1,55 +1,62 @@
-import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
-import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
+import { Alert, Button } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
 import type { SettingsData } from 'api/settings';
+import { SettingsType } from 'api/settings';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ChildTags } from 'routes/settings/tagLabels/tagMapping/components/childTags';
-import { useStateCallback } from 'utils/hooks';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
+import { parseApiError } from 'routes/settings/tagLabels/tagMapping/utils/parseApiError';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { settingsActions, settingsSelectors } from 'store/settings';
+
+import { ChildTags } from '../childTags';
+import { styles } from './tagMappingModal.styles';
 
 interface TagMappingModalOwnProps {
-  canWrite?: boolean;
-  isDisabled?: boolean;
+  isOpen?: boolean;
+  item: SettingsData;
+  onClose();
+  onUpdate();
+}
+
+interface TagMappingModalStateProps {
+  settingsUpdateError?: AxiosError;
+  settingsUpdateStatus?: FetchStatus;
 }
 
 type TagMappingModalProps = TagMappingModalOwnProps;
 
-const TagMappingModal: React.FC<TagMappingModalProps> = ({ canWrite, isDisabled }: TagMappingModalProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useStateCallback([]);
+const TagMappingModal: React.FC<TagMappingModalProps> = ({ isOpen, item: parent, onClose, onUpdate }) => {
+  const [childTags, setChildTags] = useState([]);
+  const [isFinish, setIsFinish] = useState(false);
+  const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
 
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const getActions = () => {
-    const getTooltip = children => {
-      if (!canWrite) {
-        const disableTagsTooltip = intl.formatMessage(messages.readOnlyPermissions);
-        return <Tooltip content={disableTagsTooltip}>{children}</Tooltip>;
-      }
-      return children;
-    };
-
-    return getTooltip(
-      <Button isAriaDisabled={isDisabled} onClick={handleOnClick} variant={ButtonVariant.primary}>
-        {intl.formatMessage(messages.createTagMapping)}
-      </Button>
-    );
-  };
-
   const handleOnBulkSelect = (items: SettingsData[]) => {
-    setSelectedItems(items);
+    setChildTags(items);
   };
 
-  const handleOnClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleOnClick = () => {
-    setIsOpen(!isOpen);
+  const handleOnCreateTagMapping = () => {
+    if (settingsUpdateStatus !== FetchStatus.inProgress) {
+      setIsFinish(true);
+      dispatch(
+        settingsActions.updateSettings(SettingsType.tagsMappingsChildAdd, {
+          parent: parent.uuid,
+          children: childTags.map(child => child.uuid),
+        })
+      );
+    }
   };
 
   const handleOnSelect = (items: SettingsData[], isSelected: boolean = false) => {
-    let newItems = [...selectedItems];
+    let newItems = [...childTags];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
@@ -59,27 +66,59 @@ const TagMappingModal: React.FC<TagMappingModalProps> = ({ canWrite, isDisabled 
         });
       }
     }
-    setSelectedItems(newItems);
+    setChildTags(newItems);
   };
 
-  // const handleOnCreateTagMapping = () => {
-  //   // TBD...
-  // };
+  useEffect(() => {
+    if (isFinish && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
+      onUpdate();
+    }
+  }, [isFinish, settingsUpdateError, settingsUpdateStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
 
   return (
-    <>
-      {getActions()}
-      <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.medium}>
-        <ModalHeader title={intl.formatMessage(messages.clusterInfo)} />
-        <ModalBody>
-          <ChildTags onBulkSelect={handleOnBulkSelect} onSelect={handleOnSelect} />
-        </ModalBody>
-      </Modal>
-    </>
+    <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.medium}>
+      <ModalHeader title={intl.formatMessage(messages.tagMappingAddChildTags)} />
+      <ModalBody>
+        {settingsUpdateStatus === FetchStatus.complete && settingsUpdateError && (
+          <div style={styles.alertContainer}>
+            <Alert
+              style={styles.alert}
+              title={settingsUpdateError ? parseApiError(settingsUpdateError) : undefined}
+              variant="danger"
+            />
+          </div>
+        )}
+        <div>{intl.formatMessage(messages.tagMappingAddChildTagsDesc, { value: <b>{parent.key}</b> })}</div>
+        <ChildTags onBulkSelect={handleOnBulkSelect} onSelect={handleOnSelect} selectedItems={childTags} />
+      </ModalBody>
+      <ModalFooter>
+        <Button isDisabled={childTags.length === 0} key="confirm" onClick={handleOnCreateTagMapping} variant="primary">
+          {intl.formatMessage(messages.tagMappingAddChildTags)}
+        </Button>
+        <Button key="cancel" onClick={onClose} variant="link">
+          {intl.formatMessage(messages.cancel)}
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
+};
+
+// eslint-disable-next-line no-empty-pattern
+const useMapToProps = (): TagMappingModalStateProps => {
+  const settingsUpdateStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
+  );
+  const settingsUpdateError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsMappingsChildAdd)
+  );
+
+  return {
+    settingsUpdateError,
+    settingsUpdateStatus,
+  };
 };
 
 export default TagMappingModal;

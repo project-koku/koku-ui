@@ -14,12 +14,12 @@ interface DeleteActionOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   item: SettingsData;
-  onDelete();
+  onUpdate();
 }
 
 type DeleteActionProps = DeleteActionOwnProps;
 
-const DeleteAction: React.FC<DeleteActionProps> = ({ canWrite, isDisabled, item, onDelete }) => {
+const DeleteAction: React.FC<DeleteActionProps> = ({ canWrite, isDisabled, item, onUpdate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const intl = useIntl();
 
@@ -63,7 +63,7 @@ const DeleteAction: React.FC<DeleteActionProps> = ({ canWrite, isDisabled, item,
         isOpen={isOpen}
         item={item}
         onClose={handleOnClose}
-        onDelete={onDelete}
+        onUpdate={onUpdate}
         settingsType={SettingsType.tagsMappingsChildRemove}
       />
     </>

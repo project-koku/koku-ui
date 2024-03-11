@@ -3544,7 +3544,7 @@
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models"
       }
     ],
-    "docsTagMappings": [
+    "docsTagMapping": [
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index"
@@ -12108,13 +12108,33 @@
         "value": "Map tags and labels"
       }
     ],
-    "tagMappingsDelete": [
+    "tagMappingAddChildTags": [
+      {
+        "type": 0,
+        "value": "Add child tags"
+      }
+    ],
+    "tagMappingAddChildTagsDesc": [
+      {
+        "type": 0,
+        "value": "Select additional tag key(s) that will be mapped to the "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tag map. Tags that have been already mapped will not be available for selection."
+      }
+    ],
+    "tagMappingDelete": [
       {
         "type": 0,
         "value": "Delete tag mapping"
       }
     ],
-    "tagMappingsDeleteDesc": [
+    "tagMappingDeleteDesc": [
       {
         "type": 0,
         "value": "This action will remove the "
@@ -12128,7 +12148,7 @@
         "value": " tag mapping. Changes will be reflected within 24 hours."
       }
     ],
-    "tagMappingsDesc": [
+    "tagMappingDesc": [
       {
         "type": 0,
         "value": "Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. "
@@ -12146,37 +12166,37 @@
         "value": "learnMore"
       }
     ],
-    "tagMappingsWarning": [
+    "tagMappingWarning": [
       {
         "type": 0,
         "value": "You must enable tags to use tag mapping."
       }
     ],
-    "tagMappingsWizardDesc": [
+    "tagMappingWizardDesc": [
       {
         "type": 0,
         "value": "Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours."
       }
     ],
-    "tagMappingsWizardNavToCreateTagMapping": [
+    "tagMappingWizardNavToCreateTagMapping": [
       {
         "type": 0,
         "value": "Create another tag mapping"
       }
     ],
-    "tagMappingsWizardNavToTagMappings": [
+    "tagMappingWizardNavToTagMapping": [
       {
         "type": 0,
         "value": "Go back to Cost Management Settings"
       }
     ],
-    "tagMappingsWizardReview": [
+    "tagMappingWizardReview": [
       {
         "type": 0,
         "value": "Review details"
       }
     ],
-    "tagMappingsWizardReviewDesc": [
+    "tagMappingWizardReviewDesc": [
       {
         "type": 0,
         "value": "Review and confirm the tag mappings. Click "
@@ -12198,25 +12218,25 @@
         "value": " to revise. Changes to the reports will be reflected within 24 hours."
       }
     ],
-    "tagMappingsWizardSelectChildTags": [
+    "tagMappingWizardSelectChildTags": [
       {
         "type": 0,
         "value": "Select child tags"
       }
     ],
-    "tagMappingsWizardSelectParentTag": [
+    "tagMappingWizardSelectParentTag": [
       {
         "type": 0,
         "value": "Select parent tag"
       }
     ],
-    "tagMappingsWizardSuccess": [
+    "tagMappingWizardSuccess": [
       {
         "type": 0,
         "value": "Tag mapping successful"
       }
     ],
-    "tagMappingsWizardSuccessDesc": [
+    "tagMappingWizardSuccessDesc": [
       {
         "type": 0,
         "value": "Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours."

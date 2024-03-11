@@ -38,7 +38,7 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
   onClose,
 }: TagMappingWizardProps) => {
   const [childTags, setChildTags] = useState([]);
-  const [isFinished, setIsFinished] = useState(false);
+  const [isFinish, setIsFinish] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [parentTags, setParentTags] = useState([]);
 
@@ -180,7 +180,7 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
   const handleOnReset = () => {
     setChildTags([]);
     setParentTags([]);
-    setIsFinished(false);
+    setIsFinish(false);
   };
 
   const handleOnSelectChild = (items: SettingsData[], isSelected: boolean = false) => {
@@ -213,7 +213,7 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
 
   useEffect(() => {
     if (isOpen && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
-      setIsFinished(true);
+      setIsFinish(true);
     }
   }, [settingsUpdateError, settingsUpdateStatus]);
 
@@ -227,7 +227,7 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
   return (
     <>
       {getActions()}
-      {isFinished ? getSuccessEmptyState() : getWizard()}
+      {isFinish ? getSuccessEmptyState() : getWizard()}
     </>
   );
 };
