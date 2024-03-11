@@ -18,8 +18,7 @@ import { settingsActions, settingsSelectors } from 'store/settings';
 interface DeleteTagMappingOwnProps {
   isOpen?: boolean;
   item: SettingsData;
-  onClose();
-  onUpdate();
+  onClose?: () => void;
   settingsType: SettingsType;
 }
 
@@ -34,7 +33,7 @@ interface DeleteTagMappingStateProps {
 
 type DeleteTagMappingProps = DeleteTagMappingOwnProps;
 
-const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, item, onClose, onUpdate, settingsType }) => {
+const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, item, onClose, settingsType }) => {
   const [isFinish, setIsFinish] = useState(false);
   const { settingsUpdateError, settingsUpdateStatus } = useMapToProps({ settingsType });
 
@@ -54,7 +53,7 @@ const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, item, onClo
 
   useEffect(() => {
     if (isFinish && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
-      onUpdate();
+      onClose();
     }
   }, [isFinish, settingsUpdateError, settingsUpdateStatus]);
 

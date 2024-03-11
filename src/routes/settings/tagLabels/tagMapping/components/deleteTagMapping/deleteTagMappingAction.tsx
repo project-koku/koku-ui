@@ -14,12 +14,12 @@ interface DeleteTagMappingActionOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   item: SettingsData;
-  onUpdate();
+  onClose?: () => void;
 }
 
 type DeleteTagMappingActionProps = DeleteTagMappingActionOwnProps;
 
-const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrite, isDisabled, item, onUpdate }) => {
+const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrite, isDisabled, item, onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const intl = useIntl();
 
@@ -47,6 +47,9 @@ const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrit
 
   const handleOnClose = () => {
     setIsOpen(false);
+    if (onClose) {
+      onClose();
+    }
   };
 
   const handleOnClick = () => {
@@ -63,7 +66,6 @@ const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrit
         isOpen={isOpen}
         item={item}
         onClose={handleOnClose}
-        onUpdate={onUpdate}
         settingsType={SettingsType.tagsMappingsChildRemove}
       />
     </>

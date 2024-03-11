@@ -12,12 +12,12 @@ interface ActionsOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   item: SettingsData;
-  onUpdate();
+  onClose?: () => void;
 }
 
 type ActionsProps = ActionsOwnProps;
 
-const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onUpdate }) => {
+const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTagMappingModalOpen, setIsTagMappingModalOpen] = useState(false);
   const intl = useIntl();
@@ -50,6 +50,9 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onUpdate 
 
   const handleOnDeleteModalClose = () => {
     setIsDeleteModalOpen(false);
+    if (onClose) {
+      onClose();
+    }
   };
 
   const handleOnDeleteModalClick = () => {
@@ -58,6 +61,9 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onUpdate 
 
   const handleOnTagMappingModalClose = () => {
     setIsTagMappingModalOpen(false);
+    if (onClose) {
+      onClose();
+    }
   };
 
   const handleOnTagMappingModalClick = () => {
@@ -70,15 +76,9 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onUpdate 
         isOpen={isDeleteModalOpen}
         item={item}
         onClose={handleOnDeleteModalClose}
-        onUpdate={onUpdate}
         settingsType={SettingsType.tagsMappingsParentRemove}
       />
-      <ChildTagMapping
-        isOpen={isTagMappingModalOpen}
-        onClose={handleOnTagMappingModalClose}
-        onUpdate={onUpdate}
-        item={item}
-      />
+      <ChildTagMapping isOpen={isTagMappingModalOpen} onClose={handleOnTagMappingModalClose} item={item} />
       <DropdownWrapper isKebab items={getItems()} position="right" />
     </>
   );

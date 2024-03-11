@@ -21,7 +21,6 @@ interface ChildTagMappingOwnProps {
   isOpen?: boolean;
   item: SettingsData;
   onClose();
-  onUpdate();
 }
 
 interface ChildTagMappingStateProps {
@@ -31,7 +30,7 @@ interface ChildTagMappingStateProps {
 
 type ChildTagMappingProps = ChildTagMappingOwnProps;
 
-const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent, onClose, onUpdate }) => {
+const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent, onClose }) => {
   const [childTags, setChildTags] = useState([]);
   const [isFinish, setIsFinish] = useState(false);
   const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
@@ -71,7 +70,7 @@ const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent,
 
   useEffect(() => {
     if (isFinish && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
-      onUpdate();
+      onClose();
     }
   }, [isFinish, settingsUpdateError, settingsUpdateStatus]);
 

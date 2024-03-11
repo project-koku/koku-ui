@@ -31,7 +31,7 @@ import { ParentTagMappingReview } from './parentTagMappingReview';
 interface ParentTagMappingOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
-  onClose();
+  onClose?: () => void;
 }
 
 interface ParentTagMappingStateProps {

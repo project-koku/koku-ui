@@ -13,9 +13,9 @@ interface TagMappingToolbarOwnProps {
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
+  onClose?: () => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
-  onWizardClose();
   pagination?: React.ReactNode;
   query?: Query;
 }
@@ -28,9 +28,9 @@ const TagMappingToolbar: React.FC<TagMappingToolbarProps> = ({
   isDisabled,
   itemsPerPage,
   itemsTotal,
+  onClose,
   onFilterAdded,
   onFilterRemoved,
-  onWizardClose,
   pagination,
   query,
 }) => {
@@ -87,7 +87,7 @@ const TagMappingToolbar: React.FC<TagMappingToolbarProps> = ({
 
   return (
     <BasicToolbar
-      actions={<ParentTagMapping canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />}
+      actions={<ParentTagMapping canWrite={canWrite} isDisabled={isDisabled} onClose={onClose} />}
       categoryOptions={getCategoryOptions()}
       isAllSelected={isAllSelected}
       isDisabled={isDisabled}
