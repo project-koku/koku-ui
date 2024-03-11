@@ -52,7 +52,7 @@
   "dependencies": {
     "@patternfly/patternfly": "^5.2.0",
     "@patternfly/react-charts": "^7.2.2",
-    "@patternfly/react-component-groups": "^5.0.0",
+    "@patternfly/react-component-groups": "^5.1.0",
     "@patternfly/react-core": "^5.2.0",
     "@patternfly/react-icons": "^5.2.0",
     "@patternfly/react-table": "^5.2.0",
@@ -68,7 +68,7 @@
     "date-fns": "^3.3.1",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
-    "qs": "^6.11.2",
+    "qs": "^6.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intl": "^6.6.2",
@@ -95,7 +95,7 @@
     "@types/jest": "^29.5.12",
     "@types/qs": "^6.9.12",
     "@types/react": "^18.2.63",
-    "@types/react-dom": "^18.2.20",
+    "@types/react-dom": "^18.2.21",
     "@types/react-redux": "^7.1.33",
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
@@ -126,7 +126,7 @@
     "rimraf": "^5.0.5",
     "ts-jest": "^29.1.2",
     "ts-patch": "^3.1.2",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.2",
     "webpack-bundle-analyzer": "^4.10.1"
   },
   "overrides": {
