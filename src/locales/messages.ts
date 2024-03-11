@@ -1436,12 +1436,12 @@ export default defineMessages({
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models',
     id: 'docsPlatformProjects',
   },
-  docsTagMappings: {
+  docsTagMapping: {
     defaultMessage:
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index',
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index',
-    id: 'docsTagMappings',
+    id: 'docsTagMapping',
   },
   docsTags: {
     defaultMessage:
@@ -3361,68 +3361,114 @@ export default defineMessages({
     description: 'Tags and labels',
     id: 'tagLabels',
   },
-  tagMappingsDesc: {
+  tagMappingAddChildTags: {
+    defaultMessage: 'Add child tags',
+    description: 'Add child tags',
+    id: 'tagMappingAddChildTags',
+  },
+  tagMappingAddChildTagsDesc: {
+    defaultMessage:
+      'Select additional tag key(s) that will be mapped to the {value} tag map. Tags that have been already mapped will not be available for selection.',
+    description:
+      'Select additional tag key(s) that will be mapped to the {value} tag map. Tags that have been already mapped will not be available for selection.',
+    id: 'tagMappingAddChildTagsDesc',
+  },
+  tagMappingDelete: {
+    defaultMessage: 'Delete tag mapping',
+    description: 'Delete tag mapping',
+    id: 'tagMappingDelete',
+  },
+  tagMappingDeleteDesc: {
+    defaultMessage: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    description: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    id: 'tagMappingDeleteDesc',
+  },
+  tagMappingDesc: {
     defaultMessage:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
     description:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
-    id: 'tagMappingsDesc',
+    id: 'tagMappingDesc',
   },
-  tagMappingsWarning: {
-    defaultMessage: 'You must enable tags to use tag mapping.',
-    description: 'You must enable tags to use tag mapping.',
-    id: 'tagMappingsWarning',
-  },
-  tagMappingsWizardDesc: {
-    defaultMessage:
-      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
-    description:
-      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
-    id: 'tagMappingsWizardDesc',
-  },
-  tagMappingsWizardNavToCreateTagMapping: {
-    defaultMessage: 'Create another tag mapping',
-    description: 'Create another tag mapping',
-    id: 'tagMappingsWizardNavToCreateTagMapping',
-  },
-  tagMappingsWizardNavToTagMappings: {
-    defaultMessage: 'Go back to Cost Management Settings',
-    description: 'Go back to Cost Management Settings',
-    id: 'tagMappingsWizardNavToTagMappings',
-  },
-  tagMappingsWizardReview: {
-    defaultMessage: 'Review details',
-    description: 'Review details',
-    id: 'tagMappingsWizardReview',
-  },
-  tagMappingsWizardReviewDesc: {
-    defaultMessage:
-      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
-    description:
-      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
-    id: 'tagMappingsWizardReviewDesc',
-  },
-  tagMappingsWizardSelectChildTags: {
+  tagMappingSelectChildTags: {
     defaultMessage: 'Select child tags',
     description: 'Select child tags',
-    id: 'tagMappingsWizardSelectChildTags',
+    id: 'tagMappingSelectChildTags',
   },
-  tagMappingsWizardSelectParentTag: {
+  tagMappingSelectChildTagsDesc: {
+    defaultMessage:
+      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+    description:
+      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+    id: 'tagMappingSelectChildTagsDesc',
+  },
+  tagMappingSelectParentTags: {
     defaultMessage: 'Select parent tag',
     description: 'Select parent tag',
-    id: 'tagMappingsWizardSelectParentTag',
+    id: 'tagMappingSelectParentTags',
   },
-  tagMappingsWizardSuccess: {
+  tagMappingSelectParentTagsDesc: {
+    defaultMessage:
+      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+    description:
+      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+    id: 'tagMappingSelectParentTagsDesc',
+  },
+  tagMappingWarning: {
+    defaultMessage: 'You must enable tags to use tag mapping.',
+    description: 'You must enable tags to use tag mapping.',
+    id: 'tagMappingWarning',
+  },
+  tagMappingWizardDesc: {
+    defaultMessage:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
+    description:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
+    id: 'tagMappingWizardDesc',
+  },
+  tagMappingWizardNavToCreateTagMapping: {
+    defaultMessage: 'Create another tag mapping',
+    description: 'Create another tag mapping',
+    id: 'tagMappingWizardNavToCreateTagMapping',
+  },
+  tagMappingWizardNavToTagMapping: {
+    defaultMessage: 'Go back to Cost Management Settings',
+    description: 'Go back to Cost Management Settings',
+    id: 'tagMappingWizardNavToTagMapping',
+  },
+  tagMappingWizardReview: {
+    defaultMessage: 'Review details',
+    description: 'Review details',
+    id: 'tagMappingWizardReview',
+  },
+  tagMappingWizardReviewDesc: {
+    defaultMessage:
+      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
+    description:
+      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
+    id: 'tagMappingWizardReviewDesc',
+  },
+  tagMappingWizardSelectChildTags: {
+    defaultMessage: 'Select child tags',
+    description: 'Select child tags',
+    id: 'tagMappingWizardSelectChildTags',
+  },
+  tagMappingWizardSelectParentTag: {
+    defaultMessage: 'Select parent tag',
+    description: 'Select parent tag',
+    id: 'tagMappingWizardSelectParentTag',
+  },
+  tagMappingWizardSuccess: {
     defaultMessage: 'Tag mapping successful',
     description: 'Tag mapping successful',
-    id: 'tagMappingsWizardSuccess',
+    id: 'tagMappingWizardSuccess',
   },
-  tagMappingsWizardSuccessDesc: {
+  tagMappingWizardSuccessDesc: {
     defaultMessage:
       'Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours.',
     description:
       'Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours.',
-    id: 'tagMappingsWizardSuccessDesc',
+    id: 'tagMappingWizardSuccessDesc',
   },
   tagNames: {
     defaultMessage: 'Tag names',

@@ -1,14 +1,13 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Label } from '@patternfly/react-core';
-import type { Settings, SettingsData } from 'api/settings';
+import type { Settings } from 'api/settings';
+import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
 
-interface CostCategoryTableOwnProps {
-  canWrite?: boolean;
+interface ParentTagsTableOwnProps {
   filterBy?: any;
   isLoading?: boolean;
   onSelect(items: SettingsData[], isSelected: boolean);
@@ -16,12 +15,12 @@ interface CostCategoryTableOwnProps {
   orderBy?: any;
   selectedItems?: SettingsData[];
   settings: Settings;
+  unavailableItems?: SettingsData[];
 }
 
-type CostCategoryTableProps = CostCategoryTableOwnProps;
+type ParentTagsTableProps = ParentTagsTableOwnProps;
 
-const CostCategoryTable: React.FC<CostCategoryTableProps> = ({
-  canWrite,
+const ParentTagsTable: React.FC<ParentTagsTableProps> = ({
   filterBy,
   isLoading,
   onSelect,
@@ -29,6 +28,7 @@ const CostCategoryTable: React.FC<CostCategoryTableProps> = ({
   orderBy,
   selectedItems,
   settings,
+  unavailableItems,
 }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -40,42 +40,41 @@ const CostCategoryTable: React.FC<CostCategoryTableProps> = ({
     }
 
     const newRows = [];
-    const categories = settings?.data ? (settings.data as any) : [];
+    const tags = settings?.data ? (settings.data as any) : [];
 
     const newColumns = [
+      // Sorting with tag keys is not supported
       {
-        name: '', // Selection column
+        name: '',
       },
       {
         orderBy: 'key',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
-        ...(categories.length && { isSortable: true }),
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'tag_key' }),
+        ...(tags.length && { isSortable: true }),
       },
       {
-        orderBy: 'enabled',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'status' }),
-        ...(categories.length && { isSortable: true }),
+        orderBy: 'provider_type', // Todo: Rename as source_type?
+        name: intl.formatMessage(messages.sourceType),
+        ...(tags.length && { isSortable: true }),
       },
     ];
 
-    categories.map(item => {
+    tags.map(item => {
       newRows.push({
         cells: [
-          {}, // Empty cell for row selection
+          {
+            name: '',
+          },
           {
             value: item.key ? item.key : '',
           },
           {
-            value: item.enabled ? (
-              <Label color="green">{intl.formatMessage(messages.enabled)}</Label>
-            ) : (
-              <Label>{intl.formatMessage(messages.disabled)}</Label>
-            ),
+            value: intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() }),
           },
         ],
         item,
-        selected: selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined,
-        selectionDisabled: !canWrite,
+        selected: selectedItems?.find(val => val.uuid === item.uuid) !== undefined,
+        selectionDisabled: unavailableItems?.find(val => val.uuid === item.uuid),
       });
     });
 
@@ -103,9 +102,9 @@ const CostCategoryTable: React.FC<CostCategoryTableProps> = ({
       onSort={onSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems}
+      variant="radio"
     />
   );
 };
 
-export { CostCategoryTable };
+export { ParentTagsTable };

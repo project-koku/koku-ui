@@ -26,7 +26,7 @@ interface TagsOwnProps {
   canWrite?: boolean;
 }
 
-export interface TagsMapProps {
+interface TagsMapProps {
   query?: Query;
 }
 

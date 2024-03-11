@@ -17,27 +17,28 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
-import { ParentTagsTable } from './parentTagsTable';
-import { styles } from './parentTagsTable.styles';
-import { ParentTagsToolbar } from './parentTagsToolbar';
+import { ChildTagsTable } from './childTagsTable';
+import { styles } from './childTagsTable.styles';
+import { ChildTagsToolbar } from './childTagsToolbar';
 
-interface ParentTagsOwnProps {
+interface ChildTagsOwnProps {
+  onBulkSelect(items: SettingsData[]);
   onSelect(items: SettingsData[], isSelected: boolean);
   selectedItems?: SettingsData[];
 }
 
-export interface ParentTagsMapProps {
+interface ChildTagsMapProps {
   query?: Query;
 }
 
-export interface ParentTagsStateProps {
+interface ChildTagsStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
   settingsQueryString?: string;
 }
 
-type ParentTagsProps = ParentTagsOwnProps;
+type ChildTagsProps = ChildTagsOwnProps;
 
 const baseQuery: Query = {
   limit: 10,
@@ -48,9 +49,10 @@ const baseQuery: Query = {
   },
 };
 
-const ParentTags: React.FC<ParentTagsProps> = ({ onSelect, selectedItems }: ParentTagsProps) => {
+const ChildTags: React.FC<ChildTagsProps> = ({ onBulkSelect, onSelect, selectedItems }: ChildTagsProps) => {
   const [query, setQuery] = useState({ ...baseQuery });
   const { settings, settingsError, settingsStatus } = useMapToProps({ query });
+
   const intl = useIntl();
 
   const getMappings = () => {
@@ -89,7 +91,7 @@ const ParentTags: React.FC<ParentTagsProps> = ({ onSelect, selectedItems }: Pare
 
   const getTable = () => {
     return (
-      <ParentTagsTable
+      <ChildTagsTable
         filterBy={query.filter_by}
         isLoading={settingsStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
@@ -105,10 +107,11 @@ const ParentTags: React.FC<ParentTagsProps> = ({ onSelect, selectedItems }: Pare
     const itemsTotal = settings?.meta ? settings.meta.count : 0;
 
     return (
-      <ParentTagsToolbar
+      <ChildTagsToolbar
         isDisabled={mappings.length === 0}
         itemsPerPage={mappings.length}
         itemsTotal={itemsTotal}
+        onBulkSelect={handleOnBulkSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination(isDisabled)}
@@ -116,6 +119,20 @@ const ParentTags: React.FC<ParentTagsProps> = ({ onSelect, selectedItems }: Pare
         query={query}
       />
     );
+  };
+
+  const handleOnBulkSelect = (action: string) => {
+    if (action === 'none') {
+      onBulkSelect([]);
+    } else if (action === 'page') {
+      const newSelectedItems = [...selectedItems];
+      getMappings().map(val => {
+        if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
+          newSelectedItems.push(val);
+        }
+      });
+      onBulkSelect(newSelectedItems);
+    }
   };
 
   const handleOnFilterAdded = filter => {
@@ -168,7 +185,7 @@ const ParentTags: React.FC<ParentTagsProps> = ({ onSelect, selectedItems }: Pare
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ query }: ParentTagsMapProps): ParentTagsStateProps => {
+const useMapToProps = ({ query }: ChildTagsMapProps): ChildTagsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const settingsQuery = {
@@ -179,18 +196,18 @@ const useMapToProps = ({ query }: ParentTagsMapProps): ParentTagsStateProps => {
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
-    settingsSelectors.selectSettings(state, SettingsType.tagsMappingsParent, settingsQueryString)
+    settingsSelectors.selectSettings(state, SettingsType.tagsMappingsChild, settingsQueryString)
   );
   const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.tagsMappingsParent, settingsQueryString)
+    settingsSelectors.selectSettingsStatus(state, SettingsType.tagsMappingsChild, settingsQueryString)
   );
   const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.tagsMappingsParent, settingsQueryString)
+    settingsSelectors.selectSettingsError(state, SettingsType.tagsMappingsChild, settingsQueryString)
   );
 
   useEffect(() => {
     if (!settingsError && settingsStatus !== FetchStatus.inProgress) {
-      dispatch(settingsActions.fetchSettings(SettingsType.tagsMappingsParent, settingsQueryString));
+      dispatch(settingsActions.fetchSettings(SettingsType.tagsMappingsChild, settingsQueryString));
     }
   }, [query]);
 
@@ -202,4 +219,4 @@ const useMapToProps = ({ query }: ParentTagsMapProps): ParentTagsStateProps => {
   };
 };
 
-export default ParentTags;
+export default ChildTags;

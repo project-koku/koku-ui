@@ -17,56 +17,43 @@ import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { parseApiError } from 'routes/settings/tagLabels/tagMapping/utils/parseApiError';
 import { FetchStatus } from 'store/common';
 
-import { styles } from './tagMappingsWizard.styles';
+import { styles } from './tagMappingWizard.styles';
 
-interface tagMappingsWizardReviewOwnProps {
+interface TagMappingWizardReviewOwnProps {
   childTags?: SettingsData[];
   parentTags?: SettingsData[];
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
 }
 
-type tagMappingsWizardReviewProps = tagMappingsWizardReviewOwnProps;
+type TagMappingWizardReviewProps = TagMappingWizardReviewOwnProps;
 
-const TagMappingsWizardReview: React.FC<tagMappingsWizardReviewProps> = ({
+const TagMappingWizardReview: React.FC<TagMappingWizardReviewProps> = ({
   childTags = [],
   parentTags = [],
   settingsError,
   settingsStatus,
-}: tagMappingsWizardReviewProps) => {
+}: TagMappingWizardReviewProps) => {
   const intl = useIntl();
-
-  const parseApiError = error => {
-    if (error.response && error.response.data) {
-      if (error.response.data.Error) {
-        return error.response.data.Error;
-      }
-      if (error.response.data.errors) {
-        return error.response.data.errors.map(er => `${er.source}: ${er.detail}`).join(', ');
-      }
-    } else if (error.message) {
-      return error.message;
-    }
-    return 'unknown';
-  };
 
   return (
     <>
-      {settingsStatus !== FetchStatus.inProgress && settingsError && (
+      {settingsStatus === FetchStatus.complete && settingsError && (
         <Alert style={styles.alert} title={settingsError ? parseApiError(settingsError) : undefined} variant="danger" />
       )}
       <Stack hasGutter>
         <StackItem>
           <Title headingLevel="h2" size={TitleSizes.xl}>
-            {intl.formatMessage(messages.tagMappingsWizardReview)}
+            {intl.formatMessage(messages.tagMappingWizardReview)}
           </Title>
         </StackItem>
         <StackItem>
-          <TextContent>
+          <TextContent style={styles.reviewDescContainer}>
             <Text>
-              {intl.formatMessage(messages.tagMappingsWizardReviewDesc, {
+              {intl.formatMessage(messages.tagMappingWizardReviewDesc, {
                 create: <strong>{intl.formatMessage(messages.create)}</strong>,
                 back: <strong>{intl.formatMessage(messages.back)}</strong>,
               })}
@@ -123,4 +110,4 @@ const TagMappingsWizardReview: React.FC<tagMappingsWizardReviewProps> = ({
   );
 };
 
-export { TagMappingsWizardReview };
+export { TagMappingWizardReview };

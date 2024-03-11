@@ -14,25 +14,22 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { styles } from './tagMappingsWizard.styles';
+import { styles } from './tagMappingWizard.styles';
 
-interface TagMappingsEmptyStateOwnProps {
+interface TagMappingEmptyStateOwnProps {
   onClose(event);
   onReset(event);
 }
 
-type TagMappingsEmptyStateProps = TagMappingsEmptyStateOwnProps;
+type TagMappingEmptyStateProps = TagMappingEmptyStateOwnProps;
 
-const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
-  onClose,
-  onReset,
-}: TagMappingsEmptyStateProps) => {
+const TagMappingEmptyState: React.FC<TagMappingEmptyStateProps> = ({ onClose, onReset }: TagMappingEmptyStateProps) => {
   const intl = useIntl();
 
   return (
     <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
       <EmptyStateHeader
-        titleText={intl.formatMessage(messages.tagMappingsWizardSuccess)}
+        titleText={intl.formatMessage(messages.tagMappingWizardSuccess)}
         icon={
           <Icon status="success" style={styles.icon}>
             <EmptyStateIcon icon={CheckCircleIcon} />
@@ -41,9 +38,9 @@ const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
         headingLevel="h5"
       />
       <EmptyStateBody>
-        {intl.formatMessage(messages.tagMappingsWizardSuccessDesc, {
+        {intl.formatMessage(messages.tagMappingWizardSuccessDesc, {
           learnMore: (
-            <a href={intl.formatMessage(messages.docsTagMappings)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsTagMapping)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
@@ -53,12 +50,12 @@ const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
       <EmptyStateFooter>
         <div>
           <Button onClick={onClose} variant={ButtonVariant.primary}>
-            {intl.formatMessage(messages.tagMappingsWizardNavToTagMappings)}
+            {intl.formatMessage(messages.tagMappingWizardNavToTagMapping)}
           </Button>
         </div>
         <div>
           <Button onClick={onReset} variant={ButtonVariant.link}>
-            {intl.formatMessage(messages.tagMappingsWizardNavToCreateTagMapping)}
+            {intl.formatMessage(messages.tagMappingWizardNavToCreateTagMapping)}
           </Button>
         </div>
       </EmptyStateFooter>
@@ -66,4 +63,4 @@ const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
   );
 };
 
-export { TagMappingsEmptyState };
+export { TagMappingEmptyState };

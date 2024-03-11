@@ -3,13 +3,10 @@ import type { Query } from 'api/queries/query';
 import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { Filter } from 'routes/utils/filter';
-import { createMapStateToProps } from 'store/common';
 
 import { styles } from './tags.styles';
 
@@ -34,46 +31,34 @@ interface TagsToolbarOwnProps {
   showBulkSelectAll?: boolean;
 }
 
-interface TagsToolbarStateProps {
-  // TBD...
-}
+type TagsToolbarProps = TagsToolbarOwnProps;
 
-interface TagsToolbarDispatchProps {
-  // TBD...
-}
+const TagsToolbar: React.FC<TagsToolbarProps> = ({
+  canWrite,
+  enabledTagsCount = 0,
+  enabledTagsLimit = 0,
+  isAllSelected,
+  isDisabled,
+  isPrimaryActionDisabled,
+  isSecondaryActionDisabled,
+  itemsPerPage,
+  itemsTotal,
+  onBulkSelect,
+  onDisableTags,
+  onEnableTags,
+  onFilterAdded,
+  onFilterRemoved,
+  pagination,
+  query,
+  selectedItems,
+  showBulkSelectAll,
+}) => {
+  const intl = useIntl();
 
-interface TagsToolbarState {
-  categoryOptions?: ToolbarChipGroupExt[];
-}
-
-type TagsToolbarProps = TagsToolbarOwnProps & TagsToolbarStateProps & TagsToolbarDispatchProps & WrappedComponentProps;
-
-export class TagsToolbarBase extends React.Component<TagsToolbarProps, TagsToolbarState> {
-  protected defaultState: TagsToolbarState = {};
-  public state: TagsToolbarState = { ...this.defaultState };
-
-  public componentDidMount() {
-    this.setState({
-      categoryOptions: this.getCategoryOptions(),
-    });
-  }
-
-  private getActions = () => {
-    const {
-      canWrite,
-      enabledTagsCount = 0,
-      enabledTagsLimit = 0,
-      intl,
-      isPrimaryActionDisabled,
-      isSecondaryActionDisabled,
-      onDisableTags,
-      onEnableTags,
-      selectedItems,
-    } = this.props;
-
+  const getActions = () => {
     const disabledItems = selectedItems.filter((item: any) => !item.enabled);
     const isLimit = disabledItems.length + enabledTagsCount > enabledTagsLimit;
-    const isDisabled = !canWrite || selectedItems.length === 0;
+    const isAriaDisabled = !canWrite || isDisabled || selectedItems.length === 0;
     const enableTagsTooltip = intl.formatMessage(
       !canWrite ? messages.readOnlyPermissions : isLimit ? messages.deselectTags : messages.selectTags,
       { count: enabledTagsLimit }
@@ -84,7 +69,7 @@ export class TagsToolbarBase extends React.Component<TagsToolbarProps, TagsToolb
       <>
         <Tooltip content={enableTagsTooltip}>
           <Button
-            isAriaDisabled={isDisabled || isPrimaryActionDisabled || isLimit}
+            isAriaDisabled={isAriaDisabled || isPrimaryActionDisabled || isLimit}
             key="save"
             onClick={onEnableTags}
             variant={ButtonVariant.primary}
@@ -94,7 +79,7 @@ export class TagsToolbarBase extends React.Component<TagsToolbarProps, TagsToolb
         </Tooltip>
         <Tooltip content={disableTagsTooltip}>
           <Button
-            isAriaDisabled={isDisabled || isSecondaryActionDisabled}
+            isAriaDisabled={isAriaDisabled || isSecondaryActionDisabled}
             key="reset"
             onClick={onDisableTags}
             style={styles.action}
@@ -107,9 +92,7 @@ export class TagsToolbarBase extends React.Component<TagsToolbarProps, TagsToolb
     );
   };
 
-  private getCategoryOptions = (): ToolbarChipGroupExt[] => {
-    const { intl } = this.props;
-
+  const getCategoryOptions = (): ToolbarChipGroupExt[] => {
     const options = [
       {
         ariaLabelKey: 'name',
@@ -168,59 +151,26 @@ export class TagsToolbarBase extends React.Component<TagsToolbarProps, TagsToolb
     return options;
   };
 
-  public render() {
-    const {
-      canWrite,
-      isAllSelected,
-      isDisabled,
-      itemsPerPage,
-      itemsTotal,
-      onBulkSelect,
-      onFilterAdded,
-      onFilterRemoved,
-      pagination,
-      query,
-      selectedItems,
-      showBulkSelectAll,
-    } = this.props;
-    const { categoryOptions } = this.state;
-
-    return (
-      <BasicToolbar
-        actions={this.getActions()}
-        categoryOptions={categoryOptions}
-        isAllSelected={isAllSelected}
-        isDisabled={isDisabled}
-        isReadOnly={!canWrite}
-        itemsPerPage={itemsPerPage}
-        itemsTotal={itemsTotal}
-        onBulkSelect={onBulkSelect}
-        onFilterAdded={onFilterAdded}
-        onFilterRemoved={onFilterRemoved}
-        pagination={pagination}
-        query={query}
-        selectedItems={selectedItems}
-        showBulkSelect
-        showFilter
-        showBulkSelectAll={showBulkSelectAll}
-      />
-    );
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<TagsToolbarOwnProps, TagsToolbarStateProps>((state, props) => {
-  return {
-    // TBD...
-  };
-});
-
-const mapDispatchToProps: TagsToolbarDispatchProps = {
-  // TBD...
+  return (
+    <BasicToolbar
+      actions={getActions()}
+      categoryOptions={getCategoryOptions()}
+      isAllSelected={isAllSelected}
+      isDisabled={isDisabled}
+      isReadOnly={!canWrite}
+      itemsPerPage={itemsPerPage}
+      itemsTotal={itemsTotal}
+      onBulkSelect={onBulkSelect}
+      onFilterAdded={onFilterAdded}
+      onFilterRemoved={onFilterRemoved}
+      pagination={pagination}
+      query={query}
+      selectedItems={selectedItems}
+      showBulkSelect
+      showFilter
+      showBulkSelectAll={showBulkSelectAll}
+    />
+  );
 };
 
-const TagsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(TagsToolbarBase);
-const TagsToolbar = injectIntl(TagsToolbarConnect);
-
 export { TagsToolbar };
-export type { TagsToolbarProps };
