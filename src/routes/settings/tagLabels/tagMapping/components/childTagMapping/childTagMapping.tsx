@@ -15,23 +15,23 @@ import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
 import { ChildTags } from '../childTags';
-import { styles } from './tagMappingModal.styles';
+import { styles } from './childTagMapping.styles';
 
-interface TagMappingModalOwnProps {
+interface ChildTagMappingOwnProps {
   isOpen?: boolean;
   item: SettingsData;
   onClose();
   onUpdate();
 }
 
-interface TagMappingModalStateProps {
+interface ChildTagMappingStateProps {
   settingsUpdateError?: AxiosError;
   settingsUpdateStatus?: FetchStatus;
 }
 
-type TagMappingModalProps = TagMappingModalOwnProps;
+type ChildTagMappingProps = ChildTagMappingOwnProps;
 
-const TagMappingModal: React.FC<TagMappingModalProps> = ({ isOpen, item: parent, onClose, onUpdate }) => {
+const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent, onClose, onUpdate }) => {
   const [childTags, setChildTags] = useState([]);
   const [isFinish, setIsFinish] = useState(false);
   const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
@@ -107,7 +107,7 @@ const TagMappingModal: React.FC<TagMappingModalProps> = ({ isOpen, item: parent,
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = (): TagMappingModalStateProps => {
+const useMapToProps = (): ChildTagMappingStateProps => {
   const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
   );
@@ -121,4 +121,4 @@ const useMapToProps = (): TagMappingModalStateProps => {
   };
 };
 
-export default TagMappingModal;
+export default ChildTagMapping;

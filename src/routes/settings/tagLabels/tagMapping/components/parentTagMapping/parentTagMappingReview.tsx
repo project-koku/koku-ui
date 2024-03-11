@@ -20,23 +20,23 @@ import { useIntl } from 'react-intl';
 import { parseApiError } from 'routes/settings/tagLabels/tagMapping/utils/parseApiError';
 import { FetchStatus } from 'store/common';
 
-import { styles } from './tagMappingWizard.styles';
+import { styles } from './parentTagMapping.styles';
 
-interface TagMappingWizardReviewOwnProps {
+interface ParentTagMappingReviewOwnProps {
   childTags?: SettingsData[];
   parentTags?: SettingsData[];
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
 }
 
-type TagMappingWizardReviewProps = TagMappingWizardReviewOwnProps;
+type ParentTagMappingReviewProps = ParentTagMappingReviewOwnProps;
 
-const TagMappingWizardReview: React.FC<TagMappingWizardReviewProps> = ({
+const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
   childTags = [],
   parentTags = [],
   settingsError,
   settingsStatus,
-}: TagMappingWizardReviewProps) => {
+}: ParentTagMappingReviewProps) => {
   const intl = useIntl();
 
   return (
@@ -110,4 +110,4 @@ const TagMappingWizardReview: React.FC<TagMappingWizardReviewProps> = ({
   );
 };
 
-export { TagMappingWizardReview };
+export { ParentTagMappingReview };

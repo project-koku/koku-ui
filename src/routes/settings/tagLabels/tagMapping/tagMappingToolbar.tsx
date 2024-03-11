@@ -4,7 +4,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import { TagMappingWizard } from 'routes/settings/tagLabels/tagMapping/components/tagMappingWizard';
+import { ParentTagMapping } from 'routes/settings/tagLabels/tagMapping/components/parentTagMapping';
 import type { Filter } from 'routes/utils/filter';
 
 interface TagMappingToolbarOwnProps {
@@ -87,7 +87,7 @@ const TagMappingToolbar: React.FC<TagMappingToolbarProps> = ({
 
   return (
     <BasicToolbar
-      actions={<TagMappingWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />}
+      actions={<ParentTagMapping canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />}
       categoryOptions={getCategoryOptions()}
       isAllSelected={isAllSelected}
       isDisabled={isDisabled}

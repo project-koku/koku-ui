@@ -24,28 +24,28 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
-import { styles } from './tagMappingWizard.styles';
-import { TagMappingEmptyState } from './tagMappingWizardEmptyState';
-import { TagMappingWizardReview } from './tagMappingWizardReview';
+import { styles } from './parentTagMapping.styles';
+import { ParentTagMappingEmptyState } from './parentTagMappingEmptyState';
+import { ParentTagMappingReview } from './parentTagMappingReview';
 
-interface TagMappingWizardOwnProps {
+interface ParentTagMappingOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   onClose();
 }
 
-interface TagMappingWizardStateProps {
+interface ParentTagMappingStateProps {
   settingsUpdateError?: AxiosError;
   settingsUpdateStatus?: FetchStatus;
 }
 
-type TagMappingWizardProps = TagMappingWizardOwnProps;
+type ParentTagMappingProps = ParentTagMappingOwnProps;
 
-const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
+const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
   canWrite,
   isDisabled,
   onClose,
-}: TagMappingWizardProps) => {
+}: ParentTagMappingProps) => {
   const [childTags, setChildTags] = useState([]);
   const [isFinish, setIsFinish] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +82,7 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
             title={intl.formatMessage(messages.createTagMapping)}
           />
           <div style={styles.emptyState}>
-            <TagMappingEmptyState onClose={handleOnClose} onReset={handleOnReset} />
+            <ParentTagMappingEmptyState onClose={handleOnClose} onReset={handleOnReset} />
           </div>
         </div>
       </Modal>
@@ -161,7 +161,7 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
             isDisabled={childTags.length === 0}
             name={intl.formatMessage(messages.tagMappingWizardReview)}
           >
-            <TagMappingWizardReview
+            <ParentTagMappingReview
               childTags={childTags}
               parentTags={parentTags}
               settingsError={settingsUpdateError}
@@ -259,7 +259,7 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
   );
 };
 
-const useMapToProps = (): TagMappingWizardStateProps => {
+const useMapToProps = (): ParentTagMappingStateProps => {
   const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
   );
@@ -273,4 +273,4 @@ const useMapToProps = (): TagMappingWizardStateProps => {
   };
 };
 
-export default TagMappingWizard;
+export default ParentTagMapping;
