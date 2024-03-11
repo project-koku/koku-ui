@@ -11,21 +11,21 @@ import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circ
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { TagMappingsWizard } from 'routes/settings/tagLabels/tagMappings/tagMappingsWizard';
+import { TagMappingWizard } from 'routes/settings/tagLabels/tagMapping/components/tagMappingWizard';
 
-interface TagMappingsEmptyStateOwnProps {
+interface TagMappingEmptyStateOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   onWizardClose();
 }
 
-type TagMappingsEmptyStateProps = TagMappingsEmptyStateOwnProps;
+type TagMappingEmptyStateProps = TagMappingEmptyStateOwnProps;
 
-const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
+const TagMappingEmptyState: React.FC<TagMappingEmptyStateProps> = ({
   canWrite,
   isDisabled,
   onWizardClose,
-}: TagMappingsEmptyStateOwnProps) => {
+}: TagMappingEmptyStateOwnProps) => {
   const intl = useIntl();
 
   return (
@@ -38,7 +38,7 @@ const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
       <EmptyStateBody>
         {intl.formatMessage(messages.noMappedTagsDesc, {
           learnMore: (
-            <a href={intl.formatMessage(messages.docsTagMappings)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsTagMapping)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
@@ -47,11 +47,11 @@ const TagMappingsEmptyState: React.FC<TagMappingsEmptyStateProps> = ({
       </EmptyStateBody>
       <EmptyStateFooter>
         <EmptyStateActions>
-          <TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />
+          <TagMappingWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />
         </EmptyStateActions>
       </EmptyStateFooter>
     </EmptyState>
   );
 };
 
-export { TagMappingsEmptyState };
+export { TagMappingEmptyState };

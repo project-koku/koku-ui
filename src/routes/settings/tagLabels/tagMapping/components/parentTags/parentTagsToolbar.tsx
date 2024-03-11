@@ -11,6 +11,7 @@ interface ParentTagsToolbarOwnProps {
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
+  onBulkSelect(action: string);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
@@ -24,6 +25,7 @@ const ParentTagsToolbar: React.FC<ParentTagsToolbarProps> = ({
   isDisabled,
   itemsPerPage,
   itemsTotal,
+  onBulkSelect,
   onFilterAdded,
   onFilterRemoved,
   pagination,
@@ -81,12 +83,16 @@ const ParentTagsToolbar: React.FC<ParentTagsToolbarProps> = ({
       isDisabled={isDisabled}
       itemsPerPage={itemsPerPage}
       itemsTotal={itemsTotal}
+      onBulkSelect={onBulkSelect}
       onFilterAdded={onFilterAdded}
       onFilterRemoved={onFilterRemoved}
       pagination={pagination}
       query={query}
       selectedItems={selectedItems}
+      showBulkSelect
       showFilter
+      showBulkSelectAll={false}
+      showBulkSelectPage={false}
     />
   );
 };

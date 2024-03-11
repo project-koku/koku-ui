@@ -4,9 +4,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import { TagMappingsWizard } from 'routes/settings/tagLabels/tagMappings/tagMappingsWizard';
+import { TagMappingWizard } from 'routes/settings/tagLabels/tagMapping/components/tagMappingWizard';
 import type { Filter } from 'routes/utils/filter';
-interface TagMappingsToolbarOwnProps {
+
+interface TagMappingToolbarOwnProps {
   canWrite?: boolean;
   isAllSelected?: boolean;
   isDisabled?: boolean;
@@ -19,9 +20,9 @@ interface TagMappingsToolbarOwnProps {
   query?: Query;
 }
 
-type TagMappingsToolbarProps = TagMappingsToolbarOwnProps;
+type TagMappingToolbarProps = TagMappingToolbarOwnProps;
 
-const TagMappingsToolbar: React.FC<TagMappingsToolbarProps> = ({
+const TagMappingToolbar: React.FC<TagMappingToolbarProps> = ({
   canWrite,
   isAllSelected,
   isDisabled,
@@ -86,7 +87,7 @@ const TagMappingsToolbar: React.FC<TagMappingsToolbarProps> = ({
 
   return (
     <BasicToolbar
-      actions={<TagMappingsWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />}
+      actions={<TagMappingWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />}
       categoryOptions={getCategoryOptions()}
       isAllSelected={isAllSelected}
       isDisabled={isDisabled}
@@ -102,4 +103,4 @@ const TagMappingsToolbar: React.FC<TagMappingsToolbarProps> = ({
   );
 };
 
-export { TagMappingsToolbar };
+export { TagMappingToolbar };

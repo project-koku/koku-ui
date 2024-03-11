@@ -19,23 +19,23 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { FetchStatus } from 'store/common';
 
-import { styles } from './tagMappingsWizard.styles';
+import { styles } from './tagMappingWizard.styles';
 
-interface tagMappingsWizardReviewOwnProps {
+interface TagMappingWizardReviewOwnProps {
   childTags?: SettingsData[];
   parentTags?: SettingsData[];
   settingsError?: AxiosError;
   settingsStatus?: FetchStatus;
 }
 
-type tagMappingsWizardReviewProps = tagMappingsWizardReviewOwnProps;
+type TagMappingWizardReviewProps = TagMappingWizardReviewOwnProps;
 
-const TagMappingsWizardReview: React.FC<tagMappingsWizardReviewProps> = ({
+const TagMappingWizardReview: React.FC<TagMappingWizardReviewProps> = ({
   childTags = [],
   parentTags = [],
   settingsError,
   settingsStatus,
-}: tagMappingsWizardReviewProps) => {
+}: TagMappingWizardReviewProps) => {
   const intl = useIntl();
 
   const parseApiError = error => {
@@ -54,19 +54,19 @@ const TagMappingsWizardReview: React.FC<tagMappingsWizardReviewProps> = ({
 
   return (
     <>
-      {settingsStatus !== FetchStatus.inProgress && settingsError && (
+      {settingsStatus === FetchStatus.complete && settingsError && (
         <Alert style={styles.alert} title={settingsError ? parseApiError(settingsError) : undefined} variant="danger" />
       )}
       <Stack hasGutter>
         <StackItem>
           <Title headingLevel="h2" size={TitleSizes.xl}>
-            {intl.formatMessage(messages.tagMappingsWizardReview)}
+            {intl.formatMessage(messages.tagMappingWizardReview)}
           </Title>
         </StackItem>
         <StackItem>
           <TextContent>
             <Text>
-              {intl.formatMessage(messages.tagMappingsWizardReviewDesc, {
+              {intl.formatMessage(messages.tagMappingWizardReviewDesc, {
                 create: <strong>{intl.formatMessage(messages.create)}</strong>,
                 back: <strong>{intl.formatMessage(messages.back)}</strong>,
               })}
@@ -123,4 +123,4 @@ const TagMappingsWizardReview: React.FC<tagMappingsWizardReviewProps> = ({
   );
 };
 
-export { TagMappingsWizardReview };
+export { TagMappingWizardReview };

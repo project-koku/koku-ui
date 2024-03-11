@@ -15,6 +15,7 @@ interface ParentTagsTableOwnProps {
   orderBy?: any;
   selectedItems?: SettingsData[];
   settings: Settings;
+  unavailableItems?: SettingsData[];
 }
 
 type ParentTagsTableProps = ParentTagsTableOwnProps;
@@ -27,6 +28,7 @@ const ParentTagsTable: React.FC<ParentTagsTableProps> = ({
   orderBy,
   selectedItems,
   settings,
+  unavailableItems,
 }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -71,7 +73,8 @@ const ParentTagsTable: React.FC<ParentTagsTableProps> = ({
           },
         ],
         item,
-        selected: selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined,
+        selected: selectedItems?.find(val => val.uuid === item.uuid) !== undefined,
+        selectionDisabled: unavailableItems?.find(val => val.uuid === item.uuid),
       });
     });
 

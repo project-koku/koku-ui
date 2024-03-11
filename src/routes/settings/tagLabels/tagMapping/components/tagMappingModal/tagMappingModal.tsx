@@ -4,17 +4,17 @@ import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ChildTags } from 'routes/settings/tagLabels/tagMappings/components/childTags';
+import { ChildTags } from 'routes/settings/tagLabels/tagMapping/components/childTags';
 import { useStateCallback } from 'utils/hooks';
 
-interface tagMappingsModalOwnProps {
+interface TagMappingModalOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
 }
 
-type tagMappingsModalProps = tagMappingsModalOwnProps;
+type TagMappingModalProps = TagMappingModalOwnProps;
 
-const TagMappingsModal: React.FC<tagMappingsModalProps> = ({ canWrite, isDisabled }: tagMappingsModalProps) => {
+const TagMappingModal: React.FC<TagMappingModalProps> = ({ canWrite, isDisabled }: TagMappingModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useStateCallback([]);
 
@@ -82,4 +82,4 @@ const TagMappingsModal: React.FC<tagMappingsModalProps> = ({ canWrite, isDisable
   );
 };
 
-export default TagMappingsModal;
+export default TagMappingModal;

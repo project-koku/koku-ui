@@ -5,11 +5,12 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ExpandableTable } from 'routes/components/dataTable';
+import { ActionsKebab } from 'routes/settings/tagLabels/tagMapping/components/actionsKebab';
+import { DeleteAction } from 'routes/settings/tagLabels/tagMapping/components/deleteModal';
 
-import DeleteModal from './components/deleteModal/deleteModal';
-import { styles } from './tagMappings.styles';
+import { styles } from './tagMapping.styles';
 
-interface TagMappingsTableOwnProps {
+interface TagMappingTableOwnProps {
   canWrite?: boolean;
   filterBy?: any;
   isDisabled?: boolean;
@@ -20,9 +21,9 @@ interface TagMappingsTableOwnProps {
   settings: Settings;
 }
 
-type TagMappingsTableProps = TagMappingsTableOwnProps;
+type TagMappingTableProps = TagMappingTableOwnProps;
 
-const TagMappingsTable: React.FC<TagMappingsTableProps> = ({
+const TagMappingTable: React.FC<TagMappingTableProps> = ({
   canWrite,
   filterBy,
   isDisabled,
@@ -43,7 +44,7 @@ const TagMappingsTable: React.FC<TagMappingsTableProps> = ({
     }
 
     const newRows = [];
-    const tagMappings = settings?.data ? (settings.data as any) : [];
+    const tagMapping = settings?.data ? (settings.data as any) : [];
 
     const newColumns = [
       {
@@ -52,19 +53,19 @@ const TagMappingsTable: React.FC<TagMappingsTableProps> = ({
       {
         orderBy: 'parent',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'tag_key' }),
-        ...(tagMappings.length && { isSortable: true }),
+        ...(tagMapping.length && { isSortable: true }),
       },
       {
         orderBy: 'source_type',
         name: intl.formatMessage(messages.sourceType),
-        ...(tagMappings.length && { isSortable: true }),
+        ...(tagMapping.length && { isSortable: true }),
       },
       {
         name: '',
       },
     ];
 
-    tagMappings.map(item => {
+    tagMapping.map(item => {
       const parent = item.parent;
       newRows.push({
         cells: [
@@ -76,7 +77,7 @@ const TagMappingsTable: React.FC<TagMappingsTableProps> = ({
             value: intl.formatMessage(messages.sourceTypes, { value: parent?.source_type?.toLowerCase() }),
           },
           {
-            value: 'Test...',
+            value: <ActionsKebab canWrite={canWrite} isDisabled={isDisabled} item={parent} onDelete={onDelete} />,
           },
         ],
         children: parent.children.map(child => {
@@ -92,7 +93,7 @@ const TagMappingsTable: React.FC<TagMappingsTableProps> = ({
                 style: styles.expandableRowContent,
               },
               {
-                value: <DeleteModal canWrite={canWrite} isDisabled={isDisabled} item={child} onDelete={onDelete} />,
+                value: <DeleteAction canWrite={canWrite} isDisabled={isDisabled} item={child} onDelete={onDelete} />,
               },
             ],
             item: child,
@@ -130,4 +131,4 @@ const TagMappingsTable: React.FC<TagMappingsTableProps> = ({
   );
 };
 
-export { TagMappingsTable };
+export { TagMappingTable };

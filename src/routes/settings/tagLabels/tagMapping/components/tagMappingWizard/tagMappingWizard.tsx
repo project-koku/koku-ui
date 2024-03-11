@@ -9,34 +9,34 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { ChildTags } from 'routes/settings/tagLabels/tagMappings/components/childTags';
-import { ParentTags } from 'routes/settings/tagLabels/tagMappings/components/parentTags';
+import { ChildTags } from 'routes/settings/tagLabels/tagMapping/components/childTags';
+import { ParentTags } from 'routes/settings/tagLabels/tagMapping/components/parentTags';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
-import { styles } from './tagMappingsWizard.styles';
-import { TagMappingsEmptyState } from './tagMappingsWizardEmptyState';
-import { TagMappingsWizardReview } from './tagMappingsWizardReview';
+import { styles } from './tagMappingWizard.styles';
+import { TagMappingEmptyState } from './tagMappingWizardEmptyState';
+import { TagMappingWizardReview } from './tagMappingWizardReview';
 
-interface TagMappingsWizardOwnProps {
+interface TagMappingWizardOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   onClose();
 }
 
-interface TagMappingsWizardStateProps {
+interface TagMappingWizardStateProps {
   settingsUpdateError?: AxiosError;
   settingsUpdateStatus?: FetchStatus;
 }
 
-type TagMappingsWizardProps = TagMappingsWizardOwnProps;
+type TagMappingWizardProps = TagMappingWizardOwnProps;
 
-const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
+const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
   canWrite,
   isDisabled,
   onClose,
-}: TagMappingsWizardProps) => {
+}: TagMappingWizardProps) => {
   const [childTags, setChildTags] = useState([]);
   const [isFinished, setIsFinished] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -68,12 +68,12 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
       <Modal className="costManagement" isOpen={isOpen} variant={ModalVariant.medium}>
         <div className="pf-v5-c-wizard">
           <WizardHeader
-            description={intl.formatMessage(messages.tagMappingsWizardDesc)}
+            description={intl.formatMessage(messages.tagMappingWizardDesc)}
             onClose={handleOnClose}
             title={intl.formatMessage(messages.createTagMapping)}
           />
           <div style={styles.emptyState}>
-            <TagMappingsEmptyState onClose={handleOnClose} onReset={handleOnReset} />
+            <TagMappingEmptyState onClose={handleOnClose} onReset={handleOnReset} />
           </div>
         </div>
       </Modal>
@@ -89,7 +89,7 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
         <Wizard
           header={
             <WizardHeader
-              description={intl.formatMessage(messages.tagMappingsWizardDesc)}
+              description={intl.formatMessage(messages.tagMappingWizardDesc)}
               onClose={handleOnClose}
               title={intl.formatMessage(messages.createTagMapping)}
             />
@@ -102,9 +102,13 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
               isNextDisabled: childTags.length === 0,
             }}
             id="step-1"
-            name={intl.formatMessage(messages.tagMappingsWizardSelectChildTags)}
+            name={intl.formatMessage(messages.tagMappingWizardSelectChildTags)}
           >
-            <ChildTags onBulkSelect={handleOnBulkSelect} onSelect={handleOnSelectChild} selectedItems={childTags} />
+            <ChildTags
+              onBulkSelect={handleOnBulkSelectChild}
+              onSelect={handleOnSelectChild}
+              selectedItems={childTags}
+            />
           </WizardStep>
           <WizardStep
             footer={{
@@ -112,9 +116,14 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
             }}
             id="step-2"
             isDisabled={childTags.length === 0}
-            name={intl.formatMessage(messages.tagMappingsWizardSelectParentTag)}
+            name={intl.formatMessage(messages.tagMappingWizardSelectParentTag)}
           >
-            <ParentTags onSelect={handleOnSelectParent} selectedItems={parentTags} />
+            <ParentTags
+              onBulkSelect={handleOnBulkSelectParent}
+              onSelect={handleOnSelectParent}
+              selectedItems={parentTags}
+              unavailableItems={childTags}
+            />
           </WizardStep>
           <WizardStep
             footer={{
@@ -123,9 +132,9 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
             }}
             id="step-3"
             isDisabled={childTags.length === 0}
-            name={intl.formatMessage(messages.tagMappingsWizardReview)}
+            name={intl.formatMessage(messages.tagMappingWizardReview)}
           >
-            <TagMappingsWizardReview
+            <TagMappingWizardReview
               childTags={childTags}
               parentTags={parentTags}
               settingsError={settingsUpdateError}
@@ -137,8 +146,12 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
     );
   };
 
-  const handleOnBulkSelect = (items: SettingsData[]) => {
+  const handleOnBulkSelectChild = (items: SettingsData[]) => {
     setChildTags(items);
+  };
+
+  const handleOnBulkSelectParent = (items: SettingsData[]) => {
+    setParentTags(items);
   };
 
   const handleOnClick = () => {
@@ -168,7 +181,6 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
     setChildTags([]);
     setParentTags([]);
     setIsFinished(false);
-    dispatch(settingsActions.resetSettingsState());
   };
 
   const handleOnSelectChild = (items: SettingsData[], isSelected: boolean = false) => {
@@ -200,10 +212,17 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
   };
 
   useEffect(() => {
-    if (settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
+    if (isOpen && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
       setIsFinished(true);
     }
   }, [settingsUpdateError, settingsUpdateStatus]);
+
+  // Clear error state if tags changed
+  useEffect(() => {
+    if (settingsUpdateError) {
+      dispatch(settingsActions.resetStatus());
+    }
+  }, [childTags, parentTags]);
 
   return (
     <>
@@ -213,7 +232,7 @@ const TagMappingsWizard: React.FC<TagMappingsWizardProps> = ({
   );
 };
 
-const useMapToProps = (): TagMappingsWizardStateProps => {
+const useMapToProps = (): TagMappingWizardStateProps => {
   const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
   );
@@ -227,4 +246,4 @@ const useMapToProps = (): TagMappingsWizardStateProps => {
   };
 };
 
-export default TagMappingsWizard;
+export default TagMappingWizard;
