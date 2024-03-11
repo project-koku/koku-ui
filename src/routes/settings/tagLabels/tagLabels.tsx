@@ -5,19 +5,19 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { styles } from './tagLabels.styles';
-import { TagMappings } from './tagMappings';
+import TagMapping from './tagMapping/tagMapping';
 import { Tags } from './tags';
 
 // eslint-disable-next-line no-shadow
 const enum TagLabelsItem {
-  tagMappings = 'tagMappings',
+  tagMapping = 'tagMapping',
   tags = 'tags',
 }
 
-export const getIdKeyForItem = (item: TagLabelsItem) => {
+const getIdKeyForItem = (item: TagLabelsItem) => {
   switch (item) {
-    case TagLabelsItem.tagMappings:
-      return 'tagMappings';
+    case TagLabelsItem.tagMapping:
+      return 'tagMapping';
     case TagLabelsItem.tags:
       return 'tags';
   }
@@ -30,10 +30,6 @@ interface AvailableItem {
 
 interface TagLabelsOwnProps {
   canWrite?: boolean;
-}
-
-export interface TagLabelsStateProps {
-  isTagMappingToggleEnabled?: boolean;
 }
 
 type TagLabelsProps = TagLabelsOwnProps;
@@ -50,7 +46,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
         label: intl.formatMessage(messages.tagLabelsEnable),
       },
       {
-        item: TagLabelsItem.tagMappings,
+        item: TagLabelsItem.tagMapping,
         label: intl.formatMessage(messages.tagLabelsMap),
       },
     ];
@@ -71,8 +67,8 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
     }
 
     const currentItem = getIdKeyForItem(item);
-    if (currentItem === TagLabelsItem.tagMappings) {
-      return <TagMappings canWrite={canWrite} />;
+    if (currentItem === TagLabelsItem.tagMapping) {
+      return <TagMapping canWrite={canWrite} />;
     } else if (currentItem === TagLabelsItem.tags) {
       return <Tags canWrite={canWrite} />;
     } else {
