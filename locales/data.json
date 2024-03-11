@@ -12299,6 +12299,14 @@
               }
             ]
           },
+          "cluster_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "cluster-month"
+              }
+            ]
+          },
           "core_hours": {
             "value": [
               {
@@ -12359,6 +12367,18 @@
               }
             ]
           },
+          "gib": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GiB"
+              }
+            ]
+          },
           "gibibyte_month": {
             "value": [
               {
@@ -12412,6 +12432,22 @@
               {
                 "type": 1,
                 "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " "
+              },
+              {
+                "type": 1,
+                "value": "units"
+              }
+            ]
+          },
+          "pvc_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PVC-month"
               }
             ]
           },
@@ -12440,6 +12476,14 @@
               {
                 "type": 0,
                 "value": "Byte-ms"
+              }
+            ]
+          },
+          "cluster_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "cluster-month"
               }
             ]
           },
@@ -12491,6 +12535,14 @@
               }
             ]
           },
+          "gib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GiB"
+              }
+            ]
+          },
           "gibibyte_month": {
             "value": [
               {
@@ -12524,7 +12576,20 @@
             ]
           },
           "other": {
-            "value": []
+            "value": [
+              {
+                "type": 1,
+                "value": "units"
+              }
+            ]
+          },
+          "pvc_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PVC-month"
+              }
+            ]
           },
           "vm_hours": {
             "value": [

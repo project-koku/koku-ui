@@ -70,9 +70,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
   };
   const getMeasurementDescription = (o, u) => {
     // Match message descriptor or default to API string
-    // units only works with Node, Cluster, and PVC. it does not need to be translated
-    // if the metric is CPU, Memory, or Storage, units will be like `core_hours` or `gb_hours` and must be translated
-    const units = u.toLowerCase().replace('-', '_');
+    const units = intl.formatMessage(messages.units, { units: unitsLookupKey(u) }) || u;
     const desc = intl.formatMessage(messages.measurementValuesDesc, {
       value: o.toLowerCase().replace('-', '_'),
       units: units ? units : u,
