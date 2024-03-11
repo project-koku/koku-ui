@@ -86,14 +86,15 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
               {}, // Empty cell for expand toggle
               {
                 value: child.key ? child.key : '',
-                style: styles.expandableRowContent,
+                style: styles.childTagKeyColumn,
               },
               {
                 value: intl.formatMessage(messages.sourceTypes, { value: child?.source_type?.toLowerCase() }),
-                style: styles.expandableRowContent,
+                style: styles.childSourceTypeColumn,
               },
               {
                 value: <DeleteAction canWrite={canWrite} isDisabled={isDisabled} item={child} onUpdate={onUpdate} />,
+                style: styles.childActionColumn,
               },
             ],
             item: child,
