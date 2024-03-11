@@ -1968,7 +1968,7 @@ export default defineMessages({
       'storage_class {StorageClass} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
-      'tag_key {Tag Key} ' +
+      'tag_key {Tag key} ' +
       'tag_key_child {Child tag Key} ' +
       'tag_key_parent {Parent tag Key} ' +
       'workload {Workload name} ' +
@@ -3337,14 +3337,19 @@ export default defineMessages({
     id: 'tagHeadingValue',
   },
   tagKeyChild: {
-    defaultMessage: 'Child tag key',
-    description: 'Child tag key',
+    defaultMessage: 'Child tag keys',
+    description: 'Child tag keys',
     id: 'tagKeyChild',
   },
   tagKeyParent: {
     defaultMessage: 'Parent tag key',
     description: 'Parent tag key',
     id: 'tagKeyParent',
+  },
+  tagKeyParentSource: {
+    defaultMessage: 'Parent integration',
+    description: 'Parent integration',
+    id: 'tagKeyParentSource',
   },
   tagLabelsEnable: {
     defaultMessage: 'Enable tags and labels',

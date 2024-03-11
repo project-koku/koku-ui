@@ -83,7 +83,7 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
                     </Thead>
                     <Tbody>
                       {childTags.map((item, index) => (
-                        <Tr key={`row-${index}`}>
+                        <Tr key={`child-row-${index}`}>
                           <Td>{item.key}</Td>
                           <Td>
                             {intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() })}
@@ -97,11 +97,15 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
               <TextListItem component={TextListItemVariants.dt}>
                 {intl.formatMessage(messages.tagKeyParent)}
               </TextListItem>
-              {parentTags.map((val, index) => (
-                <TextListItem component={TextListItemVariants.dd} key={`parent-key-${index}`}>
-                  {val.key}
-                </TextListItem>
-              ))}
+              <TextListItem component={TextListItemVariants.dd}>{parentTags.map(item => item.key)}</TextListItem>
+              <TextListItem component={TextListItemVariants.dt}>
+                {intl.formatMessage(messages.tagKeyParentSource)}
+              </TextListItem>
+              <TextListItem component={TextListItemVariants.dd}>
+                {parentTags.map(item =>
+                  intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() })
+                )}
+              </TextListItem>
             </TextList>
           </TextContent>
         </StackItem>
