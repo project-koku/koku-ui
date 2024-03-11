@@ -20,11 +20,11 @@ updates:
           - "*eslint*"
       patternfly-dependencies:
         patterns:
-          - "@patternfly*"
+          - "*patternfly*"
       test-dependencies:
         patterns:
           - "*jest*"
-          - "@testing-library*"
+          - "*testing-library*"
       ci-dependencies:
         patterns:
           - "*" # update remaining deps in single PR
