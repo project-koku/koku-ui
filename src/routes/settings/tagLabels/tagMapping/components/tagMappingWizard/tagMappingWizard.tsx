@@ -1,4 +1,13 @@
-import { Button, ButtonVariant, Tooltip, Wizard, WizardHeader, WizardStep } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Title,
+  TitleSizes,
+  Tooltip,
+  Wizard,
+  WizardHeader,
+  WizardStep,
+} from '@patternfly/react-core';
 import { Modal, ModalVariant } from '@patternfly/react-core/next';
 import type { SettingsData } from 'api/settings';
 import { SettingsType } from 'api/settings';
@@ -104,6 +113,18 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
             id="step-1"
             name={intl.formatMessage(messages.tagMappingWizardSelectChildTags)}
           >
+            <Title headingLevel="h2" size={TitleSizes.xl}>
+              {intl.formatMessage(messages.tagMappingSelectChildTags)}
+            </Title>
+            <div style={styles.descContainer}>
+              {intl.formatMessage(messages.tagMappingSelectChildTagsDesc, {
+                learnMore: (
+                  <a href={intl.formatMessage(messages.docsTagMapping)} rel="noreferrer" target="_blank">
+                    {intl.formatMessage(messages.learnMore)}
+                  </a>
+                ),
+              })}
+            </div>
             <ChildTags
               onBulkSelect={handleOnBulkSelectChild}
               onSelect={handleOnSelectChild}
@@ -118,6 +139,12 @@ const TagMappingWizard: React.FC<TagMappingWizardProps> = ({
             isDisabled={childTags.length === 0}
             name={intl.formatMessage(messages.tagMappingWizardSelectParentTag)}
           >
+            <Title headingLevel="h2" size={TitleSizes.xl}>
+              {intl.formatMessage(messages.tagMappingSelectParentTags)}
+            </Title>
+            <div style={styles.descContainer}>
+              {intl.formatMessage(messages.tagMappingSelectParentTagsDesc, { count: <b>{childTags.length}</b> })}
+            </div>
             <ParentTags
               onBulkSelect={handleOnBulkSelectParent}
               onSelect={handleOnSelectParent}

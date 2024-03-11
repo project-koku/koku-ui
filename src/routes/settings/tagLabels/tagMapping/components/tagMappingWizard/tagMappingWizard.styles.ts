@@ -6,6 +6,9 @@ export const styles = {
   alert: {
     marginBottom: global_FontSize_md.value,
   },
+  descContainer: {
+    marginTop: global_FontSize_md.value,
+  },
   emptyState: {
     margin: global_FontSize_md.value,
   },
@@ -15,6 +18,9 @@ export const styles = {
   loading: {
     backgroundColor: global_BackgroundColor_light_100.value,
     minHeight: '520px',
+  },
+  reviewDescContainer: {
+    marginBottom: global_FontSize_md.value,
   },
   reviewTable: {
     marginTop: '-10px',

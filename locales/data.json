@@ -12166,6 +12166,42 @@
         "value": "learnMore"
       }
     ],
+    "tagMappingSelectChildTags": [
+      {
+        "type": 0,
+        "value": "Select child tags"
+      }
+    ],
+    "tagMappingSelectChildTagsDesc": [
+      {
+        "type": 0,
+        "value": "Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "tagMappingSelectParentTags": [
+      {
+        "type": 0,
+        "value": "Select parent tag"
+      }
+    ],
+    "tagMappingSelectParentTagsDesc": [
+      {
+        "type": 0,
+        "value": "Select a parent tag key that will be mapped to the "
+      },
+      {
+        "type": 1,
+        "value": "count"
+      },
+      {
+        "type": 0,
+        "value": " child tags you selected in the previous step. This tag will be available for filtering in Cost Management."
+      }
+    ],
     "tagMappingWarning": [
       {
         "type": 0,

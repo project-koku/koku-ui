@@ -3390,6 +3390,30 @@ export default defineMessages({
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
     id: 'tagMappingDesc',
   },
+  tagMappingSelectChildTags: {
+    defaultMessage: 'Select child tags',
+    description: 'Select child tags',
+    id: 'tagMappingSelectChildTags',
+  },
+  tagMappingSelectChildTagsDesc: {
+    defaultMessage:
+      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+    description:
+      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+    id: 'tagMappingSelectChildTagsDesc',
+  },
+  tagMappingSelectParentTags: {
+    defaultMessage: 'Select parent tag',
+    description: 'Select parent tag',
+    id: 'tagMappingSelectParentTags',
+  },
+  tagMappingSelectParentTagsDesc: {
+    defaultMessage:
+      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+    description:
+      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+    id: 'tagMappingSelectParentTagsDesc',
+  },
   tagMappingWarning: {
     defaultMessage: 'You must enable tags to use tag mapping.',
     description: 'You must enable tags to use tag mapping.',

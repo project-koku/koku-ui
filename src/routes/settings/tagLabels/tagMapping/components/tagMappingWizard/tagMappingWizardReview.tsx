@@ -51,7 +51,7 @@ const TagMappingWizardReview: React.FC<TagMappingWizardReviewProps> = ({
           </Title>
         </StackItem>
         <StackItem>
-          <TextContent>
+          <TextContent style={styles.reviewDescContainer}>
             <Text>
               {intl.formatMessage(messages.tagMappingWizardReviewDesc, {
                 create: <strong>{intl.formatMessage(messages.create)}</strong>,
