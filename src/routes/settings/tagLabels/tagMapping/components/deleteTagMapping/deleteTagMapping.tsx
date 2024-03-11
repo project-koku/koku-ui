@@ -1,4 +1,4 @@
-import './deleteModal.scss';
+import './deleteTagMapping.scss';
 
 import { Button } from '@patternfly/react-core';
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
@@ -15,26 +15,25 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
-interface DeleteModalOwnProps {
+interface DeleteTagMappingOwnProps {
   isOpen?: boolean;
   item: SettingsData;
-  onClose();
-  onUpdate();
+  onClose?: () => void;
   settingsType: SettingsType;
 }
 
-interface DeleteModalMapProps {
+interface DeleteTagMappingMapProps {
   settingsType: SettingsType;
 }
 
-interface DeleteModalStateProps {
+interface DeleteTagMappingStateProps {
   settingsUpdateError?: AxiosError;
   settingsUpdateStatus?: FetchStatus;
 }
 
-type DeleteModalProps = DeleteModalOwnProps;
+type DeleteTagMappingProps = DeleteTagMappingOwnProps;
 
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, item, onClose, onUpdate, settingsType }) => {
+const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, item, onClose, settingsType }) => {
   const [isFinish, setIsFinish] = useState(false);
   const { settingsUpdateError, settingsUpdateStatus } = useMapToProps({ settingsType });
 
@@ -54,7 +53,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, item, onClose, onUpda
 
   useEffect(() => {
     if (isFinish && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
-      onUpdate();
+      onClose();
     }
   }, [isFinish, settingsUpdateError, settingsUpdateStatus]);
 
@@ -82,7 +81,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, item, onClose, onUpda
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ settingsType }: DeleteModalMapProps): DeleteModalStateProps => {
+const useMapToProps = ({ settingsType }: DeleteTagMappingMapProps): DeleteTagMappingStateProps => {
   const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, settingsType)
   );
@@ -96,4 +95,4 @@ const useMapToProps = ({ settingsType }: DeleteModalMapProps): DeleteModalStateP
   };
 };
 
-export default DeleteModal;
+export default DeleteTagMapping;

@@ -7595,7 +7595,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Tag Key"
+                "value": "Tag key"
               }
             ]
           },
@@ -12081,13 +12081,19 @@
     "tagKeyChild": [
       {
         "type": 0,
-        "value": "Child tag key"
+        "value": "Child tag keys"
       }
     ],
     "tagKeyParent": [
       {
         "type": 0,
         "value": "Parent tag key"
+      }
+    ],
+    "tagKeyParentSource": [
+      {
+        "type": 0,
+        "value": "Parent integration"
       }
     ],
     "tagLabels": [

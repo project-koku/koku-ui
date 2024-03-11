@@ -14,16 +14,19 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { styles } from './tagMappingWizard.styles';
+import { styles } from './parentTagMapping.styles';
 
-interface TagMappingEmptyStateOwnProps {
+interface ParentTagMappingEmptyStateOwnProps {
   onClose(event);
   onReset(event);
 }
 
-type TagMappingEmptyStateProps = TagMappingEmptyStateOwnProps;
+type ParentTagMappingEmptyStateProps = ParentTagMappingEmptyStateOwnProps;
 
-const TagMappingEmptyState: React.FC<TagMappingEmptyStateProps> = ({ onClose, onReset }: TagMappingEmptyStateProps) => {
+const ParentTagMappingEmptyState: React.FC<ParentTagMappingEmptyStateProps> = ({
+  onClose,
+  onReset,
+}: ParentTagMappingEmptyStateProps) => {
   const intl = useIntl();
 
   return (
@@ -63,4 +66,4 @@ const TagMappingEmptyState: React.FC<TagMappingEmptyStateProps> = ({ onClose, on
   );
 };
 
-export { TagMappingEmptyState };
+export { ParentTagMappingEmptyState };

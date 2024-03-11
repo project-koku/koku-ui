@@ -11,7 +11,7 @@ import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circ
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { TagMappingWizard } from 'routes/settings/tagLabels/tagMapping/components/tagMappingWizard';
+import { ParentTagMapping } from 'routes/settings/tagLabels/tagMapping/components/parentTagMapping';
 
 interface TagMappingEmptyStateOwnProps {
   canWrite?: boolean;
@@ -47,7 +47,7 @@ const TagMappingEmptyState: React.FC<TagMappingEmptyStateProps> = ({
       </EmptyStateBody>
       <EmptyStateFooter>
         <EmptyStateActions>
-          <TagMappingWizard canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />
+          <ParentTagMapping canWrite={canWrite} isDisabled={isDisabled} onClose={onWizardClose} />
         </EmptyStateActions>
       </EmptyStateFooter>
     </EmptyState>

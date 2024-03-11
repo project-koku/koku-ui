@@ -1,4 +1,5 @@
 import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
+import global_spacer_2xl from '@patternfly/react-tokens/dist/js/global_spacer_2xl';
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
@@ -9,7 +10,7 @@ export const styles = {
     marginLeft: global_spacer_md.var,
   },
   childActionColumn: {
-    paddingRight: 0,
+    paddingRight: global_spacer_2xl.value,
   },
   childSourceTypeColumn: {
     paddingRight: global_spacer_sm.value,

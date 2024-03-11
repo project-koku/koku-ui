@@ -5,8 +5,8 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ExpandableTable } from 'routes/components/dataTable';
-import { ActionsKebab } from 'routes/settings/tagLabels/tagMapping/components/actionsKebab';
-import { DeleteAction } from 'routes/settings/tagLabels/tagMapping/components/deleteModal';
+import { Actions } from 'routes/settings/tagLabels/tagMapping/components/actions';
+import { DeleteTagMappingAction } from 'routes/settings/tagLabels/tagMapping/components/deleteTagMapping';
 
 import { styles } from './tagMapping.styles';
 
@@ -15,8 +15,8 @@ interface TagMappingTableOwnProps {
   filterBy?: any;
   isDisabled?: boolean;
   isLoading?: boolean;
+  onClose?: () => void;
   onSort(value: string, isSortAscending: boolean);
-  onUpdate();
   orderBy?: any;
   settings: Settings;
 }
@@ -28,8 +28,8 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
   filterBy,
   isDisabled,
   isLoading,
+  onClose,
   onSort,
-  onUpdate,
   orderBy,
   settings,
 }) => {
@@ -77,7 +77,7 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
             value: intl.formatMessage(messages.sourceTypes, { value: parent?.source_type?.toLowerCase() }),
           },
           {
-            value: <ActionsKebab canWrite={canWrite} isDisabled={isDisabled} item={parent} onUpdate={onUpdate} />,
+            value: <Actions canWrite={canWrite} isDisabled={isDisabled} item={parent} onClose={onClose} />,
           },
         ],
         children: parent.children.map(child => {
@@ -93,7 +93,9 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
                 style: styles.childSourceTypeColumn,
               },
               {
-                value: <DeleteAction canWrite={canWrite} isDisabled={isDisabled} item={child} onUpdate={onUpdate} />,
+                value: (
+                  <DeleteTagMappingAction canWrite={canWrite} isDisabled={isDisabled} item={child} onClose={onClose} />
+                ),
                 style: styles.childActionColumn,
               },
             ],

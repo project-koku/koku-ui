@@ -1,4 +1,4 @@
-import './deleteModal.scss';
+import './deleteTagMapping.scss';
 
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
@@ -8,18 +8,18 @@ import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import DeleteModal from './deleteModal';
+import DeleteTagMapping from './deleteTagMapping';
 
-interface DeleteActionOwnProps {
+interface DeleteTagMappingActionOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   item: SettingsData;
-  onUpdate();
+  onClose?: () => void;
 }
 
-type DeleteActionProps = DeleteActionOwnProps;
+type DeleteTagMappingActionProps = DeleteTagMappingActionOwnProps;
 
-const DeleteAction: React.FC<DeleteActionProps> = ({ canWrite, isDisabled, item, onUpdate }) => {
+const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrite, isDisabled, item, onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const intl = useIntl();
 
@@ -47,6 +47,9 @@ const DeleteAction: React.FC<DeleteActionProps> = ({ canWrite, isDisabled, item,
 
   const handleOnClose = () => {
     setIsOpen(false);
+    if (onClose) {
+      onClose();
+    }
   };
 
   const handleOnClick = () => {
@@ -59,15 +62,14 @@ const DeleteAction: React.FC<DeleteActionProps> = ({ canWrite, isDisabled, item,
   return (
     <>
       {getActions()}
-      <DeleteModal
+      <DeleteTagMapping
         isOpen={isOpen}
         item={item}
         onClose={handleOnClose}
-        onUpdate={onUpdate}
         settingsType={SettingsType.tagsMappingsChildRemove}
       />
     </>
   );
 };
 
-export default DeleteAction;
+export default DeleteTagMappingAction;
