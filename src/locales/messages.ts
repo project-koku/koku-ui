@@ -461,6 +461,11 @@ export default defineMessages({
     description: 'Cost Management',
     id: 'costManagement',
   },
+  costManagementOperatorVersion: {
+    defaultMessage: 'Cost Management operator version',
+    description: 'Cost Management operator version',
+    id: 'costManagementOperatorVersion',
+  },
   costModels: {
     defaultMessage: 'Cost Models',
     description: 'Cost Models',
@@ -3581,6 +3586,11 @@ export default defineMessages({
     defaultMessage: 'Unknown',
     description: 'Unknown',
     id: 'unknown',
+  },
+  updateAvailable: {
+    defaultMessage: 'Update available',
+    description: 'Update available',
+    id: 'updateAvailable',
   },
   usage: {
     defaultMessage: 'Usage',
