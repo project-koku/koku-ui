@@ -2,6 +2,13 @@ import axios from 'axios';
 
 import type { PagedMetaData, PagedResponse } from './api';
 
+export interface ProviderAdditionalContext {
+  operator_version?: string;
+  operator_airgapped?: boolean;
+  operator_certified?: boolean;
+  operator_update_available?: boolean;
+}
+
 export interface ProviderAuthentication {
   credentials?: {
     cluster_id?: string;
@@ -40,6 +47,7 @@ export interface ProviderInfrastructure {
 
 export interface Provider {
   active?: boolean;
+  additional_context?: ProviderAdditionalContext;
   authentication?: ProviderAuthentication;
   billing_source?: ProviderBillingSource;
   created_by?: ProviderCreatedBy;

@@ -1,6 +1,7 @@
 import './clusterContent.scss';
 
-import { Text, TextContent, TextList, TextListItem, TextVariants } from '@patternfly/react-core';
+import { Icon, Text, TextContent, TextList, TextListItem, TextVariants } from '@patternfly/react-core';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -71,7 +72,7 @@ const ClusterContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cluste
       <Text component={TextVariants.h3}>{intl.formatMessage(messages.clusterId)}</Text>
       <TextList isPlain>
         <TextListItem>
-          <span style={styles.spacing}>{clusterId}</span>
+          <span style={styles.spacingRight}>{clusterId}</span>
           <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
         </TextListItem>
         {clusterInfo?.cost_models?.length === 0 && (
@@ -80,12 +81,26 @@ const ClusterContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cluste
           </TextListItem>
         )}
       </TextList>
+      <Text component={TextVariants.h3}>{intl.formatMessage(messages.costManagementOperatorVersion)}</Text>
+      <TextList isPlain>
+        <TextListItem>
+          <span style={styles.spacingRight}>{clusterInfo?.additional_context?.operator_version}</span>
+          {clusterInfo?.additional_context?.operator_update_available && (
+            <>
+              <Icon status="warning">
+                <ExclamationTriangleIcon />
+              </Icon>
+              <span style={styles.updateAvailable}>{intl.formatMessage(messages.updateAvailable)}</span>
+            </>
+          )}
+        </TextListItem>
+      </TextList>
       {clusterInfo && (
         <>
           <Text component={TextVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Text>
           <TextList isPlain>
             <TextListItem>
-              <span style={styles.spacing}>{intl.formatMessage(messages.source, { value: 'ocp' })}</span>
+              <span style={styles.spacingRight}>{intl.formatMessage(messages.source, { value: 'ocp' })}</span>
               <a href={`${release}/settings/integrations/detail/${clusterInfo.id}`}>{clusterInfo.name}</a>
             </TextListItem>
           </TextList>

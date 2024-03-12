@@ -1156,6 +1156,12 @@
         "value": "Cost Management"
       }
     ],
+    "costManagementOperatorVersion": [
+      {
+        "type": 0,
+        "value": "Cost Management operator version"
+      }
+    ],
     "costModels": [
       {
         "type": 0,
@@ -12717,6 +12723,12 @@
       {
         "type": 0,
         "value": "Unknown"
+      }
+    ],
+    "updateAvailable": [
+      {
+        "type": 0,
+        "value": "Update available"
       }
     ],
     "usage": [

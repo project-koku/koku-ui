@@ -61,7 +61,7 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ uuid }: CloudIntegr
       <Text component={TextVariants.h3}>{intl.formatMessage(messages.cloudIntegration)}</Text>
       <TextList isPlain>
         <TextListItem>
-          <span style={styles.spacing}>
+          <span style={styles.spacingRight}>
             {intl.formatMessage(messages.source, { value: provider?.source_type?.toLowerCase() })}
           </span>
           <a href={`${release}/settings/integrations/detail/${provider?.id}`}>{provider?.name}</a>
