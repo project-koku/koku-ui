@@ -3547,7 +3547,7 @@ export default defineMessages({
       'ms {{value} milliseconds} ' +
       'pvc_month {PVC-month} ' +
       'vm_hours {{value} VM-hours} ' +
-      'other {{value} {units}}}',
+      'other {{value}}}',
     description: 'return value and unit based on key: "units"',
     id: 'unitTooltips',
   },
@@ -3569,7 +3569,7 @@ export default defineMessages({
       'ms {milliseconds} ' +
       'pvc_month {PVC-month} ' +
       'vm_hours {VM-hours} ' +
-      'other {{units}}}',
+      'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'units',
   },
