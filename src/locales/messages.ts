@@ -3538,14 +3538,16 @@ export default defineMessages({
       'core_hours {{value} core-hours} ' +
       'gb {{value} GB} ' +
       'gb_hours {{value} GB-hours} ' +
-      'gb_mo {{value} GB-month} ' +
+      'gb_month {{value} GB-month} ' +
       'gb_ms {{value} GB-ms} ' +
-      'gib {{value} GiB} ' +
+      'gib_hours {{value} GiB-hours} ' +
+      'gib_month {{value} GiB-month} ' +
       'gibibyte_month {{value} GiB-month} ' +
       'hour {{value} hours} ' +
       'hrs {{value} hours} ' +
       'ms {{value} milliseconds} ' +
       'pvc_month {PVC-month} ' +
+      'tag_month {{value} tag-month} ' +
       'vm_hours {{value} VM-hours} ' +
       'other {{value}}}',
     description: 'return value and unit based on key: "units"',
@@ -3560,14 +3562,16 @@ export default defineMessages({
       'core_hours {core-hours} ' +
       'gb {GB} ' +
       'gb_hours {GB-hours} ' +
-      'gb_mo {GB-month} ' +
+      'gb_month {GB-month} ' +
       'gb_ms {GB-ms} ' +
-      'gib {GiB} ' +
+      'gib_hours {GiB-hours} ' +
+      'gib_month {GiB-month} ' +
       'gibibyte_month {GiB-month} ' +
       'hour {hours} ' +
       'hrs {hours} ' +
       'ms {milliseconds} ' +
       'pvc_month {PVC-month} ' +
+      'tag_month {tag-month} ' +
       'vm_hours {VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',

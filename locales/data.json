@@ -12425,7 +12425,7 @@
               }
             ]
           },
-          "gb_mo": {
+          "gb_month": {
             "value": [
               {
                 "type": 1,
@@ -12449,7 +12449,7 @@
               }
             ]
           },
-          "gib": {
+          "gib_hours": {
             "value": [
               {
                 "type": 1,
@@ -12457,7 +12457,19 @@
               },
               {
                 "type": 0,
-                "value": " GiB"
+                "value": " GiB-hours"
+              }
+            ]
+          },
+          "gib_month": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GiB-month"
               }
             ]
           },
@@ -12522,6 +12534,18 @@
               {
                 "type": 0,
                 "value": "PVC-month"
+              }
+            ]
+          },
+          "tag_month": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " tag-month"
               }
             ]
           },
@@ -12593,7 +12617,7 @@
               }
             ]
           },
-          "gb_mo": {
+          "gb_month": {
             "value": [
               {
                 "type": 0,
@@ -12609,11 +12633,19 @@
               }
             ]
           },
-          "gib": {
+          "gib_hours": {
             "value": [
               {
                 "type": 0,
-                "value": "GiB"
+                "value": "GiB-hours"
+              }
+            ]
+          },
+          "gib_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GiB-month"
               }
             ]
           },
@@ -12657,6 +12689,14 @@
               {
                 "type": 0,
                 "value": "PVC-month"
+              }
+            ]
+          },
+          "tag_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "tag-month"
               }
             ]
           },
