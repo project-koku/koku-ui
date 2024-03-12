@@ -132,15 +132,16 @@ export const formatUnits: Formatter = (value, units, options) => {
     case 'core_hours':
     case 'gb':
     case 'gb_hours':
-    case 'gb_mo':
+    case 'gb_month':
     case 'gb_ms':
-    case 'gib':
+    case 'gib_hours':
+    case 'gib_month':
     case 'gibibyte_month':
     case 'hour':
     case 'hrs':
     case 'ms':
     case 'pvc_month':
-    case 'tag_mo':
+    case 'tag_month':
     case 'vm_hours':
       return formatUsage(fValue, options);
   }
@@ -249,20 +250,23 @@ export const unitsLookupKey = (units): string => {
     case 'core_hours':
     case 'gb':
     case 'gb_hours':
-    case 'gb_mo':
     case 'gb_ms':
-    case 'gib':
+    case 'gib_hours':
+    case 'gib_month':
     case 'gibibyte_month':
     case 'hour':
     case 'hrs':
     case 'ms':
     case 'pvc_month':
-    case 'tag_mo':
     case 'vm_hours':
       return lookup;
-    case 'gb_month':
-      return 'gb_mo';
+    case 'gib_mo':
+      return 'gib_month';
+    case 'gb_mo':
+      return 'gb_month';
+    case 'tag_mo':
+      return 'tag_month';
     default:
-      return units;
+      return undefined;
   }
 };
