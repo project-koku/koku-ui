@@ -12514,14 +12514,6 @@
               {
                 "type": 1,
                 "value": "value"
-              },
-              {
-                "type": 0,
-                "value": " "
-              },
-              {
-                "type": 1,
-                "value": "units"
               }
             ]
           },
@@ -12658,12 +12650,7 @@
             ]
           },
           "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "units"
-              }
-            ]
+            "value": []
           },
           "pvc_month": {
             "value": [
