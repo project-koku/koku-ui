@@ -18,7 +18,7 @@ import { providersActions, providersQuery, providersSelectors } from 'store/prov
 
 import { CloudIntegration } from './cloudIntegration';
 import { styles } from './dataDetails.styles';
-import { getIcon, getVariant, lookupKey } from './utils/status';
+import { getProgressIcon, getVariant, lookupKey } from './utils/status';
 
 interface DataDetailsContentOwnProps {
   clusterId?: string;
@@ -62,25 +62,21 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
     <>
       {clusterInfo?.infrastructure?.uuid && <CloudIntegration uuid={clusterInfo?.infrastructure?.uuid} />}
       <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.costData)}</Text>
+        <Text component={TextVariants.h3}>{intl.formatMessage(messages.metricsOperatorData)}</Text>
       </TextContent>
-      <ProgressStepper
-        aria-label={intl.formatMessage(messages.dataDetailsProgressStepper)}
-        isVertical
-        style={styles.stepper}
-      >
+      <ProgressStepper aria-label={intl.formatMessage(messages.metricsOperatorData)} isVertical style={styles.stepper}>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsProgressStep, { count: 1 })}
-          icon={getIcon(clusterInfo.status.download)}
+          aria-label={intl.formatMessage(messages.metricsOperatorDataReceivedAriaLabel, { count: 1 })}
+          icon={getProgressIcon(clusterInfo.status.download)}
           id="step1"
           titleId="step1-title"
           variant={getVariant(clusterInfo.status.download)}
         >
-          {intl.formatMessage(messages.dataDetailsDownload, {
-            value: lookupKey(clusterInfo.status.download),
+          {intl.formatMessage(messages.metricsOperatorDataReceived, {
+            value: lookupKey(clusterInfo.source_type),
           })}
           <div style={styles.description}>
-            {intl.formatDate('2024-03-12T15:00:30.127300Z', {
+            {intl.formatDate(clusterInfo.last_payload_received_at, {
               day: 'numeric',
               hour: 'numeric',
               hour12: false,
@@ -93,17 +89,17 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
           </div>
         </ProgressStep>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsProgressStep, { count: 2 })}
-          icon={getIcon(clusterInfo.status.processing)}
+          aria-label={intl.formatMessage(messages.metricsOperatorDataProcessedAriaLabel, { count: 2 })}
+          icon={getProgressIcon(clusterInfo.status.processing)}
           id="step2"
           titleId="step2-title"
           variant={getVariant(clusterInfo.status.processing)}
         >
-          {intl.formatMessage(messages.dataDetailsProcessing, {
-            value: lookupKey(clusterInfo.status.processing),
+          {intl.formatMessage(messages.metricsOperatorDataProcessed, {
+            value: lookupKey(clusterInfo.source_type),
           })}
           <div style={styles.description}>
-            {intl.formatDate('2024-03-12T15:00:30.127300Z', {
+            {intl.formatDate(clusterInfo.last_payload_received_at, {
               day: 'numeric',
               hour: 'numeric',
               hour12: false,
@@ -115,18 +111,21 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
             })}
           </div>
         </ProgressStep>
+      </ProgressStepper>
+      <TextContent>
+        <Text component={TextVariants.h3}>{intl.formatMessage(messages.calculations)}</Text>
+      </TextContent>
+      <ProgressStepper aria-label={intl.formatMessage(messages.calculations)} isVertical style={styles.stepper}>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsProgressStep, { count: 3 })}
-          icon={getIcon(clusterInfo.status.summary)}
-          id="step3"
-          titleId="step3-title"
+          aria-label={intl.formatMessage(messages.calculationsApplied)}
+          icon={getProgressIcon(clusterInfo.status.summary)}
+          id="step1"
+          titleId="step1-title"
           variant={getVariant(clusterInfo.status.summary)}
         >
-          {intl.formatMessage(messages.dataDetailsSummary, {
-            value: lookupKey(clusterInfo.status.summary),
-          })}
+          {intl.formatMessage(messages.calculationsApplied)}
           <div style={styles.description}>
-            {intl.formatDate('2024-03-12T15:00:30.127300Z', {
+            {intl.formatDate(clusterInfo.last_payload_received_at, {
               day: 'numeric',
               hour: 'numeric',
               hour12: false,

@@ -200,6 +200,16 @@ export default defineMessages({
     description: 'Calculation type',
     id: 'calculationType',
   },
+  calculations: {
+    defaultMessage: 'Calculating Data and Cost Models',
+    description: 'Calculating Data and Cost Models',
+    id: 'calculations',
+  },
+  calculationsApplied: {
+    defaultMessage: 'Data correlation and cost models applied',
+    description: 'Data correlation and cost models applied',
+    id: 'calculationsApplied',
+  },
   cancel: {
     defaultMessage: 'Cancel',
     description: 'Cancel',
@@ -350,6 +360,62 @@ export default defineMessages({
     description: 'Cloud integration',
     id: 'cloudIntegration',
   },
+  cloudIntegrationData: {
+    defaultMessage: 'Cloud integration data',
+    description: 'Cloud integration data',
+    id: 'cloudIntegrationData',
+  },
+  cloudIntegrationDataChecked: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Checked for data from Amazon Web Services} ' +
+      'azure {Checked for data from Microsoft Azure} ' +
+      'oci {Checked for data from Oracle Cloud Infrastructure} ' +
+      'gcp {Checked for data from Google Cloud Platform} ' +
+      'ibm {Checked for data from IBM Cloud} ' +
+      'other {}}',
+    description: 'Checked for data from cloud integration',
+    id: 'cloudIntegrationDataChecked',
+  },
+  cloudIntegrationDataCheckedAriaLabel: {
+    defaultMessage: 'Checked for data from cloud integration',
+    description: 'Check for data from cloud integration',
+    id: 'cloudIntegrationDataCheckedAriaLabel',
+  },
+  cloudIntegrationDataProcessed: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Data processed from Amazon Web Services} ' +
+      'azure {Data processed from Microsoft Azure} ' +
+      'oci {Data processed from Oracle Cloud Infrastructure} ' +
+      'gcp {Data processed from Google Cloud Platform} ' +
+      'ibm {Data processed from IBM Cloud} ' +
+      'other {}}',
+    description: 'Data processed from cloud integration',
+    id: 'cloudIntegrationDataProcessed',
+  },
+  cloudIntegrationDataProcessedAriaLabel: {
+    defaultMessage: 'Data processed from cloud integration',
+    description: 'Data processed from cloud integration',
+    id: 'cloudIntegrationDataProcessedAriaLabel',
+  },
+  cloudIntegrationDataTransferred: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Data transferred from Amazon Web Services} ' +
+      'azure {Data transferred from Microsoft Azure} ' +
+      'oci {Data transferred from Oracle Cloud Infrastructure} ' +
+      'gcp {Data transferred from Google Cloud Platform} ' +
+      'ibm {Data transferred from IBM Cloud} ' +
+      'other {}}',
+    description: 'Data transferred from cloud integration',
+    id: 'cloudIntegrationDataTransferred',
+  },
+  cloudIntegrationDataTransferredAriaLabel: {
+    defaultMessage: 'Data transferred from cloud integration',
+    description: 'Data transferred from cloud integration',
+    id: 'cloudIntegrationDataTransferredAriaLabel',
+  },
   cluster: {
     defaultMessage: 'Cluster',
     description: 'Cluster',
@@ -422,11 +488,6 @@ export default defineMessages({
     description: 'Cost categories',
     id: 'costCategoryTitle',
   },
-  costData: {
-    defaultMessage: 'Cost data',
-    description: 'Cost data',
-    id: 'costData',
-  },
   costDistribution: {
     defaultMessage: 'Cost distribution',
     description: 'Cost distribution',
@@ -465,11 +526,6 @@ export default defineMessages({
     defaultMessage: 'Cost Management',
     description: 'Cost Management',
     id: 'costManagement',
-  },
-  costManagementOperatorVersion: {
-    defaultMessage: 'Cost Management operator version',
-    description: 'Cost Management operator version',
-    id: 'costManagementOperatorVersion',
   },
   costModels: {
     defaultMessage: 'Cost Models',
@@ -2437,6 +2493,52 @@ export default defineMessages({
     description: 'Metric values',
     id: 'metricValues',
   },
+  metricsOperatorData: {
+    defaultMessage: 'Cost Management metrics operator data',
+    description: 'Cost Management metrics operator data',
+    id: 'metricsOperatorData',
+  },
+  metricsOperatorDataProcessed: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Data processed from Amazon Web Services} ' +
+      'azure {Data processed from Microsoft Azure} ' +
+      'oci {Data processed from Oracle Cloud Infrastructure} ' +
+      'gcp {Data processed from Google Cloud Platform} ' +
+      'ibm {Data processed from IBM Cloud} ' +
+      'ocp {Data processed from OpenShift} ' +
+      'other {}}',
+    description: 'Data processed from cloud integration',
+    id: 'metricsOperatorDataProcessed',
+  },
+  metricsOperatorDataProcessedAriaLabel: {
+    defaultMessage: 'Data processed from cloud integration',
+    description: 'Data processed from cloud integration',
+    id: 'metricsOperatorDataProcessedAriaLabel',
+  },
+  metricsOperatorDataReceived: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Data received from Amazon Web Services} ' +
+      'azure {Data received from Microsoft Azure} ' +
+      'oci {Data received from Oracle Cloud Infrastructure} ' +
+      'gcp {Data received from Google Cloud Platform} ' +
+      'ibm {Data received from IBM Cloud} ' +
+      'ocp {Data received from OpenShift} ' +
+      'other {}}',
+    description: 'Data received from cloud integration',
+    id: 'metricsOperatorDataReceived',
+  },
+  metricsOperatorDataReceivedAriaLabel: {
+    defaultMessage: 'Data received from cloud integration',
+    description: 'Data received from cloud integration',
+    id: 'metricsOperatorDataProcessedAriaLabel',
+  },
+  metricsOperatorVersion: {
+    defaultMessage: 'Cost Management operator version',
+    description: 'Cost Management operator version',
+    id: 'metricsOperatorVersion',
+  },
   monthOverMonthChange: {
     defaultMessage: 'Month over month change',
     description: 'Month over month change',
@@ -3631,11 +3733,6 @@ export default defineMessages({
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'units',
-  },
-  unknown: {
-    defaultMessage: 'Unknown',
-    description: 'Unknown',
-    id: 'unknown',
   },
   updateAvailable: {
     defaultMessage: 'Update available',

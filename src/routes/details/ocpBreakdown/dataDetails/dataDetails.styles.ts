@@ -13,16 +13,15 @@ export const styles = {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
   },
-  icon: {
-    paddingLeft: '7px',
-    paddingRight: '10px',
-  },
   loading: {
     backgroundColor: global_BackgroundColor_light_100.value,
-    minHeight: '520px',
   },
   spacingRight: {
     marginRight: global_spacer_md.value,
+  },
+  statusIcon: {
+    paddingLeft: '1px',
+    paddingRight: '5px',
   },
   stepper: {
     margin: global_spacer_lg.value,

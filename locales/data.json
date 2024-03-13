@@ -665,6 +665,18 @@
         "value": "Calculation type"
       }
     ],
+    "calculations": [
+      {
+        "type": 0,
+        "value": "Calculating Data and Cost Models"
+      }
+    ],
+    "calculationsApplied": [
+      {
+        "type": 0,
+        "value": "Data correlation and cost models applied"
+      }
+    ],
     "cancel": [
       {
         "type": 0,
@@ -997,6 +1009,183 @@
         "value": "Cloud integration"
       }
     ],
+    "cloudIntegrationData": [
+      {
+        "type": 0,
+        "value": "Cloud integration data"
+      }
+    ],
+    "cloudIntegrationDataChecked": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Checked for data from Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Checked for data from Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Checked for data from Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Checked for data from IBM Cloud"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Checked for data from Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "cloudIntegrationDataCheckedAriaLabel": [
+      {
+        "type": 0,
+        "value": "Checked for data from cloud integration"
+      }
+    ],
+    "cloudIntegrationDataProcessed": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from IBM Cloud"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "cloudIntegrationDataProcessedAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data processed from cloud integration"
+      }
+    ],
+    "cloudIntegrationDataTransferred": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data transferred from Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data transferred from Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data transferred from Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data transferred from IBM Cloud"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data transferred from Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "cloudIntegrationDataTransferredAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data transferred from cloud integration"
+      }
+    ],
     "cluster": [
       {
         "type": 0,
@@ -1093,12 +1282,6 @@
         "value": "Cost categories"
       }
     ],
-    "costData": [
-      {
-        "type": 0,
-        "value": "Cost data"
-      }
-    ],
     "costDistribution": [
       {
         "type": 0,
@@ -1160,12 +1343,6 @@
       {
         "type": 0,
         "value": "Cost Management"
-      }
-    ],
-    "costManagementOperatorVersion": [
-      {
-        "type": 0,
-        "value": "Cost Management operator version"
       }
     ],
     "costModels": [
@@ -10346,6 +10523,142 @@
         "value": "value"
       }
     ],
+    "metricsOperatorData": [
+      {
+        "type": 0,
+        "value": "Cost Management metrics operator data"
+      }
+    ],
+    "metricsOperatorDataProcessed": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from IBM Cloud"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processed from OpenShift"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "metricsOperatorDataProcessedAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data received from cloud integration"
+      }
+    ],
+    "metricsOperatorDataReceived": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data received from Amazon Web Services"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data received from Microsoft Azure"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data received from Google Cloud Platform"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data received from IBM Cloud"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data received from Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data received from OpenShift"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "metricsOperatorVersion": [
+      {
+        "type": 0,
+        "value": "Cost Management operator version"
+      }
+    ],
     "monthOverMonthChange": [
       {
         "type": 0,
@@ -12850,12 +13163,6 @@
         },
         "type": 5,
         "value": "units"
-      }
-    ],
-    "unknown": [
-      {
-        "type": 0,
-        "value": "Unknown"
       }
     ],
     "updateAvailable": [
