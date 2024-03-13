@@ -1093,6 +1093,12 @@
         "value": "Cost categories"
       }
     ],
+    "costData": [
+      {
+        "type": 0,
+        "value": "Cost data"
+      }
+    ],
     "costDistribution": [
       {
         "type": 0,
@@ -2366,6 +2372,133 @@
       {
         "type": 1,
         "value": "supplementaryCost"
+      }
+    ],
+    "dataDetails": [
+      {
+        "type": 0,
+        "value": "Data details"
+      }
+    ],
+    "dataDetailsDownload": [
+      {
+        "options": {
+          "complete": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data download complete"
+              }
+            ]
+          },
+          "in_progress": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data download in progress"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "pending": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data download pending"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "dataDetailsProcessing": [
+      {
+        "options": {
+          "complete": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processing complete"
+              }
+            ]
+          },
+          "in_progress": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processing in progress"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "pending": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data processing pending"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "dataDetailsProgressStep": [
+      {
+        "type": 0,
+        "value": "Data details progress step "
+      },
+      {
+        "type": 1,
+        "value": "count"
+      }
+    ],
+    "dataDetailsProgressStepper": [
+      {
+        "type": 0,
+        "value": "Data details progress stepper"
+      }
+    ],
+    "dataDetailsSummary": [
+      {
+        "options": {
+          "complete": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data summary complete"
+              }
+            ]
+          },
+          "in_progress": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data summary in progress"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "pending": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data summary pending"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "dataTableAriaLabel": [

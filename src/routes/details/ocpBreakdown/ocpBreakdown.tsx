@@ -28,6 +28,7 @@ import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
 import { ClusterInfo } from './clusterInfo';
 import { CostOverview } from './costOverview';
+import { DataDetails } from './dataDetails';
 import { HistoricalData } from './historicalData';
 import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';
 
@@ -98,6 +99,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   return {
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfo clusterId={groupByValue} /> : undefined,
+    dataDetailsComponent: groupBy === 'cluster' ? <DataDetails clusterId={groupByValue} /> : undefined,
     costDistribution,
     costOverviewComponent: (
       <CostOverview
