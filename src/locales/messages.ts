@@ -1183,46 +1183,6 @@ export default defineMessages({
     description: 'Data details',
     id: 'dataDetails',
   },
-  dataDetailsDownload: {
-    defaultMessage:
-      '{value, select, ' +
-      'complete {Data download complete}' +
-      'in_progress {Data download in progress}' +
-      'pending {Data download pending}' +
-      'other {}}',
-    description: 'Data download status',
-    id: 'dataDetailsDownload',
-  },
-  dataDetailsProcessing: {
-    defaultMessage:
-      '{value, select, ' +
-      'complete {Data processing complete}' +
-      'in_progress {Data processing in progress}' +
-      'pending {Data processing pending}' +
-      'other {}}',
-    description: 'Data processing status',
-    id: 'dataDetailsProcessing',
-  },
-  dataDetailsProgressStep: {
-    defaultMessage: 'Data details progress step {count}',
-    description: 'Data details progress step {count}',
-    id: 'dataDetailsProgressStep',
-  },
-  dataDetailsProgressStepper: {
-    defaultMessage: 'Data details progress stepper',
-    description: 'Data details progress stepper',
-    id: 'dataDetailsProgressStepper',
-  },
-  dataDetailsSummary: {
-    defaultMessage:
-      '{value, select, ' +
-      'complete {Data summary complete}' +
-      'in_progress {Data summary in progress}' +
-      'pending {Data summary pending}' +
-      'other {}}',
-    description: 'Data summary status',
-    id: 'dataDetailsSummary',
-  },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
     description: 'Details table',
