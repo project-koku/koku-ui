@@ -44,7 +44,7 @@ const DataDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps
         </Button>
       </div>
       <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.small}>
-        <ModalHeader title={intl.formatMessage(messages.clusterInfo)} />
+        <ModalHeader title={intl.formatMessage(messages.dataDetails)} />
         <ModalBody>
           <DataDetailsContent clusterId={clusterId} />
         </ModalBody>
