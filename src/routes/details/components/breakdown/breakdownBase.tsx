@@ -58,6 +58,7 @@ export interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
   costType?: string;
   currency?: string;
+  dataDetailsComponent?: React.ReactNode;
   description?: string;
   detailsURL?: string;
   emptyStateTitle?: string;
@@ -269,6 +270,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       costDistribution,
       costType,
       currency,
+      dataDetailsComponent,
       description,
       detailsURL,
       emptyStateTitle,
@@ -316,6 +318,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
               : undefined
           }
           clusterInfoComponent={clusterInfoComponent}
+          dataDetailsComponent={dataDetailsComponent}
           costDistribution={costDistribution}
           costType={costType}
           currency={currency}

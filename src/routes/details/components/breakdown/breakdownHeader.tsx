@@ -33,6 +33,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  dataDetailsComponent?: React.ReactNode;
   detailsURL?: string;
   description?: string;
   groupBy?: string;
@@ -95,6 +96,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       costDistribution,
       costType,
       currency,
+      dataDetailsComponent,
       description,
       groupBy,
       intl,
@@ -158,10 +160,13 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
               {description && (
-                <div>
-                  <span style={styles.description}>{description}</span>
-                  {clusterInfoComponent && isClusterInfoToggleEnabled ? clusterInfoComponent : null}
-                </div>
+                <>
+                  <div style={styles.description}>
+                    {description}
+                    {clusterInfoComponent && isClusterInfoToggleEnabled ? clusterInfoComponent : null}
+                  </div>
+                  <div>{dataDetailsComponent && isClusterInfoToggleEnabled ? dataDetailsComponent : null}</div>
+                </>
               )}
             </Title>
             {showCostDistribution && (

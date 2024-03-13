@@ -4,8 +4,8 @@ import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { ClusterContent } from './clusterContent';
 import { styles } from './clusterInfo.styles';
+import { ClusterInfoContent } from './clusterInfoContent';
 
 interface ClusterInfoOwnProps {
   clusterId?: string;
@@ -36,11 +36,11 @@ const ClusterInfo: React.FC<ClusterInfoProps> = ({ clusterId }: ClusterInfoProps
       <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.medium}>
         <ModalHeader title={intl.formatMessage(messages.clusterInfo)} />
         <ModalBody>
-          <ClusterContent clusterId={clusterId} />
+          <ClusterInfoContent clusterId={clusterId} />
         </ModalBody>
       </Modal>
     </>
   );
 };
 
-export { ClusterInfo };
+export default ClusterInfo;

@@ -62,6 +62,11 @@ export interface Provider {
   paused?: boolean;
   previous_month_data?: boolean;
   source_type?: string;
+  status?: {
+    download?: string;
+    processing?: string;
+    summary?: string;
+  };
   type?: string;
   uuid?: string;
 }
