@@ -10,7 +10,6 @@ export const styles = {
   },
   loading: {
     backgroundColor: global_BackgroundColor_light_100.value,
-    minHeight: '520px',
   },
   spacingRight: {
     marginRight: global_spacer_md.value,

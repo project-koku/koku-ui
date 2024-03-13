@@ -58,6 +58,7 @@ export interface Provider {
   has_data?: boolean;
   id?: string;
   infrastructure?: ProviderInfrastructure;
+  last_payload_received_at?: string;
   name?: string;
   paused?: boolean;
   previous_month_data?: boolean;

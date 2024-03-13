@@ -77,7 +77,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
           </TextListItem>
         )}
       </TextList>
-      <Text component={TextVariants.h3}>{intl.formatMessage(messages.costManagementOperatorVersion)}</Text>
+      <Text component={TextVariants.h3}>{intl.formatMessage(messages.metricsOperatorVersion)}</Text>
       <TextList isPlain>
         <TextListItem>
           <span style={styles.spacingRight}>{clusterInfo?.additional_context?.operator_version}</span>

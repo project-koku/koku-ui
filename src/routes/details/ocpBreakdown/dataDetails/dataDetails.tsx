@@ -1,13 +1,12 @@
-import { Button, ButtonVariant, Icon } from '@patternfly/react-core';
+import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
-import { CheckCircleIcon } from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { styles } from './dataDetails.styles';
 import { DataDetailsContent } from './dataDetailsContent';
-import { lookupKey } from './utils/status';
+import { DataStatus } from './dataStatus';
 
 interface DataDetailsOwnProps {
   clusterId?: string;
@@ -33,12 +32,7 @@ const DataDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps
   return (
     <>
       <div style={styles.description}>
-        <Icon status="success" style={styles.icon}>
-          <CheckCircleIcon />
-        </Icon>
-        {intl.formatMessage(messages.dataDetailsSummary, {
-          value: lookupKey('complete'), // Todo: use status
-        })}
+        <DataStatus clusterId={clusterId} />
         <Button onClick={handleOnClick} style={styles.dataDetails} variant={ButtonVariant.link}>
           {intl.formatMessage(messages.dataDetails)}
         </Button>

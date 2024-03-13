@@ -57,25 +57,20 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ uuid }: CloudIntegr
   return (
     <>
       <TextContent>
-        <Text component={TextVariants.h3}>{provider?.name || provider?.uuid}</Text>
+        <Text component={TextVariants.h3}>{intl.formatMessage(messages.cloudIntegrationData)}</Text>
       </TextContent>
-      <ProgressStepper
-        aria-label={intl.formatMessage(messages.dataDetailsProgressStepper)}
-        isVertical
-        style={styles.stepper}
-      >
+      <ProgressStepper aria-label={intl.formatMessage(messages.cloudIntegrationData)} isVertical style={styles.stepper}>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsProgressStep, { count: 1 })}
-          icon={getIcon(provider.status.download)}
+          aria-label={intl.formatMessage(messages.cloudIntegrationDataCheckedAriaLabel, { count: 1 })}
           id="step1"
           titleId="step1-title"
-          variant={getVariant(provider.status.download)}
+          variant="success"
         >
-          {intl.formatMessage(messages.dataDetailsDownload, {
-            value: lookupKey(provider.status.download),
+          {intl.formatMessage(messages.cloudIntegrationDataChecked, {
+            value: lookupKey(provider.source_type),
           })}
           <div style={styles.description}>
-            {intl.formatDate('2024-03-12T15:00:30.127300Z', {
+            {intl.formatDate(provider.last_payload_received_at, {
               day: 'numeric',
               hour: 'numeric',
               hour12: false,
@@ -88,18 +83,17 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ uuid }: CloudIntegr
           </div>
         </ProgressStep>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsProgressStep, { count: 2 })}
-          icon={getIcon('in-progress')}
+          aria-label={intl.formatMessage(messages.cloudIntegrationDataTransferredAriaLabel, { count: 2 })}
+          icon={getIcon(provider.status.download)}
           id="step2"
           titleId="step2-title"
-          variant={getVariant('in-progress')}
+          variant={getVariant(provider.status.download)}
         >
-          {intl.formatMessage(messages.dataDetailsProcessing, {
-            // value: lookupKey(provider.status.processing),
-            value: lookupKey('in-progress'),
+          {intl.formatMessage(messages.cloudIntegrationDataTransferred, {
+            value: lookupKey(provider.source_type),
           })}
           <div style={styles.description}>
-            {intl.formatDate('2024-03-12T15:00:30.127300Z', {
+            {intl.formatDate(provider.last_payload_received_at, {
               day: 'numeric',
               hour: 'numeric',
               hour12: false,
@@ -112,18 +106,17 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ uuid }: CloudIntegr
           </div>
         </ProgressStep>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsProgressStep, { count: 3 })}
-          // icon={getIcon(provider.status.summary)}
+          aria-label={intl.formatMessage(messages.cloudIntegrationDataProcessedAriaLabel, { count: 3 })}
+          icon={getIcon(provider.status.processing)}
           id="step3"
           titleId="step3-title"
-          // variant={getVariant(provider.status.summary)}
+          variant={getVariant(provider.status.processing)}
         >
-          {intl.formatMessage(messages.dataDetailsSummary, {
-            // value: lookupKey(provider.status.summary),
-            value: lookupKey('pending'),
+          {intl.formatMessage(messages.cloudIntegrationDataProcessed, {
+            value: lookupKey(provider.source_type),
           })}
           <div style={styles.description}>
-            {intl.formatDate('2024-03-12T15:00:30.127300Z', {
+            {intl.formatDate(provider.last_payload_received_at, {
               day: 'numeric',
               hour: 'numeric',
               hour12: false,
