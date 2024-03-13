@@ -22,16 +22,12 @@ interface CloudIntegrationOwnProps {
   uuid?: string;
 }
 
-export interface CloudIntegrationStateProps {
+interface CloudIntegrationStateProps {
   provider: Provider;
   providerError: AxiosError;
   providerFetchStatus: FetchStatus;
   providerQueryString: string;
   uuid?: string;
-}
-
-export interface CloudIntegrationMapProps {
-  // TBD...
 }
 
 type CloudIntegrationProps = CloudIntegrationOwnProps;

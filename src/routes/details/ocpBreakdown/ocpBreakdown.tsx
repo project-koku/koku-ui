@@ -26,7 +26,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
-import { ClusterInfo } from './clusterInfo/clusterInfo';
+import { ClusterInfo } from './clusterInfo';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';

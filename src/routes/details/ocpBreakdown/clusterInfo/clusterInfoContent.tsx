@@ -1,4 +1,4 @@
-import './clusterContent.scss';
+import './clusterInfoContent.scss';
 
 import { Icon, Text, TextContent, TextList, TextListItem, TextVariants } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
@@ -28,20 +28,16 @@ interface ClusterInfoContentOwnProps {
   clusterId?: string;
 }
 
-export interface ClusterInfoContentStateProps {
+interface ClusterInfoContentStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
 }
 
-export interface ClusterInfoContentMapProps {
-  // TBD...
-}
-
 type ClusterInfoContentProps = ClusterInfoContentOwnProps;
 
-const ClusterContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: ClusterInfoContentProps) => {
+const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: ClusterInfoContentProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
@@ -141,4 +137,4 @@ const useMapToProps = (): ClusterInfoContentStateProps => {
   };
 };
 
-export { ClusterContent };
+export { ClusterInfoContent };
