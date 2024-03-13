@@ -46,7 +46,7 @@ const DataStatus: React.FC<DataStatusProps> = ({ clusterId }: DataStatusProps) =
   return (
     <>
       <span style={styles.statusIcon}>{getIcon(clusterInfo?.status?.summary)}</span>
-      {intl.formatMessage(messages.dataDetailsSummary, {
+      {intl.formatMessage(messages.calculationsApplied, {
         value: lookupKey(clusterInfo?.status?.summary),
       })}
     </>
