@@ -18,7 +18,7 @@ import { providersActions, providersQuery, providersSelectors } from 'store/prov
 
 import { CloudIntegration } from './cloudIntegration';
 import { styles } from './dataDetails.styles';
-import { getProgressIcon, getVariant, lookupKey } from './utils/status';
+import { getClusterAvailability, getProgressStepIcon, getStatus, lookupKey } from './utils/status';
 
 interface DataDetailsContentOwnProps {
   clusterId?: string;
@@ -58,86 +58,112 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
     );
   }
 
+  const getOperator = () => {
+    return (
+      <>
+        <TextContent>
+          <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsMetricsOperator)}</Text>
+        </TextContent>
+        <ProgressStepper
+          aria-label={intl.formatMessage(messages.dataDetailsMetricsOperator)}
+          isVertical
+          style={styles.stepper}
+        >
+          <ProgressStep
+            aria-label={intl.formatMessage(messages.sourceAvailable)}
+            id="step1"
+            titleId="step1-title"
+            variant={getStatus(getClusterAvailability(clusterInfo))}
+          >
+            {intl.formatMessage(messages.sourceAvailable, {
+              value: lookupKey(clusterInfo.source_type),
+            })}
+          </ProgressStep>
+          <ProgressStep
+            aria-label={intl.formatMessage(messages.dataDetailsTransferredAriaLabel)}
+            icon={getProgressStepIcon(clusterInfo.status.download.state)}
+            id="step1"
+            titleId="step1-title"
+            variant={getStatus(clusterInfo.status.download.state)}
+          >
+            {intl.formatMessage(messages.dataDetailsTransferred, {
+              value: lookupKey(clusterInfo.source_type),
+            })}
+            <div style={styles.description}>
+              {intl.formatDate(clusterInfo.last_payload_received_at, {
+                day: 'numeric',
+                hour: 'numeric',
+                hour12: false,
+                minute: 'numeric',
+                month: 'short',
+                timeZone: 'UTC',
+                timeZoneName: 'short',
+                year: 'numeric',
+              })}
+            </div>
+          </ProgressStep>
+          <ProgressStep
+            aria-label={intl.formatMessage(messages.dataDetailsProcessedAriaLabel)}
+            icon={getProgressStepIcon(clusterInfo.status.processing.state)}
+            id="step2"
+            titleId="step2-title"
+            variant={getStatus(clusterInfo.status.processing.state)}
+          >
+            {intl.formatMessage(messages.dataDetailsProcessed, {
+              value: lookupKey(clusterInfo.source_type),
+            })}
+            <div style={styles.description}>
+              {intl.formatDate(clusterInfo.last_payload_received_at, {
+                day: 'numeric',
+                hour: 'numeric',
+                hour12: false,
+                minute: 'numeric',
+                month: 'short',
+                timeZone: 'UTC',
+                timeZoneName: 'short',
+                year: 'numeric',
+              })}
+            </div>
+          </ProgressStep>
+        </ProgressStepper>
+        <TextContent>
+          <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsFinalized)}</Text>
+        </TextContent>
+        <ProgressStepper
+          aria-label={intl.formatMessage(messages.dataDetailsFinalized)}
+          isVertical
+          style={styles.stepper}
+        >
+          <ProgressStep
+            aria-label={intl.formatMessage(messages.dataDetailsCalculated)}
+            icon={getProgressStepIcon(clusterInfo.status.summary.state)}
+            id="step1"
+            titleId="step1-title"
+            variant={getStatus(clusterInfo.status.summary.state)}
+          >
+            {intl.formatMessage(messages.dataDetailsCalculated)}
+            <div style={styles.description}>
+              {intl.formatDate(clusterInfo.last_payload_received_at, {
+                day: 'numeric',
+                hour: 'numeric',
+                hour12: false,
+                minute: 'numeric',
+                month: 'short',
+                timeZone: 'UTC',
+                timeZoneName: 'short',
+                year: 'numeric',
+              })}
+            </div>
+          </ProgressStep>
+        </ProgressStepper>
+      </>
+    );
+  };
+
   return (
     <>
       {clusterInfo?.infrastructure?.uuid && <CloudIntegration uuid={clusterInfo?.infrastructure?.uuid} />}
-      <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.metricsOperatorData)}</Text>
-      </TextContent>
-      <ProgressStepper aria-label={intl.formatMessage(messages.metricsOperatorData)} isVertical style={styles.stepper}>
-        <ProgressStep
-          aria-label={intl.formatMessage(messages.metricsOperatorDataReceivedAriaLabel, { count: 1 })}
-          icon={getProgressIcon(clusterInfo.status.download)}
-          id="step1"
-          titleId="step1-title"
-          variant={getVariant(clusterInfo.status.download)}
-        >
-          {intl.formatMessage(messages.metricsOperatorDataReceived, {
-            value: lookupKey(clusterInfo.source_type),
-          })}
-          <div style={styles.description}>
-            {intl.formatDate(clusterInfo.last_payload_received_at, {
-              day: 'numeric',
-              hour: 'numeric',
-              hour12: false,
-              minute: 'numeric',
-              month: 'short',
-              timeZone: 'UTC',
-              timeZoneName: 'short',
-              year: 'numeric',
-            })}
-          </div>
-        </ProgressStep>
-        <ProgressStep
-          aria-label={intl.formatMessage(messages.metricsOperatorDataProcessedAriaLabel, { count: 2 })}
-          icon={getProgressIcon(clusterInfo.status.processing)}
-          id="step2"
-          titleId="step2-title"
-          variant={getVariant(clusterInfo.status.processing)}
-        >
-          {intl.formatMessage(messages.metricsOperatorDataProcessed, {
-            value: lookupKey(clusterInfo.source_type),
-          })}
-          <div style={styles.description}>
-            {intl.formatDate(clusterInfo.last_payload_received_at, {
-              day: 'numeric',
-              hour: 'numeric',
-              hour12: false,
-              minute: 'numeric',
-              month: 'short',
-              timeZone: 'UTC',
-              timeZoneName: 'short',
-              year: 'numeric',
-            })}
-          </div>
-        </ProgressStep>
-      </ProgressStepper>
-      <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.calculations)}</Text>
-      </TextContent>
-      <ProgressStepper aria-label={intl.formatMessage(messages.calculations)} isVertical style={styles.stepper}>
-        <ProgressStep
-          aria-label={intl.formatMessage(messages.calculationsApplied)}
-          icon={getProgressIcon(clusterInfo.status.summary)}
-          id="step1"
-          titleId="step1-title"
-          variant={getVariant(clusterInfo.status.summary)}
-        >
-          {intl.formatMessage(messages.calculationsApplied)}
-          <div style={styles.description}>
-            {intl.formatDate(clusterInfo.last_payload_received_at, {
-              day: 'numeric',
-              hour: 'numeric',
-              hour12: false,
-              minute: 'numeric',
-              month: 'short',
-              timeZone: 'UTC',
-              timeZoneName: 'short',
-              year: 'numeric',
-            })}
-          </div>
-        </ProgressStep>
-      </ProgressStepper>
+      {getOperator()}
     </>
   );
 };
@@ -146,7 +172,6 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
 const useMapToProps = (): DataDetailsContentStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  // PermissionsWraper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
     providersSelectors.selectProviders(state, ProviderType.all, providersQueryString)
