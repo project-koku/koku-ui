@@ -4,13 +4,13 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios/index';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { styles } from 'routes/details/ocpBreakdown/dataDetails/dataDetails.styles';
-import { getOverallStatusIcon } from 'routes/details/ocpBreakdown/dataDetails/utils/icon';
+import { styles } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/dataDetails.styles';
+import { getOverallStatusIcon } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/icon';
 import {
   getProviderAvailability,
   getProviderStatus,
   StatusType,
-} from 'routes/details/ocpBreakdown/dataDetails/utils/status';
+} from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/status';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import type { FetchStatus } from 'store/common';

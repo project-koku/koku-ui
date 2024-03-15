@@ -3,7 +3,7 @@ import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-c
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { OverallStatus } from 'routes/details/ocpBreakdown/dataDetails/components/overallStatus';
+import { OverallStatus } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/overallStatus';
 
 import { styles } from './dataDetails.styles';
 import { DataDetailsContent } from './dataDetailsContent';

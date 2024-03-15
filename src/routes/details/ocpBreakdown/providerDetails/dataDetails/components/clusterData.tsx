@@ -3,19 +3,20 @@ import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { styles } from 'routes/details/ocpBreakdown/dataDetails/dataDetails.styles';
-import { formatDate } from 'routes/details/ocpBreakdown/dataDetails/utils/format';
-import { getProgressStepIcon } from 'routes/details/ocpBreakdown/dataDetails/utils/icon';
-import { getProviderAvailability } from 'routes/details/ocpBreakdown/dataDetails/utils/status';
-import { getProgressStepVariant } from 'routes/details/ocpBreakdown/dataDetails/utils/variant';
+import { SourceLink } from 'routes/details/ocpBreakdown/providerDetails/components/sourceLink';
+import { styles } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/dataDetails.styles';
+import { formatDate } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/format';
+import { getProgressStepIcon } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/icon';
+import { getProviderAvailability } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/status';
+import { getProgressStepVariant } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/variant';
 
-interface CloudDataOwnProps {
+interface ClusterDataOwnProps {
   provider: Provider;
 }
 
-type CloudDataProps = CloudDataOwnProps;
+type ClusterDataProps = ClusterDataOwnProps;
 
-const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
+const ClusterData: React.FC<ClusterDataProps> = ({ provider }: ClusterDataProps) => {
   const intl = useIntl();
 
   if (!provider) {
@@ -25,32 +26,30 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
   return (
     <>
       <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsCloudData)}</Text>
+        <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsClusterData)}</Text>
       </TextContent>
-      <ProgressStepper aria-label={intl.formatMessage(messages.dataDetailsCloudData)} isVertical style={styles.stepper}>
+      <ProgressStepper
+        aria-label={intl.formatMessage(messages.dataDetailsClusterData)}
+        isVertical
+        style={styles.stepper}
+      >
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsCloudIntegrationStatus)}
+          aria-label={intl.formatMessage(messages.dataDetailsIntegrationStatus)}
           icon={getProgressStepIcon(getProviderAvailability(provider))}
           id="step1"
           titleId="step1-title"
           variant={getProgressStepVariant(getProviderAvailability(provider))}
         >
-          {intl.formatMessage(messages.dataDetailsCloudIntegrationStatus)}
-        </ProgressStep>
-        <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsAvailability)}
-          id="step1"
-          titleId="step1-title"
-          variant="success"
-        >
-          {intl.formatMessage(messages.dataDetailsAvailability)}
-          <div style={styles.description}>{formatDate(provider.last_payload_received_at)}</div>
+          {intl.formatMessage(messages.dataDetailsIntegrationStatus)}
+          <div style={styles.sourceLink}>
+            <SourceLink provider={provider} showLabel={false} />
+          </div>
         </ProgressStep>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsRetrieval)}
           icon={getProgressStepIcon(provider.status.download.state)}
-          id="step2"
-          titleId="step2-title"
+          id="step1"
+          titleId="step1-title"
           variant={getProgressStepVariant(provider.status.download.state)}
         >
           {intl.formatMessage(messages.dataDetailsRetrieval)}
@@ -59,10 +58,10 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
           </div>
         </ProgressStep>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.dataDetailsProcessing, { count: 3 })}
+          aria-label={intl.formatMessage(messages.dataDetailsProcessing)}
           icon={getProgressStepIcon(provider.status.processing.state)}
-          id="step3"
-          titleId="step3-title"
+          id="step2"
+          titleId="step2-title"
           variant={getProgressStepVariant(provider.status.processing.state)}
         >
           {intl.formatMessage(messages.dataDetailsProcessing)}
@@ -75,4 +74,4 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
   );
 };
 
-export { CloudIData };
+export { ClusterData };

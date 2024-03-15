@@ -4,8 +4,8 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { routes } from 'routes';
-import { styles } from 'routes/details/ocpBreakdown/clusterInfo/clusterInfo.styles';
-import { formatPath, getReleasePath } from 'utils/paths';
+import { SourceLink } from 'routes/details/ocpBreakdown/providerDetails/components/sourceLink';
+import { formatPath } from 'utils/paths';
 
 interface CloudIntegrationOwnProps {
   provider: Provider;
@@ -20,17 +20,12 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ provider }: CloudIn
     return null;
   }
 
-  const release = getReleasePath();
-
   return (
     <>
       <Text component={TextVariants.h3}>{intl.formatMessage(messages.cloudIntegration)}</Text>
       <TextList isPlain>
         <TextListItem>
-          <span style={styles.spacingRight}>
-            {intl.formatMessage(messages.source, { value: provider?.source_type?.toLowerCase() })}
-          </span>
-          <a href={`${release}/settings/integrations/detail/${provider?.id}`}>{provider?.name}</a>
+          <SourceLink provider={provider} />
         </TextListItem>
         {provider?.cost_models?.length === 0 && (
           <TextListItem>

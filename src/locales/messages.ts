@@ -1154,10 +1154,10 @@ export default defineMessages({
     description: 'Data integration and finalization',
     id: 'dataDetailsIntegrationAndFinalization',
   },
-  dataDetailsOperatorStatus: {
-    defaultMessage: 'Operator status',
-    description: 'Operator status',
-    id: 'dataDetailsOperatorStatus',
+  dataDetailsIntegrationStatus: {
+    defaultMessage: 'Red Hat integration status',
+    description: 'Red Hat integration status',
+    id: 'dataDetailsIntegrationStatus',
   },
   dataDetailsProcessing: {
     defaultMessage: 'Data processing',
