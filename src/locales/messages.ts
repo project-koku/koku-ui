@@ -200,16 +200,6 @@ export default defineMessages({
     description: 'Calculation type',
     id: 'calculationType',
   },
-  calculations: {
-    defaultMessage: 'Calculating Data and Cost Models',
-    description: 'Calculating Data and Cost Models',
-    id: 'calculations',
-  },
-  calculationsApplied: {
-    defaultMessage: 'Data correlation and cost models applied',
-    description: 'Data correlation and cost models applied',
-    id: 'calculationsApplied',
-  },
   cancel: {
     defaultMessage: 'Cancel',
     description: 'Cancel',
@@ -359,62 +349,6 @@ export default defineMessages({
     defaultMessage: 'Cloud integration',
     description: 'Cloud integration',
     id: 'cloudIntegration',
-  },
-  cloudIntegrationData: {
-    defaultMessage: 'Cloud integration data',
-    description: 'Cloud integration data',
-    id: 'cloudIntegrationData',
-  },
-  cloudIntegrationDataChecked: {
-    defaultMessage:
-      '{value, select, ' +
-      'aws {Checked for data from Amazon Web Services} ' +
-      'azure {Checked for data from Microsoft Azure} ' +
-      'oci {Checked for data from Oracle Cloud Infrastructure} ' +
-      'gcp {Checked for data from Google Cloud Platform} ' +
-      'ibm {Checked for data from IBM Cloud} ' +
-      'other {}}',
-    description: 'Checked for data from cloud integration',
-    id: 'cloudIntegrationDataChecked',
-  },
-  cloudIntegrationDataCheckedAriaLabel: {
-    defaultMessage: 'Checked for data from cloud integration',
-    description: 'Check for data from cloud integration',
-    id: 'cloudIntegrationDataCheckedAriaLabel',
-  },
-  cloudIntegrationDataProcessed: {
-    defaultMessage:
-      '{value, select, ' +
-      'aws {Data processed from Amazon Web Services} ' +
-      'azure {Data processed from Microsoft Azure} ' +
-      'oci {Data processed from Oracle Cloud Infrastructure} ' +
-      'gcp {Data processed from Google Cloud Platform} ' +
-      'ibm {Data processed from IBM Cloud} ' +
-      'other {}}',
-    description: 'Data processed from cloud integration',
-    id: 'cloudIntegrationDataProcessed',
-  },
-  cloudIntegrationDataProcessedAriaLabel: {
-    defaultMessage: 'Data processed from cloud integration',
-    description: 'Data processed from cloud integration',
-    id: 'cloudIntegrationDataProcessedAriaLabel',
-  },
-  cloudIntegrationDataTransferred: {
-    defaultMessage:
-      '{value, select, ' +
-      'aws {Data transferred from Amazon Web Services} ' +
-      'azure {Data transferred from Microsoft Azure} ' +
-      'oci {Data transferred from Oracle Cloud Infrastructure} ' +
-      'gcp {Data transferred from Google Cloud Platform} ' +
-      'ibm {Data transferred from IBM Cloud} ' +
-      'other {}}',
-    description: 'Data transferred from cloud integration',
-    id: 'cloudIntegrationDataTransferred',
-  },
-  cloudIntegrationDataTransferredAriaLabel: {
-    defaultMessage: 'Data transferred from cloud integration',
-    description: 'Data transferred from cloud integration',
-    id: 'cloudIntegrationDataTransferredAriaLabel',
   },
   cluster: {
     defaultMessage: 'Cluster',
@@ -1096,11 +1030,13 @@ export default defineMessages({
     description: 'Currency and calculations',
     id: 'currencyCalcuationsTitle',
   },
+
   currencyDesc: {
     defaultMessage: 'Select the preferred currency view for your organization',
     description: 'Select the preferred currency view for your organization',
     id: 'currencyDesc',
   },
+
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
     defaultMessage:
@@ -1178,10 +1114,83 @@ export default defineMessages({
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'dashboardTotalCostTooltip',
   },
+  dataChecked: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Checked for data from Amazon Web Services} ' +
+      'azure {Checked for data from Microsoft Azure} ' +
+      'oci {Checked for data from Oracle Cloud Infrastructure} ' +
+      'gcp {Checked for data from Google Cloud Platform} ' +
+      'ibm {Checked for data from IBM Cloud} ' +
+      'other {}}',
+    description: 'Checked for data from cloud integration',
+    id: 'dataChecked',
+  },
+  dataCheckedAriaLabel: {
+    defaultMessage: 'Checked for data from cloud integration',
+    description: 'Check for data from cloud integration',
+    id: 'dataCheckedAriaLabel',
+  },
   dataDetails: {
     defaultMessage: 'Data details',
     description: 'Data details',
     id: 'dataDetails',
+  },
+  dataDetailsCalculated: {
+    defaultMessage: 'Data correlation and cost models applied',
+    description: 'Data correlation and cost models applied',
+    id: 'dataDetailsCalculated',
+  },
+  dataDetailsCloudIntegration: {
+    defaultMessage: 'Cloud integration data',
+    description: 'Cloud integration data',
+    id: 'dataDetailsCloudIntegration',
+  },
+  dataDetailsFinalized: {
+    defaultMessage: 'Finalizing cost',
+    description: 'Finalizing cost',
+    id: 'dataDetailsFinalized',
+  },
+  dataDetailsMetricsOperator: {
+    defaultMessage: 'Cost Management metrics operator data',
+    description: 'Cost Management metrics operator data',
+    id: 'dataDetailsMetricsOperator',
+  },
+  dataDetailsProcessed: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {New data processed from Amazon Web Services} ' +
+      'azure {New data processed from Microsoft Azure} ' +
+      'oci {New data processed from Oracle Cloud Infrastructure} ' +
+      'gcp {New data processed from Google Cloud Platform} ' +
+      'ibm {New data processed from IBM Cloud} ' +
+      'ocp {New data processed from OpenShift cluster} ' +
+      'other {}}',
+    description: 'New data processed',
+    id: 'dataDetailsProcessed',
+  },
+  dataDetailsProcessedAriaLabel: {
+    defaultMessage: 'New data processed',
+    description: 'New data processed',
+    id: 'dataDetailsProcessedAriaLabel',
+  },
+  dataDetailsTransferred: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {New data transferred from Amazon Web Services} ' +
+      'azure {New data transferred from Microsoft Azure} ' +
+      'oci {New data transferred from Oracle Cloud Infrastructure} ' +
+      'gcp {New data transferred from Google Cloud Platform} ' +
+      'ibm {New data transferred from IBM Cloud} ' +
+      'ocp {New data transferred from OpenShift cluster} ' +
+      'other {}}',
+    description: 'New data transferred',
+    id: 'dataDetailsTransferred',
+  },
+  dataDetailsTransferredAriaLabel: {
+    defaultMessage: 'Data transferred',
+    description: 'Data transferred',
+    id: 'dataDetailsTransferredAriaLabel',
   },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
@@ -2453,47 +2462,6 @@ export default defineMessages({
     description: 'Metric values',
     id: 'metricValues',
   },
-  metricsOperatorData: {
-    defaultMessage: 'Cost Management metrics operator data',
-    description: 'Cost Management metrics operator data',
-    id: 'metricsOperatorData',
-  },
-  metricsOperatorDataProcessed: {
-    defaultMessage:
-      '{value, select, ' +
-      'aws {Data processed from Amazon Web Services} ' +
-      'azure {Data processed from Microsoft Azure} ' +
-      'oci {Data processed from Oracle Cloud Infrastructure} ' +
-      'gcp {Data processed from Google Cloud Platform} ' +
-      'ibm {Data processed from IBM Cloud} ' +
-      'ocp {Data processed from OpenShift} ' +
-      'other {}}',
-    description: 'Data processed from cloud integration',
-    id: 'metricsOperatorDataProcessed',
-  },
-  metricsOperatorDataProcessedAriaLabel: {
-    defaultMessage: 'Data processed from cloud integration',
-    description: 'Data processed from cloud integration',
-    id: 'metricsOperatorDataProcessedAriaLabel',
-  },
-  metricsOperatorDataReceived: {
-    defaultMessage:
-      '{value, select, ' +
-      'aws {Data received from Amazon Web Services} ' +
-      'azure {Data received from Microsoft Azure} ' +
-      'oci {Data received from Oracle Cloud Infrastructure} ' +
-      'gcp {Data received from Google Cloud Platform} ' +
-      'ibm {Data received from IBM Cloud} ' +
-      'ocp {Data received from OpenShift} ' +
-      'other {}}',
-    description: 'Data received from cloud integration',
-    id: 'metricsOperatorDataReceived',
-  },
-  metricsOperatorDataReceivedAriaLabel: {
-    defaultMessage: 'Data received from cloud integration',
-    description: 'Data received from cloud integration',
-    id: 'metricsOperatorDataProcessedAriaLabel',
-  },
   metricsOperatorVersion: {
     defaultMessage: 'Cost Management operator version',
     description: 'Cost Management operator version',
@@ -3367,6 +3335,19 @@ export default defineMessages({
       'other {}}',
     description: 'Select from the following {value} integrations:',
     id: 'source',
+  },
+  sourceAvailable: {
+    defaultMessage:
+      '{value, select, ' +
+      'aws {Integration available for Amazon Web Services} ' +
+      'azure {Integration available for Microsoft Azure} ' +
+      'oci {Integration available for Oracle Cloud Infrastructure} ' +
+      'gcp {Integration available for Google Cloud Platform} ' +
+      'ibm {Integration available for IBM Cloud} ' +
+      'ocp {Integration available for OpenShift cluster} ' +
+      'other {}}',
+    description: 'Integration available',
+    id: 'sourceAvailable',
   },
   sourceType: {
     defaultMessage: 'Integration',

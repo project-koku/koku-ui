@@ -33,7 +33,7 @@ const DataDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps
     <>
       <div style={styles.description}>
         <DataStatus clusterId={clusterId} />
-        <Button onClick={handleOnClick} style={styles.dataDetails} variant={ButtonVariant.link}>
+        <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
           {intl.formatMessage(messages.dataDetails)}
         </Button>
       </div>

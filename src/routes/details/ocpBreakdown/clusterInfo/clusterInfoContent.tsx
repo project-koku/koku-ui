@@ -111,7 +111,6 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
 const useMapToProps = (): ClusterInfoContentStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  // PermissionsWraper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
     providersSelectors.selectProviders(state, ProviderType.all, providersQueryString)

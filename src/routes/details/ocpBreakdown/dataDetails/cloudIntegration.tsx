@@ -15,7 +15,7 @@ import { FetchStatus } from 'store/common';
 import { providersActions, providersSelectors } from 'store/providers';
 
 import { styles } from './dataDetails.styles';
-import { getIcon, getVariant, lookupKey } from './utils/status';
+import { getCloudAvailability, getProgressStepIcon, getStatus, lookupKey } from './utils/status';
 
 interface CloudIntegrationOwnProps {
   uuid?: string;
@@ -57,16 +57,30 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ uuid }: CloudIntegr
   return (
     <>
       <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.cloudIntegrationData)}</Text>
+        <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsCloudIntegration)}</Text>
       </TextContent>
-      <ProgressStepper aria-label={intl.formatMessage(messages.cloudIntegrationData)} isVertical style={styles.stepper}>
+      <ProgressStepper
+        aria-label={intl.formatMessage(messages.dataDetailsCloudIntegration)}
+        isVertical
+        style={styles.stepper}
+      >
         <ProgressStep
-          aria-label={intl.formatMessage(messages.cloudIntegrationDataCheckedAriaLabel, { count: 1 })}
+          aria-label={intl.formatMessage(messages.sourceAvailable)}
+          id="step1"
+          titleId="step1-title"
+          variant={getStatus(getCloudAvailability(provider))}
+        >
+          {intl.formatMessage(messages.sourceAvailable, {
+            value: lookupKey(provider.source_type),
+          })}
+        </ProgressStep>
+        <ProgressStep
+          aria-label={intl.formatMessage(messages.dataCheckedAriaLabel)}
           id="step1"
           titleId="step1-title"
           variant="success"
         >
-          {intl.formatMessage(messages.cloudIntegrationDataChecked, {
+          {intl.formatMessage(messages.dataChecked, {
             value: lookupKey(provider.source_type),
           })}
           <div style={styles.description}>
@@ -83,13 +97,13 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ uuid }: CloudIntegr
           </div>
         </ProgressStep>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.cloudIntegrationDataTransferredAriaLabel, { count: 2 })}
-          icon={getIcon(provider.status.download)}
+          aria-label={intl.formatMessage(messages.dataDetailsTransferredAriaLabel)}
+          icon={getProgressStepIcon(provider.status.download.state)}
           id="step2"
           titleId="step2-title"
-          variant={getVariant(provider.status.download)}
+          variant={getStatus(provider.status.download.state)}
         >
-          {intl.formatMessage(messages.cloudIntegrationDataTransferred, {
+          {intl.formatMessage(messages.dataDetailsTransferred, {
             value: lookupKey(provider.source_type),
           })}
           <div style={styles.description}>
@@ -106,13 +120,13 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ uuid }: CloudIntegr
           </div>
         </ProgressStep>
         <ProgressStep
-          aria-label={intl.formatMessage(messages.cloudIntegrationDataProcessedAriaLabel, { count: 3 })}
-          icon={getIcon(provider.status.processing)}
+          aria-label={intl.formatMessage(messages.dataDetailsProcessedAriaLabel, { count: 3 })}
+          icon={getProgressStepIcon(provider.status.processing.state)}
           id="step3"
           titleId="step3-title"
-          variant={getVariant(provider.status.processing)}
+          variant={getStatus(provider.status.processing.state)}
         >
-          {intl.formatMessage(messages.cloudIntegrationDataProcessed, {
+          {intl.formatMessage(messages.dataDetailsProcessed, {
             value: lookupKey(provider.source_type),
           })}
           <div style={styles.description}>

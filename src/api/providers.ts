@@ -40,7 +40,23 @@ export interface ProviderCostModel {
   uuid: string;
 }
 
+export interface ProviderInfrastructureState {
+  end?: string;
+  start?: string;
+  state?: string;
+}
+
 export interface ProviderInfrastructure {
+  cloud_provider_state?: {
+    download?: ProviderInfrastructureState;
+    processing?: ProviderInfrastructureState;
+    summary?: ProviderInfrastructureState;
+  };
+  paused?: boolean;
+  source_status?: {
+    availability_status?: string;
+    availability_status_error?: string;
+  };
   type?: string;
   uuid?: string;
 }
@@ -64,9 +80,9 @@ export interface Provider {
   previous_month_data?: boolean;
   source_type?: string;
   status?: {
-    download?: string;
-    processing?: string;
-    summary?: string;
+    download?: ProviderInfrastructureState;
+    processing?: ProviderInfrastructureState;
+    summary?: ProviderInfrastructureState;
   };
   type?: string;
   uuid?: string;

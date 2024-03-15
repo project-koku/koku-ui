@@ -2,19 +2,21 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios/index';
-import messages from 'locales/messages';
-import React, { useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
-import { FetchStatus } from 'store/common';
-import { providersActions, providersQuery, providersSelectors } from 'store/providers';
+import type { FetchStatus } from 'store/common';
+import { providersQuery, providersSelectors } from 'store/providers';
 
 import { styles } from './dataDetails.styles';
-import { getIcon, lookupKey } from './utils/status';
+import {
+  getCloudAvailability,
+  getCloudStatus,
+  getClusterAvailability,
+  getClusterStatus,
+  getStatusIcon,
+} from './utils/status';
 
 interface DataStatusOwnProps {
   clusterId?: string;
@@ -30,7 +32,6 @@ interface DataStatusStateProps {
 type DataStatusProps = DataStatusOwnProps;
 
 const DataStatus: React.FC<DataStatusProps> = ({ clusterId }: DataStatusProps) => {
-  const intl = useIntl();
   const { providers, providersError } = useMapToProps();
 
   if (!providers || providersError) {
@@ -43,21 +44,32 @@ const DataStatus: React.FC<DataStatusProps> = ({ clusterId }: DataStatusProps) =
     cluster => cluster.authentication?.credentials?.cluster_id === clusterId
   );
 
-  return (
-    <>
-      <span style={styles.statusIcon}>{getIcon(clusterInfo?.status?.summary)}</span>
-      {intl.formatMessage(messages.calculationsApplied, {
-        value: lookupKey(clusterInfo?.status?.summary),
-      })}
-    </>
-  );
+  const getOverallStatus = () => {
+    let status;
+
+    const cloudStatus = getCloudStatus(clusterInfo);
+    const clusterStatus = getClusterStatus(clusterInfo);
+
+    if (getCloudAvailability(clusterInfo) === 'failed' || getClusterAvailability(clusterInfo) === 'failed') {
+      status = 'failed';
+    } else if (cloudStatus === 'failed' || clusterStatus === 'failed') {
+      status = 'failed';
+    } else if (cloudStatus === 'in_progress' || clusterStatus === 'in_progress') {
+      status = 'in_progress';
+    } else if (cloudStatus === 'pending' || clusterStatus === 'pending') {
+      status = 'pending';
+    } else if (cloudStatus === 'complete' || clusterStatus === 'complete') {
+      status = 'complete';
+    }
+    return status;
+  };
+
+  return <span style={styles.statusIcon}>{getStatusIcon(getOverallStatus())}</span>;
 };
 
 // eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): DataStatusStateProps => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-
-  // PermissionsWraper has already made an API request
+  // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
     providersSelectors.selectProviders(state, ProviderType.all, providersQueryString)
@@ -68,12 +80,6 @@ const useMapToProps = (): DataStatusStateProps => {
   const providersFetchStatus = useSelector((state: RootState) =>
     providersSelectors.selectProvidersFetchStatus(state, ProviderType.all, providersQueryString)
   );
-
-  useEffect(() => {
-    if (!providersError && providersFetchStatus !== FetchStatus.inProgress) {
-      dispatch(providersActions.fetchProviders(ProviderType.all, providersQueryString));
-    }
-  }, []);
 
   return {
     providers,
