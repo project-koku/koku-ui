@@ -18,6 +18,9 @@ export const styles = {
   loading: {
     backgroundColor: global_BackgroundColor_light_100.value,
   },
+  sourceLink: {
+    fontSize: global_FontSize_xs.value,
+  },
   spacingRight: {
     marginRight: global_spacer_md.value,
   },

@@ -2410,10 +2410,10 @@
         "value": "Data integration and finalization"
       }
     ],
-    "dataDetailsOperatorStatus": [
+    "dataDetailsIntegrationStatus": [
       {
         "type": 0,
-        "value": "Operator status"
+        "value": "Red Hat integration status"
       }
     ],
     "dataDetailsProcessing": [

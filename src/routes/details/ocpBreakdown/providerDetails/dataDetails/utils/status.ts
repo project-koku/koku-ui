@@ -1,4 +1,5 @@
 import type { Provider } from 'api/providers';
+import { normalize } from 'routes/details/ocpBreakdown/providerDetails/utils/normailize';
 
 // eslint-disable-next-line no-shadow
 export const enum StatusType {
@@ -10,7 +11,7 @@ export const enum StatusType {
 }
 
 export const lookupKey = (value: string) => {
-  switch (normalizeValue(value)) {
+  switch (normalize(value)) {
     case 'complete':
       return StatusType.complete;
     case 'failed':
@@ -24,10 +25,6 @@ export const lookupKey = (value: string) => {
     default:
       return undefined;
   }
-};
-
-export const normalizeValue = (value: string) => {
-  return value ? value.toLowerCase().replace('-', '_') : undefined;
 };
 
 export const getProviderAvailability = (provider: Provider) => {

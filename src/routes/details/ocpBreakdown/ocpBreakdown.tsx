@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
+import { ClusterInfo } from 'routes/details/ocpBreakdown/providerDetails/clusterInfo';
+import { DataDetails } from 'routes/details/ocpBreakdown/providerDetails/dataDetails';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
@@ -26,9 +28,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
-import { ClusterInfo } from './clusterInfo';
 import { CostOverview } from './costOverview';
-import { DataDetails } from './dataDetails';
 import { HistoricalData } from './historicalData';
 import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';
 

@@ -204,7 +204,7 @@
   "dataDetailsClusterData": "Cluster data",
   "dataDetailsCostManagementData": "Cost Management data",
   "dataDetailsIntegrationAndFinalization": "Data integration and finalization",
-  "dataDetailsOperatorStatus": "Operator status",
+  "dataDetailsIntegrationStatus": "Red Hat integration status",
   "dataDetailsProcessing": "Data processing",
   "dataDetailsRetrieval": "Data retrieval",
   "dataTableAriaLabel": "Details table",
