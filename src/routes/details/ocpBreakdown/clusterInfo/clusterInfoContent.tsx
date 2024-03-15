@@ -7,21 +7,19 @@ import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
+import { useSelector } from 'react-redux';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { CloudIntegration } from 'routes/details/ocpBreakdown/clusterInfo/components/cloudIntegration';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { providersActions, providersQuery, providersSelectors } from 'store/providers';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { formatPath, getReleasePath } from 'utils/paths';
 
-import { CloudIntegration } from './cloudIntegration';
 import { styles } from './clusterInfo.styles';
 
 interface ClusterInfoContentOwnProps {
@@ -42,19 +40,9 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
-  const title = intl.formatMessage(messages.optimizations);
-
   if (providersError) {
-    return <NotAvailable title={title} />;
+    return <NotAvailable title={intl.formatMessage(messages.clusterInfo)} />;
   }
-
-  // Filter OCP providers to skip an extra API request
-  const ocpProviders = filterProviders(providers, ProviderType.ocp);
-  const clusterInfo = ocpProviders?.data?.find(
-    cluster => cluster.authentication?.credentials?.cluster_id === clusterId
-  );
-
-  const release = getReleasePath();
 
   if (providersFetchStatus === FetchStatus.inProgress) {
     return (
@@ -63,6 +51,14 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
       </div>
     );
   }
+
+  // Filter OCP providers to skip an extra API request
+  const ocpProviders = filterProviders(providers, ProviderType.ocp);
+  const clusterProvider = ocpProviders?.data?.find(val => val.authentication?.credentials?.cluster_id === clusterId);
+  const cloudProvider = providers?.data?.find(val => val.uuid === clusterProvider?.infrastructure?.uuid);
+
+  const release = getReleasePath();
+
   return (
     <TextContent className="textContentOverride">
       <Text component={TextVariants.h3}>{intl.formatMessage(messages.clusterId)}</Text>
@@ -71,7 +67,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
           <span style={styles.spacingRight}>{clusterId}</span>
           <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
         </TextListItem>
-        {clusterInfo?.cost_models?.length === 0 && (
+        {clusterProvider?.cost_models?.length === 0 && (
           <TextListItem>
             <a href={formatPath(routes.settings.path)}>{intl.formatMessage(messages.assignCostModel)}</a>
           </TextListItem>
@@ -80,8 +76,8 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
       <Text component={TextVariants.h3}>{intl.formatMessage(messages.metricsOperatorVersion)}</Text>
       <TextList isPlain>
         <TextListItem>
-          <span style={styles.spacingRight}>{clusterInfo?.additional_context?.operator_version}</span>
-          {clusterInfo?.additional_context?.operator_update_available && (
+          <span style={styles.spacingRight}>{clusterProvider?.additional_context?.operator_version}</span>
+          {clusterProvider?.additional_context?.operator_update_available && (
             <>
               <Icon status="warning">
                 <ExclamationTriangleIcon />
@@ -91,16 +87,16 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
           )}
         </TextListItem>
       </TextList>
-      {clusterInfo && (
+      {clusterProvider && (
         <>
           <Text component={TextVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Text>
           <TextList isPlain>
             <TextListItem>
               <span style={styles.spacingRight}>{intl.formatMessage(messages.source, { value: 'ocp' })}</span>
-              <a href={`${release}/settings/integrations/detail/${clusterInfo.id}`}>{clusterInfo.name}</a>
+              <a href={`${release}/settings/integrations/detail/${clusterProvider.id}`}>{clusterProvider.name}</a>
             </TextListItem>
           </TextList>
-          {clusterInfo?.infrastructure?.uuid && <CloudIntegration uuid={clusterInfo?.infrastructure?.uuid} />}
+          {cloudProvider && <CloudIntegration provider={cloudProvider} />}
         </>
       )}
     </TextContent>
@@ -109,8 +105,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
 
 // eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): ClusterInfoContentStateProps => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-
+  // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
     providersSelectors.selectProviders(state, ProviderType.all, providersQueryString)
@@ -121,12 +116,6 @@ const useMapToProps = (): ClusterInfoContentStateProps => {
   const providersFetchStatus = useSelector((state: RootState) =>
     providersSelectors.selectProvidersFetchStatus(state, ProviderType.all, providersQueryString)
   );
-
-  useEffect(() => {
-    if (!providersError && providersFetchStatus !== FetchStatus.inProgress) {
-      dispatch(providersActions.fetchProviders(ProviderType.all, providersQueryString));
-    }
-  }, []);
 
   return {
     providers,
