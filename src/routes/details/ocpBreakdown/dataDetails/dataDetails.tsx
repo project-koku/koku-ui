@@ -3,10 +3,10 @@ import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-c
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { OverallStatus } from 'routes/details/ocpBreakdown/dataDetails/components/overallStatus';
 
 import { styles } from './dataDetails.styles';
 import { DataDetailsContent } from './dataDetailsContent';
-import { DataStatus } from './dataStatus';
 
 interface DataDetailsOwnProps {
   clusterId?: string;
@@ -32,7 +32,7 @@ const DataDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps
   return (
     <>
       <div style={styles.description}>
-        <DataStatus clusterId={clusterId} />
+        <OverallStatus clusterId={clusterId} />
         <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
           {intl.formatMessage(messages.dataDetails)}
         </Button>
