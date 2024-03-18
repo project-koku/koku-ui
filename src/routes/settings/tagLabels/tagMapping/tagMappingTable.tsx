@@ -80,7 +80,7 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
             value: <Actions canWrite={canWrite} isDisabled={isDisabled} item={parent} onClose={onClose} />,
           },
         ],
-        children: parent.children.map(child => {
+        children: item.children?.map(child => {
           return {
             cells: [
               {}, // Empty cell for expand toggle
