@@ -175,7 +175,7 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                         )
                       )}
                     </Tr>
-                    {row?.children.map((child, childIndex) => (
+                    {row?.children?.map((child, childIndex) => (
                       <Tr
                         isExpanded={isExpanded}
                         key={`row-children-${childIndex}-${rowIndex}`}
