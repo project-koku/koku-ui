@@ -35,7 +35,7 @@ export const getProviderAvailability = (provider: Provider) => {
 
   if (provider.active === false && provider.paused === false) {
     status = StatusType.failed; // Inactive sources
-  } else if (provider.infrastructure.paused === true) {
+  } else if (provider.paused === true) {
     status = StatusType.paused;
   } else {
     status = StatusType.complete;
