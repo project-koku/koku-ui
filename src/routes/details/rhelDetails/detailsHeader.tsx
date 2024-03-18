@@ -19,7 +19,7 @@ import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedRhelR
 import { filterProviders } from 'routes/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
@@ -35,7 +35,7 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isExportsFeatureEnabled?: boolean;
+  isExportsToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -65,7 +65,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     const {
       currency,
       groupBy,
-      isExportsFeatureEnabled,
+      isExportsToggleEnabled,
       onCurrencySelect,
       onGroupBySelect,
       providers,
@@ -105,7 +105,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           </Title>
           <div style={styles.headerContentRight}>
             <Currency currency={currency} onSelect={onCurrencySelect} />
-            {isExportsFeatureEnabled && <ExportsLink />}
+            {isExportsToggleEnabled && <ExportsLink />}
           </div>
         </div>
         <div style={styles.headerContent}>
@@ -154,7 +154,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
-    isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
+    isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.rhel),
     providersError,
     providersFetchStatus,

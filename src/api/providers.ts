@@ -2,6 +2,13 @@ import axios from 'axios';
 
 import type { PagedMetaData, PagedResponse } from './api';
 
+export interface ProviderAdditionalContext {
+  operator_version?: string;
+  operator_airgapped?: boolean;
+  operator_certified?: boolean;
+  operator_update_available?: boolean;
+}
+
 export interface ProviderAuthentication {
   credentials?: {
     cluster_id?: string;
@@ -33,13 +40,30 @@ export interface ProviderCostModel {
   uuid: string;
 }
 
+export interface ProviderInfrastructureState {
+  end?: string;
+  start?: string;
+  state?: string;
+}
+
 export interface ProviderInfrastructure {
+  cloud_provider_state?: {
+    download?: ProviderInfrastructureState;
+    processing?: ProviderInfrastructureState;
+    summary?: ProviderInfrastructureState;
+  };
+  paused?: boolean;
+  source_status?: {
+    availability_status?: string;
+    availability_status_error?: string;
+  };
   type?: string;
   uuid?: string;
 }
 
 export interface Provider {
   active?: boolean;
+  additional_context?: ProviderAdditionalContext;
   authentication?: ProviderAuthentication;
   billing_source?: ProviderBillingSource;
   created_by?: ProviderCreatedBy;
@@ -50,10 +74,16 @@ export interface Provider {
   has_data?: boolean;
   id?: string;
   infrastructure?: ProviderInfrastructure;
+  last_payload_received_at?: string;
   name?: string;
   paused?: boolean;
   previous_month_data?: boolean;
   source_type?: string;
+  status?: {
+    download?: ProviderInfrastructureState;
+    processing?: ProviderInfrastructureState;
+    summary?: ProviderInfrastructureState;
+  };
   type?: string;
   uuid?: string;
 }

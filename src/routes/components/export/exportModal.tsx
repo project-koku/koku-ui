@@ -24,7 +24,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { tagPrefix } from 'utils/props';
 
 import { styles } from './exportModal.styles';
@@ -46,7 +46,7 @@ export interface ExportModalOwnProps {
 }
 
 interface ExportModalStateProps {
-  isExportsFeatureEnabled?: boolean;
+  isExportsToggleEnabled?: boolean;
 }
 
 interface ExportModalState {
@@ -143,7 +143,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       groupBy,
       intl,
       isAllItems,
-      isExportsFeatureEnabled,
+      isExportsToggleEnabled,
       items,
       reportPathsType,
       reportQueryString,
@@ -184,7 +184,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             groupBy: groupBy && groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
           });
 
-    const helpText = isExportsFeatureEnabled ? this.nameValidator(defaultName) : undefined;
+    const helpText = isExportsToggleEnabled ? this.nameValidator(defaultName) : undefined;
     const validated = helpText ? 'error' : 'default';
 
     return (
@@ -217,7 +217,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       >
         {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.exportError)} />}
         <div style={styles.title}>
-          {isExportsFeatureEnabled ? (
+          {isExportsToggleEnabled ? (
             <span>
               {intl.formatMessage(messages.exportDesc, { value: <b>{intl.formatMessage(messages.exportsTitle)}</b> })}
             </span>
@@ -227,7 +227,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         </div>
         <Form style={styles.form}>
           <Grid hasGutter md={6}>
-            {isExportsFeatureEnabled && (
+            {isExportsToggleEnabled && (
               <GridItem span={12}>
                 <FormGroup fieldId="exportName" label={intl.formatMessage(messages.names, { count: 1 })} isRequired>
                   <TextInput
@@ -291,7 +291,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                 </React.Fragment>
               </FormGroup>
             )}
-            {showFormatType && isExportsFeatureEnabled && (
+            {showFormatType && isExportsToggleEnabled && (
               <GridItem span={12}>
                 <FormGroup fieldId="formatType" label={intl.formatMessage(messages.exportFormatTypeTitle)} isRequired>
                   {formatTypeOptions.map((option, index) => (
@@ -328,7 +328,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
 const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(state => {
   return {
-    isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
+    isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
   };
 });
 

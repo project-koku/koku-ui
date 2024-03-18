@@ -36,7 +36,7 @@ const ReviewSuccessBase: React.FC<WrappedComponentProps> = ({ intl }) => (
     {({ onClose, name }) => (
       <EmptyState>
         <EmptyStateHeader
-          titleText={<>{intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}</>}
+          titleText={intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}
           icon={
             <Icon status="success">
               <EmptyStateIcon icon={OkIcon} />
