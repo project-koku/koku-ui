@@ -57,7 +57,18 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
     let showEmptyState1 = false;
     let showEmptyState2 = false;
 
-    if (filter && filter.length && !Array.isArray(filter)) {
+    if (filter && Array.isArray(filter)) {
+      for (const val of filter) {
+        if (isFilter1(val)) {
+          showEmptyState1 = true;
+          break;
+        }
+        if (isFilter2(val)) {
+          showEmptyState2 = true;
+          break;
+        }
+      }
+    } else if (filter && !Array.isArray(filter)) {
       for (const val of filter.split(',')) {
         if (isFilter1(val)) {
           showEmptyState1 = true;
@@ -114,7 +125,7 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
     >
       <EmptyState>
         {getItem()}
-        <EmptyStateHeader titleText={<>{intl.formatMessage(title)}</>} headingLevel="h2" />
+        <EmptyStateHeader titleText={intl.formatMessage(title)} headingLevel="h2" />
         <EmptyStateBody>{intl.formatMessage(subTitle)}</EmptyStateBody>
       </EmptyState>
     </div>

@@ -19,6 +19,7 @@ export const getBulkSelect = ({
   onBulkSelectToggle,
   selectedItems,
   showSelectAll = true,
+  showSelectPage = true,
 }: {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -32,6 +33,7 @@ export const getBulkSelect = ({
   onBulkSelectToggle?: (isOpen: boolean) => void;
   selectedItems?: ComputedReportItem[];
   showSelectAll?: boolean;
+  showSelectPage?: boolean;
 }) => {
   const numSelected = isAllSelected ? itemsTotal : selectedItems ? selectedItems.length : 0;
   const allSelected = (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
@@ -43,11 +45,14 @@ export const getBulkSelect = ({
     <DropdownItem key="bulk-select-item-1" onClick={() => onBulkSelectClicked('none')}>
       {intl.formatMessage(messages.toolBarBulkSelectNone)}
     </DropdownItem>,
-    <DropdownItem key="bulk-select-item-2" onClick={() => onBulkSelectClicked('page')}>
-      {intl.formatMessage(messages.toolBarBulkSelectPage, { value: itemsPerPage })}
-    </DropdownItem>,
   ];
-
+  if (showSelectPage) {
+    dropdownItems.push(
+      <DropdownItem key="bulk-select-item-2" onClick={() => onBulkSelectClicked('page')}>
+        {intl.formatMessage(messages.toolBarBulkSelectPage, { value: itemsPerPage })}
+      </DropdownItem>
+    );
+  }
   if (showSelectAll) {
     dropdownItems.push(
       <DropdownItem key="bulk-select-item-3" onClick={() => onBulkSelectClicked('all')}>

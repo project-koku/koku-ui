@@ -130,7 +130,6 @@ const PvcTable: React.FC<PvcTableProps> = ({ filterBy, isLoading, onSort, orderB
       columns={columns}
       filterBy={filterBy}
       isLoading={isLoading}
-      isSelectable={false}
       onSort={handleOnSort}
       orderBy={orderBy}
       rows={rows}
