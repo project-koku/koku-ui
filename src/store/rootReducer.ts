@@ -44,7 +44,7 @@ import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { tagReducer, tagStateKey } from 'store/tags';
 import type { StateType } from 'typesafe-actions';
 
-import { featureFlagsReducer, featureFlagsStateKey } from './featureFlags';
+import { FeatureToggleReducer, FeatureToggleStateKey } from './featureToggle';
 import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
 import { rbacReducer, rbacStateKey } from './rbac';
@@ -68,7 +68,7 @@ export const rootReducer = combineReducers({
   [ociHistoricalDataStateKey]: ociHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,
   [exportStateKey]: exportReducer,
-  [featureFlagsStateKey]: featureFlagsReducer,
+  [FeatureToggleStateKey]: FeatureToggleReducer,
   [forecastStateKey]: forecastReducer,
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
   [gcpDashboardStateKey]: gcpDashboardReducer,

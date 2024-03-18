@@ -14,3 +14,17 @@ updates:
     pull-request-branch-name:
       separator: "_"
     open-pull-requests-limit: 15
+    groups:
+      lint-dependencies:
+        patterns:
+          - "*eslint*"
+      patternfly-dependencies:
+        patterns:
+          - "*patternfly*"
+      test-dependencies:
+        patterns:
+          - "*jest*"
+          - "*testing-library*"
+      ci-dependencies:
+        patterns:
+          - "*" # update remaining deps in single PR

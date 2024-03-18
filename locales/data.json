@@ -1941,6 +1941,12 @@
         "value": "Create rate"
       }
     ],
+    "createTagMapping": [
+      {
+        "type": 0,
+        "value": "Create tag mapping"
+      }
+    ],
     "currency": [
       {
         "type": 0,
@@ -2354,6 +2360,72 @@
       {
         "type": 1,
         "value": "supplementaryCost"
+      }
+    ],
+    "dataDetails": [
+      {
+        "type": 0,
+        "value": "Data details"
+      }
+    ],
+    "dataDetailsAvailability": [
+      {
+        "type": 0,
+        "value": "Data availability"
+      }
+    ],
+    "dataDetailsCloudData": [
+      {
+        "type": 0,
+        "value": "Cloud data"
+      }
+    ],
+    "dataDetailsCloudIntegration": [
+      {
+        "type": 0,
+        "value": "Cloud integration data"
+      }
+    ],
+    "dataDetailsCloudIntegrationStatus": [
+      {
+        "type": 0,
+        "value": "Cloud integration status"
+      }
+    ],
+    "dataDetailsClusterData": [
+      {
+        "type": 0,
+        "value": "Cluster data"
+      }
+    ],
+    "dataDetailsCostManagementData": [
+      {
+        "type": 0,
+        "value": "Cost Management data"
+      }
+    ],
+    "dataDetailsIntegrationAndFinalization": [
+      {
+        "type": 0,
+        "value": "Data integration and finalization"
+      }
+    ],
+    "dataDetailsIntegrationStatus": [
+      {
+        "type": 0,
+        "value": "Red Hat integration status"
+      }
+    ],
+    "dataDetailsProcessing": [
+      {
+        "type": 0,
+        "value": "Data processing"
+      }
+    ],
+    "dataDetailsRetrieval": [
+      {
+        "type": 0,
+        "value": "Data retrieval"
       }
     ],
     "dataTableAriaLabel": [
@@ -2890,6 +2962,14 @@
               {
                 "type": 0,
                 "value": "Tag names"
+              }
+            ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tag keys"
               }
             ]
           }
@@ -3528,6 +3608,12 @@
       {
         "type": 0,
         "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models"
+      }
+    ],
+    "docsTagMapping": [
+      {
+        "type": 0,
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index"
       }
     ],
     "docsTags": [
@@ -7080,6 +7166,30 @@
                 "value": "Input for tag name"
               }
             ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for tag key"
+              }
+            ]
+          },
+          "tag_key_child": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for child tag key"
+              }
+            ]
+          },
+          "tag_key_parent": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for parent tag key"
+              }
+            ]
           }
         },
         "type": 5,
@@ -7285,6 +7395,30 @@
               {
                 "type": 0,
                 "value": "Filter by tag"
+              }
+            ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by tag key"
+              }
+            ]
+          },
+          "tag_key_child": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by child tag key"
+              }
+            ]
+          },
+          "tag_key_parent": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by parent tag key"
               }
             ]
           },
@@ -7520,6 +7654,30 @@
               {
                 "type": 0,
                 "value": "Tag"
+              }
+            ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tag key"
+              }
+            ]
+          },
+          "tag_key_child": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Child tag Key"
+              }
+            ]
+          },
+          "tag_key_parent": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Parent tag Key"
               }
             ]
           },
@@ -10115,6 +10273,12 @@
         "value": "value"
       }
     ],
+    "metricsOperatorVersion": [
+      {
+        "type": 0,
+        "value": "Cost Management operator version"
+      }
+    ],
     "monthOverMonthChange": [
       {
         "type": 0,
@@ -10191,6 +10355,36 @@
       {
         "type": 0,
         "value": "There are no export files available"
+      }
+    ],
+    "noMappedTags": [
+      {
+        "type": 0,
+        "value": "No mapped tags"
+      }
+    ],
+    "noMappedTagsDesc": [
+      {
+        "type": 0,
+        "value": "Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. "
+      },
+      {
+        "type": 1,
+        "value": "warning"
+      },
+      {
+        "type": 0,
+        "value": " Changes will be reflected within 24 hours. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "noMappedTagsWarning": [
+      {
+        "type": 0,
+        "value": "Tags must be enabled to be mapped."
       }
     ],
     "noOptimizationsDesc": [
@@ -11515,6 +11709,42 @@
     "settingsSuccessTags": [
       {
         "options": {
+          "add": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key added"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key added"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
           "disable": {
             "value": [
               {
@@ -11589,6 +11819,42 @@
           },
           "other": {
             "value": []
+          },
+          "remove": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key removed"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag key removed"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
           }
         },
         "type": 5,
@@ -11884,10 +12150,210 @@
         "value": "Value"
       }
     ],
+    "tagKeyChild": [
+      {
+        "type": 0,
+        "value": "Child tag keys"
+      }
+    ],
+    "tagKeyParent": [
+      {
+        "type": 0,
+        "value": "Parent tag key"
+      }
+    ],
+    "tagKeyParentSource": [
+      {
+        "type": 0,
+        "value": "Parent integration"
+      }
+    ],
     "tagLabels": [
       {
         "type": 0,
         "value": "Tags and labels"
+      }
+    ],
+    "tagLabelsEnable": [
+      {
+        "type": 0,
+        "value": "Enable tags and labels"
+      }
+    ],
+    "tagLabelsMap": [
+      {
+        "type": 0,
+        "value": "Map tags and labels"
+      }
+    ],
+    "tagMappingAddChildTags": [
+      {
+        "type": 0,
+        "value": "Add child tags"
+      }
+    ],
+    "tagMappingAddChildTagsDesc": [
+      {
+        "type": 0,
+        "value": "Select additional tag key(s) that will be mapped to the "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tag map. Tags that have been already mapped will not be available for selection."
+      }
+    ],
+    "tagMappingDelete": [
+      {
+        "type": 0,
+        "value": "Delete tag mapping"
+      }
+    ],
+    "tagMappingDeleteDesc": [
+      {
+        "type": 0,
+        "value": "This action will remove the "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tag mapping. Changes will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingDesc": [
+      {
+        "type": 0,
+        "value": "Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. "
+      },
+      {
+        "type": 1,
+        "value": "warning"
+      },
+      {
+        "type": 0,
+        "value": " Changes will be reflected within 24 hours. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "tagMappingSelectChildTags": [
+      {
+        "type": 0,
+        "value": "Select child tags"
+      }
+    ],
+    "tagMappingSelectChildTagsDesc": [
+      {
+        "type": 0,
+        "value": "Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "tagMappingSelectParentTags": [
+      {
+        "type": 0,
+        "value": "Select parent tag"
+      }
+    ],
+    "tagMappingSelectParentTagsDesc": [
+      {
+        "type": 0,
+        "value": "Select a parent tag key that will be mapped to the "
+      },
+      {
+        "type": 1,
+        "value": "count"
+      },
+      {
+        "type": 0,
+        "value": " child tags you selected in the previous step. This tag will be available for filtering in Cost Management."
+      }
+    ],
+    "tagMappingWarning": [
+      {
+        "type": 0,
+        "value": "You must enable tags to use tag mapping."
+      }
+    ],
+    "tagMappingWizardDesc": [
+      {
+        "type": 0,
+        "value": "Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingWizardNavToCreateTagMapping": [
+      {
+        "type": 0,
+        "value": "Create another tag mapping"
+      }
+    ],
+    "tagMappingWizardNavToTagMapping": [
+      {
+        "type": 0,
+        "value": "Go back to Cost Management Settings"
+      }
+    ],
+    "tagMappingWizardReview": [
+      {
+        "type": 0,
+        "value": "Review details"
+      }
+    ],
+    "tagMappingWizardReviewDesc": [
+      {
+        "type": 0,
+        "value": "Review and confirm the tag mappings. Click "
+      },
+      {
+        "type": 1,
+        "value": "create"
+      },
+      {
+        "type": 0,
+        "value": " to create the mappings, or "
+      },
+      {
+        "type": 1,
+        "value": "back"
+      },
+      {
+        "type": 0,
+        "value": " to revise. Changes to the reports will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingWizardSelectChildTags": [
+      {
+        "type": 0,
+        "value": "Select child tags"
+      }
+    ],
+    "tagMappingWizardSelectParentTag": [
+      {
+        "type": 0,
+        "value": "Select parent tag"
+      }
+    ],
+    "tagMappingWizardSuccess": [
+      {
+        "type": 0,
+        "value": "Tag mapping successful"
+      }
+    ],
+    "tagMappingWizardSuccessDesc": [
+      {
+        "type": 0,
+        "value": "Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours."
       }
     ],
     "tagNames": [
@@ -11987,6 +12453,14 @@
               }
             ]
           },
+          "cluster_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "cluster-month"
+              }
+            ]
+          },
           "core_hours": {
             "value": [
               {
@@ -12023,7 +12497,7 @@
               }
             ]
           },
-          "gb_mo": {
+          "gb_month": {
             "value": [
               {
                 "type": 1,
@@ -12044,6 +12518,30 @@
               {
                 "type": 0,
                 "value": " GB-ms"
+              }
+            ]
+          },
+          "gib_hours": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GiB-hours"
+              }
+            ]
+          },
+          "gib_month": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GiB-month"
               }
             ]
           },
@@ -12103,6 +12601,26 @@
               }
             ]
           },
+          "pvc_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PVC-month"
+              }
+            ]
+          },
+          "tag_month": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " tag-month"
+              }
+            ]
+          },
           "vm_hours": {
             "value": [
               {
@@ -12128,6 +12646,14 @@
               {
                 "type": 0,
                 "value": "Byte-ms"
+              }
+            ]
+          },
+          "cluster_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "cluster-month"
               }
             ]
           },
@@ -12163,7 +12689,7 @@
               }
             ]
           },
-          "gb_mo": {
+          "gb_month": {
             "value": [
               {
                 "type": 0,
@@ -12176,6 +12702,22 @@
               {
                 "type": 0,
                 "value": "GB-ms"
+              }
+            ]
+          },
+          "gib_hours": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GiB-hours"
+              }
+            ]
+          },
+          "gib_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GiB-month"
               }
             ]
           },
@@ -12214,6 +12756,22 @@
           "other": {
             "value": []
           },
+          "pvc_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PVC-month"
+              }
+            ]
+          },
+          "tag_month": {
+            "value": [
+              {
+                "type": 0,
+                "value": "tag-month"
+              }
+            ]
+          },
           "vm_hours": {
             "value": [
               {
@@ -12225,6 +12783,12 @@
         },
         "type": 5,
         "value": "units"
+      }
+    ],
+    "updateAvailable": [
+      {
+        "type": 0,
+        "value": "Update available"
       }
     ],
     "usage": [

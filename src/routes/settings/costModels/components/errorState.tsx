@@ -34,7 +34,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ variant, actionButton, t
   return (
     <EmptyState variant={variant}>
       <EmptyStateHeader
-        titleText={<>{title}</>}
+        titleText={title}
         icon={<EmptyStateIcon icon={ExclamationCircleIcon} color={global_DangerColor_100.value} />}
         headingLevel="h4"
       />

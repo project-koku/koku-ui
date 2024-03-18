@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default state 1`] = `
+{
+  "hasFeatureToggle": false,
+  "isClusterInfoToggleEnabled": false,
+  "isDebugToggleEnabled": false,
+  "isExportsToggleEnabled": false,
+  "isFinsightsToggleEnabled": false,
+  "isIbmToggleEnabled": false,
+  "isRosToggleEnabled": false,
+  "isSettingsPlatformToggleEnabled": false,
+  "isTagMappingToggleEnabled": false,
+}
+`;

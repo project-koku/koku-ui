@@ -12,11 +12,13 @@ import { connect } from 'react-redux';
 import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
+import { ClusterInfo } from 'routes/details/ocpBreakdown/providerDetails/clusterInfo';
+import { DataDetails } from 'routes/details/ocpBreakdown/providerDetails/dataDetails';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { createMapStateToProps } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
@@ -26,7 +28,6 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
-import { ClusterInfo } from './clusterInfo/clusterInfo';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';
@@ -98,6 +99,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   return {
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfo clusterId={groupByValue} /> : undefined,
+    dataDetailsComponent: groupBy === 'cluster' ? <DataDetails clusterId={groupByValue} /> : undefined,
     costDistribution,
     costOverviewComponent: (
       <CostOverview
@@ -117,7 +119,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     groupByValue,
     historicalDataComponent: <HistoricalData costDistribution={costDistribution} currency={currency} />,
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
-    isRosFeatureEnabled: featureFlagsSelectors.selectIsRosFeatureEnabled(state),
+    isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OcpBreakdownOptimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,

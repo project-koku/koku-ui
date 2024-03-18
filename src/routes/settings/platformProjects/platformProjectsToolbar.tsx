@@ -4,13 +4,10 @@ import { ResourcePathsType } from 'api/resources/resource';
 import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { Filter } from 'routes/utils/filter';
-import { createMapStateToProps } from 'store/common';
 
 import { styles } from './platformProjects.styles';
 
@@ -20,7 +17,7 @@ export const enum GroupType {
   platform = 'Platform',
 }
 
-interface CostCategoryToolbarOwnProps {
+interface PlatformProjectsToolbarOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   isPrimaryActionDisabled?: boolean;
@@ -38,45 +35,36 @@ interface CostCategoryToolbarOwnProps {
   showBulkSelectAll?: boolean;
 }
 
-interface CostCategoryToolbarStateProps {
-  // TBD...
-}
+type PlatformProjectsToolbarProps = PlatformProjectsToolbarOwnProps;
 
-interface CostCategoryToolbarDispatchProps {
-  // TBD...
-}
+const PlatformProjectsToolbar: React.FC<PlatformProjectsToolbarProps> = ({
+  canWrite,
+  isDisabled,
+  isPrimaryActionDisabled,
+  isSecondaryActionDisabled,
+  itemsPerPage,
+  itemsTotal,
+  onAdd,
+  onBulkSelect,
+  onFilterAdded,
+  onFilterRemoved,
+  onRemove,
+  pagination,
+  query,
+  selectedItems,
+  showBulkSelectAll,
+}) => {
+  const intl = useIntl();
 
-interface CostCategoryToolbarState {
-  categoryOptions?: ToolbarChipGroupExt[];
-}
-
-type CostCategoryToolbarProps = CostCategoryToolbarOwnProps &
-  CostCategoryToolbarStateProps &
-  CostCategoryToolbarDispatchProps &
-  WrappedComponentProps;
-
-export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbarProps, CostCategoryToolbarState> {
-  protected defaultState: CostCategoryToolbarState = {};
-  public state: CostCategoryToolbarState = { ...this.defaultState };
-
-  public componentDidMount() {
-    this.setState({
-      categoryOptions: this.getCategoryOptions(),
-    });
-  }
-
-  private getActions = () => {
-    const { canWrite, intl, isPrimaryActionDisabled, isSecondaryActionDisabled, onAdd, onRemove, selectedItems } =
-      this.props;
-
-    const isDisabled = !canWrite || selectedItems.length === 0;
+  const getActions = () => {
+    const isAriaDisabled = !canWrite || isDisabled || selectedItems.length === 0;
     const tooltip = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.selectProjects);
 
     return (
       <>
         <Tooltip content={tooltip}>
           <Button
-            isAriaDisabled={isDisabled || isPrimaryActionDisabled}
+            isAriaDisabled={isAriaDisabled || isPrimaryActionDisabled}
             key="save"
             onClick={onAdd}
             variant={ButtonVariant.primary}
@@ -86,7 +74,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
         </Tooltip>
         <Tooltip content={tooltip}>
           <Button
-            isAriaDisabled={isDisabled || isSecondaryActionDisabled}
+            isAriaDisabled={isAriaDisabled || isSecondaryActionDisabled}
             key="reset"
             onClick={onRemove}
             style={styles.action}
@@ -99,9 +87,7 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
     );
   };
 
-  private getCategoryOptions = (): ToolbarChipGroupExt[] => {
-    const { intl } = this.props;
-
+  const getCategoryOptions = (): ToolbarChipGroupExt[] => {
     const options = [
       {
         ariaLabelKey: 'name',
@@ -131,58 +117,26 @@ export class CostCategoryToolbarBase extends React.Component<CostCategoryToolbar
     return options;
   };
 
-  public render() {
-    const {
-      canWrite,
-      isDisabled,
-      itemsPerPage,
-      itemsTotal,
-      onBulkSelect,
-      onFilterAdded,
-      onFilterRemoved,
-      pagination,
-      query,
-      selectedItems,
-      showBulkSelectAll,
-    } = this.props;
-    const { categoryOptions } = this.state;
-
-    return (
-      <BasicToolbar
-        actions={this.getActions()}
-        categoryOptions={categoryOptions}
-        isDisabled={isDisabled}
-        isReadOnly={!canWrite}
-        itemsPerPage={itemsPerPage}
-        itemsTotal={itemsTotal}
-        onBulkSelect={onBulkSelect}
-        onFilterAdded={onFilterAdded}
-        onFilterRemoved={onFilterRemoved}
-        pagination={pagination}
-        query={query}
-        resourcePathsType={ResourcePathsType.ocp}
-        selectedItems={selectedItems}
-        showBulkSelect
-        showBulkSelectAll={showBulkSelectAll}
-        showFilter
-      />
-    );
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<CostCategoryToolbarOwnProps, CostCategoryToolbarStateProps>(() => {
-  return {
-    // TBD...
-  };
-});
-
-const mapDispatchToProps: CostCategoryToolbarDispatchProps = {
-  // TBD...
+  return (
+    <BasicToolbar
+      actions={getActions()}
+      categoryOptions={getCategoryOptions()}
+      isDisabled={isDisabled}
+      isReadOnly={!canWrite}
+      itemsPerPage={itemsPerPage}
+      itemsTotal={itemsTotal}
+      onBulkSelect={onBulkSelect}
+      onFilterAdded={onFilterAdded}
+      onFilterRemoved={onFilterRemoved}
+      pagination={pagination}
+      query={query}
+      resourcePathsType={ResourcePathsType.ocp}
+      selectedItems={selectedItems}
+      showBulkSelect
+      showBulkSelectAll={showBulkSelectAll}
+      showFilter
+    />
+  );
 };
 
-const CostCategoryToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(CostCategoryToolbarBase);
-const PlatformProjectsToolbar = injectIntl(CostCategoryToolbarConnect);
-
 export { PlatformProjectsToolbar };
-export type { CostCategoryToolbarProps };
