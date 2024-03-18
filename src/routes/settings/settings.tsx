@@ -19,7 +19,7 @@ import { PlatformProjects } from 'routes/settings/platformProjects';
 import { TagLabels } from 'routes/settings/tagLabels';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
@@ -237,7 +237,7 @@ const useMapToProps = (): SettingsStateProps => {
 
   return {
     isSettingsPlatformEnabled: useSelector((state: RootState) =>
-      featureFlagsSelectors.selectIsSettingsPlatformFeatureEnabled(state)
+      FeatureToggleSelectors.selectIsSettingsPlatformToggleEnabled(state)
     ),
     userAccess,
     userAccessError,

@@ -34,17 +34,12 @@ interface DataTableOwnProps {
   orderBy: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
+  variant?: 'checkbox' | 'radio';
 }
 
 type DataTableProps = DataTableOwnProps & RouterComponentProps & WrappedComponentProps;
 
 class DataTable extends React.Component<DataTableProps, any> {
-  constructor(props: DataTableProps) {
-    super(props);
-    this.handleOnSelect = this.handleOnSelect.bind(this);
-    this.handleOnSort = this.handleOnSort.bind(this);
-  }
-
   private getEmptyState = () => {
     const { emptyState, filterBy, intl } = this.props;
 
@@ -119,7 +114,7 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isActionsCell = false, isLoading, isSelectable = true, rows } = this.props;
+    const { columns, intl, isActionsCell, isLoading, isSelectable, rows, variant } = this.props;
 
     return (
       <>
@@ -168,6 +163,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                           isSelected: row.selected,
                           onSelect: (_evt, isSelected) => this.handleOnSelect(isSelected, rowIndex),
                           rowIndex,
+                          variant,
                         }}
                         style={item.style}
                       />
