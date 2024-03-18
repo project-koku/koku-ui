@@ -58,6 +58,7 @@ export interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
   costType?: string;
   currency?: string;
+  dataDetailsComponent?: React.ReactNode;
   description?: string;
   detailsURL?: string;
   emptyStateTitle?: string;
@@ -65,7 +66,7 @@ export interface BreakdownStateProps {
   groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
   isOptimizationsTab?: boolean;
-  isRosFeatureEnabled?: boolean;
+  isRosToggleEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   optimizationsComponent?: React.ReactNode;
   providers?: Providers;
@@ -125,7 +126,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   }
 
   private getAvailableTabs = () => {
-    const { costOverviewComponent, historicalDataComponent, isRosFeatureEnabled, optimizationsComponent } = this.props;
+    const { costOverviewComponent, historicalDataComponent, isRosToggleEnabled, optimizationsComponent } = this.props;
 
     const availableTabs = [];
     if (costOverviewComponent) {
@@ -140,7 +141,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         tab: BreakdownTab.historicalData,
       });
     }
-    if (optimizationsComponent && isRosFeatureEnabled) {
+    if (optimizationsComponent && isRosToggleEnabled) {
       availableTabs.push({
         contentRef: React.createRef(),
         showBadge: true,
@@ -269,6 +270,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       costDistribution,
       costType,
       currency,
+      dataDetailsComponent,
       description,
       detailsURL,
       emptyStateTitle,
@@ -316,6 +318,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
               : undefined
           }
           clusterInfoComponent={clusterInfoComponent}
+          dataDetailsComponent={dataDetailsComponent}
           costDistribution={costDistribution}
           costType={costType}
           currency={currency}

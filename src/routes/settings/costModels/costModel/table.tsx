@@ -126,7 +126,7 @@ class TableBase extends React.Component<TableBaseProps, TableBaseState> {
           <div style={styles.emptyState}>
             <EmptyState>
               <EmptyStateHeader
-                titleText={<>{intl.formatMessage(messages.costModelsSourceEmptyStateDesc)}</>}
+                titleText={intl.formatMessage(messages.costModelsSourceEmptyStateDesc)}
                 icon={<EmptyStateIcon icon={PlusCircleIcon} />}
                 headingLevel="h2"
               />

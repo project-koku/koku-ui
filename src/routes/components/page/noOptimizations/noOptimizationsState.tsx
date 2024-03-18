@@ -24,7 +24,7 @@ class NoOptimizationsStateBase extends React.Component<NoOptimizationsStateProps
     return (
       <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
         <EmptyStateHeader
-          titleText={<>{intl.formatMessage(messages.noOptimizationsTitle)}</>}
+          titleText={intl.formatMessage(messages.noOptimizationsTitle)}
           icon={<EmptyStateIcon icon={OptimizationIcon as any} />}
           headingLevel="h1"
         />

@@ -21,15 +21,14 @@ export const fetchSettingsRequest = createAction('settings/fetch/request')<Setti
 export const fetchSettingsSuccess = createAction('settings/fetch/success')<Settings, SettingsActionMeta>();
 export const fetchSettingsFailure = createAction('settings/fetch/failure')<AxiosError, SettingsActionMeta>();
 
-export const updateSettingsRequest = createAction('settings/awsCategoryKeys/update/request')<SettingsActionMeta>();
-export const updateSettingsSuccess = createAction('settings/awsCategoryKeys/update/success')<
+export const updateSettingsRequest = createAction('settings/update/request')<SettingsActionMeta>();
+export const updateSettingsSuccess = createAction('settings/update/success')<
   AxiosResponse<SettingsPayload>,
   SettingsActionMeta
 >();
-export const updateSettingsFailure = createAction('settings/awsCategoryKeys/update/failure')<
-  AxiosError,
-  SettingsActionMeta
->();
+export const updateSettingsFailure = createAction('settings/update/failure')<AxiosError, SettingsActionMeta>();
+
+export const resetStatus = createAction('settings/status/reset')();
 
 export function fetchSettings(settingsType: SettingsType, settingsQueryString: string): ThunkAction {
   return (dispatch, getState) => {
@@ -97,6 +96,15 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         msg = messages.settingsSuccessTags;
         status = 'enable';
         break;
+      case SettingsType.tagsMappingsChildAdd:
+        msg = messages.settingsSuccessTags;
+        status = 'add';
+        break;
+      case SettingsType.tagsMappingsChildRemove:
+      case SettingsType.tagsMappingsParentRemove:
+        msg = messages.settingsSuccessTags;
+        status = 'remove';
+        break;
     }
 
     return apiUpdateSettings(settingsType, payload)
@@ -105,7 +113,13 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         dispatch(
           addNotification({
             title: intl.formatMessage(msg, {
-              count: payload.ids.length,
+              count: payload.ids
+                ? payload.ids.length
+                : payload.children
+                  ? payload.children.length
+                  : payload.parent
+                    ? payload.parent.length
+                    : 0,
               value: status,
             }),
             description: intl.formatMessage(messages.settingsSuccessChanges),

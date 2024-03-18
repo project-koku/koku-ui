@@ -1,4 +1,4 @@
-// Based on https://github.com/RedHatInsights/frontend-components/blob/master/packages/config/src/scripts/dev.webpack.config.js
+// Based on https://github.com/RedHatInsights/frontend-components/blob/master/packages/config/src/bin/dev.webpack.config.ts
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
