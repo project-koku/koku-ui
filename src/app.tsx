@@ -8,7 +8,7 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { invalidateSession } from 'utils/sessionStorage';
 
 import pkg from '../package.json';
-import { useFeatureFlags } from './components/featureFlags';
+import { useFeatureToggle } from './components/featureToggle';
 import { Routes } from './routes';
 
 const App = () => {
@@ -22,8 +22,8 @@ const App = () => {
     updateDocumentTitle(pkg.insights.appname);
   }, []);
 
-  // Initialize Unleash feature flags
-  useFeatureFlags();
+  // Initialize Unleash feature toggles
+  useFeatureToggle();
 
   // Clear local storage value if current session is not valid
   invalidateSession();

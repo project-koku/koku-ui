@@ -1,57 +1,41 @@
 import { PageSection, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
 import messages from 'locales/messages';
-import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
+import type { RootState } from 'store';
 import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import type { FetchStatus } from 'store/common';
-import { createMapStateToProps } from 'store/common';
-import type { RouterComponentProps } from 'utils/router';
-import { withRouter } from 'utils/router';
 import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
 
 import { styles } from './calculations.styles';
 
-interface SettingsOwnProps {
+interface CalculationsPropsOwnProps {
   canWrite?: boolean;
 }
 
-interface SettingsDispatchProps {
-  updateCostType: typeof accountSettingsActions.updateAccountSettings;
-  updateCurrency: typeof accountSettingsActions.updateAccountSettings;
+export interface CalculationsStateProps {
+  costTypeAccountSettingsUpdateStatus: FetchStatus;
+  currencyAccountSettingsUpdateStatus: FetchStatus;
 }
 
-interface SettingsStateProps {
-  updateCostTypeStatus: FetchStatus;
-  updateCurrencyStatus: FetchStatus;
-}
+type CalculationsProps = CalculationsPropsOwnProps;
 
-interface SettingsState {
-  currentCostType?: string;
-  currentCurrency?: string;
-}
+const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
+  const [costType, setCostType] = useState(getAccountCostType());
+  const [currency, setCurrency] = useState(getAccountCostType());
 
-type SettingsProps = SettingsOwnProps &
-  SettingsStateProps &
-  SettingsDispatchProps &
-  RouterComponentProps &
-  WrappedComponentProps;
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const intl = useIntl();
 
-class SettingsBase extends React.Component<SettingsProps, SettingsState> {
-  protected defaultState: SettingsState = {
-    currentCostType: getAccountCostType(),
-    currentCurrency: getAccountCurrency(),
-  };
-  public state: SettingsState = { ...this.defaultState };
+  const { costTypeAccountSettingsUpdateStatus, currencyAccountSettingsUpdateStatus } = useMapToProps();
 
-  private getCostType = () => {
-    const { canWrite, intl } = this.props;
-    const { currentCostType } = this.state;
-
+  const getCostType = () => {
     return (
       <div style={styles.costTypeContainer}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
@@ -59,12 +43,12 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
         </Title>
         {intl.formatMessage(messages.costTypeSettingsDesc)}
         <div style={styles.costType}>
-          {this.getTooltip(
+          {getTooltip(
             <CostType
-              costType={currentCostType}
+              costType={costType}
               isDisabled={!canWrite}
               isSessionStorage={false}
-              onSelect={this.handleOnCostTypeSelected}
+              onSelect={handleOnCostTypeSelected}
               showLabel={false}
             />
           )}
@@ -73,10 +57,7 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     );
   };
 
-  private getCurrency = () => {
-    const { canWrite, intl } = this.props;
-    const { currentCurrency } = this.state;
-
+  const getCurrency = () => {
     return (
       <div style={styles.currencyContainer}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
@@ -84,12 +65,12 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
         </Title>
         {intl.formatMessage(messages.currencyDesc)}
         <div style={styles.currency}>
-          {this.getTooltip(
+          {getTooltip(
             <Currency
-              currency={currentCurrency}
+              currency={currency}
               isDisabled={!canWrite}
               isSessionStorage={false}
-              onSelect={this.handleOnCurrencySelected}
+              onSelect={handleOnCurrencySelected}
               showLabel={false}
             />
           )}
@@ -98,64 +79,52 @@ class SettingsBase extends React.Component<SettingsProps, SettingsState> {
     );
   };
 
-  private getTooltip = comp => {
-    const { canWrite, intl } = this.props;
-
+  const getTooltip = comp => {
     return !canWrite ? <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{comp}</Tooltip> : comp;
   };
 
-  private handleOnCostTypeSelected = value => {
-    const { updateCostType } = this.props;
-
-    this.setState({ currentCostType: value }, () => {
-      updateCostType(AccountSettingsType.costType, {
+  const handleOnCostTypeSelected = value => {
+    dispatch(
+      accountSettingsActions.updateAccountSettings(AccountSettingsType.costType, {
         cost_type: value,
-      });
-    });
-  };
-
-  private handleOnCurrencySelected = value => {
-    const { updateCurrency } = this.props;
-
-    this.setState({ currentCurrency: value }, () => {
-      updateCurrency(AccountSettingsType.currency, {
-        currency: value,
-      });
-    });
-  };
-
-  public render() {
-    return (
-      <PageSection isFilled>
-        {this.getCurrency()}
-        {this.getCostType()}
-      </PageSection>
+      })
     );
-  }
-}
+  };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<SettingsOwnProps, SettingsStateProps>(state => {
-  const updateCostTypeStatus = accountSettingsSelectors.selectAccountSettingsUpdateStatus(
-    state,
-    AccountSettingsType.costType
+  const handleOnCurrencySelected = value => {
+    dispatch(
+      accountSettingsActions.updateAccountSettings(AccountSettingsType.currency, {
+        currency: value,
+      })
+    );
+  };
+
+  useEffect(() => {
+    setCostType(getAccountCostType());
+    setCurrency(getAccountCurrency());
+  }, [costTypeAccountSettingsUpdateStatus, currencyAccountSettingsUpdateStatus]);
+
+  return (
+    <PageSection isFilled>
+      {getCurrency()}
+      {getCostType()}
+    </PageSection>
   );
-  const updateCurrencyStatus = accountSettingsSelectors.selectAccountSettingsUpdateStatus(
-    state,
-    AccountSettingsType.currency
+};
+
+// eslint-disable-next-line no-empty-pattern
+const useMapToProps = (): CalculationsStateProps => {
+  const costTypeAccountSettingsUpdateStatus = useSelector((state: RootState) =>
+    accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, AccountSettingsType.costType)
+  );
+  const currencyAccountSettingsUpdateStatus = useSelector((state: RootState) =>
+    accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, AccountSettingsType.currency)
   );
 
   return {
-    updateCostTypeStatus,
-    updateCurrencyStatus,
+    costTypeAccountSettingsUpdateStatus,
+    currencyAccountSettingsUpdateStatus,
   };
-});
-
-const mapDispatchToProps: SettingsDispatchProps = {
-  updateCostType: accountSettingsActions.updateAccountSettings,
-  updateCurrency: accountSettingsActions.updateAccountSettings,
 };
-
-const Calculations = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SettingsBase)));
 
 export default Calculations;

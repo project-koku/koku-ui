@@ -52,7 +52,7 @@ import {
   hasPreviousMonthData,
 } from 'routes/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dates';
@@ -131,8 +131,8 @@ interface OverviewStateProps {
   currency?: string;
   gcpProviders?: Providers;
   ibmProviders?: Providers;
-  isFinsightsFeatureEnabled?: boolean;
-  isIbmFeatureEnabled?: boolean;
+  isFinsightsToggleEnabled?: boolean;
+  isIbmToggleEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers?: Providers;
@@ -194,7 +194,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   }
 
   private getAvailableTabs = () => {
-    const { isFinsightsFeatureEnabled } = this.props;
+    const { isFinsightsToggleEnabled } = this.props;
     const availableTabs = [];
 
     const infrastructureTabs =
@@ -230,7 +230,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         ]
       : undefined;
 
-    if (isFinsightsFeatureEnabled) {
+    if (isFinsightsToggleEnabled) {
       if (infrastructureTabs) {
         availableTabs.push(...infrastructureTabs);
       }
@@ -276,7 +276,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getCurrentTab = () => {
-    const { isFinsightsFeatureEnabled } = this.props;
+    const { isFinsightsToggleEnabled } = this.props;
     const { activeTabKey } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -300,7 +300,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     } else if (showRhelOnly) {
       return OverviewTab.rhel;
     } else {
-      if (isFinsightsFeatureEnabled) {
+      if (isFinsightsToggleEnabled) {
         switch (activeTabKey) {
           case 0:
             return OverviewTab.infrastructure;
@@ -387,7 +387,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getPerspective = () => {
-    const { isIbmFeatureEnabled } = this.props;
+    const { isIbmToggleEnabled } = this.props;
     const { currentInfrastructurePerspective, currentOcpPerspective, currentRhelPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -432,7 +432,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
         hasRhel={hasRhel}
-        isIbmFeatureEnabled={isIbmFeatureEnabled}
+        isIbmToggleEnabled={isIbmToggleEnabled}
         isInfrastructureTab={OverviewTab.infrastructure === currentTab}
         isRhelTab={OverviewTab.rhel === currentTab}
         onSelect={this.handleOnPerspectiveSelect}
@@ -565,10 +565,10 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getTabTitle = (tab: OverviewTab) => {
-    const { intl, isFinsightsFeatureEnabled } = this.props;
+    const { intl, isFinsightsToggleEnabled } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
-      if (isFinsightsFeatureEnabled) {
+      if (isFinsightsToggleEnabled) {
         return intl.formatMessage(messages.summary);
       }
       return intl.formatMessage(messages.infrastructure);
@@ -698,12 +698,12 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private isRhelAvailable = () => {
-    const { isFinsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
-    return isFinsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+    const { isFinsightsToggleEnabled, rhelProviders, userAccess } = this.props;
+    return isFinsightsToggleEnabled && isRhelAvailable(userAccess, rhelProviders);
   };
 
   public render() {
-    const { providersFetchStatus, intl, isFinsightsFeatureEnabled, isIbmFeatureEnabled, userAccessFetchStatus } =
+    const { providersFetchStatus, intl, isFinsightsToggleEnabled, isIbmToggleEnabled, userAccessFetchStatus } =
       this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
@@ -746,7 +746,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
                       <p>{intl.formatMessage(messages.openShiftDesc)}</p>
                       <br />
-                      {isFinsightsFeatureEnabled && (
+                      {isFinsightsToggleEnabled && (
                         <>
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.rhel)}</p>
                           <p>{intl.formatMessage(messages.rhelDesc)}</p>
@@ -758,7 +758,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
                       <br />
                       <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                       <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                      {isIbmFeatureEnabled && (
+                      {isIbmToggleEnabled && (
                         <>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
@@ -840,8 +840,8 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     currency,
     gcpProviders: filterProviders(providers, ProviderType.gcp),
     ibmProviders: filterProviders(providers, ProviderType.ibm),
-    isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
-    isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
+    isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
+    isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
     ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     providers,

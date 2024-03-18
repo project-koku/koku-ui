@@ -53,8 +53,8 @@ interface PerspectiveProps {
   hasOcpCloud?: boolean;
   hasRhel?: boolean;
   isDisabled?: boolean;
-  isIbmFeatureEnabled?: boolean;
-  isOciFeatureEnabled?: boolean;
+  isIbmToggleEnabled?: boolean;
+  isOciToggleEnabled?: boolean;
   isInfrastructureTab?: boolean; // Used by the overview page
   isRhelTab?: boolean; // Used by the overview page,
   onSelect?: (value: string) => void;
@@ -70,7 +70,7 @@ const getInfrastructureOptions = ({
   hasIbm,
   hasIbmOcp,
   hasOci,
-  isIbmFeatureEnabled,
+  isIbmToggleEnabled,
 }) => {
   const options = [];
 
@@ -89,7 +89,7 @@ const getInfrastructureOptions = ({
   if (hasIbm) {
     options.push(...infrastructureIbmOptions);
   }
-  if (hasIbmOcp && isIbmFeatureEnabled) {
+  if (hasIbmOcp && isIbmToggleEnabled) {
     options.push(...infrastructureIbmOcpOptions);
   }
   if (hasAzure) {
@@ -119,7 +119,7 @@ const Perspective: React.FC<PerspectiveProps> = ({
   hasOcpCloud,
   hasRhel,
   isDisabled,
-  isIbmFeatureEnabled,
+  isIbmToggleEnabled,
   isInfrastructureTab,
   isRhelTab,
   onSelect,
@@ -144,7 +144,7 @@ const Perspective: React.FC<PerspectiveProps> = ({
           hasIbm,
           hasIbmOcp,
           hasOci,
-          isIbmFeatureEnabled,
+          isIbmToggleEnabled,
         })
       );
     } else if (isRhelTab) {
@@ -175,7 +175,7 @@ const Perspective: React.FC<PerspectiveProps> = ({
         hasIbm,
         hasIbmOcp,
         hasOci,
-        isIbmFeatureEnabled,
+        isIbmToggleEnabled,
       })
     );
   }

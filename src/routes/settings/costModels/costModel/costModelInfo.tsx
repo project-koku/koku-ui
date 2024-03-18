@@ -93,7 +93,7 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
               <PageSection>
                 <EmptyState>
                   <EmptyStateHeader
-                    titleText={<>{intl.formatMessage(messages.costModelsUUIDEmptyState)}</>}
+                    titleText={intl.formatMessage(messages.costModelsUUIDEmptyState)}
                     icon={<EmptyStateIcon icon={ErrorCircleOIcon} />}
                     headingLevel="h2"
                   />

@@ -26,7 +26,7 @@ import type { Filter } from 'routes/utils/filter';
 import { filterProviders, hasCloudProvider } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { RouterComponentProps } from 'utils/router';
@@ -80,9 +80,9 @@ interface ExplorerHeaderStateProps {
   gcpProviders?: Providers;
   ibmProviders?: Providers;
   isDistributedOverhead?: boolean;
-  isExportsFeatureEnabled?: boolean;
-  isFinsightsFeatureEnabled?: boolean;
-  isIbmFeatureEnabled?: boolean;
+  isExportsToggleEnabled?: boolean;
+  isFinsightsToggleEnabled?: boolean;
+  isIbmToggleEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
@@ -126,7 +126,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
   }
 
   private getPerspective = (isDisabled: boolean) => {
-    const { isIbmFeatureEnabled } = this.props;
+    const { isIbmToggleEnabled } = this.props;
     const { currentPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
@@ -158,7 +158,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         hasOcpCloud={this.isOcpCloudAvailable()}
         hasRhel={hasRhel}
         isDisabled={isDisabled}
-        isIbmFeatureEnabled={isIbmFeatureEnabled}
+        isIbmToggleEnabled={isIbmToggleEnabled}
         onSelect={this.handleOnPerspectiveSelect}
       />
     );
@@ -243,8 +243,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
   };
 
   private isRhelAvailable = () => {
-    const { isFinsightsFeatureEnabled, rhelProviders, userAccess } = this.props;
-    return isFinsightsFeatureEnabled && isRhelAvailable(userAccess, rhelProviders);
+    const { isFinsightsToggleEnabled, rhelProviders, userAccess } = this.props;
+    return isFinsightsToggleEnabled && isRhelAvailable(userAccess, rhelProviders);
   };
 
   public render() {
@@ -254,7 +254,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       currency,
       groupBy,
       intl,
-      isExportsFeatureEnabled,
+      isExportsToggleEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
@@ -292,7 +292,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           </Title>
           <div style={styles.headerContentRight}>
             <Currency currency={currency} onSelect={onCurrencySelect} />
-            {isExportsFeatureEnabled && <ExportsLink />}
+            {isExportsToggleEnabled && <ExportsLink />}
           </div>
         </div>
         <div style={styles.perspectiveContainer}>
@@ -379,9 +379,9 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
       ibmProviders: filterProviders(providers, ProviderType.ibm),
-      isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
-      isFinsightsFeatureEnabled: featureFlagsSelectors.selectIsFinsightsFeatureEnabled(state),
-      isIbmFeatureEnabled: featureFlagsSelectors.selectIsIbmFeatureEnabled(state),
+      isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
+      isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
+      isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
       ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,

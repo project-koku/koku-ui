@@ -814,7 +814,7 @@ export default defineMessages({
     defaultMessage:
       'Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
     description:
-      'Review and confirm your cost model configuration and assignments. Click {Create} to create the cost model, or {Back} to revise.',
+      'Review and confirm your cost model configuration and assignments. Click {create} to create the cost model, or {back} to revise.',
     id: 'costModelsWizardReviewStatusSubDetails',
   },
   costModelsWizardReviewStatusSubTitle: {
@@ -1003,6 +1003,11 @@ export default defineMessages({
     description: 'Create rate',
     id: 'createRate',
   },
+  createTagMapping: {
+    defaultMessage: 'Create tag mapping',
+    description: 'Create tag mapping',
+    id: 'createTagMapping',
+  },
   currency: {
     defaultMessage: 'Currency',
     description: 'Currency',
@@ -1025,11 +1030,13 @@ export default defineMessages({
     description: 'Currency and calculations',
     id: 'currencyCalcuationsTitle',
   },
+
   currencyDesc: {
     defaultMessage: 'Select the preferred currency view for your organization',
     description: 'Select the preferred currency view for your organization',
     id: 'currencyDesc',
   },
+
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
     defaultMessage:
@@ -1106,6 +1113,61 @@ export default defineMessages({
       'This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
     description: 'total cost is the sum of the infrastructure cost and supplementary cost',
     id: 'dashboardTotalCostTooltip',
+  },
+  dataDetails: {
+    defaultMessage: 'Data details',
+    description: 'Data details',
+    id: 'dataDetails',
+  },
+  dataDetailsAvailability: {
+    defaultMessage: 'Data availability',
+    description: 'Data availability',
+    id: 'dataDetailsAvailability',
+  },
+  dataDetailsCloudData: {
+    defaultMessage: 'Cloud data',
+    description: 'Cloud data',
+    id: 'dataDetailsCloudData',
+  },
+  dataDetailsCloudIntegration: {
+    defaultMessage: 'Cloud integration data',
+    description: 'Cloud integration data',
+    id: 'dataDetailsCloudIntegration',
+  },
+  dataDetailsCloudIntegrationStatus: {
+    defaultMessage: 'Cloud integration status',
+    description: 'Cloud integration status',
+    id: 'dataDetailsCloudIntegrationStatus',
+  },
+  dataDetailsClusterData: {
+    defaultMessage: 'Cluster data',
+    description: 'Cluster data',
+    id: 'dataDetailsClusterData',
+  },
+  dataDetailsCostManagementData: {
+    defaultMessage: 'Cost Management data',
+    description: 'Cost Management data',
+    id: 'dataDetailsCostManagementData',
+  },
+  dataDetailsIntegrationAndFinalization: {
+    defaultMessage: 'Data integration and finalization',
+    description: 'Data integration and finalization',
+    id: 'dataDetailsIntegrationAndFinalization',
+  },
+  dataDetailsIntegrationStatus: {
+    defaultMessage: 'Red Hat integration status',
+    description: 'Red Hat integration status',
+    id: 'dataDetailsIntegrationStatus',
+  },
+  dataDetailsProcessing: {
+    defaultMessage: 'Data processing',
+    description: 'Data processing',
+    id: 'dataDetailsProcessing',
+  },
+  dataDetailsRetrieval: {
+    defaultMessage: 'Data retrieval',
+    description: 'Data retrieval',
+    id: 'dataDetailsRetrieval',
   },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
@@ -1233,6 +1295,7 @@ export default defineMessages({
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
       'tag {Tag names} ' +
+      'tag_key {Tag keys} ' +
       'other {}}',
     description: 'Details table resource names',
     id: 'detailsResourceNames',
@@ -1429,6 +1492,13 @@ export default defineMessages({
     description:
       'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models',
     id: 'docsPlatformProjects',
+  },
+  docsTagMapping: {
+    defaultMessage:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index',
+    description:
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index',
+    id: 'docsTagMapping',
   },
   docsTags: {
     defaultMessage:
@@ -1857,6 +1927,9 @@ export default defineMessages({
       'subscription_guid {Input for account name} ' +
       'status {Input for status value} ' +
       'tag {Input for tag name} ' +
+      'tag_key {Input for tag key} ' +
+      'tag_key_child {Input for child tag key} ' +
+      'tag_key_parent {Input for parent tag key} ' +
       'other {}}',
     description: 'Input for {value} name',
     id: 'filterByInputAriaLabel',
@@ -1899,6 +1972,9 @@ export default defineMessages({
       'workload {Filter by workload name} ' +
       'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
+      'tag_key {Filter by tag key} ' +
+      'tag_key_child {Filter by child tag key} ' +
+      'tag_key_parent {Filter by parent tag key} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'filterByPlaceholder',
@@ -1949,6 +2025,9 @@ export default defineMessages({
       'storage_class {StorageClass} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
+      'tag_key {Tag key} ' +
+      'tag_key_child {Child tag Key} ' +
+      'tag_key_parent {Parent tag Key} ' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
       'other {}}',
@@ -2360,6 +2439,11 @@ export default defineMessages({
     description: 'Metric values',
     id: 'metricValues',
   },
+  metricsOperatorVersion: {
+    defaultMessage: 'Cost Management operator version',
+    description: 'Cost Management operator version',
+    id: 'metricsOperatorVersion',
+  },
   monthOverMonthChange: {
     defaultMessage: 'Month over month change',
     description: 'Month over month change',
@@ -2405,6 +2489,23 @@ export default defineMessages({
     defaultMessage: 'There are no export files available',
     description: 'There are no export files available',
     id: 'noExportsStateTitle',
+  },
+  noMappedTags: {
+    defaultMessage: 'No mapped tags',
+    description: 'No mapped tags',
+    id: 'noMappedTags',
+  },
+  noMappedTagsDesc: {
+    defaultMessage:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    description:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    id: 'noMappedTagsDesc',
+  },
+  noMappedTagsWarning: {
+    defaultMessage: 'Tags must be enabled to be mapped.',
+    description: 'Tags must be enabled to be mapped.',
+    id: 'noMappedTagsWarning',
   },
   noOptimizationsDesc: {
     defaultMessage:
@@ -3167,8 +3268,10 @@ export default defineMessages({
   settingsSuccessTags: {
     defaultMessage:
       '{value, select, ' +
+      'add {{count, plural, one {{count} tag key added} other {{count} tag key added}}} ' +
       'enable {{count, plural, one {{count} tag enabled} other {{count} tags enabled}}} ' +
       'disable {{count, plural, one {{count} tag disabled} other {{count} tags disabled}}} ' +
+      'remove {{count, plural, one {{count} tag key removed} other {{count} tag key removed}}} ' +
       'other {}}',
     description: 'Cost category keys enabled or disabled',
     id: 'settingsSuccessTags',
@@ -3295,10 +3398,144 @@ export default defineMessages({
     description: 'Value',
     id: 'tagHeadingValue',
   },
+  tagKeyChild: {
+    defaultMessage: 'Child tag keys',
+    description: 'Child tag keys',
+    id: 'tagKeyChild',
+  },
+  tagKeyParent: {
+    defaultMessage: 'Parent tag key',
+    description: 'Parent tag key',
+    id: 'tagKeyParent',
+  },
+  tagKeyParentSource: {
+    defaultMessage: 'Parent integration',
+    description: 'Parent integration',
+    id: 'tagKeyParentSource',
+  },
+  tagLabelsEnable: {
+    defaultMessage: 'Enable tags and labels',
+    description: 'Enable tags and labels',
+    id: 'tagLabelsEnable',
+  },
+  tagLabelsMap: {
+    defaultMessage: 'Map tags and labels',
+    description: 'Map tags and labels',
+    id: 'tagLabelsMap',
+  },
   tagLabelsTitle: {
     defaultMessage: 'Tags and labels',
     description: 'Tags and labels',
     id: 'tagLabels',
+  },
+  tagMappingAddChildTags: {
+    defaultMessage: 'Add child tags',
+    description: 'Add child tags',
+    id: 'tagMappingAddChildTags',
+  },
+  tagMappingAddChildTagsDesc: {
+    defaultMessage:
+      'Select additional tag key(s) that will be mapped to the {value} tag map. Tags that have been already mapped will not be available for selection.',
+    description:
+      'Select additional tag key(s) that will be mapped to the {value} tag map. Tags that have been already mapped will not be available for selection.',
+    id: 'tagMappingAddChildTagsDesc',
+  },
+  tagMappingDelete: {
+    defaultMessage: 'Delete tag mapping',
+    description: 'Delete tag mapping',
+    id: 'tagMappingDelete',
+  },
+  tagMappingDeleteDesc: {
+    defaultMessage: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    description: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    id: 'tagMappingDeleteDesc',
+  },
+  tagMappingDesc: {
+    defaultMessage:
+      'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    description:
+      'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
+    id: 'tagMappingDesc',
+  },
+  tagMappingSelectChildTags: {
+    defaultMessage: 'Select child tags',
+    description: 'Select child tags',
+    id: 'tagMappingSelectChildTags',
+  },
+  tagMappingSelectChildTagsDesc: {
+    defaultMessage:
+      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+    description:
+      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+    id: 'tagMappingSelectChildTagsDesc',
+  },
+  tagMappingSelectParentTags: {
+    defaultMessage: 'Select parent tag',
+    description: 'Select parent tag',
+    id: 'tagMappingSelectParentTags',
+  },
+  tagMappingSelectParentTagsDesc: {
+    defaultMessage:
+      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+    description:
+      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+    id: 'tagMappingSelectParentTagsDesc',
+  },
+  tagMappingWarning: {
+    defaultMessage: 'You must enable tags to use tag mapping.',
+    description: 'You must enable tags to use tag mapping.',
+    id: 'tagMappingWarning',
+  },
+  tagMappingWizardDesc: {
+    defaultMessage:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
+    description:
+      'Map multiple tags across data sources to be used as a single tag key for report grouping and filtering. Changes will be reflected within 24 hours.',
+    id: 'tagMappingWizardDesc',
+  },
+  tagMappingWizardNavToCreateTagMapping: {
+    defaultMessage: 'Create another tag mapping',
+    description: 'Create another tag mapping',
+    id: 'tagMappingWizardNavToCreateTagMapping',
+  },
+  tagMappingWizardNavToTagMapping: {
+    defaultMessage: 'Go back to Cost Management Settings',
+    description: 'Go back to Cost Management Settings',
+    id: 'tagMappingWizardNavToTagMapping',
+  },
+  tagMappingWizardReview: {
+    defaultMessage: 'Review details',
+    description: 'Review details',
+    id: 'tagMappingWizardReview',
+  },
+  tagMappingWizardReviewDesc: {
+    defaultMessage:
+      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
+    description:
+      'Review and confirm the tag mappings. Click {create} to create the mappings, or {back} to revise. Changes to the reports will be reflected within 24 hours.',
+    id: 'tagMappingWizardReviewDesc',
+  },
+  tagMappingWizardSelectChildTags: {
+    defaultMessage: 'Select child tags',
+    description: 'Select child tags',
+    id: 'tagMappingWizardSelectChildTags',
+  },
+  tagMappingWizardSelectParentTag: {
+    defaultMessage: 'Select parent tag',
+    description: 'Select parent tag',
+    id: 'tagMappingWizardSelectParentTag',
+  },
+  tagMappingWizardSuccess: {
+    defaultMessage: 'Tag mapping successful',
+    description: 'Tag mapping successful',
+    id: 'tagMappingWizardSuccess',
+  },
+  tagMappingWizardSuccessDesc: {
+    defaultMessage:
+      'Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours.',
+    description:
+      'Your tag keys were successfully mapped. Changes will be reflected in report summarizations within 24 hours.',
+    id: 'tagMappingWizardSuccessDesc',
   },
   tagNames: {
     defaultMessage: 'Tag names',
@@ -3359,15 +3596,20 @@ export default defineMessages({
     defaultMessage:
       '{units, select, ' +
       'byte_ms {{value} Byte-ms} ' +
+      'cluster_month {cluster-month} ' +
       'core_hours {{value} core-hours} ' +
       'gb {{value} GB} ' +
       'gb_hours {{value} GB-hours} ' +
-      'gb_mo {{value} GB-month} ' +
+      'gb_month {{value} GB-month} ' +
       'gb_ms {{value} GB-ms} ' +
+      'gib_hours {{value} GiB-hours} ' +
+      'gib_month {{value} GiB-month} ' +
       'gibibyte_month {{value} GiB-month} ' +
       'hour {{value} hours} ' +
       'hrs {{value} hours} ' +
       'ms {{value} milliseconds} ' +
+      'pvc_month {PVC-month} ' +
+      'tag_month {{value} tag-month} ' +
       'vm_hours {{value} VM-hours} ' +
       'other {{value}}}',
     description: 'return value and unit based on key: "units"',
@@ -3377,20 +3619,30 @@ export default defineMessages({
     defaultMessage:
       '{units, select, ' +
       'byte_ms {Byte-ms} ' +
+      'cluster_month {cluster-month} ' +
       'core {core} ' +
       'core_hours {core-hours} ' +
       'gb {GB} ' +
       'gb_hours {GB-hours} ' +
-      'gb_mo {GB-month} ' +
+      'gb_month {GB-month} ' +
       'gb_ms {GB-ms} ' +
+      'gib_hours {GiB-hours} ' +
+      'gib_month {GiB-month} ' +
       'gibibyte_month {GiB-month} ' +
       'hour {hours} ' +
       'hrs {hours} ' +
       'ms {milliseconds} ' +
+      'pvc_month {PVC-month} ' +
+      'tag_month {tag-month} ' +
       'vm_hours {VM-hours} ' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'units',
+  },
+  updateAvailable: {
+    defaultMessage: 'Update available',
+    description: 'Update available',
+    id: 'updateAvailable',
   },
   usage: {
     defaultMessage: 'Usage',

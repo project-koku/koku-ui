@@ -48,6 +48,7 @@ interface BasicToolbarOwnProps {
   selectedItems?: any[];
   showBulkSelect?: boolean; // Show bulk select
   showBulkSelectAll?: boolean; // Show bulk select all option
+  showBulkSelectPage?: boolean; // Show bulk select page option
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
   useActiveFilters?: boolean;
@@ -136,6 +137,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       itemsTotal,
       selectedItems,
       showBulkSelectAll,
+      showBulkSelectPage,
     } = this.props;
     const { isBulkSelectOpen } = this.state;
 
@@ -152,6 +154,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       onBulkSelectToggle: this.handleOnBulkSelectToggle,
       selectedItems,
       showSelectAll: showBulkSelectAll,
+      showSelectPage: showBulkSelectPage,
     });
   };
 

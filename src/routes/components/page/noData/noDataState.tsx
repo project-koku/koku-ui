@@ -26,7 +26,7 @@ class NoDataStateBase extends React.Component<NoDataStateProps, any> {
     return (
       <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
         <EmptyStateHeader
-          titleText={<>{intl.formatMessage(messages.noDataStateTitle)}</>}
+          titleText={intl.formatMessage(messages.noDataStateTitle)}
           icon={<EmptyStateIcon icon={PlusCircleIcon} />}
           headingLevel="h5"
         />

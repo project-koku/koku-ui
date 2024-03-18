@@ -31,7 +31,7 @@ export function fetchExport(
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   reportQueryString: string,
-  isExportsFeatureEnabled: boolean = false
+  isExportsToggleEnabled: boolean = false
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
     if (!isExportExpired(getState(), reportPathsType, reportType, reportQueryString)) {
@@ -47,7 +47,7 @@ export function fetchExport(
       .then(res => {
         dispatch(fetchExportSuccess(res.data, meta));
 
-        if (isExportsFeatureEnabled) {
+        if (isExportsToggleEnabled) {
           const description = intl.formatMessage(messages.exportsSuccessDesc, {
             link: <ExportsLink isActionLink onClick={() => dispatch(removeNotification(exportSuccessID))} />,
             value: <b>{intl.formatMessage(messages.exportsTitle)}</b>,
@@ -67,7 +67,7 @@ export function fetchExport(
       .catch(err => {
         dispatch(fetchExportFailure(err, meta));
 
-        if (isExportsFeatureEnabled) {
+        if (isExportsToggleEnabled) {
           dispatch(
             addNotification({
               description: intl.formatMessage(messages.exportsFailedDesc),

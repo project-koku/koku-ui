@@ -31,6 +31,7 @@ export const styles = {
   description: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
+    paddingLeft: '1px',
   },
   header: {
     backgroundColor: global_BackgroundColor_100.var,

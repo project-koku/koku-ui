@@ -94,7 +94,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
       <Bullseye>
         <EmptyState>
           <EmptyStateHeader
-            titleText={<>{intl.formatMessage(messages.costModelsWizardEmptyStateTitle)}</>}
+            titleText={intl.formatMessage(messages.costModelsWizardEmptyStateTitle)}
             icon={<EmptyStateIcon icon={PlusCircleIcon} />}
             headingLevel="h2"
           />

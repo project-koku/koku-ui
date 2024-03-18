@@ -17,7 +17,7 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import { getDateRangeFromQuery } from 'routes/utils/dateRange';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
-import { featureFlagsSelectors } from 'store/featureFlags';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { getToday } from 'utils/dates';
 import { orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -48,7 +48,7 @@ interface ExportSubmitStateProps {
   exportFetchStatus?: FetchStatus;
   exportQueryString: string;
   exportReport: Export;
-  isExportsFeatureEnabled?: boolean;
+  isExportsToggleEnabled?: boolean;
   startDate: string;
 }
 
@@ -83,9 +83,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   }
 
   private fetchExport = () => {
-    const { exportQueryString, fetchExport, isExportsFeatureEnabled, reportPathsType } = this.props;
+    const { exportQueryString, fetchExport, isExportsToggleEnabled, reportPathsType } = this.props;
 
-    fetchExport(reportPathsType, reportType, exportQueryString, isExportsFeatureEnabled);
+    fetchExport(reportPathsType, reportType, exportQueryString, isExportsToggleEnabled);
 
     this.setState(
       {
@@ -244,7 +244,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
     exportFetchStatus,
     exportQueryString,
     exportReport,
-    isExportsFeatureEnabled: featureFlagsSelectors.selectIsExportsFeatureEnabled(state),
+    isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     startDate: start_date,
   };
 });
