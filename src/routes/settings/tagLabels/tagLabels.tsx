@@ -53,8 +53,11 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
     return availableItems;
   };
 
-  const handleOnClick = (event, index) => {
-    if (activeKey !== index) {
+  const handleOnToggle = (event, index) => {
+    const isOpen = activeKey === index;
+    if (isOpen) {
+      setActiveKey(index === 0 ? 1 : 0);
+    } else {
       setActiveKey(index);
     }
   };
@@ -78,18 +81,19 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
 
   const getAccordionItem = (availableItems: AvailableItem[]) => {
     return availableItems.map((val, index) => {
+      const isExpanded = activeKey === index;
       return (
         <AccordionItem key={`accordion-${index}`}>
           <AccordionToggle
             id={`accordion-toggle-${index}`}
-            isExpanded={activeKey === index}
+            isExpanded={isExpanded}
             onClick={_evt => {
-              handleOnClick(_evt, index);
+              handleOnToggle(_evt, index);
             }}
           >
             {val.label}
           </AccordionToggle>
-          <AccordionContent isHidden={activeKey !== index}>{getAccordionContent(val.item, index)}</AccordionContent>
+          <AccordionContent isHidden={!isExpanded}>{getAccordionContent(val.item, index)}</AccordionContent>
         </AccordionItem>
       );
     });

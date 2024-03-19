@@ -12209,13 +12209,13 @@
     "tagMappingDelete": [
       {
         "type": 0,
-        "value": "Delete tag mapping"
+        "value": "Delete tag mapping?"
       }
     ],
     "tagMappingDeleteDesc": [
       {
         "type": 0,
-        "value": "This action will remove the "
+        "value": "Deleting "
       },
       {
         "type": 1,
@@ -12223,7 +12223,7 @@
       },
       {
         "type": 0,
-        "value": " tag mapping. Changes will be reflected within 24 hours."
+        "value": " will queue a resummarization. Changes will be reflected within 24 hours."
       }
     ],
     "tagMappingDesc": [
@@ -12242,6 +12242,26 @@
       {
         "type": 1,
         "value": "learnMore"
+      }
+    ],
+    "tagMappingRemove": [
+      {
+        "type": 0,
+        "value": "Remove child tag?"
+      }
+    ],
+    "tagMappingRemoveDesc": [
+      {
+        "type": 0,
+        "value": "Removing "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " will queue a resummarization. Changes will be reflected within 24 hours."
       }
     ],
     "tagMappingSelectChildTags": [

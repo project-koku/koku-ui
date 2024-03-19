@@ -17,6 +17,7 @@ import { settingsActions, settingsSelectors } from 'store/settings';
 
 interface DeleteTagMappingOwnProps {
   isOpen?: boolean;
+  isChild?: boolean;
   item: SettingsData;
   onClose?: () => void;
   settingsType: SettingsType;
@@ -33,7 +34,7 @@ interface DeleteTagMappingStateProps {
 
 type DeleteTagMappingProps = DeleteTagMappingOwnProps;
 
-const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, item, onClose, settingsType }) => {
+const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, isChild, item, onClose, settingsType }) => {
   const [isFinish, setIsFinish] = useState(false);
   const { settingsUpdateError, settingsUpdateStatus } = useMapToProps({ settingsType });
 
@@ -64,13 +65,17 @@ const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, item, onClo
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.medium}>
       <ModalHeader
         className="iconOverride"
-        title={intl.formatMessage(messages.tagMappingDelete)}
+        title={intl.formatMessage(isChild ? messages.tagMappingRemove : messages.tagMappingDelete)}
         titleIconVariant="warning"
       />
-      <ModalBody>{intl.formatMessage(messages.tagMappingDeleteDesc, { value: <b>{item.key}</b> })}</ModalBody>
+      <ModalBody>
+        {intl.formatMessage(isChild ? messages.tagMappingRemoveDesc : messages.tagMappingDeleteDesc, {
+          value: <b>{item.key}</b>,
+        })}
+      </ModalBody>
       <ModalFooter>
         <Button key="confirm" onClick={handleOnDelete} variant="danger">
-          {intl.formatMessage(messages.tagMappingDelete)}
+          {intl.formatMessage(isChild ? messages.remove : messages.delete)}
         </Button>
         <Button key="cancel" onClick={onClose} variant="link">
           {intl.formatMessage(messages.cancel)}
