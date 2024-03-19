@@ -64,6 +64,7 @@ const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrit
       {getActions()}
       <DeleteTagMapping
         isOpen={isOpen}
+        isChild
         item={item}
         onClose={handleOnClose}
         settingsType={SettingsType.tagsMappingsChildRemove}

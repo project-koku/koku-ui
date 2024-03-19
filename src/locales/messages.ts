@@ -3441,13 +3441,13 @@ export default defineMessages({
     id: 'tagMappingAddChildTagsDesc',
   },
   tagMappingDelete: {
-    defaultMessage: 'Delete tag mapping',
-    description: 'Delete tag mapping',
+    defaultMessage: 'Delete tag mapping?',
+    description: 'Delete tag mapping?',
     id: 'tagMappingDelete',
   },
   tagMappingDeleteDesc: {
-    defaultMessage: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
-    description: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    defaultMessage: 'Deleting {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    description: 'Deleting {value} will queue a resummarization. Changes will be reflected within 24 hours.',
     id: 'tagMappingDeleteDesc',
   },
   tagMappingDesc: {
@@ -3456,6 +3456,16 @@ export default defineMessages({
     description:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
     id: 'tagMappingDesc',
+  },
+  tagMappingRemove: {
+    defaultMessage: 'Remove child tag?',
+    description: 'Remove child tag?',
+    id: 'tagMappingRemove',
+  },
+  tagMappingRemoveDesc: {
+    defaultMessage: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    description: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    id: 'tagMappingRemoveDesc',
   },
   tagMappingSelectChildTags: {
     defaultMessage: 'Select child tags',
