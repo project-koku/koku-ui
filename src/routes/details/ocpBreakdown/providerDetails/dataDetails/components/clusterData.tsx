@@ -35,10 +35,10 @@ const ClusterData: React.FC<ClusterDataProps> = ({ provider }: ClusterDataProps)
       >
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsIntegrationStatus)}
-          icon={getProgressStepIcon(getProviderAvailability(provider))}
+          icon={getProgressStepIcon(getProviderAvailability(provider).status)}
           id="step1"
           titleId="step1-title"
-          variant={getProgressStepVariant(getProviderAvailability(provider))}
+          variant={getProgressStepVariant(getProviderAvailability(provider).status)}
         >
           {intl.formatMessage(messages.dataDetailsIntegrationStatus)}
           <div style={styles.sourceLink}>

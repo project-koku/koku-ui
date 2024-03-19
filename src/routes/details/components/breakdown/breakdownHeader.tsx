@@ -161,8 +161,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
             </Title>
             {description && (
-              <div style={styles.description}>
-                {description}
+              <div style={styles.descriptionContainer}>
+                <span style={styles.description}>{description}</span>
                 {clusterInfoComponent && isClusterInfoToggleEnabled ? clusterInfoComponent : null}
                 {dataDetailsComponent && isClusterInfoToggleEnabled ? <div>{dataDetailsComponent}</div> : null}
               </div>
