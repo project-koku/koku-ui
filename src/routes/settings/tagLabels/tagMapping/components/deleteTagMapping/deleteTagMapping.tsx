@@ -65,7 +65,7 @@ const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, isChild, it
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.medium}>
       <ModalHeader
         className="iconOverride"
-        title={intl.formatMessage(isChild ? messages.tagMappingRemove : messages.tagMappingDelete)}
+        title={intl.formatMessage(isChild ? messages.tagMappingRemoveTitle : messages.tagMappingDeleteTitle)}
         titleIconVariant="warning"
       />
       <ModalBody>

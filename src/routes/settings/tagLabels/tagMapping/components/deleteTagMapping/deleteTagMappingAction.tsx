@@ -25,16 +25,13 @@ const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrit
 
   const getActions = () => {
     const getTooltip = children => {
-      if (!canWrite) {
-        const disableTagsTooltip = intl.formatMessage(messages.readOnlyPermissions);
-        return <Tooltip content={disableTagsTooltip}>{children}</Tooltip>;
-      }
-      return children;
+      const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.tagMappingRemove);
+      return <Tooltip content={msg}>{children}</Tooltip>;
     };
 
     return getTooltip(
       <Button
-        aria-label={intl.formatMessage(messages.delete)}
+        aria-label={intl.formatMessage(messages.tagMappingRemove)}
         isAriaDisabled={!canWrite || isDisabled}
         onClick={() => handleOnClick()}
         size="sm"

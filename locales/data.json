@@ -12162,12 +12162,6 @@
         "value": "Parent tag key"
       }
     ],
-    "tagKeyParentSource": [
-      {
-        "type": 0,
-        "value": "Parent integration"
-      }
-    ],
     "tagLabels": [
       {
         "type": 0,
@@ -12209,7 +12203,7 @@
     "tagMappingDelete": [
       {
         "type": 0,
-        "value": "Delete tag mapping?"
+        "value": "Delete tag mapping"
       }
     ],
     "tagMappingDeleteDesc": [
@@ -12224,6 +12218,12 @@
       {
         "type": 0,
         "value": " will queue a resummarization. Changes will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingDeleteTitle": [
+      {
+        "type": 0,
+        "value": "Delete tag mapping?"
       }
     ],
     "tagMappingDesc": [
@@ -12247,7 +12247,7 @@
     "tagMappingRemove": [
       {
         "type": 0,
-        "value": "Remove child tag?"
+        "value": "Remove child tag"
       }
     ],
     "tagMappingRemoveDesc": [
@@ -12262,6 +12262,12 @@
       {
         "type": 0,
         "value": " will queue a resummarization. Changes will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingRemoveTitle": [
+      {
+        "type": 0,
+        "value": "Remove child tag?"
       }
     ],
     "tagMappingSelectChildTags": [
