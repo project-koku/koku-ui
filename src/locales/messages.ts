@@ -3436,14 +3436,19 @@ export default defineMessages({
     id: 'tagMappingAddChildTagsDesc',
   },
   tagMappingDelete: {
-    defaultMessage: 'Delete tag mapping?',
-    description: 'Delete tag mapping?',
+    defaultMessage: 'Delete tag mapping',
+    description: 'Delete tag mapping',
     id: 'tagMappingDelete',
   },
   tagMappingDeleteDesc: {
     defaultMessage: 'Deleting {value} will queue a resummarization. Changes will be reflected within 24 hours.',
     description: 'Deleting {value} will queue a resummarization. Changes will be reflected within 24 hours.',
     id: 'tagMappingDeleteDesc',
+  },
+  tagMappingDeleteTitle: {
+    defaultMessage: 'Delete tag mapping?',
+    description: 'Delete tag mapping?',
+    id: 'tagMappingDeleteTitle',
   },
   tagMappingDesc: {
     defaultMessage:
@@ -3453,14 +3458,19 @@ export default defineMessages({
     id: 'tagMappingDesc',
   },
   tagMappingRemove: {
-    defaultMessage: 'Remove child tag?',
-    description: 'Remove child tag?',
+    defaultMessage: 'Remove child tag',
+    description: 'Remove child tag',
     id: 'tagMappingRemove',
   },
   tagMappingRemoveDesc: {
     defaultMessage: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
     description: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
     id: 'tagMappingRemoveDesc',
+  },
+  tagMappingRemoveTitle: {
+    defaultMessage: 'Remove child tag?',
+    description: 'Remove child tag?',
+    id: 'tagMappingRemoveTitle',
   },
   tagMappingSelectChildTags: {
     defaultMessage: 'Select child tags',
