@@ -12162,12 +12162,6 @@
         "value": "Parent tag key"
       }
     ],
-    "tagKeyParentSource": [
-      {
-        "type": 0,
-        "value": "Parent integration"
-      }
-    ],
     "tagLabels": [
       {
         "type": 0,
