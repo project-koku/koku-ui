@@ -117,7 +117,6 @@ const PvcContent: React.FC<PvcContentProps> = () => {
     return (
       <PvcToolbar
         isDisabled={isDisabled}
-        isProject
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
