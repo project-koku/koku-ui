@@ -56,7 +56,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
               })}
             </Td>
             <Td isActionCell>
-              <ReadOnlyTooltip key="action" isDisabled={!canWrite}>
+              <ReadOnlyTooltip defaultMsg={messages.costModelsSourceDeleteSource} key="action" isDisabled={!canWrite}>
                 <Button
                   aria-label={intl.formatMessage(messages.costModelsSourceDelete)}
                   isAriaDisabled={!canWrite}
