@@ -74,6 +74,7 @@ export interface BreakdownStateProps {
   providersFetchStatus?: FetchStatus;
   providerType?: ProviderType;
   query?: Query;
+  queryState?: Query;
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -152,7 +153,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   };
 
   private getTab = (tab: BreakdownTab, contentRef, showBadge: boolean, index: number) => {
-    const { groupBy, groupByValue } = this.props;
+    const { groupBy, groupByValue, queryState } = this.props;
 
     return (
       <Tab
@@ -170,8 +171,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
                     scope="costManagementMfe"
                     appName="cost-management-mfe"
                     module="./MfeOptimizationsBadge"
-                    groupBy={groupBy}
-                    groupByValue={groupByValue}
+                    cluster={queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined}
+                    project={groupBy === 'project' ? groupByValue : undefined}
                   />
                 }
               </span>
