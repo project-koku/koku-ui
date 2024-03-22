@@ -59,25 +59,25 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
       }
       if (statusType === StatusType.complete) {
         if (
-          state1.status === statusType &&
-          state2.status === statusType &&
-          state3.status === statusType &&
-          state4.status === statusType
+          state1?.status === statusType &&
+          state2?.status === statusType &&
+          state3?.status === statusType &&
+          state4?.status === statusType
         ) {
           msg = state1.msg;
           status = statusType;
         }
       } else {
-        if (state1.status === statusType) {
+        if (state1?.status === statusType) {
           msg = state1.msg;
           status = statusType;
-        } else if (state2.status === statusType) {
+        } else if (state2?.status === statusType) {
           msg = state2.msg;
           status = statusType;
-        } else if (state3.status === statusType) {
+        } else if (state3?.status === statusType) {
           msg = state3.msg;
           status = statusType;
-        } else if (state4.status === statusType) {
+        } else if (state4?.status === statusType) {
           msg = state4.msg;
           status = statusType;
         }
