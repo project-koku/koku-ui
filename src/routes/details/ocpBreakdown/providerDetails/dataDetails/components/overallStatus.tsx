@@ -96,12 +96,15 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
   };
 
   const overallStatus = getOverallStatus();
-  return (
-    <>
-      <span style={styles.statusIcon}>{getOverallStatusIcon(overallStatus.status)}</span>
-      <span style={styles.description}>{intl.formatMessage(overallStatus.msg)}</span>
-    </>
-  );
+  if (overallStatus.msg && overallStatus.status) {
+    return (
+      <>
+        <span style={styles.statusIcon}>{getOverallStatusIcon(overallStatus.status)}</span>
+        <span style={styles.description}>{intl.formatMessage(overallStatus.msg)}</span>
+      </>
+    );
+  }
+  return null;
 };
 
 // eslint-disable-next-line no-empty-pattern
