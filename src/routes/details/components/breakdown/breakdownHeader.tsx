@@ -160,13 +160,13 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {intl.formatMessage(messages.breakdownTitle, { value: title })}
             </Title>
-            {description && (
-              <div style={styles.descriptionContainer}>
-                <span style={styles.description}>{description}</span>
+            <div style={styles.descriptionContainer}>
+              {description && <span style={styles.description}>{description}</span>}
+              <span style={!description ? styles.clusterInfoContainer : undefined}>
                 {clusterInfoComponent && isClusterInfoToggleEnabled ? clusterInfoComponent : null}
-                {dataDetailsComponent && isClusterInfoToggleEnabled ? <div>{dataDetailsComponent}</div> : null}
-              </div>
-            )}
+              </span>
+              {dataDetailsComponent && isClusterInfoToggleEnabled ? <div>{dataDetailsComponent}</div> : null}
+            </div>
             {showCostDistribution && (
               <div style={styles.costDistribution}>
                 <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
