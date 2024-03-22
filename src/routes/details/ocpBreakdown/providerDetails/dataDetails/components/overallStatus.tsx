@@ -50,7 +50,7 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
 
     const cloudAvailability = getProviderAvailability(cloudProvider);
     const clusterAvailability = getProviderAvailability(clusterProvider);
-    const cloudStatus = getProviderStatus(cloudProvider);
+    const cloudStatus = getProviderStatus(cloudProvider, true);
     const clusterStatus = getProviderStatus(clusterProvider);
 
     const initializeState = (statusType: StatusType, state1, state2, state3, state4) => {
@@ -58,11 +58,12 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
         return;
       }
       if (statusType === StatusType.complete) {
+        // A cluster may not have an integration, so cloudProvider could be undefined
         if (
-          state1?.status === statusType &&
-          state2?.status === statusType &&
-          state3?.status === statusType &&
-          state4?.status === statusType
+          (state1 === undefined || state1.status === statusType) &&
+          (state2 === undefined || state2?.status === statusType) &&
+          (state3 === undefined || state3?.status === statusType) &&
+          (state4 === undefined || state4?.status === statusType)
         ) {
           msg = state1.msg;
           status = statusType;

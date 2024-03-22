@@ -76,16 +76,20 @@ const getProviderStatusMsg = (
   return msg;
 };
 
-export const getProviderStatus = (provider: Provider): { msg: MessageDescriptor; status: StatusType } => {
+export const getProviderStatus = (
+  provider: Provider,
+  isCloud = false
+): { msg: MessageDescriptor; status: StatusType } => {
   let status;
   let msg;
   if (!provider) {
     return status;
   }
 
+  // Skip summaryState for cloud
   const downloadState = lookupKey(provider.status.download.state);
   const processingState = lookupKey(provider.status.processing.state);
-  const summaryState = lookupKey(provider.status.summary.state);
+  const summaryState = isCloud ? StatusType.complete : lookupKey(provider.status.summary.state);
 
   if (
     downloadState === StatusType.failed ||
