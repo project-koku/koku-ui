@@ -45,7 +45,7 @@ const baseQuery: Query = {
   offset: 0,
   filter_by: {},
   order_by: {
-    parent: 'asc',
+    key: 'asc',
   },
 };
 
