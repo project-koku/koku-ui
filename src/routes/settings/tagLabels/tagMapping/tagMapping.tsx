@@ -44,6 +44,7 @@ const baseQuery: Query = {
   offset: 0,
   filter_by: {},
   order_by: {
+    child: 'asc',
     parent: 'asc',
   },
 };
@@ -149,6 +150,9 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
+    if (sortType === 'parent') {
+      newQuery.order_by.child = isSortAscending ? 'asc' : 'desc';
+    }
     setQuery(newQuery);
   };
 
