@@ -78,7 +78,7 @@
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0",
     "unleash-proxy-client": "^3.3.2",
-    "victory-core": "^37.0.0"
+    "victory-core": "^37.0.1"
   },
   "devDependencies": {
     "@formatjs/cli": "^6.2.8",
@@ -94,12 +94,12 @@
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/qs": "^6.9.14",
-    "@types/react": "^18.2.67",
+    "@types/react": "^18.2.70",
     "@types/react-dom": "^18.2.22",
     "@types/react-redux": "^7.1.33",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.3.1",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "aphrodite": "^2.4.0",
     "copy-webpack-plugin": "^12.0.2",
     "eslint": "^8.57.0",
@@ -130,7 +130,6 @@
     "webpack-bundle-analyzer": "^4.10.1"
   },
   "overrides": {
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
     "redux": "^5.0.1"
   },
   "insights": {
