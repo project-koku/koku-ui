@@ -98,6 +98,14 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
                 {intl.formatMessage(messages.tagKeyParent)}
               </TextListItem>
               <TextListItem component={TextListItemVariants.dd}>{parentTags.map(item => item.key)}</TextListItem>
+              <TextListItem component={TextListItemVariants.dt}>
+                {intl.formatMessage(messages.tagKeyParentSource)}
+              </TextListItem>
+              <TextListItem component={TextListItemVariants.dd}>
+                {parentTags.map(item =>
+                  intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() })
+                )}
+              </TextListItem>
             </TextList>
           </TextContent>
         </StackItem>

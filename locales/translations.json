@@ -554,6 +554,7 @@
   "tagHeadingValue": "Value",
   "tagKeyChild": "Child tag keys",
   "tagKeyParent": "Parent tag key",
+  "tagKeyParentSource": "Parent integration",
   "tagLabels": "Tags and labels",
   "tagLabelsEnable": "Enable tags and labels",
   "tagLabelsMap": "Map tags and labels",

@@ -42,6 +42,37 @@ const ParentTagsToolbar: React.FC<ParentTagsToolbarProps> = ({
         key: 'key',
         name: intl.formatMessage(messages.filterByValues, { value: 'tag_key' }),
       },
+      {
+        key: 'source_type',
+        name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
+        selectOptions: [
+          {
+            key: 'AWS',
+            name: intl.formatMessage(messages.aws),
+          },
+          {
+            key: 'Azure',
+            name: intl.formatMessage(messages.azure),
+          },
+          {
+            key: 'GCP',
+            name: intl.formatMessage(messages.gcp),
+          },
+          // {
+          //   key: 'IBM',
+          //   name: intl.formatMessage(messages.ibm), // Todo: enable when supported by API
+          // },
+          {
+            key: 'OCI',
+            name: intl.formatMessage(messages.oci),
+          },
+          {
+            key: 'OCP',
+            name: intl.formatMessage(messages.openShift),
+          },
+        ],
+      },
     ];
     return options;
   };
