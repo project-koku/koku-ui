@@ -52,6 +52,11 @@ const ParentTagsTable: React.FC<ParentTagsTableProps> = ({
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'tag_key' }),
         ...(tags.length && { isSortable: true }),
       },
+      {
+        orderBy: 'provider_type', // Todo: Rename as source_type?
+        name: intl.formatMessage(messages.sourceType),
+        ...(tags.length && { isSortable: true }),
+      },
     ];
 
     tags.map(item => {
@@ -62,6 +67,9 @@ const ParentTagsTable: React.FC<ParentTagsTableProps> = ({
           },
           {
             value: item.key ? item.key : '',
+          },
+          {
+            value: intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() }),
           },
         ],
         item,

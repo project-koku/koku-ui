@@ -3408,6 +3408,11 @@ export default defineMessages({
     description: 'Parent tag key',
     id: 'tagKeyParent',
   },
+  tagKeyParentSource: {
+    defaultMessage: 'Parent integration',
+    description: 'Parent integration',
+    id: 'tagKeyParentSource',
+  },
   tagLabelsEnable: {
     defaultMessage: 'Enable tags and labels',
     description: 'Enable tags and labels',
