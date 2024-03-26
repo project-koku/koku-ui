@@ -3565,7 +3565,7 @@
     "docsAddOcpSources": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management"
       }
     ],
     "docsCostCategory": [

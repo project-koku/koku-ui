@@ -244,7 +244,7 @@
   "distributionType": "Distribution type",
   "distributionTypeDesc": "{type, select, cpu {Distribute costs based on CPU usage}memory {Distribute costs based on memory usage}other {}}",
   "doNotDistribute": "Do not distribute",
-  "docsAddOcpSources": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management",
+  "docsAddOcpSources": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management",
   "docsCostCategory": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int",
   "docsCostModelTerminology": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology",
   "docsCostModels": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models",

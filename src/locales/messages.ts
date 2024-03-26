@@ -1441,9 +1441,9 @@ export default defineMessages({
   },
   docsAddOcpSources: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management',
     id: 'docsAddOcpSources',
   },
   docsCostCategory: {
