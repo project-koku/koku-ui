@@ -131,7 +131,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
               ))}
               {!r.heightAuto && stateName === 'success' && (
                 <Td isActionCell>
-                  <ReadOnlyTooltip key="action" isDisabled={!canWrite}>
+                  <ReadOnlyTooltip defaultMsg={messages.costModelsDelete} key="action" isDisabled={!canWrite}>
                     <Button
                       aria-label={intl.formatMessage(messages.delete)}
                       isAriaDisabled={!canWrite}

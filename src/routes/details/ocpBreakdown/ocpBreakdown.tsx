@@ -125,6 +125,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     providersFetchStatus,
     providerType: ProviderType.ocp,
     query,
+    queryState,
     report,
     reportError,
     reportFetchStatus,
