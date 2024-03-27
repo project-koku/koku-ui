@@ -9,7 +9,6 @@ import type React from 'react';
 export const styles = {
   dataDetailsButton: {
     fontSize: global_FontSize_xs.value,
-    paddingLeft: global_spacer_sm.value,
   },
   description: {
     color: global_disabled_color_100.value,
@@ -25,8 +24,8 @@ export const styles = {
     marginRight: global_spacer_md.value,
   },
   statusIcon: {
-    paddingLeft: '1px',
-    paddingRight: '5px',
+    fontSize: global_FontSize_xs.value,
+    paddingRight: global_spacer_sm.value,
   },
   stepper: {
     margin: global_spacer_lg.value,

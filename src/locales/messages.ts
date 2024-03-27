@@ -1441,9 +1441,9 @@ export default defineMessages({
   },
   docsAddOcpSources: {
     defaultMessage:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management',
     description:
-      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management',
+      'https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management',
     id: 'docsAddOcpSources',
   },
   docsCostCategory: {
@@ -3446,9 +3446,14 @@ export default defineMessages({
     id: 'tagMappingDelete',
   },
   tagMappingDeleteDesc: {
-    defaultMessage: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
-    description: 'This action will remove the {value} tag mapping. Changes will be reflected within 24 hours.',
+    defaultMessage: 'Deleting {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    description: 'Deleting {value} will queue a resummarization. Changes will be reflected within 24 hours.',
     id: 'tagMappingDeleteDesc',
+  },
+  tagMappingDeleteTitle: {
+    defaultMessage: 'Delete tag mapping?',
+    description: 'Delete tag mapping?',
+    id: 'tagMappingDeleteTitle',
   },
   tagMappingDesc: {
     defaultMessage:
@@ -3456,6 +3461,21 @@ export default defineMessages({
     description:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
     id: 'tagMappingDesc',
+  },
+  tagMappingRemove: {
+    defaultMessage: 'Remove child tag',
+    description: 'Remove child tag',
+    id: 'tagMappingRemove',
+  },
+  tagMappingRemoveDesc: {
+    defaultMessage: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    description: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    id: 'tagMappingRemoveDesc',
+  },
+  tagMappingRemoveTitle: {
+    defaultMessage: 'Remove child tag?',
+    description: 'Remove child tag?',
+    id: 'tagMappingRemoveTitle',
   },
   tagMappingSelectChildTags: {
     defaultMessage: 'Select child tags',

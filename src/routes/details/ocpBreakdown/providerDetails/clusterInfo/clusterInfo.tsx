@@ -30,7 +30,7 @@ const ClusterInfo: React.FC<ClusterInfoProps> = ({ clusterId }: ClusterInfoProps
 
   return (
     <>
-      <Button onClick={handleOnClick} style={styles.clusterInfo} variant={ButtonVariant.link}>
+      <Button onClick={handleOnClick} style={styles.clusterInfoButton} variant={ButtonVariant.link}>
         {intl.formatMessage(messages.clusterInfo)}
       </Button>
       <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.medium}>
