@@ -3565,7 +3565,7 @@
     "docsAddOcpSources": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/adding_an_openshift_container_platform_source_to_cost_management"
+        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management"
       }
     ],
     "docsCostCategory": [
@@ -12215,7 +12215,7 @@
     "tagMappingDeleteDesc": [
       {
         "type": 0,
-        "value": "This action will remove the "
+        "value": "Deleting "
       },
       {
         "type": 1,
@@ -12223,7 +12223,13 @@
       },
       {
         "type": 0,
-        "value": " tag mapping. Changes will be reflected within 24 hours."
+        "value": " will queue a resummarization. Changes will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingDeleteTitle": [
+      {
+        "type": 0,
+        "value": "Delete tag mapping?"
       }
     ],
     "tagMappingDesc": [
@@ -12242,6 +12248,32 @@
       {
         "type": 1,
         "value": "learnMore"
+      }
+    ],
+    "tagMappingRemove": [
+      {
+        "type": 0,
+        "value": "Remove child tag"
+      }
+    ],
+    "tagMappingRemoveDesc": [
+      {
+        "type": 0,
+        "value": "Removing "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " will queue a resummarization. Changes will be reflected within 24 hours."
+      }
+    ],
+    "tagMappingRemoveTitle": [
+      {
+        "type": 0,
+        "value": "Remove child tag?"
       }
     ],
     "tagMappingSelectChildTags": [

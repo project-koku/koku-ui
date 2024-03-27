@@ -9,7 +9,6 @@ import type { Filter } from 'routes/utils/filter';
 
 interface PvcToolbarOwnProps {
   isDisabled?: boolean;
-  isProject?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onFilterAdded(filter: Filter);
@@ -35,7 +34,7 @@ class PvcToolbarBase extends React.Component<PvcToolbarProps, PvcToolbarState> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { intl, isProject } = this.props;
+    const { intl } = this.props;
 
     const options = [
       {
@@ -46,7 +45,7 @@ class PvcToolbarBase extends React.Component<PvcToolbarProps, PvcToolbarState> {
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'storage_class' }), key: 'storageclass' },
     ];
-    return isProject ? options : options.filter(option => option.key !== 'project');
+    return options;
   };
 
   public render() {

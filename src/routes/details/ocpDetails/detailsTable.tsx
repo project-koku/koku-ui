@@ -282,8 +282,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                 scope="costManagementMfe"
                 appName="cost-management-mfe"
                 module="./MfeOptimizationsLink"
-                groupBy={groupBy}
-                groupByValue={item.id}
+                cluster={query?.filter_by?.cluster ? query.filter_by.cluster : undefined}
                 linkPath={getBreakdownPath({
                   basePath,
                   description: item.id,
@@ -300,6 +299,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                     breadcrumbPath,
                   },
                 }}
+                project={item.id}
               />
             ),
           },

@@ -31,10 +31,10 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
       <ProgressStepper aria-label={intl.formatMessage(messages.dataDetailsCloudData)} isVertical style={styles.stepper}>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsCloudIntegrationStatus)}
-          icon={getProgressStepIcon(getProviderAvailability(provider))}
+          icon={getProgressStepIcon(getProviderAvailability(provider).status)}
           id="step1"
           titleId="step1-title"
-          variant={getProgressStepVariant(getProviderAvailability(provider))}
+          variant={getProgressStepVariant(getProviderAvailability(provider).status)}
         >
           {intl.formatMessage(messages.dataDetailsCloudIntegrationStatus)}
           <div style={styles.sourceLink}>
