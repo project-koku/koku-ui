@@ -42,7 +42,7 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps, any> {
 
   private getRouteToSources = () => {
     const release = getReleasePath();
-    return `${release}/settings/sources`;
+    return `${release}/settings/integrations`;
   };
 
   public render() {
