@@ -31,12 +31,10 @@ const DataDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps
 
   return (
     <>
-      <div style={styles.description}>
-        <OverallStatus clusterId={clusterId} />
-        <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
-          {intl.formatMessage(messages.dataDetails)}
-        </Button>
-      </div>
+      <OverallStatus clusterId={clusterId} />
+      <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
+        {intl.formatMessage(messages.dataDetails)}
+      </Button>
       <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.small}>
         <ModalHeader title={intl.formatMessage(messages.dataDetails)} />
         <ModalBody>
