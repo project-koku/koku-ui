@@ -5,7 +5,7 @@ import global_warning_color_100 from '@patternfly/react-tokens/dist/js/global_wa
 import type React from 'react';
 
 export const styles = {
-  clusterInfo: {
+  clusterInfoButton: {
     fontSize: global_FontSize_xs.value,
   },
   loading: {

@@ -7,6 +7,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { RateInput } from 'routes/settings/costModels/components/inputs/rateInput';
 import { SimpleInput } from 'routes/settings/costModels/components/inputs/simpleInput';
+import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
 
 import type { UseRateData } from './useRateForm';
 import type { RateFormErrors, RateFormTagValue } from './utils';
@@ -88,14 +89,16 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
             </SplitItem>
             <SplitItem>
               <FormGroup fieldId="__irrelevant" label={<div>&nbsp;</div>}>
-                <Button
-                  aria-label={intl.formatMessage(messages.costModelsRemoveTagLabel)}
-                  variant={ButtonVariant.plain}
-                  isDisabled={tagValues.length === 1}
-                  onClick={() => removeTag(ix)}
-                >
-                  <MinusCircleIcon />
-                </Button>
+                <ReadOnlyTooltip defaultMsg={messages.costModelsRemoveTagLabel}>
+                  <Button
+                    aria-label={intl.formatMessage(messages.costModelsRemoveTagLabel)}
+                    variant={ButtonVariant.plain}
+                    isDisabled={tagValues.length === 1}
+                    onClick={() => removeTag(ix)}
+                  >
+                    <MinusCircleIcon />
+                  </Button>
+                </ReadOnlyTooltip>
               </FormGroup>
             </SplitItem>
           </Split>
