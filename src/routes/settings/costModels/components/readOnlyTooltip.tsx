@@ -1,25 +1,34 @@
 import { Tooltip } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
+import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 
 interface ReadOnlyTooltipBase {
-  tooltip?: string;
+  defaultMsg?: MessageDescriptor;
   children: JSX.Element;
-  isDisabled: boolean;
+  isDisabled?: boolean;
 }
 
-const ReadOnlyTooltip: React.FC<ReadOnlyTooltipBase> = ({ children, tooltip, isDisabled }) => {
+const ReadOnlyTooltip: React.FC<ReadOnlyTooltipBase> = ({ children, defaultMsg, isDisabled }) => {
   const intl = useIntl();
-  const content = tooltip ? tooltip : intl.formatMessage(messages.readOnlyPermissions);
 
-  return isDisabled ? (
-    <Tooltip isContentLeftAligned content={<div>{content}</div>}>
-      <div aria-label={intl.formatMessage(messages.readOnly)}>{children}</div>
-    </Tooltip>
-  ) : (
-    children
-  );
+  const getChildren = () => {
+    if (isDisabled) {
+      return <div aria-label={intl.formatMessage(messages.readOnly)}>{children}</div>;
+    }
+    return children;
+  };
+
+  if (defaultMsg || isDisabled) {
+    const msg = intl.formatMessage(isDisabled ? messages.readOnly : defaultMsg);
+    return (
+      <Tooltip isContentLeftAligned content={msg}>
+        {getChildren()}
+      </Tooltip>
+    );
+  }
+  return children;
 };
 
 export { ReadOnlyTooltip };
