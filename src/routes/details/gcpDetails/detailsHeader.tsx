@@ -80,7 +80,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
               {intl.formatMessage(messages.gcpDetailsTitle)}
             </Title>
           </FlexItem>
-          <FlexItem>
+          <FlexItem style={styles.exportContainer}>
             <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsToggleEnabled && <ExportsLink />}
           </FlexItem>

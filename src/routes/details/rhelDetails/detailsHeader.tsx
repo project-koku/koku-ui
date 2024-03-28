@@ -105,7 +105,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               {intl.formatMessage(messages.rhelDetailsTitle)}
             </Title>
           </FlexItem>
-          <FlexItem>
+          <FlexItem style={styles.exportContainer}>
             <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsToggleEnabled && <ExportsLink />}
           </FlexItem>

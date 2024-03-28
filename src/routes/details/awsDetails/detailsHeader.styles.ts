@@ -12,6 +12,9 @@ export const styles = {
   dateTitle: {
     textAlign: 'end',
   },
+  exportContainer: {
+    display: 'flex',
+  },
   header: {
     backgroundColor: global_BackgroundColor_light_100.var,
     padding: global_spacer_lg.var,
