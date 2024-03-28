@@ -163,25 +163,29 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
         <Title headingLevel="h1" size={TitleSizes['2xl']} style={styles.title}>
           {intl.formatMessage(messages.breakdownTitle, { value: title })}
         </Title>
-        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.descriptionContainer}>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
-            <div>
-              {description && <span style={styles.description}>{description}</span>}
-              <span style={!description ? styles.clusterInfoContainer : undefined}>
-                {clusterInfoComponent && isClusterInfoToggleEnabled ? clusterInfoComponent : null}
-              </span>
-              {dataDetailsComponent && isClusterInfoToggleEnabled ? <div>{dataDetailsComponent}</div> : null}
+            <Flex direction={{ default: 'column' }}>
+              {description && (
+                <FlexItem style={styles.description}>
+                  {description}
+                  {clusterInfoComponent && isClusterInfoToggleEnabled ? (
+                    <span style={!description ? styles.clusterInfoContainer : undefined}>{clusterInfoComponent}</span>
+                  ) : null}
+                </FlexItem>
+              )}
+              {dataDetailsComponent && isClusterInfoToggleEnabled ? <FlexItem>{dataDetailsComponent}</FlexItem> : null}
               {showCostDistribution && (
-                <div style={styles.costDistribution}>
+                <FlexItem style={styles.costDistribution}>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
-                </div>
+                </FlexItem>
               )}
               {showCostType && (
-                <div style={styles.costType}>
+                <FlexItem style={styles.costType}>
                   <CostType onSelect={onCostTypeSelect} costType={costType} />
-                </div>
+                </FlexItem>
               )}
-            </div>
+            </Flex>
           </FlexItem>
           <FlexItem>
             <div style={styles.costLabel}>

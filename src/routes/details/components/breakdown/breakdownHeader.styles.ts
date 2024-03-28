@@ -12,7 +12,7 @@ export const styles = {
     marginLeft: '-17px',
   },
   costDistribution: {
-    marginTop: global_spacer_md.var,
+    marginTop: global_spacer_sm.var,
     paddingBottom: global_spacer_md.var,
   },
   costLabel: {
@@ -27,17 +27,13 @@ export const styles = {
     textAlign: 'right',
   },
   costType: {
-    marginTop: global_spacer_md.var,
+    marginTop: global_spacer_sm.var,
     paddingBottom: global_spacer_md.var,
   },
   description: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
-  },
-  descriptionContainer: {
-    alignItems: 'unset',
-    paddingBottom: global_spacer_sm.var,
-    paddingLeft: '1px',
+    marginBottom: 0,
   },
   header: {
     backgroundColor: global_BackgroundColor_100.var,
@@ -48,6 +44,12 @@ export const styles = {
   headerContent: {
     alignItems: 'unset',
     minHeight: '36px',
+  },
+  perspectiveContainer: {
+    alignItems: 'unset',
+    paddingBottom: global_spacer_sm.var,
+    paddingLeft: '1px',
+    paddingTop: global_spacer_xs.var,
   },
   tabs: {
     display: 'flex',
