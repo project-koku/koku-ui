@@ -1,4 +1,4 @@
-import { Title, TitleSizes } from '@patternfly/react-core';
+import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
 import { OrgPathsType } from 'api/orgs/org';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
@@ -89,46 +89,54 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
 
     return (
       <header style={styles.header}>
-        <div style={styles.headerContent}>
-          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.awsDetailsTitle)}
-          </Title>
-          <div style={styles.headerContentRight}>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+          <FlexItem>
+            <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
+              {intl.formatMessage(messages.awsDetailsTitle)}
+            </Title>
+          </FlexItem>
+          <FlexItem>
             <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsToggleEnabled && <ExportsLink />}
-          </div>
-        </div>
-        <div style={styles.headerContent}>
-          <div style={styles.headerContentLeft}>
-            <GroupBy
-              getIdKeyForGroupBy={getIdKeyForGroupBy}
-              groupBy={groupBy}
-              isDisabled={!showContent}
-              onSelect={onGroupBySelect}
-              options={groupByOptions}
-              orgPathsType={orgPathsType}
-              resourcePathsType={resourcePathsType}
-              showCostCategories
-              showOrgs
-              showTags
-              tagPathsType={tagPathsType}
-            />
-            <div style={styles.costType}>
-              <CostType costType={costType} onSelect={this.handleOnCostTypeSelect} />
-            </div>
-          </div>
-          {showContent && (
-            <div>
-              <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
-                {formatCurrency(
-                  hasCost ? report.meta.total.cost.total.value : 0,
-                  hasCost ? report.meta.total.cost.total.units : 'USD'
-                )}
-              </Title>
-              <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
-            </div>
-          )}
-        </div>
+          </FlexItem>
+        </Flex>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
+          <FlexItem>
+            <Flex style={styles.perspective}>
+              <FlexItem>
+                <GroupBy
+                  getIdKeyForGroupBy={getIdKeyForGroupBy}
+                  groupBy={groupBy}
+                  isDisabled={!showContent}
+                  onSelect={onGroupBySelect}
+                  options={groupByOptions}
+                  orgPathsType={orgPathsType}
+                  resourcePathsType={resourcePathsType}
+                  showCostCategories
+                  showOrgs
+                  showTags
+                  tagPathsType={tagPathsType}
+                />
+              </FlexItem>
+              <FlexItem>
+                <CostType costType={costType} onSelect={this.handleOnCostTypeSelect} />
+              </FlexItem>
+            </Flex>
+          </FlexItem>
+          <FlexItem>
+            {showContent && (
+              <>
+                <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                  {formatCurrency(
+                    hasCost ? report.meta.total.cost.total.value : 0,
+                    hasCost ? report.meta.total.cost.total.units : 'USD'
+                  )}
+                </Title>
+                <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
+              </>
+            )}
+          </FlexItem>
+        </Flex>
       </header>
     );
   }

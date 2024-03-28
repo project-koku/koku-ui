@@ -114,36 +114,36 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
             </Title>
           </FlexItem>
           <FlexItem>
-            <div style={styles.headerContentRight}>
-              <Currency currency={currency} onSelect={onCurrencySelect} />
-              {isExportsToggleEnabled && <ExportsLink />}
-            </div>
+            <Currency currency={currency} onSelect={onCurrencySelect} />
+            {isExportsToggleEnabled && <ExportsLink />}
           </FlexItem>
         </Flex>
-        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
             <Flex>
-              <FlexItem>
-                <GroupBy
-                  getIdKeyForGroupBy={getIdKeyForGroupBy}
-                  groupBy={groupBy}
-                  isDisabled={!showContent}
-                  onSelect={onGroupBySelect}
-                  options={groupByOptions}
-                  showTags
-                  tagPathsType={tagPathsType}
-                />
+              <FlexItem style={styles.perspective}>
+                <div style={styles.groupBy}>
+                  <GroupBy
+                    getIdKeyForGroupBy={getIdKeyForGroupBy}
+                    groupBy={groupBy}
+                    isDisabled={!showContent}
+                    onSelect={onGroupBySelect}
+                    options={groupByOptions}
+                    showTags
+                    tagPathsType={tagPathsType}
+                  />
+                </div>
               </FlexItem>
-              <FlexItem>
-                {showCostDistribution && (
+              {showCostDistribution && (
+                <FlexItem>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
-                )}
-              </FlexItem>
+                </FlexItem>
+              )}
             </Flex>
           </FlexItem>
           <FlexItem>
             {showContent && (
-              <div>
+              <>
                 <Tooltip
                   content={intl.formatMessage(messages.dashboardTotalCostTooltip, {
                     infrastructureCost,
@@ -156,7 +156,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
                   </Title>
                 </Tooltip>
                 <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
-              </div>
+              </>
             )}
           </FlexItem>
         </Flex>
