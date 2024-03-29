@@ -64,6 +64,18 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
           <TextContent>
             <TextList component={TextListVariants.dl}>
               <TextListItem component={TextListItemVariants.dt}>
+                {intl.formatMessage(messages.tagKeyParent)}
+              </TextListItem>
+              <TextListItem component={TextListItemVariants.dd}>{parentTags.map(item => item.key)}</TextListItem>
+              <TextListItem component={TextListItemVariants.dt}>
+                {intl.formatMessage(messages.tagKeyParentSource)}
+              </TextListItem>
+              <TextListItem component={TextListItemVariants.dd}>
+                {parentTags.map(item =>
+                  intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() })
+                )}
+              </TextListItem>
+              <TextListItem component={TextListItemVariants.dt}>
                 {intl.formatMessage(messages.tagKeyChild)}
               </TextListItem>
               <TextListItem component={TextListItemVariants.dd}>
@@ -93,18 +105,6 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
                     </Tbody>
                   </Table>
                 </div>
-              </TextListItem>
-              <TextListItem component={TextListItemVariants.dt}>
-                {intl.formatMessage(messages.tagKeyParent)}
-              </TextListItem>
-              <TextListItem component={TextListItemVariants.dd}>{parentTags.map(item => item.key)}</TextListItem>
-              <TextListItem component={TextListItemVariants.dt}>
-                {intl.formatMessage(messages.tagKeyParentSource)}
-              </TextListItem>
-              <TextListItem component={TextListItemVariants.dd}>
-                {parentTags.map(item =>
-                  intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() })
-                )}
               </TextListItem>
             </TextList>
           </TextContent>
