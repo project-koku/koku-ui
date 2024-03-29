@@ -3484,9 +3484,9 @@ export default defineMessages({
   },
   tagMappingSelectChildTagsDesc: {
     defaultMessage:
-      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+      'Select the child tags that you want to map to the parent key you selected in the previous step. Tags that have been already mapped will not be available for selection. {learnMore}',
     description:
-      'Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. {learnMore}',
+      'Select the child tags that you want to map to the parent key you selected in the previous step. Tags that have been already mapped will not be available for selection. {learnMore}',
     id: 'tagMappingSelectChildTagsDesc',
   },
   tagMappingSelectParentTags: {
@@ -3496,9 +3496,9 @@ export default defineMessages({
   },
   tagMappingSelectParentTagsDesc: {
     defaultMessage:
-      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+      'Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in Cost Management.',
     description:
-      'Select a parent tag key that will be mapped to the {count} child tags you selected in the previous step. This tag will be available for filtering in Cost Management.',
+      'Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in Cost Management.',
     id: 'tagMappingSelectParentTagsDesc',
   },
   tagMappingWarning: {

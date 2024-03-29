@@ -12285,7 +12285,7 @@
     "tagMappingSelectChildTagsDesc": [
       {
         "type": 0,
-        "value": "Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. "
+        "value": "Select the child tags that you want to map to the parent key you selected in the previous step. Tags that have been already mapped will not be available for selection. "
       },
       {
         "type": 1,
@@ -12301,15 +12301,7 @@
     "tagMappingSelectParentTagsDesc": [
       {
         "type": 0,
-        "value": "Select a parent tag key that will be mapped to the "
-      },
-      {
-        "type": 1,
-        "value": "count"
-      },
-      {
-        "type": 0,
-        "value": " child tags you selected in the previous step. This tag will be available for filtering in Cost Management."
+        "value": "Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in Cost Management."
       }
     ],
     "tagMappingWarning": [

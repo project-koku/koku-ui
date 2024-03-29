@@ -25,6 +25,7 @@ interface ChildTagsOwnProps {
   onBulkSelect(items: SettingsData[]);
   onSelect(items: SettingsData[], isSelected: boolean);
   selectedItems?: SettingsData[];
+  unavailableItems?: SettingsData[];
 }
 
 interface ChildTagsMapProps {
@@ -49,7 +50,12 @@ const baseQuery: Query = {
   },
 };
 
-const ChildTags: React.FC<ChildTagsProps> = ({ onBulkSelect, onSelect, selectedItems }: ChildTagsProps) => {
+const ChildTags: React.FC<ChildTagsProps> = ({
+  onBulkSelect,
+  onSelect,
+  selectedItems,
+  unavailableItems,
+}: ChildTagsProps) => {
   const [query, setQuery] = useState({ ...baseQuery });
   const { settings, settingsError, settingsStatus } = useMapToProps({ query });
 
@@ -99,6 +105,7 @@ const ChildTags: React.FC<ChildTagsProps> = ({ onBulkSelect, onSelect, selectedI
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         selectedItems={selectedItems}
         settings={settings}
+        unavailableItems={unavailableItems}
       />
     );
   };

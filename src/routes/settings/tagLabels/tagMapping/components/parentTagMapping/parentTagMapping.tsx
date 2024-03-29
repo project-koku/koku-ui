@@ -108,9 +108,30 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
         >
           <WizardStep
             footer={{
-              isNextDisabled: childTags.length === 0,
+              isNextDisabled: parentTags.length === 0,
             }}
             id="step-1"
+            name={intl.formatMessage(messages.tagMappingWizardSelectParentTag)}
+          >
+            <Title headingLevel="h2" size={TitleSizes.xl}>
+              {intl.formatMessage(messages.tagMappingSelectParentTags)}
+            </Title>
+            <div style={styles.descContainer}>
+              {intl.formatMessage(messages.tagMappingSelectParentTagsDesc, { count: <b>{childTags.length}</b> })}
+            </div>
+            <ParentTags
+              onBulkSelect={handleOnBulkSelectParent}
+              onSelect={handleOnSelectParent}
+              selectedItems={parentTags}
+              unavailableItems={childTags}
+            />
+          </WizardStep>
+          <WizardStep
+            footer={{
+              isNextDisabled: childTags.length === 0,
+            }}
+            id="step-2"
+            isDisabled={parentTags.length === 0}
             name={intl.formatMessage(messages.tagMappingWizardSelectChildTags)}
           >
             <Title headingLevel="h2" size={TitleSizes.xl}>
@@ -129,27 +150,7 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
               onBulkSelect={handleOnBulkSelectChild}
               onSelect={handleOnSelectChild}
               selectedItems={childTags}
-            />
-          </WizardStep>
-          <WizardStep
-            footer={{
-              isNextDisabled: parentTags.length === 0,
-            }}
-            id="step-2"
-            isDisabled={childTags.length === 0}
-            name={intl.formatMessage(messages.tagMappingWizardSelectParentTag)}
-          >
-            <Title headingLevel="h2" size={TitleSizes.xl}>
-              {intl.formatMessage(messages.tagMappingSelectParentTags)}
-            </Title>
-            <div style={styles.descContainer}>
-              {intl.formatMessage(messages.tagMappingSelectParentTagsDesc, { count: <b>{childTags.length}</b> })}
-            </div>
-            <ParentTags
-              onBulkSelect={handleOnBulkSelectParent}
-              onSelect={handleOnSelectParent}
-              selectedItems={parentTags}
-              unavailableItems={childTags}
+              unavailableItems={parentTags}
             />
           </WizardStep>
           <WizardStep
