@@ -11867,7 +11867,7 @@
         "value": "Application settings saved"
       }
     ],
-    "settingsTagMappingErrorDesc": [
+    "settingsTagMappingDisableErrorDesc": [
       {
         "type": 0,
         "value": "You have selected "
@@ -11881,7 +11881,7 @@
         "value": " tag mappings"
       }
     ],
-    "settingsTagMappingErrorTitle": [
+    "settingsTagMappingDisableErrorTitle": [
       {
         "type": 0,
         "value": "Can not disable a key associated with a tag mapping"
@@ -12224,6 +12224,18 @@
       {
         "type": 0,
         "value": " tag map. Tags that have been already mapped will not be available for selection."
+      }
+    ],
+    "tagMappingAddErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to add tags"
+      }
+    ],
+    "tagMappingAddErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to create tag mapping"
       }
     ],
     "tagMappingDelete": [

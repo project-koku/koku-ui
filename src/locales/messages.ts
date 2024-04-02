@@ -3281,15 +3281,15 @@ export default defineMessages({
     description: 'Application settings saved',
     id: 'settingsSuccessTitle',
   },
-  settingsTagMappingErrorDesc: {
+  settingsTagMappingDisableErrorDesc: {
     defaultMessage: 'You have selected {value} tag mappings',
     description: 'You have selected {value} tag mappings',
-    id: 'settingsTagMappingErrorDesc',
+    id: 'settingsTagMappingDisableErrorDesc',
   },
-  settingsTagMappingErrorTitle: {
+  settingsTagMappingDisableErrorTitle: {
     defaultMessage: 'Can not disable a key associated with a tag mapping',
     description: 'Can not disable a key associated with a tag mapping',
-    id: 'settingsTagMappingErrorTitle',
+    id: 'settingsTagMappingDisableErrorTitle',
   },
   settingsTagsErrorDesc: {
     defaultMessage: 'You currently have {value} tags enabled',
@@ -3449,6 +3449,16 @@ export default defineMessages({
     description:
       'Select additional tag key(s) that will be mapped to the {value} tag map. Tags that have been already mapped will not be available for selection.',
     id: 'tagMappingAddChildTagsDesc',
+  },
+  tagMappingAddErrorDesc: {
+    defaultMessage: 'Failed to add tags',
+    description: 'Failed to add tags',
+    id: 'tagMappingAddErrorDesc',
+  },
+  tagMappingAddErrorTitle: {
+    defaultMessage: 'Unable to create tag mapping',
+    description: 'Unable to create tag mapping',
+    id: 'tagMappingAddErrorTitle',
   },
   tagMappingDelete: {
     defaultMessage: 'Delete tag mapping',
