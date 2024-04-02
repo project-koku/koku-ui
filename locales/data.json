@@ -11867,6 +11867,26 @@
         "value": "Application settings saved"
       }
     ],
+    "settingsTagMappingErrorDesc": [
+      {
+        "type": 0,
+        "value": "You have selected "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tag mappings"
+      }
+    ],
+    "settingsTagMappingErrorTitle": [
+      {
+        "type": 0,
+        "value": "Can not disable a key associated with a tag mapping"
+      }
+    ],
     "settingsTagsErrorDesc": [
       {
         "type": 0,

@@ -3281,6 +3281,16 @@ export default defineMessages({
     description: 'Application settings saved',
     id: 'settingsSuccessTitle',
   },
+  settingsTagMappingErrorDesc: {
+    defaultMessage: 'You have selected {value} tag mappings',
+    description: 'You have selected {value} tag mappings',
+    id: 'settingsTagMappingErrorDesc',
+  },
+  settingsTagMappingErrorTitle: {
+    defaultMessage: 'Can not disable a key associated with a tag mapping',
+    description: 'Can not disable a key associated with a tag mapping',
+    id: 'settingsTagMappingErrorTitle',
+  },
   settingsTagsErrorDesc: {
     defaultMessage: 'You currently have {value} tags enabled',
     description: 'You currently have {value} tags enabled',

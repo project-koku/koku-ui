@@ -532,6 +532,8 @@
   "settingsSuccessPlatformProjects": "{value, select, add {{count, plural, one {{count} projects added to Platform projects} other {{count} project added to Platform projects}}} remove {{count, plural, one {{count} projects removed from Platform projects} other {{count} project removed from Platform projects}}} other {}}",
   "settingsSuccessTags": "{value, select, add {{count, plural, one {{count} tag key added} other {{count} tag key added}}} enable {{count, plural, one {{count} tag enabled} other {{count} tags enabled}}} disable {{count, plural, one {{count} tag disabled} other {{count} tags disabled}}} remove {{count, plural, one {{count} tag key removed} other {{count} tag key removed}}} other {}}",
   "settingsSuccessTitle": "Application settings saved",
+  "settingsTagMappingErrorDesc": "You have selected {value} tag mappings",
+  "settingsTagMappingErrorTitle": "Can not disable a key associated with a tag mapping",
   "settingsTagsErrorDesc": "You currently have {value} tags enabled",
   "settingsTagsErrorTitle": "You can not enable more than {value} tags total",
   "settingsTitle": "Cost Management Settings",

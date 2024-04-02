@@ -133,8 +133,15 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         let description = intl.formatMessage(messages.settingsErrorDesc);
         let title = intl.formatMessage(messages.settingsErrorTitle);
         if (err.response.status === 412) {
-          description = intl.formatMessage(messages.settingsTagsErrorDesc, { value: err.response.data.enabled });
-          title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit });
+          if (err.response?.data?.enabled && err.response?.data?.limit) {
+            description = intl.formatMessage(messages.settingsTagsErrorDesc, { value: err.response.data.enabled });
+            title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit });
+          } else if (err.response?.data?.error && err.response?.data?.ids) {
+            description = intl.formatMessage(messages.settingsTagMappingErrorDesc, {
+              value: err.response?.data?.ids?.length,
+            });
+            title = intl.formatMessage(messages.settingsTagMappingErrorTitle);
+          }
         }
         dispatch(
           addNotification({
