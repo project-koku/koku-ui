@@ -12,30 +12,40 @@ export interface SelectWrapperOption {
 }
 
 interface SelectWrapperOwnProps {
+  appendTo?: HTMLElement | (() => HTMLElement) | 'inline' | 'parent';
   ariaLabel?: string;
   className?: string;
+  direction?: 'up' | 'down';
   id?: string;
   isDisabled?: boolean;
+  maxMenuHeight?: string;
   onSelect?: (event, value: SelectWrapperOption) => void;
   placeholder?: string;
   options?: SelectWrapperOption[];
   position?: 'right' | 'left' | 'center' | 'start' | 'end';
   selection?: string | SelectWrapperOption;
+  status?: 'success' | 'warning' | 'danger';
+  toggleAriaLabel?: string;
   toggleIcon?: React.ReactNode;
 }
 
 type SelectWrapperProps = SelectWrapperOwnProps;
 
 const SelectWrapper: React.FC<SelectWrapperProps> = ({
+  appendTo,
   ariaLabel,
   className,
+  direction,
   id,
   isDisabled,
+  maxMenuHeight,
   onSelect = () => {},
   options,
   placeholder = null,
   position,
   selection,
+  status,
+  toggleAriaLabel,
   toggleIcon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -72,28 +82,34 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
 
   const toggle = toggleRef => (
     <MenuToggle
+      aria-label={toggleAriaLabel}
       icon={toggleIcon && <Icon>{toggleIcon}</Icon>}
       isDisabled={isDisabled}
       isExpanded={isOpen}
+      isFullWidth
       onClick={handleOnToggle}
       ref={toggleRef}
+      status={status}
     >
       {getPlaceholder()}
     </MenuToggle>
   );
 
   return (
-    <div className={className ? `selectWrapper ${className}` : 'selectWrapper'}>
+    <div className={className ? `${className} selectWrapper` : 'selectWrapper'}>
       <Select
         id={id}
+        isScrollable={maxMenuHeight !== undefined}
+        maxMenuHeight={maxMenuHeight}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}
         onSelect={handleOnSelect}
+        ouiaId={id}
         isOpen={isOpen}
-        popperProps={
-          position && {
-            position,
-          }
-        }
+        popperProps={{
+          appendTo: appendTo as any,
+          direction,
+          position,
+        }}
         selected={selection}
         toggle={toggle}
       >

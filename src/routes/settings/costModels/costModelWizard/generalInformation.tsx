@@ -133,22 +133,22 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   id="source-type-selector"
                   direction="up"
                   appendMenuTo="inline"
-                  maxHeight={styles.selector.maxHeight}
+                  maxMenuHeight={styles.selector.maxHeight as string}
                   label={messages.sourceType}
                   toggleAriaLabel={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
                   placeholderText={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
                   value={getValueLabel(type, sourceTypeOptions)}
-                  onChange={(_evt, value) => onTypeChange(value)}
+                  onSelect={(_evt, value) => onTypeChange(value)}
                   options={sourceTypeOptions}
                 />
                 <Selector
                   label={messages.currency}
                   direction="up"
                   appendMenuTo="inline"
-                  maxHeight={styles.selector.maxHeight}
+                  maxMenuHeight={styles.selector.maxHeight as string}
                   toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
                   value={getValueLabel(currencyUnits, currencyOptions)}
-                  onChange={(_evt, value) => onCurrencyChange(value)}
+                  onSelect={(_evt, value) => onCurrencyChange(value)}
                   id="currency-units-selector"
                   options={currencyOptions.map(o => {
                     return {

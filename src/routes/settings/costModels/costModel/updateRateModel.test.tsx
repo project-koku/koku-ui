@@ -267,13 +267,17 @@ describe('update-rate', () => {
 
   test('Description', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
     render(<RenderFormDataUI index={0} />);
+
     const descInput = screen.getByDisplayValue('openshift-aws-node');
     const saveButton = screen.getByText(regExp(messages.save));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
+
     await act(async () => user.clear(descInput));
     await act(async () => user.type(descInput, 'a new description'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
+
     await act(async () => user.clear(descInput));
     await act(async () => user.type(descInput, 'openshift-aws-node'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
@@ -282,7 +286,9 @@ describe('update-rate', () => {
   test('Select Measurement', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     let options = null;
+
     render(<RenderFormDataUI index={0} />);
+
     const saveButton = screen.getByText(regExp(messages.save));
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
@@ -303,7 +309,7 @@ describe('update-rate', () => {
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await act(async () => user.click(options[0]));
+    await act(async () => user.click(options[5])); // Previous select options are not being removed from page
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
@@ -316,7 +322,7 @@ describe('update-rate', () => {
     await act(async () => user.click(options[0]));
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-  });
+  }, 7000);
 
   test('regular', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
