@@ -99,7 +99,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
           actionClose={<AlertActionCloseButton onClose={this.handleOnClose} />}
           actionLinks={
             <React.Fragment>
-              <a href={`${release}/settings/sources`}>{intl.formatMessage(messages.inactiveSourcesGoTo)}</a>
+              <a href={`${release}/settings/integrations`}>{intl.formatMessage(messages.inactiveSourcesGoTo)}</a>
             </React.Fragment>
           }
         >
