@@ -132,9 +132,20 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         dispatch(updateSettingsFailure(err, meta));
         let description = intl.formatMessage(messages.settingsErrorDesc);
         let title = intl.formatMessage(messages.settingsErrorTitle);
-        if (err.response.status === 412) {
-          description = intl.formatMessage(messages.settingsTagsErrorDesc, { value: err.response.data.enabled });
-          title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit });
+
+        if (settingsType === SettingsType.tagsDisable && err.response.status === 412) {
+          if (err.response?.data?.error && err.response?.data?.ids) {
+            title = intl.formatMessage(messages.settingsTagMappingDisableErrorTitle);
+            description = intl.formatMessage(messages.settingsTagMappingDisableErrorDesc, {
+              value: err.response?.data?.ids?.length,
+            });
+          } else if (err.response?.data?.enabled && err.response?.data?.limit) {
+            title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit });
+            description = intl.formatMessage(messages.settingsTagsErrorDesc, { value: err.response.data.enabled });
+          }
+        } else if (settingsType === SettingsType.tagsMappingsChildAdd) {
+          description = intl.formatMessage(messages.tagMappingAddErrorDesc);
+          title = intl.formatMessage(messages.tagMappingAddErrorTitle);
         }
         dispatch(
           addNotification({
