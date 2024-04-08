@@ -87,9 +87,9 @@ export const getProviderStatus = (
   }
 
   // Skip summaryState for cloud
-  const downloadState = lookupKey(provider.status.download.state);
-  const processingState = lookupKey(provider.status.processing.state);
-  const summaryState = isCloud ? StatusType.complete : lookupKey(provider.status.summary.state);
+  const downloadState = lookupKey(provider.status?.download?.state);
+  const processingState = lookupKey(provider.status?.processing?.state);
+  const summaryState = isCloud ? StatusType.complete : lookupKey(provider.status?.summary?.state);
 
   if (
     downloadState === StatusType.failed ||

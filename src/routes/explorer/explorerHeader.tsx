@@ -1,4 +1,4 @@
-import { Title, TitleSizes } from '@patternfly/react-core';
+import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -286,46 +286,52 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
     return (
       <header style={styles.header}>
-        <div style={styles.headerContent}>
-          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.explorerTitle)}
-          </Title>
-          <div style={styles.headerContentRight}>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.headerContent}>
+          <FlexItem>
+            <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
+              {intl.formatMessage(messages.explorerTitle)}
+            </Title>
+          </FlexItem>
+          <FlexItem>
             <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsToggleEnabled && <ExportsLink />}
-          </div>
-        </div>
-        <div style={styles.perspectiveContainer}>
-          {this.getPerspective(noProviders)}
-          <div style={styles.groupBy}>
-            <GroupBy
-              getIdKeyForGroupBy={getIdKeyForGroupBy}
-              groupBy={groupBy}
-              isDisabled={noProviders}
-              onSelect={onGroupBySelect}
-              options={groupByOptions}
-              orgPathsType={orgPathsType}
-              perspective={perspective}
-              resourcePathsType={resourcePathsType}
-              showCostCategories={
-                resourcePathsType === ResourcePathsType.aws || resourcePathsType === ResourcePathsType.awsOcp
-              }
-              showOrgs={orgPathsType}
-              showTags={tagPathsType}
-              tagPathsType={tagPathsType}
-            />
-          </div>
-          {showCostDistribution && (
-            <div style={styles.costDistribution}>
-              <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
-            </div>
-          )}
-          {(perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp) && (
-            <div style={styles.costType}>
-              <CostType costType={costType} onSelect={onCostTypeSelect} />
-            </div>
-          )}
-        </div>
+          </FlexItem>
+        </Flex>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
+          <FlexItem>
+            <Flex>
+              <FlexItem>{this.getPerspective(noProviders)}</FlexItem>
+              <FlexItem>
+                <GroupBy
+                  getIdKeyForGroupBy={getIdKeyForGroupBy}
+                  groupBy={groupBy}
+                  isDisabled={noProviders}
+                  onSelect={onGroupBySelect}
+                  options={groupByOptions}
+                  orgPathsType={orgPathsType}
+                  perspective={perspective}
+                  resourcePathsType={resourcePathsType}
+                  showCostCategories={
+                    resourcePathsType === ResourcePathsType.aws || resourcePathsType === ResourcePathsType.awsOcp
+                  }
+                  showOrgs={orgPathsType}
+                  showTags={tagPathsType}
+                  tagPathsType={tagPathsType}
+                />
+              </FlexItem>
+              {showCostDistribution && (
+                <FlexItem>
+                  <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
+                </FlexItem>
+              )}
+              {(perspective === PerspectiveType.aws || perspective === PerspectiveType.awsOcp) && (
+                <FlexItem>
+                  <CostType costType={costType} onSelect={onCostTypeSelect} />
+                </FlexItem>
+              )}
+            </Flex>
+          </FlexItem>
+        </Flex>
         <ExplorerFilter
           groupBy={groupBy}
           isDisabled={noProviders}

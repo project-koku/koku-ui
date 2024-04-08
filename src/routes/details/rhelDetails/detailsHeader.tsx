@@ -1,4 +1,4 @@
-import { Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { Flex, FlexItem, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -99,44 +99,54 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
     return (
       <header style={styles.header}>
-        <div style={styles.headerContent}>
-          <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.rhelDetailsTitle)}
-          </Title>
-          <div style={styles.headerContentRight}>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+          <FlexItem>
+            <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
+              {intl.formatMessage(messages.rhelDetailsTitle)}
+            </Title>
+          </FlexItem>
+          <FlexItem style={styles.exportContainer}>
             <Currency currency={currency} onSelect={onCurrencySelect} />
             {isExportsToggleEnabled && <ExportsLink />}
-          </div>
-        </div>
-        <div style={styles.headerContent}>
-          <div style={styles.headerContentLeft}>
-            <GroupBy
-              getIdKeyForGroupBy={getIdKeyForGroupBy}
-              groupBy={groupBy}
-              isDisabled={!showContent}
-              onSelect={onGroupBySelect}
-              options={groupByOptions}
-              showTags
-              tagPathsType={tagPathsType}
-            />
-          </div>
-          {showContent && (
-            <div>
-              <Tooltip
-                content={intl.formatMessage(messages.dashboardTotalCostTooltip, {
-                  infrastructureCost,
-                  supplementaryCost,
-                })}
-                enableFlip
-              >
-                <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
-                  {cost}
-                </Title>
-              </Tooltip>
-              <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
-            </div>
-          )}
-        </div>
+          </FlexItem>
+        </Flex>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
+          <FlexItem>
+            <Flex>
+              <FlexItem style={styles.perspective}>
+                <div style={styles.groupBy}>
+                  <GroupBy
+                    getIdKeyForGroupBy={getIdKeyForGroupBy}
+                    groupBy={groupBy}
+                    isDisabled={!showContent}
+                    onSelect={onGroupBySelect}
+                    options={groupByOptions}
+                    showTags
+                    tagPathsType={tagPathsType}
+                  />
+                </div>
+              </FlexItem>
+            </Flex>
+          </FlexItem>
+          <FlexItem>
+            {showContent && (
+              <>
+                <Tooltip
+                  content={intl.formatMessage(messages.dashboardTotalCostTooltip, {
+                    infrastructureCost,
+                    supplementaryCost,
+                  })}
+                  enableFlip
+                >
+                  <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                    {cost}
+                  </Title>
+                </Tooltip>
+                <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
+              </>
+            )}
+          </FlexItem>
+        </Flex>
       </header>
     );
   }

@@ -33,14 +33,14 @@ const CostData: React.FC<CostDataProps> = ({ provider }: CostDataProps) => {
       >
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsIntegrationAndFinalization)}
-          icon={getProgressStepIcon(provider.status.summary.state)}
+          icon={getProgressStepIcon(provider.status?.summary?.state)}
           id="step1"
           titleId="step1-title"
-          variant={getProgressStepVariant(provider.status.summary.state)}
+          variant={getProgressStepVariant(provider.status?.summary?.state)}
         >
           {intl.formatMessage(messages.dataDetailsIntegrationAndFinalization)}
           <div style={styles.description}>
-            {formatDate(provider.status.summary.end || provider.status.summary.start)}
+            {formatDate(provider.status?.summary?.end || provider.status?.summary?.start)}
           </div>
         </ProgressStep>
       </ProgressStepper>
