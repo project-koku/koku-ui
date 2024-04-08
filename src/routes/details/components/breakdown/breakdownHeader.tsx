@@ -1,6 +1,6 @@
 import './breakdownHeader.scss';
 
-import { Title, TitleSizes } from '@patternfly/react-core';
+import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -138,59 +138,68 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
     return (
       <header style={styles.header}>
-        <div style={styles.headerContent}>
-          <nav aria-label={intl.formatMessage(messages.breakdownBackToDetailsAriaLabel)} className="breadcrumbOverride">
-            <ol className="pf-v5-c-breadcrumb__list">
-              <li className="pf-v5-c-breadcrumb__item">
-                <span className="pf-v5-c-breadcrumb__item-divider">
-                  <AngleLeftIcon />
-                </span>
-                {this.getBackToLink(groupByKey)}
-              </li>
-            </ol>
-          </nav>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.headerContent}>
+          <FlexItem>
+            <nav
+              aria-label={intl.formatMessage(messages.breakdownBackToDetailsAriaLabel)}
+              className="breadcrumbOverride"
+            >
+              <ol className="pf-v5-c-breadcrumb__list">
+                <li className="pf-v5-c-breadcrumb__item">
+                  <span className="pf-v5-c-breadcrumb__item-divider">
+                    <AngleLeftIcon />
+                  </span>
+                  {this.getBackToLink(groupByKey)}
+                </li>
+              </ol>
+            </nav>
+          </FlexItem>
           {showCurrency && (
-            <div style={styles.headerContentRight}>
+            <FlexItem>
               <Currency currency={currency} onSelect={onCurrencySelect} />
-            </div>
+            </FlexItem>
           )}
-        </div>
-        <div style={styles.headerContent}>
-          <div style={styles.title}>
-            <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {intl.formatMessage(messages.breakdownTitle, { value: title })}
-            </Title>
-            <div style={styles.descriptionContainer}>
-              {description && <span style={styles.description}>{description}</span>}
-              <span style={!description ? styles.clusterInfoContainer : undefined}>
-                {clusterInfoComponent && isClusterInfoToggleEnabled ? clusterInfoComponent : null}
-              </span>
-              {dataDetailsComponent && isClusterInfoToggleEnabled ? <div>{dataDetailsComponent}</div> : null}
-            </div>
-            {showCostDistribution && (
-              <div style={styles.costDistribution}>
-                <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
-              </div>
-            )}
-            {showCostType && (
-              <div style={styles.costType}>
-                <CostType onSelect={onCostTypeSelect} costType={costType} />
-              </div>
-            )}
-          </div>
-          <div style={styles.cost}>
+        </Flex>
+        <Title headingLevel="h1" size={TitleSizes['2xl']} style={styles.title}>
+          {intl.formatMessage(messages.breakdownTitle, { value: title })}
+        </Title>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
+          <FlexItem>
+            <Flex direction={{ default: 'column' }}>
+              {description && (
+                <FlexItem style={styles.description}>
+                  {description}
+                  {clusterInfoComponent && isClusterInfoToggleEnabled ? (
+                    <span style={!description ? styles.clusterInfoContainer : undefined}>{clusterInfoComponent}</span>
+                  ) : null}
+                </FlexItem>
+              )}
+              {dataDetailsComponent && isClusterInfoToggleEnabled ? <FlexItem>{dataDetailsComponent}</FlexItem> : null}
+              {showCostDistribution && (
+                <FlexItem style={styles.costDistribution}>
+                  <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
+                </FlexItem>
+              )}
+              {showCostType && (
+                <FlexItem style={styles.costType}>
+                  <CostType onSelect={onCostTypeSelect} costType={costType} />
+                </FlexItem>
+              )}
+            </Flex>
+          </FlexItem>
+          <FlexItem>
             <div style={styles.costLabel}>
               <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
                 <span>{this.getTotalCost()}</span>
               </Title>
+              <div style={styles.costLabelDate}>
+                {getTotalCostDateRangeString(
+                  intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 })
+                )}
+              </div>
             </div>
-            <div style={styles.costLabelDate}>
-              {getTotalCostDateRangeString(
-                intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 })
-              )}
-            </div>
-          </div>
-        </div>
+          </FlexItem>
+        </Flex>
         <div>
           <div style={styles.tabs}>
             {tabs}

@@ -3,7 +3,7 @@ import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_d
 import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
+import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
 import type React from 'react';
 
@@ -11,11 +11,9 @@ export const styles = {
   clusterInfoContainer: {
     marginLeft: '-17px',
   },
-  cost: {
-    marginTop: global_spacer_xl.var,
-  },
   costDistribution: {
-    marginTop: global_spacer_md.var,
+    marginTop: global_spacer_sm.var,
+    paddingBottom: global_spacer_md.var,
   },
   costLabel: {
     marginTop: global_spacer_xs.var,
@@ -29,14 +27,13 @@ export const styles = {
     textAlign: 'right',
   },
   costType: {
-    marginTop: global_spacer_md.var,
+    marginTop: global_spacer_sm.var,
+    paddingBottom: global_spacer_md.var,
   },
   description: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
-  },
-  descriptionContainer: {
-    paddingLeft: '1px',
+    marginBottom: 0,
   },
   header: {
     backgroundColor: global_BackgroundColor_100.var,
@@ -45,12 +42,14 @@ export const styles = {
     paddingTop: global_spacer_lg.var,
   },
   headerContent: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    alignItems: 'unset',
     minHeight: '36px',
   },
-  headerContentRight: {
-    display: 'flex',
+  perspectiveContainer: {
+    alignItems: 'unset',
+    paddingBottom: global_spacer_sm.var,
+    paddingLeft: '1px',
+    paddingTop: global_spacer_xs.var,
   },
   tabs: {
     display: 'flex',
@@ -59,7 +58,6 @@ export const styles = {
     marginLeft: global_spacer_lg.var,
   },
   title: {
-    paddingBottom: global_spacer_lg.var,
     paddingTop: global_spacer_xs.var,
   },
 } as { [className: string]: React.CSSProperties };

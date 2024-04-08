@@ -114,7 +114,11 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
         <Thead>
           <Tr>
             {cells.map((c, cellIndex) => (
-              <Th key={cellIndex} sort={c.transforms ? getSortParams(cellIndex) : undefined}>
+              <Th
+                aria-label={c.title as string}
+                key={cellIndex}
+                sort={c.transforms ? getSortParams(cellIndex) : undefined}
+              >
                 {c.title}
               </Th>
             ))}
