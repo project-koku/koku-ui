@@ -301,16 +301,13 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
 
   const children =
     filterType === 'sourceType' ? (
-      <>
-        TEST
-        <SelectWrapper
-          id="source-type-select"
-          onSelect={handleOnSelect}
-          options={selectOptions}
-          placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: 'source_type' })}
-          selection={selection}
-        />
-      </>
+      <SelectWrapper
+        id="source-type-select"
+        onSelect={handleOnSelect}
+        options={selectOptions}
+        placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: 'source_type' })}
+        selection={selection}
+      />
     ) : null;
   return (
     <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>

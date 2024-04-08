@@ -3,6 +3,8 @@ import './overview.scss';
 import {
   Button,
   ButtonVariant,
+  Flex,
+  FlexItem,
   Popover,
   Tab,
   TabContent,
@@ -731,60 +733,64 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     return (
       <>
         <header style={styles.header}>
-          <div style={styles.headerContent}>
-            <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              {title}
-              <span style={styles.infoIcon}>
-                <Popover
-                  aria-label={intl.formatMessage(messages.overviewInfoArialLabel)}
-                  enableFlip
-                  bodyContent={
-                    <>
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.openShiftCloudInfrastructure)}</p>
-                      <p>{intl.formatMessage(messages.openShiftCloudInfrastructureDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
-                      <p>{intl.formatMessage(messages.openShiftDesc)}</p>
-                      <br />
-                      {isFinsightsToggleEnabled && (
-                        <>
-                          <p style={styles.infoTitle}>{intl.formatMessage(messages.rhel)}</p>
-                          <p>{intl.formatMessage(messages.rhelDesc)}</p>
-                          <br />
-                        </>
-                      )}
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.aws)}</p>
-                      <p>{intl.formatMessage(messages.awsDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
-                      <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                      {isIbmToggleEnabled && (
-                        <>
-                          <br />
-                          <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
-                          <p>{intl.formatMessage(messages.ibmDesc)}</p>
-                        </>
-                      )}
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
-                      <p>{intl.formatMessage(messages.azureDesc)}</p>
-                      <br />
-                      <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
-                      <p>{intl.formatMessage(messages.ociDesc)}</p>
-                    </>
-                  }
-                >
-                  <Button
-                    aria-label={intl.formatMessage(messages.overviewInfoButtonArialLabel)}
-                    variant={ButtonVariant.plain}
+          <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+            <FlexItem>
+              <Title headingLevel="h1" size={TitleSizes['2xl']}>
+                {title}
+                <span style={styles.infoIcon}>
+                  <Popover
+                    aria-label={intl.formatMessage(messages.overviewInfoArialLabel)}
+                    enableFlip
+                    bodyContent={
+                      <>
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.openShiftCloudInfrastructure)}</p>
+                        <p>{intl.formatMessage(messages.openShiftCloudInfrastructureDesc)}</p>
+                        <br />
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
+                        <p>{intl.formatMessage(messages.openShiftDesc)}</p>
+                        <br />
+                        {isFinsightsToggleEnabled && (
+                          <>
+                            <p style={styles.infoTitle}>{intl.formatMessage(messages.rhel)}</p>
+                            <p>{intl.formatMessage(messages.rhelDesc)}</p>
+                            <br />
+                          </>
+                        )}
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.aws)}</p>
+                        <p>{intl.formatMessage(messages.awsDesc)}</p>
+                        <br />
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
+                        <p>{intl.formatMessage(messages.gcpDesc)}</p>
+                        {isIbmToggleEnabled && (
+                          <>
+                            <br />
+                            <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
+                            <p>{intl.formatMessage(messages.ibmDesc)}</p>
+                          </>
+                        )}
+                        <br />
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
+                        <p>{intl.formatMessage(messages.azureDesc)}</p>
+                        <br />
+                        <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
+                        <p>{intl.formatMessage(messages.ociDesc)}</p>
+                      </>
+                    }
                   >
-                    <OutlinedQuestionCircleIcon />
-                  </Button>
-                </Popover>
-              </span>
-            </Title>
-            <div style={styles.headerContentRight}>{this.getCurrency()}</div>
-          </div>
+                    <Button
+                      aria-label={intl.formatMessage(messages.overviewInfoButtonArialLabel)}
+                      variant={ButtonVariant.plain}
+                    >
+                      <OutlinedQuestionCircleIcon />
+                    </Button>
+                  </Popover>
+                </span>
+              </Title>
+            </FlexItem>
+            <FlexItem>
+              <div style={styles.headerContentRight}>{this.getCurrency()}</div>
+            </FlexItem>
+          </Flex>
           <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
           <div style={styles.headerContent}>
             <div style={styles.headerContentLeft}>
