@@ -47,26 +47,26 @@ const ClusterData: React.FC<ClusterDataProps> = ({ provider }: ClusterDataProps)
         </ProgressStep>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsRetrieval)}
-          icon={getProgressStepIcon(provider.status.download.state)}
+          icon={getProgressStepIcon(provider.status?.download?.state)}
           id="step1"
           titleId="step1-title"
-          variant={getProgressStepVariant(provider.status.download.state)}
+          variant={getProgressStepVariant(provider.status?.download?.state)}
         >
           {intl.formatMessage(messages.dataDetailsRetrieval)}
           <div style={styles.description}>
-            {formatDate(provider.status.download.end || provider.status.download.start)}
+            {formatDate(provider.status?.download?.end || provider.status?.download?.start)}
           </div>
         </ProgressStep>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsProcessing)}
-          icon={getProgressStepIcon(provider.status.processing.state)}
+          icon={getProgressStepIcon(provider.status?.processing?.state)}
           id="step2"
           titleId="step2-title"
-          variant={getProgressStepVariant(provider.status.processing.state)}
+          variant={getProgressStepVariant(provider.status?.processing?.state)}
         >
           {intl.formatMessage(messages.dataDetailsProcessing)}
           <div style={styles.description}>
-            {formatDate(provider.status.processing.end || provider.status.processing.start)}
+            {formatDate(provider.status?.processing?.end || provider.status?.processing?.start)}
           </div>
         </ProgressStep>
       </ProgressStepper>

@@ -17,10 +17,6 @@ export const styles = {
     backgroundColor: global_BackgroundColor_light_100.var,
     padding: global_spacer_lg.var,
   },
-  headerContent: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
   headerContentLeft: {
     display: 'flex',
   },

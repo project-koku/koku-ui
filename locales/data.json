@@ -11867,6 +11867,26 @@
         "value": "Application settings saved"
       }
     ],
+    "settingsTagMappingDisableErrorDesc": [
+      {
+        "type": 0,
+        "value": "You have selected "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " tag mappings"
+      }
+    ],
+    "settingsTagMappingDisableErrorTitle": [
+      {
+        "type": 0,
+        "value": "Can not disable a key associated with a tag mapping"
+      }
+    ],
     "settingsTagsErrorDesc": [
       {
         "type": 0,
@@ -12206,6 +12226,18 @@
         "value": " tag map. Tags that have been already mapped will not be available for selection."
       }
     ],
+    "tagMappingAddErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to add tags"
+      }
+    ],
+    "tagMappingAddErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to create tag mapping"
+      }
+    ],
     "tagMappingDelete": [
       {
         "type": 0,
@@ -12285,7 +12317,7 @@
     "tagMappingSelectChildTagsDesc": [
       {
         "type": 0,
-        "value": "Select the child tags that you want to map to a parent key. Tags that have been already mapped will not be available for selection. "
+        "value": "Select the child tags that you want to map to the parent key you selected in the previous step. Tags that have been already mapped will not be available for selection. "
       },
       {
         "type": 1,
@@ -12301,15 +12333,7 @@
     "tagMappingSelectParentTagsDesc": [
       {
         "type": 0,
-        "value": "Select a parent tag key that will be mapped to the "
-      },
-      {
-        "type": 1,
-        "value": "count"
-      },
-      {
-        "type": 0,
-        "value": " child tags you selected in the previous step. This tag will be available for filtering in Cost Management."
+        "value": "Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in Cost Management."
       }
     ],
     "tagMappingWarning": [

@@ -52,26 +52,26 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
         </ProgressStep>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsRetrieval)}
-          icon={getProgressStepIcon(provider.status.download.state)}
+          icon={getProgressStepIcon(provider.status?.download?.state)}
           id="step2"
           titleId="step2-title"
-          variant={getProgressStepVariant(provider.status.download.state)}
+          variant={getProgressStepVariant(provider.status?.download?.state)}
         >
           {intl.formatMessage(messages.dataDetailsRetrieval)}
           <div style={styles.description}>
-            {formatDate(provider.status.download.end || provider.status.download.start)}
+            {formatDate(provider.status?.download?.end || provider.status?.download?.start)}
           </div>
         </ProgressStep>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsProcessing, { count: 3 })}
-          icon={getProgressStepIcon(provider.status.processing.state)}
+          icon={getProgressStepIcon(provider.status?.processing?.state)}
           id="step3"
           titleId="step3-title"
-          variant={getProgressStepVariant(provider.status.processing.state)}
+          variant={getProgressStepVariant(provider.status?.processing?.state)}
         >
           {intl.formatMessage(messages.dataDetailsProcessing)}
           <div style={styles.description}>
-            {formatDate(provider.status.processing.end || provider.status.processing.start)}
+            {formatDate(provider.status?.processing?.end || provider.status?.processing?.start)}
           </div>
         </ProgressStep>
       </ProgressStepper>
