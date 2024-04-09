@@ -136,6 +136,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             ? orgUnitIdKey
             : groupBy;
 
+    const showClusterInfo = clusterInfoComponent && isClusterInfoToggleEnabled;
+
     return (
       <header style={styles.header}>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.headerContent}>
@@ -166,15 +168,14 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
             <Flex direction={{ default: 'column' }}>
-              {description ||
-                (clusterInfoComponent && isClusterInfoToggleEnabled && (
-                  <FlexItem style={styles.description}>
-                    {description}
-                    {clusterInfoComponent && isClusterInfoToggleEnabled ? (
-                      <span style={!description ? styles.clusterInfoContainer : undefined}>{clusterInfoComponent}</span>
-                    ) : null}
-                  </FlexItem>
-                ))}
+              {(description || showClusterInfo) && (
+                <FlexItem style={styles.description}>
+                  {description}
+                  {showClusterInfo ? (
+                    <span style={!description ? styles.clusterInfoContainer : undefined}>{clusterInfoComponent}</span>
+                  ) : null}
+                </FlexItem>
+              )}
               {dataDetailsComponent && isClusterInfoToggleEnabled ? <FlexItem>{dataDetailsComponent}</FlexItem> : null}
               {showCostDistribution && (
                 <FlexItem style={styles.costDistribution}>
