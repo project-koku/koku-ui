@@ -1,9 +1,13 @@
-# Run this workflow for PRs only. Travis is required to push via insights-frontend-builder-common scripts
-
 name: Pull request
 on:
   pull_request:
-    branches: [ main, master, prod-beta, prod-stable, stage-beta, stage-stable ]
+    branches:
+      - main
+      - master
+      - prod-beta
+      - prod-stable
+      - stage-beta
+      - stage-stable
 env:
   BRANCH: ${{ github.base_ref }}
 
@@ -17,10 +21,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
@@ -34,13 +40,28 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
       - name: Install dependencies
         run: npm install
+
       - name: Build
         run: npm run build
+
       - name: Lint
         if: ${{ success() }}
         run: npm run lint
+
       - name: Test
         if: ${{ success() }}
-        run: npm test --coverage --maxWorkers=4
+        run: npm test -- --collect-coverage --max-workers=4
+
+      - name: Upload coverage report
+        if: ${{ success() }}
+        uses: codecov/codecov-action@v4.2.0
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          fail_ci_if_error: true
+          directory: coverage
+          plugin: pycoverage  # Only run one plugin so that all do not run. There is no way to disable plugins entirely.
+
