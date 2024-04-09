@@ -7,6 +7,7 @@ on:
 
 jobs:
   close-issues:
+    name: Close stale issues
     runs-on: ubuntu-latest
     permissions:
       issues: write
