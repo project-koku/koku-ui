@@ -1,3 +1,5 @@
+# Run this workflow for PRs only to confirm container build is working properly
+
 name: Pull request
 
 on:
