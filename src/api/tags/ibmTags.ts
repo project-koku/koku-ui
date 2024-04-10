@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { Tag } from './tag';
 import { TagType } from './tag';
@@ -11,5 +11,5 @@ export const TagTypePaths: Partial<Record<TagType, string>> = {
 
 export function runTag(tagType: TagType, query: string) {
   const path = TagTypePaths[tagType];
-  return axios.get<IbmTag>(`${path}?${query}`);
+  return axiosInstance.get<IbmTag>(`${path}?${query}`);
 }

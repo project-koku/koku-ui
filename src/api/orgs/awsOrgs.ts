@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { Org } from './org';
 import { OrgType } from './org';
@@ -11,5 +11,5 @@ export const OrgTypePaths: Partial<Record<OrgType, string>> = {
 
 export function runOrg(orgType: OrgType, query: string) {
   const path = OrgTypePaths[orgType];
-  return axios.get<AwsOrg>(`${path}?${query}`);
+  return axiosInstance.get<AwsOrg>(`${path}?${query}`);
 }
