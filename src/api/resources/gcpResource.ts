@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { Resource } from './resource';
 import { ResourceType } from './resource';
@@ -12,5 +12,5 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
 
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
-  return axios.get<Resource>(`${path}?${query}`);
+  return axiosInstance.get<Resource>(`${path}?${query}`);
 }

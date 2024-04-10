@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { PagedResponse } from './api';
 import type { Metric } from './metrics';
@@ -47,5 +47,5 @@ export type Rates = PagedResponse<Rate>;
 
 export function fetchRate(uuid = null) {
   const query = uuid ? `?source_uuid=${uuid}` : '';
-  return axios.get<Rates>(`cost-models/${query}`);
+  return axiosInstance.get<Rates>(`cost-models/${query}`);
 }
