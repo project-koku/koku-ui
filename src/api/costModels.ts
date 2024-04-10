@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { PagedResponse } from './api';
 import type { Rate, RateRequest } from './rates';
@@ -45,21 +45,21 @@ export interface CostModelRequest {
 export type CostModels = PagedResponse<CostModel>;
 
 export function fetchCostModels(query = '') {
-  return axios.get<CostModels>(`cost-models/${query && '?'}${query}`);
+  return axiosInstance.get<CostModels>(`cost-models/${query && '?'}${query}`);
 }
 
 export function fetchCostModel(uuid: string) {
-  return axios.get<CostModels>(`cost-models/${uuid}/`);
+  return axiosInstance.get<CostModels>(`cost-models/${uuid}/`);
 }
 
 export function addCostModel(request: CostModelRequest) {
-  return axios.post(`cost-models/`, request);
+  return axiosInstance.post(`cost-models/`, request);
 }
 
 export function updateCostModel(uuid: string, request: CostModelRequest) {
-  return axios.put(`cost-models/${uuid}/`, request);
+  return axiosInstance.put(`cost-models/${uuid}/`, request);
 }
 
 export function deleteCostModel(uuid: string) {
-  return axios.delete(`cost-models/${uuid}/`);
+  return axiosInstance.delete(`cost-models/${uuid}/`);
 }

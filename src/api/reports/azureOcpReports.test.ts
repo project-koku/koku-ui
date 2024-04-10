@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import { runReport } from './azureOcpReports';
 import { ReportType } from './report';
@@ -6,5 +6,5 @@ import { ReportType } from './report';
 test('api run reports calls axios get', () => {
   const query = 'filter[resolution]=daily';
   runReport(ReportType.cost, query);
-  expect(axios.get).toBeCalledWith(`reports/openshift/infrastructures/azure/costs/?${query}`);
+  expect(axiosInstance.get).toBeCalledWith(`reports/openshift/infrastructures/azure/costs/?${query}`);
 });

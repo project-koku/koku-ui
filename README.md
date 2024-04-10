@@ -1,21 +1,22 @@
 # Koku UI
 
-[![AGPLv3][license-badge]][license]
-[![Build Status][build-badge]][build]
+[![Apache 2.0][license-badge]](https://github.com/project-koku/koku-ui/blob/main/LICENSE)
+[![CI Status][build-badge]](https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml)
+[![codecov][codecov-badge]](https://codecov.io/gh/project-koku/koku-ui)
 
 React.js app for Cost Management.
 
-User interface is based on Patternfly [![Patternfly][pf-logo]][patternfly]
+User interface is based on [Patternfly].
 
-To submit an issue, please visit https://issues.redhat.com/projects/COST/
+Submit issues in [Jira].
 
 ## Requirements
 * [NodeJS v18.15+][nodejs]
 * [npm v9.5+][npm]
 
-## Setup /etc/hosts entries (do this once)
+## Setup `hosts` entries (do this once)
 
-Edit the /etc/hosts file and add the following entries
+Edit the `/etc/hosts` file and add the following entries
 ```
 127.0.0.1 prod.foo.redhat.com
 127.0.0.1 stage.foo.redhat.com
@@ -28,7 +29,7 @@ sudo bash scripts/patch-etc-hosts.sh
 
 ## Getting Started
 1. Install requirements listed above.
-2. Setup /etc/hosts entries listed above. 
+2. Setup `/etc/hosts` entries listed above.
 3. Clone the repository, and open a terminal in the base of this project.
 4. Run the command `npm install` to install all the dependencies.
 
@@ -109,7 +110,7 @@ npm start:static
 npm start:csb:mfe
 ```
 
-## Running local instances of Koku UI & Koku API
+## Running local instances of Koku UI and Koku API
 #### Koku UI
 
 1. Start development server (Answer `yes` to run against local APIs)
@@ -193,14 +194,14 @@ http://localhost:1337/beta/settings/applications/cost-management
 
 This [RELEASE][release-doc] doc describes how to release Koku UI to each staging environment.
 
-[build]: https://travis-ci.com/project-koku/UI'
-[build-badge]: https://img.shields.io/travis/project-koku/koku-ui.svg?style=for-the-badge
+[build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml/badge.svg
+[license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true
+[codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
+
 [koku-readme]: https://github.com/project-koku/koku#readme
-[license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true&style=for-the-badge
-[license]: https://github.com/project-koku/koku-ui/blob/main/LICENSE
 [nodejs]: https://nodejs.org/en/
 [patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
-[pf-logo]: https://www.patternfly.org/v4/images/logo.4189e7eb1a0741ea2b3b51b80d33c4cb.svg
-[patternfly]: https://www.patternfly.org/
+[Patternfly]: https://www.patternfly.org/
 [release-doc]: https://github.com/project-koku/koku-ui/blob/main/RELEASE.md
-[npm]: https://https://www.npmjs.com/
+[npm]: https://www.npmjs.com/
+[Jira]: https://issues.redhat.com/projects/COST/
