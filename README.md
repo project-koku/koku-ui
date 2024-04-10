@@ -126,7 +126,7 @@ Follow the prompts that follow.
 
 2. Open the following URL
 ```
- http://localhost:8002/beta/openshift/cost-management
+http://localhost:8002/beta/openshift/cost-management
 ```
 
 #### Koku API
@@ -134,23 +134,23 @@ Refer to the project [README][koku-readme] for prerequisites
 
 1. Setup & run Koku API (see project [README][koku-readme] for more details)
 ```
-> git clone git@github.com:project-koku/koku.git
-> cd [KOKU_GIT_REPO]
-> pipenv install --dev
-> pipenv shell "pre-commit install"
-> make docker-up-min or make docker-up-min-trino
-> make create-test-customer
-> make load-test-customer-data (use with docker-up-min-trino)
+git clone git@github.com:project-koku/koku.git
+cd [KOKU_GIT_REPO]
+pipenv install --dev
+pipenv shell "pre-commit install"
+make docker-up-min or make docker-up-min-trino
+make create-test-customer
+make load-test-customer-data (use with docker-up-min-trino)
 ```
 
 2. Check to see if containers are running (optional)
 ```
-> docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
 ```
 
 3. Watch the Koku API logs in another terminal (optional)
 ```
-> docker-compose logs -f koku-server koku-worker
+docker-compose logs -f koku-server koku-worker
 ```
 
 4. Clean up (optional)
@@ -168,21 +168,21 @@ Follow the [steps](#koku-api) to run a local Koku API instance
 
 1. Clone the Settings Frontend repository and install dependencies
 ```
-> git clone https://github.com/RedHatInsights/settings-frontend.git
-> cd [SETTINGS_FRONTEND_GIT_REPO]
-> npm install
+git clone https://github.com/RedHatInsights/settings-frontend.git
+cd [SETTINGS_FRONTEND_GIT_REPO]
+npm install
 ```
 
 2. Set the following variables in your environment
 ```
-> export API_PORT=8000
-> export LOCAL_API="/api/cost-management/v1/"
-> export KEYCLOAK_PORT=4020
+export API_PORT=8000
+export LOCAL_API="/api/cost-management/v1/"
+export KEYCLOAK_PORT=4020
 ```
 
 3. Start development server
 ```
-> npm run start:standalone:beta
+npm run start:standalone:beta
 ```
 
 4. Open the following URL
