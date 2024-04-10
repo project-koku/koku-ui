@@ -32,13 +32,12 @@ export function authInterceptor(reqConfig: AxiosRequestConfig) {
   };
 }
 
-// Create an instance instead of setting global defaults
-// Setting global values affects Cost Management APIs in OCM and HCS, when navigating between apps
+// Create an Axios instance
 //
+// Note: Setting global defaults may affect the base URL in Cost Management, HCS, and OCM, when navigating between apps
 // See https://issues.redhat.com/browse/RHCLOUD-25573
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: '/api/cost-management/v1/',
-  headers: { 'X-Custom-Header': 'foobar' },
 });
 
 axiosInstance.interceptors.request.use(authInterceptor);
