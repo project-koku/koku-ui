@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
 import { ReportType } from './report';
@@ -52,5 +52,5 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
 
 export function runReport(reportType: ReportType, query: string) {
   const path = ReportTypePaths[reportType];
-  return axios.get<AzureReport>(`${path}?${query}`);
+  return axiosInstance.get<AzureReport>(`${path}?${query}`);
 }

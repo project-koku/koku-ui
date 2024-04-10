@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { PagedResponse } from './api';
 
@@ -20,5 +20,5 @@ export type Metrics = PagedResponse<Metric>;
 
 export function fetchRateMetrics(source_type = '') {
   const query = source_type ? `&source_type=${source_type}` : '';
-  return axios.get<Metrics>(`metrics/?limit=20${query}`);
+  return axiosInstance.get<Metrics>(`metrics/?limit=20${query}`);
 }

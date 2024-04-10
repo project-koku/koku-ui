@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { PagedLinks, PagedMetaData } from './api';
 
@@ -71,10 +71,10 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
 
 export function fetchSettings(settingsType: SettingsType, query: string) {
   const path = SettingsTypePaths[settingsType];
-  return axios.get<Settings>(`${path}?${query}`);
+  return axiosInstance.get<Settings>(`${path}?${query}`);
 }
 
 export function updateSettings(settingsType: SettingsType, payload: SettingsPayload) {
   const path = SettingsTypePaths[settingsType];
-  return axios.put(`${path}`, payload);
+  return axiosInstance.put(`${path}`, payload);
 }
