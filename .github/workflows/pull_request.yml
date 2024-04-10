@@ -61,7 +61,6 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
-          fail_ci_if_error: true
           directory: coverage
           plugin: pycoverage  # Only run one plugin so that all do not run. There is no way to disable plugins entirely.
 
