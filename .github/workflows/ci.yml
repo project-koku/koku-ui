@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ main, prod-beta, prod-stable, stage-beta, stage-stable ]
   push:
-    branches: [ main ]
+    branches: [ main, prod-beta, prod-stable, stage-beta, stage-stable ]
 
 env:
   BRANCH: ${{ github.base_ref }}
