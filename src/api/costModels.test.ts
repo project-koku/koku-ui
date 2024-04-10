@@ -1,17 +1,17 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { CostModelRequest } from './costModels';
 import { addCostModel, deleteCostModel, fetchCostModels, updateCostModel } from './costModels';
 
 test('api get cost models calls axios to costmodels', () => {
   fetchCostModels();
-  expect(axios.get).toBeCalledWith('cost-models/');
+  expect(axiosInstance.get).toBeCalledWith('cost-models/');
 });
 
 test('api get cost models calls axios to costmodels with query', () => {
   const query = 'limit=20&offset=10';
   fetchCostModels(query);
-  expect(axios.get).toBeCalledWith(`cost-models/?${query}`);
+  expect(axiosInstance.get).toBeCalledWith(`cost-models/?${query}`);
 });
 
 test('add cost model calls axios post', () => {
@@ -33,7 +33,7 @@ test('add cost model calls axios post', () => {
     ],
   };
   addCostModel(request);
-  expect(axios.post).toBeCalledWith('cost-models/', request);
+  expect(axiosInstance.post).toBeCalledWith('cost-models/', request);
 });
 
 test('update cost model calls axios put', () => {
@@ -55,10 +55,10 @@ test('update cost model calls axios put', () => {
     ],
   };
   updateCostModel('123abc456def', request);
-  expect(axios.put).toBeCalledWith('cost-models/123abc456def/', request);
+  expect(axiosInstance.put).toBeCalledWith('cost-models/123abc456def/', request);
 });
 
 test('delete cost model calls axios delete', () => {
   deleteCostModel('123abc456def');
-  expect(axios.delete).toBeCalledWith('cost-models/123abc456def/');
+  expect(axiosInstance.delete).toBeCalledWith('cost-models/123abc456def/');
 });
