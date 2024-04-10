@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { Forecast } from './forecast';
 import { ForecastType } from './forecast';
@@ -11,5 +11,5 @@ export const ForecastTypePaths: Partial<Record<ForecastType, string>> = {
 
 export function runForecast(forecastType: ForecastType, query: string) {
   const path = ForecastTypePaths[forecastType];
-  return axios.get<Forecast>(`${path}?${query}`);
+  return axiosInstance.get<Forecast>(`${path}?${query}`);
 }

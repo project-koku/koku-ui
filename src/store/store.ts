@@ -1,6 +1,6 @@
 import { notificationsMiddleware } from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import { configureStore as createStore } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { RootState } from './rootReducer';
 import { rootReducer } from './rootReducer';
@@ -22,7 +22,7 @@ export function configureStore(initialState: Partial<RootState>) {
     reducer: rootReducer,
   });
 
-  axios.interceptors.response.use(null, error => {
+  axiosInstance.interceptors.response.use(null, error => {
     return Promise.reject(error);
   });
 

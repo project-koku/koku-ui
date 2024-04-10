@@ -59,7 +59,6 @@ module.exports = {
      * Package can be re-enabled for sharing once chrome starts providing global routing package to all applications
      */
     // exclude: ['react-router-dom'],
-    exclude: ['axios'], // Setting the base URL affects Cost Management APIs in OCM, when navigating between apps
     exposes: {
       './RootApp': path.resolve(__dirname, './src/appEntry.tsx'),
     },
