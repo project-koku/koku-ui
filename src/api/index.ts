@@ -1,1 +1,1 @@
-export { initApi } from './api';
+export { default as axiosInstance } from './api';

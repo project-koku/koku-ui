@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from 'api';
 
 import type { PagedLinks, PagedMetaData } from './api';
 
@@ -38,10 +38,10 @@ export const AccountSettingsTypePaths: Partial<Record<AccountSettingsType, strin
 
 export function fetchAccountSettings(settingsType: AccountSettingsType) {
   const path = AccountSettingsTypePaths[settingsType];
-  return axios.get<AccountSettings>(`${path}`);
+  return axiosInstance.get<AccountSettings>(`${path}`);
 }
 
 export function updateAccountSettings(settingsType: AccountSettingsType, payload: AccountSettingsPayload) {
   const path = AccountSettingsTypePaths[settingsType];
-  return axios.put(`${path}`, payload);
+  return axiosInstance.put(`${path}`, payload);
 }
