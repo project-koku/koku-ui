@@ -1,15 +1,17 @@
-name: Pull request
+name: Code Coverage
 
 on:
   pull_request:
     branches: [ main, prod-beta, prod-stable, stage-beta, stage-stable ]
+  push:
+    branches: [ main ]
 
 env:
   BRANCH: ${{ github.base_ref }}
 
 jobs:
   build:
-    name: koku-ui build
+    name: koku-ui codecov
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -40,13 +42,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
-
-      - name: Lint
-        if: ${{ success() }}
-        run: npm run lint
-
       - name: Test
+        run: npm test -- --collect-coverage --max-workers=4
+
+      - name: Upload coverage report
         if: ${{ success() }}
-        run: npm test
+        uses: codecov/codecov-action@v4.2.0
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          directory: coverage
+          plugin: pycoverage  # Only run one plugin so that all do not run. There is no way to disable plugins entirely.
+
