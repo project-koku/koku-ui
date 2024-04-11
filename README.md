@@ -64,7 +64,7 @@ https://stage.foo.redhat.com:1337/beta/openshift/cost-management
 
 ### Running Koku UI with local Cloud Services Backend
 
-See https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
+Refer to the [serving files locally][serving-files-locally] section of cloud services config for more details
 
 1. Serve files locally from Cloud Services Backend repo
 ```
@@ -78,7 +78,7 @@ npm start:csb
 
 ### Running Koku UI with local Koku microfrontend (MFE)
 
-See https://github.com/project-koku/koku-ui-mfe
+Refer to the [koku-ui-mfe README][koku-ui-mfe-readme] for more details
 
 1. Start development server in Koku MFE repo
 ```
@@ -92,8 +92,7 @@ npm start:mfe
 
 ### Running Koku UI with local Koku microfrontend (MFE) and Cloud Services Backend
 
-See https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
-and https://github.com/project-koku/koku-ui-mfe
+Refer to the [serving files locally][serving-files-locally] section of cloud services config and the [koku-ui README][koku-ui-mfe-readme] for more details
 
 1. Serve files locally from Cloud Services Backend repo
 ```
@@ -130,9 +129,10 @@ http://localhost:8002/beta/openshift/cost-management
 ```
 
 #### Koku API
-Refer to the project [README][koku-readme] for prerequisites
 
-1. Setup & run Koku API (see project [README][koku-readme] for more details)
+Refer to the [koku README][koku-readme] for more details
+
+1. Setup & run Koku API
 ```
 git clone git@github.com:project-koku/koku.git
 cd [KOKU_GIT_REPO]
@@ -164,7 +164,7 @@ exit
 
 ## Running local instances of Settings Frontend & Koku API
 
-Follow the [steps](#koku-api) to run a local Koku API instance
+Follow the koku API [steps](#koku-api) to run a local Koku API instance
 
 1. Clone the Settings Frontend repository and install dependencies
 ```
@@ -195,13 +195,14 @@ http://localhost:1337/beta/settings/applications/cost-management
 This [RELEASE][release-doc] doc describes how to release Koku UI to each staging environment.
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml/badge.svg
-[license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
-
+[Jira]: https://issues.redhat.com/projects/COST/
 [koku-readme]: https://github.com/project-koku/koku#readme
+[koku-ui-mfe-readme]: https://github.com/project-koku/koku-ui-mfe#readme
+[license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true
 [nodejs]: https://nodejs.org/en/
+[npm]: https://www.npmjs.com/
 [patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
 [Patternfly]: https://www.patternfly.org/
 [release-doc]: https://github.com/project-koku/koku-ui/blob/main/RELEASE.md
-[npm]: https://www.npmjs.com/
-[Jira]: https://issues.redhat.com/projects/COST/
+[serving-files-locally]: https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
