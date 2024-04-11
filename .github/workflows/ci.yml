@@ -8,24 +8,21 @@ on:
 
 env:
   BRANCH: ${{ github.base_ref }}
+  NODEJS_VERSION: '18'
 
 jobs:
   unit:
-    name: Units - Node.js ${{ matrix.node-version }}
+    name: Units
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODEJS_VERSION }}
 
       - name: Cache node modules
         id: cache-npm
@@ -57,21 +54,17 @@ jobs:
           plugin: pycoverage  # Only run one plugin so that all do not run. There is no way to disable plugins entirely.
 
   build:
-    name: Build - Node.js ${{ matrix.node-version }}
+    name: Build
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODEJS_VERSION }}
 
       - name: Cache node modules
         id: cache-npm
@@ -94,21 +87,17 @@ jobs:
         run: npm run build
 
   lint:
-    name: Lint - Node.js ${{ matrix.node-version }}
+    name: Lint
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODEJS_VERSION }}
 
       - name: Cache node modules
         id: cache-npm
