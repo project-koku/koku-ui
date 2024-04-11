@@ -1,29 +1,24 @@
-# Run this workflow for PRs only to confirm container build is working properly
-
-name: Pull request
+name: Setup
 
 on:
-  pull_request:
-    branches: [ main, prod-beta, prod-stable, stage-beta, stage-stable ]
-
-env:
-  BRANCH: ${{ github.base_ref }}
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
 
 jobs:
-  build:
-    name: koku-ui build
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ inputs.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ inputs.node-version }}
 
       - name: Cache node modules
         id: cache-npm
@@ -41,14 +36,3 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Lint
-        if: ${{ success() }}
-        run: npm run lint
-
-      - name: Test
-        if: ${{ success() }}
-        run: npm test
