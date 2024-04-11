@@ -1,7 +1,7 @@
 # Koku UI
 
 [![Apache 2.0][license-badge]](https://github.com/project-koku/koku-ui/blob/main/LICENSE)
-[![CI Status][build-badge]](https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml)
+[![CI Status][build-badge]](https://github.com/project-koku/koku-ui/actions/workflows/ci.yml?query=branch%3Amain)
 [![codecov][codecov-badge]](https://codecov.io/gh/project-koku/koku-ui)
 
 React.js app for Cost Management.
@@ -153,7 +153,7 @@ docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
 
 3. Watch the Koku API logs in another terminal (optional)
 ```
-docker-compose logs -f koku-server koku-worker
+docker compose logs -f koku-server koku-worker
 ```
 
 4. Clean up (optional)
@@ -197,7 +197,7 @@ http://localhost:1337/beta/settings/applications/cost-management
 
 This [RELEASE][release-doc] doc describes how to release Koku UI to each staging environment.
 
-[build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml/badge.svg
+[build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
 [Jira]: https://issues.redhat.com/projects/COST/
 [koku-readme]: https://github.com/project-koku/koku#readme
