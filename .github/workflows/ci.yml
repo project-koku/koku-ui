@@ -11,7 +11,7 @@ env:
   NODEJS_VERSION: '18'
 
 jobs:
-  unit:
+  units:
     name: Units
     runs-on: ubuntu-latest
 
@@ -42,16 +42,17 @@ jobs:
         run: npm install
 
       - name: Test
+        id: test_run
         run: npm test -- --collect-coverage --max-workers=4
 
-      - name: Upload coverage report
-        if: ${{ success() }}
-        uses: codecov/codecov-action@v4.2.0
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - uses: actions/upload-artifact@v3
+        if: ${{ steps.test_run.outcome == 'success' }}
+        name: Save coverage report
         with:
-          directory: coverage
-          plugin: pycoverage  # Only run one plugin so that all do not run. There is no way to disable plugins entirely.
+          name: coverage_report
+          path: coverage/
+          retention-days: 10
+
 
   build:
     name: Build
@@ -119,3 +120,28 @@ jobs:
       - name: Lint
         run: npm run lint
 
+
+
+  coverage:
+    name: Coverage
+    needs: [units]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download coverage report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage_report
+          path: coverage
+
+      - name: Upload coverage report
+        if: ${{ success() }}
+        uses: codecov/codecov-action@v4.2.0
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          directory: coverage
+          plugin: pycoverage  # Only run one plugin so that all do not run. There is no way to disable plugins entirely.
