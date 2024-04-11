@@ -92,7 +92,7 @@ npm start:mfe
 
 ### Running Koku UI with local Koku microfrontend (MFE) and Cloud Services Backend
 
-Refer to the [serving files locally][serving-files-locally] section of cloud services config and the [koku-ui README][koku-ui-mfe-readme] for more details
+Refer to the [serving files locally][serving-files-locally] section of cloud services config and the [koku-ui-mfe README][koku-ui-mfe-readme] for more details
 
 1. Serve files locally from Cloud Services Backend repo
 ```
