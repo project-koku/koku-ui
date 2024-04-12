@@ -122,7 +122,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
                 {c.title}
               </Th>
             ))}
-            <Th screenReaderText={intl.formatMessage(messages.costModelsActions)}></Th>
+            <Th aria-label={intl.formatMessage(messages.costModelsActions)}></Th>
           </Tr>
         </Thead>
         <Tbody>
