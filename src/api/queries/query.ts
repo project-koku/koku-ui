@@ -95,7 +95,7 @@ function parseKey(val: string) {
   return key;
 }
 
-// Returns query without filter_by prefix
+// Returns query without AND/OR prefix for filter_by
 export function parseFilterByPrefix(query: Query) {
   if (!query?.filter_by) {
     return query;
@@ -111,7 +111,7 @@ export function parseFilterByPrefix(query: Query) {
   return newQuery;
 }
 
-// Returns query without group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
+// Returns query without AND/OR prefix for group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function parseGroupByPrefix(query: Query) {
   if (!query?.group_by) {
     return query;
