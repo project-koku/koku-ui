@@ -1,13 +1,13 @@
 import { waitFor } from '@testing-library/react';
-import { ReportType } from 'api/reports/report';
 
 import { ResourcePathsType, ResourceType } from './resource';
 import * as resourceUtils from './resourceUtils';
 
+jest.spyOn(resourceUtils, 'isResourceTypeValid');
 jest.spyOn(resourceUtils, 'runResource');
 
 test('runResource API request for AWS', async () => {
-  resourceUtils.runResource(ResourcePathsType.aws, ResourceType.account, ReportType.cost);
+  resourceUtils.runResource(ResourcePathsType.aws, ResourceType.account, '');
   await waitFor(() => expect(resourceUtils.runResource).toHaveBeenCalled());
 });
 
@@ -54,4 +54,40 @@ test('runResource API request for OCP', async () => {
 test('runResource API request for RHEL', async () => {
   resourceUtils.runResource(ResourcePathsType.rhel, ResourceType.project, '');
   await waitFor(() => expect(resourceUtils.runResource).toHaveBeenCalled());
+});
+
+test('isResourceTypeValid for AWS', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.aws, ResourceType.account)).toEqual(true);
+});
+
+test('isResourceTypeValid for OCP on AWS', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.awsOcp, ResourceType.account)).toEqual(true);
+});
+
+test('isResourceTypeValid for Azure', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.azure, ResourceType.payerTenantId)).toEqual(true);
+});
+
+test('isResourceTypeValid for OCP on Azure', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.azureOcp, ResourceType.payerTenantId)).toEqual(true);
+});
+
+test('isResourceTypeValid for GCP', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.gcp, ResourceType.account)).toEqual(true);
+});
+
+test('isResourceTypeValid for OCP on GCP', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.gcpOcp, ResourceType.account)).toEqual(true);
+});
+
+test('isResourceTypeValid for IBM', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.ibm, ResourceType.project)).toEqual(true);
+});
+
+test('isResourceTypeValid for OCI', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.oci, ResourceType.payerTenantId)).toEqual(true);
+});
+
+test('isResourceTypeValid for OCP', async () => {
+  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.ocp, ResourceType.project)).toEqual(true);
 });
