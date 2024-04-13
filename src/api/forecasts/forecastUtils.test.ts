@@ -1,81 +1,61 @@
 import { waitFor } from '@testing-library/react';
 
-import * as awsForecast from './awsForecast';
-import * as awsOcpForecast from './awsOcpForecast';
-import * as azureForecast from './azureForecast';
-import * as azureOcpForecast from './azureOcpForecast';
-import { ForecastType } from './forecast';
-import * as gcpForecast from './gcpForecast';
-import * as gcpOcpForecast from './gcpOcpForecast';
-import * as ibmForecast from './ibmForecast';
-import * as ociForecast from './ociForecast';
-import * as ocpCloudForecast from './ocpCloudForecast';
-import * as ocpForecast from './ocpForecast';
-import * as rhelForecast from './rhelForecast';
+import { ForecastPathsType, ForecastType } from './forecast';
+import * as forecastUtils from './forecastUtils';
 
-jest.spyOn(awsForecast, 'runForecast');
-jest.spyOn(awsOcpForecast, 'runForecast');
-jest.spyOn(azureForecast, 'runForecast');
-jest.spyOn(azureOcpForecast, 'runForecast');
-jest.spyOn(gcpForecast, 'runForecast');
-jest.spyOn(gcpOcpForecast, 'runForecast');
-jest.spyOn(ibmForecast, 'runForecast');
-jest.spyOn(ociForecast, 'runForecast');
-jest.spyOn(ocpCloudForecast, 'runForecast');
-jest.spyOn(ocpForecast, 'runForecast');
-jest.spyOn(rhelForecast, 'runForecast');
+jest.spyOn(forecastUtils, 'runForecast');
 
 test('runForecast API request for AWS', async () => {
-  awsForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(awsForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.aws, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for OCP on AWS', async () => {
-  awsOcpForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(awsOcpForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.awsOcp, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for Azure', async () => {
-  azureForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(azureForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.azure, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for OCP on Azure', async () => {
-  azureOcpForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(azureOcpForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.azureOcp, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for GCP', async () => {
-  gcpForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(gcpForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.gcp, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for OCP on GCP', async () => {
-  gcpOcpForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(gcpOcpForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.gcpOcp, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for IBM', async () => {
-  ibmForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(ibmForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.ibm, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for OCI', async () => {
-  ociForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(ociForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.oci, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for all cloud filtered by OCP', async () => {
-  ocpCloudForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(ocpCloudForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.ocpCloud, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for OCP', async () => {
-  ocpForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(ocpForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.ocp, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
 test('runForecast API request for RHEL', async () => {
-  rhelForecast.runForecast(ForecastType.cost, '');
-  await waitFor(() => expect(rhelForecast.runForecast).toHaveBeenCalled());
+  forecastUtils.runForecast(ForecastPathsType.rhel, ForecastType.cost, '');
+  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
