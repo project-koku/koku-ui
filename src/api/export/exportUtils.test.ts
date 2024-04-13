@@ -1,81 +1,61 @@
 import { waitFor } from '@testing-library/react';
-import { ReportPathsType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 
-import * as awsExport from './awsExport';
-import * as awsOcpExport from './awsOcpExport';
-import * as azureExport from './azureExport';
-import * as azureOcpExport from './azureOcpExport';
-import * as gcpExport from './gcpExport';
-import * as gcpOcpExport from './gcpOcpExport';
-import * as ibmExport from './ibmExport';
-import * as ociExport from './ociExport';
-import * as ocpCloudExport from './ocpCloudExport';
-import * as ocpExport from './ocpExport';
-import * as rhelExport from './rhelExport';
+import * as exportUtils from './exportUtils';
 
-jest.spyOn(awsExport, 'runExport');
-jest.spyOn(awsOcpExport, 'runExport');
-jest.spyOn(azureExport, 'runExport');
-jest.spyOn(azureOcpExport, 'runExport');
-jest.spyOn(gcpExport, 'runExport');
-jest.spyOn(gcpOcpExport, 'runExport');
-jest.spyOn(ibmExport, 'runExport');
-jest.spyOn(ociExport, 'runExport');
-jest.spyOn(ocpCloudExport, 'runExport');
-jest.spyOn(ocpExport, 'runExport');
-jest.spyOn(rhelExport, 'runExport');
+jest.spyOn(exportUtils, 'runExport');
 
 test('runExport API request for AWS', async () => {
-  awsExport.runExport(ReportPathsType.aws, '');
-  await waitFor(() => expect(awsExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.aws, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for OCP on AWS', async () => {
-  awsOcpExport.runExport(ReportPathsType.awsOcp, '');
-  await waitFor(() => expect(awsOcpExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.awsOcp, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for Azure', async () => {
-  azureExport.runExport(ReportPathsType.azure, '');
-  await waitFor(() => expect(azureExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.azure, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for OCP on Azure', async () => {
-  azureOcpExport.runExport(ReportPathsType.azureOcp, '');
-  await waitFor(() => expect(azureOcpExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.azureOcp, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for GCP', async () => {
-  gcpExport.runExport(ReportPathsType.gcp, '');
-  await waitFor(() => expect(gcpExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.gcp, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for OCP on GCP', async () => {
-  gcpOcpExport.runExport(ReportPathsType.gcpOcp, '');
-  await waitFor(() => expect(gcpOcpExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.gcpOcp, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for IBM', async () => {
-  ibmExport.runExport(ReportPathsType.ibm, '');
-  await waitFor(() => expect(ibmExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.ibm, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for OCI', async () => {
-  ociExport.runExport(ReportPathsType.oci, '');
-  await waitFor(() => expect(ociExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.oci, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for all cloud filtered by OCP', async () => {
-  ocpCloudExport.runExport(ReportPathsType.ocpCloud, '');
-  await waitFor(() => expect(ocpCloudExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.ocpCloud, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for OCP', async () => {
-  ocpExport.runExport(ReportPathsType.ocp, '');
-  await waitFor(() => expect(ocpExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.ocp, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
 test('runExport API request for RHEL', async () => {
-  rhelExport.runExport(ReportPathsType.rhel, '');
-  await waitFor(() => expect(rhelExport.runExport).toHaveBeenCalled());
+  exportUtils.runExport(ReportPathsType.rhel, ReportType.cost, '');
+  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
