@@ -3,7 +3,7 @@ import { ReportType } from 'api/reports/report';
 
 import { runExport } from './azureExport';
 
-test('runExport API request for Azure export', () => {
+test('runExport API request for Azure', () => {
   runExport(ReportType.cost, '');
   expect(axiosInstance.get).toBeCalledWith('reports/azure/costs/?', {
     headers: { Accept: 'text/csv' },
