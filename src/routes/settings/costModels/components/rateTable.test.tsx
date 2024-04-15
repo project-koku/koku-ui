@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { Rate } from 'api/rates';
 import React from 'react';
@@ -68,7 +68,7 @@ describe('rate-table', () => {
     expect(screen.getByText('rate 1')).toBeTruthy();
     expect(screen.getByText('rate 2')).toBeTruthy();
     expect(screen.queryByText('grafana')).toBeNull();
-    await user.click(screen.getByRole('button', { name: 'Various' }));
+    await act(async () => user.click(screen.getByRole('button', { name: 'Various' })));
     expect(screen.getByText('grafana')).toBeTruthy();
   });
   test('sort by metric & measurement', () => {
