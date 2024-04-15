@@ -265,9 +265,8 @@ describe('update-rate', () => {
     await act(async () => user.click(screen.getByText(regExp(messages.save))));
   });
 
-  test('regular', async () => {
+  test('Description', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    let options = null;
     render(<RenderFormDataUI index={0} />);
     const descInput = screen.getByDisplayValue('openshift-aws-node');
     const saveButton = screen.getByText(regExp(messages.save));
@@ -278,6 +277,13 @@ describe('update-rate', () => {
     await act(async () => user.clear(descInput));
     await act(async () => user.type(descInput, 'openshift-aws-node'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
+  });
+
+  test('Select Measurement', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    let options = null;
+    render(<RenderFormDataUI index={0} />);
+    const saveButton = screen.getByText(regExp(messages.save));
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
@@ -310,6 +316,12 @@ describe('update-rate', () => {
     await act(async () => user.click(options[0]));
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
+  });
+
+  test('regular', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(<RenderFormDataUI index={0} />);
+    const saveButton = screen.getByText(regExp(messages.save));
 
     await act(async () => user.click(screen.getByLabelText(/infrastructure/i)));
     expect(saveButton.getAttribute('disabled')).toBeNull();
