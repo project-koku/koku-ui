@@ -81,6 +81,7 @@
   "costDistributionTitle": "Overhead cost breakdown",
   "costDistributionType": "{value, select, distributed {Distribute through cost models} total {Don't distribute overhead costs} other {}}",
   "costManagement": "Cost Management",
+  "costModel": "Cost Model:",
   "costModels": "Cost Models",
   "costModelsActions": "Cost model actions",
   "costModelsAddTagValues": "Add more tag values",

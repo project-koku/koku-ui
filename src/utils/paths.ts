@@ -5,9 +5,10 @@ import { routes } from 'routes';
 //
 // Note the basename does not include a release prefix (/beta, /preview, etc.), unlike the getBaseName function from
 // @redhat-cloud-services/frontend-components-utilities/helpers
-export const formatPath = path => {
+export const formatPath = (path, isReleasePath = false) => {
   const basename = '/openshift/cost-management';
-  return path === routes.overview.path ? basename : `${basename}${path}`;
+  const newPath = path === routes.overview.path ? basename : `${basename}${path}`;
+  return isReleasePath ? `${getReleasePath()}${newPath}` : newPath;
 };
 
 export const getReleasePath = () => {
