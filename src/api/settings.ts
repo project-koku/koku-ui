@@ -71,7 +71,8 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
 
 export function fetchSettings(settingsType: SettingsType, query: string) {
   const path = SettingsTypePaths[settingsType];
-  return axiosInstance.get<Settings>(`${path}?${query}`);
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<Settings>(`${path}${queryString}`);
 }
 
 export function updateSettings(settingsType: SettingsType, payload: SettingsPayload) {

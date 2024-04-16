@@ -7,6 +7,8 @@ import { routes } from 'routes';
 import { SourceLink } from 'routes/details/ocpBreakdown/providerDetails/components/sourceLink';
 import { formatPath } from 'utils/paths';
 
+import { styles } from '../clusterInfo.styles';
+
 interface CloudIntegrationOwnProps {
   provider: Provider;
 }
@@ -27,11 +29,18 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ provider }: CloudIn
         <TextListItem>
           <SourceLink provider={provider} />
         </TextListItem>
-        {provider?.cost_models?.length === 0 && (
-          <TextListItem>
-            <a href={formatPath(routes.settings.path)}>{intl.formatMessage(messages.assignCostModel)}</a>
-          </TextListItem>
-        )}
+        <TextListItem>
+          {provider?.cost_models?.length ? (
+            provider.cost_models.map(cm => (
+              <>
+                <span style={styles.spacingRight}>{intl.formatMessage(messages.costModel)}</span>
+                <a href={`${formatPath(routes.costModel.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
+              </>
+            ))
+          ) : (
+            <a href={formatPath(routes.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
+          )}
+        </TextListItem>
       </TextList>
     </>
   );
