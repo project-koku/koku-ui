@@ -67,11 +67,6 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
           <span style={styles.spacingRight}>{clusterId}</span>
           <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
         </TextListItem>
-        {clusterProvider?.cost_models?.length === 0 && (
-          <TextListItem>
-            <a href={formatPath(routes.settings.path)}>{intl.formatMessage(messages.assignCostModel)}</a>
-          </TextListItem>
-        )}
       </TextList>
       <Text component={TextVariants.h3}>{intl.formatMessage(messages.metricsOperatorVersion)}</Text>
       <TextList isPlain>
@@ -94,6 +89,18 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
             <TextListItem>
               <span style={styles.spacingRight}>{intl.formatMessage(messages.source, { value: 'ocp' })}</span>
               <a href={`${release}/settings/integrations/detail/${clusterProvider.id}`}>{clusterProvider.name}</a>
+            </TextListItem>
+            <TextListItem>
+              {clusterProvider?.cost_models?.length ? (
+                clusterProvider.cost_models.map(cm => (
+                  <>
+                    <span style={styles.spacingRight}>{intl.formatMessage(messages.costModel)}</span>
+                    <a href={`${formatPath(routes.costModel.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
+                  </>
+                ))
+              ) : (
+                <a href={formatPath(routes.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
+              )}
             </TextListItem>
           </TextList>
           {cloudProvider && <CloudIntegration provider={cloudProvider} />}
