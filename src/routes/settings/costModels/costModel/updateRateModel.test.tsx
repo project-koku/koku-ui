@@ -259,75 +259,87 @@ describe('update-rate', () => {
   test('submit regular', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<RenderFormDataUI index={0} />);
-    await user.type(screen.getByDisplayValue(/openshift-aws-node/i), 'a new description');
+    await act(async () => user.type(screen.getByDisplayValue(/openshift-aws-node/i), 'a new description'));
     // eslint-disable-next-line testing-library/prefer-presence-queries
     expect(screen.getByText(regExp(messages.save)).getAttribute('disabled')).toBeNull();
-    await user.click(screen.getByText(regExp(messages.save)));
+    await act(async () => user.click(screen.getByText(regExp(messages.save))));
   });
 
-  test('regular', async () => {
+  test('Description', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    let options = null;
     render(<RenderFormDataUI index={0} />);
     const descInput = screen.getByDisplayValue('openshift-aws-node');
     const saveButton = screen.getByText(regExp(messages.save));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    await user.clear(descInput);
-    await user.type(descInput, 'a new description');
+    await act(async () => user.clear(descInput));
+    await act(async () => user.type(descInput, 'a new description'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.clear(descInput);
-    await user.type(descInput, 'openshift-aws-node');
+    await act(async () => user.clear(descInput));
+    await act(async () => user.type(descInput, 'openshift-aws-node'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
+  });
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+  test('Select Measurement', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    let options = null;
+    render(<RenderFormDataUI index={0} />);
+    const saveButton = screen.getByText(regExp(messages.save));
+
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await user.click(options[1]);
-
-    expect(saveButton.getAttribute('disabled')).toBeNull();
-
-    await user.click(screen.getByLabelText('Select Measurement'));
-    options = await screen.findAllByRole('option');
-    await user.click(options[0]);
-
-    expect(saveButton.getAttribute('disabled')).not.toBeNull();
-
-    await user.click(screen.getByLabelText('Select Metric'));
-    options = await screen.findAllByRole('option');
-    await user.click(options[1]);
-
-    await user.click(screen.getByLabelText('Select Measurement'));
-    options = await screen.findAllByRole('option');
-    await user.click(options[0]);
+    await act(async () => user.click(options[1]));
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await user.click(options[0]);
+    await act(async () => user.click(options[0]));
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+
+    await act(async () => user.click(screen.getByLabelText('Select Metric')));
     options = await screen.findAllByRole('option');
-    await user.click(options[0]);
+    await act(async () => user.click(options[1]));
 
-    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    options = await screen.findAllByRole('option');
+    await act(async () => user.click(options[0]));
 
-    await user.click(screen.getByLabelText(/infrastructure/i));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.click(screen.getByLabelText(/supplementary/i));
+
+    await act(async () => user.click(screen.getByLabelText('Select Metric')));
+    options = await screen.findAllByRole('option');
+    await act(async () => user.click(options[0]));
+
+    await act(async () => user.click(screen.getByLabelText('Select Measurement')));
+    options = await screen.findAllByRole('option');
+    await act(async () => user.click(options[0]));
+
+    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+  });
+
+  test('regular', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(<RenderFormDataUI index={0} />);
+    const saveButton = screen.getByText(regExp(messages.save));
+
+    await act(async () => user.click(screen.getByLabelText(/infrastructure/i)));
+    expect(saveButton.getAttribute('disabled')).toBeNull();
+    await act(async () => user.click(screen.getByLabelText(/supplementary/i)));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.type(screen.getByDisplayValue(/55/i), '.3');
+    await act(async () => user.type(screen.getByDisplayValue(/55/i), '.3'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/55.3/i), '{backspace}{backspace}');
+    await act(async () => user.type(screen.getByDisplayValue(/55.3/i), '{backspace}{backspace}'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
+    await act(async () => user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate))));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    await user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift');
-    await user.type(screen.getByLabelText(regExp(messages.costModelsTagRateTableValue)), 'worker');
-    await user.type(screen.getByLabelText(regExp(messages.rate)), '0.321');
+    await act(async () => user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift'));
+    await act(async () => user.type(screen.getByLabelText(regExp(messages.costModelsTagRateTableValue)), 'worker'));
+    await act(async () => user.type(screen.getByLabelText(regExp(messages.rate)), '0.321'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.click(saveButton);
+    await act(async () => user.click(saveButton));
   });
 
   test('tag', async () => {
@@ -335,36 +347,38 @@ describe('update-rate', () => {
     render(<RenderFormDataUI index={1} />);
     const saveButton = screen.getByText(regExp(messages.save));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    await user.type(screen.getByDisplayValue(/^container$/i), '1');
+    await act(async () => user.type(screen.getByDisplayValue(/^container$/i), '1'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/^container1$/i), '{backspace}');
+    await act(async () => user.type(screen.getByDisplayValue(/^container1$/i), '{backspace}'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.type(screen.getByDisplayValue(/any container$/i), '1');
+    await act(async () => user.type(screen.getByDisplayValue(/any container$/i), '1'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/any container1$/i), '{backspace}');
+    await act(async () => user.type(screen.getByDisplayValue(/any container1$/i), '{backspace}'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.type(screen.getByDisplayValue(/^0.4$/i), '3');
+    await act(async () => user.type(screen.getByDisplayValue(/^0.4$/i), '3'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/^0.43$/i), '{backspace}');
+    await act(async () => user.type(screen.getByDisplayValue(/^0.43$/i), '{backspace}'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.click(screen.getAllByLabelText(regExp(messages.default))[1]);
+    await act(async () => user.click(screen.getAllByLabelText(regExp(messages.default))[1]));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.click(screen.getAllByLabelText(regExp(messages.default))[0]);
+    await act(async () => user.click(screen.getAllByLabelText(regExp(messages.default))[0]));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.click(screen.getByText(/Add more tag values/i));
-    await user.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something random');
-    await user.type(screen.getAllByLabelText(regExp(messages.rate))[4], '1.01');
+    await act(async () => user.click(screen.getByText(/Add more tag values/i)));
+    await act(async () =>
+      user.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something random')
+    );
+    await act(async () => user.type(screen.getAllByLabelText(regExp(messages.rate))[4], '1.01'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.click(screen.getAllByLabelText(regExp(messages.costModelsRemoveTagLabel))[4]);
+    await act(async () => user.click(screen.getAllByLabelText(regExp(messages.costModelsRemoveTagLabel))[4]));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.type(screen.getByDisplayValue(/openshift-region-1/i), '2');
+    await act(async () => user.type(screen.getByDisplayValue(/openshift-region-1/i), '2'));
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/openshift-region-12/i), '{backspace}');
+    await act(async () => user.type(screen.getByDisplayValue(/openshift-region-12/i), '{backspace}'));
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
   });
 
@@ -375,10 +389,12 @@ describe('update-rate', () => {
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await user.click(options[1]);
+    await act(async () => user.click(options[1]));
 
-    await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
-    await user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift-region-1');
+    await act(async () => user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate))));
+    await act(async () =>
+      user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift-region-1')
+    );
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 
@@ -386,8 +402,8 @@ describe('update-rate', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<RenderFormDataUI index={2} />);
     const filterTagInput = screen.getByLabelText(regExp(messages.costModelsFilterTagKey));
-    await user.clear(filterTagInput);
-    await user.type(filterTagInput, 'openshift-region-1');
+    await act(async () => user.clear(filterTagInput));
+    await act(async () => user.type(filterTagInput, 'openshift-region-1'));
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 });

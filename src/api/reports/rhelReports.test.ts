@@ -1,7 +1,7 @@
 import { axiosInstance } from 'api';
 import { ReportType } from 'api/reports/report';
 
-import { runReport } from './ocpReports';
+import { runReport } from './rhelReports';
 
 test('api run reports calls axios get', () => {
   const query = 'filter[resolution]=daily';

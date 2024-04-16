@@ -1156,6 +1156,12 @@
         "value": "Cost Management"
       }
     ],
+    "costModel": [
+      {
+        "type": 0,
+        "value": "Cost Model:"
+      }
+    ],
     "costModels": [
       {
         "type": 0,

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import messages from 'locales/messages';
 import React from 'react';
@@ -77,7 +77,7 @@ test('delete dialog open', async () => {
   expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(2);
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(1);
   expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
-  await user.click(screen.getAllByText(regExp(messages.costModelsDelete))[1]);
+  await act(async () => user.click(screen.getAllByText(regExp(messages.costModelsDelete))[1]));
   expect(screen.getAllByText(regExp(messages.costModelsDelete))[1].getAttribute('disabled')).not.toBeNull();
 });
 
@@ -114,6 +114,6 @@ test('delete dialog error', async () => {
   expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(1);
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(0);
   expect(screen.queryAllByText(/The following integrations are assigned to/i)).toHaveLength(1);
-  await user.click(screen.getByText(regExp(messages.cancel)));
+  await act(async () => user.click(screen.getByText(regExp(messages.cancel))));
   expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(0);
 });

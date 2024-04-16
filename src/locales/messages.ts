@@ -461,6 +461,11 @@ export default defineMessages({
     description: 'Cost Management',
     id: 'costManagement',
   },
+  costModel: {
+    defaultMessage: 'Cost Model:',
+    description: 'Cost Model:',
+    id: 'costModel',
+  },
   costModels: {
     defaultMessage: 'Cost Models',
     description: 'Cost Models',
@@ -1030,13 +1035,11 @@ export default defineMessages({
     description: 'Currency and calculations',
     id: 'currencyCalcuationsTitle',
   },
-
   currencyDesc: {
     defaultMessage: 'Select the preferred currency view for your organization',
     description: 'Select the preferred currency view for your organization',
     id: 'currencyDesc',
   },
-
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
     defaultMessage:

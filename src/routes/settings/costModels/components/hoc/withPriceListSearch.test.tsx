@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -40,27 +40,27 @@ test('with price list search', async () => {
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  await user.click(screen.getByText('Select CPU'));
+  await act(async () => user.click(screen.getByText('Select CPU')));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: CPU</div><div>Measurements: None</div></main>`
   );
-  await user.click(screen.getByText('Remove CPU'));
+  await act(async () => user.click(screen.getByText('Remove CPU')));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  await user.click(screen.getByText('Select request'));
+  await act(async () => user.click(screen.getByText('Select request')));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: Request</div></main>`
   );
-  await user.click(screen.getByText('Remove request'));
+  await act(async () => user.click(screen.getByText('Remove request')));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: metrics</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
-  await user.click(screen.getByText('Set search'));
+  await act(async () => user.click(screen.getByText('Set search')));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: measurements</div><div>Metrics: Memory</div><div>Measurements: Usage</div></main>`
   );
-  await user.click(screen.getByText('Clear all'));
+  await act(async () => user.click(screen.getByText('Clear all')));
   expect(screen.getByRole('main').outerHTML).toEqual(
     `<main><div>Primary: measurements</div><div>Metrics: None</div><div>Measurements: None</div></main>`
   );
