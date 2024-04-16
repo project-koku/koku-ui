@@ -115,14 +115,14 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
           <Tr>
             {cells.map((c, cellIndex) => (
               <Th
-                aria-label={c.title as string}
+                aria-label={(c.title as string) || ' '}
                 key={cellIndex}
                 sort={c.transforms ? getSortParams(cellIndex) : undefined}
               >
                 {c.title}
               </Th>
             ))}
-            <Th></Th>
+            <Th aria-label={intl.formatMessage(messages.costModelsActions)}></Th>
           </Tr>
         </Thead>
         <Tbody>
