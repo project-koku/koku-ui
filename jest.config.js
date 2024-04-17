@@ -30,7 +30,7 @@ module.exports = {
         $schema: 'http://json.schemastore.org/swcrc',
         jsc: {
           experimental: {
-            plugins: [['jest_workaround', {}]],
+            plugins: [['swc_mut_cjs_exports', {}]],
           },
           parser: {
             jsx: true,
