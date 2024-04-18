@@ -7,7 +7,6 @@ import { FeatureToggleActions } from 'store/featureToggle';
 // eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
-  clusterInfo = 'cost-management.ui.cluster.info', // https://issues.redhat.com/browse/COST-4559
   debug = 'cost-management.ui.debug',
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
@@ -16,8 +15,6 @@ export const enum FeatureToggle {
   ocpProjectStorage = 'cost-management.ui.ocp-project-storage', // https://issues.redhat.com/browse/COST-4856
   ros = 'cost-management.ui.ros', // ROS support https://issues.redhat.com/browse/COST-3477
   rosBeta = 'cost-management.ui.ros-beta', // ROS support https://issues.redhat.com/browse/COST-3477
-  settingsPlatform = 'cost-management.ui.settings.platform', // Platform projects https://issues.redhat.com/browse/COST-3818
-  tagMapping = 'cost-management.ui.tag.mapping', // https://issues.redhat.com/browse/COST-3824
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
@@ -31,10 +28,6 @@ export const useIsAwsEc2InstancesToggleEnabled = () => {
 
 export const useIsDebugToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.debug);
-};
-
-export const useIsClusterInfoToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.clusterInfo);
 };
 
 export const useIsExportsToggleEnabled = () => {
@@ -64,21 +57,12 @@ export const useIsRosToggleEnabled = () => {
   return isRosToggleEnabled || isRosFeatureBetaEnabled;
 };
 
-export const useIsSettingsPlatformToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.settingsPlatform);
-};
-
-export const useIsTagMappingToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.tagMapping);
-};
-
 // The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
 export const useFeatureToggle = () => {
   const dispatch = useDispatch();
   const { auth } = useChrome();
 
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
-  const isClusterInfoToggleEnabled = useIsClusterInfoToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isFinsightsToggleEnabled = useIsFinsightsToggleEnabled();
@@ -86,8 +70,6 @@ export const useFeatureToggle = () => {
   const isOcpCloudNetworkingToggleEnabled = useIsOcpCloudNetworkingToggleEnabled();
   const isOcpProjectStorageToggleEnabled = useIsOcpProjectStorageToggleEnabled();
   const isRosToggleEnabled = useIsRosToggleEnabled();
-  const isSettingsPlatformToggleEnabled = useIsSettingsPlatformToggleEnabled();
-  const isTagMappingToggleEnabled = useIsTagMappingToggleEnabled();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -100,7 +82,6 @@ export const useFeatureToggle = () => {
     dispatch(
       FeatureToggleActions.setFeatureToggle({
         isAwsEc2InstancesToggleEnabled,
-        isClusterInfoToggleEnabled,
         isDebugToggleEnabled,
         isExportsToggleEnabled,
         isFinsightsToggleEnabled,
@@ -108,8 +89,6 @@ export const useFeatureToggle = () => {
         isOcpCloudNetworkingToggleEnabled,
         isOcpProjectStorageToggleEnabled,
         isRosToggleEnabled,
-        isSettingsPlatformToggleEnabled,
-        isTagMappingToggleEnabled,
       })
     );
     if (isDebugToggleEnabled) {
@@ -118,7 +97,6 @@ export const useFeatureToggle = () => {
     }
   }, [
     isAwsEc2InstancesToggleEnabled,
-    isClusterInfoToggleEnabled,
     isDebugToggleEnabled,
     isExportsToggleEnabled,
     isFinsightsToggleEnabled,
@@ -126,8 +104,6 @@ export const useFeatureToggle = () => {
     isOcpCloudNetworkingToggleEnabled,
     isOcpProjectStorageToggleEnabled,
     isRosToggleEnabled,
-    isSettingsPlatformToggleEnabled,
-    isTagMappingToggleEnabled,
   ]);
 };
 

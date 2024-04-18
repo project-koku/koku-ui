@@ -20,12 +20,6 @@ test('AWS EC2 instances feature is enabled', async () => {
   expect(FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(store.getState())).toBe(true);
 });
 
-test('Cloud info feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureToggle({ isClusterInfoToggleEnabled: true }));
-  expect(FeatureToggleSelectors.selectIsClusterInfoToggleEnabled(store.getState())).toBe(true);
-});
-
 test('Debug feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isDebugToggleEnabled: true }));
@@ -66,16 +60,4 @@ test('ROS feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isRosToggleEnabled: true }));
   expect(FeatureToggleSelectors.selectIsRosToggleEnabled(store.getState())).toBe(true);
-});
-
-test('Settings platform feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureToggle({ isSettingsPlatformToggleEnabled: true }));
-  expect(FeatureToggleSelectors.selectIsSettingsPlatformToggleEnabled(store.getState())).toBe(true);
-});
-
-test('Tag mapping feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureToggle({ isTagMappingToggleEnabled: true }));
-  expect(FeatureToggleSelectors.selectIsTagMappingToggleEnabled(store.getState())).toBe(true);
 });

@@ -18,7 +18,6 @@ import { Currency } from 'routes/components/currency';
 import { TagLink } from 'routes/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
@@ -51,7 +50,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  isClusterInfoToggleEnabled?: boolean;
+  // TBD...
 }
 
 interface BreakdownHeaderDispatchProps {
@@ -100,7 +99,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       description,
       groupBy,
       intl,
-      isClusterInfoToggleEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
@@ -136,7 +134,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             ? orgUnitIdKey
             : groupBy;
 
-    const showClusterInfo = clusterInfoComponent && isClusterInfoToggleEnabled;
+    const showClusterInfo = clusterInfoComponent;
 
     return (
       <header style={styles.header}>
@@ -176,7 +174,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
                   ) : null}
                 </FlexItem>
               )}
-              {dataDetailsComponent && isClusterInfoToggleEnabled ? <FlexItem>{dataDetailsComponent}</FlexItem> : null}
+              {dataDetailsComponent ? <FlexItem>{dataDetailsComponent}</FlexItem> : null}
               {showCostDistribution && (
                 <FlexItem style={styles.costDistribution}>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
@@ -213,9 +211,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
+const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(() => {
   return {
-    isClusterInfoToggleEnabled: FeatureToggleSelectors.selectIsClusterInfoToggleEnabled(state),
+    // TBD...
   };
 });
 
