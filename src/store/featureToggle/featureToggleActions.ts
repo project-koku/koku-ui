@@ -1,11 +1,14 @@
 import { createAction } from 'typesafe-actions';
 
 export interface FeatureToggleActionMeta {
+  isAwsEc2InstancesToggleEnabled?: boolean;
   isClusterInfoToggleEnabled?: boolean;
   isDebugToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
+  isOcpCloudNetworkingToggleEnabled?: boolean;
+  isOcpProjectStorageToggleEnabled?: boolean;
   isRosToggleEnabled?: boolean;
   isSettingsPlatformToggleEnabled?: boolean;
   isTagMappingToggleEnabled?: boolean;

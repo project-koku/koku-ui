@@ -6,11 +6,14 @@ import { FeatureToggleActions } from 'store/featureToggle';
 
 // eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
+  awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
   clusterInfo = 'cost-management.ui.cluster.info', // https://issues.redhat.com/browse/COST-4559
   debug = 'cost-management.ui.debug',
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
+  ocpCloudNetworking = 'cost-management.ui.ocp-cloud-networking', // https://issues.redhat.com/browse/COST-4781
+  ocpProjectStorage = 'cost-management.ui.ocp-project-storage', // https://issues.redhat.com/browse/COST-4856
   ros = 'cost-management.ui.ros', // ROS support https://issues.redhat.com/browse/COST-3477
   rosBeta = 'cost-management.ui.ros-beta', // ROS support https://issues.redhat.com/browse/COST-3477
   settingsPlatform = 'cost-management.ui.settings.platform', // Platform projects https://issues.redhat.com/browse/COST-3818
@@ -20,6 +23,10 @@ export const enum FeatureToggle {
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
   const client = useUnleashClient();
   return client.isEnabled(toggle);
+};
+
+export const useIsAwsEc2InstancesToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.awsEc2Instances);
 };
 
 export const useIsDebugToggleEnabled = () => {
@@ -42,6 +49,14 @@ export const useIsIbmToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.ibm);
 };
 
+export const useIsOcpCloudNetworkingToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.ocpCloudNetworking);
+};
+
+export const useIsOcpProjectStorageToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.ocpProjectStorage);
+};
+
 export const useIsRosToggleEnabled = () => {
   const { isBeta } = useChrome();
   const isRosToggleEnabled = useIsToggleEnabled(FeatureToggle.ros);
@@ -62,11 +77,14 @@ export const useFeatureToggle = () => {
   const dispatch = useDispatch();
   const { auth } = useChrome();
 
+  const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
   const isClusterInfoToggleEnabled = useIsClusterInfoToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isFinsightsToggleEnabled = useIsFinsightsToggleEnabled();
   const isIbmToggleEnabled = useIsIbmToggleEnabled();
+  const isOcpCloudNetworkingToggleEnabled = useIsOcpCloudNetworkingToggleEnabled();
+  const isOcpProjectStorageToggleEnabled = useIsOcpProjectStorageToggleEnabled();
   const isRosToggleEnabled = useIsRosToggleEnabled();
   const isSettingsPlatformToggleEnabled = useIsSettingsPlatformToggleEnabled();
   const isTagMappingToggleEnabled = useIsTagMappingToggleEnabled();
@@ -81,11 +99,14 @@ export const useFeatureToggle = () => {
     // Workaround for code that doesn't use hooks
     dispatch(
       FeatureToggleActions.setFeatureToggle({
+        isAwsEc2InstancesToggleEnabled,
         isClusterInfoToggleEnabled,
         isDebugToggleEnabled,
         isExportsToggleEnabled,
         isFinsightsToggleEnabled,
         isIbmToggleEnabled,
+        isOcpCloudNetworkingToggleEnabled,
+        isOcpProjectStorageToggleEnabled,
         isRosToggleEnabled,
         isSettingsPlatformToggleEnabled,
         isTagMappingToggleEnabled,
@@ -96,11 +117,14 @@ export const useFeatureToggle = () => {
       fetchUser(identity => console.log('User identity:', identity));
     }
   }, [
+    isAwsEc2InstancesToggleEnabled,
     isClusterInfoToggleEnabled,
     isDebugToggleEnabled,
     isExportsToggleEnabled,
     isFinsightsToggleEnabled,
     isIbmToggleEnabled,
+    isOcpCloudNetworkingToggleEnabled,
+    isOcpProjectStorageToggleEnabled,
     isRosToggleEnabled,
     isSettingsPlatformToggleEnabled,
     isTagMappingToggleEnabled,

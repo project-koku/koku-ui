@@ -3,11 +3,14 @@
 exports[`default state 1`] = `
 {
   "hasFeatureToggle": false,
+  "isAwsEc2InstancesToggleEnabled": false,
   "isClusterInfoToggleEnabled": false,
   "isDebugToggleEnabled": false,
   "isExportsToggleEnabled": false,
   "isFinsightsToggleEnabled": false,
   "isIbmToggleEnabled": false,
+  "isOcpCloudNetworkingToggleEnabled": false,
+  "isOcpProjectStorageToggleEnabled": false,
   "isRosToggleEnabled": false,
   "isSettingsPlatformToggleEnabled": false,
   "isTagMappingToggleEnabled": false,
