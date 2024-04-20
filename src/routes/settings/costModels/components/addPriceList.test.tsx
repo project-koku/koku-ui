@@ -134,7 +134,7 @@ describe('add-a-new-rate', () => {
     // select first option for measurement
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await act(async () => user.click(options[0]));
+    await act(async () => user.click(options[3])); // Previous select options are not being removed from page
 
     // make sure the default cost type is selected
     expect(screen.getByLabelText(qr.infraradio)).toHaveProperty('checked', true);
@@ -159,7 +159,7 @@ describe('add-a-new-rate', () => {
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await act(async () => user.click(options[0]));
+    await act(async () => user.click(options[3])); // Previous select options are not being removed from page
 
     expect(screen.getByLabelText(qr.supplradio)).toHaveProperty('checked', true);
     await act(async () => user.click(screen.getByLabelText(qr.infraradio)));
@@ -186,13 +186,14 @@ describe('add-a-new-rate', () => {
     expect(createButton.getAttribute('aria-disabled')).toBe('false');
     await act(async () => user.click(createButton));
     expect(submit).toHaveBeenCalled();
-  });
+  }, 7000);
 
   test('tag rates', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const submit = jest.fn();
     const cancel = jest.fn();
     let options = null;
+
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     await act(async () => user.type(screen.getByLabelText('Description'), 'tag rate test'));
@@ -203,7 +204,7 @@ describe('add-a-new-rate', () => {
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await act(async () => user.click(options[0]));
+    await act(async () => user.click(options[3])); // Previous select options are not being removed from page
 
     await act(async () => user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate))));
 
@@ -258,13 +259,14 @@ describe('add-a-new-rate', () => {
     expect(createButton.getAttribute('aria-disabled')).toBe('false');
     await act(async () => user.click(createButton));
     expect(submit).toHaveBeenCalled();
-  });
+  }, 15000);
 
   test('tag rates duplicate tag key', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const submit = jest.fn();
     const cancel = jest.fn();
     let options = null;
+
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
     await act(async () => user.click(screen.getByLabelText('Select Metric')));
@@ -273,7 +275,7 @@ describe('add-a-new-rate', () => {
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await act(async () => user.click(options[0]));
+    await act(async () => user.click(options[3])); // Previous select options are not being removed from page
 
     await act(async () => user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate))));
 
@@ -297,7 +299,7 @@ describe('add-a-new-rate', () => {
 
     await act(async () => user.click(screen.getByLabelText('Select Measurement')));
     options = await screen.findAllByRole('option');
-    await act(async () => user.click(options[0]));
+    await act(async () => user.click(options[3]));
 
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });

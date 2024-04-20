@@ -93,6 +93,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
 
   return isOpen ? (
     <Wizard
+      className="costManagement"
       isOpen
       title={intl.formatMessage(messages.createCostModelTitle)}
       description={intl.formatMessage(messages.createCostModelDesc)}
