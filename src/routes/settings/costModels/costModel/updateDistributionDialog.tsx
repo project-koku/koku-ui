@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
+import { FeatureToggleSelectors } from '../../../../store/featureToggle';
 import { styles } from './costCalc.styles';
 
 interface UpdateDistributionDialogOwnProps extends WrappedComponentProps {
@@ -31,6 +32,8 @@ interface UpdateDistributionDialogOwnProps extends WrappedComponentProps {
 interface UpdateDistributionDialogStateProps {
   error?: string;
   isLoading?: boolean;
+  isOcpCloudNetworkingToggleEnabled?: boolean;
+  isOcpProjectStorageToggleEnabled?: boolean;
 }
 
 interface UpdateDistributionDialogDispatchProps {
@@ -40,7 +43,9 @@ interface UpdateDistributionDialogDispatchProps {
 
 interface UpdateDistributionDialogState {
   distribution?: string;
+  distributeNetwork?: boolean;
   distributePlatformUnallocated?: boolean;
+  distributeStorage?: boolean;
   distributeWorkerUnallocated?: boolean;
 }
 
@@ -56,7 +61,9 @@ class UpdateDistributionDialogBase extends React.Component<
     super(props);
     this.state = {
       distribution: this.props.current.distribution_info.distribution_type,
+      distributeNetwork: this.props.current.distribution_info.network_cost === true,
       distributePlatformUnallocated: this.props.current.distribution_info.platform_cost === true,
+      distributeStorage: this.props.current.distribution_info.storage_cost === true,
       distributeWorkerUnallocated: this.props.current.distribution_info.worker_cost === true,
     };
   }
@@ -76,8 +83,27 @@ class UpdateDistributionDialogBase extends React.Component<
     this.setState({ distributeWorkerUnallocated: value === 'true' });
   };
 
+  private handleDistributeNetworkChange = event => {
+    const { value } = event.currentTarget;
+    this.setState({ distributeNetwork: value === 'true' });
+  };
+
+  private handleDistributeStorageChange = event => {
+    const { value } = event.currentTarget;
+    this.setState({ distributeStorage: value === 'true' });
+  };
+
   public render() {
-    const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
+    const {
+      error,
+      current,
+      intl,
+      isLoading,
+      isOcpCloudNetworkingToggleEnabled,
+      isOcpProjectStorageToggleEnabled,
+      onClose,
+      updateCostModel,
+    } = this.props;
     return (
       <Modal
         title={intl.formatMessage(messages.costDistribution)}
@@ -101,7 +127,9 @@ class UpdateDistributionDialogBase extends React.Component<
                 source_type: 'OCP',
                 distribution_info: {
                   distribution_type: this.state.distribution,
+                  network_cost: this.state.distributeNetwork,
                   platform_cost: this.state.distributePlatformUnallocated,
+                  storage_cost: this.state.distributeStorage,
                   worker_cost: this.state.distributeWorkerUnallocated,
                 },
               };
@@ -135,7 +163,7 @@ class UpdateDistributionDialogBase extends React.Component<
               <FormGroup isInline fieldId="cost-distribution-type" isRequired>
                 <Radio
                   isChecked={this.state.distribution === 'cpu'}
-                  name="distributionType"
+                  name="distribution-type"
                   label={intl.formatMessage(messages.cpuTitle)}
                   aria-label={intl.formatMessage(messages.cpuTitle)}
                   id="cpu-distribution"
@@ -144,7 +172,7 @@ class UpdateDistributionDialogBase extends React.Component<
                 />
                 <Radio
                   isChecked={this.state.distribution === 'memory'}
-                  name="distributionType"
+                  name="distribution-type"
                   label={intl.formatMessage(messages.memoryTitle)}
                   aria-label={intl.formatMessage(messages.memoryTitle)}
                   id="memory-distribution"
@@ -167,7 +195,7 @@ class UpdateDistributionDialogBase extends React.Component<
               <FormGroup isInline fieldId="cost-distribution-platform-unallocated" isRequired>
                 <Radio
                   isChecked={this.state.distributePlatformUnallocated}
-                  name="distributePlatformUnallocated"
+                  name="distribute-platform-unallocated"
                   label={intl.formatMessage(messages.distribute)}
                   aria-label={intl.formatMessage(messages.distribute)}
                   id="distribute-platform-true"
@@ -199,7 +227,7 @@ class UpdateDistributionDialogBase extends React.Component<
               <FormGroup isInline fieldId="cost-distribution-worker-unallocated" isRequired>
                 <Radio
                   isChecked={this.state.distributeWorkerUnallocated}
-                  name="distributeWorkerUnallocated"
+                  name="distribute-worker-unallocated"
                   label={intl.formatMessage(messages.distribute)}
                   aria-label={intl.formatMessage(messages.distribute)}
                   id="distribute-worker-true"
@@ -208,7 +236,7 @@ class UpdateDistributionDialogBase extends React.Component<
                 />
                 <Radio
                   isChecked={!this.state.distributeWorkerUnallocated}
-                  name="distributeWorkerUnallocated"
+                  name="distribute-worker-unallocated"
                   label={intl.formatMessage(messages.doNotDistribute)}
                   aria-label={intl.formatMessage(messages.doNotDistribute)}
                   id="distribute-worker-false"
@@ -218,6 +246,78 @@ class UpdateDistributionDialogBase extends React.Component<
               </FormGroup>
             </Form>
           </StackItem>
+          {isOcpCloudNetworkingToggleEnabled && (
+            <>
+              <StackItem>
+                <Title headingLevel="h3" size={TitleSizes.md}>
+                  {intl.formatMessage(messages.network)}
+                </Title>
+                <TextContent>
+                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.networkDesc)}</Text>
+                </TextContent>
+              </StackItem>
+              <StackItem isFilled>
+                <Form>
+                  <FormGroup isInline fieldId="cost-distribution-network" isRequired>
+                    <Radio
+                      isChecked={this.state.distributeNetwork}
+                      name="distribute-network"
+                      label={intl.formatMessage(messages.distribute)}
+                      aria-label={intl.formatMessage(messages.distribute)}
+                      id="distribute-network-true"
+                      value="true"
+                      onChange={this.handleDistributeNetworkChange}
+                    />
+                    <Radio
+                      isChecked={!this.state.distributeNetwork}
+                      name="distribute-network"
+                      label={intl.formatMessage(messages.doNotDistribute)}
+                      aria-label={intl.formatMessage(messages.doNotDistribute)}
+                      id="distribute-network-false"
+                      value="false"
+                      onChange={this.handleDistributeNetworkChange}
+                    />
+                  </FormGroup>
+                </Form>
+              </StackItem>
+            </>
+          )}
+          {isOcpProjectStorageToggleEnabled && (
+            <>
+              <StackItem>
+                <Title headingLevel="h3" size={TitleSizes.md}>
+                  {intl.formatMessage(messages.storage)}
+                </Title>
+                <TextContent>
+                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.storageDesc)}</Text>
+                </TextContent>
+              </StackItem>
+              <StackItem isFilled>
+                <Form>
+                  <FormGroup isInline fieldId="cost-distribution-storage" isRequired>
+                    <Radio
+                      isChecked={this.state.distributeStorage}
+                      name="distribute-storage"
+                      label={intl.formatMessage(messages.distribute)}
+                      aria-label={intl.formatMessage(messages.distribute)}
+                      id="distribute-storage-true"
+                      value="true"
+                      onChange={this.handleDistributeStorageChange}
+                    />
+                    <Radio
+                      isChecked={!this.state.distributeStorage}
+                      name="distribute-storage"
+                      label={intl.formatMessage(messages.doNotDistribute)}
+                      aria-label={intl.formatMessage(messages.doNotDistribute)}
+                      id="distribute-storage-false"
+                      value="false"
+                      onChange={this.handleDistributeStorageChange}
+                    />
+                  </FormGroup>
+                </Form>
+              </StackItem>
+            </>
+          )}
         </Stack>
       </Modal>
     );
@@ -228,6 +328,8 @@ const mapStateToProps = createMapStateToProps<UpdateDistributionDialogOwnProps, 
   state => {
     return {
       isLoading: costModelsSelectors.updateProcessing(state),
+      isOcpCloudNetworkingToggleEnabled: FeatureToggleSelectors.selectIsOcpCloudNetworkingToggleEnabled(state),
+      isOcpProjectStorageToggleEnabled: FeatureToggleSelectors.selectIsOcpProjectStorageToggleEnabled(state),
       error: costModelsSelectors.updateError(state),
     };
   }

@@ -1,5 +1,6 @@
 import { Button, ButtonVariant, Card, CardBody, CardHeader, Title, TitleSizes } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
+import { useIsOcpCloudNetworkingToggleEnabled, useIsOcpProjectStorageToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -26,6 +27,8 @@ const DistributionCardBase: React.FC<Props> = ({
   isUpdateDialogOpen,
 }) => {
   const intl = useIntl();
+  const isOcpCloudNetworkingToggleEnabled = useIsOcpCloudNetworkingToggleEnabled();
+  const isOcpProjectStorageToggleEnabled = useIsOcpProjectStorageToggleEnabled();
 
   return (
     <>
@@ -62,17 +65,33 @@ const DistributionCardBase: React.FC<Props> = ({
             })}
           </div>
           <div>
-            {intl.formatMessage(messages.distributeCosts, {
+            {intl.formatMessage(messages.distributeUnallocatedCapacity, {
               value: current.distribution_info.platform_cost,
               type: 'platform',
             })}
           </div>
           <div>
-            {intl.formatMessage(messages.distributeCosts, {
+            {intl.formatMessage(messages.distributeUnallocatedCapacity, {
               value: current.distribution_info.worker_cost,
               type: 'worker',
             })}
           </div>
+          {isOcpCloudNetworkingToggleEnabled && (
+            <div>
+              {intl.formatMessage(messages.distributeCosts, {
+                value: current.distribution_info.network_cost,
+                type: 'network',
+              })}
+            </div>
+          )}
+          {isOcpProjectStorageToggleEnabled && (
+            <div>
+              {intl.formatMessage(messages.distributeCosts, {
+                value: current.distribution_info.storage_cost,
+                type: 'storage',
+              })}
+            </div>
+          )}
         </CardBody>
       </Card>
     </>

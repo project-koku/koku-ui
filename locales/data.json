@@ -3449,6 +3449,91 @@
               },
               {
                 "options": {
+                  "network": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "network"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  },
+                  "storage": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "storage"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute "
+              },
+              {
+                "options": {
+                  "network": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "network"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  },
+                  "storage": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "storage"
+                      }
+                    ]
+                  }
+                },
+                "type": 5,
+                "value": "type"
+              },
+              {
+                "type": 0,
+                "value": " costs"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "distributeUnallocatedCapacity": [
+      {
+        "options": {
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Do not distribute "
+              },
+              {
+                "options": {
                   "other": {
                     "value": []
                   },
@@ -3526,7 +3611,7 @@
     "distributionModelDesc": [
       {
         "type": 0,
-        "value": "This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns."
+        "value": "Choose how your raw costs are distributed at the project level."
       }
     ],
     "distributionType": [
@@ -10317,6 +10402,18 @@
         "value": "count"
       }
     ],
+    "network": [
+      {
+        "type": 0,
+        "value": "Network"
+      }
+    ],
+    "networkDesc": [
+      {
+        "type": 0,
+        "value": "Distribute the cost of network traffic to projects based on distribution type."
+      }
+    ],
     "next": [
       {
         "type": 0,
@@ -12102,10 +12199,22 @@
         "value": "Status/Actions"
       }
     ],
+    "storage": [
+      {
+        "type": 0,
+        "value": "Storage"
+      }
+    ],
     "storageClass": [
       {
         "type": 0,
         "value": "StorageClass"
+      }
+    ],
+    "storageDesc": [
+      {
+        "type": 0,
+        "value": "Distribute the cost of storage to projects based on distribution type."
       }
     ],
     "suggestions": [
