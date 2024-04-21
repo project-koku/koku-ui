@@ -21,8 +21,8 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 
-import { FeatureToggleSelectors } from '../../../../store/featureToggle';
 import { styles } from './costCalc.styles';
 
 interface UpdateDistributionDialogOwnProps extends WrappedComponentProps {

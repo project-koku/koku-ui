@@ -29,3 +29,19 @@ export const memoryUsageWidget: OcpHistoricalDataWidget = {
   reportType: ReportType.memory,
   type: HistoricalDataWidgetType.usage,
 };
+
+export const networkUsageWidget: OcpHistoricalDataWidget = {
+  chartName: 'ocpNetworkChart',
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.network,
+  type: HistoricalDataWidgetType.network,
+};
+
+export const volumeUsageWidget: OcpHistoricalDataWidget = {
+  chartName: 'ocpVolumeChart',
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.volume,
+  type: HistoricalDataWidgetType.volume,
+};

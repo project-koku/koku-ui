@@ -9799,6 +9799,14 @@
               }
             ]
           },
+          "network": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Network usage comparison"
+              }
+            ]
+          },
           "other": {
             "value": []
           },

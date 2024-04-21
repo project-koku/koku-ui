@@ -2222,6 +2222,7 @@ export default defineMessages({
       'instance_type {Compute usage comparison}' +
       'memory {Memory usage, request, and limit comparison} ' +
       'modal {{name} daily usage comparison} ' +
+      'network {Network usage comparison} ' +
       'storage {Storage usage comparison} ' +
       'virtual_machine {Virtual machine usage comparison}' +
       'other {}}',
