@@ -14,7 +14,7 @@ export const enum FeatureToggle {
   ocpCloudNetworking = 'cost-management.ui.ocp-cloud-networking', // https://issues.redhat.com/browse/COST-4781
   ocpProjectStorage = 'cost-management.ui.ocp-project-storage', // https://issues.redhat.com/browse/COST-4856
   ros = 'cost-management.ui.ros', // ROS support https://issues.redhat.com/browse/COST-3477
-  rosBeta = 'cost-management.ui.ros-beta', // ROS support https://issues.redhat.com/browse/COST-3477
+  rosPreview = 'cost-management.ui.ros-preview', // ROS support https://issues.redhat.com/browse/COST-3477
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
@@ -53,8 +53,8 @@ export const useIsOcpProjectStorageToggleEnabled = () => {
 export const useIsRosToggleEnabled = () => {
   const { isBeta } = useChrome();
   const isRosToggleEnabled = useIsToggleEnabled(FeatureToggle.ros);
-  const isRosFeatureBetaEnabled = useIsToggleEnabled(FeatureToggle.rosBeta) && isBeta(); // Enabled for prod-beta
-  return isRosToggleEnabled || isRosFeatureBetaEnabled;
+  const isRosFeaturePreviewEnabled = useIsToggleEnabled(FeatureToggle.rosPreview) && isBeta(); // Enabled for prod-beta
+  return isRosToggleEnabled || isRosFeaturePreviewEnabled;
 };
 
 // The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
