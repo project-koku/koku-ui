@@ -1410,17 +1410,24 @@ export default defineMessages({
   distributeCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
-      'false {Do not distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'true {Distribute {type, select, network {network} storage {storage} other {}} costs}' +
+      'false {Do not distribute {type, select, network {network} storage {storage} other {}} costs}' +
       'other {}}',
     description: 'distribute costs',
     id: 'distributeCosts',
   },
-  distributionModelDesc: {
+  distributeUnallocatedCapacity: {
     defaultMessage:
-      'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
-    description:
-      'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
+      '{value, select, ' +
+      'true {Distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'false {Do not distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'other {}}',
+    description: 'distribute unallocated capacity',
+    id: 'distributeUnallocatedCapacity',
+  },
+  distributionModelDesc: {
+    defaultMessage: 'Choose how your raw costs are distributed at the project level.',
+    description: 'Choose how your raw costs are distributed at the project level.',
     id: 'distributionModelDesc',
   },
   distributionType: {
@@ -2215,6 +2222,7 @@ export default defineMessages({
       'instance_type {Compute usage comparison}' +
       'memory {Memory usage, request, and limit comparison} ' +
       'modal {{name} daily usage comparison} ' +
+      'network {Network usage comparison} ' +
       'storage {Storage usage comparison} ' +
       'virtual_machine {Virtual machine usage comparison}' +
       'other {}}',
@@ -2456,6 +2464,16 @@ export default defineMessages({
     defaultMessage: '{count, plural, one {Name} other {Names}}',
     description: 'Name plural or singular',
     id: 'names',
+  },
+  network: {
+    defaultMessage: 'Network',
+    description: 'Network',
+    id: 'network',
+  },
+  networkDesc: {
+    defaultMessage: 'Distribute the cost of network traffic to projects based on distribution type.',
+    description: 'Distribute the cost of network traffic to projects based on distribution type.',
+    id: 'networkDesc',
   },
   next: {
     defaultMessage: 'next',
@@ -3364,10 +3382,20 @@ export default defineMessages({
     description: 'Status/Actions',
     id: 'statusActions',
   },
+  storage: {
+    defaultMessage: 'Storage',
+    description: 'Storage',
+    id: 'storage',
+  },
   storageClass: {
     defaultMessage: 'StorageClass',
     description: 'StorageClass',
     id: 'storageClass',
+  },
+  storageDesc: {
+    defaultMessage: 'Distribute the cost of storage to projects based on distribution type.',
+    description: 'Distribute the cost of storage to projects based on distribution type.',
+    id: 'storageDesc',
   },
   suggestions: {
     defaultMessage: 'Suggestions',

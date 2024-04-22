@@ -61,6 +61,7 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/openshift/costs/',
   [ReportType.cpu]: 'reports/openshift/compute/',
   [ReportType.memory]: 'reports/openshift/memory/',
+  [ReportType.network]: 'reports/openshift/volumes/', // TBD: Use "network" when API is available
   [ReportType.volume]: 'reports/openshift/volumes/',
 };
 
