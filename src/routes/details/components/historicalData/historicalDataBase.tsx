@@ -8,6 +8,7 @@ import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common
 import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 import { HistoricalDataCostChart } from './historicalDataCostChart';
+import { HistoricalDataNetworkChart } from './historicalDataNetworkChart';
 import { HistoricalDataTrendChart } from './historicalDataTrendChart';
 import { HistoricalDataUsageChart } from './historicalDataUsageChart';
 import { HistoricalDataVolumeChart } from './historicalDataVolumeChart';
@@ -81,7 +82,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
           </Title>
         </CardTitle>
         <CardBody>
-          <HistoricalDataUsageChart
+          <HistoricalDataNetworkChart
             chartName={widget.chartName}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}

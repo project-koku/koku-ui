@@ -74,10 +74,32 @@ export interface ReportOrgData {
   type?: string; // 'account' or 'organizational_unit'
 }
 
+export interface ReportNetworkData {
+  date?: string;
+  data_transfer_in?: {
+    value?: number;
+    units?: string;
+  };
+  data_transfer_out?: {
+    value?: number;
+    units?: string;
+  };
+  resource_id?: string;
+  clusters?: string[];
+  source_uuid?: string;
+  region?: string;
+}
+
 // Additional props for group_by[org_unit_id]
 export interface ReportData extends ReportOrgData {
   date?: string;
-  values?: ReportAwsItem[] | ReportAzureItem[] | ReportGcpItem[] | ReportOcpItem[] | ReportOrgItem[];
+  values?:
+    | ReportAwsItem[]
+    | ReportAzureItem[]
+    | ReportGcpItem[]
+    | ReportOcpItem[]
+    | ReportOrgItem[]
+    | ReportNetworkData[];
 }
 
 export interface ReportMeta extends PagedMetaData {
