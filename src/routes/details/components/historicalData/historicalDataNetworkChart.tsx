@@ -14,21 +14,23 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits, unitsLookupKey } from 'utils/format';
 import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
+import { currentData, previousData } from './data';
 import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricalDataVolumeChartOwnProps extends RouterComponentProps, WrappedComponentProps {
+interface HistoricalDataNetworkChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
 
-interface HistoricalDataVolumeChartStateProps {
+interface HistoricalDataNetworkChartStateProps {
   currentQuery?: Query;
   currentQueryString?: string;
   currentReport?: Report;
@@ -39,20 +41,20 @@ interface HistoricalDataVolumeChartStateProps {
   previousReportFetchStatus?: FetchStatus;
 }
 
-interface HistoricalDataVolumeChartDispatchProps {
+interface HistoricalDataNetworkChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type HistoricalDataVolumeChartProps = HistoricalDataVolumeChartOwnProps &
-  HistoricalDataVolumeChartStateProps &
-  HistoricalDataVolumeChartDispatchProps;
+type HistoricalDataNetworkChartProps = HistoricalDataNetworkChartOwnProps &
+  HistoricalDataNetworkChartStateProps &
+  HistoricalDataNetworkChartDispatchProps;
 
-class HistoricalDataVolumeChartBase extends React.Component<HistoricalDataVolumeChartProps, any> {
+class HistoricalDataNetworkChartBase extends React.Component<HistoricalDataNetworkChartProps, any> {
   public componentDidMount() {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: HistoricalDataVolumeChartProps) {
+  public componentDidUpdate(prevProps: HistoricalDataNetworkChartProps) {
     const { currentQueryString, previousQueryString } = this.props;
 
     if (prevProps.currentQueryString !== currentQueryString || prevProps.previousQueryString !== previousQueryString) {
@@ -80,12 +82,24 @@ class HistoricalDataVolumeChartBase extends React.Component<HistoricalDataVolume
       this.props;
 
     // Current data
-    const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'request', 'total');
-    const currentUsageData = transformReport(currentReport, DatumType.rolling, 'date', 'usage', 'total');
+    const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'data_transfer_in', undefined);
+    const currentUsageData = transformReport(currentReport, DatumType.rolling, 'date', 'data_transfer_out', undefined);
 
     // Previous data
-    const previousRequestData = transformReport(previousReport, DatumType.rolling, 'date', 'request', 'total');
-    const previousUsageData = transformReport(previousReport, DatumType.rolling, 'date', 'usage', 'total');
+    const previousRequestData = transformReport(
+      previousReport,
+      DatumType.rolling,
+      'date',
+      'data_transfer_in',
+      undefined
+    );
+    const previousUsageData = transformReport(
+      previousReport,
+      DatumType.rolling,
+      'date',
+      'data_transfer_out',
+      undefined
+    );
 
     const usageUnits = currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : '';
 
@@ -105,7 +119,13 @@ class HistoricalDataVolumeChartBase extends React.Component<HistoricalDataVolume
               name={chartName}
               previousRequestData={previousRequestData}
               previousUsageData={previousUsageData}
+              requestLabelKey={messages.chartDataInLabel}
+              requestLabelNoDataKey={messages.chartDataInLabelNoData}
+              requestTooltipKey={messages.chartDataInTooltip}
               showLimit={false}
+              usageLabelKey={messages.chartDataOutLabel}
+              usageLabelNoDataKey={messages.chartDataOutLabelNoData}
+              usageTooltipKey={messages.chartDataOutTooltip}
               xAxisLabel={intl.formatMessage(messages.historicalChartDayOfMonthLabel)}
               yAxisLabel={intl.formatMessage(messages.units, { units: unitsLookupKey(usageUnits) })}
             />
@@ -116,7 +136,7 @@ class HistoricalDataVolumeChartBase extends React.Component<HistoricalDataVolume
   }
 }
 
-const mapStateToProps = createMapStateToProps<HistoricalDataVolumeChartOwnProps, HistoricalDataVolumeChartStateProps>(
+const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps, HistoricalDataNetworkChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = getQueryState(router.location, 'details');
@@ -168,7 +188,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataVolumeChartOwnProps,
     };
 
     const currentQueryString = getQuery(currentQuery);
-    const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
+    let currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
     const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
       reportPathsType,
@@ -192,13 +212,20 @@ const mapStateToProps = createMapStateToProps<HistoricalDataVolumeChartOwnProps,
     };
 
     const previousQueryString = getQuery(previousQuery);
-    const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
+    let previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
     const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
       reportPathsType,
       reportType,
       previousQueryString
     );
+
+    // Todo: Update to use new API response
+    const isOcpCloudNetworkingToggleEnabled = FeatureToggleSelectors.selectIsOcpCloudNetworkingToggleEnabled(state);
+    if (isOcpCloudNetworkingToggleEnabled) {
+      currentReport = currentData;
+      previousReport = previousData;
+    }
 
     return {
       currentQuery,
@@ -213,12 +240,12 @@ const mapStateToProps = createMapStateToProps<HistoricalDataVolumeChartOwnProps,
   }
 );
 
-const mapDispatchToProps: HistoricalDataVolumeChartDispatchProps = {
+const mapDispatchToProps: HistoricalDataNetworkChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataVolumeChart = injectIntl(
-  withRouter(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataVolumeChartBase))
+const HistoricalDataNetworkChart = injectIntl(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataNetworkChartBase))
 );
 
-export { HistoricalDataVolumeChart };
+export { HistoricalDataNetworkChart };

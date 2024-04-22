@@ -205,90 +205,105 @@ export default defineMessages({
     description: 'Cancel',
     id: 'cancel',
   },
-  chartCostForecastConeLegendLabel: {
+  chartCostForecastConeLabel: {
     defaultMessage: 'Cost confidence ({dateRange})',
     description: 'Cost confidence (Jan 1-31)',
-    id: 'chartCostForecastConeLegendLabel',
+    id: 'chartCostForecastConeLabel',
   },
-  chartCostForecastConeLegendNoDataLabel: {
+  chartCostForecastConeLabelNoData: {
     defaultMessage: 'Cost confidence (no data)',
     description: 'Cost confidence (no data)',
-    id: 'chartCostForecastConeLegendNoDataLabel',
+    id: 'chartCostForecastConeLabelNoData',
   },
-  chartCostForecastConeLegendTooltip: {
-    defaultMessage: 'Cost confidence ({month})',
-    description: 'Cost confidence (Jan)',
-    id: 'chartCostForecastConeLegendTooltip',
-  },
-  chartCostForecastConeTooltip: {
+  chartCostForecastConeRangeTooltip: {
     defaultMessage: '{value0} - {value1}',
     description: 'Cost forecast confidence min/max tooltip',
+    id: 'chartCostForecastConeRangeTooltip',
+  },
+  chartCostForecastConeTooltip: {
+    defaultMessage: 'Cost confidence ({month})',
+    description: 'Cost confidence (Jan)',
     id: 'chartCostForecastConeTooltip',
   },
-  chartCostForecastLegendLabel: {
+  chartCostForecastLabel: {
     defaultMessage: 'Cost forecast ({dateRange})',
     description: 'Cost forecast (Jan 1-31)',
-    id: 'chartCostForecastLegendLabel',
+    id: 'chartCostForecastLabel',
   },
-  chartCostForecastLegendNoDataLabel: {
+  chartCostForecastLabelNoData: {
     defaultMessage: 'Cost forecast (no data)',
     description: 'Cost forecast (no data)',
-    id: 'chartCostForecastLegendNoDataLabel',
+    id: 'chartCostForecastLabelNoData',
   },
-  chartCostForecastLegendTooltip: {
+  chartCostForecastTooltip: {
     defaultMessage: 'Cost forecast ({month})',
     description: 'Cost forecast (Jan 1-31)',
-    id: 'chartCostForecastLegendTooltip',
+    id: 'chartCostForecastTooltip',
   },
-  chartCostLegendLabel: {
+  chartCostLabel: {
     defaultMessage: 'Cost ({dateRange})',
     description: 'Cost (Jan 1-31)',
-    id: 'chartCostLegendLabel',
+    id: 'chartCostLabel',
   },
-  chartCostLegendNoDataLabel: {
+  chartCostLabelNoData: {
     defaultMessage: 'Cost (no data)',
     description: 'Cost (no data)',
-    id: 'chartCostLegendNoDataLabel',
+    id: 'chartCostLabelNoData',
   },
-  chartCostLegendTooltip: {
+  chartCostTooltip: {
     defaultMessage: 'Cost ({month})',
     description: 'Cost (Jan)',
-    id: 'chartCostLegendTooltip',
+    id: 'chartCostTooltip',
   },
-  chartCostSupplementaryLegendLabel: {
-    defaultMessage: 'Supplementary cost ({dateRange})',
-    description: 'Supplementary cost (Jan 1-31)',
-    id: 'chartCostSupplementaryLegendLabel',
+  chartDataInLabel: {
+    defaultMessage: 'Data in ({dateRange})',
+    description: 'Data in ({dateRange})',
+    id: 'chartCostTooltip',
   },
-  chartCostSupplementaryLegendNoDataLabel: {
-    defaultMessage: 'Supplementary cost (no data)',
-    description: 'Supplementary cost (no data)',
-    id: 'chartCostSupplementaryLegendNoDataLabel',
+  chartDataInLabelNoData: {
+    defaultMessage: 'Data in (no data)',
+    description: 'Data in (no data)',
+    id: 'chartCostTooltip',
   },
-  chartCostSupplementaryLegendTooltip: {
-    defaultMessage: 'Supplementary cost ({month})',
-    description: 'Supplementary cost (Jan)',
-    id: 'chartCostSupplementaryLegendTooltip',
+  chartDataInTooltip: {
+    defaultMessage: 'Data in ({month})',
+    description: 'Data in ({month})',
+    id: 'chartCostTooltip',
+  },
+  chartDataOutLabel: {
+    defaultMessage: 'Data out ({dateRange})',
+    description: 'Data out ({dateRange})',
+    id: 'chartCostTooltip',
+  },
+  chartDataOutLabelNoData: {
+    defaultMessage: 'Data out (no data)',
+    description: 'Data out (no data)',
+    id: 'chartCostTooltip',
+  },
+  chartDataOutTooltip: {
+    defaultMessage: 'Data out ({month})',
+    description: 'Data out ({month})',
+    id: 'chartCostTooltip',
   },
   chartDayOfTheMonth: {
     defaultMessage: 'Day {day}',
     description: 'The day of the month',
     id: 'chartDayOfTheMonth',
   },
-  chartLimitLegendLabel: {
+  chartLimitLabel: {
     defaultMessage: 'Limit ({dateRange})',
     description: 'Limit (Jan 1-31)',
-    id: 'chartLimitLegendLabel',
+    id: 'chartLimitLabel',
   },
-  chartLimitLegendNoDataLabel: {
+  chartLimitLabelNoData: {
     defaultMessage: 'Limit (no data)',
     description: 'Limit (no data)',
-    id: 'chartLimitLegendNoDataLabel',
+    id: 'chartLimitLabelNoData',
   },
-  chartLimitLegendTooltip: {
+  chartLimitTooltip: {
     defaultMessage: 'Limit ({month})',
     description: 'Limit (Jan)',
-    id: 'chartLimitLegendTooltip',
+    id: 'chartLimitTooltip',
   },
   chartNoData: {
     defaultMessage: 'no data',
@@ -300,35 +315,50 @@ export default defineMessages({
     description: 'Others category for top costliest',
     id: 'chartOthers',
   },
-  chartRequestsLegendLabel: {
+  chartRequestsLabel: {
     defaultMessage: 'Requests ({dateRange})',
     description: 'Requests (Jan 1-31)',
-    id: 'chartRequestsLegendLabel',
+    id: 'chartRequestsLabel',
   },
-  chartRequestsLegendNoDataLabel: {
+  chartRequestsLabelNoData: {
     defaultMessage: 'Requests (no data)',
     description: 'Requests (no data)',
-    id: 'chartRequestsLegendNoDataLabel',
+    id: 'chartRequestsLabelNoData',
   },
-  chartRequestsLegendTooltip: {
+  chartRequestsTooltip: {
     defaultMessage: 'Requests ({month})',
     description: 'Requests (Jan)',
-    id: 'chartRequestsLegendTooltip',
+    id: 'chartRequestsTooltip',
   },
-  chartUsageLegendLabel: {
+  chartSupplementaryCostLabel: {
+    defaultMessage: 'Supplementary cost ({dateRange})',
+    description: 'Supplementary cost (Jan 1-31)',
+    id: 'chartSupplementaryCostLabel',
+  },
+  chartSupplementaryCostLabelNoData: {
+    defaultMessage: 'Supplementary cost (no data)',
+    description: 'Supplementary cost (no data)',
+    id: 'chartSupplementaryCostLabelNoData',
+  },
+  chartSupplementaryCostTooltip: {
+    defaultMessage: 'Supplementary cost ({month})',
+    description: 'Supplementary cost (Jan)',
+    id: 'chartSupplementaryCostTooltip',
+  },
+  chartUsageLabel: {
     defaultMessage: 'Usage ({dateRange})',
     description: 'Usage (Jan 1-31)',
-    id: 'chartUsageLegendLabel',
+    id: 'chartUsageLabel',
   },
-  chartUsageLegendNoDataLabel: {
+  chartUsageLabelNoData: {
     defaultMessage: 'Usage (no data)',
     description: 'Usage (no data)',
-    id: 'chartUsageLegendNoDataLabel',
+    id: 'chartUsageLabelNoData',
   },
-  chartUsageLegendTooltip: {
+  chartUsageTooltip: {
     defaultMessage: 'Usage ({month})',
     description: 'Usage (Jan)',
-    id: 'chartUsageLegendTooltip',
+    id: 'chartUsageTooltip',
   },
   chooseKeyPlaceholder: {
     defaultMessage: 'Choose key',

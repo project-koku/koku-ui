@@ -92,10 +92,10 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
   private initDatum = () => {
     const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
 
-    const usageKey = messages.chartUsageLegendLabel;
-    const usageTooltipKey = messages.chartUsageLegendTooltip;
-    const requestKey = messages.chartRequestsLegendLabel;
-    const requestTooltipKey = messages.chartRequestsLegendTooltip;
+    const usageKey = messages.chartUsageLabel;
+    const usageTooltipKey = messages.chartUsageTooltip;
+    const requestKey = messages.chartRequestsLabel;
+    const requestTooltipKey = messages.chartRequestsTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -104,7 +104,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.chartUsageLegendNoDataLabel),
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.chartUsageLabelNoData),
           symbol: {
             fill: chartStyles.legendColorScale[0],
             type: 'minus',
@@ -117,7 +117,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.chartUsageLegendNoDataLabel),
+          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.chartUsageLabelNoData),
           symbol: {
             fill: chartStyles.legendColorScale[1],
             type: 'minus',
@@ -130,14 +130,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'previousRequest',
         data: previousRequestData,
         legendItem: {
-          name: getUsageRangeString(
-            previousRequestData,
-            requestKey,
-            true,
-            true,
-            1,
-            messages.chartRequestsLegendNoDataLabel
-          ),
+          name: getUsageRangeString(previousRequestData, requestKey, true, true, 1, messages.chartRequestsLabelNoData),
           symbol: {
             fill: chartStyles.legendColorScale[2],
             type: 'dash',
@@ -150,14 +143,7 @@ class UsageChartBase extends React.Component<UsageChartProps, State> {
         childName: 'currentRequest',
         data: currentRequestData,
         legendItem: {
-          name: getUsageRangeString(
-            currentRequestData,
-            requestKey,
-            true,
-            false,
-            0,
-            messages.chartRequestsLegendNoDataLabel
-          ),
+          name: getUsageRangeString(currentRequestData, requestKey, true, false, 0, messages.chartRequestsLabelNoData),
           symbol: {
             fill: chartStyles.legendColorScale[3],
             type: 'dash',
