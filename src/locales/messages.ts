@@ -2319,6 +2319,16 @@ export default defineMessages({
     description: 'Infrastructure',
     id: 'infrastructure',
   },
+  instanceNames: {
+    defaultMessage: 'Instance names',
+    description: 'Instance names',
+    id: 'instanceNames',
+  },
+  instances: {
+    defaultMessage: 'Instances',
+    description: 'Instances',
+    id: 'instances',
+  },
   lastProcessed: {
     defaultMessage: 'Last processed',
     description: 'Last processed',
