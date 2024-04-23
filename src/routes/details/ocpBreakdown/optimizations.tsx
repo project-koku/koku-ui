@@ -10,11 +10,11 @@ import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { formatPath } from 'utils/paths';
 
-interface OcpOptimizationsBreakdownOwnProps {
+interface OptimizationsOwnProps {
   // TBD...
 }
 
-type OcpOptimizationsBreakdownProps = OcpOptimizationsBreakdownOwnProps;
+type OptimizationsProps = OptimizationsOwnProps;
 
 const useQueryFromRoute = () => {
   const location = useLocation();
@@ -26,7 +26,7 @@ const useQueryState = () => {
   return getQueryState(location, 'details');
 };
 
-const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () => {
+const Optimizations: React.FC<OptimizationsProps> = () => {
   const intl = useIntl();
   const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
@@ -57,4 +57,4 @@ const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () =
   );
 };
 
-export { OcpBreakdownOptimizations };
+export { Optimizations };
