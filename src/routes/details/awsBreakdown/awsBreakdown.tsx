@@ -105,6 +105,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     ),
     costType,
     currency,
+    defaultBreadcrumbPath: formatPath(routes.awsDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.awsDetailsTitle),
