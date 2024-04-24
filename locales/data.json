@@ -3240,7 +3240,7 @@
     "detailsUnusedRequestsLabel": [
       {
         "type": 0,
-        "value": "Unrequested capacity"
+        "value": "Unused requests"
       }
     ],
     "detailsUnusedUnits": [
