@@ -1368,8 +1368,8 @@ export default defineMessages({
     id: 'detailsUnusedCapacityLabel',
   },
   detailsUnusedRequestsLabel: {
-    defaultMessage: 'Unrequested capacity',
-    description: 'Unrequested capacity',
+    defaultMessage: 'Unused requests',
+    description: 'Unused requests',
     id: 'detailsUnusedRequestsLabel',
   },
   detailsUnusedUnits: {

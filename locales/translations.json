@@ -228,7 +228,7 @@
   "detailsResourceNames": "{value, select, account {Account names} aws_category {Cost category names} cluster {Cluster names} cpu {CPU} gcp_project {GCP project names} group {Group} instance {Instance names} instance_type {Instance type} memory {Memory} name {Name} node {Node names} org_unit_id {Organizational unit names} os {OS} operating_system {Operating system} payer_tenant_id {Account names} product_service {Service names} project {Project names} region {Region names} resource_location {Region names} service {Service names} service_name {Service names} status {Status} subscription_guid {Account names} source_type {Integration} tag {Tag names} tags {Tags} tag_key {Tag keys} other {}}",
   "detailsSummaryModalTitle": "{groupBy, select, account {{name} accounts} aws_category {{name} cost categories} cluster {{name} clusters} gcp_project {{name} GCP projects} node {{name} nodes} org_unit_id {{name} organizational units} payer_tenant_id {{name} accounts} product_service {{name} services} project {{name} projects} region {{name} regions} resource_location {{name} regions} service {{name} services} service_name {{name} services} subscription_guid {{name} accounts} tag {{name} tags} other {}}",
   "detailsUnusedCapacityLabel": "Unused capacity",
-  "detailsUnusedRequestsLabel": "Unrequested capacity",
+  "detailsUnusedRequestsLabel": "Unused requests",
   "detailsUnusedUnits": "{units} ({percentage}% of capacity)",
   "detailsUsageCapacity": "Capacity - {value} {units}",
   "detailsUsageLimit": "Limit - {value} {units}",
