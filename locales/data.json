@@ -671,7 +671,7 @@
         "value": "Cancel"
       }
     ],
-    "chartCostForecastConeLegendLabel": [
+    "chartCostForecastConeLabel": [
       {
         "type": 0,
         "value": "Cost confidence ("
@@ -685,27 +685,13 @@
         "value": ")"
       }
     ],
-    "chartCostForecastConeLegendNoDataLabel": [
+    "chartCostForecastConeLabelNoData": [
       {
         "type": 0,
         "value": "Cost confidence (no data)"
       }
     ],
-    "chartCostForecastConeLegendTooltip": [
-      {
-        "type": 0,
-        "value": "Cost confidence ("
-      },
-      {
-        "type": 1,
-        "value": "month"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "chartCostForecastConeTooltip": [
+    "chartCostForecastConeRangeTooltip": [
       {
         "type": 1,
         "value": "value0"
@@ -719,7 +705,21 @@
         "value": "value1"
       }
     ],
-    "chartCostForecastLegendLabel": [
+    "chartCostForecastConeTooltip": [
+      {
+        "type": 0,
+        "value": "Cost confidence ("
+      },
+      {
+        "type": 1,
+        "value": "month"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartCostForecastLabel": [
       {
         "type": 0,
         "value": "Cost forecast ("
@@ -733,13 +733,13 @@
         "value": ")"
       }
     ],
-    "chartCostForecastLegendNoDataLabel": [
+    "chartCostForecastLabelNoData": [
       {
         "type": 0,
         "value": "Cost forecast (no data)"
       }
     ],
-    "chartCostForecastLegendTooltip": [
+    "chartCostForecastTooltip": [
       {
         "type": 0,
         "value": "Cost forecast ("
@@ -753,7 +753,7 @@
         "value": ")"
       }
     ],
-    "chartCostLegendLabel": [
+    "chartCostLabel": [
       {
         "type": 0,
         "value": "Cost ("
@@ -767,50 +767,16 @@
         "value": ")"
       }
     ],
-    "chartCostLegendNoDataLabel": [
+    "chartCostLabelNoData": [
       {
         "type": 0,
         "value": "Cost (no data)"
       }
     ],
-    "chartCostLegendTooltip": [
+    "chartCostTooltip": [
       {
         "type": 0,
-        "value": "Cost ("
-      },
-      {
-        "type": 1,
-        "value": "month"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "chartCostSupplementaryLegendLabel": [
-      {
-        "type": 0,
-        "value": "Supplementary cost ("
-      },
-      {
-        "type": 1,
-        "value": "dateRange"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "chartCostSupplementaryLegendNoDataLabel": [
-      {
-        "type": 0,
-        "value": "Supplementary cost (no data)"
-      }
-    ],
-    "chartCostSupplementaryLegendTooltip": [
-      {
-        "type": 0,
-        "value": "Supplementary cost ("
+        "value": "Data out ("
       },
       {
         "type": 1,
@@ -831,7 +797,7 @@
         "value": "day"
       }
     ],
-    "chartLimitLegendLabel": [
+    "chartLimitLabel": [
       {
         "type": 0,
         "value": "Limit ("
@@ -845,13 +811,13 @@
         "value": ")"
       }
     ],
-    "chartLimitLegendNoDataLabel": [
+    "chartLimitLabelNoData": [
       {
         "type": 0,
         "value": "Limit (no data)"
       }
     ],
-    "chartLimitLegendTooltip": [
+    "chartLimitTooltip": [
       {
         "type": 0,
         "value": "Limit ("
@@ -905,7 +871,7 @@
         "value": "count"
       }
     ],
-    "chartRequestsLegendLabel": [
+    "chartRequestsLabel": [
       {
         "type": 0,
         "value": "Requests ("
@@ -919,13 +885,13 @@
         "value": ")"
       }
     ],
-    "chartRequestsLegendNoDataLabel": [
+    "chartRequestsLabelNoData": [
       {
         "type": 0,
         "value": "Requests (no data)"
       }
     ],
-    "chartRequestsLegendTooltip": [
+    "chartRequestsTooltip": [
       {
         "type": 0,
         "value": "Requests ("
@@ -939,7 +905,41 @@
         "value": ")"
       }
     ],
-    "chartUsageLegendLabel": [
+    "chartSupplementaryCostLabel": [
+      {
+        "type": 0,
+        "value": "Supplementary cost ("
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartSupplementaryCostLabelNoData": [
+      {
+        "type": 0,
+        "value": "Supplementary cost (no data)"
+      }
+    ],
+    "chartSupplementaryCostTooltip": [
+      {
+        "type": 0,
+        "value": "Supplementary cost ("
+      },
+      {
+        "type": 1,
+        "value": "month"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartUsageLabel": [
       {
         "type": 0,
         "value": "Usage ("
@@ -953,13 +953,13 @@
         "value": ")"
       }
     ],
-    "chartUsageLegendNoDataLabel": [
+    "chartUsageLabelNoData": [
       {
         "type": 0,
         "value": "Usage (no data)"
       }
     ],
-    "chartUsageLegendTooltip": [
+    "chartUsageTooltip": [
       {
         "type": 0,
         "value": "Usage ("
@@ -2840,6 +2840,14 @@
               }
             ]
           },
+          "cpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CPU"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -2853,6 +2861,30 @@
               {
                 "type": 0,
                 "value": "Group"
+              }
+            ]
+          },
+          "instance": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Instance names"
+              }
+            ]
+          },
+          "instance_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Instance type"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory"
               }
             ]
           },
@@ -2872,11 +2904,27 @@
               }
             ]
           },
+          "operating_system": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Operating system"
+              }
+            ]
+          },
           "org_unit_id": {
             "value": [
               {
                 "type": 0,
                 "value": "Organizational unit names"
+              }
+            ]
+          },
+          "os": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OS"
               }
             ]
           },
@@ -2976,6 +3024,14 @@
               {
                 "type": 0,
                 "value": "Tag keys"
+              }
+            ]
+          },
+          "tags": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tags"
               }
             ]
           }
@@ -4333,6 +4389,67 @@
               }
             ]
           },
+          "instance": {
+            "value": [
+              {
+                "options": {
+                  "daily": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_instances_daily_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "monthly": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_instances_monthly_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "resolution"
+              }
+            ]
+          },
           "node": {
             "value": [
               {
@@ -5086,6 +5203,14 @@
               }
             ]
           },
+          "instance": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Aggregates of the following instances will be exported to a .csv file."
+              }
+            ]
+          },
           "node": {
             "value": [
               {
@@ -5577,6 +5702,107 @@
                       {
                         "type": 0,
                         "value": "All cloud filtered by OpenShift grouped by GCP Project"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "provider"
+              }
+            ]
+          },
+          "instance": {
+            "value": [
+              {
+                "options": {
+                  "aws": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services grouped by instance"
+                      }
+                    ]
+                  },
+                  "aws_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Amazon Web Services filtered by OpenShift grouped by instance"
+                      }
+                    ]
+                  },
+                  "azure": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure grouped by instance"
+                      }
+                    ]
+                  },
+                  "azure_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Microsoft Azure filtered by OpenShift grouped by instance"
+                      }
+                    ]
+                  },
+                  "gcp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform grouped by instance"
+                      }
+                    ]
+                  },
+                  "gcp_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Google Cloud Platform filtered by OpenShift grouped by instance"
+                      }
+                    ]
+                  },
+                  "ibm": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud grouped by instance"
+                      }
+                    ]
+                  },
+                  "ibm_ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "IBM Cloud filtered by OpenShift grouped by instance"
+                      }
+                    ]
+                  },
+                  "oci": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Oracle Cloud Infrastructure grouped by instance"
+                      }
+                    ]
+                  },
+                  "ocp": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "OpenShift grouped by instance"
+                      }
+                    ]
+                  },
+                  "ocp_cloud": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "All cloud filtered by OpenShift grouped by instance"
                       }
                     ]
                   },
@@ -6654,6 +6880,22 @@
               }
             ]
           },
+          "instance": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Selected instances ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
+              }
+            ]
+          },
           "node": {
             "value": [
               {
@@ -7617,6 +7859,14 @@
               }
             ]
           },
+          "instance": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Instance"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7630,6 +7880,14 @@
               {
                 "type": 0,
                 "value": "Node"
+              }
+            ]
+          },
+          "operating_system": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Operating system"
               }
             ]
           },
@@ -9944,6 +10202,12 @@
         "value": "Infrastructure"
       }
     ],
+    "instances": [
+      {
+        "type": 0,
+        "value": "Instances"
+      }
+    ],
     "lastProcessed": [
       {
         "type": 0,
@@ -10468,6 +10732,18 @@
         "value": "There are no export files available"
       }
     ],
+    "noInstancesDesc": [
+      {
+        "type": 0,
+        "value": "Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances."
+      }
+    ],
+    "noInstancesTitle": [
+      {
+        "type": 0,
+        "value": "No instances available"
+      }
+    ],
     "noMappedTags": [
       {
         "type": 0,
@@ -10496,18 +10772,6 @@
       {
         "type": 0,
         "value": "Tags must be enabled to be mapped."
-      }
-    ],
-    "noOptimizationsDesc": [
-      {
-        "type": 0,
-        "value": "Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right. Otherwise, there is not enough data available to generate an optimization."
-      }
-    ],
-    "noOptimizationsTitle": [
-      {
-        "type": 0,
-        "value": "No optimizations available"
       }
     ],
     "noProvidersStateAwsDesc": [

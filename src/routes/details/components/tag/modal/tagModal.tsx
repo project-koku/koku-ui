@@ -1,7 +1,7 @@
 import { Modal } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
-import type { Tag, TagPathsType } from 'api/tags/tag';
+import type { Tag, TagData, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
@@ -22,6 +22,7 @@ import { TagContent } from './tagContent';
 interface TagModalOwnProps extends RouterComponentProps, WrappedComponentProps {
   isOpen: boolean;
   onClose(isOpen: boolean);
+  tagData?: TagData[];
   tagPathsType: TagPathsType;
 }
 
@@ -50,13 +51,15 @@ class TagModalBase extends React.Component<TagModalProps, any> {
   }
 
   public componentDidMount() {
-    const { fetchTag, tagPathsType, tagQueryString } = this.props;
-    fetchTag(tagPathsType, tagType, tagQueryString);
+    const { fetchTag, tagData, tagPathsType, tagQueryString } = this.props;
+    if (!tagData) {
+      fetchTag(tagPathsType, tagType, tagQueryString);
+    }
   }
 
   public componentDidUpdate(prevProps: TagModalProps) {
-    const { fetchTag, tagPathsType, tagQueryString } = this.props;
-    if (prevProps.tagQueryString !== tagQueryString) {
+    const { fetchTag, tagData, tagPathsType, tagQueryString } = this.props;
+    if (prevProps.tagQueryString !== tagQueryString && !tagData) {
       fetchTag(tagPathsType, tagType, tagQueryString);
     }
   }
@@ -67,11 +70,12 @@ class TagModalBase extends React.Component<TagModalProps, any> {
   }
 
   private getTagValueCount = () => {
-    const { tagReport } = this.props;
+    const { tagData, tagReport } = this.props;
     let count = 0;
 
-    if (tagReport) {
-      for (const item of tagReport.data) {
+    if (tagData || tagReport) {
+      const tags = tagData || tagReport.data;
+      for (const item of tags) {
         if (item.values) {
           count += item.values.length;
         }
@@ -85,7 +89,7 @@ class TagModalBase extends React.Component<TagModalProps, any> {
   };
 
   public render() {
-    const { groupBy, intl, isOpen, query, tagReport } = this.props;
+    const { groupBy, intl, isOpen, query, tagData, tagReport } = this.props;
 
     // Match page header description
     const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
@@ -100,6 +104,7 @@ class TagModalBase extends React.Component<TagModalProps, any> {
         <TagContent
           groupBy={groupBy}
           groupByValue={this.props.isPlatformCosts ? platformCategoryKey : groupByValue}
+          tagData={tagData}
           tagReport={tagReport}
         />
       </Modal>

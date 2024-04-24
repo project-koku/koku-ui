@@ -1,7 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
-import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import type { RhelReport } from 'api/reports/rhelReports';
@@ -286,7 +285,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         groupBy={groupBy}
         isDisabled={isDisabled}
         item={item}
-        providerType={ProviderType.rhel}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         showPriceListOption={groupBy === 'cluster'}

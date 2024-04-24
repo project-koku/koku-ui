@@ -92,6 +92,7 @@ const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps
   return {
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
     currency,
+    defaultBreadcrumbPath: formatPath(routes.azureDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.azureDetailsTitle),
