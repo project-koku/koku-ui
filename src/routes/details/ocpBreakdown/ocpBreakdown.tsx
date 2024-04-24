@@ -30,7 +30,6 @@ import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
-import { Instances } from './instances';
 import { Optimizations } from './optimizations';
 
 interface OcpBreakdownDispatchProps {
@@ -120,9 +119,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData costDistribution={costDistribution} currency={currency} />,
-    instancesComponent: <Instances />,
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
-    isAwsEc2InstancesToggleEnabled: FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(state),
     isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),

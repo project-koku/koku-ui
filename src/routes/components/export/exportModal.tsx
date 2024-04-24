@@ -167,7 +167,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     }
 
     let selectedLabel = intl.formatMessage(messages.exportSelected, { groupBy, count });
-    if (groupBy && groupBy.indexOf(tagPrefix) !== -1) {
+    if (groupBy?.indexOf(tagPrefix) !== -1) {
       selectedLabel = intl.formatMessage(messages.exportSelected, { groupBy: 'tag', count });
     }
 
@@ -181,7 +181,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         ? name
         : intl.formatMessage(messages.exportName, {
             provider: reportPathsType,
-            groupBy: groupBy && groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
+            groupBy: groupBy?.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
           });
 
     const helpText = isExportsToggleEnabled ? this.nameValidator(defaultName) : undefined;

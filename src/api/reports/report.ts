@@ -38,6 +38,27 @@ export interface ReportAwsItem extends ReportItem {
   service?: string;
 }
 
+export interface ReportAwsInstancesItem {
+  account?: string;
+  account_alias?: string;
+  cost?: ReportValue;
+  instance_name?: string;
+  instance_type?: string;
+  memory?: ReportValue;
+  operating_system?: string;
+  region?: string;
+  resource_id?: string;
+  tags: [
+    {
+      key?: string;
+      values?: string[];
+      enabled?: boolean;
+    },
+  ];
+  usage?: ReportValue;
+  vcpu?: ReportValue;
+}
+
 export interface ReportGcpItem extends ReportItem {
   account?: string;
   project?: string;
@@ -95,6 +116,7 @@ export interface ReportData extends ReportOrgData {
   date?: string;
   values?:
     | ReportAwsItem[]
+    | ReportAwsInstancesItem[]
     | ReportAzureItem[]
     | ReportGcpItem[]
     | ReportOcpItem[]

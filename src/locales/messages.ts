@@ -1312,11 +1312,17 @@ export default defineMessages({
       'account {Account names} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
+      'cpu {CPU} ' +
       'gcp_project {GCP project names} ' +
       'group {Group} ' +
+      'instance {Instance names} ' +
+      'instance_type {Instance type} ' +
+      'memory {Memory} ' +
       'name {Name} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
+      'os {OS} ' +
+      'operating_system {Operating system} ' +
       'payer_tenant_id {Account names} ' +
       'product_service {Service names} ' +
       'project {Project names} ' +
@@ -1328,6 +1334,7 @@ export default defineMessages({
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
       'tag {Tag names} ' +
+      'tags {Tags} ' +
       'tag_key {Tag keys} ' +
       'other {}}',
     description: 'Details table resource names',
@@ -1734,6 +1741,7 @@ export default defineMessages({
       'aws_category {{resolution, select, daily {{provider}_cost_category_daily_{startDate}_{endDate}} monthly {{provider}_cost_category_monthly_{startDate}_{endDate}} other {}}} ' +
       'cluster {{resolution, select, daily {{provider}_clusters_daily_{startDate}_{endDate}} monthly {{provider}_clusters_monthly_{startDate}_{endDate}} other {}}} ' +
       'gcp_project {{resolution, select, daily {{provider}_gcp-projects_daily_{startDate}_{endDate}} monthly {{provider}_gcp-projects_monthly_{startDate}_{endDate}} other {}}} ' +
+      'instance {{resolution, select, daily {{provider}_instances_daily_{startDate}_{endDate}} monthly {{provider}_instances_monthly_{startDate}_{endDate}} other {}}} ' +
       'node {{resolution, select, daily {{provider}_node_daily_{startDate}_{endDate}} monthly {{provider}_node_monthly_{startDate}_{endDate}} other {}}} ' +
       'org_unit_id {{resolution, select, daily {{provider}_orgs_daily_{startDate}_{endDate}} monthly {{provider}_orgs_monthly_{startDate}_{endDate}} other {}}} ' +
       'payer_tenant_id {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
@@ -1771,6 +1779,7 @@ export default defineMessages({
       'aws_category {Aggregates of the following cost categories will be exported to a .csv file.} ' +
       'cluster {Aggregates of the following clusters will be exported to a .csv file.} ' +
       'gcp_project {Aggregates of the following GCP projects will be exported to a .csv file.} ' +
+      'instance {Aggregates of the following instances will be exported to a .csv file.} ' +
       'node {Aggregates of the following nodes will be exported to a .csv file.} ' +
       'org_unit_id {Aggregates of the following organizational units will be exported to a .csv file.} ' +
       'payer_tenant_id {Aggregates of the following accounts will be exported to a .csv file.} ' +
@@ -1793,6 +1802,7 @@ export default defineMessages({
       'aws_category {{provider, select, aws {Amazon Web Services grouped by Cost category} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cost category} azure {Microsoft Azure grouped by Cost category} oci {Oracle Cloud Infrastructure grouped by Cost category} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cost category} gcp {Google Cloud Platform grouped by Cost category} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cost category} ibm {IBM Cloud grouped by Cost category} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cost category} ocp {OpenShift grouped by Cost category} ocp_cloud {All cloud filtered by OpenShift grouped by Cost category} other {}}} ' +
       'cluster {{provider, select, aws {Amazon Web Services grouped by Cluster} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cluster} azure {Microsoft Azure grouped by Cluster} oci {Oracle Cloud Infrastructure grouped by Cluster} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cluster} gcp {Google Cloud Platform grouped by Cluster} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cluster} ibm {IBM Cloud grouped by Cluster} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cluster} ocp {OpenShift grouped by Cluster} ocp_cloud {All cloud filtered by OpenShift grouped by Cluster} other {}}} ' +
       'gcp_project {{provider, select, aws {Amazon Web Services grouped by GCP Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by GCP Project} azure {Microsoft Azure grouped by GCP Project} oci {Oracle Cloud Infrastructure grouped by GCP Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by GCP Project} gcp {Google Cloud Platform grouped by GCP Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by GCP Project} ibm {IBM Cloud grouped by GCP Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by GCP Project} ocp {OpenShift grouped by GCP Project} ocp_cloud {All cloud filtered by OpenShift grouped by GCP Project} other {}}} ' +
+      'instance {{provider, select, aws {Amazon Web Services grouped by instance} aws_ocp {Amazon Web Services filtered by OpenShift grouped by instance} azure {Microsoft Azure grouped by instance} oci {Oracle Cloud Infrastructure grouped by instance} azure_ocp {Microsoft Azure filtered by OpenShift grouped by instance} gcp {Google Cloud Platform grouped by instance} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by instance} ibm {IBM Cloud grouped by instance} ibm_ocp {IBM Cloud filtered by OpenShift grouped by instance} ocp {OpenShift grouped by instance} ocp_cloud {All cloud filtered by OpenShift grouped by instance} other {}}} ' +
       'node {{provider, select, aws {Amazon Web Services grouped by Node} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Node} azure {Microsoft Azure grouped by Node} oci {Oracle Cloud Infrastructure grouped by Node} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Node} gcp {Google Cloud Platform grouped by Node} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Node} ibm {IBM Cloud grouped by Node} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Node} ocp {OpenShift grouped by Node} ocp_cloud {All cloud filtered by OpenShift grouped by Node} other {}}} ' +
       'org_unit_id {{provider, select, aws {Amazon Web Services grouped by Organizational unit} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Organizational unit} azure {Microsoft Azure grouped by Organizational unit} oci {Oracle Cloud Infrastructure grouped by Organizational unit} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Organizational unit} gcp {Google Cloud Platform grouped by Organizational unit} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Organizational unit} ibm {IBM Cloud grouped by Organizational unit} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Organizational unit} ocp {OpenShift grouped by Organizational unit} ocp_cloud {All cloud filtered by OpenShift grouped by Organizational unit} other {}}} ' +
       'payer_tenant_id {{provider, select, oci {Oracle Cloud Infrastructure grouped by Account} other {}}}' +
@@ -1830,6 +1840,7 @@ export default defineMessages({
       'aws_category {Selected cost categories ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
       'gcp_project {Selected GCP projects ({count})} ' +
+      'instance {Selected instances ({count})} ' +
       'node {Selected nodes ({count})} ' +
       'org_unit_id {Selected organizational units ({count})} ' +
       'payer_tenant_id {Selected accounts ({count})} ' +
@@ -2049,9 +2060,11 @@ export default defineMessages({
       'default {Default} ' +
       'gcp_project {GCP project} ' +
       'group {Group} ' +
+      'instance {Instance} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
+      'operating_system {Operating system} ' +
       'payer_tenant_id {Account} ' +
       'persistent_volume_claim {Persistent volume claim} ' +
       'product_service {Service} ' +
@@ -2319,11 +2332,6 @@ export default defineMessages({
     description: 'Infrastructure',
     id: 'infrastructure',
   },
-  instanceNames: {
-    defaultMessage: 'Instance names',
-    description: 'Instance names',
-    id: 'instanceNames',
-  },
   instances: {
     defaultMessage: 'Instances',
     description: 'Instances',
@@ -2551,6 +2559,16 @@ export default defineMessages({
     description: 'There are no export files available',
     id: 'noExportsStateTitle',
   },
+  noInstancesDesc: {
+    defaultMessage: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
+    description: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
+    id: 'noInstancesDesc',
+  },
+  noInstancesTitle: {
+    defaultMessage: 'No instances available',
+    description: 'No instances available',
+    id: 'noInstancesTitle',
+  },
   noMappedTags: {
     defaultMessage: 'No mapped tags',
     description: 'No mapped tags',
@@ -2567,18 +2585,6 @@ export default defineMessages({
     defaultMessage: 'Tags must be enabled to be mapped.',
     description: 'Tags must be enabled to be mapped.',
     id: 'noMappedTagsWarning',
-  },
-  noOptimizationsDesc: {
-    defaultMessage:
-      'Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right.  Otherwise, there is not enough data available to generate an optimization.',
-    description:
-      'Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right.  Otherwise, there is not enough data available to generate an optimization.',
-    id: 'noOptimizationsDesc',
-  },
-  noOptimizationsTitle: {
-    defaultMessage: 'No optimizations available',
-    description: 'No optimizations available',
-    id: 'noOptimizationsTitle',
   },
   noProvidersStateAwsDesc: {
     defaultMessage:

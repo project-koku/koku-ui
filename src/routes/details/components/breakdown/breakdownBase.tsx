@@ -23,7 +23,6 @@ import {
 } from 'routes/utils/queryNavigate';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
-import type { uiActions } from 'store/ui';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -94,7 +93,6 @@ export interface BreakdownStateProps {
 }
 
 interface BreakdownDispatchProps {
-  closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -266,20 +264,12 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private handleTabClick = (event, tabIndex) => {
-    const { closeOptimizationsDrawer } = this.props;
     const { activeTabKey } = this.state;
 
     if (activeTabKey !== tabIndex) {
-      this.setState(
-        {
-          activeTabKey: tabIndex,
-        },
-        () => {
-          if (closeOptimizationsDrawer) {
-            closeOptimizationsDrawer();
-          }
-        }
-      );
+      this.setState({
+        activeTabKey: tabIndex,
+      });
     }
   };
 

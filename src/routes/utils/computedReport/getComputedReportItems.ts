@@ -50,6 +50,7 @@ export interface ComputedReportItem extends ComputedReportOcpItem, ComputedRepor
 export interface ComputedReportItemsParams<R extends Report, T extends ReportItem> {
   idKey: keyof T;
   isDateMap?: boolean;
+  isGroupBy?: boolean;
   report: R;
   sortKey?: keyof ComputedReportItem;
   sortDirection?: SortDirection;
@@ -156,6 +157,10 @@ function getCostData(val, key, item?: any) {
             : defaultUnits,
         },
       }),
+    ...(val.cost && {
+      value: val.cost.value + (item?.cost ? item.cost.value : 0),
+      units: val.cost.units ? val.cost.units : defaultUnits,
+    }),
   };
 }
 
@@ -209,9 +214,10 @@ function getUsageData(val, item?: any) {
 
 // Details pages typically use this function with filter[resolution]=monthly
 export function getUnsortedComputedReportItems<R extends Report, T extends ReportItem>({
-  isDateMap = false,
-  report,
   idKey, // Note: The idKey must use org_entities for reports, while group_by uses org_unit_id
+  isDateMap = false,
+  isGroupBy = true,
+  report,
 }: ComputedReportItemsParams<R, T>) {
   if (!report) {
     return [];
@@ -223,139 +229,36 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
   const visitDataPoint = (dataPoint: ReportData) => {
     const type = dataPoint.type; // Org unit type
 
-    if (dataPoint && dataPoint.values) {
-      dataPoint.values.forEach((val: any) => {
-        let id = val.id ? val.id : val[idKey];
-        if (!id) {
-          id = val.date;
-        }
-
-        // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
-        const idSuffix = idKey !== 'date' && idKey !== 'cluster' && val.cluster ? `-${val.cluster}` : '';
-        const mapId = `${id}${idSuffix}`;
-
-        // 'clusters' will contain either the cluster alias or default cluster ID
-        const classification = val.classification;
-        const cluster_alias = val.clusters && val.clusters.length > 0 ? val.clusters[0] : undefined;
-        const cluster = cluster_alias || val.cluster;
-        const date = val.date;
-        const default_project = val.default_project && val.default_project.toLowerCase() === 'true';
-        const delta_percent = val.delta_percent ? val.delta_percent : 0;
-        const delta_value = val.delta_value ? val.delta_value : 0;
-        const persistent_volume_claim = val.persistent_volume_claim ? val.persistent_volume_claim : [];
-        const storage_class = val.storage_class ? val.storage_class : [];
-        const source_uuid = val.source_uuid ? val.source_uuid : [];
-
-        let label;
-        if (report.meta && report.meta.others && (id === 'Other' || id === 'Others')) {
-          // Add count to "Others" label
-          label = intl.formatMessage(messages.chartOthers, { count: report.meta.others });
-        } else {
-          const itemLabelKey = getItemLabel({ report, idKey, value: val });
-          if (itemLabelKey === 'org_entities' && val.alias) {
-            label = val.alias;
-          } else if (itemLabelKey === 'account' && val.account_alias) {
-            label = val.account_alias;
-          } else if (itemLabelKey === 'cluster' && cluster_alias) {
-            label = cluster_alias;
-          } else if (itemLabelKey === 'subscription_guid' && val.subscription_name) {
-            label = val.subscription_name;
-          } else if (val[itemLabelKey] instanceof Object) {
-            label = val[itemLabelKey].value;
-          } else {
-            label = val[itemLabelKey];
-          }
-          if (label === undefined || label.trim().length === 0) {
-            label = val.alias && val.alias.trim().length > 0 ? val.alias : val[idKey];
-          }
-        }
-
-        if (isDateMap) {
-          const data = {
-            ...getUsageData(val), // capacity, limit, request, & usage
-            classification,
-            cluster,
-            clusters: getClusters(val),
-            cost: getCostData(val, 'cost'),
-            data_transfer_in: val.data_transfer_in,
-            data_transfer_out: val.data_transfer_out,
-            date,
-            default_project,
-            delta_percent,
-            delta_value,
-            id,
-            infrastructure: getCostData(val, 'infrastructure'),
-            label,
-            persistent_volume_claim,
-            source_uuid,
-            storage_class,
-            supplementary: getCostData(val, 'supplementary'),
-            type,
-          };
-          const item = itemMap.get(mapId);
-          if (item) {
-            item.set(date, data);
-          } else {
-            const dateMap = new Map();
-            dateMap.set(date, data);
-            itemMap.set(mapId, dateMap);
-          }
-        } else {
-          const item = itemMap.get(mapId);
-          if (item) {
-            // When applying multiple group_by params, costs may be split between regions. We need to sum those costs
-            // See https://issues.redhat.com/browse/COST-1131
-            itemMap.set(mapId, {
-              ...item,
-              ...getUsageData(val, item), // capacity, limit, request, & usage
-              classification,
-              cluster,
-              clusters: getClusters(val, item),
-              cost: getCostData(val, 'cost', item),
-              data_transfer_in: val.data_transfer_in,
-              data_transfer_out: val.data_transfer_out,
-              date,
-              default_project,
-              delta_percent,
-              delta_value,
-              id,
-              infrastructure: getCostData(val, 'infrastructure', item),
-              label,
-              persistent_volume_claim,
-              source_uuid,
-              storage_class,
-              supplementary: getCostData(val, 'supplementary', item),
-              type,
-            });
-          } else {
-            itemMap.set(mapId, {
-              ...getUsageData(val), // capacity, limit, request, & usage
-              classification,
-              cluster,
-              clusters: getClusters(val),
-              cost: getCostData(val, 'cost'),
-              data_transfer_in: val.data_transfer_in,
-              data_transfer_out: val.data_transfer_out,
-              date,
-              default_project,
-              delta_percent,
-              delta_value,
-              id,
-              infrastructure: getCostData(val, 'infrastructure'),
-              label,
-              persistent_volume_claim,
-              source_uuid,
-              storage_class,
-              supplementary: getCostData(val, 'supplementary'),
-              type,
-            });
-          }
-        }
+    if (isGroupBy) {
+      dataPoint?.values?.forEach((val: any) => {
+        initReportItems({
+          idKey,
+          isDateMap,
+          itemMap,
+          report,
+          type,
+          val,
+        });
       });
-    }
-    for (const key in dataPoint) {
-      if (dataPoint[key] instanceof Array) {
-        return dataPoint[key].forEach(visitDataPoint);
+      for (const key in dataPoint) {
+        if (dataPoint[key] instanceof Array) {
+          return dataPoint[key].forEach(visitDataPoint);
+        }
+      }
+    } else {
+      for (const key in dataPoint) {
+        if (dataPoint[key] instanceof Array) {
+          dataPoint[key].forEach(val => {
+            initReportItems({
+              idKey,
+              isDateMap,
+              itemMap,
+              report,
+              type,
+              val,
+            });
+          });
+        }
       }
     }
   };
@@ -363,4 +266,106 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
     report.data.forEach(visitDataPoint);
   }
   return Array.from(itemMap.values());
+}
+
+export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }) {
+  let id = val.id ? val.id : val[idKey];
+  if (!id) {
+    id = val.date;
+  }
+
+  // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
+  const idSuffix = idKey !== 'date' && idKey !== 'cluster' && val.cluster ? `-${val.cluster}` : '';
+  const mapId = `${id}${idSuffix}`;
+
+  // 'clusters' will contain either the cluster alias or default cluster ID
+  const cluster_alias = val.clusters && val.clusters.length > 0 ? val.clusters[0] : undefined;
+  const cluster = cluster_alias || val.cluster;
+  const date = val.date;
+  const default_project = val.default_project && val.default_project.toLowerCase() === 'true';
+
+  let label;
+  if (report.meta && report.meta.others && (id === 'Other' || id === 'Others')) {
+    // Add count to "Others" label
+    label = intl.formatMessage(messages.chartOthers, { count: report.meta.others });
+  } else {
+    const itemLabelKey = getItemLabel({ report, idKey, value: val });
+    if (itemLabelKey === 'org_entities' && val.alias) {
+      label = val.alias;
+    } else if (itemLabelKey === 'account' && val.account_alias) {
+      label = val.account_alias;
+    } else if (itemLabelKey === 'cluster' && cluster_alias) {
+      label = cluster_alias;
+    } else if (itemLabelKey === 'subscription_guid' && val.subscription_name) {
+      label = val.subscription_name;
+    } else if (itemLabelKey === 'resource_id' && val.instance_name) {
+      label = val.instance_name;
+    } else if (val[itemLabelKey] instanceof Object) {
+      label = val[itemLabelKey].value;
+    } else {
+      label = val[itemLabelKey];
+    }
+    if (label === undefined || label.trim().length === 0) {
+      label = val.alias && val.alias.trim().length > 0 ? val.alias : val[idKey];
+    }
+  }
+
+  if (isDateMap) {
+    const data = {
+      ...val,
+      ...getUsageData(val), // capacity, limit, request, & usage
+      cluster,
+      clusters: getClusters(val),
+      cost: getCostData(val, 'cost'),
+      default_project,
+      id,
+      infrastructure: getCostData(val, 'infrastructure'),
+      label,
+      supplementary: getCostData(val, 'supplementary'),
+      type,
+    };
+    const item = itemMap.get(mapId);
+    if (item) {
+      item.set(date, data);
+    } else {
+      const dateMap = new Map();
+      dateMap.set(date, data);
+      itemMap.set(mapId, dateMap);
+    }
+  } else {
+    const item = itemMap.get(mapId);
+    if (item) {
+      // When applying multiple group_by params, costs may be split between regions. We need to sum those costs
+      // See https://issues.redhat.com/browse/COST-1131
+      itemMap.set(mapId, {
+        ...item,
+        ...getUsageData(val, item), // capacity, limit, request, & usage
+        cluster,
+        clusters: getClusters(val, item),
+        cost: getCostData(val, 'cost', item),
+        date,
+        default_project,
+        id,
+        infrastructure: getCostData(val, 'infrastructure', item),
+        label,
+        supplementary: getCostData(val, 'supplementary', item),
+        type,
+      });
+    } else {
+      itemMap.set(mapId, {
+        ...val,
+        ...getUsageData(val), // capacity, limit, request, & usage
+        cluster,
+        clusters: getClusters(val),
+        cost: getCostData(val, 'cost'),
+        date,
+        default_project,
+        id,
+        infrastructure: getCostData(val, 'infrastructure'),
+        label,
+        supplementary: getCostData(val, 'supplementary'),
+        type,
+      });
+    }
+  }
 }
