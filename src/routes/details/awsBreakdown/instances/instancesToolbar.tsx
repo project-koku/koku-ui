@@ -166,6 +166,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
         resourcePathsType={resourcePathsType}
         selectedItems={selectedItems}
         showBulkSelect
+        showColumnManagement
         showExcludes
         showExport
         showFilter
