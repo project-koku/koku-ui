@@ -34,7 +34,7 @@ import { getCostType, getCurrency } from 'utils/sessionStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
-import { Instances } from './instances/';
+import { Instances } from './instances';
 
 interface AwsBreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
