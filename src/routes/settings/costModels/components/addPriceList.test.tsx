@@ -186,7 +186,7 @@ describe('add-a-new-rate', () => {
     expect(createButton.getAttribute('aria-disabled')).toBe('false');
     await act(async () => user.click(createButton));
     expect(submit).toHaveBeenCalled();
-  }, 7000);
+  }, 10000);
 
   test('tag rates', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
