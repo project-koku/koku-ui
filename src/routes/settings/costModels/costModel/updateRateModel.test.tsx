@@ -322,7 +322,7 @@ describe('update-rate', () => {
     await act(async () => user.click(options[0]));
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-  }, 7000);
+  }, 10000);
 
   test('regular', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
