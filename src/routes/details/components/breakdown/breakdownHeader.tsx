@@ -1,16 +1,18 @@
 import './breakdownHeader.scss';
 
 import {
-  Alert,
-  AlertActionCloseButton,
+  Button,
+  ButtonVariant,
   Chip,
   ChipGroup,
   Flex,
   FlexItem,
+  Popover,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { TagPathsType } from 'api/tags/tag';
@@ -68,15 +70,13 @@ interface BreakdownHeaderDispatchProps {
 }
 
 interface BreakdownHeaderState {
-  showFilteredByAlert?: boolean;
+  // TBD...
 }
 
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
-  protected defaultState: BreakdownHeaderState = {
-    showFilteredByAlert: true,
-  };
+  protected defaultState: BreakdownHeaderState = {};
   public state: BreakdownHeaderState = { ...this.defaultState };
 
   private getBackToLink = groupByKey => {
@@ -151,6 +151,20 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
         <Title headingLevel="h2" size={TitleSizes.md} style={styles.filteredBy}>
           {intl.formatMessage(messages.filteredBy)}
         </Title>
+        <span style={styles.infoIcon}>
+          <Popover
+            aria-label={intl.formatMessage(messages.overviewInfoArialLabel)}
+            enableFlip
+            bodyContent={<p>{intl.formatMessage(messages.filteredByWarning)}</p>}
+          >
+            <Button
+              aria-label={intl.formatMessage(messages.overviewInfoButtonArialLabel)}
+              variant={ButtonVariant.plain}
+            >
+              <OutlinedQuestionCircleIcon />
+            </Button>
+          </Popover>
+        </span>
         {filterChips}
       </div>
     );
@@ -167,10 +181,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     );
 
     return cost;
-  };
-
-  private handleOnAlertClose = () => {
-    this.setState({ showFilteredByAlert: false });
   };
 
   public render() {
@@ -194,7 +204,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       tagPathsType,
       title,
     } = this.props;
-    const { showFilteredByAlert } = this.state;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByCostCategory = getGroupByCostCategory(query);
@@ -286,15 +295,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </div>
           </FlexItem>
         </Flex>
-        {this.hasFilterBy() && showFilteredByAlert && (
-          <Alert
-            actionClose={<AlertActionCloseButton onClose={this.handleOnAlertClose} />}
-            isInline
-            style={styles.filteredByWarning}
-            title={intl.formatMessage(messages.filteredByWarning)}
-            variant="info"
-          />
-        )}
         <div>
           <div style={styles.tabs}>
             {tabs}

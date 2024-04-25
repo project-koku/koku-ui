@@ -39,7 +39,6 @@ export const styles = {
     marginRight: global_spacer_md.var,
   },
   filteredBy: {
-    marginRight: global_spacer_sm.var,
     whiteSpace: 'nowrap',
   },
   filteredByContainer: {
@@ -47,10 +46,6 @@ export const styles = {
     alignItems: 'center',
     marginBottom: global_spacer_sm.var,
     marginTop: global_spacer_sm.var,
-  },
-  filteredByWarning: {
-    marginTop: global_spacer_sm.var,
-    marginBottom: global_spacer_md.var,
   },
   header: {
     backgroundColor: global_BackgroundColor_100.var,
