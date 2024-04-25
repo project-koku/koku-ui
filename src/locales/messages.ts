@@ -2092,6 +2092,16 @@ export default defineMessages({
     description: 'Values',
     id: 'filterByValuesAriaLabel',
   },
+  filteredBy: {
+    defaultMessage: 'Filtered by',
+    description: 'Filtered by',
+    id: 'filteredBy',
+  },
+  filteredByWarning: {
+    defaultMessage: 'This page shows filtered results. To undo filters, clear filters on the previous page.',
+    description: 'This page shows filtered results. To undo filters, clear filters on the previous page.',
+    id: 'filteredByWarning',
+  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',

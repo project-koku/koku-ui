@@ -8057,6 +8057,18 @@
         "value": "Values"
       }
     ],
+    "filteredBy": [
+      {
+        "type": 0,
+        "value": "Filtered by"
+      }
+    ],
+    "filteredByWarning": [
+      {
+        "type": 0,
+        "value": "This page shows filtered results. To undo filters, clear filters on the previous page."
+      }
+    ],
     "forDate": [
       {
         "type": 1,

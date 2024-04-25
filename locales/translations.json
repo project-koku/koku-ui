@@ -323,6 +323,8 @@
   "filterByValuePlaceholder": "Filter by value",
   "filterByValues": "{value, select, account {Account} aws_category {Cost category} cluster {Cluster} container {Container} default {Default} gcp_project {GCP project} group {Group} instance {Instance} name {Name} node {Node} org_unit_id {Organizational unit} operating_system {Operating system} payer_tenant_id {Account} persistent_volume_claim {Persistent volume claim} product_service {Service} project {Project} region {Region} resource_location {Region} service {Service} service_name {Service} source_type {Integration} status {Status} storage_class {StorageClass} subscription_guid {Account} tag {Tag} tag_key {Tag key} tag_key_child {Child tag Key} tag_key_parent {Parent tag Key} workload {Workload name} workload_type {Workload type} other {}}",
   "filterByValuesAriaLabel": "Values",
+  "filteredBy": "Filtered by",
+  "filteredByWarning": "This page shows filtered results. To undo filters, clear filters on the previous page.",
   "forDate": "{value} for {dateRange}",
   "gcp": "Google Cloud Platform",
   "gcpComputeTitle": "Compute instances usage",

@@ -1,6 +1,15 @@
 import './breakdownHeader.scss';
 
-import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  Alert,
+  AlertActionCloseButton,
+  Chip,
+  ChipGroup,
+  Flex,
+  FlexItem,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -15,6 +24,7 @@ import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
+import { getActiveFilters, getChips } from 'routes/components/dataToolbar/utils/common';
 import { TagLink } from 'routes/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
@@ -57,9 +67,18 @@ interface BreakdownHeaderDispatchProps {
   // TBD...
 }
 
+interface BreakdownHeaderState {
+  showFilteredByAlert?: boolean;
+}
+
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
+  protected defaultState: BreakdownHeaderState = {
+    showFilteredByAlert: true,
+  };
+  public state: BreakdownHeaderState = { ...this.defaultState };
+
   private getBackToLink = groupByKey => {
     const { breadcrumb, intl, router, tagPathsType } = this.props;
 
@@ -76,6 +95,67 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     );
   };
 
+  private hasFilterBy = () => {
+    const { router } = this.props;
+    const filterBy = router.location.state?.details?.filter_by;
+    return filterBy && Object.keys(filterBy).length > 0;
+  };
+
+  private getFilterChips = () => {
+    const { intl, router } = this.props;
+
+    const filterBy = this.hasFilterBy() ? router.location.state?.details?.filter_by : undefined;
+    if (!filterBy) {
+      return null;
+    }
+
+    const getLabel = value => {
+      const label = intl.formatMessage(messages.filterByValues, { value });
+      return label !== '' ? label : value;
+    };
+
+    const filters = getActiveFilters(router.location.state?.details) as any;
+    const filterChips = Object.keys(filters).map(key => {
+      if (filters[key] instanceof Array) {
+        const chips: any[] = getChips(filters[key]);
+        return (
+          <span key={key} style={styles.filterChip}>
+            <ChipGroup categoryName={getLabel(key)}>
+              {chips.map((chip, index) => (
+                <Chip key={`${key}-${index}`} isReadOnly>
+                  {chip.node}
+                </Chip>
+              ))}
+            </ChipGroup>
+          </span>
+        );
+      } else {
+        return Object.keys(filters[key]).map(key2 => {
+          const chips: any[] = getChips(filters[key][key2]);
+          return (
+            <span key={key2} style={styles.filterChip}>
+              <ChipGroup categoryName={getLabel(key2)}>
+                {chips.map((chip, index) => (
+                  <Chip key={`${key2}-${index}`} isReadOnly>
+                    {chip.node}
+                  </Chip>
+                ))}
+              </ChipGroup>
+            </span>
+          );
+        });
+      }
+    });
+    return (
+      <div style={styles.filteredByContainer}>
+        <Title headingLevel="h2" size={TitleSizes.md} style={styles.filteredBy}>
+          {intl.formatMessage(messages.filteredBy)}
+        </Title>
+        {filterChips}
+      </div>
+    );
+  };
+
   private getTotalCost = () => {
     const { costDistribution, report } = this.props;
 
@@ -87,6 +167,10 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
     );
 
     return cost;
+  };
+
+  private handleOnAlertClose = () => {
+    this.setState({ showFilteredByAlert: false });
   };
 
   public render() {
@@ -110,6 +194,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       tagPathsType,
       title,
     } = this.props;
+    const { showFilteredByAlert } = this.state;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByCostCategory = getGroupByCostCategory(query);
@@ -160,12 +245,12 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </FlexItem>
           )}
         </Flex>
-        <Title headingLevel="h1" size={TitleSizes['2xl']} style={styles.title}>
-          {intl.formatMessage(messages.breakdownTitle, { value: title })}
-        </Title>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
             <Flex direction={{ default: 'column' }}>
+              <Title headingLevel="h1" size={TitleSizes['2xl']}>
+                {intl.formatMessage(messages.breakdownTitle, { value: title })}
+              </Title>
               {(description || showClusterInfo) && (
                 <FlexItem style={styles.description}>
                   {description}
@@ -174,7 +259,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
                   ) : null}
                 </FlexItem>
               )}
-              {dataDetailsComponent ? <FlexItem>{dataDetailsComponent}</FlexItem> : null}
+              {dataDetailsComponent && <FlexItem>{dataDetailsComponent}</FlexItem>}
+              {this.hasFilterBy() && <FlexItem>{this.getFilterChips()}</FlexItem>}
               {showCostDistribution && (
                 <FlexItem style={styles.costDistribution}>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
@@ -200,6 +286,15 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </div>
           </FlexItem>
         </Flex>
+        {this.hasFilterBy() && showFilteredByAlert && (
+          <Alert
+            actionClose={<AlertActionCloseButton onClose={this.handleOnAlertClose} />}
+            isInline
+            style={styles.filteredByWarning}
+            title={intl.formatMessage(messages.filteredByWarning)}
+            variant="info"
+          />
+        )}
         <div>
           <div style={styles.tabs}>
             {tabs}
