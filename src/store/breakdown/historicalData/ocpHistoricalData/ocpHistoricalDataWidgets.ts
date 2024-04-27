@@ -33,6 +33,9 @@ export const memoryUsageWidget: OcpHistoricalDataWidget = {
 export const networkUsageWidget: OcpHistoricalDataWidget = {
   chartName: 'ocpNetworkChart',
   id: getId(),
+  network: {
+    showWidgetOnGroupBy: ['cluster', 'node'],
+  },
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.network,
   type: HistoricalDataWidgetType.network,

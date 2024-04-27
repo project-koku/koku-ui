@@ -258,32 +258,32 @@ export default defineMessages({
   chartDataInLabel: {
     defaultMessage: 'Data in ({dateRange})',
     description: 'Data in ({dateRange})',
-    id: 'chartCostTooltip',
+    id: 'chartDataInLabel',
   },
   chartDataInLabelNoData: {
     defaultMessage: 'Data in (no data)',
     description: 'Data in (no data)',
-    id: 'chartCostTooltip',
+    id: 'chartDataInLabelNoData',
   },
   chartDataInTooltip: {
     defaultMessage: 'Data in ({month})',
     description: 'Data in ({month})',
-    id: 'chartCostTooltip',
+    id: 'chartDataInTooltip',
   },
   chartDataOutLabel: {
     defaultMessage: 'Data out ({dateRange})',
     description: 'Data out ({dateRange})',
-    id: 'chartCostTooltip',
+    id: 'chartDataOutLabel',
   },
   chartDataOutLabelNoData: {
     defaultMessage: 'Data out (no data)',
     description: 'Data out (no data)',
-    id: 'chartCostTooltip',
+    id: 'chartDataOutLabelNoData',
   },
   chartDataOutTooltip: {
     defaultMessage: 'Data out ({month})',
     description: 'Data out ({month})',
-    id: 'chartCostTooltip',
+    id: 'chartDataOutTooltip',
   },
   chartDayOfTheMonth: {
     defaultMessage: 'Day {day}',

@@ -12,6 +12,9 @@ export const enum HistoricalDataWidgetType {
 export interface HistoricalDataWidget {
   chartName: string; // Will be the prefix for ids within the chart
   id: number;
+  network?: {
+    showWidgetOnGroupBy?: string[]; // Show network chart when group_by is matched
+  };
   reportPathsType: ReportPathsType; // Report URL path
   reportType: ReportType; // Report type; cost, storage, etc.
   type: HistoricalDataWidgetType;

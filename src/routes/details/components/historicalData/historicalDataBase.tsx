@@ -17,6 +17,7 @@ interface HistoricalDataOwnProps {
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  groupBy?: string;
 }
 
 export interface HistoricalDataStateProps {
@@ -67,9 +68,19 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns network chart
   private getNetworkChart = (widget: HistoricalDataWidget) => {
-    const { intl, isOcpCloudNetworkingToggleEnabled } = this.props;
+    const { groupBy, intl, isOcpCloudNetworkingToggleEnabled } = this.props;
 
-    if (widget.reportPathsType === ReportPathsType.ocp && !isOcpCloudNetworkingToggleEnabled) {
+    let showWidget = false;
+
+    if (widget.network?.showWidgetOnGroupBy) {
+      for (const groupById of widget.network.showWidgetOnGroupBy) {
+        if (groupById === groupBy) {
+          showWidget = true;
+          break;
+        }
+      }
+    }
+    if (!showWidget || !isOcpCloudNetworkingToggleEnabled) {
       return null;
     }
     return (
@@ -96,7 +107,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
   private getVolumeChart = (widget: HistoricalDataWidget) => {
     const { intl, isOcpProjectStorageToggleEnabled } = this.props;
 
-    if (widget.reportPathsType === ReportPathsType.ocp && !isOcpProjectStorageToggleEnabled) {
+    if (!isOcpProjectStorageToggleEnabled) {
       return null;
     }
     return (

@@ -118,7 +118,9 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     emptyStateTitle: intl.formatMessage(messages.ocpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData costDistribution={costDistribution} currency={currency} />,
+    historicalDataComponent: (
+      <HistoricalData costDistribution={costDistribution} currency={currency} groupBy={groupBy} />
+    ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,

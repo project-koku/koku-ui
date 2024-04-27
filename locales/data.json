@@ -776,6 +776,74 @@
     "chartCostTooltip": [
       {
         "type": 0,
+        "value": "Cost ("
+      },
+      {
+        "type": 1,
+        "value": "month"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartDataInLabel": [
+      {
+        "type": 0,
+        "value": "Data in ("
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartDataInLabelNoData": [
+      {
+        "type": 0,
+        "value": "Data in (no data)"
+      }
+    ],
+    "chartDataInTooltip": [
+      {
+        "type": 0,
+        "value": "Data in ("
+      },
+      {
+        "type": 1,
+        "value": "month"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartDataOutLabel": [
+      {
+        "type": 0,
+        "value": "Data out ("
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartDataOutLabelNoData": [
+      {
+        "type": 0,
+        "value": "Data out (no data)"
+      }
+    ],
+    "chartDataOutTooltip": [
+      {
+        "type": 0,
         "value": "Data out ("
       },
       {
