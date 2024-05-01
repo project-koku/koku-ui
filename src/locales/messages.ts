@@ -2518,6 +2518,11 @@ export default defineMessages({
     description: 'Month over month change',
     id: 'monthOverMonthChange',
   },
+  moreOptions: {
+    defaultMessage: 'More options',
+    description: 'More options',
+    id: 'moreOptions',
+  },
   names: {
     defaultMessage: '{count, plural, one {Name} other {Names}}',
     description: 'Name plural or singular',

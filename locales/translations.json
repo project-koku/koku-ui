@@ -389,6 +389,7 @@
   "metricValues": "{value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}",
   "metricsOperatorVersion": "Cost Management operator version",
   "monthOverMonthChange": "Month over month change",
+  "moreOptions": "More options",
   "names": "{count, plural, one {Name} other {Names}}",
   "network": "Network",
   "networkDesc": "Distribute the cost of network traffic to projects based on distribution type.",

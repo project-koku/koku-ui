@@ -10728,6 +10728,12 @@
         "value": "Month over month change"
       }
     ],
+    "moreOptions": [
+      {
+        "type": 0,
+        "value": "More options"
+      }
+    ],
     "names": [
       {
         "offset": 0,
