@@ -1312,7 +1312,6 @@ export default defineMessages({
       'account {Account names} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
-      'cpu {CPU} ' +
       'gcp_project {GCP project names} ' +
       'group {Group} ' +
       'instance {Instance names} ' +
@@ -1336,6 +1335,7 @@ export default defineMessages({
       'tag {Tag names} ' +
       'tags {Tags} ' +
       'tag_key {Tag keys} ' +
+      'vcpu {vCPU} ' +
       'other {}}',
     description: 'Details table resource names',
     id: 'detailsResourceNames',
@@ -3805,6 +3805,11 @@ export default defineMessages({
     defaultMessage: 'Various',
     description: 'Various',
     id: 'various',
+  },
+  vcpuTitle: {
+    defaultMessage: 'vCPU',
+    description: 'vCPU',
+    id: 'vcpuTitle',
   },
   volumeTitle: {
     defaultMessage: 'Volume',

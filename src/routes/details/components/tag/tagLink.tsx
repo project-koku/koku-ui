@@ -86,9 +86,11 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
     let count = 0;
     if (tagData || tagReport) {
       const tags = tagData || tagReport.data;
-      for (const item of tags) {
-        if (item.values) {
-          count += item.values.length;
+      if (tags instanceof Array) {
+        for (const item of tags) {
+          if (item.values) {
+            count += item.values.length;
+          }
         }
       }
     }

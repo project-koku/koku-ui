@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   EmptyStateVariant,
 } from '@patternfly/react-core';
-import { MinusIcon } from '@patternfly/react-icons/dist/esm/icons/minus-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -25,7 +25,7 @@ class NoInstancesStateBase extends React.Component<NoInstancesStateProps, any> {
       <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
         <EmptyStateHeader
           titleText={intl.formatMessage(messages.noInstancesTitle)}
-          icon={<EmptyStateIcon icon={MinusIcon} />}
+          icon={<EmptyStateIcon icon={PlusCircleIcon} />}
           headingLevel="h1"
         />
         <EmptyStateBody>{intl.formatMessage(messages.noInstancesDesc)}</EmptyStateBody>

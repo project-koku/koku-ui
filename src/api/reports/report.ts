@@ -163,6 +163,7 @@ export const enum ReportType {
   cost = 'cost',
   cpu = 'cpu',
   database = 'database',
+  ec2Compute = 'ec2Compute',
   instanceType = 'instance_type',
   memory = 'memory',
   network = 'network',
