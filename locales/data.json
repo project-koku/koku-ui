@@ -2908,14 +2908,6 @@
               }
             ]
           },
-          "cpu": {
-            "value": [
-              {
-                "type": 0,
-                "value": "CPU"
-              }
-            ]
-          },
           "gcp_project": {
             "value": [
               {
@@ -3100,6 +3092,14 @@
               {
                 "type": 0,
                 "value": "Tags"
+              }
+            ]
+          },
+          "vcpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "vCPU"
               }
             ]
           }
@@ -13374,6 +13374,12 @@
       {
         "type": 0,
         "value": "Various"
+      }
+    ],
+    "vcpuTitle": [
+      {
+        "type": 0,
+        "value": "vCPU"
       }
     ],
     "volumeTitle": [

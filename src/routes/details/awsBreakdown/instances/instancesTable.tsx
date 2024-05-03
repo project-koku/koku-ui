@@ -13,7 +13,7 @@ import { Actions } from 'routes/details/components/actions';
 import { TagLink } from 'routes/details/components/tag';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { formatCurrency, unitsLookupKey } from 'utils/format';
+import { formatCurrency } from 'utils/format';
 
 interface InstancesTableOwnProps {
   filterBy?: any;
@@ -33,8 +33,8 @@ interface InstancesTableOwnProps {
 type InstancesTableProps = InstancesTableOwnProps;
 
 export const InstanceTableColumnIds = {
-  cpu: 'cpu',
   memory: 'memory',
+  vcpu: 'vcpu',
 };
 
 const InstancesTable: React.FC<InstancesTableProps> = ({
@@ -96,8 +96,8 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        id: InstanceTableColumnIds.cpu,
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'cpu' }),
+        id: InstanceTableColumnIds.vcpu,
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'vcpu' }),
         style: styles.managedColumn,
       },
       {
@@ -144,20 +144,16 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
           { value: item.instance_type ? item.instance_type : null },
           { value: item.region ? item.region : null },
           {
-            value: intl.formatMessage(messages.valueUnits, {
-              value: item.vcpu ? item.vcpu.value : '',
-              units: item.vcpu ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.vcpu.units) }) : null,
-            }),
-            id: InstanceTableColumnIds.cpu,
+            value: item.vcpu ? item.vcpu : '',
+            // value: intl.formatMessage(messages.valueUnits, {
+            //   value: item.vcpu ? item.vcpu.value : '',
+            //   units: item.vcpu ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.vcpu.units) }) : null,
+            // }),
+            id: InstanceTableColumnIds.vcpu,
             style: styles.managedColumn,
           },
           {
-            value: intl.formatMessage(messages.valueUnits, {
-              value: item.memory ? item.memory.value : '',
-              units: item.memory
-                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.memory.units) })
-                : null,
-            }),
+            value: item.memory ? item.memory : '', // Not translatable
             id: InstanceTableColumnIds.memory,
             style: styles.managedColumn,
           },
@@ -193,10 +189,9 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
   };
 
   const getTotalCost = (item: ComputedReportItem, index: number) => {
-    // Todo: add cost types to report
-    const cost = (report?.meta?.total?.cost as any)?.value || 0;
-    const value = (item.cost as any)?.value || 0;
-    const units = (item.cost as any)?.units || 'USD';
+    const cost = report?.meta?.total?.cost?.total ? report.meta.total.cost.total.value : 0;
+    const value = item.cost?.total?.value || 0;
+    const units = item.cost?.total?.units || 'USD';
     const percentValue = cost === 0 ? cost.toFixed(2) : ((value / cost) * 100).toFixed(2);
     return (
       <>

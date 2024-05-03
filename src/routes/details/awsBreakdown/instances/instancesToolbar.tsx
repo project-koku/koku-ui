@@ -29,7 +29,6 @@ interface InstancesToolbarOwnProps {
   items?: ComputedReportItem[];
   itemsPerPage?: number;
   itemsTotal?: number;
-  groupBy: string;
   onBulkSelect(action: string);
   onColumnManagementClicked();
   onExportClicked();
@@ -127,7 +126,6 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
 
   public render() {
     const {
-      groupBy,
       isAllSelected,
       isBulkSelectDisabled,
       isDisabled,
@@ -149,7 +147,6 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
     return (
       <DataToolbar
         categoryOptions={categoryOptions}
-        groupBy={groupBy}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
         isBulkSelectDisabled={isBulkSelectDisabled}

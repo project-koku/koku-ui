@@ -20,7 +20,7 @@ import { ColumnManagementModal, initHiddenColumns } from 'routes/details/compone
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getFilterByTagKey, getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getFilterByTagKey } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -28,17 +28,15 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { accountKey, logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, regionKey } from 'utils/props';
 
-import { data } from './data';
+// import { data } from './data';
 import { InstancesTable, InstanceTableColumnIds } from './instancesTable';
 import { InstancesToolbar } from './instancesToolbar';
 
 interface InstancesOwnProps {
-  costType?: string;
   currency?: string;
 }
 
 export interface InstancesStateProps {
-  groupBy: string;
   hasAccountFilter: boolean;
   hasRegionFilter: boolean;
   hasTagFilter: boolean;
@@ -66,8 +64,8 @@ const baseQuery: Query = {
 
 const defaultColumnOptions: ColumnManagementModalOption[] = [
   {
-    label: messages.cpuTitle,
-    value: InstanceTableColumnIds.cpu,
+    label: messages.vcpuTitle,
+    value: InstanceTableColumnIds.vcpu,
     hidden: true,
   },
   {
@@ -77,10 +75,10 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
   },
 ];
 
-const reportType = ReportType.cost as any;
-const reportPathsType = ReportPathsType.aws as any;
+const reportType = ReportType.ec2Compute;
+const reportPathsType = ReportPathsType.aws;
 
-const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
+const Instances: React.FC<InstancesProps> = ({ currency }) => {
   const intl = useIntl();
 
   const [hiddenColumns, setHiddenColumns] = useState(initHiddenColumns(defaultColumnOptions));
@@ -90,20 +88,11 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const [query, setQuery] = useState({ ...baseQuery });
-  const {
-    groupBy,
-    hasAccountFilter,
-    hasRegionFilter,
-    hasTagFilter,
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
-  } = useMapToProps({
-    costType,
-    currency,
-    query,
-  });
+  const { hasAccountFilter, hasRegionFilter, hasTagFilter, report, reportError, reportFetchStatus, reportQueryString } =
+    useMapToProps({
+      currency,
+      query,
+    });
 
   const getColumnManagementModal = () => {
     const options = cloneDeep(defaultColumnOptions);
@@ -137,11 +126,12 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
     selectedItems.map(item => {
       items.push(item);
     });
+    // Todo: May need to adjust "instance" for group_by?
     return (
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy={groupBy}
+        groupBy="instance"
         isOpen={isExportModalOpen}
         items={items}
         onClose={handleOnExportModalClose}
@@ -204,7 +194,6 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 
     return (
       <InstancesToolbar
-        groupBy={groupBy}
         hideAccount={hasAccountFilter}
         hideRegion={hasRegionFilter}
         hideTags={hasTagFilter}
@@ -334,17 +323,12 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 };
 
 // eslint-disable-next-line no-empty-pattern
-const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
+const useMapToProps = ({ currency, query }): InstancesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState('details');
 
-  const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
-  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
-
   const reportQuery = {
-    cost_type: costType,
     currency,
     filter: {
       ...(query.filter || baseQuery.filter),
@@ -356,8 +340,6 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupBy !== orgUnitIdKey && groupByValue !== '*' && { [groupBy]: undefined }),
       // Workaround for https://issues.redhat.com/browse/COST-1189
       ...(queryState?.filter_by &&
         queryState.filter_by[orgUnitIdKey] && {
@@ -370,13 +352,10 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
       ...(queryState?.exclude && queryState.exclude),
       ...(query.exclude && query.exclude),
     },
-    group_by: {
-      ...(groupBy && { [groupBy]: groupByValue }),
-    },
     order_by: query.order_by || baseQuery.order_by,
   };
   const reportQueryString = getQuery(reportQuery);
-  let report = useSelector((state: RootState) =>
+  const report = useSelector((state: RootState) =>
     reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString)
   );
   const reportFetchStatus = useSelector((state: RootState) =>
@@ -393,10 +372,9 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
   }, [currency, query]);
 
   // Todo: Update to use new API response
-  report = data;
+  // report = data;
 
   return {
-    groupBy,
     hasAccountFilter: queryState?.filter_by?.[accountKey] !== undefined,
     hasRegionFilter: queryState?.filter_by?.[regionKey] !== undefined,
     hasTagFilter: getFilterByTagKey(queryState) !== undefined,
