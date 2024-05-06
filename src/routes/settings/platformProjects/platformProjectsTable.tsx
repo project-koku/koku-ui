@@ -1,4 +1,5 @@
 import 'routes/components/dataTable/dataTable.scss';
+import './platformProjects.scss';
 
 import { Label } from '@patternfly/react-core';
 import type { Settings, SettingsData } from 'api/settings';
@@ -7,8 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Cluster } from 'routes/components/cluster';
 import { DataTable } from 'routes/components/dataTable';
-
-import { styles } from './platformProjects.styles';
 
 interface PlatformProjectsTableOwnProps {
   canWrite?: boolean;
@@ -75,17 +74,17 @@ const PlatformProjectsTable: React.FC<PlatformProjectsTableProps> = ({
           {}, // Empty cell for row selection
           {
             value: item.project ? item.project : '',
-            style: styles.nameColumn,
           },
           {
+            className: 'defaultColumn',
             value: item.default ? <Label color="green">{intl.formatMessage(messages.default)}</Label> : null,
           },
           {
+            className: 'groupColumn',
             value:
               item.group === 'Platform' ? <Label color="green">{intl.formatMessage(messages.platform)}</Label> : null,
-            style: styles.defaultColumn,
           },
-          { value: <Cluster clusters={item.clusters} groupBy="clusters" />, style: styles.groupColumn },
+          { value: <Cluster clusters={item.clusters} groupBy="clusters" /> },
         ],
         item,
         selected: selectedItems && selectedItems.find(val => val.project === item.project) !== undefined,
