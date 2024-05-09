@@ -128,7 +128,6 @@ const mapStateToProps = createMapStateToProps<HistoricalDataVolumeChartOwnProps,
     // instance-types and storage APIs must filter org units
     const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
 
-    // Todo: group_by storage_class?
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
