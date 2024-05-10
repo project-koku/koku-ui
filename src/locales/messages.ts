@@ -165,22 +165,23 @@ export default defineMessages({
   breakdownSummaryTitle: {
     defaultMessage:
       '{value, select, ' +
-      'account {Cost by accounts} ' +
-      'aws_category {Cost by category} ' +
-      'cluster {Cost by clusters} ' +
-      'gcp_project {Cost by GCP projects} ' +
-      'node {Cost by Node} ' +
-      'org_unit_id {Cost by organizational units} ' +
-      'payer_tenant_id {Cost by accounts} ' +
-      'platform {Cost by default projects} ' +
-      'product_service {Cost by services} ' +
-      'project {Cost by projects} ' +
-      'region {Cost by regions} ' +
-      'resource_location {Cost by regions} ' +
-      'service {Cost by services} ' +
-      'service_name {Cost by services} ' +
-      'subscription_guid {Cost by accounts} ' +
-      'tag {Cost by tags} ' +
+      'account {Cost breakdown by accounts} ' +
+      'aws_category {Cost breakdown by category} ' +
+      'cluster {Cost breakdown by clusters} ' +
+      'gcp_project {Cost breakdown by GCP projects} ' +
+      'node {Cost breakdown by Node} ' +
+      'org_unit_id {Cost breakdown by organizational units} ' +
+      'payer_tenant_id {Cost breakdown by accounts} ' +
+      'platform {Cost breakdown by default projects} ' +
+      'product_service {Cost breakdown by services} ' +
+      'project {Cost breakdown by projects} ' +
+      'region {Cost breakdown by regions} ' +
+      'resource_location {Cost breakdown by regions} ' +
+      'service {Cost breakdown by services} ' +
+      'service_name {Cost breakdown by services} ' +
+      'storageclass {Storage cost breakdown by type} ' +
+      'subscription_guid {Cost breakdown by accounts} ' +
+      'tag {Cost breakdown by tags} ' +
       'other {}}',
     description: 'Cost by {value}',
     id: 'breakdownSummaryTitle',
@@ -1413,6 +1414,7 @@ export default defineMessages({
       'resource_location {View all regions} ' +
       'service {View all Services} ' +
       'service_name {View all services} ' +
+      'storageclass {View all storage types} ' +
       'subscription_guid {View all accounts} ' +
       'tag {View all tags} ' +
       'other {}}',

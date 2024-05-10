@@ -3,6 +3,7 @@ import type { CostOverviewStateProps } from 'routes/details/components/costOverv
 import { CostOverviewBase } from 'routes/details/components/costOverview';
 import { ocpCostOverviewSelectors } from 'store/breakdown/costOverview/ocpCostOverview';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 
 interface OcpCostOverviewOwnProps {
   title?: string;
@@ -11,6 +12,7 @@ interface OcpCostOverviewOwnProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpCostOverviewOwnProps, CostOverviewStateProps>((state, { title }) => {
   return {
+    isOcpProjectStorageToggleEnabled: FeatureToggleSelectors.selectIsOcpProjectStorageToggleEnabled(state),
     selectWidgets: ocpCostOverviewSelectors.selectWidgets(state),
     widgets: ocpCostOverviewSelectors.selectCurrentWidgets(state),
     title,

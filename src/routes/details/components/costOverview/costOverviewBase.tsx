@@ -15,6 +15,7 @@ import {
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
+import { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -42,6 +43,7 @@ interface CostOverviewOwnProps {
 }
 
 export interface CostOverviewStateProps {
+  isOcpProjectStorageToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   title?: string;
   widgets: number[];
@@ -234,8 +236,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     );
   };
 
-  // Returns summary card widget
-  private getSummaryCard = (widget: CostOverviewWidget) => {
+  // Returns report summary card
+  private getReportSummaryCard = (widget: CostOverviewWidget) => {
     const { costDistribution, costType, currency, groupBy, isPlatformCosts, query } = this.props;
 
     const groupByCostCategory = getGroupByCostCategory(query);
@@ -260,10 +262,11 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
       }
     }
     if (showWidget) {
+      const isVolumeWidget = widget.reportType === ReportType.volume;
       return (
         <SummaryCard
-          costDistribution={costDistribution}
-          costType={costType}
+          costDistribution={!isVolumeWidget ? costDistribution : undefined}
+          costType={!isVolumeWidget ? costType : undefined}
           currency={currency}
           isPlatformCosts={isPlatformCosts}
           reportGroupBy={widget.reportSummary.reportGroupBy}
@@ -313,32 +316,38 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     const { selectWidgets, widgets } = this.props;
 
     const visibleWidgets = [];
+    let chartWidgetCount = 0;
+
     widgets.map(widgetId => {
       const widget = selectWidgets[widgetId];
       const renderedWidget = this.renderWidget(widget);
-      if (renderedWidget !== null) {
+      if (renderedWidget !== null && renderedWidget !== PLACEHOLDER) {
         visibleWidgets.push(renderedWidget);
+        if (
+          widget.type === CostOverviewWidgetType.cpuUsage ||
+          widget.type === CostOverviewWidgetType.memoryUsage ||
+          widget.type === CostOverviewWidgetType.pvc ||
+          widget.type === CostOverviewWidgetType.volumeUsage
+        ) {
+          chartWidgetCount++;
+        }
       }
     });
 
+    // Ensure all charts appear in the right column
     const rows = Math.floor(visibleWidgets.length / 2) + (visibleWidgets.length % 2);
-    const leftColumnWidgets = [];
-    const rightColumnWidgets = [];
-    for (let i = 0; i < rows; i++) {
-      if (visibleWidgets[i] !== PLACEHOLDER) {
-        leftColumnWidgets.push(visibleWidgets[i]);
-      }
-      if (i + rows < visibleWidgets.length) {
-        if (visibleWidgets[i + rows] !== PLACEHOLDER) {
-          rightColumnWidgets.push(visibleWidgets[i + rows]);
-        }
-      }
-    }
+    const midIndex = chartWidgetCount > 0 ? visibleWidgets.length - chartWidgetCount : rows;
+
+    const leftColumnWidgets = visibleWidgets.slice(0, midIndex);
+    const rightColumnWidgets = visibleWidgets.slice(midIndex, visibleWidgets.length);
+
     return { leftColumnWidgets, rightColumnWidgets };
   };
 
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
+    const { isOcpProjectStorageToggleEnabled } = this.props;
+
     switch (widget.type) {
       case CostOverviewWidgetType.cluster:
         return this.getClusterCard(widget);
@@ -353,7 +362,10 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
       case CostOverviewWidgetType.pvc:
         return this.getPvcChart(widget);
       case CostOverviewWidgetType.reportSummary:
-        return this.getSummaryCard(widget);
+        if (widget.reportType === ReportType.volume && !isOcpProjectStorageToggleEnabled) {
+          return null;
+        }
+        return this.getReportSummaryCard(widget);
       case CostOverviewWidgetType.volumeUsage:
         return this.getVolumeUsageChart(widget);
       default:

@@ -503,7 +503,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by accounts"
+                "value": "Cost breakdown by accounts"
               }
             ]
           },
@@ -511,7 +511,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by category"
+                "value": "Cost breakdown by category"
               }
             ]
           },
@@ -519,7 +519,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by clusters"
+                "value": "Cost breakdown by clusters"
               }
             ]
           },
@@ -527,7 +527,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by GCP projects"
+                "value": "Cost breakdown by GCP projects"
               }
             ]
           },
@@ -535,7 +535,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by Node"
+                "value": "Cost breakdown by Node"
               }
             ]
           },
@@ -543,7 +543,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by organizational units"
+                "value": "Cost breakdown by organizational units"
               }
             ]
           },
@@ -554,7 +554,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by accounts"
+                "value": "Cost breakdown by accounts"
               }
             ]
           },
@@ -562,7 +562,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by default projects"
+                "value": "Cost breakdown by default projects"
               }
             ]
           },
@@ -570,7 +570,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by services"
+                "value": "Cost breakdown by services"
               }
             ]
           },
@@ -578,7 +578,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by projects"
+                "value": "Cost breakdown by projects"
               }
             ]
           },
@@ -586,7 +586,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by regions"
+                "value": "Cost breakdown by regions"
               }
             ]
           },
@@ -594,7 +594,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by regions"
+                "value": "Cost breakdown by regions"
               }
             ]
           },
@@ -602,7 +602,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by services"
+                "value": "Cost breakdown by services"
               }
             ]
           },
@@ -610,7 +610,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by services"
+                "value": "Cost breakdown by services"
+              }
+            ]
+          },
+          "storageclass": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Storage cost breakdown by type"
               }
             ]
           },
@@ -618,7 +626,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by accounts"
+                "value": "Cost breakdown by accounts"
               }
             ]
           },
@@ -626,7 +634,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost by tags"
+                "value": "Cost breakdown by tags"
               }
             ]
           }
@@ -3508,6 +3516,14 @@
               {
                 "type": 0,
                 "value": "View all services"
+              }
+            ]
+          },
+          "storageclass": {
+            "value": [
+              {
+                "type": 0,
+                "value": "View all storage types"
               }
             ]
           },

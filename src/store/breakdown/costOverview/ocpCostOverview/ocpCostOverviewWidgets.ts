@@ -80,6 +80,18 @@ export const pvcWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.pvc,
 };
 
+export const volumeSummaryWidget: OcpCostOverviewWidget = {
+  id: getId(),
+  reportSummary: {
+    reportGroupBy: 'storageclass',
+    showWidgetOnGroupBy: ['cluster', 'node', 'project'],
+    usePlaceholder: true,
+  },
+  reportType: ReportType.volume,
+  reportPathsType: ReportPathsType.ocp,
+  type: CostOverviewWidgetType.reportSummary,
+};
+
 export const volumeUsageWidget: OcpCostOverviewWidget = {
   chartName: 'ocpVolumeWidget',
   id: getId(),
