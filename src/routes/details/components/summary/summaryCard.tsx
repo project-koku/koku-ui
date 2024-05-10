@@ -198,6 +198,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
     const title = intl.formatMessage(messages.breakdownSummaryTitle, {
       value: isPlatformCosts ? platformCategoryKey.toLowerCase() : reportGroupBy,
     });
+    const viewAll = this.getViewAll();
     return (
       <Card style={styles.card}>
         <CardTitle>
@@ -217,7 +218,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
             this.getSummary()
           )}
         </CardBody>
-        <CardFooter>{this.getViewAll()}</CardFooter>
+        {viewAll && <CardFooter>{viewAll}</CardFooter>}
       </Card>
     );
   }

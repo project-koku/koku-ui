@@ -81,7 +81,6 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     } else {
       return PLACEHOLDER;
     }
-    return null;
   };
 
   // Returns cost breakdown chart
@@ -219,21 +218,21 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
         }
       }
     }
-    if (!showWidget) {
-      return null;
+    if (showWidget) {
+      return (
+        <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
+          <CardTitle>
+            <Title headingLevel="h2" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.pvcTitle)}
+            </Title>
+          </CardTitle>
+          <CardBody>
+            <PvcChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          </CardBody>
+        </Card>
+      );
     }
-    return (
-      <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
-        <CardTitle>
-          <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.pvcTitle)}
-          </Title>
-        </CardTitle>
-        <CardBody>
-          <PvcChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
-        </CardBody>
-      </Card>
-    );
+    return null;
   };
 
   // Returns report summary card
@@ -294,21 +293,25 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
         }
       }
     }
-    if (!showWidget) {
-      return null;
+    if (showWidget) {
+      return (
+        <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
+          <CardTitle>
+            <Title headingLevel="h2" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.volumeTitle)}
+            </Title>
+          </CardTitle>
+          <CardBody>
+            <UsageChart
+              name={widget.chartName}
+              reportPathsType={widget.reportPathsType}
+              reportType={widget.reportType}
+            />
+          </CardBody>
+        </Card>
+      );
     }
-    return (
-      <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
-        <CardTitle>
-          <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.volumeTitle)}
-          </Title>
-        </CardTitle>
-        <CardBody>
-          <UsageChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
-        </CardBody>
-      </Card>
-    );
+    return null;
   };
 
   // Helper to fill grid columns instead of rows, based on the order defined by the reducer
