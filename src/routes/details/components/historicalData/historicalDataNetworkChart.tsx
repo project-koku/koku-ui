@@ -14,14 +14,12 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUnits, unitsLookupKey } from 'utils/format';
 import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { currentData, previousData } from './data';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataNetworkChartOwnProps extends RouterComponentProps, WrappedComponentProps {
@@ -188,7 +186,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps
     };
 
     const currentQueryString = getQuery(currentQuery);
-    let currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
+    const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
     const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
       reportPathsType,
@@ -212,20 +210,13 @@ const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps
     };
 
     const previousQueryString = getQuery(previousQuery);
-    let previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
+    const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
     const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
       state,
       reportPathsType,
       reportType,
       previousQueryString
     );
-
-    // Todo: Update to use new API response
-    const isOcpCloudNetworkingToggleEnabled = FeatureToggleSelectors.selectIsOcpCloudNetworkingToggleEnabled(state);
-    if (isOcpCloudNetworkingToggleEnabled) {
-      currentReport = currentData;
-      previousReport = previousData;
-    }
 
     return {
       currentQuery,

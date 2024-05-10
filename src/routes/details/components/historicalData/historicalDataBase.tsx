@@ -68,10 +68,9 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns network chart
   private getNetworkChart = (widget: HistoricalDataWidget) => {
-    const { groupBy, intl, isOcpCloudNetworkingToggleEnabled } = this.props;
+    const { groupBy, intl } = this.props;
 
     let showWidget = false;
-
     if (widget.network?.showWidgetOnGroupBy) {
       for (const groupById of widget.network.showWidgetOnGroupBy) {
         if (groupById === groupBy) {
@@ -80,36 +79,33 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
         }
       }
     }
-    if (!showWidget || !isOcpCloudNetworkingToggleEnabled) {
-      return null;
+    if (showWidget) {
+      return (
+        <Card>
+          <CardTitle>
+            <Title headingLevel="h2" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.historicalChartTitle, {
+                value: this.getTitleKey(widget.reportPathsType, widget.reportType),
+              })}
+            </Title>
+          </CardTitle>
+          <CardBody>
+            <HistoricalDataNetworkChart
+              chartName={widget.chartName}
+              reportPathsType={widget.reportPathsType}
+              reportType={widget.reportType}
+            />
+          </CardBody>
+        </Card>
+      );
     }
-    return (
-      <Card>
-        <CardTitle>
-          <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.historicalChartTitle, {
-              value: this.getTitleKey(widget.reportPathsType, widget.reportType),
-            })}
-          </Title>
-        </CardTitle>
-        <CardBody>
-          <HistoricalDataNetworkChart
-            chartName={widget.chartName}
-            reportPathsType={widget.reportPathsType}
-            reportType={widget.reportType}
-          />
-        </CardBody>
-      </Card>
-    );
+    return null;
   };
 
   // Returns volume chart
   private getVolumeChart = (widget: HistoricalDataWidget) => {
-    const { intl, isOcpProjectStorageToggleEnabled } = this.props;
+    const { intl } = this.props;
 
-    if (!isOcpProjectStorageToggleEnabled) {
-      return null;
-    }
     return (
       <Card>
         <CardTitle>
@@ -182,17 +178,19 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widget: HistoricalDataWidget) {
+    const { isOcpCloudNetworkingToggleEnabled, isOcpProjectStorageToggleEnabled } = this.props;
+
     switch (widget.type) {
       case HistoricalDataWidgetType.cost:
         return this.getCostChart(widget);
       case HistoricalDataWidgetType.network:
-        return this.getNetworkChart(widget);
+        return isOcpCloudNetworkingToggleEnabled ? this.getNetworkChart(widget) : null;
       case HistoricalDataWidgetType.trend:
         return this.getTrendChart(widget);
       case HistoricalDataWidgetType.usage:
         return this.getUsageChart(widget);
       case HistoricalDataWidgetType.volume:
-        return this.getVolumeChart(widget);
+        return isOcpProjectStorageToggleEnabled ? this.getVolumeChart(widget) : null;
       default:
         return null;
     }
