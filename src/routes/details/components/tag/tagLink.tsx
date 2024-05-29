@@ -56,15 +56,15 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   }
 
   public componentDidMount() {
-    const { fetchTag, tagData, tagPathsType, tagQueryString } = this.props;
-    if (!tagData) {
+    const { fetchTag, tagPathsType, tagQueryString } = this.props;
+    if (tagPathsType) {
       fetchTag(tagPathsType, tagType, tagQueryString);
     }
   }
 
   public componentDidUpdate(prevProps: TagLinkProps) {
-    const { fetchTag, tagData, tagPathsType, tagQueryString } = this.props;
-    if (prevProps.tagQueryString !== tagQueryString && !tagData) {
+    const { fetchTag, tagPathsType, tagQueryString } = this.props;
+    if (prevProps.tagQueryString !== tagQueryString && tagPathsType) {
       fetchTag(tagPathsType, tagType, tagQueryString);
     }
   }
