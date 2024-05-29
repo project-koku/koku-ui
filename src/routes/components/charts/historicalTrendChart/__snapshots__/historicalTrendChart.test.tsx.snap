@@ -424,13 +424,13 @@ exports[`reports are formatted to datums 1`] = `
             </defs>
             <g>
               <path
-                d="M8,25L8,25Z"
+                d="M8,16.5L8,25Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
               />
               <path
-                d="M8,25Z"
+                d="M8,16.5Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: #8bc1f7; fill-opacity: 0.3; stroke-width: 2;"
@@ -456,13 +456,13 @@ exports[`reports are formatted to datums 1`] = `
             </defs>
             <g>
               <path
-                d="M8,25L8,25Z"
+                d="M8,16.5L8,25Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
               />
               <path
-                d="M8,25Z"
+                d="M8,16.5Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: #4cb140; fill-opacity: 0.3; stroke-width: 2;"
@@ -567,7 +567,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleTrendChart-ChartAxis-3-ChartLabel-0"
                 x="-7"
-                y="20.75"
+                y="25"
               >
                 <tspan
                   dx="0"
@@ -576,7 +576,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000005
+                  1.0
                 </tspan>
               </text>
             </g>
@@ -588,7 +588,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleTrendChart-ChartAxis-3-ChartLabel-1"
                 x="-7"
-                y="16.5"
+                y="20.75"
               >
                 <tspan
                   dx="0"
@@ -597,7 +597,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000010
+                  1.5
                 </tspan>
               </text>
             </g>
@@ -609,7 +609,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleTrendChart-ChartAxis-3-ChartLabel-2"
                 x="-7"
-                y="12.25"
+                y="16.5"
               >
                 <tspan
                   dx="0"
@@ -618,7 +618,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000015
+                  2.0
                 </tspan>
               </text>
             </g>
@@ -630,6 +630,27 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleTrendChart-ChartAxis-3-ChartLabel-3"
                 x="-7"
+                y="12.25"
+              >
+                <tspan
+                  dx="0"
+                  dy="0"
+                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  text-anchor="end"
+                  x="-7"
+                >
+                  2.5
+                </tspan>
+              </text>
+            </g>
+            <g
+              role="presentation"
+            >
+              <text
+                direction="inherit"
+                dx="0"
+                id="exampleTrendChart-ChartAxis-3-ChartLabel-4"
+                x="-7"
                 y="8"
               >
                 <tspan
@@ -639,7 +660,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000020
+                  3.0
                 </tspan>
               </text>
             </g>

@@ -8,26 +8,26 @@ export type FeatureToggleAction = ActionType<typeof setFeatureToggle | typeof re
 
 export type FeatureToggleState = Readonly<{
   hasFeatureToggle: boolean;
-  isClusterInfoToggleEnabled: boolean;
+  isAwsEc2InstancesToggleEnabled;
   isDebugToggleEnabled: boolean;
   isExportsToggleEnabled: boolean;
   isFinsightsToggleEnabled: boolean;
   isIbmToggleEnabled: boolean;
+  isOcpCloudNetworkingToggleEnabled: boolean;
+  isOcpProjectStorageToggleEnabled: boolean;
   isRosToggleEnabled: boolean;
-  isSettingsPlatformToggleEnabled: boolean;
-  isTagMappingToggleEnabled: boolean;
 }>;
 
 export const defaultState: FeatureToggleState = {
   hasFeatureToggle: false,
-  isClusterInfoToggleEnabled: false,
+  isAwsEc2InstancesToggleEnabled: false,
   isDebugToggleEnabled: false,
   isExportsToggleEnabled: false,
   isFinsightsToggleEnabled: false,
   isIbmToggleEnabled: false,
+  isOcpCloudNetworkingToggleEnabled: false,
+  isOcpProjectStorageToggleEnabled: false,
   isRosToggleEnabled: false,
-  isSettingsPlatformToggleEnabled: false,
-  isTagMappingToggleEnabled: false,
 };
 
 export const stateKey = 'FeatureToggle';
@@ -38,14 +38,14 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
       return {
         ...state,
         hasFeatureToggle: true,
-        isClusterInfoToggleEnabled: action.payload.isClusterInfoToggleEnabled,
+        isAwsEc2InstancesToggleEnabled: action.payload.isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled: action.payload.isDebugToggleEnabled,
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
         isFinsightsToggleEnabled: action.payload.isFinsightsToggleEnabled,
         isIbmToggleEnabled: action.payload.isIbmToggleEnabled,
+        isOcpCloudNetworkingToggleEnabled: action.payload.isOcpCloudNetworkingToggleEnabled,
+        isOcpProjectStorageToggleEnabled: action.payload.isOcpProjectStorageToggleEnabled,
         isRosToggleEnabled: action.payload.isRosToggleEnabled,
-        isSettingsPlatformToggleEnabled: action.payload.isSettingsPlatformToggleEnabled,
-        isTagMappingToggleEnabled: action.payload.isTagMappingToggleEnabled,
       };
 
     default:

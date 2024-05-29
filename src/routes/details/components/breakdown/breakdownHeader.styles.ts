@@ -13,10 +13,10 @@ export const styles = {
   },
   costDistribution: {
     marginTop: global_spacer_sm.var,
-    paddingBottom: global_spacer_md.var,
+    paddingBottom: global_spacer_sm.var,
   },
   costLabel: {
-    marginTop: global_spacer_xs.var,
+    marginTop: global_spacer_lg.var,
   },
   costValue: {
     marginTop: 0,
@@ -28,12 +28,24 @@ export const styles = {
   },
   costType: {
     marginTop: global_spacer_sm.var,
-    paddingBottom: global_spacer_md.var,
+    paddingBottom: global_spacer_sm.var,
   },
   description: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
     marginBottom: 0,
+  },
+  filterChip: {
+    marginRight: global_spacer_md.var,
+  },
+  filteredBy: {
+    whiteSpace: 'nowrap',
+  },
+  filteredByContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: global_spacer_sm.var,
+    marginTop: global_spacer_sm.var,
   },
   header: {
     backgroundColor: global_BackgroundColor_100.var,
@@ -56,8 +68,5 @@ export const styles = {
   },
   tag: {
     marginLeft: global_spacer_lg.var,
-  },
-  title: {
-    paddingTop: global_spacer_xs.var,
   },
 } as { [className: string]: React.CSSProperties };

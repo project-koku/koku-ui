@@ -105,22 +105,22 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
     } = this.props;
 
     const key = showUsageLegendLabel
-      ? messages.chartUsageLegendLabel
+      ? messages.chartUsageLabel
       : showSupplementaryLabel
-        ? messages.chartCostSupplementaryLegendLabel
-        : messages.chartCostLegendLabel;
+        ? messages.chartSupplementaryCostLabel
+        : messages.chartCostLabel;
 
     const tooltipKey = showUsageLegendLabel
-      ? messages.chartUsageLegendTooltip
+      ? messages.chartUsageTooltip
       : showSupplementaryLabel
-        ? messages.chartCostSupplementaryLegendTooltip
-        : messages.chartCostLegendTooltip;
+        ? messages.chartSupplementaryCostTooltip
+        : messages.chartCostTooltip;
 
     const noDataKey = showUsageLegendLabel
-      ? messages.chartUsageLegendNoDataLabel
+      ? messages.chartUsageLabelNoData
       : showSupplementaryLabel
-        ? messages.chartCostSupplementaryLegendNoDataLabel
-        : messages.chartCostLegendNoDataLabel;
+        ? messages.chartSupplementaryCostLabelNoData
+        : messages.chartCostLabelNoData;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -170,17 +170,17 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         legendItem: {
           name: getCostRangeString(
             forecastData,
-            messages.chartCostForecastLegendLabel,
+            messages.chartCostForecastLabel,
             false,
             false,
             0,
-            messages.chartCostForecastLegendNoDataLabel
+            messages.chartCostForecastLabelNoData
           ),
           symbol: {
             fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeTooltip(forecastData, messages.chartCostForecastLegendTooltip, false, false),
+          tooltip: getCostRangeTooltip(forecastData, messages.chartCostForecastTooltip, false, false),
         },
         style: {
           data: {
@@ -195,17 +195,17 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
         legendItem: {
           name: getCostRangeString(
             forecastConeData,
-            messages.chartCostForecastConeLegendLabel,
+            messages.chartCostForecastConeLabel,
             false,
             false,
             0,
-            messages.chartCostForecastConeLegendNoDataLabel
+            messages.chartCostForecastConeLabelNoData
           ),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleLeft',
           },
-          tooltip: getCostRangeTooltip(forecastConeData, messages.chartCostForecastConeLegendTooltip, false, false),
+          tooltip: getCostRangeTooltip(forecastConeData, messages.chartCostForecastConeTooltip, false, false),
         },
         style: {
           data: {

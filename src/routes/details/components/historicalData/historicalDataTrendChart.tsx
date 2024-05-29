@@ -100,13 +100,15 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
       currentReport,
       isCostChart ? DatumType.cumulative : DatumType.rolling,
       'date',
-      isCostChart ? 'cost' : 'usage'
+      isCostChart ? 'cost' : 'usage',
+      'total'
     );
     const previousData = transformReport(
       previousReport,
       isCostChart ? DatumType.cumulative : DatumType.rolling,
       'date',
-      isCostChart ? 'cost' : 'usage'
+      isCostChart ? 'cost' : 'usage',
+      'total'
     );
 
     const costUnits = currentReport?.meta?.total?.cost?.total ? currentReport.meta.total.cost.total.units : 'USD';

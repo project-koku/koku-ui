@@ -93,6 +93,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
 
   return isOpen ? (
     <Wizard
+      className="costManagement"
       isOpen
       title={intl.formatMessage(messages.createCostModelTitle)}
       description={intl.formatMessage(messages.createCostModelDesc)}
@@ -108,7 +109,9 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
           currency,
           description,
           distribution,
+          distributeNetwork,
           distributePlatformUnallocated,
+          distributeStorage,
           distributeWorkerUnallocated,
           isDiscount,
           markup,
@@ -124,7 +127,9 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
           description,
           distribution_info: {
             distribution_type: distribution,
+            network_cost: distributeNetwork,
             platform_cost: distributePlatformUnallocated,
+            storage_cost: distributeStorage,
             worker_cost: distributeWorkerUnallocated,
           },
           rates: tiers,
@@ -165,7 +170,9 @@ interface CostModelWizardState {
   description?: string;
   dirtyName?: boolean;
   distribution?: string;
+  distributeNetwork?: boolean;
   distributePlatformUnallocated?: boolean;
+  distributeStorage?: boolean;
   distributeWorkerUnallocated?: boolean;
   error?: any;
   filterName?: string;
@@ -206,7 +213,9 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
     dirtyName: false,
     description: '',
     distribution: 'cpu',
+    distributeNetwork: true,
     distributePlatformUnallocated: true,
+    distributeStorage: true,
     distributeWorkerUnallocated: true,
     error: null,
     filterName: '',
@@ -378,7 +387,9 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             dataFetched: this.state.dataFetched,
             dirtyName: this.state.dirtyName,
             distribution: this.state.distribution,
+            distributeNetwork: this.state.distributeNetwork,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
+            distributeStorage: this.state.distributeStorage,
             distributeWorkerUnallocated: this.state.distributeWorkerUnallocated,
             error: this.state.error,
             filterName: this.state.filterName,
@@ -417,9 +428,17 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
               const { value } = event.currentTarget;
               this.setState({ distribution: value });
             },
+            handleDistributeNetworkChange: event => {
+              const { value } = event.currentTarget;
+              this.setState({ distributeNetwork: value === 'true' });
+            },
             handleDistributePlatformUnallocatedChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distributePlatformUnallocated: value === 'true' });
+            },
+            handleDistributeStorageChange: event => {
+              const { value } = event.currentTarget;
+              this.setState({ distributeStorage: value === 'true' });
             },
             handleDistributeWorkerUnallocatedChange: event => {
               const { value } = event.currentTarget;
@@ -530,7 +549,9 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             currency: this.state.currencyUnits,
             description: this.state.description,
             distribution: this.state.distribution,
+            distributeNetwork: this.state.distributeNetwork,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
+            distributeStorage: this.state.distributeStorage,
             distributeWorkerUnallocated: this.state.distributeWorkerUnallocated,
             markup: `${this.state.isDiscount ? '-' : ''}${this.state.markup}`,
             tiers: this.state.tiers,
