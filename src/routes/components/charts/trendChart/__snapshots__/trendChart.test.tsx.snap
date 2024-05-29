@@ -53,13 +53,13 @@ exports[`reports are formatted to datums 1`] = `
             </defs>
             <g>
               <path
-                d="M0.5333333333333332,50L0.5333333333333332,50Z"
+                d="M0.5333333333333332,29L0.5333333333333332,50Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
               />
               <path
-                d="M0.5333333333333332,50Z"
+                d="M0.5333333333333332,29Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: #d2d2d2; fill-opacity: 0.3; stroke-width: 2;"
@@ -85,13 +85,13 @@ exports[`reports are formatted to datums 1`] = `
             </defs>
             <g>
               <path
-                d="M0.5333333333333332,50L0.5333333333333332,50Z"
+                d="M0.5333333333333332,29L0.5333333333333332,50Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
               />
               <path
-                d="M0.5333333333333332,50Z"
+                d="M0.5333333333333332,29Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill: none; stroke: #38812f; fill-opacity: 0.3; stroke-width: 2;"
@@ -205,7 +205,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000005
+                  0.5
                 </tspan>
               </text>
             </g>
@@ -226,7 +226,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000010
+                  1.0
                 </tspan>
               </text>
             </g>
@@ -247,7 +247,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000015
+                  1.5
                 </tspan>
               </text>
             </g>
@@ -268,7 +268,7 @@ exports[`reports are formatted to datums 1`] = `
                   text-anchor="end"
                   x="-7"
                 >
-                  0.00000000020
+                  2.0
                 </tspan>
               </text>
             </g>

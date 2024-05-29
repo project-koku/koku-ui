@@ -1,4 +1,3 @@
-import type { ProviderType } from 'api/providers';
 import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
@@ -16,12 +15,12 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface DetailsActionsOwnProps extends WrappedComponentProps, RouterComponentProps {
-  groupBy: string;
+  groupBy?: string;
   isDisabled?: boolean;
   item: ComputedReportItem;
-  providerType?: ProviderType;
   reportPathsType: ReportPathsType;
   reportQueryString: string;
+  showAggregateType?: boolean;
   showPriceListOption?: boolean;
 }
 
@@ -52,7 +51,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
   }
 
   private getExportModal = () => {
-    const { groupBy, item, reportPathsType, reportQueryString } = this.props;
+    const { groupBy, item, reportPathsType, reportQueryString, showAggregateType } = this.props;
     const { isExportModalOpen } = this.state;
 
     return (
@@ -64,6 +63,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
         onClose={this.handleExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        showAggregateType={showAggregateType}
       />
     );
   };
@@ -98,7 +98,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
 
     if (showPriceListOption) {
       items.unshift({
-        isDisabled: isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0,
+        isDisabled: isDisabled || groupBy?.includes(tagPrefix) || source_uuid.length === 0,
         onClick: () => redirectToCostModel(source_uuid[0], router),
         toString: () => intl.formatMessage(messages.detailsActionsPriceList),
       });

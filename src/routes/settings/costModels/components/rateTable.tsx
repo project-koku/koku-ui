@@ -1,3 +1,4 @@
+import { Tooltip } from '@patternfly/react-core';
 import type { IActions, ThProps } from '@patternfly/react-table';
 import {
   ActionsColumn,
@@ -149,16 +150,18 @@ const RateTableBase: React.FC<RateTableProps> = ({
               ))}
               {!!actions.length && (
                 <Td key={row.cells.length} isActionCell>
-                  <ActionsColumn
-                    items={actions.map(a => {
-                      return {
-                        ...a,
-                        onClick: () => {
-                          a.onClick(null, rowIndex, row, null);
-                        },
-                      };
-                    })}
-                  />
+                  <Tooltip content={intl.formatMessage(messages.moreOptions)}>
+                    <ActionsColumn
+                      items={actions.map(a => {
+                        return {
+                          ...a,
+                          onClick: () => {
+                            a.onClick(null, rowIndex, row, null);
+                          },
+                        };
+                      })}
+                    />
+                  </Tooltip>
                 </Td>
               )}
             </Tr>

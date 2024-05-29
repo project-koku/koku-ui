@@ -23,7 +23,6 @@ import {
 } from 'routes/utils/queryNavigate';
 import { FetchStatus } from 'store/common';
 import type { reportActions } from 'store/reports';
-import type { uiActions } from 'store/ui';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -34,6 +33,7 @@ import BreakdownHeader from './breakdownHeader';
 const enum BreakdownTab {
   costOverview = 'cost-overview',
   historicalData = 'historical-data',
+  instances = 'instances',
   optimizations = 'optimizations',
 }
 
@@ -43,6 +43,8 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
       return 'cost-overview';
     case BreakdownTab.historicalData:
       return 'historical-data';
+    case BreakdownTab.instances:
+      return 'instances';
     case BreakdownTab.optimizations:
       return 'optimizations';
   }
@@ -59,12 +61,15 @@ export interface BreakdownStateProps {
   costType?: string;
   currency?: string;
   dataDetailsComponent?: React.ReactNode;
+  defaultBreadcrumbPath?: string;
   description?: string;
   detailsURL?: string;
   emptyStateTitle?: string;
   groupBy?: string;
   groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
+  instancesComponent?: React.ReactNode;
+  isAwsEc2InstancesToggleEnabled?: boolean;
   isOptimizationsTab?: boolean;
   isRosToggleEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
@@ -88,7 +93,6 @@ export interface BreakdownStateProps {
 }
 
 interface BreakdownDispatchProps {
-  closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -127,7 +131,14 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   }
 
   private getAvailableTabs = () => {
-    const { costOverviewComponent, historicalDataComponent, isRosToggleEnabled, optimizationsComponent } = this.props;
+    const {
+      costOverviewComponent,
+      historicalDataComponent,
+      instancesComponent,
+      isAwsEc2InstancesToggleEnabled,
+      isRosToggleEnabled,
+      optimizationsComponent,
+    } = this.props;
 
     const availableTabs = [];
     if (costOverviewComponent) {
@@ -140,6 +151,12 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: BreakdownTab.historicalData,
+      });
+    }
+    if (instancesComponent && isAwsEc2InstancesToggleEnabled) {
+      availableTabs.push({
+        contentRef: React.createRef(),
+        tab: BreakdownTab.instances,
       });
     }
     if (optimizationsComponent && isRosToggleEnabled) {
@@ -199,7 +216,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   };
 
   private getTabItem = (tab: BreakdownTab, index: number) => {
-    const { costOverviewComponent, historicalDataComponent, optimizationsComponent } = this.props;
+    const { costOverviewComponent, historicalDataComponent, instancesComponent, optimizationsComponent } = this.props;
     const { activeTabKey } = this.state;
     const emptyTab = <></>; // Lazily load tabs
 
@@ -211,6 +228,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       return costOverviewComponent;
     } else if (currentTab === BreakdownTab.historicalData) {
       return historicalDataComponent;
+    } else if (currentTab === BreakdownTab.instances) {
+      return instancesComponent;
     } else if (currentTab === BreakdownTab.optimizations) {
       return optimizationsComponent;
     } else {
@@ -235,6 +254,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       return intl.formatMessage(messages.breakdownCostOverviewTitle);
     } else if (tab === BreakdownTab.historicalData) {
       return intl.formatMessage(messages.breakdownHistoricalDataTitle);
+    } else if (tab === BreakdownTab.instances) {
+      return intl.formatMessage(messages.instances);
     } else if (tab === BreakdownTab.optimizations) {
       return intl.formatMessage(messages.optimizations);
     }
@@ -243,20 +264,12 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private handleTabClick = (event, tabIndex) => {
-    const { closeOptimizationsDrawer } = this.props;
     const { activeTabKey } = this.state;
 
     if (activeTabKey !== tabIndex) {
-      this.setState(
-        {
-          activeTabKey: tabIndex,
-        },
-        () => {
-          if (closeOptimizationsDrawer) {
-            closeOptimizationsDrawer();
-          }
-        }
-      );
+      this.setState({
+        activeTabKey: tabIndex,
+      });
     }
   };
 
@@ -272,6 +285,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       costType,
       currency,
       dataDetailsComponent,
+      defaultBreadcrumbPath,
       description,
       detailsURL,
       emptyStateTitle,
@@ -316,7 +330,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           breadcrumb={
             router.location.state && router.location.state.details
               ? router.location.state.details.breadcrumbPath
-              : undefined
+              : defaultBreadcrumbPath
           }
           clusterInfoComponent={clusterInfoComponent}
           dataDetailsComponent={dataDetailsComponent}

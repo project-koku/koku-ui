@@ -1,7 +1,7 @@
 import { TagIcon } from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
-import type { Tag, TagPathsType } from 'api/tags/tag';
+import type { Tag, TagData, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -21,6 +21,7 @@ import { styles } from './tag.styles';
 
 interface TagLinkOwnProps extends RouterComponentProps, WrappedComponentProps {
   id?: string;
+  tagData?: TagData[];
   tagPathsType: TagPathsType;
 }
 
@@ -56,12 +57,14 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
 
   public componentDidMount() {
     const { fetchTag, tagPathsType, tagQueryString } = this.props;
-    fetchTag(tagPathsType, tagType, tagQueryString);
+    if (tagPathsType) {
+      fetchTag(tagPathsType, tagType, tagQueryString);
+    }
   }
 
   public componentDidUpdate(prevProps: TagLinkProps) {
     const { fetchTag, tagPathsType, tagQueryString } = this.props;
-    if (prevProps.tagQueryString !== tagQueryString) {
+    if (prevProps.tagQueryString !== tagQueryString && tagPathsType) {
       fetchTag(tagPathsType, tagType, tagQueryString);
     }
   }
@@ -77,14 +80,17 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   };
 
   public render() {
-    const { id, tagReport, tagPathsType } = this.props;
+    const { id, tagData, tagReport, tagPathsType } = this.props;
     const { isOpen } = this.state;
 
     let count = 0;
-    if (tagReport) {
-      for (const item of tagReport.data) {
-        if (item.values) {
-          count += item.values.length;
+    if (tagData || tagReport) {
+      const tags = tagData || tagReport.data;
+      if (tags instanceof Array) {
+        for (const item of tags) {
+          if (item.values) {
+            count += item.values.length;
+          }
         }
       }
     }
@@ -97,7 +103,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
         <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
           {count}
         </a>
-        <TagModal isOpen={isOpen} onClose={this.handleClose} tagPathsType={tagPathsType} />
+        <TagModal isOpen={isOpen} onClose={this.handleClose} tagData={tagData} tagPathsType={tagPathsType} />
       </div>
     );
   }

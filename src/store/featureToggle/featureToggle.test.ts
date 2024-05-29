@@ -14,6 +14,18 @@ test('default state', async () => {
   expect(selectors.selectFeatureToggleState(store.getState())).toMatchSnapshot();
 });
 
+test('AWS EC2 instances feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureToggle({ isAwsEc2InstancesToggleEnabled: true }));
+  expect(FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(store.getState())).toBe(true);
+});
+
+test('Debug feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureToggle({ isDebugToggleEnabled: true }));
+  expect(FeatureToggleSelectors.selectIsDebugToggleEnabled(store.getState())).toBe(true);
+});
+
 test('Exports feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isExportsToggleEnabled: true }));
@@ -30,6 +42,18 @@ test('IBM feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isIbmToggleEnabled: true }));
   expect(FeatureToggleSelectors.selectIsIbmToggleEnabled(store.getState())).toBe(true);
+});
+
+test('OCP on cloud networking feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureToggle({ isOcpCloudNetworkingToggleEnabled: true }));
+  expect(FeatureToggleSelectors.selectIsOcpCloudNetworkingToggleEnabled(store.getState())).toBe(true);
+});
+
+test('OCP project storage feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureToggle({ isOcpProjectStorageToggleEnabled: true }));
+  expect(FeatureToggleSelectors.selectIsOcpProjectStorageToggleEnabled(store.getState())).toBe(true);
 });
 
 test('ROS feature is enabled', async () => {

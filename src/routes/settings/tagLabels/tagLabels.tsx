@@ -1,5 +1,4 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionToggle, PageSection } from '@patternfly/react-core';
-import { useIsTagMappingToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -36,7 +35,6 @@ type TagLabelsProps = TagLabelsOwnProps;
 
 const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
   const [activeKey, setActiveKey] = useState(0);
-  const isTagMappingToggleEnabled = useIsTagMappingToggleEnabled();
   const intl = useIntl();
 
   const getAvailableItems = () => {
@@ -104,11 +102,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
   return (
     <PageSection isFilled>
       <div style={styles.container}>
-        {isTagMappingToggleEnabled ? (
-          <Accordion asDefinitionList>{getAccordionItem(availableItems)}</Accordion>
-        ) : (
-          <Tags canWrite={canWrite} />
-        )}
+        <Accordion asDefinitionList>{getAccordionItem(availableItems)}</Accordion>
       </div>
     </PageSection>
   );

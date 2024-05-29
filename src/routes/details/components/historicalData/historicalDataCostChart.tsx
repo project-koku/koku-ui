@@ -102,7 +102,8 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
       currentReport,
       DatumType.cumulative,
       'date',
-      'infrastructure'
+      'infrastructure',
+      'total'
     );
 
     // Previous data
@@ -111,7 +112,8 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
       previousReport,
       DatumType.cumulative,
       'date',
-      'infrastructure'
+      'infrastructure',
+      'total'
     );
 
     const costUnits = currentReport?.meta?.total?.cost ? currentReport.meta.total.cost[reportItemValue].units : 'USD';

@@ -1,32 +1,20 @@
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
-import { getQueryState } from 'routes/utils/queryState';
+import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { formatPath } from 'utils/paths';
 
-interface OcpOptimizationsBreakdownOwnProps {
+interface OptimizationsOwnProps {
   // TBD...
 }
 
-type OcpOptimizationsBreakdownProps = OcpOptimizationsBreakdownOwnProps;
+type OptimizationsProps = OptimizationsOwnProps;
 
-const useQueryFromRoute = () => {
-  const location = useLocation();
-  return parseQuery<Query>(location.search);
-};
-
-const useQueryState = () => {
-  const location = useLocation();
-  return getQueryState(location, 'details');
-};
-
-const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () => {
+const Optimizations: React.FC<OptimizationsProps> = () => {
   const intl = useIntl();
   const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
@@ -57,4 +45,4 @@ const OcpBreakdownOptimizations: React.FC<OcpOptimizationsBreakdownProps> = () =
   );
 };
 
-export { OcpBreakdownOptimizations };
+export { Optimizations };

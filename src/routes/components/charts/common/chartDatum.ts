@@ -56,7 +56,7 @@ export function transformReport(
   datumType,
   idKey: any = 'date',
   reportItem: string = 'cost',
-  reportItemValue: string = 'total' // useful for infrastructure.usage values and cost distribution
+  reportItemValue: string // useful for infrastructure.usage values and cost distribution
 ): ChartDatum[] {
   if (!report) {
     return [];
@@ -72,14 +72,24 @@ export function transformReport(
   if (datumType === DatumType.cumulative) {
     chartDatums = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-      const val = d[reportItem][reportItemValue] ? d[reportItem][reportItemValue].value : d[reportItem].value;
-      return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, reportItemValue)];
+      if (reportItemValue) {
+        const val = d[reportItem][reportItemValue] ? d[reportItem][reportItemValue].value : d[reportItem].value;
+        return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, reportItemValue)];
+      } else {
+        const val = d[reportItem] ? d[reportItem].value : d[reportItem].value;
+        return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, undefined)];
+      }
     }, []);
   } else {
     chartDatums = computedItems.map(i => {
       if (i[reportItem]) {
-        const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
-        return createReportDatum(val, i, idKey, reportItem, reportItemValue);
+        if (reportItemValue) {
+          const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
+          return createReportDatum(val, i, idKey, reportItem, reportItemValue);
+        } else {
+          const val = i[reportItem] ? i[reportItem].value : i[reportItem].value;
+          return createReportDatum(val, i, idKey, reportItem, undefined);
+        }
       }
     });
   }
@@ -91,7 +101,7 @@ export function createReportDatum<T extends ComputedReportItem>(
   computedItem: T,
   idKey = 'date',
   reportItem: string = 'cost',
-  reportItemValue: string = 'total' // useful for infrastructure.usage values
+  reportItemValue: string // useful for infrastructure.usage values
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(new Date(computedItem.id + 'T00:00:00')) : computedItem.label;
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
@@ -166,7 +176,7 @@ export function padChartDatums(datums: ChartDatum[], datumType): ChartDatum[] {
   for (let i = padDate.getDate(); i < firstDate.getDate(); i++) {
     padDate.setDate(i);
     const id = format(padDate, 'yyyy-MM-dd');
-    result.push(createReportDatum(null, { id }, 'date', null));
+    result.push(createReportDatum(null, { id }, 'date', undefined, undefined));
   }
 
   // Fill middle with existing data
@@ -177,7 +187,7 @@ export function padChartDatums(datums: ChartDatum[], datumType): ChartDatum[] {
   for (let i = padDate.getDate() + 1; i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
     const id = format(padDate, 'yyyy-MM-dd');
-    result.push(createReportDatum(null, { id }, 'date', null));
+    result.push(createReportDatum(null, { id }, 'date', undefined, undefined));
   }
   return fillChartDatums(result, datumType);
 }
@@ -282,7 +292,7 @@ export function getTooltipContent(formatter) {
 
 export function getCostRangeString(
   datums: ChartDatum[],
-  key: MessageDescriptor = messages.chartCostLegendLabel,
+  key: MessageDescriptor = messages.chartCostLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0,
@@ -304,7 +314,7 @@ export function getCostRangeString(
 
 export function getCostRangeTooltip(
   datums: ChartDatum[],
-  key: MessageDescriptor = messages.chartCostLegendLabel,
+  key: MessageDescriptor = messages.chartCostLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0,
@@ -325,7 +335,7 @@ export function getCostRangeTooltip(
 
 export function getUsageRangeString(
   datums: ChartDatum[],
-  key: MessageDescriptor = messages.chartUsageLegendLabel,
+  key: MessageDescriptor = messages.chartUsageLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0,
@@ -336,7 +346,7 @@ export function getUsageRangeString(
 
 export function getUsageRangeTooltip(
   datums: ChartDatum[],
-  key: MessageDescriptor = messages.chartUsageLegendLabel,
+  key: MessageDescriptor = messages.chartUsageLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0,
