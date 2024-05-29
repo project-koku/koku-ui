@@ -1,5 +1,6 @@
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow } from '@patternfly/react-core';
 import type { Tag } from 'api/tags/tag';
+import type { TagData } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -11,6 +12,7 @@ import { styles } from './tagContent.styles';
 interface TagContentOwnProps {
   groupBy: string;
   groupByValue: string | number;
+  tagData?: TagData[];
   tagReport?: Tag;
 }
 
@@ -18,11 +20,12 @@ type TagContentProps = TagContentOwnProps & WrappedComponentProps;
 
 class TagContentBase extends React.Component<TagContentProps, any> {
   private getDataListItems = () => {
-    const { tagReport } = this.props;
+    const { tagData, tagReport } = this.props;
     const result = [];
 
-    if (tagReport) {
-      for (const item of tagReport.data) {
+    if (tagData || tagReport) {
+      const tags = tagData || tagReport.data;
+      for (const item of tags) {
         for (const val of item.values) {
           const id = `${(item as any).key}:${val}`;
           result.push(

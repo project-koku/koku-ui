@@ -94,8 +94,8 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
   private initDatum = () => {
     const { currentCostData, previousCostData } = this.props;
 
-    const costKey = messages.chartCostLegendLabel;
-    const costTooltipKey = messages.chartCostLegendTooltip;
+    const costKey = messages.chartCostLabel;
+    const costTooltipKey = messages.chartCostTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -104,7 +104,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'previousCost',
         data: previousCostData,
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.chartCostLegendNoDataLabel),
+          name: getCostRangeString(previousCostData, costKey, true, true, 1, messages.chartCostLabelNoData),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -122,7 +122,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
         childName: 'currentCost',
         data: currentCostData,
         legendItem: {
-          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.chartCostLegendNoDataLabel),
+          name: getCostRangeString(currentCostData, costKey, true, false, 0, messages.chartCostLabelNoData),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',

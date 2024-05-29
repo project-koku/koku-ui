@@ -2,15 +2,15 @@ import { PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
-import { NoOptimizationsState } from './noOptimizationsState';
+import { NoInstancesState } from './noInstancesState';
 
-interface NoProvidersOwnProps {
+interface NoInstancesOwnProps {
   title?: string;
 }
 
-type NoProvidersProps = NoProvidersOwnProps;
+type NoInstancesProps = NoInstancesOwnProps;
 
-const NoOptimizations = ({ title }: NoProvidersProps) => {
+const NoInstances = ({ title }: NoInstancesProps) => {
   return (
     <>
       {title && (
@@ -19,10 +19,10 @@ const NoOptimizations = ({ title }: NoProvidersProps) => {
         </PageHeader>
       )}
       <PageSection>
-        <NoOptimizationsState />
+        <NoInstancesState />
       </PageSection>
     </>
   );
 };
 
-export default NoOptimizations;
+export default NoInstances;

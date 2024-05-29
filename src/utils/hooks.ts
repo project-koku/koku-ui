@@ -1,5 +1,9 @@
 // Hook
+import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getQueryState } from 'routes/utils/queryState';
 
 export const usePrevious = value => {
   // The ref object is a generic container whose current property is mutable ...
@@ -33,4 +37,14 @@ export const useStateCallback = <T>(initialState: T): [T, (state: T, cb?: (_stat
   }, [state]);
 
   return [state, setStateCallback];
+};
+
+export const useQueryFromRoute = () => {
+  const location = useLocation();
+  return parseQuery<Query>(location.search);
+};
+
+export const useQueryState = (key = 'details') => {
+  const location = useLocation();
+  return getQueryState(location, key);
 };

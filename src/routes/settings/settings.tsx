@@ -19,7 +19,6 @@ import { PlatformProjects } from 'routes/settings/platformProjects';
 import { TagLabels } from 'routes/settings/tagLabels';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
@@ -67,7 +66,6 @@ export interface SettingsMapProps {
 }
 
 export interface SettingsStateProps {
-  isSettingsPlatformEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -78,7 +76,7 @@ type SettingsProps = SettingsOwnProps;
 
 const Settings: React.FC<SettingsProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
-  const { isSettingsPlatformEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
+  const { userAccess, userAccessFetchStatus } = useMapToProps();
   const intl = useIntl();
 
   const canWrite = () => {
@@ -108,13 +106,11 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.costCategory,
       },
-    ];
-    if (isSettingsPlatformEnabled) {
-      availableTabs.push({
+      {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
-      });
-    }
+      },
+    ];
     return availableTabs;
   };
 
@@ -236,9 +232,6 @@ const useMapToProps = (): SettingsStateProps => {
   );
 
   return {
-    isSettingsPlatformEnabled: useSelector((state: RootState) =>
-      FeatureToggleSelectors.selectIsSettingsPlatformToggleEnabled(state)
-    ),
     userAccess,
     userAccessError,
     userAccessFetchStatus,

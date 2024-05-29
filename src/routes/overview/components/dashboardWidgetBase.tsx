@@ -314,12 +314,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     });
 
     // Request data
-    const currentRequestData = transformReport(currentReport, trend.datumType, 'date', 'request');
-    const previousRequestData = transformReport(previousReport, trend.datumType, 'date', 'request');
+    const currentRequestData = transformReport(currentReport, trend.datumType, 'date', 'request', 'total');
+    const previousRequestData = transformReport(previousReport, trend.datumType, 'date', 'request', 'total');
 
     // Usage data
-    const currentUsageData = transformReport(currentReport, trend.datumType, 'date', 'usage');
-    const previousUsageData = transformReport(previousReport, trend.datumType, 'date', 'usage');
+    const currentUsageData = transformReport(currentReport, trend.datumType, 'date', 'usage', 'total');
+    const previousUsageData = transformReport(previousReport, trend.datumType, 'date', 'usage', 'total');
 
     return (
       <ReportSummaryUsage

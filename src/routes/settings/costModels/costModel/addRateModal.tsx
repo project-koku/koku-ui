@@ -60,6 +60,7 @@ export const AddRateModalBase: React.FC<AddRateModalProps> = ({
 
   return (
     <Modal
+      className="costManagement"
       title={intl.formatMessage(messages.priceListAddRate)}
       isOpen={isOpen}
       onClose={onClose}

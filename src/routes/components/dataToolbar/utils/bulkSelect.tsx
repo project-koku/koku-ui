@@ -61,14 +61,11 @@ export const getBulkSelect = ({
     );
   }
 
-  // Todo: Work around to allow clicking on "10 selected" label shown in MenuToggleCheckbox
-  // See https://github.com/patternfly/patternfly-react/issues/10035
-  const getSelectedLabel = () => {
-    return anySelected ? (
-      <span onClick={() => onBulkSelectToggle(!isBulkSelectOpen)}>
-        {intl.formatMessage(messages.selected, { value: numSelected })}
-      </span>
-    ) : null;
+  const handleOnBulkSelectClicked = (checked: boolean) => {
+    if (onBulkSelectClicked) {
+      checked ? onBulkSelectClicked('all') : onBulkSelectClicked('none');
+    }
+    onBulkSelectToggle(false);
   };
 
   const toggle = toggleRef => {
@@ -87,15 +84,13 @@ export const getBulkSelect = ({
                 anySelected ? messages.toolBarBulkSelectAriaDeselect : messages.toolBarBulkSelectAriaSelect
               )}
               isChecked={isChecked}
-              onChange={() => {
-                anySelected ? onBulkSelectClicked('none') : onBulkSelectClicked('all');
-              }}
-            >
-              {getSelectedLabel()}
-            </MenuToggleCheckbox>,
+              onChange={handleOnBulkSelectClicked}
+            />,
           ],
         }}
-      />
+      >
+        {anySelected ? intl.formatMessage(messages.selected, { value: numSelected }) : null}
+      </MenuToggle>
     );
   };
 

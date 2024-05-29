@@ -1,7 +1,18 @@
 import './breakdownHeader.scss';
 
-import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Chip,
+  ChipGroup,
+  Flex,
+  FlexItem,
+  Popover,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/esm/icons/angle-left-icon';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { TagPathsType } from 'api/tags/tag';
@@ -15,10 +26,10 @@ import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
+import { getActiveFilters, getChips } from 'routes/components/dataToolbar/utils/common';
 import { TagLink } from 'routes/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
@@ -51,16 +62,23 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
 }
 
 interface BreakdownHeaderStateProps {
-  isClusterInfoToggleEnabled?: boolean;
+  // TBD...
 }
 
 interface BreakdownHeaderDispatchProps {
   // TBD...
 }
 
+interface BreakdownHeaderState {
+  // TBD...
+}
+
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & BreakdownHeaderStateProps & WrappedComponentProps;
 
 class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
+  protected defaultState: BreakdownHeaderState = {};
+  public state: BreakdownHeaderState = { ...this.defaultState };
+
   private getBackToLink = groupByKey => {
     const { breadcrumb, intl, router, tagPathsType } = this.props;
 
@@ -74,6 +92,82 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
           groupBy: groupByKey,
         })}
       </Link>
+    );
+  };
+
+  private hasFilterBy = () => {
+    const { router } = this.props;
+    const exclude = router.location.state?.details?.exclude;
+    const filterBy = router.location.state?.details?.filter_by;
+    return (exclude && Object.keys(exclude).length > 0) || (filterBy && Object.keys(filterBy).length > 0);
+  };
+
+  private getFilterChips = () => {
+    const { intl, router } = this.props;
+
+    const filterBy = this.hasFilterBy() ? router.location.state?.details?.filter_by : undefined;
+    if (!filterBy) {
+      return null;
+    }
+
+    const getLabel = value => {
+      const label = intl.formatMessage(messages.filterByValues, { value });
+      return label !== '' ? label : value;
+    };
+
+    const filters = getActiveFilters(router.location.state?.details) as any;
+    const filterChips = Object.keys(filters).map(key => {
+      if (filters[key] instanceof Array) {
+        const chips: any[] = getChips(filters[key]);
+        return (
+          <span key={key} style={styles.filterChip}>
+            <ChipGroup categoryName={getLabel(key)}>
+              {chips.map((chip, index) => (
+                <Chip key={`${key}-${index}`} isReadOnly>
+                  {chip.node}
+                </Chip>
+              ))}
+            </ChipGroup>
+          </span>
+        );
+      } else {
+        return Object.keys(filters[key]).map(key2 => {
+          const chips: any[] = getChips(filters[key][key2]);
+          return (
+            <span key={key2} style={styles.filterChip}>
+              <ChipGroup categoryName={getLabel(key2)}>
+                {chips.map((chip, index) => (
+                  <Chip key={`${key2}-${index}`} isReadOnly>
+                    {chip.node}
+                  </Chip>
+                ))}
+              </ChipGroup>
+            </span>
+          );
+        });
+      }
+    });
+    return (
+      <div style={styles.filteredByContainer}>
+        <Title headingLevel="h2" size={TitleSizes.md} style={styles.filteredBy}>
+          {intl.formatMessage(messages.filteredBy)}
+        </Title>
+        <span style={styles.infoIcon}>
+          <Popover
+            aria-label={intl.formatMessage(messages.overviewInfoArialLabel)}
+            enableFlip
+            bodyContent={<p>{intl.formatMessage(messages.filteredByWarning)}</p>}
+          >
+            <Button
+              aria-label={intl.formatMessage(messages.overviewInfoButtonArialLabel)}
+              variant={ButtonVariant.plain}
+            >
+              <OutlinedQuestionCircleIcon />
+            </Button>
+          </Popover>
+        </span>
+        {filterChips}
+      </div>
     );
   };
 
@@ -100,7 +194,6 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       description,
       groupBy,
       intl,
-      isClusterInfoToggleEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
@@ -136,7 +229,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             ? orgUnitIdKey
             : groupBy;
 
-    const showClusterInfo = clusterInfoComponent && isClusterInfoToggleEnabled;
+    const showClusterInfo = clusterInfoComponent;
 
     return (
       <header style={styles.header}>
@@ -162,12 +255,12 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </FlexItem>
           )}
         </Flex>
-        <Title headingLevel="h1" size={TitleSizes['2xl']} style={styles.title}>
-          {intl.formatMessage(messages.breakdownTitle, { value: title })}
-        </Title>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
             <Flex direction={{ default: 'column' }}>
+              <Title headingLevel="h1" size={TitleSizes['2xl']}>
+                {intl.formatMessage(messages.breakdownTitle, { value: title })}
+              </Title>
               {(description || showClusterInfo) && (
                 <FlexItem style={styles.description}>
                   {description}
@@ -176,7 +269,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
                   ) : null}
                 </FlexItem>
               )}
-              {dataDetailsComponent && isClusterInfoToggleEnabled ? <FlexItem>{dataDetailsComponent}</FlexItem> : null}
+              {dataDetailsComponent && <FlexItem>{dataDetailsComponent}</FlexItem>}
+              {this.hasFilterBy() && <FlexItem>{this.getFilterChips()}</FlexItem>}
               {showCostDistribution && (
                 <FlexItem style={styles.costDistribution}>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
@@ -213,9 +307,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(state => {
+const mapStateToProps = createMapStateToProps<BreakdownHeaderOwnProps, BreakdownHeaderStateProps>(() => {
   return {
-    isClusterInfoToggleEnabled: FeatureToggleSelectors.selectIsClusterInfoToggleEnabled(state),
+    // TBD...
   };
 });
 
