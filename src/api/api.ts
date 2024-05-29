@@ -23,11 +23,11 @@ export interface PagedResponse<D = any, M = any> {
 //   axios.interceptors.request.use(authInterceptor);
 // }
 
-export function authInterceptor(reqConfig: AxiosRequestConfig) {
+function authInterceptor(reqConfig: AxiosRequestConfig) {
   return {
     ...reqConfig,
     headers: {
-      ...reqConfig.headers,
+      ...(reqConfig?.headers && reqConfig.headers),
     } as any,
   };
 }

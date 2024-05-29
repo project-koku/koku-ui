@@ -1,7 +1,7 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import { ReportType } from 'api/reports/report';
@@ -21,6 +21,7 @@ import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
 import { styles } from './pvcContent.styles';
@@ -174,16 +175,6 @@ const PvcContent: React.FC<PvcContentProps> = () => {
       )}
     </div>
   );
-};
-
-const useQueryFromRoute = () => {
-  const location = useLocation();
-  return parseQuery<Query>(location.search);
-};
-
-const useQueryState = () => {
-  const location = useLocation();
-  return getQueryState(location, 'details');
 };
 
 // eslint-disable-next-line no-empty-pattern

@@ -38,6 +38,27 @@ export interface ReportAwsItem extends ReportItem {
   service?: string;
 }
 
+export interface ReportAwsInstancesItem {
+  account?: string;
+  account_alias?: string;
+  cost?: ReportValue;
+  instance_name?: string;
+  instance_type?: string;
+  memory?: ReportValue;
+  operating_system?: string;
+  region?: string;
+  resource_id?: string;
+  tags: [
+    {
+      key?: string;
+      values?: string[];
+      enabled?: boolean;
+    },
+  ];
+  usage?: ReportValue;
+  vcpu?: ReportValue;
+}
+
 export interface ReportGcpItem extends ReportItem {
   account?: string;
   project?: string;
@@ -74,10 +95,33 @@ export interface ReportOrgData {
   type?: string; // 'account' or 'organizational_unit'
 }
 
+export interface ReportNetworkData {
+  date?: string;
+  data_transfer_in?: {
+    value?: number;
+    units?: string;
+  };
+  data_transfer_out?: {
+    value?: number;
+    units?: string;
+  };
+  resource_id?: string;
+  clusters?: string[];
+  source_uuid?: string;
+  region?: string;
+}
+
 // Additional props for group_by[org_unit_id]
 export interface ReportData extends ReportOrgData {
   date?: string;
-  values?: ReportAwsItem[] | ReportAzureItem[] | ReportGcpItem[] | ReportOcpItem[] | ReportOrgItem[];
+  values?:
+    | ReportAwsItem[]
+    | ReportAwsInstancesItem[]
+    | ReportAzureItem[]
+    | ReportGcpItem[]
+    | ReportOcpItem[]
+    | ReportOrgItem[]
+    | ReportNetworkData[];
 }
 
 export interface ReportMeta extends PagedMetaData {
@@ -119,6 +163,7 @@ export const enum ReportType {
   cost = 'cost',
   cpu = 'cpu',
   database = 'database',
+  ec2Compute = 'ec2Compute',
   instanceType = 'instance_type',
   memory = 'memory',
   network = 'network',

@@ -80,14 +80,14 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
       this.props;
 
     // Current data
-    const currentLimitData = transformReport(currentReport, DatumType.rolling, 'date', 'limit');
-    const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'request');
-    const currentUsageData = transformReport(currentReport, DatumType.rolling, 'date', 'usage');
+    const currentLimitData = transformReport(currentReport, DatumType.rolling, 'date', 'limit', 'total');
+    const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'request', 'total');
+    const currentUsageData = transformReport(currentReport, DatumType.rolling, 'date', 'usage', 'total');
 
     // Previous data
-    const previousLimitData = transformReport(previousReport, DatumType.rolling, 'date', 'limit');
-    const previousRequestData = transformReport(previousReport, DatumType.rolling, 'date', 'request');
-    const previousUsageData = transformReport(previousReport, DatumType.rolling, 'date', 'usage');
+    const previousLimitData = transformReport(previousReport, DatumType.rolling, 'date', 'limit', 'total');
+    const previousRequestData = transformReport(previousReport, DatumType.rolling, 'date', 'request', 'total');
+    const previousUsageData = transformReport(previousReport, DatumType.rolling, 'date', 'usage', 'total');
 
     const usageUnits = currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : '';
 

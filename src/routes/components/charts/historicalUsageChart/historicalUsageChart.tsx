@@ -1,5 +1,6 @@
 import 'routes/components/charts/common/chart.scss';
 
+import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import {
   Chart,
   ChartArea,
@@ -41,12 +42,22 @@ interface HistoricalUsageChartOwnProps {
   formatOptions?: FormatOptions;
   formatter?: Formatter;
   legendItemsPerRow?: number;
+  limitLabelKey?: MessageDescriptor;
+  limitLabelNoDataKey?: MessageDescriptor;
+  limitTooltipKey?: MessageDescriptor;
   name?: string;
   padding?: any;
   previousLimitData?: any;
   previousRequestData?: any;
   previousUsageData?: any;
+  requestLabelKey?: MessageDescriptor;
+  requestLabelNoDataKey?: MessageDescriptor;
+  requestTooltipKey?: MessageDescriptor;
+  showLimit?: boolean;
   title?: string;
+  usageLabelKey?: MessageDescriptor;
+  usageLabelNoDataKey?: MessageDescriptor;
+  usageTooltipKey?: MessageDescriptor;
   xAxisLabel?: string;
   yAxisLabel?: string;
 }
@@ -100,17 +111,20 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
       currentLimitData,
       currentRequestData,
       currentUsageData,
+      limitLabelKey = messages.chartLimitLabel,
+      limitLabelNoDataKey = messages.chartLimitLabelNoData,
+      limitTooltipKey = messages.chartLimitTooltip,
+      requestLabelKey = messages.chartRequestsLabel,
+      requestLabelNoDataKey = messages.chartRequestsLabelNoData,
+      requestTooltipKey = messages.chartRequestsTooltip,
+      usageLabelKey = messages.chartUsageLabel,
+      usageLabelNoDataKey = messages.chartUsageLabelNoData,
+      usageTooltipKey = messages.chartUsageTooltip,
       previousLimitData,
       previousRequestData,
       previousUsageData,
+      showLimit = true,
     } = this.props;
-
-    const limitKey = messages.chartLimitLegendLabel;
-    const limitTooltipKey = messages.chartLimitLegendTooltip;
-    const requestKey = messages.chartRequestsLegendLabel;
-    const requestTooltipKey = messages.chartRequestsLegendTooltip;
-    const usageKey = messages.chartUsageLegendLabel;
-    const usageTooltipKey = messages.chartUsageLegendTooltip;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -119,7 +133,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'previousUsage',
         data: previousUsageData,
         legendItem: {
-          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1, messages.chartUsageLegendNoDataLabel),
+          name: getUsageRangeString(previousUsageData, usageLabelKey, true, true, 1, usageLabelNoDataKey),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
@@ -137,7 +151,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'currentUsage',
         data: currentUsageData,
         legendItem: {
-          name: getUsageRangeString(currentUsageData, usageKey, true, false, 0, messages.chartUsageLegendNoDataLabel),
+          name: getUsageRangeString(currentUsageData, usageLabelKey, true, false, 0, usageLabelNoDataKey),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
@@ -155,14 +169,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'previousRequest',
         data: previousRequestData,
         legendItem: {
-          name: getUsageRangeString(
-            previousRequestData,
-            requestKey,
-            true,
-            true,
-            1,
-            messages.chartRequestsLegendNoDataLabel
-          ),
+          name: getUsageRangeString(previousRequestData, requestLabelKey, true, true, 1, requestLabelNoDataKey),
           symbol: {
             fill: chartStyles.previousColorScale[1],
             type: 'dash',
@@ -180,14 +187,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
         childName: 'currentRequest',
         data: currentRequestData,
         legendItem: {
-          name: getUsageRangeString(
-            currentRequestData,
-            requestKey,
-            true,
-            false,
-            0,
-            messages.chartRequestsLegendNoDataLabel
-          ),
+          name: getUsageRangeString(currentRequestData, requestLabelKey, true, false, 0, requestLabelNoDataKey),
           symbol: {
             fill: chartStyles.currentColorScale[1],
             type: 'dash',
@@ -201,43 +201,47 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
           },
         },
       },
-      {
-        childName: 'previousLimit',
-        data: previousLimitData,
-        legendItem: {
-          name: getUsageRangeString(previousLimitData, limitKey, true, true, 1, messages.chartLimitLegendNoDataLabel),
-          symbol: {
-            fill: chartStyles.previousColorScale[2],
-            type: 'minus',
-          },
-          tooltip: getUsageRangeTooltip(previousLimitData, limitTooltipKey, false, false, 1),
-        },
-        style: {
-          data: {
-            ...chartStyles.previousLimitData,
-            stroke: chartStyles.previousColorScale[2],
-          },
-        },
-      },
-      {
-        childName: 'currentLimit',
-        data: currentLimitData,
-        legendItem: {
-          name: getUsageRangeString(currentLimitData, limitKey, true, false, 0, messages.chartLimitLegendNoDataLabel),
-          symbol: {
-            fill: chartStyles.currentColorScale[2],
-            type: 'minus',
-          },
-          tooltip: getUsageRangeTooltip(currentLimitData, limitTooltipKey, false, false),
-        },
-        style: {
-          data: {
-            ...chartStyles.currentLimitData,
-            stroke: chartStyles.currentColorScale[2],
-          },
-        },
-      },
     ];
+    if (showLimit) {
+      series.push(
+        {
+          childName: 'previousLimit',
+          data: previousLimitData,
+          legendItem: {
+            name: getUsageRangeString(previousLimitData, limitLabelKey, true, true, 1, limitLabelNoDataKey),
+            symbol: {
+              fill: chartStyles.previousColorScale[2],
+              type: 'minus',
+            },
+            tooltip: getUsageRangeTooltip(previousLimitData, limitTooltipKey, false, false, 1),
+          },
+          style: {
+            data: {
+              ...chartStyles.previousLimitData,
+              stroke: chartStyles.previousColorScale[2],
+            },
+          },
+        },
+        {
+          childName: 'currentLimit',
+          data: currentLimitData,
+          legendItem: {
+            name: getUsageRangeString(currentLimitData, limitLabelKey, true, false, 0, limitLabelNoDataKey),
+            symbol: {
+              fill: chartStyles.currentColorScale[2],
+              type: 'minus',
+            },
+            tooltip: getUsageRangeTooltip(currentLimitData, limitTooltipKey, false, false),
+          },
+          style: {
+            data: {
+              ...chartStyles.currentLimitData,
+              stroke: chartStyles.currentColorScale[2],
+            },
+          },
+        }
+      );
+    }
     const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
   };

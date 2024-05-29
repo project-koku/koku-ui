@@ -8,7 +8,7 @@ import { getType } from 'typesafe-actions';
 import { fetchReportFailure, fetchReportRequest, fetchReportSuccess } from './reportActions';
 
 export interface CachedReport extends Report {
-  timeRequested: number;
+  timeRequested?: number;
 }
 
 export type ReportState = Readonly<{

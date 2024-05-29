@@ -15,7 +15,9 @@ export interface CostModel {
   description: string;
   distribution_info?: {
     distribution_type?: string;
+    network_cost?: boolean;
     platform_cost?: boolean;
+    storage_cost?: boolean;
     worker_cost?: boolean;
   };
   markup: { value: string; unit: string };
@@ -32,7 +34,9 @@ export interface CostModelRequest {
   description: string;
   distribution_info?: {
     distribution_type?: string;
+    network_cost?: boolean;
     platform_cost?: boolean;
+    storage_cost?: boolean;
     worker_cost?: boolean;
   };
   markup: { value: string; unit: string };

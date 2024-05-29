@@ -165,22 +165,23 @@ export default defineMessages({
   breakdownSummaryTitle: {
     defaultMessage:
       '{value, select, ' +
-      'account {Cost by accounts} ' +
-      'aws_category {Cost by category} ' +
-      'cluster {Cost by clusters} ' +
-      'gcp_project {Cost by GCP projects} ' +
-      'node {Cost by Node} ' +
-      'org_unit_id {Cost by organizational units} ' +
-      'payer_tenant_id {Cost by accounts} ' +
-      'platform {Cost by default projects} ' +
-      'product_service {Cost by services} ' +
-      'project {Cost by projects} ' +
-      'region {Cost by regions} ' +
-      'resource_location {Cost by regions} ' +
-      'service {Cost by services} ' +
-      'service_name {Cost by services} ' +
-      'subscription_guid {Cost by accounts} ' +
-      'tag {Cost by tags} ' +
+      'account {Cost breakdown by accounts} ' +
+      'aws_category {Cost breakdown by category} ' +
+      'cluster {Cost breakdown by clusters} ' +
+      'gcp_project {Cost breakdown by GCP projects} ' +
+      'node {Cost breakdown by Node} ' +
+      'org_unit_id {Cost breakdown by organizational units} ' +
+      'payer_tenant_id {Cost breakdown by accounts} ' +
+      'platform {Cost breakdown by default projects} ' +
+      'product_service {Cost breakdown by services} ' +
+      'project {Cost breakdown by projects} ' +
+      'region {Cost breakdown by regions} ' +
+      'resource_location {Cost breakdown by regions} ' +
+      'service {Cost breakdown by services} ' +
+      'service_name {Cost breakdown by services} ' +
+      'storageclass {Storage cost breakdown by type} ' +
+      'subscription_guid {Cost breakdown by accounts} ' +
+      'tag {Cost breakdown by tags} ' +
       'other {}}',
     description: 'Cost by {value}',
     id: 'breakdownSummaryTitle',
@@ -205,90 +206,105 @@ export default defineMessages({
     description: 'Cancel',
     id: 'cancel',
   },
-  chartCostForecastConeLegendLabel: {
+  chartCostForecastConeLabel: {
     defaultMessage: 'Cost confidence ({dateRange})',
     description: 'Cost confidence (Jan 1-31)',
-    id: 'chartCostForecastConeLegendLabel',
+    id: 'chartCostForecastConeLabel',
   },
-  chartCostForecastConeLegendNoDataLabel: {
+  chartCostForecastConeLabelNoData: {
     defaultMessage: 'Cost confidence (no data)',
     description: 'Cost confidence (no data)',
-    id: 'chartCostForecastConeLegendNoDataLabel',
+    id: 'chartCostForecastConeLabelNoData',
   },
-  chartCostForecastConeLegendTooltip: {
-    defaultMessage: 'Cost confidence ({month})',
-    description: 'Cost confidence (Jan)',
-    id: 'chartCostForecastConeLegendTooltip',
-  },
-  chartCostForecastConeTooltip: {
+  chartCostForecastConeRangeTooltip: {
     defaultMessage: '{value0} - {value1}',
     description: 'Cost forecast confidence min/max tooltip',
+    id: 'chartCostForecastConeRangeTooltip',
+  },
+  chartCostForecastConeTooltip: {
+    defaultMessage: 'Cost confidence ({month})',
+    description: 'Cost confidence (Jan)',
     id: 'chartCostForecastConeTooltip',
   },
-  chartCostForecastLegendLabel: {
+  chartCostForecastLabel: {
     defaultMessage: 'Cost forecast ({dateRange})',
     description: 'Cost forecast (Jan 1-31)',
-    id: 'chartCostForecastLegendLabel',
+    id: 'chartCostForecastLabel',
   },
-  chartCostForecastLegendNoDataLabel: {
+  chartCostForecastLabelNoData: {
     defaultMessage: 'Cost forecast (no data)',
     description: 'Cost forecast (no data)',
-    id: 'chartCostForecastLegendNoDataLabel',
+    id: 'chartCostForecastLabelNoData',
   },
-  chartCostForecastLegendTooltip: {
+  chartCostForecastTooltip: {
     defaultMessage: 'Cost forecast ({month})',
     description: 'Cost forecast (Jan 1-31)',
-    id: 'chartCostForecastLegendTooltip',
+    id: 'chartCostForecastTooltip',
   },
-  chartCostLegendLabel: {
+  chartCostLabel: {
     defaultMessage: 'Cost ({dateRange})',
     description: 'Cost (Jan 1-31)',
-    id: 'chartCostLegendLabel',
+    id: 'chartCostLabel',
   },
-  chartCostLegendNoDataLabel: {
+  chartCostLabelNoData: {
     defaultMessage: 'Cost (no data)',
     description: 'Cost (no data)',
-    id: 'chartCostLegendNoDataLabel',
+    id: 'chartCostLabelNoData',
   },
-  chartCostLegendTooltip: {
+  chartCostTooltip: {
     defaultMessage: 'Cost ({month})',
     description: 'Cost (Jan)',
-    id: 'chartCostLegendTooltip',
+    id: 'chartCostTooltip',
   },
-  chartCostSupplementaryLegendLabel: {
-    defaultMessage: 'Supplementary cost ({dateRange})',
-    description: 'Supplementary cost (Jan 1-31)',
-    id: 'chartCostSupplementaryLegendLabel',
+  chartDataInLabel: {
+    defaultMessage: 'Data in ({dateRange})',
+    description: 'Data in ({dateRange})',
+    id: 'chartDataInLabel',
   },
-  chartCostSupplementaryLegendNoDataLabel: {
-    defaultMessage: 'Supplementary cost (no data)',
-    description: 'Supplementary cost (no data)',
-    id: 'chartCostSupplementaryLegendNoDataLabel',
+  chartDataInLabelNoData: {
+    defaultMessage: 'Data in (no data)',
+    description: 'Data in (no data)',
+    id: 'chartDataInLabelNoData',
   },
-  chartCostSupplementaryLegendTooltip: {
-    defaultMessage: 'Supplementary cost ({month})',
-    description: 'Supplementary cost (Jan)',
-    id: 'chartCostSupplementaryLegendTooltip',
+  chartDataInTooltip: {
+    defaultMessage: 'Data in ({month})',
+    description: 'Data in ({month})',
+    id: 'chartDataInTooltip',
+  },
+  chartDataOutLabel: {
+    defaultMessage: 'Data out ({dateRange})',
+    description: 'Data out ({dateRange})',
+    id: 'chartDataOutLabel',
+  },
+  chartDataOutLabelNoData: {
+    defaultMessage: 'Data out (no data)',
+    description: 'Data out (no data)',
+    id: 'chartDataOutLabelNoData',
+  },
+  chartDataOutTooltip: {
+    defaultMessage: 'Data out ({month})',
+    description: 'Data out ({month})',
+    id: 'chartDataOutTooltip',
   },
   chartDayOfTheMonth: {
     defaultMessage: 'Day {day}',
     description: 'The day of the month',
     id: 'chartDayOfTheMonth',
   },
-  chartLimitLegendLabel: {
+  chartLimitLabel: {
     defaultMessage: 'Limit ({dateRange})',
     description: 'Limit (Jan 1-31)',
-    id: 'chartLimitLegendLabel',
+    id: 'chartLimitLabel',
   },
-  chartLimitLegendNoDataLabel: {
+  chartLimitLabelNoData: {
     defaultMessage: 'Limit (no data)',
     description: 'Limit (no data)',
-    id: 'chartLimitLegendNoDataLabel',
+    id: 'chartLimitLabelNoData',
   },
-  chartLimitLegendTooltip: {
+  chartLimitTooltip: {
     defaultMessage: 'Limit ({month})',
     description: 'Limit (Jan)',
-    id: 'chartLimitLegendTooltip',
+    id: 'chartLimitTooltip',
   },
   chartNoData: {
     defaultMessage: 'no data',
@@ -300,35 +316,50 @@ export default defineMessages({
     description: 'Others category for top costliest',
     id: 'chartOthers',
   },
-  chartRequestsLegendLabel: {
+  chartRequestsLabel: {
     defaultMessage: 'Requests ({dateRange})',
     description: 'Requests (Jan 1-31)',
-    id: 'chartRequestsLegendLabel',
+    id: 'chartRequestsLabel',
   },
-  chartRequestsLegendNoDataLabel: {
+  chartRequestsLabelNoData: {
     defaultMessage: 'Requests (no data)',
     description: 'Requests (no data)',
-    id: 'chartRequestsLegendNoDataLabel',
+    id: 'chartRequestsLabelNoData',
   },
-  chartRequestsLegendTooltip: {
+  chartRequestsTooltip: {
     defaultMessage: 'Requests ({month})',
     description: 'Requests (Jan)',
-    id: 'chartRequestsLegendTooltip',
+    id: 'chartRequestsTooltip',
   },
-  chartUsageLegendLabel: {
+  chartSupplementaryCostLabel: {
+    defaultMessage: 'Supplementary cost ({dateRange})',
+    description: 'Supplementary cost (Jan 1-31)',
+    id: 'chartSupplementaryCostLabel',
+  },
+  chartSupplementaryCostLabelNoData: {
+    defaultMessage: 'Supplementary cost (no data)',
+    description: 'Supplementary cost (no data)',
+    id: 'chartSupplementaryCostLabelNoData',
+  },
+  chartSupplementaryCostTooltip: {
+    defaultMessage: 'Supplementary cost ({month})',
+    description: 'Supplementary cost (Jan)',
+    id: 'chartSupplementaryCostTooltip',
+  },
+  chartUsageLabel: {
     defaultMessage: 'Usage ({dateRange})',
     description: 'Usage (Jan 1-31)',
-    id: 'chartUsageLegendLabel',
+    id: 'chartUsageLabel',
   },
-  chartUsageLegendNoDataLabel: {
+  chartUsageLabelNoData: {
     defaultMessage: 'Usage (no data)',
     description: 'Usage (no data)',
-    id: 'chartUsageLegendNoDataLabel',
+    id: 'chartUsageLabelNoData',
   },
-  chartUsageLegendTooltip: {
+  chartUsageTooltip: {
     defaultMessage: 'Usage ({month})',
     description: 'Usage (Jan)',
-    id: 'chartUsageLegendTooltip',
+    id: 'chartUsageTooltip',
   },
   chooseKeyPlaceholder: {
     defaultMessage: 'Choose key',
@@ -1284,9 +1315,14 @@ export default defineMessages({
       'cluster {Cluster names} ' +
       'gcp_project {GCP project names} ' +
       'group {Group} ' +
+      'instance {Instance names} ' +
+      'instance_type {Instance type} ' +
+      'memory {Memory} ' +
       'name {Name} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
+      'os {OS} ' +
+      'operating_system {Operating system} ' +
       'payer_tenant_id {Account names} ' +
       'product_service {Service names} ' +
       'project {Project names} ' +
@@ -1298,7 +1334,9 @@ export default defineMessages({
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
       'tag {Tag names} ' +
+      'tags {Tags} ' +
       'tag_key {Tag keys} ' +
+      'vcpu {vCPU} ' +
       'other {}}',
     description: 'Details table resource names',
     id: 'detailsResourceNames',
@@ -1331,8 +1369,8 @@ export default defineMessages({
     id: 'detailsUnusedCapacityLabel',
   },
   detailsUnusedRequestsLabel: {
-    defaultMessage: 'Unrequested capacity',
-    description: 'Unrequested capacity',
+    defaultMessage: 'Unused requests',
+    description: 'Unused requests',
     id: 'detailsUnusedRequestsLabel',
   },
   detailsUnusedUnits: {
@@ -1376,6 +1414,7 @@ export default defineMessages({
       'resource_location {View all regions} ' +
       'service {View all Services} ' +
       'service_name {View all services} ' +
+      'storageclass {View all storage types} ' +
       'subscription_guid {View all accounts} ' +
       'tag {View all tags} ' +
       'other {}}',
@@ -1410,17 +1449,24 @@ export default defineMessages({
   distributeCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
-      'false {Do not distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'true {Distribute {type, select, network {network} storage {storage} other {}} costs}' +
+      'false {Do not distribute {type, select, network {network} storage {storage} other {}} costs}' +
       'other {}}',
     description: 'distribute costs',
     id: 'distributeCosts',
   },
-  distributionModelDesc: {
+  distributeUnallocatedCapacity: {
     defaultMessage:
-      'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
-    description:
-      'This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.',
+      '{value, select, ' +
+      'true {Distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'false {Do not distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'other {}}',
+    description: 'distribute unallocated capacity',
+    id: 'distributeUnallocatedCapacity',
+  },
+  distributionModelDesc: {
+    defaultMessage: 'Choose how your raw costs are distributed at the project level.',
+    description: 'Choose how your raw costs are distributed at the project level.',
     id: 'distributionModelDesc',
   },
   distributionType: {
@@ -1697,6 +1743,7 @@ export default defineMessages({
       'aws_category {{resolution, select, daily {{provider}_cost_category_daily_{startDate}_{endDate}} monthly {{provider}_cost_category_monthly_{startDate}_{endDate}} other {}}} ' +
       'cluster {{resolution, select, daily {{provider}_clusters_daily_{startDate}_{endDate}} monthly {{provider}_clusters_monthly_{startDate}_{endDate}} other {}}} ' +
       'gcp_project {{resolution, select, daily {{provider}_gcp-projects_daily_{startDate}_{endDate}} monthly {{provider}_gcp-projects_monthly_{startDate}_{endDate}} other {}}} ' +
+      'instance {{resolution, select, daily {{provider}_instances_daily_{startDate}_{endDate}} monthly {{provider}_instances_monthly_{startDate}_{endDate}} other {}}} ' +
       'node {{resolution, select, daily {{provider}_node_daily_{startDate}_{endDate}} monthly {{provider}_node_monthly_{startDate}_{endDate}} other {}}} ' +
       'org_unit_id {{resolution, select, daily {{provider}_orgs_daily_{startDate}_{endDate}} monthly {{provider}_orgs_monthly_{startDate}_{endDate}} other {}}} ' +
       'payer_tenant_id {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
@@ -1734,6 +1781,7 @@ export default defineMessages({
       'aws_category {Aggregates of the following cost categories will be exported to a .csv file.} ' +
       'cluster {Aggregates of the following clusters will be exported to a .csv file.} ' +
       'gcp_project {Aggregates of the following GCP projects will be exported to a .csv file.} ' +
+      'instance {Aggregates of the following instances will be exported to a .csv file.} ' +
       'node {Aggregates of the following nodes will be exported to a .csv file.} ' +
       'org_unit_id {Aggregates of the following organizational units will be exported to a .csv file.} ' +
       'payer_tenant_id {Aggregates of the following accounts will be exported to a .csv file.} ' +
@@ -1756,6 +1804,7 @@ export default defineMessages({
       'aws_category {{provider, select, aws {Amazon Web Services grouped by Cost category} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cost category} azure {Microsoft Azure grouped by Cost category} oci {Oracle Cloud Infrastructure grouped by Cost category} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cost category} gcp {Google Cloud Platform grouped by Cost category} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cost category} ibm {IBM Cloud grouped by Cost category} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cost category} ocp {OpenShift grouped by Cost category} ocp_cloud {All cloud filtered by OpenShift grouped by Cost category} other {}}} ' +
       'cluster {{provider, select, aws {Amazon Web Services grouped by Cluster} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cluster} azure {Microsoft Azure grouped by Cluster} oci {Oracle Cloud Infrastructure grouped by Cluster} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cluster} gcp {Google Cloud Platform grouped by Cluster} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cluster} ibm {IBM Cloud grouped by Cluster} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cluster} ocp {OpenShift grouped by Cluster} ocp_cloud {All cloud filtered by OpenShift grouped by Cluster} other {}}} ' +
       'gcp_project {{provider, select, aws {Amazon Web Services grouped by GCP Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by GCP Project} azure {Microsoft Azure grouped by GCP Project} oci {Oracle Cloud Infrastructure grouped by GCP Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by GCP Project} gcp {Google Cloud Platform grouped by GCP Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by GCP Project} ibm {IBM Cloud grouped by GCP Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by GCP Project} ocp {OpenShift grouped by GCP Project} ocp_cloud {All cloud filtered by OpenShift grouped by GCP Project} other {}}} ' +
+      'instance {{provider, select, aws {Amazon Web Services grouped by instance} aws_ocp {Amazon Web Services filtered by OpenShift grouped by instance} azure {Microsoft Azure grouped by instance} oci {Oracle Cloud Infrastructure grouped by instance} azure_ocp {Microsoft Azure filtered by OpenShift grouped by instance} gcp {Google Cloud Platform grouped by instance} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by instance} ibm {IBM Cloud grouped by instance} ibm_ocp {IBM Cloud filtered by OpenShift grouped by instance} ocp {OpenShift grouped by instance} ocp_cloud {All cloud filtered by OpenShift grouped by instance} other {}}} ' +
       'node {{provider, select, aws {Amazon Web Services grouped by Node} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Node} azure {Microsoft Azure grouped by Node} oci {Oracle Cloud Infrastructure grouped by Node} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Node} gcp {Google Cloud Platform grouped by Node} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Node} ibm {IBM Cloud grouped by Node} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Node} ocp {OpenShift grouped by Node} ocp_cloud {All cloud filtered by OpenShift grouped by Node} other {}}} ' +
       'org_unit_id {{provider, select, aws {Amazon Web Services grouped by Organizational unit} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Organizational unit} azure {Microsoft Azure grouped by Organizational unit} oci {Oracle Cloud Infrastructure grouped by Organizational unit} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Organizational unit} gcp {Google Cloud Platform grouped by Organizational unit} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Organizational unit} ibm {IBM Cloud grouped by Organizational unit} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Organizational unit} ocp {OpenShift grouped by Organizational unit} ocp_cloud {All cloud filtered by OpenShift grouped by Organizational unit} other {}}} ' +
       'payer_tenant_id {{provider, select, oci {Oracle Cloud Infrastructure grouped by Account} other {}}}' +
@@ -1793,6 +1842,7 @@ export default defineMessages({
       'aws_category {Selected cost categories ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
       'gcp_project {Selected GCP projects ({count})} ' +
+      'instance {Selected instances ({count})} ' +
       'node {Selected nodes ({count})} ' +
       'org_unit_id {Selected organizational units ({count})} ' +
       'payer_tenant_id {Selected accounts ({count})} ' +
@@ -2012,9 +2062,11 @@ export default defineMessages({
       'default {Default} ' +
       'gcp_project {GCP project} ' +
       'group {Group} ' +
+      'instance {Instance} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
+      'operating_system {Operating system} ' +
       'payer_tenant_id {Account} ' +
       'persistent_volume_claim {Persistent volume claim} ' +
       'product_service {Service} ' +
@@ -2041,6 +2093,16 @@ export default defineMessages({
     defaultMessage: 'Values',
     description: 'Values',
     id: 'filterByValuesAriaLabel',
+  },
+  filteredBy: {
+    defaultMessage: 'Filtered by',
+    description: 'Filtered by',
+    id: 'filteredBy',
+  },
+  filteredByWarning: {
+    defaultMessage: 'This page shows filtered results. To undo filters, clear filters on the previous page.',
+    description: 'This page shows filtered results. To undo filters, clear filters on the previous page.',
+    id: 'filteredByWarning',
   },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
@@ -2215,6 +2277,7 @@ export default defineMessages({
       'instance_type {Compute usage comparison}' +
       'memory {Memory usage, request, and limit comparison} ' +
       'modal {{name} daily usage comparison} ' +
+      'network {Network usage comparison} ' +
       'storage {Storage usage comparison} ' +
       'virtual_machine {Virtual machine usage comparison}' +
       'other {}}',
@@ -2280,6 +2343,11 @@ export default defineMessages({
     defaultMessage: 'Infrastructure',
     description: 'Infrastructure',
     id: 'infrastructure',
+  },
+  instances: {
+    defaultMessage: 'Instances',
+    description: 'Instances',
+    id: 'instances',
   },
   lastProcessed: {
     defaultMessage: 'Last processed',
@@ -2452,10 +2520,25 @@ export default defineMessages({
     description: 'Month over month change',
     id: 'monthOverMonthChange',
   },
+  moreOptions: {
+    defaultMessage: 'More options',
+    description: 'More options',
+    id: 'moreOptions',
+  },
   names: {
     defaultMessage: '{count, plural, one {Name} other {Names}}',
     description: 'Name plural or singular',
     id: 'names',
+  },
+  network: {
+    defaultMessage: 'Network',
+    description: 'Network',
+    id: 'network',
+  },
+  networkDesc: {
+    defaultMessage: 'Distribute the cost of network traffic to projects based on distribution type.',
+    description: 'Distribute the cost of network traffic to projects based on distribution type.',
+    id: 'networkDesc',
   },
   next: {
     defaultMessage: 'next',
@@ -2493,6 +2576,16 @@ export default defineMessages({
     description: 'There are no export files available',
     id: 'noExportsStateTitle',
   },
+  noInstancesDesc: {
+    defaultMessage: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
+    description: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
+    id: 'noInstancesDesc',
+  },
+  noInstancesTitle: {
+    defaultMessage: 'No instances available',
+    description: 'No instances available',
+    id: 'noInstancesTitle',
+  },
   noMappedTags: {
     defaultMessage: 'No mapped tags',
     description: 'No mapped tags',
@@ -2509,18 +2602,6 @@ export default defineMessages({
     defaultMessage: 'Tags must be enabled to be mapped.',
     description: 'Tags must be enabled to be mapped.',
     id: 'noMappedTagsWarning',
-  },
-  noOptimizationsDesc: {
-    defaultMessage:
-      'Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right.  Otherwise, there is not enough data available to generate an optimization.',
-    description:
-      'Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right.  Otherwise, there is not enough data available to generate an optimization.',
-    id: 'noOptimizationsDesc',
-  },
-  noOptimizationsTitle: {
-    defaultMessage: 'No optimizations available',
-    description: 'No optimizations available',
-    id: 'noOptimizationsTitle',
   },
   noProvidersStateAwsDesc: {
     defaultMessage:
@@ -3364,10 +3445,20 @@ export default defineMessages({
     description: 'Status/Actions',
     id: 'statusActions',
   },
+  storage: {
+    defaultMessage: 'Storage',
+    description: 'Storage',
+    id: 'storage',
+  },
   storageClass: {
     defaultMessage: 'StorageClass',
     description: 'StorageClass',
     id: 'storageClass',
+  },
+  storageDesc: {
+    defaultMessage: 'Distribute the cost of storage to projects based on distribution type.',
+    description: 'Distribute the cost of storage to projects based on distribution type.',
+    id: 'storageDesc',
   },
   suggestions: {
     defaultMessage: 'Suggestions',
@@ -3716,6 +3807,11 @@ export default defineMessages({
     defaultMessage: 'Various',
     description: 'Various',
     id: 'various',
+  },
+  vcpuTitle: {
+    defaultMessage: 'vCPU',
+    description: 'vCPU',
+    id: 'vcpuTitle',
   },
   volumeTitle: {
     defaultMessage: 'Volume',
