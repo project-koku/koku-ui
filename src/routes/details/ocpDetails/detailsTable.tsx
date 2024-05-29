@@ -2,7 +2,6 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { Label, Tooltip } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
@@ -343,7 +342,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         groupBy={groupBy}
         isDisabled={isDisabled}
         item={item}
-        providerType={ProviderType.ocp}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         showPriceListOption={groupBy === 'cluster'}

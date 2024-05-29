@@ -1,8 +1,10 @@
 import './dropdownWrapper.scss';
 
-import { Dropdown, DropdownItem, DropdownList, MenuToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownList, MenuToggle, Tooltip } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons/dist/esm/icons/ellipsis-v-icon';
+import messages from 'locales/messages';
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 
 export interface DropdownWrapperItem {
   description?: string; // Item description
@@ -33,6 +35,7 @@ const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
   placeholder = null,
   position,
 }) => {
+  const intl = useIntl();
   const [isOpen, setIsOpen] = useState(false);
 
   const getDropdownItem = (item, index) => {
@@ -58,17 +61,23 @@ const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
     setIsOpen(!isOpen);
   };
 
-  const toggle = toggleRef => (
-    <MenuToggle
-      isDisabled={isDisabled}
-      isExpanded={isOpen}
-      onClick={handleOnToggle}
-      ref={toggleRef}
-      variant={isKebab ? 'plain' : undefined}
-    >
-      {isKebab ? <EllipsisVIcon /> : placeholder}
-    </MenuToggle>
-  );
+  const toggle = toggleRef => {
+    const msg = intl.formatMessage(messages.moreOptions);
+    return (
+      <Tooltip content={msg}>
+        <MenuToggle
+          aria-label={msg}
+          isDisabled={isDisabled}
+          isExpanded={isOpen}
+          onClick={handleOnToggle}
+          ref={toggleRef}
+          variant={isKebab ? 'plain' : undefined}
+        >
+          {isKebab ? <EllipsisVIcon /> : placeholder}
+        </MenuToggle>
+      </Tooltip>
+    );
+  };
 
   return (
     <Dropdown

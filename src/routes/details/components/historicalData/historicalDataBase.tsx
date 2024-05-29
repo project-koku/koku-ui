@@ -8,16 +8,21 @@ import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common
 import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 import { HistoricalDataCostChart } from './historicalDataCostChart';
+import { HistoricalDataNetworkChart } from './historicalDataNetworkChart';
 import { HistoricalDataTrendChart } from './historicalDataTrendChart';
 import { HistoricalDataUsageChart } from './historicalDataUsageChart';
+import { HistoricalDataVolumeChart } from './historicalDataVolumeChart';
 
 interface HistoricalDataOwnProps {
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  groupBy?: string;
 }
 
 export interface HistoricalDataStateProps {
+  isOcpCloudNetworkingToggleEnabled?: boolean;
+  isOcpProjectStorageToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   widgets: number[];
 }
@@ -26,7 +31,9 @@ type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & W
 
 class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
   private getTitleKey = (reportPathsType, reportType) => {
-    if (reportPathsType === ReportPathsType.azure) {
+    if (reportPathsType === ReportPathsType.ocp) {
+      return reportType === ReportType.volume ? 'storage' : reportType;
+    } else if (reportPathsType === ReportPathsType.azure) {
       return reportType === ReportType.instanceType ? 'virtual_machine' : reportType;
     }
     return reportType === ReportType.instanceType ? 'instance_type' : reportType;
@@ -51,6 +58,66 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
             costDistribution={costDistribution}
             costType={costType}
             currency={currency}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
+        </CardBody>
+      </Card>
+    );
+  };
+
+  // Returns network chart
+  private getNetworkChart = (widget: HistoricalDataWidget) => {
+    const { groupBy, intl } = this.props;
+
+    let showWidget = false;
+    if (widget.network?.showWidgetOnGroupBy) {
+      for (const groupById of widget.network.showWidgetOnGroupBy) {
+        if (groupById === groupBy) {
+          showWidget = true;
+          break;
+        }
+      }
+    }
+    if (showWidget) {
+      return (
+        <Card>
+          <CardTitle>
+            <Title headingLevel="h2" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.historicalChartTitle, {
+                value: this.getTitleKey(widget.reportPathsType, widget.reportType),
+              })}
+            </Title>
+          </CardTitle>
+          <CardBody>
+            <HistoricalDataNetworkChart
+              chartName={widget.chartName}
+              reportPathsType={widget.reportPathsType}
+              reportType={widget.reportType}
+            />
+          </CardBody>
+        </Card>
+      );
+    }
+    return null;
+  };
+
+  // Returns volume chart
+  private getVolumeChart = (widget: HistoricalDataWidget) => {
+    const { intl } = this.props;
+
+    return (
+      <Card>
+        <CardTitle>
+          <Title headingLevel="h2" size={TitleSizes.lg}>
+            {intl.formatMessage(messages.historicalChartTitle, {
+              value: this.getTitleKey(widget.reportPathsType, widget.reportType),
+            })}
+          </Title>
+        </CardTitle>
+        <CardBody>
+          <HistoricalDataVolumeChart
+            chartName={widget.chartName}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -111,13 +178,19 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widget: HistoricalDataWidget) {
+    const { isOcpCloudNetworkingToggleEnabled, isOcpProjectStorageToggleEnabled } = this.props;
+
     switch (widget.type) {
       case HistoricalDataWidgetType.cost:
         return this.getCostChart(widget);
+      case HistoricalDataWidgetType.network:
+        return isOcpCloudNetworkingToggleEnabled ? this.getNetworkChart(widget) : null;
       case HistoricalDataWidgetType.trend:
         return this.getTrendChart(widget);
       case HistoricalDataWidgetType.usage:
         return this.getUsageChart(widget);
+      case HistoricalDataWidgetType.volume:
+        return isOcpProjectStorageToggleEnabled ? this.getVolumeChart(widget) : null;
       default:
         return null;
     }

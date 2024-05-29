@@ -30,7 +30,7 @@ import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
-import { OcpBreakdownOptimizations } from './ocpBreakdownOptimizations';
+import { Optimizations } from './optimizations';
 
 interface OcpBreakdownDispatchProps {
   closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
@@ -112,15 +112,18 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       />
     ),
     currency,
+    defaultBreadcrumbPath: formatPath(routes.ocpDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.ocpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData costDistribution={costDistribution} currency={currency} />,
+    historicalDataComponent: (
+      <HistoricalData costDistribution={costDistribution} currency={currency} groupBy={groupBy} />
+    ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
-    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OcpBreakdownOptimizations /> : undefined,
+    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,

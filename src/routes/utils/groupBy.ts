@@ -54,3 +54,18 @@ export const getGroupByTagKey = (query: Query) => {
   }
   return groupByTagKey;
 };
+
+export const getFilterByTagKey = (query: Query) => {
+  let filterByTagKey;
+
+  if (query?.filter_by) {
+    for (const groupBy of Object.keys(query.filter_by)) {
+      const tagIndex = groupBy.indexOf(tagPrefix);
+      if (tagIndex !== -1) {
+        filterByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
+        break;
+      }
+    }
+  }
+  return filterByTagKey;
+};
