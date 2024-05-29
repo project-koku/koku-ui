@@ -155,6 +155,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                   {row.cells.map((item, cellIndex) =>
                     cellIndex === 0 && isSelectable ? (
                       <Td
+                        className={item.className}
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}
                         modifier="nowrap"
@@ -169,6 +170,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                       />
                     ) : (
                       <Td
+                        className={item.className}
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"

@@ -13,7 +13,8 @@ import {
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
-import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ReportPathsType } from 'api/reports/report';
+import type { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
@@ -197,6 +198,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
     const title = intl.formatMessage(messages.breakdownSummaryTitle, {
       value: isPlatformCosts ? platformCategoryKey.toLowerCase() : reportGroupBy,
     });
+    const viewAll = this.getViewAll();
     return (
       <Card style={styles.card}>
         <CardTitle>
@@ -216,7 +218,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
             this.getSummary()
           )}
         </CardBody>
-        <CardFooter>{this.getViewAll()}</CardFooter>
+        {viewAll && <CardFooter>{viewAll}</CardFooter>}
       </Card>
     );
   }

@@ -14,6 +14,7 @@ import {
   memoryUsageWidget,
   projectSummaryWidget,
   pvcWidget,
+  volumeSummaryWidget,
   volumeUsageWidget,
 } from './ocpCostOverviewWidgets';
 
@@ -33,8 +34,9 @@ test('default state', () => {
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costWidget.id,
     costDistributionWidget.id,
-    clusterWidget.id,
     projectSummaryWidget.id,
+    volumeSummaryWidget.id,
+    clusterWidget.id,
     cpuUsageWidget.id,
     memoryUsageWidget.id,
     pvcWidget.id,

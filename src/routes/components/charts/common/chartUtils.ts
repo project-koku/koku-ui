@@ -97,7 +97,7 @@ export const getTooltipLabel = (datum: any, formatter: Formatter, formatOptions:
     datum.y0 !== undefined && datum.y0 !== null ? tooltipFormatter(datum.y0, datum.units, formatOptions) : undefined;
 
   if (dy !== undefined && dy0 !== undefined) {
-    return intl.formatMessage(messages.chartCostForecastConeTooltip, { value0: dy0, value1: dy });
+    return intl.formatMessage(messages.chartCostForecastConeRangeTooltip, { value0: dy0, value1: dy });
   }
   return dy !== undefined ? dy : intl.formatMessage(messages.chartNoData);
 };

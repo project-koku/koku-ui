@@ -1,21 +1,20 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import type { FormGroupProps } from '@patternfly/react-core';
-import type { FormSelectProps } from '@patternfly/react-core';
 import { FormGroup, HelperText, HelperTextItem } from '@patternfly/react-core';
-import type { SelectOptionObject } from '@patternfly/react-core/deprecated';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { intl as defaultIntl } from 'components/i18n';
 import React, { useEffect, useState } from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 
 interface SelectorFormGroupOwnProps {
   helperTextInvalid?: MessageDescriptor | string;
   isInvalid?: boolean;
   label?: MessageDescriptor | string;
-  appendMenuTo?: HTMLElement | 'parent' | 'inline' | (() => HTMLElement);
+  appendMenuTo?: HTMLElement | (() => HTMLElement) | 'inline' | 'parent';
   toggleAriaLabel?: string;
-  maxHeight?: string | number;
+  maxMenuHeight?: string;
   placeholderText?: string;
   direction?: 'up' | 'down';
   options: {
@@ -25,17 +24,15 @@ interface SelectorFormGroupOwnProps {
   }[];
 }
 
-interface SelectorOption extends SelectOptionObject {
-  toString(): string; // label
-  value?: string;
-  description?: string;
-}
-
 type SelectorFormGroupProps = Pick<FormGroupProps, 'style'>;
-type SelectorFormSelectProps = Pick<
-  FormSelectProps,
-  'isDisabled' | 'value' | 'onChange' | 'aria-label' | 'id' | 'isRequired'
->;
+interface SelectorFormSelectProps {
+  'aria-label'?: string;
+  id: string;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  onSelect?: (evt: any, value: string) => void;
+  value?: string;
+}
 
 type SelectorProps = SelectorFormGroupOwnProps &
   SelectorFormGroupProps &
@@ -43,44 +40,50 @@ type SelectorProps = SelectorFormGroupOwnProps &
   WrappedComponentProps;
 
 const SelectorBase: React.FC<SelectorProps> = ({
+  appendMenuTo,
   'aria-label': ariaLabel,
+  direction = 'down',
   helperTextInvalid: helpText,
   id,
   intl = defaultIntl, // Default required for testing
-  toggleAriaLabel,
-  maxHeight,
-  placeholderText,
-  direction = 'down',
   isInvalid = false,
   isRequired = false,
-  appendMenuTo = 'parent',
   label,
-  value,
-  onChange,
+  maxMenuHeight,
+  onSelect,
   options,
+  placeholderText,
+  toggleAriaLabel,
+  value,
+
   style,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selection, setSelection] = useState<SelectorOption>(null);
+  const [selection, setSelection] = useState<SelectWrapperOption>(null);
 
   useEffect(() => {
-    if (!value) {
+    if (!value || value.length === 0) {
       setSelection(null);
     } else {
       setSelection(value);
     }
   }, [value]);
 
-  const getSelectorOptions = (): SelectorOption[] => {
-    const ret = options.map(option => {
+  const getSelectOptions = (): SelectWrapperOption[] => {
+    const selectOptions = options.map(option => {
       return {
+        description: option.description,
         toString: () => (typeof option.label === 'object' ? intl.formatMessage(option.label) : option.label),
         value: option.value,
-        description: option.description,
-      } as SelectorOption;
+      };
     });
-    return ret;
+    return selectOptions;
   };
+
+  const handleOnSelect = (_evt, sel: SelectWrapperOption) => {
+    setSelection(sel);
+    onSelect(null, sel.value);
+  };
+
   return (
     <FormGroup
       isRequired={isRequired}
@@ -88,30 +91,19 @@ const SelectorBase: React.FC<SelectorProps> = ({
       fieldId={id}
       label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : (label as string)}
     >
-      <Select
-        id={id}
-        ouiaId={id}
-        maxHeight={maxHeight}
-        toggleAriaLabel={toggleAriaLabel}
-        variant={SelectVariant.single}
-        placeholderText={placeholderText}
-        aria-label={ariaLabel}
+      <SelectWrapper
+        appendTo={appendMenuTo}
+        ariaLabel={ariaLabel}
         direction={direction}
-        menuAppendTo={appendMenuTo}
-        isOpen={isOpen}
-        onSelect={(_evt, sel: SelectorOption) => {
-          setSelection(sel);
-          onChange(null, sel.value);
-          setIsOpen(false);
-        }}
-        onToggle={() => setIsOpen(!isOpen)}
-        selections={selection}
-        validated={isInvalid ? 'error' : 'default'}
-      >
-        {getSelectorOptions().map(opt => (
-          <SelectOption key={`${opt.value}`} value={opt} description={opt.description} />
-        ))}
-      </Select>
+        id={id}
+        maxMenuHeight={maxMenuHeight}
+        onSelect={handleOnSelect}
+        options={getSelectOptions()}
+        placeholder={placeholderText}
+        selection={selection}
+        status={isInvalid ? 'danger' : undefined}
+        toggleAriaLabel={toggleAriaLabel}
+      />
       {isInvalid && typeof helpText === 'object' && (
         <HelperText>
           <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>

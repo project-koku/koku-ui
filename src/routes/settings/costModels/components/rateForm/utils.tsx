@@ -173,7 +173,9 @@ export const mergeToRequest = (
     description: costModel.description,
     distribution_info: {
       distribution_type: costModel.distribution_info ? costModel.distribution_info.distribution_type : undefined,
+      network_cost: costModel.distribution_info ? costModel.distribution_info.network_cost : undefined,
       platform_cost: costModel.distribution_info ? costModel.distribution_info.platform_cost : undefined,
+      storage_cost: costModel.distribution_info ? costModel.distribution_info.storage_cost : undefined,
       worker_cost: costModel.distribution_info ? costModel.distribution_info.worker_cost : undefined,
     },
     source_uuids: costModel.sources.map(src => src.uuid),

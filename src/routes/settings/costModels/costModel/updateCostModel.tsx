@@ -146,10 +146,10 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                 label={messages.currency}
                 direction="up"
                 appendMenuTo="inline"
-                maxHeight={styles.selector.maxHeight}
+                maxMenuHeight={styles.selector.maxHeight as string}
                 toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
                 value={getValueLabel(this.state.currency, currencyOptions)}
-                onChange={(_evt, value) => this.setState({ currency: value })}
+                onSelect={(_evt, value) => this.setState({ currency: value })}
                 id="currency-units-selector"
                 options={currencyOptions.map(o => {
                   return {

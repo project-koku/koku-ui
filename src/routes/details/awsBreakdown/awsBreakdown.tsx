@@ -16,16 +16,25 @@ import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, logicalOrPrefix, orgUnitIdKey } from 'utils/props';
+import {
+  breakdownDescKey,
+  breakdownTitleKey,
+  logicalAndPrefix,
+  logicalOrPrefix,
+  orgUnitIdKey,
+  serviceKey,
+} from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostType, getCurrency } from 'utils/sessionStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
+import { Instances } from './instances';
 
 interface AwsBreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
@@ -45,6 +54,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+
   const costType = getCostType();
   const currency = getCurrency();
 
@@ -105,12 +115,16 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     ),
     costType,
     currency,
+    defaultBreadcrumbPath: formatPath(routes.awsDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.awsDetailsTitle),
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData costType={costType} currency={currency} />,
+    instancesComponent:
+      groupBy === serviceKey && groupByValue === 'AmazonEC2' ? <Instances currency={currency} /> : undefined,
+    isAwsEc2InstancesToggleEnabled: FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,

@@ -99,8 +99,10 @@ const UpdateRateModalBase: React.FC<UpdateRateModalProps> = ({
       )
     );
   }, [isOpen]);
+
   return (
     <Modal
+      className="costManagement"
       title={intl.formatMessage(messages.priceListEditRate)}
       isOpen={isOpen}
       onClose={onClose}
@@ -110,7 +112,7 @@ const UpdateRateModalBase: React.FC<UpdateRateModalProps> = ({
           key="proceed"
           variant="primary"
           onClick={onProceed}
-          isDisabled={!canSubmit || isProcessing || !gotDiffs}
+          isDisabled={isProcessing || !canSubmit || !gotDiffs}
         >
           {intl.formatMessage(messages.save)}
         </Button>,
