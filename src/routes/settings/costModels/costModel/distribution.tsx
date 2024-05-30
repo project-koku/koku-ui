@@ -65,15 +65,13 @@ const DistributionCardBase: React.FC<Props> = ({
             })}
           </div>
           <div>
-            {intl.formatMessage(messages.distributeUnallocatedCapacity, {
+            {intl.formatMessage(messages.distributePlatformCosts, {
               value: current.distribution_info.platform_cost,
-              type: 'platform',
             })}
           </div>
           <div>
             {intl.formatMessage(messages.distributeUnallocatedCapacity, {
               value: current.distribution_info.worker_cost,
-              type: 'worker',
             })}
           </div>
           {isOcpCloudNetworkingToggleEnabled && (

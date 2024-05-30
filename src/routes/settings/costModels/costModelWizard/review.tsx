@@ -163,15 +163,13 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({
                         {intl.formatMessage(messages.distributionTypeDesc, { type: distribution })}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
-                        {intl.formatMessage(messages.distributeUnallocatedCapacity, {
+                        {intl.formatMessage(messages.distributePlatformCosts, {
                           value: distributePlatformUnallocated,
-                          type: 'platform',
                         })}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
                         {intl.formatMessage(messages.distributeUnallocatedCapacity, {
                           value: distributeWorkerUnallocated,
-                          type: 'worker',
                         })}
                       </TextListItem>
                       {isOcpCloudNetworkingToggleEnabled && (

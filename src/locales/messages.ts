@@ -1455,13 +1455,22 @@ export default defineMessages({
     description: 'distribute costs',
     id: 'distributeCosts',
   },
+  distributePlatformCosts: {
+    defaultMessage:
+      '{value, select, ' +
+      'true {Distribute platform costs}' +
+      'false {Do not distribute platform costs}' +
+      'other {}}',
+    description: 'Distribute platform costs',
+    id: 'distributePlatformCosts',
+  },
   distributeUnallocatedCapacity: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
-      'false {Do not distribute {type, select, platform {platform} worker {worker} other {}} unallocated capacity}' +
+      'true {Distribute worker unallocated capacity}' +
+      'false {Do not distribute worker unallocated capacity}' +
       'other {}}',
-    description: 'distribute unallocated capacity',
+    description: 'Distribute unallocated capacity',
     id: 'distributeUnallocatedCapacity',
   },
   distributionModelDesc: {
