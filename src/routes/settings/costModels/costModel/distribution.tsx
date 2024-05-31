@@ -77,7 +77,7 @@ const DistributionCardBase: React.FC<Props> = ({
           {isOcpCloudNetworkingToggleEnabled && (
             <div>
               {intl.formatMessage(messages.distributeCosts, {
-                value: current.distribution_info.network_cost || false,
+                value: current.distribution_info.network_unattributed || false,
                 type: 'network',
               })}
             </div>
@@ -85,7 +85,7 @@ const DistributionCardBase: React.FC<Props> = ({
           {isOcpProjectStorageToggleEnabled && (
             <div>
               {intl.formatMessage(messages.distributeCosts, {
-                value: current.distribution_info.storage_cost || false,
+                value: current.distribution_info.storage_unattributed || false,
                 type: 'storage',
               })}
             </div>
