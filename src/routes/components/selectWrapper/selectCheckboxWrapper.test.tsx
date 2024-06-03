@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -24,11 +24,11 @@ test('checkbox selector', async () => {
   expect(screen.queryAllByText('CPU').length).toBe(0);
   expect(screen.queryAllByText('Memory').length).toBe(0);
   expect(screen.queryAllByText('Storage').length).toBe(0);
-  await act(async () => user.click(screen.getByRole('button')));
+  await user.click(screen.getByRole('button'));
   expect(screen.queryAllByText('CPU').length).toBe(1);
   expect(screen.queryAllByText('Memory').length).toBe(1);
   expect(screen.queryAllByText('Storage').length).toBe(1);
   expect(handleOnSelect.mock.calls.length).toBe(0);
-  await act(async () => user.click(screen.getAllByRole('checkbox')[0]));
+  await user.click(screen.getAllByRole('checkbox')[0]);
   expect(handleOnSelect.mock.calls).toEqual([['cpu']]);
 });
