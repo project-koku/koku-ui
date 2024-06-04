@@ -19,3 +19,4 @@ export const tagKey = 'tag'; // Tag key for group_by
 export const classificationDefault = 'default'; // Classification default costs
 export const classificationPlatform = 'category_Platform'; // Classification platform costs
 export const classificationUnallocated = 'unallocated'; // Classification for unallocated platform and worker costs
+export const classificationUnattributed = 'unattributed'; // Classification for unattributed network and storage costs
