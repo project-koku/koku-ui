@@ -20,7 +20,13 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import { getBreakdownPath } from 'routes/utils/paths';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dates';
 import { formatCurrency, formatPercentage } from 'utils/format';
-import { classificationDefault, classificationPlatform, classificationUnallocated, noPrefix } from 'utils/props';
+import {
+  classificationDefault,
+  classificationPlatform,
+  classificationUnallocated,
+  classificationUnattributed,
+  noPrefix,
+} from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -212,6 +218,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const isPlatformCosts = item.classification === classificationPlatform;
       const isUnallocatedCosts = item.classification === classificationUnallocated;
+      const isUnattributedCosts = item.classification === classificationUnattributed;
       const isOverheadCosts =
         costDistribution === ComputedReportItemValueType.distributed &&
         !isUnallocatedCosts &&
@@ -219,7 +226,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0));
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled =
-        label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}` || isUnallocatedCosts;
+        label === `${noPrefix}${groupBy}` ||
+        label === `${noPrefix}${groupByTagKey}` ||
+        isUnallocatedCosts ||
+        isUnattributedCosts;
       const actions = this.getActions(item, isDisabled);
 
       const name = isDisabled ? (
