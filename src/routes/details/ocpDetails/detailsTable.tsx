@@ -216,19 +216,20 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const isPlatformCosts = item.classification === classificationPlatform;
-      const isUnallocatedCosts = item.classification === classificationUnallocated;
+      const isDefaultProject = item.classification === classificationDefault;
+      const isPlatformProject = item.classification === classificationPlatform;
+      const isUnallocatedProject = item.classification === classificationUnallocated;
       const isUnattributedCosts = item.classification === classificationUnattributed;
       const isOverheadCosts =
         costDistribution === ComputedReportItemValueType.distributed &&
-        !isUnallocatedCosts &&
+        !isUnallocatedProject &&
         ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
           (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0));
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled =
         label === `${noPrefix}${groupBy}` ||
         label === `${noPrefix}${groupByTagKey}` ||
-        isUnallocatedCosts ||
+        isUnallocatedProject ||
         isUnattributedCosts;
       const actions = this.getActions(item, isDisabled);
 
@@ -240,7 +241,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             basePath,
             description: item.id,
             id: item.id,
-            isPlatformCosts,
+            isPlatformProject,
             groupBy,
             title: label.toString(), // Convert IDs if applicable
           })}
@@ -269,24 +270,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !isGroupByProject,
-            value:
-              item.classification === classificationDefault ? (
-                <Label variant="outline" color="green">
-                  {intl.formatMessage(messages.default)}
+            value: isDefaultProject ? (
+              <Label variant="outline" color="green">
+                {intl.formatMessage(messages.default)}
+              </Label>
+            ) : isOverheadCosts ? (
+              <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
+                <Label variant="outline" color="orange">
+                  {intl.formatMessage(messages.overhead)}
                 </Label>
-              ) : isOverheadCosts ? (
-                <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
-                  <Label variant="outline" color="orange">
-                    {intl.formatMessage(messages.overhead)}
-                  </Label>
-                </Tooltip>
-              ) : (
-                <span style={styles.defaultLabel} />
-              ),
+              </Tooltip>
+            ) : (
+              <span style={styles.defaultLabel} />
+            ),
           },
           {
             hidden: !(isGroupByProject && isRosToggleEnabled),
-            value: !isPlatformCosts && !isDisabled && (
+            value: !isPlatformProject && !isDisabled && (
               <AsyncComponent
                 scope="costManagementMfe"
                 appName="cost-management-mfe"
@@ -296,7 +296,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                   basePath,
                   description: item.id,
                   id: item.id,
-                  isPlatformCosts,
+                  isPlatformProject,
                   groupBy,
                   isOptimizationsTab: true,
                   title: label.toString(), // Convert IDs if applicable
