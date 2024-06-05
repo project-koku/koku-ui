@@ -76,18 +76,18 @@ export function transformReport(
         const val = d[reportItem][reportItemValue] ? d[reportItem][reportItemValue].value : d[reportItem].value;
         return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, reportItemValue)];
       } else {
-        const val = d[reportItem] ? d[reportItem].value : d[reportItem].value;
+        const val = d[reportItem]?.value !== undefined ? d[reportItem].value : d[reportItem];
         return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, undefined)];
       }
     }, []);
   } else {
     chartDatums = computedItems.map(i => {
-      if (i[reportItem]) {
+      if (i[reportItem] !== undefined) {
         if (reportItemValue) {
           const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
           return createReportDatum(val, i, idKey, reportItem, reportItemValue);
         } else {
-          const val = i[reportItem] ? i[reportItem].value : i[reportItem].value;
+          const val = i[reportItem]?.value !== undefined ? i[reportItem].value : i[reportItem];
           return createReportDatum(val, i, idKey, reportItem, undefined);
         }
       }
