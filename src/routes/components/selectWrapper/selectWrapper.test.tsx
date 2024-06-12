@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -23,9 +23,9 @@ test('primary selector', async () => {
   expect(screen.queryAllByText('CPU').length).toBe(1);
   expect(screen.queryAllByText('Memory').length).toBe(0);
   const button = screen.getByRole('button');
-  await act(async () => user.click(button));
+  await user.click(button);
   const options = screen.getAllByRole('option');
   expect(options.length).toBe(3);
-  await act(async () => user.click(options[1]));
+  await user.click(options[1]);
   expect(handleOnSelect.mock.calls).toEqual([['memory']]);
 });
