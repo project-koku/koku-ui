@@ -1,12 +1,15 @@
 import type { PagedMetaData, PagedResponse } from 'api/api';
 
 export interface ReportValue {
+  units?: string;
+  value?: number;
+}
+
+export interface ReportUsageValue extends ReportValue {
   count?: number;
   count_units?: string;
-  units?: string;
   unused?: number;
   unused_percent?: number;
-  value?: number;
 }
 
 export interface ReportItemValue {
@@ -73,14 +76,14 @@ export interface ReportAzureItem extends ReportItem {
 }
 
 export interface ReportOcpItem extends ReportItem {
-  capacity: ReportValue;
+  capacity: ReportUsageValue;
   cluster?: string;
   clusters?: string[];
   limit: ReportValue;
   node?: string;
   persistentvolumeclaim?: string;
   project?: string;
-  request: ReportValue;
+  request: ReportUsageValue;
   usage: ReportValue;
 }
 
@@ -145,12 +148,12 @@ export interface ReportMeta extends PagedMetaData {
   };
   others?: number;
   total?: {
-    capacity?: ReportValue;
+    capacity?: ReportUsageValue;
     cost?: ReportItemValue;
     count?: ReportValue; // Workaround for https://github.com/project-koku/koku/issues/1395
     infrastructure?: ReportItemValue;
     limit?: ReportValue;
-    request?: ReportValue;
+    request?: ReportUsageValue;
     supplementary?: ReportItemValue;
     usage?: ReportValue;
   };
