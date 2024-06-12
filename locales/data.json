@@ -3663,43 +3663,14 @@
         "value": "value"
       }
     ],
-    "distributeUnallocatedCapacity": [
+    "distributePlatformCosts": [
       {
         "options": {
           "false": {
             "value": [
               {
                 "type": 0,
-                "value": "Do not distribute "
-              },
-              {
-                "options": {
-                  "other": {
-                    "value": []
-                  },
-                  "platform": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "platform"
-                      }
-                    ]
-                  },
-                  "worker": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "worker"
-                      }
-                    ]
-                  }
-                },
-                "type": 5,
-                "value": "type"
-              },
-              {
-                "type": 0,
-                "value": " unallocated capacity"
+                "value": "Do not distribute platform costs"
               }
             ]
           },
@@ -3710,36 +3681,34 @@
             "value": [
               {
                 "type": 0,
-                "value": "Distribute "
-              },
-              {
-                "options": {
-                  "other": {
-                    "value": []
-                  },
-                  "platform": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "platform"
-                      }
-                    ]
-                  },
-                  "worker": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "worker"
-                      }
-                    ]
-                  }
-                },
-                "type": 5,
-                "value": "type"
-              },
+                "value": "Distribute platform costs"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "distributeUnallocatedCapacity": [
+      {
+        "options": {
+          "false": {
+            "value": [
               {
                 "type": 0,
-                "value": " unallocated capacity"
+                "value": "Do not distribute worker unallocated capacity"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute worker unallocated capacity"
               }
             ]
           }

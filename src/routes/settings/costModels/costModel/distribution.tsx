@@ -65,21 +65,19 @@ const DistributionCardBase: React.FC<Props> = ({
             })}
           </div>
           <div>
-            {intl.formatMessage(messages.distributeUnallocatedCapacity, {
+            {intl.formatMessage(messages.distributePlatformCosts, {
               value: current.distribution_info.platform_cost,
-              type: 'platform',
             })}
           </div>
           <div>
             {intl.formatMessage(messages.distributeUnallocatedCapacity, {
               value: current.distribution_info.worker_cost,
-              type: 'worker',
             })}
           </div>
           {isOcpCloudNetworkingToggleEnabled && (
             <div>
               {intl.formatMessage(messages.distributeCosts, {
-                value: current.distribution_info.network_cost || false,
+                value: current.distribution_info.network_unattributed || false,
                 type: 'network',
               })}
             </div>
@@ -87,7 +85,7 @@ const DistributionCardBase: React.FC<Props> = ({
           {isOcpProjectStorageToggleEnabled && (
             <div>
               {intl.formatMessage(messages.distributeCosts, {
-                value: current.distribution_info.storage_cost || false,
+                value: current.distribution_info.storage_unattributed || false,
                 type: 'storage',
               })}
             </div>
