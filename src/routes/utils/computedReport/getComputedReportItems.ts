@@ -21,6 +21,8 @@ export interface ComputedReportItemValue {
 }
 
 export interface ComputedReportOcpItem extends ReportItem {
+  data_transfer_in?: ReportValue;
+  data_transfer_out?: ReportValue;
   capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];

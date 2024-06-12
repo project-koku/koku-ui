@@ -127,9 +127,9 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
           description,
           distribution_info: {
             distribution_type: distribution,
-            network_cost: distributeNetwork,
+            network_unattributed: distributeNetwork,
             platform_cost: distributePlatformUnallocated,
-            storage_cost: distributeStorage,
+            storage_unattributed: distributeStorage,
             worker_cost: distributeWorkerUnallocated,
           },
           rates: tiers,

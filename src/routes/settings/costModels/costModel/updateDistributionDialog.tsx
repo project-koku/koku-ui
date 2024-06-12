@@ -61,9 +61,9 @@ class UpdateDistributionDialogBase extends React.Component<
     super(props);
     this.state = {
       distribution: this.props.current.distribution_info.distribution_type,
-      distributeNetwork: this.props.current.distribution_info.network_cost === true,
+      distributeNetwork: this.props.current.distribution_info.network_unattributed === true,
       distributePlatformUnallocated: this.props.current.distribution_info.platform_cost === true,
-      distributeStorage: this.props.current.distribution_info.storage_cost === true,
+      distributeStorage: this.props.current.distribution_info.storage_unattributed === true,
       distributeWorkerUnallocated: this.props.current.distribution_info.worker_cost === true,
     };
   }
@@ -127,9 +127,9 @@ class UpdateDistributionDialogBase extends React.Component<
                 source_type: 'OCP',
                 distribution_info: {
                   distribution_type: this.state.distribution,
-                  network_cost: this.state.distributeNetwork,
+                  network_unattributed: this.state.distributeNetwork,
                   platform_cost: this.state.distributePlatformUnallocated,
-                  storage_cost: this.state.distributeStorage,
+                  storage_unattributed: this.state.distributeStorage,
                   worker_cost: this.state.distributeWorkerUnallocated,
                 },
               };

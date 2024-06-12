@@ -177,36 +177,36 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
   };
 
   // Returns rendered widget based on type
-  private renderWidget(widget: HistoricalDataWidget) {
-    const { isOcpCloudNetworkingToggleEnabled, isOcpProjectStorageToggleEnabled } = this.props;
+  private renderWidget(widgetId: number) {
+    const { isOcpCloudNetworkingToggleEnabled, isOcpProjectStorageToggleEnabled, selectWidgets } = this.props;
+
+    const widget = selectWidgets[widgetId];
+    let result = null;
 
     switch (widget.type) {
       case HistoricalDataWidgetType.cost:
-        return this.getCostChart(widget);
+        result = this.getCostChart(widget);
+        break;
       case HistoricalDataWidgetType.network:
-        return isOcpCloudNetworkingToggleEnabled ? this.getNetworkChart(widget) : null;
+        result = isOcpCloudNetworkingToggleEnabled ? this.getNetworkChart(widget) : null;
+        break;
       case HistoricalDataWidgetType.trend:
-        return this.getTrendChart(widget);
+        result = this.getTrendChart(widget);
+        break;
       case HistoricalDataWidgetType.usage:
-        return this.getUsageChart(widget);
+        result = this.getUsageChart(widget);
+        break;
       case HistoricalDataWidgetType.volume:
-        return isOcpProjectStorageToggleEnabled ? this.getVolumeChart(widget) : null;
-      default:
-        return null;
+        result = isOcpProjectStorageToggleEnabled ? this.getVolumeChart(widget) : null;
+        break;
     }
+    return result !== null ? <GridItem key={`widget-${widgetId}`}>{result}</GridItem> : null;
   }
 
   public render() {
-    const { selectWidgets, widgets } = this.props;
+    const { widgets } = this.props;
 
-    return (
-      <Grid hasGutter>
-        {widgets.map(widgetId => {
-          const widget = selectWidgets[widgetId];
-          return <GridItem key={`widget-${widgetId}`}>{this.renderWidget(widget)}</GridItem>;
-        })}
-      </Grid>
-    );
+    return <Grid hasGutter>{widgets.map(widgetId => this.renderWidget(widgetId))}</Grid>;
   }
 }
 
