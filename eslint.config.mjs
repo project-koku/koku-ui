@@ -2,7 +2,6 @@ import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import formatjs from "eslint-plugin-formatjs";
 import patternflyReact from "eslint-plugin-patternfly-react";
-// import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import sortKeysFix from "eslint-plugin-sort-keys-fix";
@@ -12,7 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
-import ss from '@redhat-cloud-services/eslint-config-redhat-cloud-services';
+// import prettier from "eslint-plugin-prettier";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
