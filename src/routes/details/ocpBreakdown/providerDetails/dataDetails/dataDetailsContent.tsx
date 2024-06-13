@@ -64,7 +64,6 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): DataDetailsContentStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);

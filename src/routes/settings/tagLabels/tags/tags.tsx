@@ -245,7 +245,6 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 

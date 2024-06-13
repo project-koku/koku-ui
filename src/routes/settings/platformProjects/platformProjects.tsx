@@ -244,7 +244,6 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 

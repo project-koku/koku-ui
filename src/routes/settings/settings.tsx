@@ -218,7 +218,6 @@ const Settings: React.FC<SettingsProps> = () => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): SettingsStateProps => {
   const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = useSelector((state: RootState) =>
