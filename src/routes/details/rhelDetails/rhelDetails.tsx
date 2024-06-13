@@ -430,7 +430,6 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<RhelQuery>(router.location.search);
   const currency = getCurrency();

@@ -373,7 +373,6 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<IbmQuery>(router.location.search);
   const currency = getCurrency();

@@ -382,7 +382,6 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OciQuery>(router.location.search);
   const currency = getCurrency();

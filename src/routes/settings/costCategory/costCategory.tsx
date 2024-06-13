@@ -239,7 +239,6 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
