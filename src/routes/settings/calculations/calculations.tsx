@@ -112,7 +112,6 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): CalculationsStateProps => {
   const costTypeAccountSettingsUpdateStatus = useSelector((state: RootState) =>
     accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, AccountSettingsType.costType)

@@ -806,7 +806,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OverviewQuery>(router.location.search);
   const tabKey = queryFromRoute.tabKey && !Number.isNaN(queryFromRoute.tabKey) ? Number(queryFromRoute.tabKey) : 0;

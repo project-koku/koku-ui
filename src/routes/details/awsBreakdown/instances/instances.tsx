@@ -322,7 +322,6 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ currency, query }): InstancesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
