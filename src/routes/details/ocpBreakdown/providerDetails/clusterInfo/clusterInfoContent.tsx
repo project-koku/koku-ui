@@ -110,7 +110,6 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): ClusterInfoContentStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);

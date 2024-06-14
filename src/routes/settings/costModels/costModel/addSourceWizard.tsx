@@ -176,7 +176,6 @@ class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourc
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AddSourceWizardProps, AddSourceWizardStateProps>(state => {
   return {
     fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,

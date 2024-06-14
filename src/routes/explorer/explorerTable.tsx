@@ -557,7 +557,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);

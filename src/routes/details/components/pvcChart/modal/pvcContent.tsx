@@ -177,7 +177,6 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();

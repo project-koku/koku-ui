@@ -37,7 +37,6 @@ const detailsURL = formatPath(routes.azureDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const queryState = getQueryState(router.location, 'details');

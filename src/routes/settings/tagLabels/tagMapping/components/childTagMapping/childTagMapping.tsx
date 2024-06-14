@@ -105,7 +105,6 @@ const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent,
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): ChildTagMappingStateProps => {
   const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
