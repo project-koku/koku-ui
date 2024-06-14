@@ -8,7 +8,6 @@ interface RhelCostOverviewOwnProps {
   title?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<RhelCostOverviewOwnProps, CostOverviewStateProps>((state, { title }) => {
   return {
     selectWidgets: rhelCostOverviewSelectors.selectWidgets(state),
