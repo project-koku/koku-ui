@@ -85,7 +85,6 @@ const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, isChild, it
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ settingsType }: DeleteTagMappingMapProps): DeleteTagMappingStateProps => {
   const settingsUpdateStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, settingsType)

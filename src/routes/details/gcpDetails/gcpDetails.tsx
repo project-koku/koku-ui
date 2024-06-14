@@ -371,7 +371,6 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<GcpQuery>(router.location.search);
   const currency = getCurrency();

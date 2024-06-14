@@ -191,7 +191,6 @@ const ParentTags: React.FC<ParentTagsProps> = ({
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: ParentTagsMapProps): ParentTagsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
