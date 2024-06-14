@@ -424,7 +424,6 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<AwsQuery>(router.location.search);
   const costType = getCostType();

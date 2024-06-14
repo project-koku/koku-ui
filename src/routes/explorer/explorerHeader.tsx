@@ -345,7 +345,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
   (state, { perspective, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
