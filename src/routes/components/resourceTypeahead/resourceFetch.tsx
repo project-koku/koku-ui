@@ -84,7 +84,6 @@ const ResourceFetch: React.FC<ResourceFetchProps> = ({
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ resourcePathsType, resourceType, search }: ResourceFetchMapProps): ResourceFetchStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const [searchTimeout, setSearchTimeout] = useState(noop);

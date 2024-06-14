@@ -198,7 +198,6 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
   );
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = ({ query }: MappingsMapProps): MappingsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 

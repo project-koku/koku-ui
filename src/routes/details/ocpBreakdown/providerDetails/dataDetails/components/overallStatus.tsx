@@ -108,7 +108,6 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
   return null;
 };
 
-// eslint-disable-next-line no-empty-pattern
 const useMapToProps = (): OverallStatusStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);

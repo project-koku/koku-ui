@@ -37,7 +37,6 @@ const detailsURL = formatPath(routes.rhelDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.rhel;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const queryState = getQueryState(router.location, 'details');

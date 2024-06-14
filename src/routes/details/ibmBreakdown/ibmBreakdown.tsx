@@ -37,7 +37,6 @@ const detailsURL = formatPath(routes.ibmDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ibm;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const queryState = getQueryState(router.location, 'details');

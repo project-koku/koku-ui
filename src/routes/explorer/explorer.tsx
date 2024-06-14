@@ -564,7 +564,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
 

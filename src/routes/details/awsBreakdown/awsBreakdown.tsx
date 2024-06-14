@@ -46,7 +46,6 @@ const detailsURL = formatPath(routes.awsDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const queryState = getQueryState(router.location, 'details');
