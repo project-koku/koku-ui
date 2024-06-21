@@ -25,9 +25,10 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
+import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 
-import { ExportsActions } from './exportActions';
 import { styles } from './exportsTable.styles';
 
 interface ExportsTableOwnProps {
@@ -125,7 +126,7 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
             { title: <div>{item.created}</div>, id: ExportsTableColumnIds.created },
             { title: <div>{item.expires}</div>, id: ExportsTableColumnIds.expires },
             { title: this.getStatus(item.status), id: ExportsTableColumnIds.status },
-            { title: <ExportsActions onDelete={this.handleOnDelete} />, id: ExportsTableColumnIds.actions },
+            { title: this.getActions(), id: ExportsTableColumnIds.actions },
           ],
           item,
         });
@@ -155,6 +156,18 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
       loadingRows,
       rows,
     });
+  };
+
+  private getActions = () => {
+    const { intl } = this.props;
+
+    const items: DropdownWrapperItem[] = [
+      {
+        onClick: this.handleOnDelete,
+        toString: () => intl.formatMessage(messages.delete),
+      },
+    ];
+    return <DropdownWrapper isKebab items={items} position="right" />;
   };
 
   private getEmptyState = () => {
