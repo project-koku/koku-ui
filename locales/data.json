@@ -6836,7 +6836,7 @@
     "exportNameTooLong": [
       {
         "type": 0,
-        "value": "Should not exceed 50 characters"
+        "value": "Should not exceed 255 characters"
       }
     ],
     "exportResolution": [
