@@ -85,10 +85,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
   const newSteps = [...steps];
   newSteps[current].isNextDisabled = !validators[current](context);
 
-  if (current === steps.length && context.type !== '') {
-    newSteps[current].nextButtonText = intl.formatMessage(messages.create);
-  }
-  if (current === steps.length - 1) {
+  if (current === newSteps.length - 1) {
     newSteps[current].onNext = () => {
       const {
         currency,
@@ -305,6 +302,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           id: 3,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
       AWS: [
@@ -327,6 +325,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           id: 3,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
       GCP: [
@@ -349,6 +348,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           id: 3,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
       OCP: [
@@ -381,6 +381,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           id: 5,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
     });
