@@ -1,5 +1,4 @@
 import {
-  Bullseye,
   Button,
   ButtonVariant,
   EmptyState,
@@ -9,15 +8,12 @@ import {
   EmptyStateIcon,
   Label,
   Popover,
-  Spinner,
 } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons/dist/esm/icons/download-icon';
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import { OutlinedClockIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-clock-icon';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { SyncIcon } from '@patternfly/react-icons/dist/esm/icons/sync-icon';
-import { sortable, SortByDirection, TableVariant } from '@patternfly/react-table';
-import { Table, TableBody, TableHeader } from '@patternfly/react-table/deprecated';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -25,45 +21,33 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { DataTable } from 'routes/components/dataTable';
+import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
+import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 
-import { ExportsActions } from './exportActions';
 import { styles } from './exportsTable.styles';
 
 interface ExportsTableOwnProps {
   isLoading?: boolean;
   onClose();
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   query: Query;
   report: Report;
 }
 
 interface ExportsTableState {
   columns?: any[];
-  loadingRows?: any[];
   rows?: any[];
 }
 
 type ExportsTableProps = ExportsTableOwnProps & WrappedComponentProps;
-
-export const ExportsTableColumnIds = {
-  actions: 'actions',
-  created: 'created',
-  expires: 'expires',
-  names: 'names',
-  status: 'status',
-};
 
 class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableState> {
   public state: ExportsTableState = {
     columns: [],
     rows: [],
   };
-
-  constructor(props: ExportsTableProps) {
-    super(props);
-    this.handleOnSort = this.handleOnSort.bind(this);
-  }
 
   public componentDidMount() {
     this.initDatum();
@@ -90,30 +74,25 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
 
     const columns = [
       {
-        id: ExportsTableColumnIds.names,
+        name: intl.formatMessage(messages.names, { count: 1 }),
         orderBy: 'name',
-        title: intl.formatMessage(messages.names, { count: 1 }),
-        ...(isSortable && { transforms: [sortable] }),
+        isSortable,
       },
       {
-        id: ExportsTableColumnIds.created,
+        name: intl.formatMessage(messages.timeOfExport),
         orderBy: 'created',
-        title: intl.formatMessage(messages.timeOfExport),
-        ...(isSortable && { transforms: [sortable] }),
+        isSortable,
       },
       {
-        id: ExportsTableColumnIds.expires,
+        name: intl.formatMessage(messages.expiresOn),
         orderBy: 'expires',
-        title: intl.formatMessage(messages.expiresOn),
-        ...(isSortable && { transforms: [sortable] }),
+        isSortable,
       },
       {
-        id: ExportsTableColumnIds.status,
-        title: intl.formatMessage(messages.statusActions),
+        name: intl.formatMessage(messages.statusActions),
       },
       {
-        id: ExportsTableColumnIds.actions,
-        title: '',
+        name: '',
       },
     ];
 
@@ -121,40 +100,32 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
       report.data.map((item: any) => {
         rows.push({
           cells: [
-            { title: <div>{item.name}</div>, id: ExportsTableColumnIds.names },
-            { title: <div>{item.created}</div>, id: ExportsTableColumnIds.created },
-            { title: <div>{item.expires}</div>, id: ExportsTableColumnIds.expires },
-            { title: this.getStatus(item.status), id: ExportsTableColumnIds.status },
-            { title: <ExportsActions onDelete={this.handleOnDelete} />, id: ExportsTableColumnIds.actions },
+            { value: item.name },
+            { value: item.created },
+            { value: item.expires },
+            { value: this.getStatus(item.status) },
+            { value: this.getActions() },
           ],
           item,
         });
       });
     }
-
-    const loadingRows = [
-      {
-        heightAuto: true,
-        cells: [
-          {
-            props: { colSpan: 7 },
-            title: (
-              <Bullseye>
-                <div style={{ textAlign: 'center' }}>
-                  <Spinner size="xl" />
-                </div>
-              </Bullseye>
-            ),
-          },
-        ],
-      },
-    ];
-
     this.setState({
       columns,
-      loadingRows,
       rows,
     });
+  };
+
+  private getActions = () => {
+    const { intl } = this.props;
+
+    const items: DropdownWrapperItem[] = [
+      {
+        onClick: this.handleOnDelete,
+        toString: () => intl.formatMessage(messages.delete),
+      },
+    ];
+    return <DropdownWrapper isKebab items={items} position="right" />;
   };
 
   private getEmptyState = () => {
@@ -183,27 +154,6 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
         </EmptyStateFooter>
       </EmptyState>
     );
-  };
-
-  private getSortBy = () => {
-    const { query } = this.props;
-    const { columns } = this.state;
-
-    let index = -1;
-    let direction: any = SortByDirection.asc;
-
-    for (const key of Object.keys(query.order_by)) {
-      let c = 0;
-      for (const column of columns) {
-        if (column.orderBy === key) {
-          direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
-          index = c;
-          break;
-        }
-        c++;
-      }
-    }
-    return index > -1 ? { index, direction } : {};
   };
 
   private getStatus = (status: string) => {
@@ -275,36 +225,20 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
     console.log('handleOnDownload clicked');
   };
 
-  private handleOnSort = (event, index, direction) => {
-    const { onSort } = this.props;
-    const { columns } = this.state;
-
-    if (onSort) {
-      const orderBy = columns[index - 1].orderBy;
-      const isSortAscending = direction === SortByDirection.asc;
-      onSort(orderBy, isSortAscending);
-    }
-  };
-
   public render() {
-    const { intl, isLoading } = this.props;
-    const { columns, loadingRows, rows } = this.state;
+    const { intl, isLoading, onSort, query } = this.props;
+    const { columns, rows } = this.state;
 
     return (
-      <>
-        <Table
-          aria-label={intl.formatMessage(messages.exportsTableAriaLabel)}
-          cells={columns}
-          rows={isLoading ? loadingRows : rows}
-          sortBy={this.getSortBy()}
-          onSort={this.handleOnSort}
-          variant={TableVariant.compact}
-        >
-          <TableHeader />
-          <TableBody />
-        </Table>
-        {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
-      </>
+      <DataTable
+        ariaLabel={intl.formatMessage(messages.exportsTableAriaLabel)}
+        columns={columns}
+        emptyState={this.getEmptyState()}
+        isLoading={isLoading}
+        onSort={onSort}
+        rows={rows}
+        orderBy={query.order_by}
+      />
     );
   }
 }
