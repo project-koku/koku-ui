@@ -7,6 +7,9 @@ updates:
     target-branch: "main"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/New_York"
     labels:
       - "dependency-bot"
     commit-message:
