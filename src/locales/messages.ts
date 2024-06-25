@@ -1834,8 +1834,8 @@ export default defineMessages({
     id: 'exportNameRequired',
   },
   exportNameTooLong: {
-    defaultMessage: 'Should not exceed 50 characters',
-    description: 'Should not exceed 50 characters',
+    defaultMessage: 'Should not exceed 255 characters',
+    description: 'Should not exceed 255 characters',
     id: 'exportNameTooLong',
   },
   exportResolution: {

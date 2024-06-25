@@ -21,7 +21,7 @@ interface InstancesTableOwnProps {
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   query?: Query;
   report?: Report;
@@ -203,9 +203,9 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     );
   };
 
-  const handleOnSort = (value: string, isSortAscending: boolean) => {
+  const handleOnSort = (sortType: string, isSortAscending: boolean) => {
     if (onSort) {
-      onSort(value, isSortAscending);
+      onSort(sortType, isSortAscending);
     }
   };
 

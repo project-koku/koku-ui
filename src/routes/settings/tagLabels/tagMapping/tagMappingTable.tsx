@@ -16,7 +16,7 @@ interface TagMappingTableOwnProps {
   isDisabled?: boolean;
   isLoading?: boolean;
   onClose?: () => void;
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   settings: Settings;
 }
