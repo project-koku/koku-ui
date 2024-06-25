@@ -29,7 +29,7 @@ interface ExpandableTableOwnProps {
   isActionsCell?: boolean;
   isAllExpanded?: boolean;
   isLoading?: boolean;
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   orderBy: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
