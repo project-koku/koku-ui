@@ -131,7 +131,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       return messages.exportNameRequired;
     }
     // Todo: what is the max length allowed?
-    if (value.length > 50) {
+    if (value.length > 255) {
       return messages.exportNameTooLong;
     }
     return undefined;

@@ -13,7 +13,7 @@ import { formatUsage, unitsLookupKey } from 'utils/format';
 interface PvcTableOwnProps {
   filterBy?: any;
   isLoading?: boolean;
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   report: OcpReport;
   reportQueryString: string;
@@ -115,9 +115,9 @@ const PvcTable: React.FC<PvcTableProps> = ({ filterBy, isLoading, onSort, orderB
     setRows(filteredRows);
   };
 
-  const handleOnSort = (value: string, isSortAscending: boolean) => {
+  const handleOnSort = (sortType: string, isSortAscending: boolean) => {
     if (onSort) {
-      onSort(value, isSortAscending);
+      onSort(sortType, isSortAscending);
     }
   };
 

@@ -11,7 +11,7 @@ interface ParentTagsTableOwnProps {
   filterBy?: any;
   isLoading?: boolean;
   onSelect(items: SettingsData[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   selectedItems?: SettingsData[];
   settings: Settings;

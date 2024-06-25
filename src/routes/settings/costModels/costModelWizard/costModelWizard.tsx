@@ -1,6 +1,5 @@
-import { Button, Icon, Modal, Title, TitleSizes } from '@patternfly/react-core';
-import type { WizardStepFunctionType } from '@patternfly/react-core/deprecated';
-import { Wizard } from '@patternfly/react-core/deprecated';
+import { Button, Icon, Modal, Title, TitleSizes, Wizard, WizardHeader, WizardStep } from '@patternfly/react-core';
+import { ModalVariant } from '@patternfly/react-core/next';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
@@ -33,12 +32,12 @@ interface InternalWizardBaseProps extends WrappedComponentProps {
   isSuccess: boolean;
   closeFnc: () => void;
   isOpen: boolean;
-  onMove: WizardStepFunctionType;
+  onMove: (id: number) => void;
   validators: ((any) => boolean)[];
   steps: any[];
   current: number;
   context: any;
-  setError: (string) => void;
+  setError: (error: string) => void;
   setSuccess: () => void;
   updateCostModel: () => void;
   metricsHash: MetricHash;
@@ -73,80 +72,102 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
   onMove,
   validators,
   steps,
-  current = 1,
+  current = 0,
   context,
   setError,
   setSuccess,
   updateCostModel,
 }) => {
-  const newSteps = steps.map((step, ix) => {
-    return {
-      ...step,
-      canJumpTo: current > ix,
+  const EmptyFooter = () => null;
+  const isAddingRate = context.type === 'OCP' && current === 1 && !validators[current](context);
+  const isFooterHidden = isSuccess || isProcess || isAddingRate;
+
+  const newSteps = [...steps];
+  newSteps[current].isNextDisabled = !validators[current](context);
+
+  if (current === newSteps.length - 1) {
+    newSteps[current].onNext = () => {
+      const {
+        currency,
+        description,
+        distribution,
+        distributeNetwork,
+        distributePlatformUnallocated,
+        distributeStorage,
+        distributeWorkerUnallocated,
+        isDiscount,
+        markup,
+        name,
+        type,
+        tiers,
+        sources,
+      } = context;
+      addCostModel({
+        name,
+        source_type: type,
+        currency,
+        description,
+        distribution_info: {
+          distribution_type: distribution,
+          network_unattributed: distributeNetwork,
+          platform_cost: distributePlatformUnallocated,
+          storage_unattributed: distributeStorage,
+          worker_cost: distributeWorkerUnallocated,
+        },
+        rates: tiers,
+        markup: {
+          value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,
+          unit: 'percent',
+        },
+        source_uuids: sources.map(src => src.uuid),
+      })
+        .then(() => {
+          setSuccess();
+          updateCostModel();
+        })
+        .catch(err => setError(parseApiError(err)));
     };
-  });
-  newSteps[current - 1].enableNext = validators[current - 1](context);
-  const isAddingRate = context.type === 'OCP' && current === 2 && !validators[current - 1](context);
-  if (current === steps.length && context.type !== '') {
-    newSteps[current - 1].nextButtonText = intl.formatMessage(messages.create);
   }
 
-  return isOpen ? (
-    <Wizard
-      className="costManagement"
-      isOpen
-      title={intl.formatMessage(messages.createCostModelTitle)}
-      description={intl.formatMessage(messages.createCostModelDesc)}
-      steps={newSteps}
-      startAtStep={current}
-      onNext={onMove}
-      onBack={onMove}
-      onGoToStep={onMove}
-      onClose={closeFnc}
-      footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
-      onSave={() => {
-        const {
-          currency,
-          description,
-          distribution,
-          distributeNetwork,
-          distributePlatformUnallocated,
-          distributeStorage,
-          distributeWorkerUnallocated,
-          isDiscount,
-          markup,
-          name,
-          type,
-          tiers,
-          sources,
-        } = context;
-        addCostModel({
-          name,
-          source_type: type,
-          currency,
-          description,
-          distribution_info: {
-            distribution_type: distribution,
-            network_unattributed: distributeNetwork,
-            platform_cost: distributePlatformUnallocated,
-            storage_unattributed: distributeStorage,
-            worker_cost: distributeWorkerUnallocated,
-          },
-          rates: tiers,
-          markup: {
-            value: `${isDiscount ? '-' : ''}${unFormat(markup)}`,
-            unit: 'percent',
-          },
-          source_uuids: sources.map(src => src.uuid),
-        })
-          .then(() => {
-            setSuccess();
-            updateCostModel();
-          })
-          .catch(err => setError(parseApiError(err)));
-      }}
-    />
-  ) : null;
+  // Todo: Remove key={newSteps.length} workaround -- see https://github.com/patternfly/patternfly-react/issues/9752
+  return (
+    <Modal className="costManagement" hasNoBodyWrapper isOpen={isOpen} showClose={false} variant={ModalVariant.large}>
+      <Wizard
+        header={
+          <WizardHeader
+            description={intl.formatMessage(messages.createCostModelDesc)}
+            onClose={closeFnc}
+            title={intl.formatMessage(messages.createCostModelTitle)}
+          />
+        }
+        isVisitRequired
+        key={newSteps.length}
+        onClose={closeFnc}
+        onStepChange={(_evt, currentStep) => onMove(currentStep.id as number)}
+      >
+        {newSteps.map(step => (
+          <WizardStep
+            footer={
+              isFooterHidden ? (
+                <EmptyFooter />
+              ) : (
+                {
+                  isNextDisabled: step.isNextDisabled,
+                  ...(step.nextButtonText && { nextButtonText: step.nextButtonText }),
+                  ...(step.onNext && { onNext: step.onNext }),
+                }
+              )
+            }
+            id={step.id}
+            key={step.id}
+            name={step.name}
+          >
+            {step.component}
+          </WizardStep>
+        ))}
+      </Wizard>
+    </Modal>
+  );
 };
 
 const InternalWizard = injectIntl(InternalWizardBase);
@@ -238,7 +259,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
     },
     query: {},
     sources: [],
-    step: 1,
+    step: 0,
     tiers: [] as Rate[],
     total: 0,
     type: '',
@@ -256,107 +277,111 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
     const stepsHash = () => ({
       '': [
         {
-          id: 1,
+          id: 0,
           name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
       ],
       Azure: [
         {
-          id: 1,
+          id: 0,
           name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
-          id: 2,
+          id: 1,
           name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
-          id: 3,
+          id: 2,
           name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
-          id: 4,
+          id: 3,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
       AWS: [
         {
-          id: 1,
+          id: 0,
           name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
-          id: 2,
+          id: 1,
           name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
-          id: 3,
+          id: 2,
           name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
-          id: 4,
+          id: 3,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
       GCP: [
         {
-          id: 1,
+          id: 0,
           name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
-          id: 2,
+          id: 1,
           name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
-          id: 3,
+          id: 2,
           name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
-          id: 4,
+          id: 3,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
       OCP: [
         {
-          id: 1,
+          id: 0,
           name: intl.formatMessage(messages.costModelsWizardStepsGenInfo),
           component: <GeneralInformation />,
         },
         {
-          id: 2,
+          id: 1,
           name: intl.formatMessage(messages.priceList),
           component: <PriceList />,
         },
         {
-          id: 3,
+          id: 2,
           name: intl.formatMessage(messages.costCalculations),
           component: <Markup />,
         },
         {
-          id: 4,
+          id: 3,
           name: intl.formatMessage(messages.costDistribution),
           component: <Distribution />,
         },
         {
-          id: 5,
+          id: 4,
           name: intl.formatMessage(messages.costModelsWizardStepsSources),
           component: <Sources />,
         },
         {
-          id: 6,
+          id: 5,
           name: intl.formatMessage(messages.costModelsWizardStepsReview),
           component: <Review />,
+          nextButtonText: intl.formatMessage(messages.create),
         },
       ],
     });
@@ -527,8 +552,8 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           isSuccess={this.state.createSuccess}
           closeFnc={() => {
             if (
-              (this.state.type === 'OCP' && this.state.step > 1 && this.state.tiers.length > 0) ||
-              (this.state.type !== 'OCP' && this.state.step > 2)
+              (this.state.type === 'OCP' && this.state.step > 0 && this.state.tiers.length > 0) ||
+              (this.state.type !== 'OCP' && this.state.step > 1)
             ) {
               this.setState({ isDialogOpen: true }, this.props.closeWizard);
             } else {
@@ -536,7 +561,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             }
           }}
           isOpen={this.props.isOpen}
-          onMove={curr => this.setState({ step: Number(curr.id) })}
+          onMove={id => this.setState({ step: Number(id) })}
           steps={stepsHash()[this.state.type]}
           current={this.state.step}
           validators={validatorsHash[this.state.type]}

@@ -55,7 +55,7 @@ interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentPr
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean, date: string);
+  onSort(sortType: string, isSortAscending: boolean, date: string);
   perspective: PerspectiveType;
   query: Query;
   report: Report;
