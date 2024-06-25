@@ -31,7 +31,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   groupByTagKey?: string;
   isLoading?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   query?: Query;
   report: OciReport;

@@ -24,7 +24,7 @@ interface SelectableTableOwnProps {
   emptyState?: ReactNode;
   filterBy: any;
   isLoading?: boolean;
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   onRowClick(rowIndex: number);
   orderBy: any;
   rows?: any[];

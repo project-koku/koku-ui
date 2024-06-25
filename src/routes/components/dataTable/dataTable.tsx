@@ -23,6 +23,7 @@ import { withRouter } from 'utils/router';
 import { styles } from './dataTable.styles';
 
 interface DataTableOwnProps {
+  ariaLabel?: string;
   columns?: any[];
   emptyState?: React.ReactNode;
   filterBy: any;
@@ -30,7 +31,7 @@ interface DataTableOwnProps {
   isLoading?: boolean;
   isSelectable?: boolean;
   onSelect(items: any[], isSelected: boolean);
-  onSort(value: string, isSortAscending: boolean);
+  onSort(sortType: string, isSortAscending: boolean);
   orderBy: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
@@ -114,12 +115,12 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isActionsCell, isLoading, isSelectable, rows, variant } = this.props;
+    const { ariaLabel, columns, intl, isActionsCell, isLoading, isSelectable, rows, variant } = this.props;
 
     return (
       <>
         <Table
-          aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
+          aria-label={ariaLabel ? ariaLabel : intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
           gridBreakPoint="grid-2xl"
           variant={TableVariant.compact}
