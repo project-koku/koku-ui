@@ -14,6 +14,14 @@ Submit issues in [Jira].
 
 * [NodeJS v18.15+][nodejs]
 * [npm v9.5+][npm]
+* [Podman][podman]
+
+After installing Podman, create and start your VM.
+
+```
+podman machine init
+podman machine start
+```
 
 ## Setup `hosts` entries (do this once)
 
@@ -207,5 +215,6 @@ This [RELEASE][release-doc] doc describes how to release Koku UI to each staging
 [npm]: https://www.npmjs.com/
 [patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
 [Patternfly]: https://www.patternfly.org/
+[podman]: https://podman.io/docs/installation
 [release-doc]: https://github.com/project-koku/koku-ui/blob/main/RELEASE.md
 [serving-files-locally]: https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally
