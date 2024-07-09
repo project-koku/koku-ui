@@ -12,8 +12,8 @@ Submit issues in [Jira].
 
 ## Requirements
 
-* [NodeJS v18.15+][nodejs]
-* [npm v9.5+][npm]
+* [NodeJS v20.15+][nodejs]
+* [npm v10.8+][npm]
 * [Podman][podman]
 
 After installing Podman, create and start your VM.
