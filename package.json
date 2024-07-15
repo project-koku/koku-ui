@@ -127,7 +127,7 @@
     "prettier": "^3.3.2",
     "rimraf": "^6.0.0",
     "swc_mut_cjs_exports": "^0.90.24",
-    "ts-jest": "^29.2.0",
+    "ts-jest": "^29.2.2",
     "ts-patch": "^3.2.1",
     "typescript": "^5.5.3",
     "webpack-bundle-analyzer": "^4.10.2"
