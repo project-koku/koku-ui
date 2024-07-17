@@ -61,8 +61,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
 
     const newRows = [];
     const computedItems = getUnsortedComputedReportItems<AwsReport, AwsReportItem>({
-      idKey: 'resource_id' as any,
-      isGroupBy: false,
+      idKey: 'resource_id',
       report,
     });
 
