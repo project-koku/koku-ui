@@ -10,6 +10,7 @@ export interface AwsReportItem extends ReportItem {
   aws_category?: string;
   org_unit_id?: string;
   region?: string;
+  resource_id?: string;
   service?: string;
 }
 
@@ -21,6 +22,10 @@ export interface GroupByRegionData extends Omit<AwsReportData, 'regions'> {
   region: string;
 }
 
+export interface GroupByResourceData extends Omit<AwsReportData, 'resource_ids'> {
+  resource_id: string;
+}
+
 export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
   service: string;
 }
@@ -28,6 +33,7 @@ export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
 export interface AwsReportData extends ReportData {
   accounts?: GroupByAccountData[];
   regions?: GroupByRegionData[];
+  resource_ids?: GroupByResourceData[];
   services?: GroupByServiceData[];
 }
 

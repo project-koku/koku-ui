@@ -3765,67 +3765,67 @@
     "docsAddOcpSources": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management"
       }
     ],
     "docsCostCategory": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int"
       }
     ],
     "docsCostModelTerminology": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology"
       }
     ],
     "docsCostModels": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
       }
     ],
     "docsCostModelsDistribution": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs"
       }
     ],
     "docsCostModelsMarkup": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
       }
     ],
     "docsCostModelsOcp": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models"
       }
     ],
     "docsPlatformProjects": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#understanding-cost-distribution_using-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#adding-openshift-projects"
       }
     ],
     "docsTagMapping": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/index"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging"
       }
     ],
     "docsTags": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
       }
     ],
     "docsUsingCostModels": [
       {
         "type": 0,
-        "value": "https://access.redhat.com/documentation/en-us/cost_management_service/1-latest/html-single/using_cost_models/index"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models"
       }
     ],
     "download": [
