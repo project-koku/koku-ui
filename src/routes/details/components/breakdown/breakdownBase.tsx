@@ -55,13 +55,14 @@ interface BreakdownOwnProps extends RouterComponentProps {
 }
 
 export interface BreakdownStateProps {
+  breadcrumbLabel?: string;
+  breadcrumbPath?: string; // Default breadcrumb path
   clusterInfoComponent?: React.ReactNode;
   costDistribution?: string;
   costOverviewComponent?: React.ReactNode;
   costType?: string;
   currency?: string;
   dataDetailsComponent?: React.ReactNode;
-  defaultBreadcrumbPath?: string;
   description?: string;
   detailsURL?: string;
   emptyStateTitle?: string;
@@ -280,12 +281,13 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
   public render() {
     const {
+      breadcrumbLabel,
+      breadcrumbPath,
       clusterInfoComponent,
       costDistribution,
       costType,
       currency,
       dataDetailsComponent,
-      defaultBreadcrumbPath,
       description,
       detailsURL,
       emptyStateTitle,
@@ -327,10 +329,11 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
     return (
       <>
         <BreakdownHeader
-          breadcrumb={
-            router.location.state && router.location.state.details
+          breadcrumbLabel={breadcrumbLabel}
+          breadcrumbPath={
+            router?.location?.state?.details?.breadcrumbPath
               ? router.location.state.details.breadcrumbPath
-              : defaultBreadcrumbPath
+              : breadcrumbPath
           }
           clusterInfoComponent={clusterInfoComponent}
           dataDetailsComponent={dataDetailsComponent}

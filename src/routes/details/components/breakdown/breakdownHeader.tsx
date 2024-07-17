@@ -39,7 +39,8 @@ import { withRouter } from 'utils/router';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps extends RouterComponentProps {
-  breadcrumb?: string;
+  breadcrumbLabel?: string;
+  breadcrumbPath?: string;
   clusterInfoComponent?: React.ReactNode;
   costDistribution?: string;
   costType?: string;
@@ -80,17 +81,19 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   public state: BreakdownHeaderState = { ...this.defaultState };
 
   private getBackToLink = groupByKey => {
-    const { breadcrumb, intl, router, tagPathsType } = this.props;
+    const { breadcrumbLabel, breadcrumbPath, intl, router, tagPathsType } = this.props;
 
-    if (!breadcrumb) {
+    if (!breadcrumbPath) {
       return null;
     }
     return (
-      <Link to={breadcrumb} state={{ ...router.location.state }}>
-        {intl.formatMessage(messages.breakdownBackToDetails, {
-          value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagPathsType }),
-          groupBy: groupByKey,
-        })}
+      <Link to={breadcrumbPath} state={{ ...router.location.state }}>
+        {breadcrumbLabel
+          ? breadcrumbLabel
+          : intl.formatMessage(messages.breakdownBackToDetails, {
+              value: intl.formatMessage(messages.breakdownBackToTitles, { value: tagPathsType }),
+              groupBy: groupByKey,
+            })}
       </Link>
     );
   };

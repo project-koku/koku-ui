@@ -87,9 +87,9 @@ const mapStateToProps = createMapStateToProps<OciOwnProps, BreakdownStateProps>(
   );
 
   return {
+    breadcrumbPath: formatPath(routes.ociDetails.path),
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
     currency,
-    defaultBreadcrumbPath: formatPath(routes.ociDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.ociDetailsTitle),
