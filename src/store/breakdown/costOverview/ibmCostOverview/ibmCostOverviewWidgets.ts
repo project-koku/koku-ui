@@ -19,10 +19,10 @@ export const accountSummaryWidget: IbmCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
-    showWidgetOnGroupBy: ['project', 'region', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['project', 'region', 'service', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -30,10 +30,10 @@ export const projectSummaryWidget: IbmCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
-    showWidgetOnGroupBy: ['account', 'region', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['account', 'region', 'service', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -41,10 +41,10 @@ export const regionSummaryWidget: IbmCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
-    showWidgetOnGroupBy: ['account', 'project', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['account', 'project', 'service', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -52,9 +52,9 @@ export const serviceSummaryWidget: IbmCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',
-    showWidgetOnGroupBy: ['project', 'region', 'account', tagPrefix],
   },
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['project', 'region', 'account', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
