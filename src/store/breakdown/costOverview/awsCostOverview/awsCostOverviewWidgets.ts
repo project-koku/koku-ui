@@ -19,10 +19,10 @@ export const accountSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
-    showWidgetOnGroupBy: ['region', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['region', 'service', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -30,10 +30,10 @@ export const regionSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
-    showWidgetOnGroupBy: ['account', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['account', 'service', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -41,9 +41,9 @@ export const serviceSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',
-    showWidgetOnGroupBy: ['region', 'account', tagPrefix],
   },
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['region', 'account', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
