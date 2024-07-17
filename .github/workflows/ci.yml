@@ -8,7 +8,7 @@ on:
 
 env:
   BRANCH: ${{ github.base_ref }}
-  NODEJS_VERSION: '18'
+  NODEJS_VERSION: '20'
 
 jobs:
   build:
