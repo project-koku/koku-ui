@@ -232,19 +232,23 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
     const type = dataPoint.type; // Org unit type
 
     if (isGroupBy) {
-      dataPoint?.values?.forEach((val: any) => {
-        initReportItems({
-          idKey,
-          isDateMap,
-          itemMap,
-          report,
-          type,
-          val,
+      if (dataPoint?.values instanceof Array) {
+        dataPoint.values.forEach((val: any) => {
+          initReportItems({
+            idKey,
+            isDateMap,
+            itemMap,
+            report,
+            type,
+            val,
+          });
         });
-      });
-      for (const key in dataPoint) {
-        if (dataPoint[key] instanceof Array) {
-          return dataPoint[key].forEach(visitDataPoint);
+      } else {
+        // Avoid iterating over "tags.values" array returned by reports/aws/resources/ec2-compute API
+        for (const key in dataPoint) {
+          if (dataPoint[key] instanceof Array) {
+            return dataPoint[key].forEach(visitDataPoint);
+          }
         }
       }
     } else {
