@@ -11,10 +11,10 @@ export const clusterWidget: RhelCostOverviewWidget = {
   id: getId(),
   cluster: {
     reportGroupBy: 'project',
-    showWidgetOnGroupBy: ['project'],
   },
   reportPathsType: ReportPathsType.rhel,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['project'],
   type: CostOverviewWidgetType.cluster,
 };
 
@@ -29,9 +29,6 @@ export const costWidget: RhelCostOverviewWidget = {
 export const cpuUsageWidget: RhelCostOverviewWidget = {
   chartName: 'rhelCpuWidget',
   id: getId(),
-  usage: {
-    showCapacityOnGroupBy: ['cluster'],
-  },
   reportPathsType: ReportPathsType.rhel,
   reportType: ReportType.cpu,
   type: CostOverviewWidgetType.cpuUsage,
@@ -40,9 +37,6 @@ export const cpuUsageWidget: RhelCostOverviewWidget = {
 export const memoryUsageWidget: RhelCostOverviewWidget = {
   chartName: 'rhelMemoryWidget',
   id: getId(),
-  usage: {
-    showCapacityOnGroupBy: ['cluster'],
-  },
   reportPathsType: ReportPathsType.rhel,
   reportType: ReportType.memory,
   type: CostOverviewWidgetType.memoryUsage,
@@ -52,12 +46,12 @@ export const projectSummaryWidget: RhelCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
-    showWidgetOnPlatformCategory: [platformCategoryKey],
-    showWidgetOnGroupBy: ['cluster'],
     usePlaceholder: true,
   },
   reportType: ReportType.cost,
   reportPathsType: ReportPathsType.rhel,
+  showWidgetOnPlatformCategory: [platformCategoryKey],
+  showWidgetOnGroupBy: ['cluster'],
   type: CostOverviewWidgetType.reportSummary,
 };
 
