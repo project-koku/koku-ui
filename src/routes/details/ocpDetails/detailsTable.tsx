@@ -226,14 +226,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
           (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0));
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
-      const isDisabled =
-        label === `${noPrefix}${groupBy}` ||
-        label === `${noPrefix}${groupByTagKey}` ||
-        isUnallocatedProject ||
-        isUnattributedCosts;
+      const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
+      const isLinkDisabled = isDisabled || isUnallocatedProject || isUnattributedCosts;
       const actions = this.getActions(item, isDisabled);
 
-      const name = isDisabled ? (
+      const name = isLinkDisabled ? (
         (label as any)
       ) : (
         <Link
