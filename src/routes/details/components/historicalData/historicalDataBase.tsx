@@ -71,8 +71,8 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
     const { groupBy, intl } = this.props;
 
     let showWidget = false;
-    if (widget.network?.showWidgetOnGroupBy) {
-      for (const groupById of widget.network.showWidgetOnGroupBy) {
+    if (widget?.showWidgetOnGroupBy) {
+      for (const groupById of widget.showWidgetOnGroupBy) {
         if (groupById === groupBy) {
           showWidget = true;
           break;
@@ -102,28 +102,40 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
     return null;
   };
 
-  // Returns volume chart
+  // Returns storage summary
   private getVolumeChart = (widget: HistoricalDataWidget) => {
-    const { intl } = this.props;
+    const { groupBy, intl } = this.props;
 
-    return (
-      <Card>
-        <CardTitle>
-          <Title headingLevel="h2" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.historicalChartTitle, {
-              value: this.getTitleKey(widget.reportPathsType, widget.reportType),
-            })}
-          </Title>
-        </CardTitle>
-        <CardBody>
-          <HistoricalDataVolumeChart
-            chartName={widget.chartName}
-            reportPathsType={widget.reportPathsType}
-            reportType={widget.reportType}
-          />
-        </CardBody>
-      </Card>
-    );
+    let showWidget = false;
+    if (widget?.showWidgetOnGroupBy) {
+      for (const groupById of widget.showWidgetOnGroupBy) {
+        if (groupById === groupBy) {
+          showWidget = true;
+          break;
+        }
+      }
+    }
+    if (showWidget) {
+      return (
+        <Card>
+          <CardTitle>
+            <Title headingLevel="h2" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.historicalChartTitle, {
+                value: this.getTitleKey(widget.reportPathsType, widget.reportType),
+              })}
+            </Title>
+          </CardTitle>
+          <CardBody>
+            <HistoricalDataVolumeChart
+              chartName={widget.chartName}
+              reportPathsType={widget.reportPathsType}
+              reportType={widget.reportType}
+            />
+          </CardBody>
+        </Card>
+      );
+    }
+    return null;
   };
 
   // Returns trend chart

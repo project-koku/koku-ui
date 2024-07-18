@@ -18,10 +18,10 @@ export const accountSummaryWidget: AzureCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'subscription_guid',
-    showWidgetOnGroupBy: ['resource_location', 'service_name', tagPrefix],
   },
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['resource_location', 'service_name', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -29,10 +29,10 @@ export const regionSummaryWidget: AzureCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'resource_location',
-    showWidgetOnGroupBy: ['subscription_guid', 'service_name', tagPrefix],
   },
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['subscription_guid', 'service_name', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -40,9 +40,9 @@ export const serviceSummaryWidget: AzureCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service_name',
-    showWidgetOnGroupBy: ['resource_location', 'subscription_guid', tagPrefix],
   },
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['resource_location', 'subscription_guid', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
