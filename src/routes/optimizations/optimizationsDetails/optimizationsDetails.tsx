@@ -30,6 +30,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
         linkState={{
           ...(location.state && location.state),
         }}
+        projectPath={formatPath(routes.ocpBreakdown.path)}
       />
     </div>
   );

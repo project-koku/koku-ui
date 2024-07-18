@@ -87,9 +87,9 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, BreakdownSta
   );
 
   return {
+    breadcrumbPath: formatPath(routes.ibmDetails.path),
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
     currency,
-    defaultBreadcrumbPath: formatPath(routes.ibmDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.ibmDetailsTitle),

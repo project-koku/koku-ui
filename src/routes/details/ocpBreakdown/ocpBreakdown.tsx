@@ -23,7 +23,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
+import { breadcrumbLabelKey, breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
@@ -94,9 +94,11 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     providersQueryString
   );
 
+  const breadcrumbLabel = queryFromRoute[breadcrumbLabelKey] ? queryFromRoute[breadcrumbLabelKey] : undefined;
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
+    breadcrumbLabel,
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfo clusterId={groupByValue} /> : undefined,
     dataDetailsComponent: groupBy === 'cluster' ? <DataDetails clusterId={groupByValue} /> : undefined,
     costDistribution,
@@ -111,7 +113,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       />
     ),
     currency,
-    defaultBreadcrumbPath: formatPath(routes.ocpDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.ocpDetailsTitle),
