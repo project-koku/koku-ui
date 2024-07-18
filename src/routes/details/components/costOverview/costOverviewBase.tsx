@@ -59,7 +59,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     const { groupBy, intl, report, title } = this.props;
 
     let showWidget = false;
-    for (const groupById of widget.cluster.showWidgetOnGroupBy) {
+    for (const groupById of widget.showWidgetOnGroupBy) {
       if (groupById === groupBy || (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)) {
         showWidget = true;
         break;
@@ -210,8 +210,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     const { groupBy, intl } = this.props;
 
     let showWidget = false;
-    if (widget.pvc.showWidgetOnGroupBy) {
-      for (const groupById of widget.pvc.showWidgetOnGroupBy) {
+    if (widget.showWidgetOnGroupBy) {
+      for (const groupById of widget.showWidgetOnGroupBy) {
         if (groupById === groupBy) {
           showWidget = true;
           break;
@@ -242,20 +242,23 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     const groupByCostCategory = getGroupByCostCategory(query);
     const groupByOrg = getGroupByOrgValue(query);
     const groupByTag = getGroupByTagKey(query);
-    let showWidget = false;
 
-    if (widget.reportSummary.showWidgetOnGroupBy) {
-      for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
+    let showWidget = false;
+    let showPlatformCosts = false;
+
+    if (widget.showWidgetOnGroupBy) {
+      for (const groupById of widget.showWidgetOnGroupBy) {
         if (groupById === groupBy || groupByCostCategory || groupByOrg || groupByTag) {
           showWidget = true;
           break;
         }
       }
     }
-    if (!showWidget && widget.reportSummary.showWidgetOnPlatformCategory) {
-      for (const categoryId of widget.reportSummary.showWidgetOnPlatformCategory) {
+    if (!showWidget && widget.showWidgetOnPlatformCategory) {
+      for (const categoryId of widget.showWidgetOnPlatformCategory) {
         if (isPlatformCosts && categoryId === platformCategoryKey) {
           showWidget = true;
+          showPlatformCosts = true;
           break;
         }
       }
@@ -267,7 +270,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           costDistribution={!isVolumeWidget ? costDistribution : undefined}
           costType={!isVolumeWidget ? costType : undefined}
           currency={currency}
-          isPlatformCosts={isPlatformCosts}
+          isPlatformCosts={showPlatformCosts}
           reportGroupBy={widget.reportSummary.reportGroupBy}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}
@@ -285,8 +288,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
     let showWidget = false;
 
-    if (widget.volume.showWidgetOnGroupBy) {
-      for (const groupById of widget.volume.showWidgetOnGroupBy) {
+    if (widget.showWidgetOnGroupBy) {
+      for (const groupById of widget.showWidgetOnGroupBy) {
         if (groupById === groupBy || (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)) {
           showWidget = true;
           break;

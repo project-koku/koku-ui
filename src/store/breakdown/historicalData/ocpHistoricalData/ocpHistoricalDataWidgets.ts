@@ -33,11 +33,9 @@ export const memoryUsageWidget: OcpHistoricalDataWidget = {
 export const networkUsageWidget: OcpHistoricalDataWidget = {
   chartName: 'ocpNetworkChart',
   id: getId(),
-  network: {
-    showWidgetOnGroupBy: ['cluster', 'node'],
-  },
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.network,
+  showWidgetOnGroupBy: ['cluster', 'node'],
   type: HistoricalDataWidgetType.network,
 };
 
@@ -46,5 +44,6 @@ export const volumeUsageWidget: OcpHistoricalDataWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
+  showWidgetOnGroupBy: ['cluster', 'node', 'project'],
   type: HistoricalDataWidgetType.volume,
 };

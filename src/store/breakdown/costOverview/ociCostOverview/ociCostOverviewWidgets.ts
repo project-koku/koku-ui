@@ -18,10 +18,10 @@ export const accountSummaryWidget: OciCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'payer_tenant_id',
-    showWidgetOnGroupBy: ['region', 'product_service', tagPrefix],
   },
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['region', 'product_service', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -29,10 +29,10 @@ export const regionSummaryWidget: OciCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
-    showWidgetOnGroupBy: ['payer_tenant_id', 'product_service', tagPrefix],
   },
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['payer_tenant_id', 'product_service', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -40,9 +40,9 @@ export const serviceSummaryWidget: OciCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'product_service',
-    showWidgetOnGroupBy: ['region', 'payer_tenant_id', tagPrefix],
   },
   reportPathsType: ReportPathsType.oci,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['region', 'payer_tenant_id', tagPrefix],
   type: CostOverviewWidgetType.reportSummary,
 };
