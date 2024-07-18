@@ -17,24 +17,14 @@ export interface CostOverviewWidget {
   id: number;
   cluster?: {
     reportGroupBy: string; // Report group_by
-    showWidgetOnGroupBy?: string[]; // Show cluster card when group_by is matched
-  };
-  pvc?: {
-    showWidgetOnGroupBy?: string[]; // Show pvc chart when group_by is matched
-  };
-  usage?: {
-    showCapacityOnGroupBy?: string[]; // Show capacity when group_by is matched
   };
   reportSummary?: {
     reportGroupBy: string; // Report group_by
-    showWidgetOnPlatformCategory?: string[];
-    showWidgetOnGroupBy?: string[]; // Show summary card when group_by is matched
     usePlaceholder?: boolean; // Use placeholder to keep card placement when widget is not shown
   };
   reportPathsType: ReportPathsType; // Report URL path
   reportType: ReportType; // Report type; cost, storage, etc.
+  showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
+  showWidgetOnPlatformCategory?: string[]; // Show widget when platform category is matched
   type: CostOverviewWidgetType;
-  volume?: {
-    showWidgetOnGroupBy?: string[]; // Show volume usage chart when group_by is matched
-  };
 }

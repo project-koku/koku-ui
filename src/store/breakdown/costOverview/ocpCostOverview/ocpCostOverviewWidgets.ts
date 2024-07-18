@@ -11,10 +11,10 @@ export const clusterWidget: OcpCostOverviewWidget = {
   id: getId(),
   cluster: {
     reportGroupBy: 'project',
-    showWidgetOnGroupBy: ['project'],
   },
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
+  showWidgetOnGroupBy: ['project'],
   type: CostOverviewWidgetType.cluster,
 };
 
@@ -37,9 +37,6 @@ export const costDistributionWidget: OcpCostOverviewWidget = {
 export const cpuUsageWidget: OcpCostOverviewWidget = {
   chartName: 'ocpCpuWidget',
   id: getId(),
-  usage: {
-    showCapacityOnGroupBy: ['cluster'],
-  },
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cpu,
   type: CostOverviewWidgetType.cpuUsage,
@@ -48,9 +45,6 @@ export const cpuUsageWidget: OcpCostOverviewWidget = {
 export const memoryUsageWidget: OcpCostOverviewWidget = {
   chartName: 'ocpMemoryWidget',
   id: getId(),
-  usage: {
-    showCapacityOnGroupBy: ['cluster'],
-  },
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.memory,
   type: CostOverviewWidgetType.memoryUsage,
@@ -60,35 +54,34 @@ export const projectSummaryWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
-    showWidgetOnPlatformCategory: [platformCategoryKey],
-    showWidgetOnGroupBy: ['cluster'],
     usePlaceholder: true,
   },
   reportType: ReportType.cost,
   reportPathsType: ReportPathsType.ocp,
+  showWidgetOnGroupBy: ['cluster'],
+  showWidgetOnPlatformCategory: [platformCategoryKey],
   type: CostOverviewWidgetType.reportSummary,
 };
 
 export const pvcWidget: OcpCostOverviewWidget = {
   chartName: 'ocpPvcWidget',
   id: getId(),
-  pvc: {
-    showWidgetOnGroupBy: ['project'],
-  },
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
+  showWidgetOnGroupBy: ['project'],
   type: CostOverviewWidgetType.pvc,
 };
 
+// Storage summary
 export const volumeSummaryWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'storageclass',
-    showWidgetOnGroupBy: ['cluster', 'node', 'project'],
     usePlaceholder: true,
   },
   reportType: ReportType.volume,
   reportPathsType: ReportPathsType.ocp,
+  showWidgetOnGroupBy: ['cluster', 'node', 'project'],
   type: CostOverviewWidgetType.reportSummary,
 };
 
@@ -97,8 +90,6 @@ export const volumeUsageWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
+  showWidgetOnGroupBy: ['cluster', 'node', tagPrefix],
   type: CostOverviewWidgetType.volumeUsage,
-  volume: {
-    showWidgetOnGroupBy: ['cluster', 'node', tagPrefix],
-  },
 };
