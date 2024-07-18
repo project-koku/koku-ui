@@ -3,6 +3,7 @@ import { ExportIcon } from '@patternfly/react-icons/dist/esm/icons/export-icon';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
+import { styles } from 'routes/components/dataToolbar/dataToolbar.styles';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 
 // Column management
@@ -64,7 +65,10 @@ export const getPlatformCosts = ({
   onPlatformCostsChanged?: (checked: boolean) => void;
 }) => {
   return (
-    <ToolbarItem visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}>
+    <ToolbarItem
+      visibility={{ default: 'hidden', '2xl': 'visible', xl: 'visible', lg: 'hidden' }}
+      style={styles.platformCosts}
+    >
       <Switch
         id="platform-costs"
         label={intl.formatMessage(messages.sumPlatformCosts)}
