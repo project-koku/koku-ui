@@ -6,6 +6,7 @@ import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { Report } from 'api/reports/report';
+import { ReportType } from 'api/reports/report';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
@@ -213,6 +214,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         onClose={this.handleOnExportModalClose}
         reportPathsType={getReportPathsType(perspective)}
         reportQueryString={reportQueryString}
+        reportType={ReportType.cost}
         resolution="daily"
         showTimeScope={false}
       />

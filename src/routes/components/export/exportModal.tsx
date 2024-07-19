@@ -13,7 +13,7 @@ import {
   Radio,
   TextInput,
 } from '@patternfly/react-core';
-import type { ReportPathsType } from 'api/reports/report';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
@@ -35,10 +35,12 @@ export interface ExportModalOwnProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
+  isTimeScoped?: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   reportPathsType: ReportPathsType;
   reportQueryString: string;
+  reportType: ReportType;
   resolution?: 'daily' | 'monthly'; // Default resolution
   showAggregateType?: boolean; // Monthly resolution filters are not valid with date range
   showFormatType?: boolean; // Format type; CVS / JSON
@@ -144,9 +146,11 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       intl,
       isAllItems,
       isExportsToggleEnabled,
+      isTimeScoped,
       items,
       reportPathsType,
       reportQueryString,
+      reportType,
       showAggregateType = true,
       showFormatType = true,
       showTimeScope = true,
@@ -200,6 +204,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             formatType={formatType}
             groupBy={groupBy}
             isAllItems={isAllItems}
+            isTimeScoped={isTimeScoped}
             items={items}
             key="confirm"
             timeScope={showTimeScope ? timeScope : undefined}
@@ -208,6 +213,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             name={defaultName}
             reportPathsType={reportPathsType}
             reportQueryString={reportQueryString}
+            reportType={reportType}
             resolution={resolution}
           />,
           <Button ouiaId="cancel-btn" key="cancel" onClick={this.handleOnClose} variant={ButtonVariant.link}>

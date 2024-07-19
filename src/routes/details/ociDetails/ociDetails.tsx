@@ -165,6 +165,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
       />
     );
   };

@@ -165,6 +165,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
       />
     );
   };

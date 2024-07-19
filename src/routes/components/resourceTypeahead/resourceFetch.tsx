@@ -23,6 +23,7 @@ interface ResourceFetchOwnProps {
   onClear?: () => void;
   onSelect?: (value: string) => void;
   placeholder?: string;
+  resourceKey?: string;
   resourcePathsType: ResourcePathsType;
   resourceType: ResourceType;
   search?: string;
@@ -50,6 +51,7 @@ const ResourceFetch: React.FC<ResourceFetchProps> = ({
   onClear,
   onSelect,
   placeholder,
+  resourceKey,
   resourcePathsType,
   resourceType,
   search,
@@ -60,7 +62,8 @@ const ResourceFetch: React.FC<ResourceFetchProps> = ({
     let options = [];
     if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
       options = resource.data.map(item => {
-        const value = !isNaN(search as any) ? item.value : item.account_alias || item.cluster_alias || item.value;
+        // The resource API typically returns just a value, but account_alias, cluster_alias, and instance_name may be preferred keys.
+        const value = !isNaN(search as any) ? item.value : item[resourceKey] || item.value;
         return {
           key: value,
           name: value,
