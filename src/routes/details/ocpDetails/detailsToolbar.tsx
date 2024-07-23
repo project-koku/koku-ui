@@ -93,7 +93,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
     const { intl, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }),
+        key: 'cluster',
+        resourceKey: 'cluster_alias',
+      },
       { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
     ];

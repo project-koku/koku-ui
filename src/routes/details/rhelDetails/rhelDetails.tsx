@@ -208,6 +208,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
       />
     );
   };

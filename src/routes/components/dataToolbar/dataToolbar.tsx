@@ -273,6 +273,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       key,
     });
 
+    if (!(filter && filters)) {
+      return;
+    }
     this.setState(
       {
         filters,

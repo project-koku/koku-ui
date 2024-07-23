@@ -214,6 +214,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
       />
     );
   };

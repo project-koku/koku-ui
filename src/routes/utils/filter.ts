@@ -16,9 +16,9 @@ enum QueryFilterType {
 export const addFilterToQuery = (query: Query, filter: Filter) => {
   return addQueryFilter(
     query,
-    filter.type,
-    filter.value,
-    filter.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
+    filter?.type,
+    filter?.value,
+    filter?.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
   );
 };
 
