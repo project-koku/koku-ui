@@ -78,7 +78,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        orderBy: 'account', // Todo: sort by account_alias
+        orderBy: 'account_alias',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'account' }),
         ...(computedItems.length && { isSortable: true }),
       },

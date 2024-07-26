@@ -14,7 +14,7 @@ export interface Resource extends PagedResponse<ResourceData, PagedMetaData> {}
 export const enum ResourceType {
   account = 'account',
   aws_category = 'aws_category',
-  aws_ec2_instance = 'instance',
+  aws_ec2_instance = 'instance_name',
   aws_ec2_os = 'operating_system',
   cluster = 'cluster',
   gcpProject = 'gcp_project',
