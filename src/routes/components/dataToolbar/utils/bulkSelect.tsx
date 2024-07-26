@@ -101,6 +101,7 @@ export const getBulkSelect = ({
       onOpenChange={isOpen => onBulkSelectToggle(isOpen)}
       onSelect={onBulkSelect}
       popperProps={{
+        appendTo: () => document.body, // Page scroll workaround https://issues.redhat.com/browse/COST-5320
         position: 'left',
       }}
       toggle={toggle}
