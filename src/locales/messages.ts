@@ -1454,6 +1454,21 @@ export default defineMessages({
     description: 'distribute costs',
     id: 'distributeCosts',
   },
+  distributeCostsToProjects: {
+    defaultMessage: 'Distribute these costs to projects, based on the above description type',
+    description: 'Distribute these costs to projects, based on the above description type',
+    id: 'distributeCostsToProjects',
+  },
+  distributeNetwork: {
+    defaultMessage: 'Network traffic',
+    description: 'Network traffic',
+    id: 'distributeNetwork',
+  },
+  distributePlatform: {
+    defaultMessage: 'Platform overhead (OpenShift services)',
+    description: 'Platform overhead (OpenShift services)',
+    id: 'distributePlatform',
+  },
   distributePlatformCosts: {
     defaultMessage:
       '{value, select, ' +
@@ -1463,6 +1478,11 @@ export default defineMessages({
     description: 'Distribute platform costs',
     id: 'distributePlatformCosts',
   },
+  distributeStorage: {
+    defaultMessage: 'Storage',
+    description: 'Storage',
+    id: 'distributeStorage',
+  },
   distributeUnallocatedCapacity: {
     defaultMessage:
       '{value, select, ' +
@@ -1471,6 +1491,11 @@ export default defineMessages({
       'other {}}',
     description: 'Distribute unallocated capacity',
     id: 'distributeUnallocatedCapacity',
+  },
+  distributeWorker: {
+    defaultMessage: 'Worker unallowcated (unused and non-reserved resources)',
+    description: 'Worker unallowcated (unused and non-reserved resources)',
+    id: 'distributeWorker',
   },
   distributionModelDesc: {
     defaultMessage: 'Choose how your raw costs are distributed at the project level.',
@@ -1490,11 +1515,6 @@ export default defineMessages({
       'other {}}',
     description: 'Distribution type description',
     id: 'distributionTypeDesc',
-  },
-  doNotDistribute: {
-    defaultMessage: 'Do not distribute',
-    description: 'Do not distribute',
-    id: 'doNotDistribute',
   },
   docsAddOcpSources: {
     defaultMessage:
@@ -2529,16 +2549,6 @@ export default defineMessages({
     description: 'Name plural or singular',
     id: 'names',
   },
-  network: {
-    defaultMessage: 'Network',
-    description: 'Network',
-    id: 'network',
-  },
-  networkDesc: {
-    defaultMessage: 'Distribute the cost of network traffic to projects based on distribution type.',
-    description: 'Distribute the cost of network traffic to projects based on distribution type.',
-    id: 'networkDesc',
-  },
   next: {
     defaultMessage: 'next',
     description: 'next',
@@ -3453,11 +3463,6 @@ export default defineMessages({
     defaultMessage: 'StorageClass',
     description: 'StorageClass',
     id: 'storageClass',
-  },
-  storageDesc: {
-    defaultMessage: 'Distribute the cost of storage to projects based on distribution type.',
-    description: 'Distribute the cost of storage to projects based on distribution type.',
-    id: 'storageDesc',
   },
   suggestions: {
     defaultMessage: 'Suggestions',
