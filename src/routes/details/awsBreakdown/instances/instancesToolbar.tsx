@@ -100,7 +100,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
     const options = [
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'instance' }),
-        key: 'instance',
+        key: 'instance_name',
         resourceKey: 'instance_name',
       },
       {
