@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  Checkbox,
   Form,
   FormGroup,
   Modal,
@@ -73,24 +74,20 @@ class UpdateDistributionDialogBase extends React.Component<
     this.setState({ distribution: value });
   };
 
-  private handleDistributePlatformUnallocatedChange = event => {
-    const { value } = event.currentTarget;
-    this.setState({ distributePlatformUnallocated: value === 'true' });
+  private handleDistributePlatformUnallocatedChange = (event, isChecked) => {
+    this.setState({ distributePlatformUnallocated: isChecked });
   };
 
-  private handleDistributeWorkerUnallocatedChange = event => {
-    const { value } = event.currentTarget;
-    this.setState({ distributeWorkerUnallocated: value === 'true' });
+  private handleDistributeWorkerUnallocatedChange = (event, isChecked) => {
+    this.setState({ distributeWorkerUnallocated: isChecked });
   };
 
-  private handleDistributeNetworkChange = event => {
-    const { value } = event.currentTarget;
-    this.setState({ distributeNetwork: value === 'true' });
+  private handleDistributeNetworkChange = (event, isChecked) => {
+    this.setState({ distributeNetwork: isChecked });
   };
 
-  private handleDistributeStorageChange = event => {
-    const { value } = event.currentTarget;
-    this.setState({ distributeStorage: value === 'true' });
+  private handleDistributeStorageChange = (event, isChecked) => {
+    this.setState({ distributeStorage: isChecked });
   };
 
   public render() {
@@ -184,140 +181,47 @@ class UpdateDistributionDialogBase extends React.Component<
           </StackItem>
           <StackItem>
             <Title headingLevel="h3" size={TitleSizes.md}>
-              {intl.formatMessage(messages.platform)}
+              {intl.formatMessage(messages.distributeCostsToProjects)}
             </Title>
-            <TextContent>
-              <Text style={styles.cardDescription}>{intl.formatMessage(messages.platformDesc)}</Text>
-            </TextContent>
           </StackItem>
           <StackItem isFilled>
             <Form>
-              <FormGroup isInline fieldId="cost-distribution-platform-unallocated" isRequired>
-                <Radio
+              <FormGroup fieldId="distribute-unallocated-costs" isRequired>
+                <Checkbox
+                  aria-label={intl.formatMessage(messages.distributePlatform)}
+                  id="distribute-platform"
                   isChecked={this.state.distributePlatformUnallocated}
-                  name="distribute-platform-unallocated"
-                  label={intl.formatMessage(messages.distribute)}
-                  aria-label={intl.formatMessage(messages.distribute)}
-                  id="distribute-platform-true"
-                  value="true"
+                  label={intl.formatMessage(messages.distributePlatform)}
                   onChange={this.handleDistributePlatformUnallocatedChange}
                 />
-                <Radio
-                  isChecked={!this.state.distributePlatformUnallocated}
-                  name="distribute-platform-unallocated"
-                  label={intl.formatMessage(messages.doNotDistribute)}
-                  aria-label={intl.formatMessage(messages.doNotDistribute)}
-                  id="distribute-platform-false"
-                  value="false"
-                  onChange={this.handleDistributePlatformUnallocatedChange}
-                />
-              </FormGroup>
-            </Form>
-          </StackItem>
-          <StackItem>
-            <Title headingLevel="h3" size={TitleSizes.md}>
-              {intl.formatMessage(messages.workerUnallocated)}
-            </Title>
-            <TextContent>
-              <Text style={styles.cardDescription}>{intl.formatMessage(messages.workerUnallocatedDesc)}</Text>
-            </TextContent>
-          </StackItem>
-          <StackItem isFilled>
-            <Form>
-              <FormGroup isInline fieldId="cost-distribution-worker-unallocated" isRequired>
-                <Radio
+                <Checkbox
+                  aria-label={intl.formatMessage(messages.distributeWorker)}
+                  id="distribute-worker"
                   isChecked={this.state.distributeWorkerUnallocated}
-                  name="distribute-worker-unallocated"
-                  label={intl.formatMessage(messages.distribute)}
-                  aria-label={intl.formatMessage(messages.distribute)}
-                  id="distribute-worker-true"
-                  value="true"
+                  label={intl.formatMessage(messages.distributeWorker)}
                   onChange={this.handleDistributeWorkerUnallocatedChange}
                 />
-                <Radio
-                  isChecked={!this.state.distributeWorkerUnallocated}
-                  name="distribute-worker-unallocated"
-                  label={intl.formatMessage(messages.doNotDistribute)}
-                  aria-label={intl.formatMessage(messages.doNotDistribute)}
-                  id="distribute-worker-false"
-                  value="false"
-                  onChange={this.handleDistributeWorkerUnallocatedChange}
-                />
+                {isOcpCloudNetworkingToggleEnabled && (
+                  <Checkbox
+                    aria-label={intl.formatMessage(messages.distributeNetwork)}
+                    id="distribute-network"
+                    isChecked={this.state.distributeNetwork}
+                    label={intl.formatMessage(messages.distributeNetwork)}
+                    onChange={this.handleDistributeNetworkChange}
+                  />
+                )}
+                {isOcpProjectStorageToggleEnabled && (
+                  <Checkbox
+                    aria-label={intl.formatMessage(messages.distributeStorage)}
+                    id="distribute-storage"
+                    isChecked={this.state.distributeStorage}
+                    label={intl.formatMessage(messages.distributeStorage)}
+                    onChange={this.handleDistributeStorageChange}
+                  />
+                )}
               </FormGroup>
             </Form>
           </StackItem>
-          {isOcpCloudNetworkingToggleEnabled && (
-            <>
-              <StackItem>
-                <Title headingLevel="h3" size={TitleSizes.md}>
-                  {intl.formatMessage(messages.network)}
-                </Title>
-                <TextContent>
-                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.networkDesc)}</Text>
-                </TextContent>
-              </StackItem>
-              <StackItem isFilled>
-                <Form>
-                  <FormGroup isInline fieldId="cost-distribution-network" isRequired>
-                    <Radio
-                      isChecked={this.state.distributeNetwork}
-                      name="distribute-network"
-                      label={intl.formatMessage(messages.distribute)}
-                      aria-label={intl.formatMessage(messages.distribute)}
-                      id="distribute-network-true"
-                      value="true"
-                      onChange={this.handleDistributeNetworkChange}
-                    />
-                    <Radio
-                      isChecked={!this.state.distributeNetwork}
-                      name="distribute-network"
-                      label={intl.formatMessage(messages.doNotDistribute)}
-                      aria-label={intl.formatMessage(messages.doNotDistribute)}
-                      id="distribute-network-false"
-                      value="false"
-                      onChange={this.handleDistributeNetworkChange}
-                    />
-                  </FormGroup>
-                </Form>
-              </StackItem>
-            </>
-          )}
-          {isOcpProjectStorageToggleEnabled && (
-            <>
-              <StackItem>
-                <Title headingLevel="h3" size={TitleSizes.md}>
-                  {intl.formatMessage(messages.storage)}
-                </Title>
-                <TextContent>
-                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.storageDesc)}</Text>
-                </TextContent>
-              </StackItem>
-              <StackItem isFilled>
-                <Form>
-                  <FormGroup isInline fieldId="cost-distribution-storage" isRequired>
-                    <Radio
-                      isChecked={this.state.distributeStorage}
-                      name="distribute-storage"
-                      label={intl.formatMessage(messages.distribute)}
-                      aria-label={intl.formatMessage(messages.distribute)}
-                      id="distribute-storage-true"
-                      value="true"
-                      onChange={this.handleDistributeStorageChange}
-                    />
-                    <Radio
-                      isChecked={!this.state.distributeStorage}
-                      name="distribute-storage"
-                      label={intl.formatMessage(messages.doNotDistribute)}
-                      aria-label={intl.formatMessage(messages.doNotDistribute)}
-                      id="distribute-storage-false"
-                      value="false"
-                      onChange={this.handleDistributeStorageChange}
-                    />
-                  </FormGroup>
-                </Form>
-              </StackItem>
-            </>
-          )}
         </Stack>
       </Modal>
     );

@@ -3663,6 +3663,24 @@
         "value": "value"
       }
     ],
+    "distributeCostsToProjects": [
+      {
+        "type": 0,
+        "value": "Distribute these costs to projects, based on the above description type"
+      }
+    ],
+    "distributeNetwork": [
+      {
+        "type": 0,
+        "value": "Network traffic"
+      }
+    ],
+    "distributePlatform": [
+      {
+        "type": 0,
+        "value": "Platform overhead (OpenShift services)"
+      }
+    ],
     "distributePlatformCosts": [
       {
         "options": {
@@ -3690,6 +3708,12 @@
         "value": "value"
       }
     ],
+    "distributeStorage": [
+      {
+        "type": 0,
+        "value": "Storage"
+      }
+    ],
     "distributeUnallocatedCapacity": [
       {
         "options": {
@@ -3715,6 +3739,12 @@
         },
         "type": 5,
         "value": "value"
+      }
+    ],
+    "distributeWorker": [
+      {
+        "type": 0,
+        "value": "Worker unallowcated (unused and non-reserved resources)"
       }
     ],
     "distributionModelDesc": [
@@ -3754,12 +3784,6 @@
         },
         "type": 5,
         "value": "type"
-      }
-    ],
-    "doNotDistribute": [
-      {
-        "type": 0,
-        "value": "Do not distribute"
       }
     ],
     "docsAddOcpSources": [
@@ -10745,18 +10769,6 @@
         "value": "count"
       }
     ],
-    "network": [
-      {
-        "type": 0,
-        "value": "Network"
-      }
-    ],
-    "networkDesc": [
-      {
-        "type": 0,
-        "value": "Distribute the cost of network traffic to projects based on distribution type."
-      }
-    ],
     "next": [
       {
         "type": 0,
@@ -12552,12 +12564,6 @@
       {
         "type": 0,
         "value": "StorageClass"
-      }
-    ],
-    "storageDesc": [
-      {
-        "type": 0,
-        "value": "Distribute the cost of storage to projects based on distribution type."
       }
     ],
     "suggestions": [
