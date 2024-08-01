@@ -165,9 +165,6 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const isPrevious = timeScope === 'previous';
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const getDateRange = () => {
-    if (isTimeScoped) {
-      return {};
-    }
     if (queryFromRoute.dateRangeType) {
       return getDateRangeFromQuery(queryFromRoute);
     } else {
@@ -200,8 +197,10 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       limit: 0, // No limit to number of items returned
       offset: undefined,
       order_by: undefined, // Don't want items sorted by cost
-      start_date,
-      end_date,
+      ...(!isTimeScoped && {
+        start_date,
+        end_date,
+      }),
     };
 
     // Store filter_by as an array, so we can add to it below
