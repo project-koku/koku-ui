@@ -128,7 +128,7 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy="instance"
+        groupBy="resource_id"
         isOpen={isExportModalOpen}
         isTimeScoped
         items={items}
@@ -136,6 +136,7 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}
+        showAggregateType={false}
       />
     );
   };

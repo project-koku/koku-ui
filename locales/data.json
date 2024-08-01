@@ -4896,6 +4896,67 @@
               }
             ]
           },
+          "resource_id": {
+            "value": [
+              {
+                "options": {
+                  "daily": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_resources_daily_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "monthly": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "provider"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_resources_monthly_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "startDate"
+                      },
+                      {
+                        "type": 0,
+                        "value": "_"
+                      },
+                      {
+                        "type": 1,
+                        "value": "endDate"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
+                  }
+                },
+                "type": 5,
+                "value": "resolution"
+              }
+            ]
+          },
           "resource_location": {
             "value": [
               {
