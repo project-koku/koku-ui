@@ -1,4 +1,5 @@
-import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+
 import {
   clusterWidget,
   costDistributionWidget,
@@ -12,7 +13,7 @@ import {
 } from './ocpCostOverviewWidgets';
 
 export type OcpCostOverviewState = Readonly<{
-  widgets: Record<number, OcpCostOverviewWidget>;
+  widgets: Record<number, CostOverviewWidget>;
   currentWidgets: number[];
 }>;
 

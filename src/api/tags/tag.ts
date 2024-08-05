@@ -18,14 +18,12 @@ export interface TagMeta extends PagedMetaData {
   };
 }
 
-export interface Tag extends PagedResponse<TagData, TagMeta> {}
+export type Tag = PagedResponse<TagData, TagMeta>;
 
-// eslint-disable-next-line no-shadow
 export const enum TagType {
   tag = 'tag',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum TagPathsType {
   aws = 'aws',
   awsOcp = 'aws_ocp',

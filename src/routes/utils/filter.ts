@@ -7,7 +7,6 @@ export interface Filter {
   value?: string;
 }
 
-// eslint-disable-next-line no-shadow
 enum QueryFilterType {
   filter = 'filter_by',
   exclude = 'exclude',

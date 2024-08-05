@@ -9,7 +9,6 @@ import {
 } from 'utils/dates';
 
 // The date range drop down has the options below (if today is Jan 18th…)
-// eslint-disable-next-line no-shadow
 export const enum DateRangeType {
   currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
   custom = 'custom', // Any date range within the last 90 days, but no more than 65 days total for best API performance

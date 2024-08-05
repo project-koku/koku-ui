@@ -32,7 +32,6 @@ export interface SettingsPayload {
   ids?: string[];
 }
 
-// eslint-disable-next-line no-shadow
 export const enum SettingsType {
   costCategories = 'costCategories',
   costCategoriesEnable = 'costCategoriesEnable',

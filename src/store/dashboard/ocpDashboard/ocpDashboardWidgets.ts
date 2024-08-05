@@ -8,17 +8,16 @@ import {
   DatumType,
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 import { formatPath } from 'utils/paths';
 
-import type { OcpDashboardWidget } from './ocpDashboardCommon';
 import { OcpDashboardTab } from './ocpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: OcpDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartFormatter: formatCurrency,
   chartName: 'ocpCostChart',
@@ -51,7 +50,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
   },
 };
 
-export const cpuWidget: OcpDashboardWidget = {
+export const cpuWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'ocpCpuChart',
   chartType: DashboardChartType.usage,
@@ -73,7 +72,7 @@ export const cpuWidget: OcpDashboardWidget = {
   },
 };
 
-export const memoryWidget: OcpDashboardWidget = {
+export const memoryWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'ocpMemoryChart',
   chartType: DashboardChartType.usage,
@@ -95,7 +94,7 @@ export const memoryWidget: OcpDashboardWidget = {
   },
 };
 
-export const optimizationsWidget: OcpDashboardWidget = {
+export const optimizationsWidget: DashboardWidget = {
   id: getId(),
   titleKey: messages.optimizations,
   details: {
@@ -103,7 +102,7 @@ export const optimizationsWidget: OcpDashboardWidget = {
   },
 };
 
-export const volumeWidget: OcpDashboardWidget = {
+export const volumeWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'ocpVolumeChart',
   chartType: DashboardChartType.usage,

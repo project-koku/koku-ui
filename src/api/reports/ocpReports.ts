@@ -28,9 +28,7 @@ export interface GroupByProjectData extends Omit<OcpReportData, 'projects'> {
   account: string;
 }
 
-export interface GroupByPvcData extends Omit<OcpReportData, 'persistentvolumeclaims'> {
-  // TBD...
-}
+export type GroupByPvcData = Omit<OcpReportData, 'persistentvolumeclaims'>;
 
 export interface OcpReportData extends ReportData {
   cluster_alias?: string;

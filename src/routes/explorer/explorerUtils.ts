@@ -28,7 +28,6 @@ import {
   isRhelAvailable,
 } from 'utils/userAccess';
 
-// eslint-disable-next-line no-shadow
 export const enum PerspectiveType {
   aws = 'aws',
   awsOcp = 'aws_ocp', // Aws filtered by Ocp

@@ -22,14 +22,12 @@ export interface OrgMeta extends PagedMetaData {
   };
 }
 
-export interface Org extends PagedResponse<OrgData, OrgMeta> {}
+export type Org = PagedResponse<OrgData, OrgMeta>;
 
-// eslint-disable-next-line no-shadow
 export const enum OrgType {
   org = 'org',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum OrgPathsType {
   aws = 'aws',
 }

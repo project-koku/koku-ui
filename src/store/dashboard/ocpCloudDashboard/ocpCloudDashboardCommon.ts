@@ -13,17 +13,14 @@ export const ocpCloudDashboardTabFilters: OcpCloudFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum OcpCloudDashboardTab {
   accounts = 'accounts',
   regions = 'regions',
   services = 'services',
 }
 
-export interface OcpCloudDashboardWidget extends DashboardWidget {}
-
 // Todo: cluster, project, node
-export function getGroupByForTab(widget: OcpCloudDashboardWidget): OcpCloudQuery['group_by'] {
+export function getGroupByForTab(widget: DashboardWidget): OcpCloudQuery['group_by'] {
   switch (widget.currentTab) {
     case OcpCloudDashboardTab.accounts:
       return { account: '*' };
@@ -48,7 +45,7 @@ export function getQueryForWidget(filter: OcpCloudFilters = ocpCloudDashboardDef
 }
 
 export function getQueryForWidgetTabs(
-  widget: OcpCloudDashboardWidget,
+  widget: DashboardWidget,
   filter: OcpCloudFilters = ocpCloudDashboardDefaultFilters,
   props?
 ) {

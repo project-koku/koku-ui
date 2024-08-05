@@ -1,12 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
-
-import type { OciHistoricalDataWidget } from './ociHistoricalDataCommon';
+import {
+  type HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: OciHistoricalDataWidget = {
+export const costWidget: HistoricalDataWidget = {
   chartName: 'ociCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.oci,
@@ -14,7 +15,7 @@ export const costWidget: OciHistoricalDataWidget = {
   type: HistoricalDataWidgetType.trend,
 };
 
-export const computeUsageWidget: OciHistoricalDataWidget = {
+export const computeUsageWidget: HistoricalDataWidget = {
   chartName: 'ociComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.oci,
@@ -22,7 +23,7 @@ export const computeUsageWidget: OciHistoricalDataWidget = {
   type: HistoricalDataWidgetType.usage,
 };
 
-export const storageUsageWidget: OciHistoricalDataWidget = {
+export const storageUsageWidget: HistoricalDataWidget = {
   chartName: 'ociStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.oci,

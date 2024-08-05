@@ -8,17 +8,17 @@ import {
   DatumType,
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 import { formatPath } from 'utils/paths';
 
-import type { RhelDashboardWidget } from './rhelDashboardCommon';
 import { RhelDashboardTab } from './rhelDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: RhelDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [RhelDashboardTab.projects, RhelDashboardTab.clusters],
   chartFormatter: formatCurrency,
   chartName: 'rhelCostChart',
@@ -50,7 +50,7 @@ export const costSummaryWidget: RhelDashboardWidget = {
   },
 };
 
-export const cpuWidget: RhelDashboardWidget = {
+export const cpuWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'rhelCpuChart',
   chartType: DashboardChartType.usage,
@@ -72,7 +72,7 @@ export const cpuWidget: RhelDashboardWidget = {
   },
 };
 
-export const memoryWidget: RhelDashboardWidget = {
+export const memoryWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'rhelMemoryChart',
   chartType: DashboardChartType.usage,
@@ -94,7 +94,7 @@ export const memoryWidget: RhelDashboardWidget = {
   },
 };
 
-export const volumeWidget: RhelDashboardWidget = {
+export const volumeWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'rhelVolumeChart',
   chartType: DashboardChartType.usage,

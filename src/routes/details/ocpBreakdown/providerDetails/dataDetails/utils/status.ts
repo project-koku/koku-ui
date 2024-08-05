@@ -4,7 +4,6 @@ import messages from 'locales/messages';
 import type { MessageDescriptor } from 'react-intl';
 import { normalize } from 'routes/details/ocpBreakdown/providerDetails/utils/normailize';
 
-// eslint-disable-next-line no-shadow
 export const enum StatusType {
   complete = 'complete',
   failed = 'failed',

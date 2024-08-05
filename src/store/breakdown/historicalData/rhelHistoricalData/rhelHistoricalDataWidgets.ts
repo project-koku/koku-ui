@@ -1,12 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
-
-import type { RhelHistoricalDataWidget } from './rhelHistoricalDataCommon';
+import {
+  type HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: RhelHistoricalDataWidget = {
+export const costWidget: HistoricalDataWidget = {
   chartName: 'rhelCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.rhel,
@@ -14,7 +15,7 @@ export const costWidget: RhelHistoricalDataWidget = {
   type: HistoricalDataWidgetType.cost,
 };
 
-export const cpuUsageWidget: RhelHistoricalDataWidget = {
+export const cpuUsageWidget: HistoricalDataWidget = {
   chartName: 'rhelCpuChart',
   id: getId(),
   reportPathsType: ReportPathsType.rhel,
@@ -22,7 +23,7 @@ export const cpuUsageWidget: RhelHistoricalDataWidget = {
   type: HistoricalDataWidgetType.usage,
 };
 
-export const memoryUsageWidget: RhelHistoricalDataWidget = {
+export const memoryUsageWidget: HistoricalDataWidget = {
   chartName: 'rhelMemoryChart',
   id: getId(),
   reportPathsType: ReportPathsType.rhel,

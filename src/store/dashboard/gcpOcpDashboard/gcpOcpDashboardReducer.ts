@@ -1,8 +1,8 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './gcpOcpDashboardActions';
-import type { GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
 import {
   computeWidget,
   costSummaryWidget,
@@ -14,7 +14,7 @@ import {
 export type GcpOcpDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type GcpOcpDashboardState = Readonly<{
-  widgets: Record<number, GcpOcpDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

@@ -37,7 +37,7 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
   };
 
   private handleExpand = () => {
-    this.drawerRef.current && (this.drawerRef.current as any).focus();
+    (this.drawerRef?.current as any)?.focus();
   };
 
   public render() {

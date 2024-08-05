@@ -1,20 +1,19 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { tagPrefix } from 'utils/props';
-
-import type { GcpCostOverviewWidget } from './gcpCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: GcpCostOverviewWidget = {
+export const costWidget: CostOverviewWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   type: CostOverviewWidgetType.cost,
 };
 
-export const accountSummaryWidget: GcpCostOverviewWidget = {
+export const accountSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
@@ -25,7 +24,7 @@ export const accountSummaryWidget: GcpCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const projectSummaryWidget: GcpCostOverviewWidget = {
+export const projectSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'gcp_project',
@@ -36,7 +35,7 @@ export const projectSummaryWidget: GcpCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const regionSummaryWidget: GcpCostOverviewWidget = {
+export const regionSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
@@ -47,7 +46,7 @@ export const regionSummaryWidget: GcpCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const serviceSummaryWidget: GcpCostOverviewWidget = {
+export const serviceSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',

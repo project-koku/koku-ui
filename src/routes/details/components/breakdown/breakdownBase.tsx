@@ -29,7 +29,6 @@ import { withRouter } from 'utils/router';
 import { styles } from './breakdown.styles';
 import BreakdownHeader from './breakdownHeader';
 
-// eslint-disable-next-line no-shadow
 const enum BreakdownTab {
   costOverview = 'cost-overview',
   historicalData = 'historical-data',

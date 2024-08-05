@@ -1,7 +1,6 @@
 import type { Providers } from 'api/providers';
 import type { ProviderType } from 'api/providers';
 
-// eslint-disable-next-line no-shadow
 const enum DataType {
   currentMonthData = 'current_month_data',
   hasData = 'has_data',

@@ -63,7 +63,7 @@ export const getBulkSelect = ({
 
   const handleOnBulkSelectClicked = (checked: boolean) => {
     if (onBulkSelectClicked) {
-      checked ? onBulkSelectClicked('all') : onBulkSelectClicked('none');
+      onBulkSelectClicked(checked ? 'all' : 'none');
     }
     onBulkSelectToggle(false);
   };

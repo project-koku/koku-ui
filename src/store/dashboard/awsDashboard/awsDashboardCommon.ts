@@ -13,18 +13,13 @@ export const awsDashboardTabFilters: AwsFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum AwsDashboardTab {
   services = 'services',
   accounts = 'accounts',
   regions = 'regions',
 }
 
-export interface AwsDashboardWidget extends DashboardWidget {
-  // TBD...
-}
-
-export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by'] {
+export function getGroupByForTab(widget: DashboardWidget): AwsQuery['group_by'] {
   switch (widget.currentTab) {
     case AwsDashboardTab.services:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
@@ -40,7 +35,7 @@ export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by
   }
 }
 
-export function getQueryForWidget(widget: AwsDashboardWidget, filter: AwsFilters = awsDashboardDefaultFilters, props?) {
+export function getQueryForWidget(widget: DashboardWidget, filter: AwsFilters = awsDashboardDefaultFilters, props?) {
   const query: AwsQuery = {
     filter,
     ...(props ? props : {}),
@@ -49,7 +44,7 @@ export function getQueryForWidget(widget: AwsDashboardWidget, filter: AwsFilters
 }
 
 export function getQueryForWidgetTabs(
-  widget: AwsDashboardWidget,
+  widget: DashboardWidget,
   filter: AwsFilters = awsDashboardDefaultFilters,
   props?
 ) {

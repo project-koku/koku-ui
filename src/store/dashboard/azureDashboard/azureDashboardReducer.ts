@@ -1,8 +1,8 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './azureDashboardActions';
-import type { AzureDashboardWidget } from './azureDashboardCommon';
 import {
   costSummaryWidget,
   databaseWidget,
@@ -14,7 +14,7 @@ import {
 export type AzureDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type AzureDashboardState = Readonly<{
-  widgets: Record<number, AzureDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

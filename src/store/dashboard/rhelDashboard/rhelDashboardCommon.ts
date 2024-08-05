@@ -13,14 +13,11 @@ export const rhelDashboardTabFilters: RhelFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum RhelDashboardTab {
   nodes = 'nodes',
   clusters = 'clusters',
   projects = 'projects',
 }
-
-export interface RhelDashboardWidget extends DashboardWidget {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(tab: RhelDashboardTab): RhelQuery['group_by'] {
@@ -45,7 +42,7 @@ export function getQueryForWidget(filter: RhelFilters = rhelDashboardDefaultFilt
 }
 
 export function getQueryForWidgetTabs(
-  widget: RhelDashboardWidget,
+  widget: DashboardWidget,
   filter: RhelFilters = rhelDashboardDefaultFilters,
   props?
 ) {

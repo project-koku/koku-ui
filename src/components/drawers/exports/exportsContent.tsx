@@ -31,7 +31,7 @@ interface ExportsContentStateProps {
 }
 
 interface ExportsContentDispatchProps {
-  // TBD...
+  fetchReport: typeof reportActions.fetchReport;
 }
 
 interface ExportsContentState {

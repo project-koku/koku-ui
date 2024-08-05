@@ -8,7 +8,6 @@ import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { Filters } from './common';
 import { hasFilters } from './common';
 
-// eslint-disable-next-line no-shadow
 export const enum ExcludeType {
   exclude = 'exclude',
   include = 'include',

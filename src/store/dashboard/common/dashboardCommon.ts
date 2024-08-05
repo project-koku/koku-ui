@@ -3,7 +3,6 @@ import type { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { FormatOptions, Formatter } from 'utils/format';
 
-// eslint-disable-next-line no-shadow
 export const enum DashboardChartType {
   cost = 'cost', // // This displays cumulative cost compared to infrastructure cost
   dailyCost = 'dailyCost', // This displays cumulative and daily cost compared to infrastructure cost

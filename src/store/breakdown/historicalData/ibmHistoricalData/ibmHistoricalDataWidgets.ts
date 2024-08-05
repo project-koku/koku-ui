@@ -1,12 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
-
-import type { IbmHistoricalDataWidget } from './ibmHistoricalDataCommon';
+import {
+  type HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: IbmHistoricalDataWidget = {
+export const costWidget: HistoricalDataWidget = {
   chartName: 'ibmCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.ibm,
@@ -14,7 +15,7 @@ export const costWidget: IbmHistoricalDataWidget = {
   type: HistoricalDataWidgetType.trend,
 };
 
-export const computeUsageWidget: IbmHistoricalDataWidget = {
+export const computeUsageWidget: HistoricalDataWidget = {
   chartName: 'ibmComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.ibm,
@@ -22,7 +23,7 @@ export const computeUsageWidget: IbmHistoricalDataWidget = {
   type: HistoricalDataWidgetType.trend,
 };
 
-export const storageUsageWidget: IbmHistoricalDataWidget = {
+export const storageUsageWidget: HistoricalDataWidget = {
   chartName: 'ibmStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.ibm,

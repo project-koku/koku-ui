@@ -13,16 +13,13 @@ export const azureOcpDashboardTabFilters: AzureFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum AzureOcpDashboardTab {
   service_names = 'service_names',
   subscription_guids = 'subscription_guids',
   resource_locations = 'resource_locations',
 }
 
-export interface AzureOcpDashboardWidget extends DashboardWidget {}
-
-export function getGroupByForTab(widget: AzureOcpDashboardWidget): AzureQuery['group_by'] {
+export function getGroupByForTab(widget: DashboardWidget): AzureQuery['group_by'] {
   switch (widget.currentTab) {
     case AzureOcpDashboardTab.service_names:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
@@ -47,7 +44,7 @@ export function getQueryForWidget(filter: AzureFilters = azureOcpDashboardDefaul
 }
 
 export function getQueryForWidgetTabs(
-  widget: AzureOcpDashboardWidget,
+  widget: DashboardWidget,
   filter: AzureFilters = azureOcpDashboardDefaultFilters,
   props?
 ) {

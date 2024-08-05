@@ -1,6 +1,5 @@
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 
-// eslint-disable-next-line no-shadow
 export const enum CostOverviewWidgetType {
   cluster = 'cluster', // This type displays clusters associated with a project
   cost = 'cost', // This type displays a cost breakdown as a pie chart
