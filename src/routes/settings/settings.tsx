@@ -28,7 +28,6 @@ import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 import { CostCategory } from './costCategory';
 import { styles } from './settings.styles';
 
-// eslint-disable-next-line no-shadow
 const enum SettingsTab {
   costModels = 'cost_models',
   calculations = 'calculations',

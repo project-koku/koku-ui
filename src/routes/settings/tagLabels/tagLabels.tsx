@@ -7,7 +7,6 @@ import { styles } from './tagLabels.styles';
 import TagMapping from './tagMapping/tagMapping';
 import { Tags } from './tags';
 
-// eslint-disable-next-line no-shadow
 const enum TagLabelsItem {
   tagMapping = 'tagMapping',
   tags = 'tags',

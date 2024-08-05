@@ -1,4 +1,5 @@
-import type { IbmCostOverviewWidget } from './ibmCostOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+
 import {
   accountSummaryWidget,
   costWidget,
@@ -8,7 +9,7 @@ import {
 } from './ibmCostOverviewWidgets';
 
 export type IbmCostOverviewState = Readonly<{
-  widgets: Record<number, IbmCostOverviewWidget>;
+  widgets: Record<number, CostOverviewWidget>;
   currentWidgets: number[];
 }>;
 

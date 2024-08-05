@@ -1,8 +1,9 @@
-import type { OciCostOverviewWidget } from './ociCostOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+
 import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './ociCostOverviewWidgets';
 
 export type OciCostOverviewState = Readonly<{
-  widgets: Record<number, OciCostOverviewWidget>;
+  widgets: Record<number, CostOverviewWidget>;
   currentWidgets: number[];
 }>;
 

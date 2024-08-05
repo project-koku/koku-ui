@@ -1,12 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
-
-import type { GcpHistoricalDataWidget } from './gcpHistoricalDataCommon';
+import {
+  type HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: GcpHistoricalDataWidget = {
+export const costWidget: HistoricalDataWidget = {
   chartName: 'gcpCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.gcp,
@@ -14,7 +15,7 @@ export const costWidget: GcpHistoricalDataWidget = {
   type: HistoricalDataWidgetType.trend,
 };
 
-export const computeUsageWidget: GcpHistoricalDataWidget = {
+export const computeUsageWidget: HistoricalDataWidget = {
   chartName: 'gcpComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.gcp,
@@ -22,7 +23,7 @@ export const computeUsageWidget: GcpHistoricalDataWidget = {
   type: HistoricalDataWidgetType.trend,
 };
 
-export const storageUsageWidget: GcpHistoricalDataWidget = {
+export const storageUsageWidget: HistoricalDataWidget = {
   chartName: 'gcpStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.gcp,

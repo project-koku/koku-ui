@@ -37,7 +37,6 @@ import { formatPath } from 'utils/paths';
 import { ChartComparison } from './chartComparison';
 import { chartStyles, styles } from './dashboardWidget.styles';
 
-// eslint-disable-next-line no-shadow
 const enum Comparison {
   cumulative = 'cumulative',
   daily = 'daily',

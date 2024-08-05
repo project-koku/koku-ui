@@ -8,17 +8,16 @@ import {
   DatumType,
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 import { formatPath } from 'utils/paths';
 
-import type { AwsDashboardWidget } from './awsDashboardCommon';
 import { AwsDashboardTab } from './awsDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const computeWidget: AwsDashboardWidget = {
+export const computeWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'awsComputeChart',
   chartType: DashboardChartType.trend,
@@ -47,7 +46,7 @@ export const computeWidget: AwsDashboardWidget = {
   },
 };
 
-export const costSummaryWidget: AwsDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
   chartFormatter: formatCurrency,
   chartName: 'awsCostChart',
@@ -77,7 +76,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
   },
 };
 
-export const databaseWidget: AwsDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'awsDatabaseChart',
   chartType: DashboardChartType.trend,
@@ -103,7 +102,7 @@ export const databaseWidget: AwsDashboardWidget = {
   },
 };
 
-export const networkWidget: AwsDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'awsNetworkChart',
   chartType: DashboardChartType.trend,
@@ -129,7 +128,7 @@ export const networkWidget: AwsDashboardWidget = {
   },
 };
 
-export const storageWidget: AwsDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'awsStorageChart',
   chartType: DashboardChartType.trend,

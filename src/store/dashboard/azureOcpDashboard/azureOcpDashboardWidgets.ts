@@ -8,16 +8,15 @@ import {
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
 import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 
-import type { AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
 import { AzureOcpDashboardTab } from './azureOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: AzureOcpDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [
     AzureOcpDashboardTab.service_names,
     AzureOcpDashboardTab.subscription_guids,
@@ -49,7 +48,7 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
   },
 };
 
-export const databaseWidget: AzureOcpDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartName: 'azureOcpDatabaseChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -74,7 +73,7 @@ export const databaseWidget: AzureOcpDashboardWidget = {
   },
 };
 
-export const networkWidget: AzureOcpDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartName: 'azureOcpNetworkChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -99,7 +98,7 @@ export const networkWidget: AzureOcpDashboardWidget = {
   },
 };
 
-export const storageWidget: AzureOcpDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartName: 'azureOcpStorageChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -127,7 +126,7 @@ export const storageWidget: AzureOcpDashboardWidget = {
   },
 };
 
-export const virtualMachineWidget: AzureOcpDashboardWidget = {
+export const virtualMachineWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'azureOcpComputeChart',
   chartType: DashboardChartType.trend,

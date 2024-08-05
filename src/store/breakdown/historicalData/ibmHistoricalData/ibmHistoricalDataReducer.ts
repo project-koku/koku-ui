@@ -1,8 +1,9 @@
-import type { IbmHistoricalDataWidget } from './ibmHistoricalDataCommon';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+
 import { computeUsageWidget, costWidget, storageUsageWidget } from './ibmHistoricalDataWidgets';
 
 export type IbmHistoricalDataState = Readonly<{
-  widgets: Record<number, IbmHistoricalDataWidget>;
+  widgets: Record<number, HistoricalDataWidget>;
   currentWidgets: number[];
 }>;
 

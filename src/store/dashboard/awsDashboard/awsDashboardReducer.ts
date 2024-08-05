@@ -1,14 +1,14 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './awsDashboardActions';
-import type { AwsDashboardWidget } from './awsDashboardCommon';
 import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './awsDashboardWidgets';
 
 export type AwsDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type AwsDashboardState = Readonly<{
-  widgets: Record<number, AwsDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

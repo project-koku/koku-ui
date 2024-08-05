@@ -6,7 +6,6 @@ import type { RootState } from './rootReducer';
 
 export const expirationMS = 30 * 60 * 1000; // 30 minutes
 
-// eslint-disable-next-line no-shadow
 export const enum FetchStatus {
   'none',
   'inProgress',

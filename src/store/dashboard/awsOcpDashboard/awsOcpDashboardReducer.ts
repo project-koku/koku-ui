@@ -1,8 +1,8 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './awsOcpDashboardActions';
-import type { AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
 import {
   computeWidget,
   costSummaryWidget,
@@ -14,7 +14,7 @@ import {
 export type AwsOcpDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type AwsOcpDashboardState = Readonly<{
-  widgets: Record<number, AwsOcpDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

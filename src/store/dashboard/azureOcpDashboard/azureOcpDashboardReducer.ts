@@ -1,8 +1,8 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './azureOcpDashboardActions';
-import type { AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
 import {
   costSummaryWidget,
   databaseWidget,
@@ -14,7 +14,7 @@ import {
 export type AzureOcpDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type AzureOcpDashboardState = Readonly<{
-  widgets: Record<number, AzureOcpDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

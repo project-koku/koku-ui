@@ -1,12 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
-
-import type { AzureHistoricalDataWidget } from './azureHistoricalDataCommon';
+import {
+  type HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: AzureHistoricalDataWidget = {
+export const costWidget: HistoricalDataWidget = {
   chartName: 'azureCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.azure,
@@ -14,7 +15,7 @@ export const costWidget: AzureHistoricalDataWidget = {
   type: HistoricalDataWidgetType.trend,
 };
 
-export const computeUsageWidget: AzureHistoricalDataWidget = {
+export const computeUsageWidget: HistoricalDataWidget = {
   chartName: 'azureComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.azure,
@@ -22,7 +23,7 @@ export const computeUsageWidget: AzureHistoricalDataWidget = {
   type: HistoricalDataWidgetType.usage,
 };
 
-export const storageUsageWidget: AzureHistoricalDataWidget = {
+export const storageUsageWidget: HistoricalDataWidget = {
   chartName: 'azureStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.azure,

@@ -1,14 +1,14 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './rhelDashboardActions';
-import type { RhelDashboardWidget } from './rhelDashboardCommon';
 import { costSummaryWidget, cpuWidget, memoryWidget, volumeWidget } from './rhelDashboardWidgets';
 
 export type RhelDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type RhelDashboardState = Readonly<{
-  widgets: Record<number, RhelDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

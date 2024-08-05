@@ -23,7 +23,6 @@ export interface ChartDatum {
 }
 
 // The computed report cost or usage item
-// eslint-disable-next-line no-shadow
 export const enum ComputedReportItemType {
   cost = 'cost', // cost.total.value
   infrastructure = 'infrastructure', // infrastructure.total.value
@@ -32,7 +31,6 @@ export const enum ComputedReportItemType {
 }
 
 // The computed report value
-// eslint-disable-next-line no-shadow
 export const enum ComputedReportItemValueType {
   distributed = 'distributed', // cost.distributed.value
   none = 'none', // A value type is not used in this scenario (e.g., usage.value)
@@ -45,7 +43,6 @@ export const enum ComputedReportItemValueType {
 }
 
 // The datum type, which can be applied to daily or monthly data
-// eslint-disable-next-line no-shadow
 export const enum DatumType {
   cumulative,
   rolling,

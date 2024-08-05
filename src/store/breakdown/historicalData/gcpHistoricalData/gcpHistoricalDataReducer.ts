@@ -1,8 +1,9 @@
-import type { GcpHistoricalDataWidget } from './gcpHistoricalDataCommon';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+
 import { computeUsageWidget, costWidget, storageUsageWidget } from './gcpHistoricalDataWidgets';
 
 export type GcpHistoricalDataState = Readonly<{
-  widgets: Record<number, GcpHistoricalDataWidget>;
+  widgets: Record<number, HistoricalDataWidget>;
   currentWidgets: number[];
 }>;
 

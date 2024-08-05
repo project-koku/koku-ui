@@ -1,4 +1,5 @@
-import type { RhelCostOverviewWidget } from './rhelCostOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+
 import {
   clusterWidget,
   costWidget,
@@ -9,7 +10,7 @@ import {
 } from './rhelCostOverviewWidgets';
 
 export type RhelCostOverviewState = Readonly<{
-  widgets: Record<number, RhelCostOverviewWidget>;
+  widgets: Record<number, CostOverviewWidget>;
   currentWidgets: number[];
 }>;
 

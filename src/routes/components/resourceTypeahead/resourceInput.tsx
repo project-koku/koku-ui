@@ -173,7 +173,7 @@ const ResourceInput: React.FC<ResourceInputProps> = ({
         // Allow focus on the menu and navigate using the arrow keys
         if (menuRef.current) {
           const firstElement = menuRef.current.querySelector('li > button:not(:disabled)');
-          firstElement && (firstElement as any).focus();
+          (firstElement as any)?.focus();
         }
         break;
       default:

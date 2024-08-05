@@ -9,17 +9,16 @@ import {
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
 import { awsDashboardWidgets } from 'store/dashboard/awsDashboard';
 import { azureDashboardWidgets } from 'store/dashboard/azureDashboard';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import type { OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
 import { OcpCloudDashboardTab } from './ocpCloudDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: OcpCloudDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
   chartFormatter: formatCurrency,
   chartName: 'ocpCloudCostChart',
@@ -50,7 +49,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
 
 // Cloud widgets
 
-export const computeWidget: OcpCloudDashboardWidget = {
+export const computeWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'ocpCloudComputeChart',
   chartType: DashboardChartType.trend,
@@ -76,7 +75,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
   },
 };
 
-export const databaseWidget: OcpCloudDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'ocpCloudDatabaseChart',
   chartType: DashboardChartType.trend,
@@ -104,7 +103,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   },
 };
 
-export const networkWidget: OcpCloudDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'ocpCloudNetworkChart',
   chartType: DashboardChartType.trend,
@@ -132,7 +131,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
   },
 };
 
-export const storageWidget: OcpCloudDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'ocpCloudStorageChart',
   chartType: DashboardChartType.trend,

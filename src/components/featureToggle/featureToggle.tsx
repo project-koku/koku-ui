@@ -4,7 +4,6 @@ import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
-// eslint-disable-next-line no-shadow
 export const enum FeatureToggle {
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
   debug = 'cost-management.ui.debug',
