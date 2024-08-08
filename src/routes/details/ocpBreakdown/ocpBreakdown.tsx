@@ -13,7 +13,7 @@ import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { DataDetails } from 'routes/details/components/providerDetails/clusterDetails';
-import { ClusterInfo } from 'routes/details/ocpBreakdown/providerDetails/clusterInfo';
+import { ClusterInfo } from 'routes/details/ocpBreakdown/clusterInfo';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
