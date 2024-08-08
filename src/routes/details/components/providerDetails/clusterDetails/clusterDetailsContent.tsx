@@ -8,30 +8,30 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { CloudIData } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/cloudIData';
-import { ClusterData } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/clusterData';
-import { CostData } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/costData';
+import { CloudData } from 'routes/details/components/providerDetails/clusterDetails/components/cloudData';
+import { ClusterData } from 'routes/details/components/providerDetails/clusterDetails/components/clusterData';
+import { CostData } from 'routes/details/components/providerDetails/clusterDetails/components/costData';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 
-import { styles } from './dataDetails.styles';
+import { styles } from './clusterDetails.styles';
 
-interface DataDetailsContentOwnProps {
+interface ClusterDetailsContentOwnProps {
   clusterId?: string;
 }
 
-interface DataDetailsContentStateProps {
+interface ClusterDetailsContentStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
 }
 
-type DataDetailsContentProps = DataDetailsContentOwnProps;
+type ClusterDetailsContentProps = ClusterDetailsContentOwnProps;
 
-const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: DataDetailsContentProps) => {
+const ClusterDetailsContent: React.FC<ClusterDetailsContentProps> = ({ clusterId }: ClusterDetailsContentProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
@@ -57,14 +57,14 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
 
   return (
     <>
-      {cloudProvider && <CloudIData provider={cloudProvider} />}
+      {cloudProvider && <CloudData provider={cloudProvider} />}
       {clusterProvider && <ClusterData provider={clusterProvider} />}
       {clusterProvider && <CostData provider={clusterProvider} />}
     </>
   );
 };
 
-const useMapToProps = (): DataDetailsContentStateProps => {
+const useMapToProps = (): ClusterDetailsContentStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
@@ -85,4 +85,4 @@ const useMapToProps = (): DataDetailsContentStateProps => {
   };
 };
 
-export { DataDetailsContent };
+export { ClusterDetailsContent };

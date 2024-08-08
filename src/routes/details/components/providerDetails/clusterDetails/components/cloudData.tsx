@@ -3,12 +3,12 @@ import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { SourceLink } from 'routes/details/ocpBreakdown/providerDetails/components/sourceLink';
-import { styles } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/dataDetails.styles';
-import { formatDate } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/format';
-import { getProgressStepIcon } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/icon';
-import { getProviderAvailability } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/status';
-import { getProgressStepVariant } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/variant';
+import { styles } from 'routes/details/components/providerDetails/clusterDetails/clusterDetails.styles';
+import { formatDate } from 'routes/details/components/providerDetails/clusterDetails/utils/format';
+import { getProgressStepIcon } from 'routes/details/components/providerDetails/clusterDetails/utils/icon';
+import { getProviderAvailability } from 'routes/details/components/providerDetails/clusterDetails/utils/status';
+import { getProgressStepVariant } from 'routes/details/components/providerDetails/clusterDetails/utils/variant';
+import { SourceLink } from 'routes/details/components/providerDetails/components/sourceLink';
 
 interface CloudDataOwnProps {
   provider: Provider;
@@ -16,7 +16,7 @@ interface CloudDataOwnProps {
 
 type CloudDataProps = CloudDataOwnProps;
 
-const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
+const CloudData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
   const intl = useIntl();
 
   if (!provider) {
@@ -79,4 +79,4 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
   );
 };
 
-export { CloudIData };
+export { CloudData };

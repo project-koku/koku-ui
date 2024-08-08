@@ -6,13 +6,13 @@ import React from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { styles } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/dataDetails.styles';
-import { getOverallStatusIcon } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/icon';
+import { styles } from 'routes/details/components/providerDetails/clusterDetails/clusterDetails.styles';
+import { getOverallStatusIcon } from 'routes/details/components/providerDetails/clusterDetails/utils/icon';
 import {
   getProviderAvailability,
   getProviderStatus,
   StatusType,
-} from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/status';
+} from 'routes/details/components/providerDetails/clusterDetails/utils/status';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import type { FetchStatus } from 'store/common';
