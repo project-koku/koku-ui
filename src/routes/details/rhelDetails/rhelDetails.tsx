@@ -21,6 +21,7 @@ import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
+import { ProviderDetails } from 'routes/details/components/providerDetails';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedRhelReportItems';
@@ -36,6 +37,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -51,6 +53,7 @@ import { styles } from './rhelDetails.styles';
 
 interface RhelDetailsStateProps {
   currency?: string;
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: RhelQuery;
@@ -378,8 +381,18 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
   };
 
   public render() {
-    const { currency, intl, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, router } =
-      this.props;
+    const {
+      currency,
+      intl,
+      isAccountInfoEmptyStateToggleEnabled,
+      providers,
+      providersFetchStatus,
+      query,
+      report,
+      reportError,
+      reportFetchStatus,
+      router,
+    } = this.props;
 
     const computedItems = this.getComputedItems();
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -399,9 +412,17 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         return <NoProviders providerType={ProviderType.ocp} title={title} />;
       }
       if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
+        return (
+          <NoData
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ocp} /> : undefined
+            }
+            title={title}
+          />
+        );
       }
     }
+
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader
@@ -474,6 +495,7 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
 
   return {
     currency,
+    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     query,

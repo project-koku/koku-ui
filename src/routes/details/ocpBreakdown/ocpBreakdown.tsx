@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
-import { ClusterDetailsModal } from 'routes/details/components/providerDetails/clusterDetails';
+import { ProviderDetailsModal } from 'routes/details/components/providerDetails';
 import { ClusterInfoModal } from 'routes/details/ocpBreakdown/clusterInfo';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
@@ -100,7 +100,10 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   return {
     breadcrumbLabel,
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
-    dataDetailsComponent: groupBy === 'cluster' ? <ClusterDetailsModal clusterId={groupByValue} /> : undefined,
+    dataDetailsComponent:
+      groupBy === 'cluster' ? (
+        <ProviderDetailsModal clusterId={groupByValue} providerType={ProviderType.ocp} />
+      ) : undefined,
     costDistribution,
     costOverviewComponent: (
       <CostOverview

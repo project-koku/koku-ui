@@ -2124,6 +2124,11 @@ export default defineMessages({
     description: 'This page shows filtered results. To undo filters, clear filters on the previous page.',
     id: 'filteredByWarning',
   },
+  finalization: {
+    defaultMessage: 'Finalization',
+    description: 'Finalization',
+    id: 'finalization',
+  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',
@@ -3136,6 +3141,11 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
+  },
+  providerDetails: {
+    defaultMessage: 'Integrations details',
+    description: 'Integrations details',
+    id: 'providerDetails',
   },
   pvcTitle: {
     defaultMessage: 'Persistent Volume Claims',

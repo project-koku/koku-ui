@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { normalize } from 'routes/details/components/providerDetails/utils/normailize';
 import { getReleasePath } from 'utils/paths';
 
-import { styles } from './sourceLink.styles';
+import { styles } from './component.styles';
 
 interface SourceLinkOwnProps {
   provider: Provider;

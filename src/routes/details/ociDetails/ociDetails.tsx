@@ -18,6 +18,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOciReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -33,6 +34,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -48,6 +50,7 @@ import { styles } from './ociDetails.styles';
 
 interface OciDetailsStateProps {
   currency?: string;
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -324,6 +327,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
     const {
       currency,
       intl,
+      isAccountInfoEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -352,9 +356,17 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
         return <NoProviders providerType={ProviderType.oci} title={title} />;
       }
       if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
+        return (
+          <NoData
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.oci} /> : undefined
+            }
+            title={title}
+          />
+        );
       }
     }
+
     return (
       <div style={styles.ociDetails}>
         <DetailsHeader
@@ -427,6 +439,7 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
 
   return {
     currency,
+    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.oci),
     providersError,
     providersFetchStatus,

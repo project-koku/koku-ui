@@ -22,7 +22,7 @@ import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
-import { ClusterDetails } from 'routes/details/components/providerDetails/clusterDetails/clusterDetails';
+import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -437,12 +437,15 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       if (!hasCurrentMonthData(providers)) {
         return (
           <NoData
-            detailsComponent={isAccountInfoEmptyStateToggleEnabled ? <ClusterDetails /> : undefined}
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ocp} /> : undefined
+            }
             title={title}
           />
         );
       }
     }
+
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader

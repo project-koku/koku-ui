@@ -1,24 +1,29 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
+import type { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { OverallStatus } from 'routes/details/components/providerDetails/clusterDetails/components/overallStatus';
 
-import { styles } from './clusterDetails.styles';
-import { ClusterDetailsContent } from './clusterDetailsContent';
+import { OverallStatus } from './components/overallStatus';
+import { styles } from './providerDetails.styles';
+import { ProviderDetailsContent } from './providerDetailsContent';
 
-interface ClusterDetailsModalOwnProps {
+interface ProviderDetailsModalOwnProps {
   clusterId?: string;
   showStatus?: boolean;
+  providerId?: string;
+  providerType: ProviderType;
 }
 
-type ClusterDetailsModalProps = ClusterDetailsModalOwnProps;
+type ProviderDetailsModalProps = ProviderDetailsModalOwnProps;
 
-const ClusterDetailsModal: React.FC<ClusterDetailsModalProps> = ({
+const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
   clusterId,
+  providerId,
+  providerType,
   showStatus = true,
-}: ClusterDetailsModalProps) => {
+}: ProviderDetailsModalProps) => {
   const intl = useIntl();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,18 +40,18 @@ const ClusterDetailsModal: React.FC<ClusterDetailsModalProps> = ({
 
   return (
     <>
-      {showStatus && <OverallStatus clusterId={clusterId} />}
+      {showStatus && <OverallStatus clusterId={clusterId} providerId={providerId} providerType={providerType} />}
       <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
         {intl.formatMessage(messages.dataDetails)}
       </Button>
       <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.small}>
         <ModalHeader title={intl.formatMessage(messages.dataDetails)} />
         <ModalBody>
-          <ClusterDetailsContent clusterId={clusterId} />
+          <ProviderDetailsContent clusterId={clusterId} providerId={providerId} providerType={providerType} />
         </ModalBody>
       </Modal>
     </>
   );
 };
 
-export { ClusterDetailsModal };
+export { ProviderDetailsModal };

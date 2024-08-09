@@ -20,6 +20,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -36,6 +37,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -52,6 +54,7 @@ import { DetailsToolbar } from './detailsToolbar';
 interface AwsDetailsStateProps {
   costType: string;
   currency?: string;
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -365,6 +368,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
       costType,
       currency,
       intl,
+      isAccountInfoEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -392,9 +396,17 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         return <NoProviders providerType={ProviderType.aws} title={title} />;
       }
       if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
+        return (
+          <NoData
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.aws} /> : undefined
+            }
+            title={title}
+          />
+        );
       }
     }
+
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader
@@ -480,6 +492,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
   return {
     costType,
     currency,
+    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,
