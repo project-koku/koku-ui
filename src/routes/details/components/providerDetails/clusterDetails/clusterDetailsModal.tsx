@@ -3,18 +3,22 @@ import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-c
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { OverallStatus } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/overallStatus';
+import { OverallStatus } from 'routes/details/components/providerDetails/clusterDetails/components/overallStatus';
 
-import { styles } from './dataDetails.styles';
-import { DataDetailsContent } from './dataDetailsContent';
+import { styles } from './clusterDetails.styles';
+import { ClusterDetailsContent } from './clusterDetailsContent';
 
-interface DataDetailsOwnProps {
+interface ClusterDetailsModalOwnProps {
   clusterId?: string;
+  showStatus?: boolean;
 }
 
-type DataDetailsProps = DataDetailsOwnProps;
+type ClusterDetailsModalProps = ClusterDetailsModalOwnProps;
 
-const DataDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps) => {
+const ClusterDetailsModal: React.FC<ClusterDetailsModalProps> = ({
+  clusterId,
+  showStatus = true,
+}: ClusterDetailsModalProps) => {
   const intl = useIntl();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,18 +35,18 @@ const DataDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps
 
   return (
     <>
-      <OverallStatus clusterId={clusterId} />
+      {showStatus && <OverallStatus clusterId={clusterId} />}
       <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
         {intl.formatMessage(messages.dataDetails)}
       </Button>
       <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.small}>
         <ModalHeader title={intl.formatMessage(messages.dataDetails)} />
         <ModalBody>
-          <DataDetailsContent clusterId={clusterId} />
+          <ClusterDetailsContent clusterId={clusterId} />
         </ModalBody>
       </Modal>
     </>
   );
 };
 
-export default DataDetails;
+export { ClusterDetailsModal };

@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { CloudIntegration } from 'routes/details/ocpBreakdown/providerDetails/clusterInfo/components/cloudIntegration';
+import { CloudIntegration } from 'routes/details/ocpBreakdown/clusterInfo/components/cloudIntegration';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';

@@ -22,6 +22,7 @@ import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
+import { ClusterDetails } from 'routes/details/components/providerDetails/clusterDetails/clusterDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -55,6 +56,7 @@ import { styles } from './ocpDetails.styles';
 export interface OcpDetailsStateProps {
   costDistribution?: string;
   currency?: string;
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   isRosToggleEnabled?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
@@ -405,6 +407,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       costDistribution,
       currency,
       intl,
+      isAccountInfoEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -432,7 +435,12 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         return <NoProviders providerType={ProviderType.ocp} title={title} />;
       }
       if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
+        return (
+          <NoData
+            detailsComponent={isAccountInfoEmptyStateToggleEnabled ? <ClusterDetails /> : undefined}
+            title={title}
+          />
+        );
       }
     }
     return (
@@ -519,6 +527,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   return {
     costDistribution,
     currency,
+    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,

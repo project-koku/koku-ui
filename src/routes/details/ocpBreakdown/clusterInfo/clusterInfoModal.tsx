@@ -7,13 +7,13 @@ import { useIntl } from 'react-intl';
 import { styles } from './clusterInfo.styles';
 import { ClusterInfoContent } from './clusterInfoContent';
 
-interface ClusterInfoOwnProps {
+interface ClusterInfoModalOwnProps {
   clusterId?: string;
 }
 
-type ClusterInfoProps = ClusterInfoOwnProps;
+type ClusterInfoModalProps = ClusterInfoModalOwnProps;
 
-const ClusterInfo: React.FC<ClusterInfoProps> = ({ clusterId }: ClusterInfoProps) => {
+const ClusterInfoModal: React.FC<ClusterInfoModalProps> = ({ clusterId }: ClusterInfoModalProps) => {
   const intl = useIntl();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,4 +43,4 @@ const ClusterInfo: React.FC<ClusterInfoProps> = ({ clusterId }: ClusterInfoProps
   );
 };
 
-export default ClusterInfo;
+export { ClusterInfoModal };

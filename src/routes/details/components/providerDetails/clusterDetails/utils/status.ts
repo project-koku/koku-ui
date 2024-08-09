@@ -2,7 +2,7 @@ import type { Provider } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import type { MessageDescriptor } from 'react-intl';
-import { normalize } from 'routes/details/ocpBreakdown/providerDetails/utils/normailize';
+import { normalize } from 'routes/details/components/providerDetails/utils/normailize';
 
 export const enum StatusType {
   complete = 'complete',
@@ -78,12 +78,20 @@ const getProviderStatusMsg = (
 export const getProviderStatus = (
   provider: Provider,
   isCloud = false
-): { msg: MessageDescriptor; status: StatusType } => {
+): { lastUpdated: string; msg: MessageDescriptor; status: StatusType } => {
   let status;
   let msg;
   if (!provider) {
     return status;
   }
+
+  const lastUpdated =
+    provider.status?.summary?.end ||
+    provider.status?.summary?.start ||
+    provider.status?.processing?.end ||
+    provider.status?.processing?.start ||
+    provider.status?.download?.end ||
+    provider.status?.download?.start;
 
   // Skip summaryState for cloud
   const downloadState = lookupKey(provider.status?.download?.state);
@@ -119,5 +127,5 @@ export const getProviderStatus = (
     status = StatusType.complete;
     msg = messages.dataDetailsIntegrationAndFinalization; // only one final step
   }
-  return { msg, status };
+  return { lastUpdated, msg, status };
 };
