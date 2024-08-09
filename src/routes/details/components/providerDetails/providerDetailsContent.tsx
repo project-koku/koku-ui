@@ -8,32 +8,41 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 
-import { styles } from './clusterDetails.styles';
-import { ClusterDetailsTable } from './clusterDetailsTable';
+import { CloudData } from './components/cloudData';
+import { ClusterData } from './components/clusterData';
+import { Finalization } from './components/finalization';
+import { styles } from './providerDetails.styles';
 
-interface ClusterDetailsOwnProps {
-  // TBD...
+interface ProviderDetailsContentOwnProps {
+  clusterId?: string;
+  providerId?: string;
+  providerType: ProviderType;
 }
 
-interface ClusterDetailsStateProps {
+interface ProviderDetailsContentStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
 }
 
-type ClusterDetailsProps = ClusterDetailsOwnProps;
+type ProviderDetailsContentProps = ProviderDetailsContentOwnProps;
 
-const ClusterDetails: React.FC<ClusterDetailsProps> = () => {
+const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
+  clusterId,
+  providerId,
+  providerType,
+}: ProviderDetailsContentProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
-  const title = intl.formatMessage(messages.ocpClusterDetails);
+  const title = intl.formatMessage(messages.optimizations);
 
   if (providersError) {
     return <NotAvailable title={title} />;
@@ -47,10 +56,23 @@ const ClusterDetails: React.FC<ClusterDetailsProps> = () => {
     );
   }
 
-  return <ClusterDetailsTable providers={providers} providerType={ProviderType.ocp} />;
+  // Filter OCP providers to skip an extra API request
+  const ocpProviders = filterProviders(providers, providerType);
+  const provider = ocpProviders?.data?.find(
+    val => providerId === val.id || val.authentication?.credentials?.cluster_id === clusterId
+  );
+  const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
+
+  return (
+    <>
+      {cloudProvider && <CloudData provider={cloudProvider} />}
+      {provider && <ClusterData provider={provider} />}
+      {provider && <Finalization provider={provider} providerType={providerType} />}
+    </>
+  );
 };
 
-const useMapToProps = (): ClusterDetailsStateProps => {
+const useMapToProps = (): ProviderDetailsContentStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
@@ -71,4 +93,4 @@ const useMapToProps = (): ClusterDetailsStateProps => {
   };
 };
 
-export { ClusterDetails };
+export { ProviderDetailsContent };

@@ -3,21 +3,20 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
-import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { filterProviders } from 'routes/utils/providers';
-import { getReleasePath } from 'utils/paths';
 
-import { ClusterDetailsModal } from './clusterDetailsModal';
 import { OverallStatus } from './components/overallStatus';
+import { SourceLink } from './components/sourceLink';
+import { ProviderDetailsModal } from './providerDetailsModal';
 
-interface ClusterDetailsTableOwnProps {
+interface ProviderDetailsTableOwnProps {
   providers?: Providers;
   providerType?: ProviderType;
 }
 
-type ClusterDetailsTableProps = ClusterDetailsTableOwnProps;
+type ProviderDetailsTableProps = ProviderDetailsTableOwnProps;
 
-const ClusterDetailsTable: React.FC<ClusterDetailsTableProps> = ({ providers, providerType }) => {
+const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, providerType }) => {
   const intl = useIntl();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -28,7 +27,7 @@ const ClusterDetailsTable: React.FC<ClusterDetailsTableProps> = ({ providers, pr
     }
 
     // Filter OCP providers to skip an extra API request
-    const filteredProviders = filterProviders(providers, providerType)?.data?.filter(item => item.status !== null);
+    const filteredProviders = filterProviders(providers, providerType);
 
     const newRows = [];
     const newColumns = [
@@ -46,24 +45,15 @@ const ClusterDetailsTable: React.FC<ClusterDetailsTableProps> = ({ providers, pr
       },
     ];
 
-    const release = getReleasePath();
-
-    filteredProviders.map(item => {
-      const clusterId = item?.authentication?.credentials?.cluster_id;
+    filteredProviders?.data?.map(item => {
+      // const clusterId = item?.authentication?.credentials?.cluster_id;
 
       newRows.push({
         cells: [
-          {
-            value: (
-              <>
-                <a href={`${release}/openshift/details/${clusterId}`}>{item.name || clusterId}</a>
-                {clusterId !== item.name && <div style={styles.infoDescription}>{clusterId}</div>}
-              </>
-            ),
-          },
-          { value: <OverallStatus clusterId={clusterId} isLastUpdated /> },
-          { value: <OverallStatus clusterId={clusterId} isStatusMsg /> },
-          { value: <ClusterDetailsModal clusterId={clusterId} showStatus={false} /> },
+          { value: <SourceLink provider={item} showLabel={false} /> },
+          { value: <OverallStatus providerId={item.id} providerType={providerType} isLastUpdated /> },
+          { value: <OverallStatus providerId={item.id} providerType={providerType} isStatusMsg /> },
+          { value: <ProviderDetailsModal providerId={item.id} providerType={providerType} showStatus={false} /> },
         ],
         item,
       });
@@ -80,4 +70,4 @@ const ClusterDetailsTable: React.FC<ClusterDetailsTableProps> = ({ providers, pr
   return <DataTable columns={columns} isActionsCell rows={rows} />;
 };
 
-export { ClusterDetailsTable };
+export { ProviderDetailsTable };

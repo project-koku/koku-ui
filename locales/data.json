@@ -8207,6 +8207,12 @@
         "value": "This page shows filtered results. To undo filters, clear filters on the previous page."
       }
     ],
+    "finalization": [
+      {
+        "type": 0,
+        "value": "Finalization"
+      }
+    ],
     "forDate": [
       {
         "type": 1,
@@ -11773,6 +11779,12 @@
       {
         "type": 0,
         "value": "Rate must be a positive number"
+      }
+    ],
+    "providerDetails": [
+      {
+        "type": 0,
+        "value": "Integrations details"
       }
     ],
     "pvcTitle": [
