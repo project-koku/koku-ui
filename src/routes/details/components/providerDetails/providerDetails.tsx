@@ -16,7 +16,7 @@ import { styles } from './providerDetails.styles';
 import { ProviderDetailsTable } from './providerDetailsTable';
 
 interface ProviderDetailsOwnProps {
-  // TBD...
+  providerType: ProviderType;
 }
 
 interface ProviderDetailsStateProps {
@@ -28,7 +28,7 @@ interface ProviderDetailsStateProps {
 
 type ProviderDetailsProps = ProviderDetailsOwnProps;
 
-const ProviderDetails: React.FC<ProviderDetailsProps> = () => {
+const ProviderDetails: React.FC<ProviderDetailsProps> = ({ providerType }: ProviderDetailsProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
@@ -47,7 +47,7 @@ const ProviderDetails: React.FC<ProviderDetailsProps> = () => {
     );
   }
 
-  return <ProviderDetailsTable providers={providers} providerType={ProviderType.ocp} />;
+  return <ProviderDetailsTable providers={providers} providerType={providerType} />;
 };
 
 const useMapToProps = (): ProviderDetailsStateProps => {

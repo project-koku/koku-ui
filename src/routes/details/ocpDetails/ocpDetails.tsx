@@ -437,7 +437,9 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       if (!hasCurrentMonthData(providers)) {
         return (
           <NoData
-            detailsComponent={isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails /> : undefined}
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ocp} /> : undefined
+            }
             title={title}
           />
         );

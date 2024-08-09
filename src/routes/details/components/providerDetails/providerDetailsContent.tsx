@@ -57,17 +57,25 @@ const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
   }
 
   // Filter OCP providers to skip an extra API request
-  const ocpProviders = filterProviders(providers, providerType);
-  const provider = ocpProviders?.data?.find(
+  const filteredProviders = filterProviders(providers, providerType);
+  const provider = filteredProviders?.data?.find(
     val => providerId === val.id || val.authentication?.credentials?.cluster_id === clusterId
   );
-  const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
 
+  if (providerType === ProviderType.ocp) {
+    const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
+    return (
+      <>
+        <CloudData provider={cloudProvider} />
+        <ClusterData provider={provider} />
+        <Finalization provider={provider} providerType={providerType} />
+      </>
+    );
+  }
   return (
     <>
-      {cloudProvider && <CloudData provider={cloudProvider} />}
-      {provider && <ClusterData provider={provider} />}
-      {provider && <Finalization provider={provider} providerType={providerType} />}
+      <CloudData provider={provider} />
+      <Finalization provider={provider} providerType={providerType} />
     </>
   );
 };
