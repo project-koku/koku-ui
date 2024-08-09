@@ -1,6 +1,7 @@
 import { createAction } from 'typesafe-actions';
 
 export interface FeatureToggleActionMeta {
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   isAwsEc2InstancesToggleEnabled?: boolean;
   isDebugToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;

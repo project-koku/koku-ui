@@ -2369,10 +2369,20 @@ export default defineMessages({
     description: 'Instances',
     id: 'instances',
   },
+  integration: {
+    defaultMessage: 'Integration',
+    description: 'Integration',
+    id: 'integration',
+  },
   lastProcessed: {
     defaultMessage: 'Last processed',
     description: 'Last processed',
     id: 'lastProcessed',
+  },
+  lastUpdated: {
+    defaultMessage: 'Last updated',
+    description: 'Last updated',
+    id: 'lastUpdated',
   },
   learnMore: {
     defaultMessage: 'Learn more',
@@ -2566,8 +2576,7 @@ export default defineMessages({
     id: 'noDataForDate',
   },
   noDataStateDesc: {
-    defaultMessage:
-      'We have detected an integration, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+    defaultMessage: 'We have detected an integration, but we are not done processing the incoming data.',
     description: 'still processing request, 24 hour message',
     id: 'noDataStateDesc',
   },
@@ -2575,6 +2584,11 @@ export default defineMessages({
     defaultMessage: 'Refresh this page',
     description: 'Refresh this page',
     id: 'noDataStateRefresh',
+  },
+  noDataStateRefreshDesc: {
+    defaultMessage: 'The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+    description: 'still processing request, 24 hour message',
+    id: 'noDataStateRefreshDesc',
   },
   noDataStateTitle: {
     defaultMessage: 'Still processing the data',
@@ -3446,7 +3460,7 @@ export default defineMessages({
     id: 'start',
   },
   status: {
-    defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
+    defaultMessage: 'Status',
     description: 'Status',
     id: 'status',
   },
@@ -3454,6 +3468,23 @@ export default defineMessages({
     defaultMessage: 'Status/Actions',
     description: 'Status/Actions',
     id: 'statusActions',
+  },
+  statusMsg: {
+    defaultMessage:
+      '{value, select, ' +
+      'complete {Complete} ' +
+      'failed {Failed} ' +
+      'in_progress {in-Progress} ' +
+      'paused {Paused} ' +
+      'pending {Pending} ' +
+      'other {}}',
+    description: 'Status message',
+    id: 'statusMsg',
+  },
+  statusStates: {
+    defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
+    description: 'Status states',
+    id: 'statusStates',
   },
   storage: {
     defaultMessage: 'Storage',

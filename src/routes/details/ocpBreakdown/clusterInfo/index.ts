@@ -1,1 +1,1 @@
-export { default as ClusterInfo } from './clusterInfo';
+export { ClusterInfoModal } from './clusterInfoModal';

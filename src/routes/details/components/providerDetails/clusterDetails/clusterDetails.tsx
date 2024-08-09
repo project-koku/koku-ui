@@ -1,48 +1,74 @@
-import { Button, ButtonVariant } from '@patternfly/react-core';
-import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
+import type { Providers } from 'api/providers';
+import { ProviderType } from 'api/providers';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { OverallStatus } from 'routes/details/components/providerDetails/clusterDetails/components/overallStatus';
+import { useSelector } from 'react-redux';
+import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { providersQuery, providersSelectors } from 'store/providers';
 
 import { styles } from './clusterDetails.styles';
-import { ClusterDetailsContent } from './clusterDetailsContent';
+import { ClusterDetailsTable } from './clusterDetailsTable';
 
-interface DataDetailsOwnProps {
-  clusterId?: string;
+interface ClusterDetailsOwnProps {
+  // TBD...
 }
 
-type DataDetailsProps = DataDetailsOwnProps;
+interface ClusterDetailsStateProps {
+  providers: Providers;
+  providersError: AxiosError;
+  providersFetchStatus: FetchStatus;
+  providersQueryString: string;
+}
 
-const ClusterDetails: React.FC<DataDetailsProps> = ({ clusterId }: DataDetailsProps) => {
+type ClusterDetailsProps = ClusterDetailsOwnProps;
+
+const ClusterDetails: React.FC<ClusterDetailsProps> = () => {
   const intl = useIntl();
-  const [isOpen, setIsOpen] = useState(false);
 
-  const handleOnClose = () => {
-    setIsOpen(false);
-  };
+  const { providers, providersError, providersFetchStatus } = useMapToProps();
 
-  const handleOnClick = () => {
-    setIsOpen(!isOpen);
-  };
+  const title = intl.formatMessage(messages.ocpClusterDetails);
 
-  // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
-  // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
+  if (providersError) {
+    return <NotAvailable title={title} />;
+  }
 
-  return (
-    <>
-      <OverallStatus clusterId={clusterId} />
-      <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
-        {intl.formatMessage(messages.dataDetails)}
-      </Button>
-      <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.small}>
-        <ModalHeader title={intl.formatMessage(messages.dataDetails)} />
-        <ModalBody>
-          <ClusterDetailsContent clusterId={clusterId} />
-        </ModalBody>
-      </Modal>
-    </>
-  );
+  if (providersFetchStatus === FetchStatus.inProgress) {
+    return (
+      <div style={styles.loading}>
+        <LoadingState />
+      </div>
+    );
+  }
+
+  return <ClusterDetailsTable providers={providers} providerType={ProviderType.ocp} />;
 };
 
-export default ClusterDetails;
+const useMapToProps = (): ClusterDetailsStateProps => {
+  // PermissionsWrapper has already made an API request
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = useSelector((state: RootState) =>
+    providersSelectors.selectProviders(state, ProviderType.all, providersQueryString)
+  );
+  const providersError = useSelector((state: RootState) =>
+    providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString)
+  );
+  const providersFetchStatus = useSelector((state: RootState) =>
+    providersSelectors.selectProvidersFetchStatus(state, ProviderType.all, providersQueryString)
+  );
+
+  return {
+    providers,
+    providersError,
+    providersFetchStatus,
+    providersQueryString,
+  };
+};
+
+export { ClusterDetails };

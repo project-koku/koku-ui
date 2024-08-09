@@ -1,1 +1,2 @@
-export { default as DataDetails } from './clusterDetails';
+export { ClusterDetails } from './clusterDetails';
+export { ClusterDetailsModal } from './clusterDetailsModal';

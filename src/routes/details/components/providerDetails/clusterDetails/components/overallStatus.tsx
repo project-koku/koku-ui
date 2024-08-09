@@ -2,11 +2,13 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios/index';
+import messages from 'locales/messages';
 import React from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { styles } from 'routes/details/components/providerDetails/clusterDetails/clusterDetails.styles';
+import { formatDate } from 'routes/details/components/providerDetails/clusterDetails/utils/format';
 import { getOverallStatusIcon } from 'routes/details/components/providerDetails/clusterDetails/utils/icon';
 import {
   getProviderAvailability,
@@ -20,6 +22,8 @@ import { providersQuery, providersSelectors } from 'store/providers';
 
 interface OverallStatusOwnProps {
   clusterId?: string;
+  isLastUpdated?: boolean;
+  isStatusMsg?: boolean;
 }
 
 interface OverallStatusStateProps {
@@ -31,7 +35,7 @@ interface OverallStatusStateProps {
 
 type OverallStatusProps = OverallStatusOwnProps;
 
-const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatusProps) => {
+const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId, isLastUpdated, isStatusMsg }: OverallStatusProps) => {
   const { providers, providersError } = useMapToProps();
   const intl = useIntl();
 
@@ -44,7 +48,8 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
   const clusterProvider = ocpProviders?.data?.find(val => val.authentication?.credentials?.cluster_id === clusterId);
   const cloudProvider = providers?.data?.find(val => val.uuid === clusterProvider?.infrastructure?.uuid);
 
-  const getOverallStatus = (): { msg: MessageDescriptor; status: StatusType } => {
+  const getOverallStatus = (): { lastUpdated: string; msg: MessageDescriptor; status: StatusType } => {
+    let lastUpdated;
     let msg;
     let status;
 
@@ -65,20 +70,25 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
           (state3 === undefined || state3?.status === statusType) &&
           (state4 === undefined || state4?.status === statusType)
         ) {
+          lastUpdated = state1.lastUpdated;
           msg = state1.msg;
           status = statusType;
         }
       } else {
         if (state1?.status === statusType) {
+          lastUpdated = state1.lastUpdated;
           msg = state1.msg;
           status = statusType;
         } else if (state2?.status === statusType) {
+          lastUpdated = state2.lastUpdated;
           msg = state2.msg;
           status = statusType;
         } else if (state3?.status === statusType) {
+          lastUpdated = state3.lastUpdated;
           msg = state3.msg;
           status = statusType;
         } else if (state4?.status === statusType) {
+          lastUpdated = state4.lastUpdated;
           msg = state4.msg;
           status = statusType;
         }
@@ -93,15 +103,23 @@ const OverallStatus: React.FC<OverallStatusProps> = ({ clusterId }: OverallStatu
     initializeState(StatusType.pending, cloudAvailability, clusterAvailability, cloudStatus, clusterStatus);
     initializeState(StatusType.complete, clusterStatus, cloudStatus, clusterAvailability, cloudAvailability); // Must display the cluster status msg here
 
-    return { msg, status };
+    return { lastUpdated, msg, status };
   };
 
   const overallStatus = getOverallStatus();
+
+  if (isLastUpdated) {
+    return overallStatus.lastUpdated ? formatDate(overallStatus.lastUpdated) : null;
+  }
   if (overallStatus.msg && overallStatus.status) {
     return (
       <>
         <span style={styles.statusIcon}>{getOverallStatusIcon(overallStatus.status)}</span>
-        <span style={styles.description}>{intl.formatMessage(overallStatus.msg)}</span>
+        <span style={styles.description}>
+          {isStatusMsg
+            ? intl.formatMessage(messages.statusMsg, { value: overallStatus.status })
+            : intl.formatMessage(overallStatus.msg)}
+        </span>
       </>
     );
   }

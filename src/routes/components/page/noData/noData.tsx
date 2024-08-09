@@ -5,13 +5,14 @@ import React from 'react';
 import { NoDataState } from './noDataState';
 
 interface NoDataOwnProps {
+  detailsComponent?: React.ReactNode;
   showReload?: boolean;
   title?: string;
 }
 
 type NoDataProps = NoDataOwnProps;
 
-const NoData = ({ showReload, title }: NoDataProps) => {
+const NoData = ({ detailsComponent, showReload, title }: NoDataProps) => {
   return (
     <>
       {title && (
@@ -20,7 +21,7 @@ const NoData = ({ showReload, title }: NoDataProps) => {
         </PageHeader>
       )}
       <PageSection>
-        <NoDataState showReload={showReload} />
+        <NoDataState detailsComponent={detailsComponent} showReload={showReload} />
       </PageSection>
     </>
   );
