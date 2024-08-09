@@ -406,6 +406,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         );
       }
     }
+
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader

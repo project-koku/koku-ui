@@ -18,6 +18,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedGcpReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -33,6 +34,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -48,6 +50,7 @@ import { styles } from './gcpDetails.styles';
 
 interface GcpDetailsStateProps {
   currency?: string;
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -320,8 +323,18 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   };
 
   public render() {
-    const { currency, intl, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, router } =
-      this.props;
+    const {
+      currency,
+      intl,
+      isAccountInfoEmptyStateToggleEnabled,
+      providers,
+      providersFetchStatus,
+      query,
+      report,
+      reportError,
+      reportFetchStatus,
+      router,
+    } = this.props;
 
     const computedItems = this.getComputedItems();
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -341,9 +354,17 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         return <NoProviders providerType={ProviderType.gcp} title={title} />;
       }
       if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
+        return (
+          <NoData
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.gcp} /> : undefined
+            }
+            title={title}
+          />
+        );
       }
     }
+
     return (
       <div style={styles.gcpDetails}>
         <DetailsHeader
@@ -416,6 +437,7 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
 
   return {
     currency,
+    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.gcp),
     providersError,
     providersFetchStatus,

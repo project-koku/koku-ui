@@ -27,7 +27,7 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
     }
 
     // Filter OCP providers to skip an extra API request
-    const filteredProviders = filterProviders(providers, providerType);
+    const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
 
     const newRows = [];
     const newColumns = [
@@ -45,7 +45,7 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
       },
     ];
 
-    filteredProviders?.data?.map(item => {
+    filteredProviders?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
 
       newRows.push({

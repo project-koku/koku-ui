@@ -445,6 +445,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         );
       }
     }
+
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader

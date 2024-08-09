@@ -53,9 +53,9 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
   }
 
   // Filter OCP providers to skip an extra API request
-  const filteredProviders = filterProviders(providers, providerType);
-  const provider = filteredProviders?.data?.find(
-    val => providerId === val.id || val.authentication?.credentials?.cluster_id === clusterId
+  const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
+  const provider = filteredProviders?.find(
+    val => providerId === val.id || (clusterId && val.authentication?.credentials?.cluster_id === clusterId)
   );
   const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
 
