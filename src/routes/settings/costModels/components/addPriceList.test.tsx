@@ -32,7 +32,7 @@ const metricsHash: any = {
       metric: 'memory_gb_request_per_hour',
       label_metric: 'Memory',
       label_measurement: 'Request',
-      label_measurement_unit: 'GB-hours',
+      label_measurement_unit: 'GiB-hours',
       default_cost_type: 'Supplementary',
     },
     Usage: {
@@ -40,7 +40,7 @@ const metricsHash: any = {
       metric: 'memory_gb_usage_per_hour',
       label_metric: 'Memory',
       label_measurement: 'Usage',
-      label_measurement_unit: 'GB-hours',
+      label_measurement_unit: 'GiB-hours',
       default_cost_type: 'Supplementary',
     },
   },
@@ -78,7 +78,7 @@ function RenderFormDataUI({ cancel, submit }) {
       name: 'memory_gb_usage_per_hour',
       label_metric: 'Memory',
       label_measurement: 'Request',
-      label_measurement_unit: 'GB-hours',
+      label_measurement_unit: 'GiB-hours',
     },
     description: '',
     tag_rates: {
