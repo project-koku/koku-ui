@@ -35,8 +35,10 @@ export const enum ComputedReportItemValueType {
   distributed = 'distributed', // cost.distributed.value
   none = 'none', // A value type is not used in this scenario (e.g., usage.value)
   markup = 'markup', // infrastructure.markup.value
+  networkUnattributedDistributed = 'network_unattributed_distributed', // cost.network_unattributed_distributed.value
   platformDistributed = 'platform_distributed', // cost.platform_distributed.value
   raw = 'raw', // infrastructure.raw.value
+  storageUnattributedDistributed = 'storage_unattributed_distributed', // cost.storage_unattributed_distributed.value
   total = 'total', // // infrastructure.total.value
   usage = 'usage', // infrastructure.usage.value
   workerUnallocatedDistributed = 'worker_unallocated_distributed', // cost.worker_unallocated_distributed.value

@@ -10848,6 +10848,18 @@
         "value": "count"
       }
     ],
+    "networkUnattributedDistributed": [
+      {
+        "type": 0,
+        "value": "Network unattributed"
+      }
+    ],
+    "networkUnattributedDistributedDesc": [
+      {
+        "type": 0,
+        "value": "Costs associated with ingress and egress network traffic for individual nodes."
+      }
+    ],
     "next": [
       {
         "type": 0,
@@ -11331,7 +11343,11 @@
     "overheadDesc": [
       {
         "type": 0,
-        "value": "Includes distributed costs"
+        "value": "Includes distributed costs "
+      },
+      {
+        "type": 1,
+        "value": "value"
       }
     ],
     "overviewInfoArialLabel": [
@@ -12712,6 +12728,18 @@
       {
         "type": 0,
         "value": "StorageClass"
+      }
+    ],
+    "storageUnattributedDistributed": [
+      {
+        "type": 0,
+        "value": "Storage unattributed"
+      }
+    ],
+    "storageUnattributedDistributedDesc": [
+      {
+        "type": 0,
+        "value": "A type of project that gets created when cost management is unable to correlate a portion of the cloud cost to an OpenShift namespace"
       }
     ],
     "suggestions": [

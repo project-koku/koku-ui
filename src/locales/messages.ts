@@ -2565,6 +2565,16 @@ export default defineMessages({
     description: 'Name plural or singular',
     id: 'names',
   },
+  networkUnattributedDistributed: {
+    defaultMessage: 'Network unattributed',
+    description: 'Network unattributed',
+    id: 'networkUnattributedDistributed',
+  },
+  networkUnattributedDistributedDesc: {
+    defaultMessage: 'Costs associated with ingress and egress network traffic for individual nodes.',
+    description: 'Costs associated with ingress and egress network traffic for individual nodes.',
+    id: 'networkUnattributedDistributedDesc',
+  },
   next: {
     defaultMessage: 'next',
     description: 'next',
@@ -2926,7 +2936,7 @@ export default defineMessages({
     id: 'overhead',
   },
   overheadDesc: {
-    defaultMessage: 'Includes distributed costs',
+    defaultMessage: 'Includes distributed costs {value}',
     description: 'Includes distributed costs',
     id: 'overheadDesc',
   },
@@ -3505,6 +3515,18 @@ export default defineMessages({
     defaultMessage: 'StorageClass',
     description: 'StorageClass',
     id: 'storageClass',
+  },
+  storageUnattributedDistributed: {
+    defaultMessage: 'Storage unattributed',
+    description: 'Storage unattributed',
+    id: 'storageUnattributedDistributed',
+  },
+  storageUnattributedDistributedDesc: {
+    defaultMessage:
+      'A type of project that gets created when cost management is unable to correlate a portion of the cloud cost to an OpenShift namespace',
+    description:
+      'A type of project that gets created when cost management is unable to correlate a portion of the cloud cost to an OpenShift namespace',
+    id: 'storageUnattributedDistributedDesc',
   },
   suggestions: {
     defaultMessage: 'Suggestions',

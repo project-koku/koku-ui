@@ -233,6 +233,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       const cells = [];
       let desc; // First column description (i.e., show ID if different from label)
       let name; // For first column resource name
+      let tooltipContent; // For overhead label
       let selectItem; // Save for row selection
       let isOverheadCosts = false; // True if item has overhead costs
       let isPlatformCosts = false; // True if item is of default classification
@@ -254,13 +255,34 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
         if (!desc) {
           desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
         }
+        if (!tooltipContent) {
+          tooltipContent = (
+            <ul style={{ listStyle: 'inside', textAlign: 'left' }}>
+              {item.cost?.networkUnattributedDistributed?.value > 0 && (
+                <li style={styles.infoTitle}>{intl.formatMessage(messages.networkUnattributedDistributed)}</li>
+              )}
+              {item.cost?.platformDistributed?.value > 0 && (
+                <li style={styles.infoTitle}>{intl.formatMessage(messages.platformDistributed)}</li>
+              )}
+              {item.cost?.storageUnattributedDistributed?.value > 0 && (
+                <li style={styles.infoTitle}>{intl.formatMessage(messages.storageUnattributedDistributed)}</li>
+              )}
+              {item.cost?.workerUnallocated?.value > 0 && (
+                <li style={styles.infoTitle}>{intl.formatMessage(messages.workerUnallocated)}</li>
+              )}
+            </ul>
+          );
+        }
         if (item.id && !selectItem) {
           selectItem = item;
         }
         if (
           showCostDistribution &&
           item.classification !== classificationUnallocated &&
-          (item?.cost?.platformDistributed?.value > 0 || item?.cost?.workerUnallocatedDistributed?.value > 0)
+          (item.cost?.networkUnattributedDistributed?.value > 0 ||
+            item.cost?.platformDistributed?.value > 0 ||
+            item.cost?.storageUnattributedDistributed?.value > 0 ||
+            item.cost?.workerUnallocatedDistributed?.value > 0)
         ) {
           isOverheadCosts = true;
           showLabels = true;
@@ -298,7 +320,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
               {intl.formatMessage(messages.default)}
             </Label>
           ) : isOverheadCosts ? (
-            <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
+            <Tooltip
+              content={intl.formatMessage(messages.overheadDesc, {
+                value: tooltipContent,
+              })}
+              enableFlip
+            >
               <Label variant="outline" color="orange">
                 {intl.formatMessage(messages.overhead)}
               </Label>

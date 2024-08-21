@@ -13,8 +13,10 @@ export interface ComputedReportValue {
 export interface ComputedReportItemValue {
   distributed?: ReportValue;
   markup?: ReportValue;
+  networkUnattributedDistributed?: ReportValue;
   platformDistributed?: ReportValue;
   raw?: ReportValue;
+  storageUnattributedDistributed?: ReportValue;
   total?: ReportValue;
   usage?: ReportValue;
   workerUnallocatedDistributed?: ReportValue;
@@ -119,6 +121,19 @@ function getCostData(val, key, item?: any) {
         },
       }),
     ...(val[key] &&
+      val[key].network_unattributed_distributed && {
+        networkUnattributedDistributed: {
+          value:
+            val[key].network_unattributed_distributed.value +
+            (item && item[key]?.network_unattributed_distributed
+              ? item[key].network_unattributed_distributed.value
+              : 0),
+          units: val[key].network_unattributed_distributed.units
+            ? val[key].network_unattributed_distributed.units
+            : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
       val[key].platform_distributed && {
         platformDistributed: {
           value:
@@ -132,6 +147,19 @@ function getCostData(val, key, item?: any) {
         raw: {
           value: val[key].raw.value + (item && item[key]?.raw ? item[key].raw.value : 0),
           units: val[key].raw.units ? val[key].raw.units : defaultUnits,
+        },
+      }),
+    ...(val[key] &&
+      val[key].storage_unattributed_distributed && {
+        storageUnattributedDistributed: {
+          value:
+            val[key].storage_unattributed_distributed.value +
+            (item && item[key]?.storage_unattributed_distributed
+              ? item[key].storage_unattributed_distributed.value
+              : 0),
+          units: val[key].storage_unattributed_distributed.units
+            ? val[key].storage_unattributed_distributed.units
+            : defaultUnits,
         },
       }),
     ...(val[key] &&
