@@ -2931,8 +2931,8 @@ export default defineMessages({
     id: 'optimizations',
   },
   overhead: {
-    defaultMessage: 'Overhead',
-    description: 'Overhead',
+    defaultMessage: 'Includes overhead',
+    description: 'Includes overhead',
     id: 'overhead',
   },
   overheadDesc: {
