@@ -144,8 +144,14 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
               enableFlip
               bodyContent={
                 <>
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.networkUnattributedDistributed)}</p>
+                  <p>{intl.formatMessage(messages.networkUnattributedDistributedDesc)}</p>
+                  <br />
                   <p style={styles.infoTitle}>{intl.formatMessage(messages.platformDistributed)}</p>
                   <p>{intl.formatMessage(messages.platformDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.storageUnattributedDistributed)}</p>
+                  <p>{intl.formatMessage(messages.storageUnattributedDistributedDesc)}</p>
                   <br />
                   <p style={styles.infoTitle}>{intl.formatMessage(messages.workerUnallocated)}</p>
                   <p>{intl.formatMessage(messages.workerUnallocatedDesc)}</p>

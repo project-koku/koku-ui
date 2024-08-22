@@ -15,8 +15,10 @@ export interface ReportUsageValue extends ReportValue {
 export interface ReportItemValue {
   distributed?: ReportValue;
   markup?: ReportValue;
+  network_unattributed_distributed?: ReportValue;
   platform_distributed?: ReportValue;
   raw?: ReportValue;
+  storage_unattributed_distributed?: ReportValue;
   total?: ReportValue;
   usage?: ReportValue;
   worker_unallocated_distributed?: ReportValue;
