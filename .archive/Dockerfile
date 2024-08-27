@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:8
 
 RUN printf "[nginx]\nname=nginx repo\nbaseurl=http://nginx.org/packages/centos/7/x86_64/\ngpgcheck=0\nenabled=1" > /etc/yum.repos.d/nginx.repo && \
     curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - && \
