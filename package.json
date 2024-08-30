@@ -77,10 +77,10 @@
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0",
-    "victory-core": "37.0.2",
-    "victory-create-container": "37.0.2",
-    "victory-cursor-container": "37.0.2",
-    "victory-voronoi-container": "37.0.2"
+    "victory-core": "37.1.0",
+    "victory-create-container": "37.1.0",
+    "victory-cursor-container": "37.1.0",
+    "victory-voronoi-container": "37.1.0"
   },
   "devDependencies": {
     "@eslint/compat": "^1.1.1",
