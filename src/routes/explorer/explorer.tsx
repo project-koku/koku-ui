@@ -234,6 +234,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
+        menuAppendTo={document.body} // Page scroll workaround https://issues.redhat.com/browse/COST-5320
         onPerPageSelect={(event, perPage) => handleOnPerPageSelect(query, router, perPage)}
         onSetPage={(event, pageNumber) => handleOnSetPage(query, router, report, pageNumber)}
         page={page}
