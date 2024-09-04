@@ -20,7 +20,7 @@ import { ColumnManagementModal, initHiddenColumns } from 'routes/details/compone
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getFilterByTagKey } from 'routes/utils/groupBy';
+import { getExcludeTagKey, getFilterByTagKey } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -369,9 +369,10 @@ const useMapToProps = ({ currency, query }): InstancesStateProps => {
   }, [currency, query]);
 
   return {
-    hasAccountFilter: queryState?.filter_by?.[accountKey] !== undefined,
-    hasRegionFilter: queryState?.filter_by?.[regionKey] !== undefined,
-    hasTagFilter: getFilterByTagKey(queryState) !== undefined,
+    hasAccountFilter:
+      queryState?.filter_by?.[accountKey] !== undefined || queryState?.exclude?.[accountKey] !== undefined,
+    hasRegionFilter: queryState?.filter_by?.[regionKey] !== undefined || queryState?.exclude?.[regionKey] !== undefined,
+    hasTagFilter: getFilterByTagKey(queryState) !== undefined || getExcludeTagKey(queryState),
     report,
     reportError,
     reportFetchStatus,
