@@ -212,7 +212,7 @@ const Settings: React.FC<SettingsProps> = () => {
           <div style={styles.tabs}>{getTabs(availableTabs)}</div>
         )}
       </header>
-      <div>{getTabContent(availableTabs)}</div>
+      <div>{getTabContent(availableTabs)}</div>.
     </div>
   );
 };
