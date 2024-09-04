@@ -98,9 +98,20 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
     const { hideAccount, hideRegion, hideTags, intl, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'instance' }), key: 'service' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'account' }), key: 'account' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'operating_system' }), key: 'os' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'instance' }),
+        key: 'instance_name',
+        resourceKey: 'instance_name',
+      },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'account' }),
+        key: 'account',
+        resourceKey: 'account_alias',
+      },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'operating_system' }),
+        key: 'operating_system',
+      },
       { name: intl.formatMessage(messages.filterByValues, { value: 'region' }), key: 'region' },
     ];
     if (!hideTags && tagReport?.data?.length) {

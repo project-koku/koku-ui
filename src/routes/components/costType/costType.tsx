@@ -34,7 +34,6 @@ interface CostTypeState {
 
 type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStateProps & WrappedComponentProps;
 
-// eslint-disable-next-line no-shadow
 export const enum CostTypes {
   amortized = 'calculated_amortized_cost',
   blended = 'blended_cost',

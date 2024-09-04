@@ -14,7 +14,6 @@ export interface UserAccess {
   data: UserAccessData[] | boolean;
 }
 
-// eslint-disable-next-line no-shadow
 export const enum UserAccessType {
   all = 'all',
   aws = 'aws',

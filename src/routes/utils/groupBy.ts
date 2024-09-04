@@ -55,6 +55,21 @@ export const getGroupByTagKey = (query: Query) => {
   return groupByTagKey;
 };
 
+export const getExcludeTagKey = (query: Query) => {
+  let excludeTagKey;
+
+  if (query?.exclude) {
+    for (const groupBy of Object.keys(query.exclude)) {
+      const tagIndex = groupBy.indexOf(tagPrefix);
+      if (tagIndex !== -1) {
+        excludeTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
+        break;
+      }
+    }
+  }
+  return excludeTagKey;
+};
+
 export const getFilterByTagKey = (query: Query) => {
   let filterByTagKey;
 

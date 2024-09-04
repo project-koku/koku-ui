@@ -1,14 +1,14 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './ibmDashboardActions';
-import type { IbmDashboardWidget } from './ibmDashboardCommon';
 import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './ibmDashboardWidgets';
 
 export type IbmDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type IbmDashboardState = Readonly<{
-  widgets: Record<number, IbmDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

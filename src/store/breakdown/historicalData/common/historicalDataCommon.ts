@@ -1,6 +1,5 @@
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 
-// eslint-disable-next-line no-shadow
 export const enum HistoricalDataWidgetType {
   cost = 'cost', // This type displays historical cost chart
   network = 'network', // This type displays historical network chart

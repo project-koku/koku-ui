@@ -20,15 +20,14 @@ import { ColumnManagementModal, initHiddenColumns } from 'routes/details/compone
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getFilterByTagKey } from 'routes/utils/groupBy';
+import { getExcludeTagKey, getFilterByTagKey } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
-import { accountKey, logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, regionKey } from 'utils/props';
+import { accountKey, logicalAndPrefix, orgUnitIdKey, regionKey, serviceKey } from 'utils/props';
 
-// import { data } from './data';
 import { InstancesTable, InstanceTableColumnIds } from './instancesTable';
 import { InstancesToolbar } from './instancesToolbar';
 
@@ -53,10 +52,8 @@ export interface InstancesMapProps {
 type InstancesProps = InstancesOwnProps;
 
 const baseQuery: Query = {
-  filter: {
-    limit: 10,
-    offset: 0,
-  },
+  limit: 10,
+  offset: 0,
   order_by: {
     cost: 'desc',
   },
@@ -131,12 +128,14 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy="instance"
+        groupBy="resource_id"
         isOpen={isExportModalOpen}
+        isTimeScoped
         items={items}
         onClose={handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
         showAggregateType={false}
       />
     );
@@ -144,8 +143,8 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta?.count || 0;
-    const limit = report?.meta?.limit || baseQuery.filter.limit;
-    const offset = report?.meta?.offset || baseQuery.filter.offset;
+    const limit = report?.meta?.limit || baseQuery.limit;
+    const offset = report?.meta?.offset || baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -183,6 +182,7 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
         report={report}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
         selectedItems={selectedItems}
       />
     );
@@ -264,7 +264,7 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, false);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 
@@ -284,7 +284,7 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
+    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
   };
 
@@ -339,18 +339,16 @@ const useMapToProps = ({ currency, query }): InstancesStateProps => {
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-      // Workaround for https://issues.redhat.com/browse/COST-1189
-      ...(queryState?.filter_by &&
-        queryState.filter_by[orgUnitIdKey] && {
-          [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
-          [orgUnitIdKey]: undefined,
-        }),
       ...(query.filter_by && query.filter_by),
+      [orgUnitIdKey]: undefined, // Unsupported filter
+      [serviceKey]: undefined, // Unsupported filter
     },
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
       ...(query.exclude && query.exclude),
     },
+    limit: query.limit,
+    offset: query.offset,
     order_by: query.order_by || baseQuery.order_by,
   };
   const reportQueryString = getQuery(reportQuery);
@@ -370,13 +368,11 @@ const useMapToProps = ({ currency, query }): InstancesStateProps => {
     }
   }, [currency, query]);
 
-  // Todo: Update to use new API response
-  // report = data;
-
   return {
-    hasAccountFilter: queryState?.filter_by?.[accountKey] !== undefined,
-    hasRegionFilter: queryState?.filter_by?.[regionKey] !== undefined,
-    hasTagFilter: getFilterByTagKey(queryState) !== undefined,
+    hasAccountFilter:
+      queryState?.filter_by?.[accountKey] !== undefined || queryState?.exclude?.[accountKey] !== undefined,
+    hasRegionFilter: queryState?.filter_by?.[regionKey] !== undefined || queryState?.exclude?.[regionKey] !== undefined,
+    hasTagFilter: getFilterByTagKey(queryState) !== undefined || getExcludeTagKey(queryState),
     report,
     reportError,
     reportFetchStatus,

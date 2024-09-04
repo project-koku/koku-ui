@@ -1,4 +1,5 @@
-import type { AzureCostOverviewWidget } from './azureCostOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+
 import {
   accountSummaryWidget,
   costWidget,
@@ -7,7 +8,7 @@ import {
 } from './azureCostOverviewWidgets';
 
 export type AzureCostOverviewState = Readonly<{
-  widgets: Record<number, AzureCostOverviewWidget>;
+  widgets: Record<number, CostOverviewWidget>;
   currentWidgets: number[];
 }>;
 

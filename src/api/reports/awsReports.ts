@@ -1,5 +1,4 @@
 import { axiosInstance } from 'api';
-import { default as devAxiosInstance } from 'api/apiDev';
 
 import type { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
 import { ReportType } from './report';
@@ -63,9 +62,9 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
 export function runReport(reportType: ReportType, query: string) {
   const path = ReportTypePaths[reportType];
 
-  // For use with API development
-  if (reportType === ReportType.ec2Compute) {
-    return devAxiosInstance.get<AwsReport>(`${path}?${query}`);
-  }
+  // For use with API development -- see 'api/apiDev'
+  // if (reportType === ReportType.ec2Compute) {
+  //   return devAxiosInstance.get<AwsReport>(`${path}?${query}`);
+  // }
   return axiosInstance.get<AwsReport>(`${path}?${query}`);
 }

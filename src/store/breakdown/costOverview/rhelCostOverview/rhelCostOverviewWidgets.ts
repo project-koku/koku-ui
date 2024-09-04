@@ -1,13 +1,12 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { platformCategoryKey } from 'utils/props';
-
-import type { RhelCostOverviewWidget } from './rhelCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const clusterWidget: RhelCostOverviewWidget = {
+export const clusterWidget: CostOverviewWidget = {
   id: getId(),
   cluster: {
     reportGroupBy: 'project',
@@ -18,7 +17,7 @@ export const clusterWidget: RhelCostOverviewWidget = {
   type: CostOverviewWidgetType.cluster,
 };
 
-export const costWidget: RhelCostOverviewWidget = {
+export const costWidget: CostOverviewWidget = {
   chartName: 'rhelCostWidget',
   id: getId(),
   reportPathsType: ReportPathsType.rhel,
@@ -26,7 +25,7 @@ export const costWidget: RhelCostOverviewWidget = {
   type: CostOverviewWidgetType.cost,
 };
 
-export const cpuUsageWidget: RhelCostOverviewWidget = {
+export const cpuUsageWidget: CostOverviewWidget = {
   chartName: 'rhelCpuWidget',
   id: getId(),
   reportPathsType: ReportPathsType.rhel,
@@ -34,7 +33,7 @@ export const cpuUsageWidget: RhelCostOverviewWidget = {
   type: CostOverviewWidgetType.cpuUsage,
 };
 
-export const memoryUsageWidget: RhelCostOverviewWidget = {
+export const memoryUsageWidget: CostOverviewWidget = {
   chartName: 'rhelMemoryWidget',
   id: getId(),
   reportPathsType: ReportPathsType.rhel,
@@ -42,7 +41,7 @@ export const memoryUsageWidget: RhelCostOverviewWidget = {
   type: CostOverviewWidgetType.memoryUsage,
 };
 
-export const projectSummaryWidget: RhelCostOverviewWidget = {
+export const projectSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
@@ -55,7 +54,7 @@ export const projectSummaryWidget: RhelCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const volumeUsageWidget: RhelCostOverviewWidget = {
+export const volumeUsageWidget: CostOverviewWidget = {
   chartName: 'rhelVolumeWidget',
   id: getId(),
   reportPathsType: ReportPathsType.rhel,

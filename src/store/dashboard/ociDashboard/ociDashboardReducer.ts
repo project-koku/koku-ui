@@ -1,8 +1,8 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './ociDashboardActions';
-import type { OciDashboardWidget } from './ociDashboardCommon';
 import {
   costSummaryWidget,
   databaseWidget,
@@ -14,7 +14,7 @@ import {
 export type OciDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type OciDashboardState = Readonly<{
-  widgets: Record<number, OciDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

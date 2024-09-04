@@ -8,30 +8,36 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { CloudIData } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/cloudIData';
-import { ClusterData } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/clusterData';
-import { CostData } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/components/costData';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 
-import { styles } from './dataDetails.styles';
+import { CloudData } from './components/cloudData';
+import { ClusterData } from './components/clusterData';
+import { Finalization } from './components/finalization';
+import { styles } from './providerDetails.styles';
 
-interface DataDetailsContentOwnProps {
+interface ProviderDetailsContentOwnProps {
   clusterId?: string;
+  providerId?: string;
+  providerType: ProviderType;
 }
 
-interface DataDetailsContentStateProps {
+interface ProviderDetailsContentStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
 }
 
-type DataDetailsContentProps = DataDetailsContentOwnProps;
+type ProviderDetailsContentProps = ProviderDetailsContentOwnProps;
 
-const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: DataDetailsContentProps) => {
+const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
+  clusterId,
+  providerId,
+  providerType,
+}: ProviderDetailsContentProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
@@ -51,20 +57,30 @@ const DataDetailsContent: React.FC<DataDetailsContentProps> = ({ clusterId }: Da
   }
 
   // Filter OCP providers to skip an extra API request
-  const ocpProviders = filterProviders(providers, ProviderType.ocp);
-  const clusterProvider = ocpProviders?.data?.find(val => val.authentication?.credentials?.cluster_id === clusterId);
-  const cloudProvider = providers?.data?.find(val => val.uuid === clusterProvider?.infrastructure?.uuid);
+  const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
+  const provider = filteredProviders?.find(
+    val => providerId === val.id || (clusterId && val.authentication?.credentials?.cluster_id === clusterId)
+  );
 
+  if (providerType === ProviderType.ocp) {
+    const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
+    return (
+      <>
+        <CloudData provider={cloudProvider} />
+        <ClusterData provider={provider} />
+        <Finalization provider={provider} providerType={providerType} />
+      </>
+    );
+  }
   return (
     <>
-      {cloudProvider && <CloudIData provider={cloudProvider} />}
-      {clusterProvider && <ClusterData provider={clusterProvider} />}
-      {clusterProvider && <CostData provider={clusterProvider} />}
+      <CloudData provider={provider} />
+      <Finalization provider={provider} providerType={providerType} />
     </>
   );
 };
 
-const useMapToProps = (): DataDetailsContentStateProps => {
+const useMapToProps = (): ProviderDetailsContentStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
@@ -85,4 +101,4 @@ const useMapToProps = (): DataDetailsContentStateProps => {
   };
 };
 
-export { DataDetailsContent };
+export { ProviderDetailsContent };

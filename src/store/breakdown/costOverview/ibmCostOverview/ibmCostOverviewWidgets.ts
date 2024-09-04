@@ -1,13 +1,12 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { tagPrefix } from 'utils/props';
-
-import type { IbmCostOverviewWidget } from './ibmCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: IbmCostOverviewWidget = {
+export const costWidget: CostOverviewWidget = {
   chartName: 'ibmCostWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -15,7 +14,7 @@ export const costWidget: IbmCostOverviewWidget = {
   type: CostOverviewWidgetType.cost,
 };
 
-export const accountSummaryWidget: IbmCostOverviewWidget = {
+export const accountSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
@@ -26,7 +25,7 @@ export const accountSummaryWidget: IbmCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const projectSummaryWidget: IbmCostOverviewWidget = {
+export const projectSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
@@ -37,7 +36,7 @@ export const projectSummaryWidget: IbmCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const regionSummaryWidget: IbmCostOverviewWidget = {
+export const regionSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
@@ -48,7 +47,7 @@ export const regionSummaryWidget: IbmCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const serviceSummaryWidget: IbmCostOverviewWidget = {
+export const serviceSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',

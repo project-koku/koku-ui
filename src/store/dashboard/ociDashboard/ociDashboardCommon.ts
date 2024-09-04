@@ -13,16 +13,13 @@ export const ociDashboardTabFilters: OciFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum OciDashboardTab {
   product_services = 'product_services',
   payer_tenant_ids = 'payer_tenant_ids',
   regions = 'regions',
 }
 
-export interface OciDashboardWidget extends DashboardWidget {}
-
-export function getGroupByForTab(widget: OciDashboardWidget): OciQuery['group_by'] {
+export function getGroupByForTab(widget: DashboardWidget): OciQuery['group_by'] {
   switch (widget.currentTab) {
     case OciDashboardTab.product_services:
       return {
@@ -47,7 +44,7 @@ export function getQueryForWidget(filter: OciFilters = ociDashboardDefaultFilter
 }
 
 export function getQueryForWidgetTabs(
-  widget: OciDashboardWidget,
+  widget: DashboardWidget,
   filter: OciFilters = ociDashboardDefaultFilters,
   props?
 ) {

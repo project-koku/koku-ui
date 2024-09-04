@@ -1,5 +1,6 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import {
+  Bullseye,
   Button,
   EmptyState,
   EmptyStateBody,
@@ -21,6 +22,7 @@ import { getReleasePath } from 'utils/paths';
 import { styles } from './noProvidersState.styles';
 
 interface NoProvidersStateOwnProps {
+  detailsComponent?: React.ReactNode;
   providerType?: ProviderType;
 }
 
@@ -46,7 +48,7 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps, any> {
   };
 
   public render() {
-    const { intl, providerType } = this.props;
+    const { detailsComponent, intl, providerType } = this.props;
 
     let descKey = messages.noProvidersStateOverviewDesc;
     let titleKey = messages.noProvidersStateOverviewTitle;
@@ -88,7 +90,10 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps, any> {
           icon={<EmptyStateIcon icon={icon ? icon : PlusCircleIcon} />}
           headingLevel="h1"
         />
-        <EmptyStateBody>{intl.formatMessage(descKey)}</EmptyStateBody>
+        <EmptyStateBody>
+          {intl.formatMessage(descKey)}
+          {detailsComponent && <Bullseye style={styles.details}>{detailsComponent}</Bullseye>}
+        </EmptyStateBody>
         <EmptyStateFooter>
           {docUrlKey && textKey ? (
             <div style={styles.viewSources}>{this.getDocLink(textKey, docUrlKey)}</div>

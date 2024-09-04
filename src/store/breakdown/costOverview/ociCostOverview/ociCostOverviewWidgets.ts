@@ -1,12 +1,12 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
-import type { OciCostOverviewWidget } from 'store/breakdown/costOverview/ociCostOverview';
 import { tagPrefix } from 'utils/props';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: OciCostOverviewWidget = {
+export const costWidget: CostOverviewWidget = {
   chartName: 'ociCostWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -14,7 +14,7 @@ export const costWidget: OciCostOverviewWidget = {
   type: CostOverviewWidgetType.cost,
 };
 
-export const accountSummaryWidget: OciCostOverviewWidget = {
+export const accountSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'payer_tenant_id',
@@ -25,7 +25,7 @@ export const accountSummaryWidget: OciCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const regionSummaryWidget: OciCostOverviewWidget = {
+export const regionSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
@@ -36,7 +36,7 @@ export const regionSummaryWidget: OciCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const serviceSummaryWidget: OciCostOverviewWidget = {
+export const serviceSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'product_service',

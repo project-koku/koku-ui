@@ -1454,6 +1454,21 @@ export default defineMessages({
     description: 'distribute costs',
     id: 'distributeCosts',
   },
+  distributeCostsToProjects: {
+    defaultMessage: 'Distribute these costs to projects, based on the above description type',
+    description: 'Distribute these costs to projects, based on the above description type',
+    id: 'distributeCostsToProjects',
+  },
+  distributeNetwork: {
+    defaultMessage: 'Network traffic',
+    description: 'Network traffic',
+    id: 'distributeNetwork',
+  },
+  distributePlatform: {
+    defaultMessage: 'Platform overhead (OpenShift services)',
+    description: 'Platform overhead (OpenShift services)',
+    id: 'distributePlatform',
+  },
   distributePlatformCosts: {
     defaultMessage:
       '{value, select, ' +
@@ -1463,6 +1478,11 @@ export default defineMessages({
     description: 'Distribute platform costs',
     id: 'distributePlatformCosts',
   },
+  distributeStorage: {
+    defaultMessage: 'Storage',
+    description: 'Storage',
+    id: 'distributeStorage',
+  },
   distributeUnallocatedCapacity: {
     defaultMessage:
       '{value, select, ' +
@@ -1471,6 +1491,11 @@ export default defineMessages({
       'other {}}',
     description: 'Distribute unallocated capacity',
     id: 'distributeUnallocatedCapacity',
+  },
+  distributeWorker: {
+    defaultMessage: 'Worker unallowcated (unused and non-reserved resources)',
+    description: 'Worker unallowcated (unused and non-reserved resources)',
+    id: 'distributeWorker',
   },
   distributionModelDesc: {
     defaultMessage: 'Choose how your raw costs are distributed at the project level.',
@@ -1490,11 +1515,6 @@ export default defineMessages({
       'other {}}',
     description: 'Distribution type description',
     id: 'distributionTypeDesc',
-  },
-  doNotDistribute: {
-    defaultMessage: 'Do not distribute',
-    description: 'Do not distribute',
-    id: 'doNotDistribute',
   },
   docsAddOcpSources: {
     defaultMessage:
@@ -1749,6 +1769,7 @@ export default defineMessages({
       'product_service {{resolution, select, daily {{provider}_services_daily_{startDate}_{endDate}} monthly {{provider}_services_monthly_{startDate}_{endDate}} other {}}} ' +
       'project {{resolution, select, daily {{provider}_projects_daily_{startDate}_{endDate}} monthly {{provider}_projects_monthly_{startDate}_{endDate}} other {}}} ' +
       'region {{resolution, select, daily {{provider}_regions_daily_{startDate}_{endDate}} monthly {{provider}_regions_monthly_{startDate}_{endDate}} other {}}} ' +
+      'resource_id {{resolution, select, daily {{provider}_resources_daily_{startDate}_{endDate}} monthly {{provider}_resources_monthly_{startDate}_{endDate}} other {}}} ' +
       'resource_location {{resolution, select, daily {{provider}_regions_daily_{startDate}_{endDate}} monthly {{provider}_regions_monthly_{startDate}_{endDate}} other {}}} ' +
       'service {{resolution, select, daily {{provider}_services_daily_{startDate}_{endDate}} monthly {{provider}_services_monthly_{startDate}_{endDate}} other {}}} ' +
       'service_name {{resolution, select, daily {{provider}_services_daily_{startDate}_{endDate}} monthly {{provider}_services_monthly_{startDate}_{endDate}} other {}}} ' +
@@ -2103,6 +2124,11 @@ export default defineMessages({
     description: 'This page shows filtered results. To undo filters, clear filters on the previous page.',
     id: 'filteredByWarning',
   },
+  finalization: {
+    defaultMessage: 'Finalization',
+    description: 'Finalization',
+    id: 'finalization',
+  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',
@@ -2348,10 +2374,20 @@ export default defineMessages({
     description: 'Instances',
     id: 'instances',
   },
+  integration: {
+    defaultMessage: 'Integration',
+    description: 'Integration',
+    id: 'integration',
+  },
   lastProcessed: {
     defaultMessage: 'Last processed',
     description: 'Last processed',
     id: 'lastProcessed',
+  },
+  lastUpdated: {
+    defaultMessage: 'Last updated',
+    description: 'Last updated',
+    id: 'lastUpdated',
   },
   learnMore: {
     defaultMessage: 'Learn more',
@@ -2529,15 +2565,15 @@ export default defineMessages({
     description: 'Name plural or singular',
     id: 'names',
   },
-  network: {
-    defaultMessage: 'Network',
-    description: 'Network',
-    id: 'network',
+  networkUnattributedDistributed: {
+    defaultMessage: 'Network unattributed',
+    description: 'Network unattributed',
+    id: 'networkUnattributedDistributed',
   },
-  networkDesc: {
-    defaultMessage: 'Distribute the cost of network traffic to projects based on distribution type.',
-    description: 'Distribute the cost of network traffic to projects based on distribution type.',
-    id: 'networkDesc',
+  networkUnattributedDistributedDesc: {
+    defaultMessage: 'Costs associated with ingress and egress network traffic for individual nodes.',
+    description: 'Costs associated with ingress and egress network traffic for individual nodes.',
+    id: 'networkUnattributedDistributedDesc',
   },
   next: {
     defaultMessage: 'next',
@@ -2555,8 +2591,7 @@ export default defineMessages({
     id: 'noDataForDate',
   },
   noDataStateDesc: {
-    defaultMessage:
-      'We have detected an integration, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+    defaultMessage: 'We have detected an integration, but we are not done processing the incoming data.',
     description: 'still processing request, 24 hour message',
     id: 'noDataStateDesc',
   },
@@ -2564,6 +2599,11 @@ export default defineMessages({
     defaultMessage: 'Refresh this page',
     description: 'Refresh this page',
     id: 'noDataStateRefresh',
+  },
+  noDataStateRefreshDesc: {
+    defaultMessage: 'The time to process could take up to 24 hours. Try refreshing the page at a later time.',
+    description: 'still processing request, 24 hour message',
+    id: 'noDataStateRefreshDesc',
   },
   noDataStateTitle: {
     defaultMessage: 'Still processing the data',
@@ -2891,12 +2931,12 @@ export default defineMessages({
     id: 'optimizations',
   },
   overhead: {
-    defaultMessage: 'Overhead',
-    description: 'Overhead',
+    defaultMessage: 'Includes overhead',
+    description: 'Includes overhead',
     id: 'overhead',
   },
   overheadDesc: {
-    defaultMessage: 'Includes distributed costs',
+    defaultMessage: 'Includes distributed costs {value}',
     description: 'Includes distributed costs',
     id: 'overheadDesc',
   },
@@ -3111,6 +3151,11 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
+  },
+  providerDetails: {
+    defaultMessage: 'Integrations details',
+    description: 'Integrations details',
+    id: 'providerDetails',
   },
   pvcTitle: {
     defaultMessage: 'Persistent Volume Claims',
@@ -3435,7 +3480,7 @@ export default defineMessages({
     id: 'start',
   },
   status: {
-    defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
+    defaultMessage: 'Status',
     description: 'Status',
     id: 'status',
   },
@@ -3443,6 +3488,23 @@ export default defineMessages({
     defaultMessage: 'Status/Actions',
     description: 'Status/Actions',
     id: 'statusActions',
+  },
+  statusMsg: {
+    defaultMessage:
+      '{value, select, ' +
+      'complete {Complete} ' +
+      'failed {Failed} ' +
+      'in_progress {in-Progress} ' +
+      'paused {Paused} ' +
+      'pending {Pending} ' +
+      'other {}}',
+    description: 'Status message',
+    id: 'statusMsg',
+  },
+  statusStates: {
+    defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
+    description: 'Status states',
+    id: 'statusStates',
   },
   storage: {
     defaultMessage: 'Storage',
@@ -3454,10 +3516,17 @@ export default defineMessages({
     description: 'StorageClass',
     id: 'storageClass',
   },
-  storageDesc: {
-    defaultMessage: 'Distribute the cost of storage to projects based on distribution type.',
-    description: 'Distribute the cost of storage to projects based on distribution type.',
-    id: 'storageDesc',
+  storageUnattributedDistributed: {
+    defaultMessage: 'Storage unattributed',
+    description: 'Storage unattributed',
+    id: 'storageUnattributedDistributed',
+  },
+  storageUnattributedDistributedDesc: {
+    defaultMessage:
+      'A type of project that gets created when cost management is unable to correlate a portion of the cloud cost to an OpenShift namespace',
+    description:
+      'A type of project that gets created when cost management is unable to correlate a portion of the cloud cost to an OpenShift namespace',
+    id: 'storageUnattributedDistributedDesc',
   },
   suggestions: {
     defaultMessage: 'Suggestions',

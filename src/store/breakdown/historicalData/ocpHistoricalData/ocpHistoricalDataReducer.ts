@@ -1,4 +1,5 @@
-import type { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+
 import {
   costWidget,
   cpuUsageWidget,
@@ -8,7 +9,7 @@ import {
 } from './ocpHistoricalDataWidgets';
 
 export type OcpHistoricalDataState = Readonly<{
-  widgets: Record<number, OcpHistoricalDataWidget>;
+  widgets: Record<number, HistoricalDataWidget>;
   currentWidgets: number[];
 }>;
 

@@ -25,16 +25,14 @@ export interface ForecastData {
   values?: ForecastItem[];
 }
 
-export interface Forecast extends PagedResponse<ForecastData, PagedMetaData> {}
+export type Forecast = PagedResponse<ForecastData, PagedMetaData>;
 
-// eslint-disable-next-line no-shadow
 export const enum ForecastType {
   cost = 'cost',
   infrastructure = 'infrastructure',
   supplementary = 'supplementary',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum ForecastPathsType {
   aws = 'aws',
   awsOcp = 'aws_ocp',

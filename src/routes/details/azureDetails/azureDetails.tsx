@@ -18,6 +18,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAzureReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -33,6 +34,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -48,6 +50,7 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AzureDetailsStateProps {
   currency?: string;
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -165,6 +168,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
       />
     );
   };
@@ -323,6 +327,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
     const {
       currency,
       intl,
+      isAccountInfoEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -351,9 +356,17 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         return <NoProviders providerType={ProviderType.azure} title={title} />;
       }
       if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
+        return (
+          <NoData
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.azure} /> : undefined
+            }
+            title={title}
+          />
+        );
       }
     }
+
     return (
       <div style={styles.azureDetails}>
         <DetailsHeader
@@ -426,6 +439,7 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
 
   return {
     currency,
+    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.azure),
     providersError,
     providersFetchStatus,

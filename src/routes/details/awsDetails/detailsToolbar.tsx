@@ -115,7 +115,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
     const { intl, orgReport, resourceReport, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'account' }), key: 'account' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'account' }),
+        key: 'account',
+        resourceKey: 'account_alias',
+      },
       { name: intl.formatMessage(messages.filterByValues, { value: 'service' }), key: 'service' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'region' }), key: 'region' },
     ];

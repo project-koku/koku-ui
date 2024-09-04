@@ -63,7 +63,7 @@ export const getBulkSelect = ({
 
   const handleOnBulkSelectClicked = (checked: boolean) => {
     if (onBulkSelectClicked) {
-      checked ? onBulkSelectClicked('all') : onBulkSelectClicked('none');
+      onBulkSelectClicked(checked ? 'all' : 'none');
     }
     onBulkSelectToggle(false);
   };
@@ -101,6 +101,7 @@ export const getBulkSelect = ({
       onOpenChange={isOpen => onBulkSelectToggle(isOpen)}
       onSelect={onBulkSelect}
       popperProps={{
+        appendTo: () => document.body, // Page scroll workaround https://issues.redhat.com/browse/COST-5320
         position: 'left',
       }}
       toggle={toggle}

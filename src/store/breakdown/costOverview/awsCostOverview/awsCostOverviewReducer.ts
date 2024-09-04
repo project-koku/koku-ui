@@ -1,8 +1,9 @@
-import type { AwsCostOverviewWidget } from './awsCostOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+
 import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './awsCostOverviewWidgets';
 
 export type AwsCostOverviewState = Readonly<{
-  widgets: Record<number, AwsCostOverviewWidget>;
+  widgets: Record<number, CostOverviewWidget>;
   currentWidgets: number[];
 }>;
 

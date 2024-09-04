@@ -2,7 +2,7 @@ import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { AzureQuery } from 'api/queries/azureQuery';
 import { getQuery } from 'api/queries/azureQuery';
 import { ResourcePathsType } from 'api/resources/resource';
-import type { AzureTag } from 'api/tags/azureTags';
+import type { Tag } from 'api/tags/tag';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
@@ -36,7 +36,7 @@ interface DetailsToolbarOwnProps {
 }
 
 interface DetailsToolbarStateProps {
-  tagReport?: AzureTag;
+  tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagQueryString?: string;
 }

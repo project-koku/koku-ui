@@ -13,7 +13,6 @@ export const gcpOcpDashboardTabFilters: GcpFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum GcpOcpDashboardTab {
   accounts = 'accounts',
   gcpProjects = 'gcp_projects',
@@ -21,9 +20,7 @@ export const enum GcpOcpDashboardTab {
   services = 'services',
 }
 
-export interface GcpOcpDashboardWidget extends DashboardWidget {}
-
-export function getGroupByForTab(widget: GcpOcpDashboardWidget): GcpQuery['group_by'] {
+export function getGroupByForTab(widget: DashboardWidget): GcpQuery['group_by'] {
   switch (widget.currentTab) {
     case GcpOcpDashboardTab.services:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
@@ -50,7 +47,7 @@ export function getQueryForWidget(filter: GcpFilters = gcpOcpDashboardDefaultFil
 }
 
 export function getQueryForWidgetTabs(
-  widget: GcpOcpDashboardWidget,
+  widget: DashboardWidget,
   filter: GcpFilters = gcpOcpDashboardDefaultFilters,
   props?
 ) {

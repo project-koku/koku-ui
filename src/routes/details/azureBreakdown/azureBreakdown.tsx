@@ -89,9 +89,9 @@ const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
+    breadcrumbPath: formatPath(routes.azureDetails.path),
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
     currency,
-    defaultBreadcrumbPath: formatPath(routes.azureDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.azureDetailsTitle),

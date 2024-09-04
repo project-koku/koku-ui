@@ -8,17 +8,16 @@ import {
   DatumType,
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 import { formatPath } from 'utils/paths';
 
-import type { GcpDashboardWidget } from './gcpDashboardCommon';
 import { GcpDashboardTab } from './gcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const computeWidget: GcpDashboardWidget = {
+export const computeWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'gcpComputeChart',
   chartType: DashboardChartType.trend,
@@ -48,7 +47,7 @@ export const computeWidget: GcpDashboardWidget = {
   },
 };
 
-export const costSummaryWidget: GcpDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [GcpDashboardTab.services, GcpDashboardTab.gcpProjects, GcpDashboardTab.regions],
   chartFormatter: formatCurrency,
   chartType: DashboardChartType.dailyTrend,
@@ -78,7 +77,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
   },
 };
 
-export const databaseWidget: GcpDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'gcpDatabaseChart',
   chartType: DashboardChartType.trend,
@@ -104,7 +103,7 @@ export const databaseWidget: GcpDashboardWidget = {
   },
 };
 
-export const networkWidget: GcpDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'gcpNetworkChart',
   chartType: DashboardChartType.trend,
@@ -132,7 +131,7 @@ export const networkWidget: GcpDashboardWidget = {
   },
 };
 
-export const storageWidget: GcpDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'gcpUsageChart',
   chartType: DashboardChartType.trend,

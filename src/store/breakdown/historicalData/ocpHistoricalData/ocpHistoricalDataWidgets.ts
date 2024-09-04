@@ -1,12 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
-
-import type { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
+import {
+  type HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: OcpHistoricalDataWidget = {
+export const costWidget: HistoricalDataWidget = {
   chartName: 'ocpCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -14,7 +15,7 @@ export const costWidget: OcpHistoricalDataWidget = {
   type: HistoricalDataWidgetType.cost,
 };
 
-export const cpuUsageWidget: OcpHistoricalDataWidget = {
+export const cpuUsageWidget: HistoricalDataWidget = {
   chartName: 'ocpCpuChart',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -22,7 +23,7 @@ export const cpuUsageWidget: OcpHistoricalDataWidget = {
   type: HistoricalDataWidgetType.usage,
 };
 
-export const memoryUsageWidget: OcpHistoricalDataWidget = {
+export const memoryUsageWidget: HistoricalDataWidget = {
   chartName: 'ocpMemoryChart',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -30,7 +31,7 @@ export const memoryUsageWidget: OcpHistoricalDataWidget = {
   type: HistoricalDataWidgetType.usage,
 };
 
-export const networkUsageWidget: OcpHistoricalDataWidget = {
+export const networkUsageWidget: HistoricalDataWidget = {
   chartName: 'ocpNetworkChart',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -39,7 +40,7 @@ export const networkUsageWidget: OcpHistoricalDataWidget = {
   type: HistoricalDataWidgetType.network,
 };
 
-export const volumeUsageWidget: OcpHistoricalDataWidget = {
+export const volumeUsageWidget: HistoricalDataWidget = {
   chartName: 'ocpVolumeChart',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,

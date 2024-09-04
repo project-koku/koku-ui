@@ -4,7 +4,7 @@ import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
-import { ReportType } from 'api/reports/report';
+import type { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import fileDownload from 'js-file-download';
@@ -29,11 +29,13 @@ export interface ExportSubmitOwnProps extends RouterComponentProps, WrappedCompo
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
+  isTimeScoped?: boolean;
   name?: string;
   onClose(isOpen: boolean);
   onError(error: AxiosError);
   reportPathsType: ReportPathsType;
   reportQueryString: string;
+  reportType: ReportType;
   resolution: string;
   timeScope: 'current' | 'previous';
 }
@@ -58,8 +60,6 @@ interface ExportSubmitState {
 
 type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitDispatchProps & ExportSubmitStateProps;
 
-const reportType = ReportType.cost;
-
 export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportSubmitState> {
   protected defaultState: ExportSubmitState = {
     fetchExportClicked: false,
@@ -83,7 +83,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   }
 
   private fetchExport = () => {
-    const { exportQueryString, fetchExport, isExportsToggleEnabled, reportPathsType } = this.props;
+    const { exportQueryString, fetchExport, isExportsToggleEnabled, reportPathsType, reportType } = this.props;
 
     fetchExport(reportPathsType, reportType, exportQueryString, isExportsToggleEnabled);
 
@@ -149,14 +149,25 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, reportPathsType, reportQueryString, resolution, router, timeScope } = props;
+  const {
+    groupBy,
+    isAllItems,
+    isTimeScoped,
+    items,
+    reportPathsType,
+    reportQueryString,
+    reportType,
+    resolution,
+    router,
+    timeScope,
+  } = props;
 
+  const isPrevious = timeScope === 'previous';
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const getDateRange = () => {
     if (queryFromRoute.dateRangeType) {
       return getDateRangeFromQuery(queryFromRoute);
     } else {
-      const isPrevious = timeScope === 'previous';
       const today = getToday();
 
       if (isPrevious) {
@@ -180,12 +191,16 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
         limit: undefined, // Don't want paginated data
         offset: undefined, // Don't want a page
         resolution: resolution ? resolution : undefined, // Resolution is defined by export modal
+        ...(isTimeScoped && { time_scope_value: isPrevious ? -2 : -1 }),
       },
       filter_by: {}, // Don't want page filter, selected items will be filtered below
       limit: 0, // No limit to number of items returned
+      offset: undefined,
       order_by: undefined, // Don't want items sorted by cost
-      start_date,
-      end_date,
+      ...(!isTimeScoped && {
+        start_date,
+        end_date,
+      }),
     };
 
     // Store filter_by as an array, so we can add to it below

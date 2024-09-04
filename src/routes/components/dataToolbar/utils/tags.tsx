@@ -137,7 +137,7 @@ export const getTagValueSelect = ({
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      chips={getChips(filters.tag[tagKeyOption.key])}
+      chips={getChips(filters?.tag?.[tagKeyOption.key])}
       deleteChip={onDelete}
       key={tagKeyOption.key}
       showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
@@ -147,7 +147,7 @@ export const getTagValueSelect = ({
         onTagValueSelect={onTagValueSelect}
         onTagValueInput={onTagValueInput}
         onTagValueInputChange={onTagValueInputChange}
-        selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key].map(filter => filter.value) : []}
+        selections={filters?.tag?.[tagKeyOption.key] ? filters.tag[tagKeyOption.key].map(filter => filter.value) : []}
         tagKey={currentTagKey}
         tagKeyValue={tagKeyValueInput}
         tagPathsType={tagPathsType}

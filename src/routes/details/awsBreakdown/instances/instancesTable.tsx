@@ -25,8 +25,9 @@ interface InstancesTableOwnProps {
   orderBy?: any;
   query?: Query;
   report?: Report;
-  reportPathsType?: string;
-  reportQueryString?: string;
+  reportPathsType: string;
+  reportQueryString: string;
+  reportType: string;
   selectedItems?: ComputedReportItem[];
 }
 
@@ -48,6 +49,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
   report,
   reportPathsType,
   reportQueryString,
+  reportType,
   selectedItems,
 }) => {
   const intl = useIntl();
@@ -71,15 +73,17 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         name: '',
       },
       {
-        orderBy: 'instances',
+        orderBy: 'instance_name',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'instance' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        orderBy: 'account_alias',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'account' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        orderBy: 'operating_system',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'os' }),
         ...(computedItems.length && { isSortable: true }),
       },
@@ -87,22 +91,28 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'tags' }),
       },
       {
+        orderBy: 'instance_type',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'instance_type' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        orderBy: 'region',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'region' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
         id: InstanceTableColumnIds.vcpu,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'vcpu' }),
+        orderBy: 'vcpu',
         style: styles.managedColumn,
+        ...(computedItems.length && { isSortable: true }),
       },
       {
         id: InstanceTableColumnIds.memory,
+        orderBy: 'memory',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'memory' }),
         style: styles.managedColumn,
+        ...(computedItems.length && { isSortable: true }),
       },
       {
         orderBy: 'cost',
@@ -182,6 +192,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         item={item}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
         showAggregateType={false}
       />
     );

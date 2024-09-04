@@ -97,9 +97,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
     columnIndex,
   });
   const setRowExpanded = rowIndex => {
-    expanded.includes(rowIndex)
-      ? setExpanded(expanded.filter(ex => ex !== rowIndex))
-      : setExpanded(expanded.concat([rowIndex]));
+    setExpanded(expanded.includes(rowIndex) ? expanded.filter(ex => ex !== rowIndex) : expanded.concat([rowIndex]));
   };
   const compoundExpandParams = rowIndex => ({
     isExpanded: expanded.includes(rowIndex),

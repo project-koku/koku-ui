@@ -3,12 +3,13 @@ import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { SourceLink } from 'routes/details/ocpBreakdown/providerDetails/components/sourceLink';
-import { styles } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/dataDetails.styles';
-import { formatDate } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/format';
-import { getProgressStepIcon } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/icon';
-import { getProviderAvailability } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/status';
-import { getProgressStepVariant } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/variant';
+import { SourceLink } from 'routes/details/components/providerDetails/components/sourceLink';
+import { formatDate } from 'routes/details/components/providerDetails/utils/format';
+import { getProgressStepIcon } from 'routes/details/components/providerDetails/utils/icon';
+import { getProviderAvailability } from 'routes/details/components/providerDetails/utils/status';
+import { getProgressStepVariant } from 'routes/details/components/providerDetails/utils/variant';
+
+import { styles } from './component.styles';
 
 interface CloudDataOwnProps {
   provider: Provider;
@@ -16,7 +17,7 @@ interface CloudDataOwnProps {
 
 type CloudDataProps = CloudDataOwnProps;
 
-const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
+const CloudData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
   const intl = useIntl();
 
   if (!provider) {
@@ -43,8 +44,8 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
         </ProgressStep>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsAvailability)}
-          id="step1"
-          titleId="step1-title"
+          id="step2"
+          titleId="step2-title"
           variant="success"
         >
           {intl.formatMessage(messages.dataDetailsAvailability)}
@@ -53,8 +54,8 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsRetrieval)}
           icon={getProgressStepIcon(provider.status?.download?.state)}
-          id="step2"
-          titleId="step2-title"
+          id="step3"
+          titleId="step3-title"
           variant={getProgressStepVariant(provider.status?.download?.state)}
         >
           {intl.formatMessage(messages.dataDetailsRetrieval)}
@@ -65,8 +66,8 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsProcessing, { count: 3 })}
           icon={getProgressStepIcon(provider.status?.processing?.state)}
-          id="step3"
-          titleId="step3-title"
+          id="step4"
+          titleId="step4-title"
           variant={getProgressStepVariant(provider.status?.processing?.state)}
         >
           {intl.formatMessage(messages.dataDetailsProcessing)}
@@ -79,4 +80,4 @@ const CloudIData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
   );
 };
 
-export { CloudIData };
+export { CloudData };

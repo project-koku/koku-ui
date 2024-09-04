@@ -13,14 +13,11 @@ export const ocpDashboardTabFilters: OcpFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum OcpDashboardTab {
   nodes = 'nodes',
   clusters = 'clusters',
   projects = 'projects',
 }
-
-export interface OcpDashboardWidget extends DashboardWidget {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
@@ -45,7 +42,7 @@ export function getQueryForWidget(filter: any = ocpDashboardDefaultFilters, prop
 }
 
 export function getQueryForWidgetTabs(
-  widget: OcpDashboardWidget,
+  widget: DashboardWidget,
   filter: OcpFilters = ocpDashboardDefaultFilters,
   props?
 ) {

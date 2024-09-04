@@ -11,9 +11,7 @@ default()
   TMP_DIR="/tmp/$SCRIPT.$$"
 
   MAIN_BRANCH="main"
-  PROD_BETA_BRANCH="prod-beta"
-  PROD_STABLE_BRANCH="prod-stable"
-  STAGE_STABLE_BRANCH="stage-stable"
+  PROD_BRANCH="prod-stable"
 
   UI_DIR="$TMP_DIR/koku-ui"
   UI_REPO="git@github.com:project-koku/koku-ui.git"
@@ -27,17 +25,11 @@ cat <<- EEOOFF
 
     This script will merge the following branches and create a pull request (default) or push upstream
 
-    stage-stage is merged from stage-beta
-    prod-beta is merged from stage-stable
-    prod-stable is merged from prod-beta
-
     sh [-x] $SCRIPT [-h|u] -<b|p|s>
 
     OPTIONS:
     h       Display this message
-    b       Prod beta
-    p       Prod stable
-    s       Stage stable
+    p       Merge $MAIN_BRANCH to $PROD_BRANCH
     u       Push to upstream
 
 EEOOFF
@@ -108,11 +100,7 @@ push()
 
   while getopts hbpsu c; do
     case $c in
-      b) BRANCH=$PROD_BETA_BRANCH
-         REMOTE_BRANCH=$STAGE_STABLE_BRANCH;;
-      p) BRANCH=$PROD_STABLE_BRANCH
-         REMOTE_BRANCH=$PROD_BETA_BRANCH;;
-      s) BRANCH=$STAGE_STABLE_BRANCH
+      p) BRANCH=$PROD_BRANCH
          REMOTE_BRANCH=$MAIN_BRANCH;;
       u) PUSH=true;;
       h) usage; exit 0;;

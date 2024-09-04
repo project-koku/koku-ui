@@ -453,21 +453,17 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
               const { value } = event.currentTarget;
               this.setState({ distribution: value });
             },
-            handleDistributeNetworkChange: event => {
-              const { value } = event.currentTarget;
-              this.setState({ distributeNetwork: value === 'true' });
+            handleDistributeNetworkChange: (event, isChecked) => {
+              this.setState({ distributeNetwork: isChecked });
             },
-            handleDistributePlatformUnallocatedChange: event => {
-              const { value } = event.currentTarget;
-              this.setState({ distributePlatformUnallocated: value === 'true' });
+            handleDistributePlatformUnallocatedChange: (event, isChecked) => {
+              this.setState({ distributePlatformUnallocated: isChecked });
             },
-            handleDistributeStorageChange: event => {
-              const { value } = event.currentTarget;
-              this.setState({ distributeStorage: value === 'true' });
+            handleDistributeStorageChange: (event, isChecked) => {
+              this.setState({ distributeStorage: isChecked });
             },
-            handleDistributeWorkerUnallocatedChange: event => {
-              const { value } = event.currentTarget;
-              this.setState({ distributeWorkerUnallocated: value === 'true' });
+            handleDistributeWorkerUnallocatedChange: (event, isChecked) => {
+              this.setState({ distributeWorkerUnallocated: isChecked });
             },
             handleMarkupDiscountChange: event => {
               const { value } = event.currentTarget;

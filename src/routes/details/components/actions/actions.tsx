@@ -1,4 +1,4 @@
-import type { ReportPathsType } from 'api/reports/report';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -20,6 +20,7 @@ interface DetailsActionsOwnProps extends WrappedComponentProps, RouterComponentP
   item: ComputedReportItem;
   reportPathsType: ReportPathsType;
   reportQueryString: string;
+  reportType: ReportType;
   showAggregateType?: boolean;
   showPriceListOption?: boolean;
 }
@@ -51,7 +52,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
   }
 
   private getExportModal = () => {
-    const { groupBy, item, reportPathsType, reportQueryString, showAggregateType } = this.props;
+    const { groupBy, item, reportPathsType, reportQueryString, reportType, showAggregateType } = this.props;
     const { isExportModalOpen } = this.state;
 
     return (
@@ -63,6 +64,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
         onClose={this.handleExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
         showAggregateType={showAggregateType}
       />
     );

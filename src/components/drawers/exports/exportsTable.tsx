@@ -195,21 +195,21 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
               </Popover>
             )}
           >
-            {intl.formatMessage(messages.status, { value: status })}
+            {intl.formatMessage(messages.statusStates, { value: status })}
           </Label>
         );
         break;
       case 'running':
         return (
           <Label color={'blue'} icon={<SyncIcon />} variant="outline">
-            {intl.formatMessage(messages.status, { value: status })}
+            {intl.formatMessage(messages.statusStates, { value: status })}
           </Label>
         );
       case 'pending':
       default:
         return (
           <Label color={'blue'} icon={<OutlinedClockIcon />} variant="outline">
-            {intl.formatMessage(messages.status, { value: status })}
+            {intl.formatMessage(messages.statusStates, { value: status })}
           </Label>
         );
     }

@@ -7,7 +7,6 @@ export interface Filter {
   value?: string;
 }
 
-// eslint-disable-next-line no-shadow
 enum QueryFilterType {
   filter = 'filter_by',
   exclude = 'exclude',
@@ -16,9 +15,9 @@ enum QueryFilterType {
 export const addFilterToQuery = (query: Query, filter: Filter) => {
   return addQueryFilter(
     query,
-    filter.type,
-    filter.value,
-    filter.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
+    filter?.type,
+    filter?.value,
+    filter?.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
   );
 };
 

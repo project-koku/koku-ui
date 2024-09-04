@@ -13,16 +13,13 @@ export const azureDashboardTabFilters: AzureFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum AzureDashboardTab {
   service_names = 'service_names',
   subscription_guids = 'subscription_guids',
   resource_locations = 'resource_locations',
 }
 
-export interface AzureDashboardWidget extends DashboardWidget {}
-
-export function getGroupByForTab(widget: AzureDashboardWidget): AzureQuery['group_by'] {
+export function getGroupByForTab(widget: DashboardWidget): AzureQuery['group_by'] {
   switch (widget.currentTab) {
     case AzureDashboardTab.service_names:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
@@ -47,7 +44,7 @@ export function getQueryForWidget(filter: AzureFilters = azureDashboardDefaultFi
 }
 
 export function getQueryForWidgetTabs(
-  widget: AzureDashboardWidget,
+  widget: DashboardWidget,
   filter: AzureFilters = azureDashboardDefaultFilters,
   props?
 ) {
