@@ -46,7 +46,9 @@ interface DetailsHeaderStateProps {
   providersQueryString: string;
 }
 
-interface DetailsHeaderState {}
+interface DetailsHeaderState {
+  // TBD...
+}
 
 type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
 

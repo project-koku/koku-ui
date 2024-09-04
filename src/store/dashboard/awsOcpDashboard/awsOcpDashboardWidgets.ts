@@ -8,16 +8,15 @@ import {
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
 import { awsDashboardWidgets } from 'store/dashboard/awsDashboard';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import type { AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
 import { AwsOcpDashboardTab } from './awsOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const computeWidget: AwsOcpDashboardWidget = {
+export const computeWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'awsOcpComputeChart',
   chartType: DashboardChartType.trend,
@@ -46,7 +45,7 @@ export const computeWidget: AwsOcpDashboardWidget = {
   },
 };
 
-export const costSummaryWidget: AwsOcpDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [AwsOcpDashboardTab.services, AwsOcpDashboardTab.accounts, AwsOcpDashboardTab.regions],
   chartFormatter: formatCurrency,
   chartName: 'awsOcpCostChart',
@@ -75,7 +74,7 @@ export const costSummaryWidget: AwsOcpDashboardWidget = {
   },
 };
 
-export const databaseWidget: AwsOcpDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'awsOcpDatabaseChart',
   chartType: DashboardChartType.trend,
@@ -101,7 +100,7 @@ export const databaseWidget: AwsOcpDashboardWidget = {
   },
 };
 
-export const networkWidget: AwsOcpDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'awsOcpNetworkChart',
   chartType: DashboardChartType.trend,
@@ -127,7 +126,7 @@ export const networkWidget: AwsOcpDashboardWidget = {
   },
 };
 
-export const storageWidget: AwsOcpDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'awsOcpStorageChart',
   chartType: DashboardChartType.trend,

@@ -32,7 +32,6 @@ export interface SettingsPayload {
   ids?: string[];
 }
 
-// eslint-disable-next-line no-shadow
 export const enum SettingsType {
   costCategories = 'costCategories',
   costCategoriesEnable = 'costCategoriesEnable',
@@ -56,17 +55,17 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
   [SettingsType.costCategoriesEnable]: 'settings/aws_category_keys/enable/',
   [SettingsType.costCategoriesDisable]: 'settings/aws_category_keys/disable/',
   [SettingsType.platformProjects]: 'settings/cost-groups/',
-  [SettingsType.platformProjectsAdd]: 'settings/cost-groups/add',
-  [SettingsType.platformProjectsRemove]: 'settings/cost-groups/remove',
-  [SettingsType.tags]: 'settings/tags',
+  [SettingsType.platformProjectsAdd]: 'settings/cost-groups/add/',
+  [SettingsType.platformProjectsRemove]: 'settings/cost-groups/remove/',
+  [SettingsType.tags]: 'settings/tags/',
   [SettingsType.tagsEnable]: 'settings/tags/enable/',
   [SettingsType.tagsDisable]: 'settings/tags/disable/',
-  [SettingsType.tagsMappings]: 'settings/tags/mappings',
-  [SettingsType.tagsMappingsChild]: 'settings/tags/mappings/child',
-  [SettingsType.tagsMappingsChildAdd]: 'settings/tags/mappings/child/add',
-  [SettingsType.tagsMappingsChildRemove]: 'settings/tags/mappings/child/remove',
-  [SettingsType.tagsMappingsParent]: 'settings/tags/mappings/parent',
-  [SettingsType.tagsMappingsParentRemove]: 'settings/tags/mappings/parent/remove',
+  [SettingsType.tagsMappings]: 'settings/tags/mappings/',
+  [SettingsType.tagsMappingsChild]: 'settings/tags/mappings/child/',
+  [SettingsType.tagsMappingsChildAdd]: 'settings/tags/mappings/child/add/',
+  [SettingsType.tagsMappingsChildRemove]: 'settings/tags/mappings/child/remove/',
+  [SettingsType.tagsMappingsParent]: 'settings/tags/mappings/parent/',
+  [SettingsType.tagsMappingsParentRemove]: 'settings/tags/mappings/parent/remove/',
 };
 
 export function fetchSettings(settingsType: SettingsType, query: string) {

@@ -1,4 +1,5 @@
 import {
+  Bullseye,
   Button,
   EmptyState,
   EmptyStateBody,
@@ -13,7 +14,10 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 
+import { styles } from './noData.styles';
+
 interface NoDataStateOwnProps {
+  detailsComponent?: React.ReactNode;
   showReload?: boolean;
 }
 
@@ -21,7 +25,7 @@ type NoDataStateProps = NoDataStateOwnProps & WrappedComponentProps;
 
 class NoDataStateBase extends React.Component<NoDataStateProps, any> {
   public render() {
-    const { intl, showReload = true } = this.props;
+    const { detailsComponent, intl, showReload = true } = this.props;
 
     return (
       <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
@@ -30,7 +34,11 @@ class NoDataStateBase extends React.Component<NoDataStateProps, any> {
           icon={<EmptyStateIcon icon={PlusCircleIcon} />}
           headingLevel="h5"
         />
-        <EmptyStateBody>{intl.formatMessage(messages.noDataStateDesc)}</EmptyStateBody>
+        <EmptyStateBody>
+          {intl.formatMessage(messages.noDataStateDesc)}
+          {detailsComponent && <Bullseye style={styles.details}>{detailsComponent}</Bullseye>}
+          {intl.formatMessage(messages.noDataStateRefreshDesc)}
+        </EmptyStateBody>
         <EmptyStateFooter>
           {showReload && (
             <Button variant="primary" onClick={() => window.location.reload()}>

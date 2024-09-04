@@ -89,9 +89,9 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
+    breadcrumbPath: formatPath(routes.rhelDetails.path),
     costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} title={title} />,
     currency,
-    defaultBreadcrumbPath: formatPath(routes.rhelDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.rhelDetailsTitle),

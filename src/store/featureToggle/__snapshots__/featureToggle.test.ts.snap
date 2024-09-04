@@ -3,6 +3,7 @@
 exports[`default state 1`] = `
 {
   "hasFeatureToggle": false,
+  "isAccountInfoEmptyStateToggleEnabled": false,
   "isAwsEc2InstancesToggleEnabled": false,
   "isDebugToggleEnabled": false,
   "isExportsToggleEnabled": false,

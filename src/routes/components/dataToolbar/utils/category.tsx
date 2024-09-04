@@ -58,7 +58,7 @@ export const getCategoryInput = ({
   return (
     <ToolbarFilter
       categoryName={categoryOption}
-      chips={getChips(filters[categoryOption.key] as Filter[])}
+      chips={getChips(filters?.[categoryOption.key] as Filter[])}
       deleteChip={onDelete}
       key={categoryOption.key}
       showToolbarItem={currentCategory === categoryOption.key}
@@ -71,6 +71,7 @@ export const getCategoryInput = ({
               isDisabled={isDisabled && !_hasFilters}
               onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
               placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
+              resourceKey={categoryOption.resourceKey}
               resourcePathsType={resourcePathsType}
               resourceType={categoryOption.key as ResourceType}
             />
@@ -124,12 +125,12 @@ export const onCategoryInput = ({
   key?: string;
 }) => {
   if (event && event.key && event.key !== 'Enter') {
-    return {};
+    return {}; // For destructure
   }
 
   const val = cleanInput(categoryInput);
   if (val.trim() === '') {
-    return {};
+    return {}; // For destructure
   }
 
   const isExcludes = currentExclude === ExcludeType.exclude;

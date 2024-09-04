@@ -13,7 +13,6 @@ export const ibmDashboardTabFilters: IbmFilters = {
   limit: 3,
 };
 
-// eslint-disable-next-line no-shadow
 export const enum IbmDashboardTab {
   services = 'services',
   accounts = 'accounts',
@@ -21,9 +20,7 @@ export const enum IbmDashboardTab {
   regions = 'regions',
 }
 
-export interface IbmDashboardWidget extends DashboardWidget {}
-
-export function getGroupByForTab(widget: IbmDashboardWidget): IbmQuery['group_by'] {
+export function getGroupByForTab(widget: DashboardWidget): IbmQuery['group_by'] {
   switch (widget.currentTab) {
     case IbmDashboardTab.services:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
@@ -50,7 +47,7 @@ export function getQueryForWidget(filter: IbmFilters = ibmDashboardDefaultFilter
 }
 
 export function getQueryForWidgetTabs(
-  widget: IbmDashboardWidget,
+  widget: DashboardWidget,
   filter: IbmFilters = ibmDashboardDefaultFilters,
   props?
 ) {

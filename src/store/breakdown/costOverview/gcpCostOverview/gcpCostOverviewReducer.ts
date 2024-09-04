@@ -1,4 +1,5 @@
-import type { GcpCostOverviewWidget } from './gcpCostOverviewCommon';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
+
 import {
   accountSummaryWidget,
   costWidget,
@@ -8,7 +9,7 @@ import {
 } from './gcpCostOverviewWidgets';
 
 export type GcpCostOverviewState = Readonly<{
-  widgets: Record<number, GcpCostOverviewWidget>;
+  widgets: Record<number, CostOverviewWidget>;
   currentWidgets: number[];
 }>;
 

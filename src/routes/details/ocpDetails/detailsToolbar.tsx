@@ -2,7 +2,7 @@ import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { getQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
-import type { OcpTag } from 'api/tags/ocpTags';
+import type { Tag } from 'api/tags/tag';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
@@ -37,7 +37,7 @@ interface DetailsToolbarOwnProps {
 }
 
 interface DetailsToolbarStateProps {
-  tagReport?: OcpTag;
+  tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagQueryString?: string;
 }
@@ -93,7 +93,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
     const { intl, tagReport } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }),
+        key: 'cluster',
+        resourceKey: 'cluster_alias',
+      },
       { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
     ];

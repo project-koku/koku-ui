@@ -109,12 +109,12 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
+    breadcrumbPath: formatPath(routes.awsDetails.path),
     costOverviewComponent: (
       <CostOverview costType={costType} currency={currency} groupBy={groupBy} query={queryFromRoute} report={report} />
     ),
     costType,
     currency,
-    defaultBreadcrumbPath: formatPath(routes.awsDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.awsDetailsTitle),

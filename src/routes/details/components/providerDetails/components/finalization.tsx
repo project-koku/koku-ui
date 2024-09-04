@@ -1,36 +1,39 @@
 import { ProgressStep, ProgressStepper, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import type { Provider } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { styles } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/dataDetails.styles';
-import { formatDate } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/format';
-import { getProgressStepIcon } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/icon';
-import { getProgressStepVariant } from 'routes/details/ocpBreakdown/providerDetails/dataDetails/utils/variant';
+import { formatDate } from 'routes/details/components/providerDetails/utils/format';
+import { getProgressStepIcon } from 'routes/details/components/providerDetails/utils/icon';
+import { getProgressStepVariant } from 'routes/details/components/providerDetails/utils/variant';
 
-interface CostDataOwnProps {
+import { styles } from './component.styles';
+
+interface FinalizationDataOwnProps {
   provider: Provider;
+  providerType: ProviderType;
 }
 
-type CostDataProps = CostDataOwnProps;
+type FinalizationDataProps = FinalizationDataOwnProps;
 
-const CostData: React.FC<CostDataProps> = ({ provider }: CostDataProps) => {
+const Finalization: React.FC<FinalizationDataProps> = ({ provider, providerType }: FinalizationDataProps) => {
   const intl = useIntl();
 
   if (!provider) {
     return null;
   }
 
+  const title = intl.formatMessage(
+    providerType === ProviderType.ocp ? messages.dataDetailsCostManagementData : messages.finalization
+  );
+
   return (
     <>
       <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsCostManagementData)}</Text>
+        <Text component={TextVariants.h3}>{title}</Text>
       </TextContent>
-      <ProgressStepper
-        aria-label={intl.formatMessage(messages.dataDetailsCostManagementData)}
-        isVertical
-        style={styles.stepper}
-      >
+      <ProgressStepper aria-label={title} isVertical style={styles.stepper}>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsIntegrationAndFinalization)}
           icon={getProgressStepIcon(provider.status?.summary?.state)}
@@ -48,4 +51,4 @@ const CostData: React.FC<CostDataProps> = ({ provider }: CostDataProps) => {
   );
 };
 
-export { CostData };
+export { Finalization };

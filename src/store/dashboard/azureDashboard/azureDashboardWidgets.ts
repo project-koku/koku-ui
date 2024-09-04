@@ -8,17 +8,16 @@ import {
   DatumType,
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 import { formatPath } from 'utils/paths';
 
-import type { AzureDashboardWidget } from './azureDashboardCommon';
 import { AzureDashboardTab } from './azureDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: AzureDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [
     AzureDashboardTab.service_names,
     AzureDashboardTab.subscription_guids,
@@ -51,7 +50,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
   },
 };
 
-export const databaseWidget: AzureDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartName: 'azureDatabaseChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -76,7 +75,7 @@ export const databaseWidget: AzureDashboardWidget = {
   },
 };
 
-export const networkWidget: AzureDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartName: 'azureNetworkChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -101,7 +100,7 @@ export const networkWidget: AzureDashboardWidget = {
   },
 };
 
-export const storageWidget: AzureDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartName: 'azureStorageChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -123,7 +122,7 @@ export const storageWidget: AzureDashboardWidget = {
   },
 };
 
-export const virtualMachineWidget: AzureDashboardWidget = {
+export const virtualMachineWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'azureComputeChart',
   chartType: DashboardChartType.trend,

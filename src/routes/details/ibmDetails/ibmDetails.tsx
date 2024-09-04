@@ -18,6 +18,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedIbmReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -34,6 +35,7 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -49,6 +51,7 @@ import { styles } from './ibmDetails.styles';
 
 interface IbmDetailsStateProps {
   currency?: string;
+  isAccountInfoEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -166,6 +169,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={reportType}
       />
     );
   };
@@ -321,8 +325,18 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
   };
 
   public render() {
-    const { currency, intl, providers, providersFetchStatus, query, report, reportError, reportFetchStatus, router } =
-      this.props;
+    const {
+      currency,
+      intl,
+      isAccountInfoEmptyStateToggleEnabled,
+      providers,
+      providersFetchStatus,
+      query,
+      report,
+      reportError,
+      reportFetchStatus,
+      router,
+    } = this.props;
 
     const computedItems = this.getComputedItems();
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -342,9 +356,17 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         return <NoProviders providerType={ProviderType.ibm} title={title} />;
       }
       if (!hasCurrentMonthData(providers)) {
-        return <NoData title={title} />;
+        return (
+          <NoData
+            detailsComponent={
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ibm} /> : undefined
+            }
+            title={title}
+          />
+        );
       }
     }
+
     return (
       <div style={styles.ibmDetails}>
         <DetailsHeader
@@ -416,6 +438,7 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
 
   return {
     currency,
+    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.ibm),
     providersError,
     providersFetchStatus,

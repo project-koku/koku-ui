@@ -104,7 +104,7 @@ export const page1 = {
             name: 'memory_gb_usage_per_hour',
             label_metric: 'Memory',
             label_measurement: 'Usage',
-            label_measurement_unit: 'GB-hours',
+            label_measurement_unit: 'GiB-hours',
           },
           description: '',
           tiered_rates: [
@@ -125,7 +125,7 @@ export const page1 = {
             name: 'memory_gb_request_per_hour',
             label_metric: 'Memory',
             label_measurement: 'Request',
-            label_measurement_unit: 'GB-hours',
+            label_measurement_unit: 'GiB-hours',
           },
           description: '',
           tiered_rates: [

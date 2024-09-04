@@ -1,8 +1,9 @@
-import type { AzureHistoricalDataWidget } from './azureHistoricalDataCommon';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+
 import { computeUsageWidget, costWidget, storageUsageWidget } from './azureHistoricalDataWidgets';
 
 export type AzureHistoricalDataState = Readonly<{
-  widgets: Record<number, AzureHistoricalDataWidget>;
+  widgets: Record<number, HistoricalDataWidget>;
   currentWidgets: number[];
 }>;
 

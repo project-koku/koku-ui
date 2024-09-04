@@ -15,8 +15,10 @@ export interface ReportUsageValue extends ReportValue {
 export interface ReportItemValue {
   distributed?: ReportValue;
   markup?: ReportValue;
+  network_unattributed_distributed?: ReportValue;
   platform_distributed?: ReportValue;
   raw?: ReportValue;
+  storage_unattributed_distributed?: ReportValue;
   total?: ReportValue;
   usage?: ReportValue;
   worker_unallocated_distributed?: ReportValue;
@@ -159,9 +161,8 @@ export interface ReportMeta extends PagedMetaData {
   };
 }
 
-export interface Report extends PagedResponse<ReportData, ReportMeta> {}
+export type Report = PagedResponse<ReportData, ReportMeta>;
 
-// eslint-disable-next-line no-shadow
 export const enum ReportType {
   cost = 'cost',
   cpu = 'cpu',
@@ -175,7 +176,6 @@ export const enum ReportType {
   volume = 'volume',
 }
 
-// eslint-disable-next-line no-shadow
 export const enum ReportPathsType {
   aws = 'aws',
   awsOcp = 'aws_ocp',

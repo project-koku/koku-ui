@@ -11,7 +11,6 @@ import type { Filter } from 'routes/utils/filter';
 
 import { styles } from './platformProjects.styles';
 
-// eslint-disable-next-line no-shadow
 export const enum GroupType {
   default = 'default',
   platform = 'Platform',

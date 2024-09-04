@@ -12,8 +12,8 @@ import { connect } from 'react-redux';
 import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
-import { ClusterInfo } from 'routes/details/ocpBreakdown/providerDetails/clusterInfo';
-import { DataDetails } from 'routes/details/ocpBreakdown/providerDetails/dataDetails';
+import { ProviderDetailsModal } from 'routes/details/components/providerDetails';
+import { ClusterInfoModal } from 'routes/details/ocpBreakdown/clusterInfo';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
@@ -23,7 +23,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
+import { breadcrumbLabelKey, breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
@@ -94,11 +94,16 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     providersQueryString
   );
 
+  const breadcrumbLabel = queryFromRoute[breadcrumbLabelKey] ? queryFromRoute[breadcrumbLabelKey] : undefined;
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
-    clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfo clusterId={groupByValue} /> : undefined,
-    dataDetailsComponent: groupBy === 'cluster' ? <DataDetails clusterId={groupByValue} /> : undefined,
+    breadcrumbLabel,
+    clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
+    dataDetailsComponent:
+      groupBy === 'cluster' ? (
+        <ProviderDetailsModal clusterId={groupByValue} providerType={ProviderType.ocp} />
+      ) : undefined,
     costDistribution,
     costOverviewComponent: (
       <CostOverview
@@ -111,7 +116,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       />
     ),
     currency,
-    defaultBreadcrumbPath: formatPath(routes.ocpDetails.path),
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.ocpDetailsTitle),

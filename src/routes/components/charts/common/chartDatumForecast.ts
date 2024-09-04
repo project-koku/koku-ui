@@ -10,7 +10,6 @@ import type { ChartDatum } from './chartDatum';
 import { DatumType, isFloat, isInt, padChartDatums } from './chartDatum';
 
 // The computed forecast cost
-// eslint-disable-next-line no-shadow
 export const enum ComputedForecastItemType {
   cost = 'cost',
   infrastructure = 'infrastructure',

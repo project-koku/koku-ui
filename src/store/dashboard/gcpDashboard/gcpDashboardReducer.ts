@@ -1,14 +1,14 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './gcpDashboardActions';
-import type { GcpDashboardWidget } from './gcpDashboardCommon';
 import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './gcpDashboardWidgets';
 
 export type GcpDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type GcpDashboardState = Readonly<{
-  widgets: Record<number, GcpDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

@@ -1,12 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
-
-import type { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
+import {
+  type HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costWidget: AwsHistoricalDataWidget = {
+export const costWidget: HistoricalDataWidget = {
   chartName: 'awsCostChart',
   id: getId(),
   reportPathsType: ReportPathsType.aws,
@@ -14,7 +15,7 @@ export const costWidget: AwsHistoricalDataWidget = {
   type: HistoricalDataWidgetType.trend,
 };
 
-export const computeUsageWidget: AwsHistoricalDataWidget = {
+export const computeUsageWidget: HistoricalDataWidget = {
   chartName: 'awsComputeChart',
   id: getId(),
   reportPathsType: ReportPathsType.aws,
@@ -22,7 +23,7 @@ export const computeUsageWidget: AwsHistoricalDataWidget = {
   type: HistoricalDataWidgetType.usage,
 };
 
-export const storageUsageWidget: AwsHistoricalDataWidget = {
+export const storageUsageWidget: HistoricalDataWidget = {
   chartName: 'awsStorageChart',
   id: getId(),
   reportPathsType: ReportPathsType.aws,

@@ -7,17 +7,16 @@ import {
   DatumType,
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { gcpDashboardWidgets } from 'store/dashboard/gcpDashboard';
 import { formatCurrency, formatUnits } from 'utils/format';
 
-import type { GcpOcpDashboardWidget } from './gcpOcpDashboardCommon';
 import { GcpOcpDashboardTab } from './gcpOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const computeWidget: GcpOcpDashboardWidget = {
+export const computeWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'gcpOcpComputeChart',
   chartType: DashboardChartType.trend,
@@ -47,7 +46,7 @@ export const computeWidget: GcpOcpDashboardWidget = {
   },
 };
 
-export const costSummaryWidget: GcpOcpDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [GcpOcpDashboardTab.services, GcpOcpDashboardTab.gcpProjects, GcpOcpDashboardTab.regions],
   chartFormatter: formatCurrency,
   chartName: 'gcpOcpCostChart',
@@ -76,7 +75,7 @@ export const costSummaryWidget: GcpOcpDashboardWidget = {
   },
 };
 
-export const databaseWidget: GcpOcpDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'gcpOcpDatabaseChart',
   chartType: DashboardChartType.trend,
@@ -102,7 +101,7 @@ export const databaseWidget: GcpOcpDashboardWidget = {
   },
 };
 
-export const networkWidget: GcpOcpDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartFormatter: formatCurrency,
   chartName: 'gcpOcpNetworkChart',
   chartType: DashboardChartType.trend,
@@ -128,7 +127,7 @@ export const networkWidget: GcpOcpDashboardWidget = {
   },
 };
 
-export const storageWidget: GcpOcpDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'gcpOcpStorageChart',
   chartType: DashboardChartType.trend,

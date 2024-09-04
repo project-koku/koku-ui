@@ -24,7 +24,8 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const groupByValue = getGroupByValue(queryFromRoute);
   const otimizationsTab = location.search.indexOf('optimizationsTab') === -1 ? '&optimizationsTab=true' : '';
 
-  const clusterFilter = queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined;
+  const clusterFilter = queryState?.filter_by?.cluster;
+  const isOptimizationsPath = queryFromRoute?.optimizationsPath === 'true';
 
   return (
     <AsyncComponent
@@ -36,6 +37,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
       cluster={clusterFilter}
       hideCluster={clusterFilter !== undefined}
       hideProject={groupBy === 'project'}
+      isOptimizationsPath={isOptimizationsPath}
       linkPath={formatPath(routes.optimizationsBreakdown.path)}
       linkState={{
         ...(location.state && location.state),

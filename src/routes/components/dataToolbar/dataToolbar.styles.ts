@@ -11,4 +11,7 @@ export const styles = {
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,
   },
+  platformCosts: {
+    marginTop: '6px',
+  },
 } as { [className: string]: React.CSSProperties };

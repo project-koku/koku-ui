@@ -78,7 +78,6 @@ import {
 import { OciDashboard } from './ociDashboard';
 import { styles } from './overview.styles';
 
-// eslint-disable-next-line no-shadow
 const enum InfrastructurePerspective {
   aws = 'aws',
   awsOcp = 'aws_ocp', // Aws filtered by Ocp
@@ -92,19 +91,16 @@ const enum InfrastructurePerspective {
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
 
-// eslint-disable-next-line no-shadow
 const enum OcpPerspective {
   ocp = 'ocp',
 }
 
-// eslint-disable-next-line no-shadow
 const enum OverviewTab {
   infrastructure = 'infrastructure',
   ocp = 'ocp',
   rhel = 'rhel',
 }
 
-// eslint-disable-next-line no-shadow
 const enum RhelPerspective {
   rhel = 'rhel',
 }

@@ -1,8 +1,9 @@
-import type { OciHistoricalDataWidget } from './ociHistoricalDataCommon';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+
 import { computeUsageWidget, costWidget, storageUsageWidget } from './ociHistoricalDataWidgets';
 
 export type OciHistoricalDataState = Readonly<{
-  widgets: Record<number, OciHistoricalDataWidget>;
+  widgets: Record<number, HistoricalDataWidget>;
   currentWidgets: number[];
 }>;
 

@@ -8,17 +8,16 @@ import {
   DatumType,
 } from 'routes/components/charts/common/chartDatum';
 import { ComputedForecastItemType } from 'routes/components/charts/common/chartDatumForecast';
-import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, type DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatUnits } from 'utils/format';
 import { formatPath } from 'utils/paths';
 
-import type { OciDashboardWidget } from './ociDashboardCommon';
 import { OciDashboardTab } from './ociDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: OciDashboardWidget = {
+export const costSummaryWidget: DashboardWidget = {
   availableTabs: [OciDashboardTab.product_services, OciDashboardTab.payer_tenant_ids, OciDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
   chartName: 'ociCostChart',
@@ -47,7 +46,7 @@ export const costSummaryWidget: OciDashboardWidget = {
   },
 };
 
-export const databaseWidget: OciDashboardWidget = {
+export const databaseWidget: DashboardWidget = {
   chartName: 'ociDatabaseChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -74,7 +73,7 @@ export const databaseWidget: OciDashboardWidget = {
   },
 };
 
-export const networkWidget: OciDashboardWidget = {
+export const networkWidget: DashboardWidget = {
   chartName: 'ociNetworkChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -101,7 +100,7 @@ export const networkWidget: OciDashboardWidget = {
   },
 };
 
-export const storageWidget: OciDashboardWidget = {
+export const storageWidget: DashboardWidget = {
   chartName: 'ociStorageChart',
   chartType: DashboardChartType.trend,
   id: getId(),
@@ -123,7 +122,7 @@ export const storageWidget: OciDashboardWidget = {
   },
 };
 
-export const virtualMachineWidget: OciDashboardWidget = {
+export const virtualMachineWidget: DashboardWidget = {
   chartFormatter: formatUnits,
   chartName: 'ociComputeChart',
   chartType: DashboardChartType.trend,

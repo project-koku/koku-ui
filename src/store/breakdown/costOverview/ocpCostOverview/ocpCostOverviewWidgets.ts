@@ -1,13 +1,12 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 import { platformCategoryKey, tagPrefix } from 'utils/props';
-
-import type { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const clusterWidget: OcpCostOverviewWidget = {
+export const clusterWidget: CostOverviewWidget = {
   id: getId(),
   cluster: {
     reportGroupBy: 'project',
@@ -18,7 +17,7 @@ export const clusterWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.cluster,
 };
 
-export const costWidget: OcpCostOverviewWidget = {
+export const costWidget: CostOverviewWidget = {
   chartName: 'ocpCostWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -26,7 +25,7 @@ export const costWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.cost,
 };
 
-export const costDistributionWidget: OcpCostOverviewWidget = {
+export const costDistributionWidget: CostOverviewWidget = {
   chartName: 'ocpCostDistributionWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -34,7 +33,7 @@ export const costDistributionWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.costDistribution,
 };
 
-export const cpuUsageWidget: OcpCostOverviewWidget = {
+export const cpuUsageWidget: CostOverviewWidget = {
   chartName: 'ocpCpuWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -42,7 +41,7 @@ export const cpuUsageWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.cpuUsage,
 };
 
-export const memoryUsageWidget: OcpCostOverviewWidget = {
+export const memoryUsageWidget: CostOverviewWidget = {
   chartName: 'ocpMemoryWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -50,7 +49,7 @@ export const memoryUsageWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.memoryUsage,
 };
 
-export const projectSummaryWidget: OcpCostOverviewWidget = {
+export const projectSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
@@ -63,7 +62,7 @@ export const projectSummaryWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const pvcWidget: OcpCostOverviewWidget = {
+export const pvcWidget: CostOverviewWidget = {
   chartName: 'ocpPvcWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,
@@ -73,7 +72,7 @@ export const pvcWidget: OcpCostOverviewWidget = {
 };
 
 // Storage summary
-export const volumeSummaryWidget: OcpCostOverviewWidget = {
+export const volumeSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'storageclass',
@@ -85,7 +84,7 @@ export const volumeSummaryWidget: OcpCostOverviewWidget = {
   type: CostOverviewWidgetType.reportSummary,
 };
 
-export const volumeUsageWidget: OcpCostOverviewWidget = {
+export const volumeUsageWidget: CostOverviewWidget = {
   chartName: 'ocpVolumeWidget',
   id: getId(),
   reportPathsType: ReportPathsType.ocp,

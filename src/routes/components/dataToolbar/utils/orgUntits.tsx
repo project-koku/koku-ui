@@ -32,14 +32,14 @@ export const getOrgUnitSelect = ({
   const selectOptions: SelectWrapperOption[] = getOrgUnitOptions(orgReport).map(option => ({
     description: option.key,
     compareTo: item =>
-      filters[orgUnitIdKey] ? (filters[orgUnitIdKey] as any).find(filter => filter.value === item.value) : false,
+      filters?.[orgUnitIdKey] ? (filters[orgUnitIdKey] as any).find(filter => filter.value === item.value) : false,
     toString: () => option.name,
     value: option.key,
   }));
 
   const chips = []; // Get selected items as PatternFly's ToolbarChip type
   const selections = []; // Select options and selections must be same type
-  if (filters[orgUnitIdKey] && Array.isArray(filters[orgUnitIdKey])) {
+  if (filters?.[orgUnitIdKey] && Array.isArray(filters[orgUnitIdKey])) {
     (filters[orgUnitIdKey] as any).map(filter => {
       const selection = selectOptions.find(option => option.value === filter.value);
       if (selection) {

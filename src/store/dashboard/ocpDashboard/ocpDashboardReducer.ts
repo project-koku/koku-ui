@@ -1,14 +1,14 @@
+import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './ocpDashboardActions';
-import type { OcpDashboardWidget } from './ocpDashboardCommon';
 import { costSummaryWidget, cpuWidget, memoryWidget, optimizationsWidget, volumeWidget } from './ocpDashboardWidgets';
 
 export type OcpDashboardAction = ActionType<typeof setWidgetTab>;
 
 export type OcpDashboardState = Readonly<{
-  widgets: Record<number, OcpDashboardWidget>;
+  widgets: Record<number, DashboardWidget>;
   currentWidgets: number[];
 }>;
 

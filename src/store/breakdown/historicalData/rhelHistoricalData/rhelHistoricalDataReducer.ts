@@ -1,8 +1,9 @@
-import type { RhelHistoricalDataWidget } from './rhelHistoricalDataCommon';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+
 import { costWidget, cpuUsageWidget, memoryUsageWidget } from './rhelHistoricalDataWidgets';
 
 export type RhelHistoricalDataState = Readonly<{
-  widgets: Record<number, RhelHistoricalDataWidget>;
+  widgets: Record<number, HistoricalDataWidget>;
   currentWidgets: number[];
 }>;
 

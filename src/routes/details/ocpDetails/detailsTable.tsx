@@ -223,17 +223,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const isOverheadCosts =
         costDistribution === ComputedReportItemValueType.distributed &&
         !isUnallocatedProject &&
-        ((item.cost.platformDistributed && item.cost.platformDistributed.value > 0) ||
-          (item.cost.workerUnallocatedDistributed && item.cost.workerUnallocatedDistributed.value > 0));
+        (item.cost?.networkUnattributedDistributed?.value > 0 ||
+          item.cost?.platformDistributed?.value > 0 ||
+          item.cost?.storageUnattributedDistributed?.value > 0 ||
+          item.cost?.workerUnallocatedDistributed?.value > 0);
       const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
-      const isDisabled =
-        label === `${noPrefix}${groupBy}` ||
-        label === `${noPrefix}${groupByTagKey}` ||
-        isUnallocatedProject ||
-        isUnattributedCosts;
+      const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
+      const isLinkDisabled = isDisabled || isUnallocatedProject || isUnattributedCosts;
       const actions = this.getActions(item, isDisabled);
 
-      const name = isDisabled ? (
+      const name = isLinkDisabled ? (
         (label as any)
       ) : (
         <Link
@@ -275,7 +274,27 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                 {intl.formatMessage(messages.default)}
               </Label>
             ) : isOverheadCosts ? (
-              <Tooltip content={intl.formatMessage(messages.overheadDesc)} enableFlip>
+              <Tooltip
+                content={intl.formatMessage(messages.overheadDesc, {
+                  value: (
+                    <ul style={{ listStyle: 'inside', textAlign: 'left' }}>
+                      {item.cost?.networkUnattributedDistributed?.value > 0 && (
+                        <li style={styles.infoTitle}>{intl.formatMessage(messages.networkUnattributedDistributed)}</li>
+                      )}
+                      {item.cost?.platformDistributed?.value > 0 && (
+                        <li style={styles.infoTitle}>{intl.formatMessage(messages.platformDistributed)}</li>
+                      )}
+                      {item.cost?.storageUnattributedDistributed?.value > 0 && (
+                        <li style={styles.infoTitle}>{intl.formatMessage(messages.storageUnattributedDistributed)}</li>
+                      )}
+                      {item.cost?.workerUnallocated?.value > 0 && (
+                        <li style={styles.infoTitle}>{intl.formatMessage(messages.workerUnallocated)}</li>
+                      )}
+                    </ul>
+                  ),
+                })}
+                enableFlip
+              >
                 <Label variant="outline" color="orange">
                   {intl.formatMessage(messages.overhead)}
                 </Label>

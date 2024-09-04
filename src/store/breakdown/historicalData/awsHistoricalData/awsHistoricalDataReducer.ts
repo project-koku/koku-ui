@@ -1,8 +1,9 @@
-import type { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
+import type { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
+
 import { computeUsageWidget, costWidget, storageUsageWidget } from './awsHistoricalDataWidgets';
 
 export type AwsHistoricalDataState = Readonly<{
-  widgets: Record<number, AwsHistoricalDataWidget>;
+  widgets: Record<number, HistoricalDataWidget>;
   currentWidgets: number[];
 }>;
 

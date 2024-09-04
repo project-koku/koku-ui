@@ -56,22 +56,42 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
   public render() {
     const { costDistribution, name, report, reportFetchStatus, intl } = this.props;
 
+    const hasNetworkUnattributedDistributed =
+      report?.meta?.total?.cost?.network_unattributed_distributed &&
+      costDistribution === ComputedReportItemValueType.distributed;
     const hasPlatformDistributed =
       report?.meta?.total?.cost?.platform_distributed && costDistribution === ComputedReportItemValueType.distributed;
+    const hasStorageUnattributedDistributed =
+      report?.meta?.total?.cost?.storage_unattributed_distributed &&
+      costDistribution === ComputedReportItemValueType.distributed;
     const hasWorkerUnallocated =
       report?.meta?.total?.cost?.worker_unallocated_distributed &&
       costDistribution === ComputedReportItemValueType.distributed;
     const hasCostTotal = report?.meta?.total?.cost?.total;
 
+    const networkUnattributedDistributedUnits = hasNetworkUnattributedDistributed
+      ? report.meta.total.cost.network_unattributed_distributed.units
+      : 'USD';
     const platformDistributedUnits = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.units : 'USD';
+    const storageUnattributedDistributedUnits = hasStorageUnattributedDistributed
+      ? report.meta.total.cost.storage_unattributed_distributed.units
+      : 'USD';
     const workerUnallocatedUnits = hasWorkerUnallocated
       ? report.meta.total.cost.worker_unallocated_distributed.units
       : 'USD';
     const totalCostUnits = hasCostTotal ? report.meta.total.cost.total.units : 'USD';
 
+    const networkUnattributedDistributedValue =
+      hasPlatformDistributed && report.meta.total.cost.network_unattributed_distributed.value > 0
+        ? report.meta.total.cost.network_unattributed_distributed.value
+        : 0;
     const platformDistributedValue =
       hasPlatformDistributed && report.meta.total.cost.platform_distributed.value > 0
         ? report.meta.total.cost.platform_distributed.value
+        : 0;
+    const storageUnattributedDistributedValue =
+      hasPlatformDistributed && report.meta.total.cost.storage_unattributed_distributed.value > 0
+        ? report.meta.total.cost.storage_unattributed_distributed.value
         : 0;
     const workerUnallocatedValue =
       hasWorkerUnallocated && report.meta.total.cost.worker_unallocated_distributed.value > 0
@@ -79,11 +99,21 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
         : 0;
     const totalCostValue = hasCostTotal ? report.meta.total.cost.total.value : 0;
 
+    const networkUnattributedDistributed = formatCurrency(
+      networkUnattributedDistributedValue,
+      networkUnattributedDistributedUnits
+    );
     const platformDistributed = formatCurrency(platformDistributedValue, platformDistributedUnits);
+    const storageUnattributedDistributed = formatCurrency(
+      storageUnattributedDistributedValue,
+      storageUnattributedDistributedUnits
+    );
     const workerUnallocated = formatCurrency(workerUnallocatedValue, workerUnallocatedUnits);
     const totalCost = formatCurrency(totalCostValue, totalCostUnits);
 
+    const networkUnattributedDistributedLabel = intl.formatMessage(messages.networkUnattributedDistributed);
     const platformDistributedLabel = intl.formatMessage(messages.platformDistributed);
+    const storageUnattributedDistributedLabel = intl.formatMessage(messages.storageUnattributedDistributed);
     const workerUnallocatedLabel = intl.formatMessage(messages.workerUnallocated);
     const totalCostLabel = intl.formatMessage(messages.allOtherProjectCosts);
 
@@ -92,9 +122,19 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
     const Legend = (
       <ChartLegend
         gutter={30} // Space (width) between legend items
-        itemsPerRow={2}
+        itemsPerRow={3}
         labelComponent={
-          <LegendLabel dy={10} lineHeight={1.5} values={[platformDistributed, workerUnallocated, totalCost]} />
+          <LegendLabel
+            dy={10}
+            lineHeight={1.5}
+            values={[
+              networkUnattributedDistributed,
+              platformDistributed,
+              storageUnattributedDistributed,
+              workerUnallocated,
+              totalCost,
+            ]}
+          />
         }
         rowGutter={20}
       />
@@ -110,7 +150,17 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
             ariaTitle={intl.formatMessage(messages.costDistributionTitle)}
             constrainToVisibleArea
             data={[
+              {
+                x: networkUnattributedDistributedLabel,
+                y: networkUnattributedDistributedValue,
+                units: networkUnattributedDistributedUnits,
+              },
               { x: platformDistributedLabel, y: platformDistributedValue, units: platformDistributedUnits },
+              {
+                x: storageUnattributedDistributedLabel,
+                y: storageUnattributedDistributedValue,
+                units: storageUnattributedDistributedUnits,
+              },
               { x: workerUnallocatedLabel, y: workerUnallocatedValue, units: workerUnallocatedUnits },
               { x: totalCostLabel, y: totalCostValue, units: totalCostUnits },
             ]}
@@ -124,7 +174,13 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
             legendComponent={Legend}
             legendData={[
               {
+                name: networkUnattributedDistributedLabel,
+              },
+              {
                 name: platformDistributedLabel,
+              },
+              {
+                name: storageUnattributedDistributedLabel,
               },
               {
                 name: workerUnallocatedLabel,
@@ -139,7 +195,7 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
             padding={{
               bottom: 20,
               left: 0,
-              right: 325, // Adjusted to accommodate legend
+              right: 375, // Adjusted to accommodate legend
               top: 20,
             }}
             themeColor={ChartThemeColor.green}

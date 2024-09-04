@@ -23,7 +23,6 @@ export interface AccountSettingsPayload {
   currency?: string;
 }
 
-// eslint-disable-next-line no-shadow
 export const enum AccountSettingsType {
   settings = 'settings',
   costType = 'costType',
