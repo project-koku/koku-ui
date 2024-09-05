@@ -105,14 +105,12 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'vcpu' }),
         orderBy: 'vcpu',
         style: styles.managedColumn,
-        ...(computedItems.length && { isSortable: true }),
       },
       {
         id: InstanceTableColumnIds.memory,
         orderBy: 'memory',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'memory' }),
         style: styles.managedColumn,
-        ...(computedItems.length && { isSortable: true }),
       },
       {
         orderBy: 'cost',
