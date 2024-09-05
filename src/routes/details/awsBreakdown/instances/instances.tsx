@@ -71,6 +71,11 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
     value: InstanceTableColumnIds.memory,
     hidden: true,
   },
+  {
+    label: messages.usage,
+    value: InstanceTableColumnIds.usage,
+    hidden: true,
+  },
 ];
 
 const reportType = ReportType.ec2Compute;

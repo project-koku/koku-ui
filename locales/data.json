@@ -3103,6 +3103,14 @@
               }
             ]
           },
+          "usage": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Usage"
+              }
+            ]
+          },
           "vcpu": {
             "value": [
               {
