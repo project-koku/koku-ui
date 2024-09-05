@@ -122,7 +122,9 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     groupByValue,
     historicalDataComponent: <HistoricalData costType={costType} currency={currency} />,
     instancesComponent:
-      groupBy === serviceKey && groupByValue === 'AmazonEC2' ? <Instances currency={currency} /> : undefined,
+      groupBy === serviceKey && groupByValue === 'AmazonEC2' ? (
+        <Instances costType={costType} currency={currency} />
+      ) : undefined,
     isAwsEc2InstancesToggleEnabled: FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
