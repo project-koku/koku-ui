@@ -13,7 +13,7 @@ import { Actions } from 'routes/details/components/actions';
 import { TagLink } from 'routes/details/components/tag';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { formatCurrency } from 'utils/format';
+import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 interface InstancesTableOwnProps {
   filterBy?: any;
@@ -35,6 +35,7 @@ type InstancesTableProps = InstancesTableOwnProps;
 
 export const InstanceTableColumnIds = {
   memory: 'memory',
+  usage: 'usage',
   vcpu: 'vcpu',
 };
 
@@ -103,13 +104,16 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       {
         id: InstanceTableColumnIds.vcpu,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'vcpu' }),
-        orderBy: 'vcpu',
         style: styles.managedColumn,
       },
       {
         id: InstanceTableColumnIds.memory,
-        orderBy: 'memory',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'memory' }),
+        style: styles.managedColumn,
+      },
+      {
+        id: InstanceTableColumnIds.usage,
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'usage' }),
         style: styles.managedColumn,
       },
       {
@@ -152,16 +156,22 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
           { value: item.region ? item.region : null },
           {
             value: item.vcpu ? item.vcpu : '',
-            // value: intl.formatMessage(messages.valueUnits, {
-            //   value: item.vcpu ? item.vcpu.value : '',
-            //   units: item.vcpu ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.vcpu.units) }) : null,
-            // }),
             id: InstanceTableColumnIds.vcpu,
             style: styles.managedColumn,
           },
           {
             value: item.memory ? item.memory : '', // Not translatable
             id: InstanceTableColumnIds.memory,
+            style: styles.managedColumn,
+          },
+          {
+            value: intl.formatMessage(messages.valueUnits, {
+              value: item.usage ? formatUnits(item.usage.value, item.usage.units) : '',
+              units: item.usage
+                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.usage.units) })
+                : null,
+            }),
+            id: InstanceTableColumnIds.usage,
             style: styles.managedColumn,
           },
           { value: cost, style: styles.managedColumn },

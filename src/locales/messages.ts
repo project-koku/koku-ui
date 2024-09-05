@@ -1335,6 +1335,7 @@ export default defineMessages({
       'tag {Tag names} ' +
       'tags {Tags} ' +
       'tag_key {Tag keys} ' +
+      'usage {Usage} ' +
       'vcpu {vCPU} ' +
       'other {}}',
     description: 'Details table resource names',
