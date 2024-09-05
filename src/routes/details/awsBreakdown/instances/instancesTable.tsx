@@ -113,8 +113,10 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       },
       {
         id: InstanceTableColumnIds.usage,
+        orderBy: 'usage',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'usage' }),
         style: styles.managedColumn,
+        ...(computedItems.length && { isSortable: true }),
       },
       {
         orderBy: 'cost',
