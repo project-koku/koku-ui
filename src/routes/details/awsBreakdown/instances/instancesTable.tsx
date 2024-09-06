@@ -129,8 +129,8 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       },
     ];
 
-    computedItems.map((item, index) => {
-      const cost = getTotalCost(item, index);
+    computedItems.map(item => {
+      const cost = getTotalCost(item);
       const actions = getActions(item);
 
       newRows.push({
@@ -208,19 +208,10 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     );
   };
 
-  const getTotalCost = (item: ComputedReportItem, index: number) => {
-    const cost = report?.meta?.total?.cost?.total ? report.meta.total.cost.total.value : 0;
+  const getTotalCost = (item: ComputedReportItem) => {
     const value = item.cost?.total?.value || 0;
     const units = item.cost?.total?.units || 'USD';
-    const percentValue = cost === 0 ? cost.toFixed(2) : ((value / cost) * 100).toFixed(2);
-    return (
-      <>
-        {formatCurrency(value, units)}
-        <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {intl.formatMessage(messages.percentOfCost, { value: percentValue })}
-        </div>
-      </>
-    );
+    return formatCurrency(value, units);
   };
 
   const handleOnSort = (sortType: string, isSortAscending: boolean) => {
