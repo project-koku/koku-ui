@@ -253,7 +253,7 @@
   "distributePlatformCosts": "{value, select, true {Distribute platform costs}false {Do not distribute platform costs}other {}}",
   "distributeStorage": "Storage",
   "distributeUnallocatedCapacity": "{value, select, true {Distribute worker unallocated capacity}false {Do not distribute worker unallocated capacity}other {}}",
-  "distributeWorker": "Worker unallowcated (unused and non-reserved resources)",
+  "distributeWorker": "Worker unallocated (unused and non-reserved resources)",
   "distributionModelDesc": "Choose how your raw costs are distributed at the project level.",
   "distributionType": "Distribution type",
   "distributionTypeDesc": "{type, select, cpu {Distribute costs based on CPU usage}memory {Distribute costs based on memory usage}other {}}",
