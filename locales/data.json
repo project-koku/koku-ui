@@ -3752,7 +3752,7 @@
     "distributeWorker": [
       {
         "type": 0,
-        "value": "Worker unallowcated (unused and non-reserved resources)"
+        "value": "Worker unallocated (unused and non-reserved resources)"
       }
     ],
     "distributionModelDesc": [
