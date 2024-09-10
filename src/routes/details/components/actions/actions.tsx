@@ -17,6 +17,7 @@ import { withRouter } from 'utils/router';
 interface DetailsActionsOwnProps extends WrappedComponentProps, RouterComponentProps {
   groupBy?: string;
   isDisabled?: boolean;
+  isTimeScoped?: boolean;
   item: ComputedReportItem;
   reportPathsType: ReportPathsType;
   reportQueryString: string;
@@ -52,7 +53,8 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
   }
 
   private getExportModal = () => {
-    const { groupBy, item, reportPathsType, reportQueryString, reportType, showAggregateType } = this.props;
+    const { groupBy, isTimeScoped, item, reportPathsType, reportQueryString, reportType, showAggregateType } =
+      this.props;
     const { isExportModalOpen } = this.state;
 
     return (
@@ -60,6 +62,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
         count={1}
         groupBy={groupBy}
         isOpen={isExportModalOpen}
+        isTimeScoped={isTimeScoped}
         items={[item]}
         onClose={this.handleExportModalClose}
         reportPathsType={reportPathsType}

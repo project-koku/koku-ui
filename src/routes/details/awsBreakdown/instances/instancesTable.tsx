@@ -197,9 +197,10 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     // There is no group by for instances, but we use it to format messages
     return (
       <Actions
-        groupBy={'instance'}
+        groupBy={'resource_id'}
         isDisabled={isDisabled}
         item={item}
+        isTimeScoped
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}
