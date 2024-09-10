@@ -4,7 +4,7 @@ import { Label, Tooltip } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import type { Query } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
-import { ReportPathsType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -373,6 +373,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         item={item}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={ReportType.cost}
         showPriceListOption={groupBy === 'cluster'}
       />
     );
