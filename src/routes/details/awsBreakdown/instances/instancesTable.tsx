@@ -13,7 +13,7 @@ import { Actions } from 'routes/details/components/actions';
 import { TagLink } from 'routes/details/components/tag';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { formatCurrency } from 'utils/format';
+import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 interface InstancesTableOwnProps {
   filterBy?: any;
@@ -35,6 +35,7 @@ type InstancesTableProps = InstancesTableOwnProps;
 
 export const InstanceTableColumnIds = {
   memory: 'memory',
+  usage: 'usage',
   vcpu: 'vcpu',
 };
 
@@ -103,14 +104,17 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       {
         id: InstanceTableColumnIds.vcpu,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'vcpu' }),
-        orderBy: 'vcpu',
         style: styles.managedColumn,
-        ...(computedItems.length && { isSortable: true }),
       },
       {
         id: InstanceTableColumnIds.memory,
-        orderBy: 'memory',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'memory' }),
+        style: styles.managedColumn,
+      },
+      {
+        id: InstanceTableColumnIds.usage,
+        orderBy: 'usage',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'usage' }),
         style: styles.managedColumn,
         ...(computedItems.length && { isSortable: true }),
       },
@@ -125,8 +129,8 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       },
     ];
 
-    computedItems.map((item, index) => {
-      const cost = getTotalCost(item, index);
+    computedItems.map(item => {
+      const cost = getTotalCost(item);
       const actions = getActions(item);
 
       newRows.push({
@@ -154,16 +158,22 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
           { value: item.region ? item.region : null },
           {
             value: item.vcpu ? item.vcpu : '',
-            // value: intl.formatMessage(messages.valueUnits, {
-            //   value: item.vcpu ? item.vcpu.value : '',
-            //   units: item.vcpu ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.vcpu.units) }) : null,
-            // }),
             id: InstanceTableColumnIds.vcpu,
             style: styles.managedColumn,
           },
           {
             value: item.memory ? item.memory : '', // Not translatable
             id: InstanceTableColumnIds.memory,
+            style: styles.managedColumn,
+          },
+          {
+            value: intl.formatMessage(messages.valueUnits, {
+              value: item.usage ? formatUnits(item.usage.value, item.usage.units) : '',
+              units: item.usage
+                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.usage.units) })
+                : null,
+            }),
+            id: InstanceTableColumnIds.usage,
             style: styles.managedColumn,
           },
           { value: cost, style: styles.managedColumn },
@@ -187,9 +197,10 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     // There is no group by for instances, but we use it to format messages
     return (
       <Actions
-        groupBy={'instance'}
+        groupBy={'resource_id'}
         isDisabled={isDisabled}
         item={item}
+        isTimeScoped
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}
@@ -198,19 +209,10 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     );
   };
 
-  const getTotalCost = (item: ComputedReportItem, index: number) => {
-    const cost = report?.meta?.total?.cost?.total ? report.meta.total.cost.total.value : 0;
+  const getTotalCost = (item: ComputedReportItem) => {
     const value = item.cost?.total?.value || 0;
     const units = item.cost?.total?.units || 'USD';
-    const percentValue = cost === 0 ? cost.toFixed(2) : ((value / cost) * 100).toFixed(2);
-    return (
-      <>
-        {formatCurrency(value, units)}
-        <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {intl.formatMessage(messages.percentOfCost, { value: percentValue })}
-        </div>
-      </>
-    );
+    return formatCurrency(value, units);
   };
 
   const handleOnSort = (sortType: string, isSortAscending: boolean) => {

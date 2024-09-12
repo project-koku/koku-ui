@@ -2,7 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import type { Query } from 'api/queries/query';
 import type { GcpReport } from 'api/reports/gcpReports';
-import { ReportPathsType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -194,6 +194,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         item={item}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
+        reportType={ReportType.cost}
       />
     );
   };

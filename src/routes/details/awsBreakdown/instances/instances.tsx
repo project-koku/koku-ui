@@ -32,6 +32,7 @@ import { InstancesTable, InstanceTableColumnIds } from './instancesTable';
 import { InstancesToolbar } from './instancesToolbar';
 
 interface InstancesOwnProps {
+  costType?: string;
   currency?: string;
 }
 
@@ -70,12 +71,17 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
     value: InstanceTableColumnIds.memory,
     hidden: true,
   },
+  {
+    label: messages.usage,
+    value: InstanceTableColumnIds.usage,
+    hidden: true,
+  },
 ];
 
 const reportType = ReportType.ec2Compute;
 const reportPathsType = ReportPathsType.aws;
 
-const Instances: React.FC<InstancesProps> = ({ currency }) => {
+const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   const intl = useIntl();
 
   const [hiddenColumns, setHiddenColumns] = useState(initHiddenColumns(defaultColumnOptions));
@@ -87,6 +93,7 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
   const [query, setQuery] = useState({ ...baseQuery });
   const { hasAccountFilter, hasRegionFilter, hasTagFilter, report, reportError, reportFetchStatus, reportQueryString } =
     useMapToProps({
+      costType,
       currency,
       query,
     });
@@ -322,12 +329,13 @@ const Instances: React.FC<InstancesProps> = ({ currency }) => {
   );
 };
 
-const useMapToProps = ({ currency, query }): InstancesStateProps => {
+const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState('details');
 
   const reportQuery = {
+    cost_type: costType,
     currency,
     filter: {
       ...(query.filter || baseQuery.filter),
@@ -366,7 +374,7 @@ const useMapToProps = ({ currency, query }): InstancesStateProps => {
     if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
-  }, [currency, query]);
+  }, [costType, currency, query]);
 
   return {
     hasAccountFilter:

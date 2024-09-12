@@ -291,6 +291,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       detailsURL,
       emptyStateTitle,
       groupBy,
+      optimizationsComponent,
       providers,
       providersFetchStatus,
       providerType,
@@ -325,6 +326,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         return <NoData title={title} />;
       }
     }
+
     return (
       <>
         <BreakdownHeader
@@ -347,9 +349,9 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
           query={query}
           report={report}
-          showCostDistribution={showCostDistribution && activeTabKey !== 2}
+          showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 2)}
           showCostType={showCostType}
-          showCurrency={activeTabKey !== 2}
+          showCurrency={!(optimizationsComponent && activeTabKey === 2)}
           tabs={this.getTabs(availableTabs)}
           tagPathsType={tagPathsType}
           title={title}
