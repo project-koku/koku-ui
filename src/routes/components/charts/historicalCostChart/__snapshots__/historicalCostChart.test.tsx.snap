@@ -28,17 +28,17 @@ exports[`null previous and current reports are handled 1`] = `
           <svg
             height="100"
             role="img"
-            style="pointer-events: all; width: 100%; height: 100%;"
+            style="width: 100%; height: 100%; pointer-events: all;"
             viewBox="0 0 0 100"
             width="0"
           >
             <g
-              clip-path="url(#victory-clip-13)"
+              clip-path="url(#victory-clip-9)"
               style="height: 100%; width: 100%; user-select: none;"
             >
               <defs>
                 <clippath
-                  id="victory-clip-13"
+                  id="victory-clip-9"
                 >
                   <rect
                     height="17"
@@ -65,12 +65,12 @@ exports[`null previous and current reports are handled 1`] = `
               </g>
             </g>
             <g
-              clip-path="url(#victory-clip-15)"
+              clip-path="url(#victory-clip-11)"
               style="height: 100%; width: 100%; user-select: none;"
             >
               <defs>
                 <clippath
-                  id="victory-clip-15"
+                  id="victory-clip-11"
                 >
                   <rect
                     height="17"
@@ -336,10 +336,10 @@ exports[`null previous and current reports are handled 1`] = `
                 vector-effect="non-scaling-stroke"
                 width="79.2"
                 x="0"
-                y="67"
+                y="57"
               />
               <path
-                d="M 7.84, 83.156
+                d="M 7.84, 73.156
       h12.32
       v-4.312
       h-12.32
@@ -349,7 +349,7 @@ exports[`null previous and current reports are handled 1`] = `
                 style="fill: #8bc1f7;"
               />
               <path
-                d="M 47.44, 83.156
+                d="M 47.44, 73.156
       h12.320000000000007
       v-4.312
       h-12.320000000000007
@@ -363,7 +363,7 @@ exports[`null previous and current reports are handled 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
-                y="85.97"
+                y="75.97"
               >
                 <tspan
                   dx="0"
@@ -380,7 +380,7 @@ exports[`null previous and current reports are handled 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-1"
                 x="70.39999999999999"
-                y="85.97"
+                y="75.97"
               >
                 <tspan
                   dx="0"
@@ -395,11 +395,11 @@ exports[`null previous and current reports are handled 1`] = `
             </g>
           </svg>
           <div
-            style="z-index: 99; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+            style="width: 100%; height: 100%; z-index: 99; position: absolute; top: 0px; left: 0px;"
           >
             <svg
               height="100"
-              style="overflow: visible; width: 100%; height: 100%;"
+              style="width: 100%; height: 100%; overflow: visible;"
               viewBox="0 0 0 100"
               width="0"
             />
@@ -439,17 +439,17 @@ exports[`reports are formatted to datums 1`] = `
           <svg
             height="100"
             role="img"
-            style="pointer-events: all; width: 100%; height: 100%;"
+            style="width: 100%; height: 100%; pointer-events: all;"
             viewBox="0 0 0 100"
             width="0"
           >
             <g
-              clip-path="url(#victory-clip-5)"
+              clip-path="url(#victory-clip-3)"
               style="height: 100%; width: 100%; user-select: none;"
             >
               <defs>
                 <clippath
-                  id="victory-clip-5"
+                  id="victory-clip-3"
                 >
                   <rect
                     height="17"
@@ -476,12 +476,12 @@ exports[`reports are formatted to datums 1`] = `
               </g>
             </g>
             <g
-              clip-path="url(#victory-clip-7)"
+              clip-path="url(#victory-clip-5)"
               style="height: 100%; width: 100%; user-select: none;"
             >
               <defs>
                 <clippath
-                  id="victory-clip-7"
+                  id="victory-clip-5"
                 >
                   <rect
                     height="17"
@@ -705,10 +705,10 @@ exports[`reports are formatted to datums 1`] = `
                 vector-effect="non-scaling-stroke"
                 width="79.2"
                 x="0"
-                y="67"
+                y="57"
               />
               <path
-                d="M 7.84, 83.156
+                d="M 7.84, 73.156
       h12.32
       v-4.312
       h-12.32
@@ -718,7 +718,7 @@ exports[`reports are formatted to datums 1`] = `
                 style="fill: #8bc1f7;"
               />
               <path
-                d="M 47.44, 83.156
+                d="M 47.44, 73.156
       h12.320000000000007
       v-4.312
       h-12.320000000000007
@@ -732,7 +732,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
-                y="85.97"
+                y="75.97"
               >
                 <tspan
                   dx="0"
@@ -749,7 +749,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-1"
                 x="70.39999999999999"
-                y="85.97"
+                y="75.97"
               >
                 <tspan
                   dx="0"
@@ -764,11 +764,11 @@ exports[`reports are formatted to datums 1`] = `
             </g>
           </svg>
           <div
-            style="z-index: 99; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+            style="width: 100%; height: 100%; z-index: 99; position: absolute; top: 0px; left: 0px;"
           >
             <svg
               height="100"
-              style="overflow: visible; width: 100%; height: 100%;"
+              style="width: 100%; height: 100%; overflow: visible;"
               viewBox="0 0 0 100"
               width="0"
             />
