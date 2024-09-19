@@ -65,4 +65,4 @@ parameters:
   - name: IMAGE_TAG
     required: true
   - name: IMAGE
-    value: quay.io/cloudservices/hccm-frontend
+    value: quay.io/redhat-services-prod/cost-mgmt-dev-tenant/koku-frontend
