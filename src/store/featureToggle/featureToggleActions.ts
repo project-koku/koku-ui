@@ -7,6 +7,7 @@ export interface FeatureToggleActionMeta {
   isExportsToggleEnabled?: boolean;
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
+  isOcpCloudGroupBysToggleEnabled?: boolean;
   isOcpCloudNetworkingToggleEnabled?: boolean;
   isOcpProjectStorageToggleEnabled?: boolean;
   isRosToggleEnabled?: boolean;
