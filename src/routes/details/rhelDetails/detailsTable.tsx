@@ -191,11 +191,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     computedItems.map((item, index) => {
       const cost = this.getTotalCost(item, index);
-      const label = item && item.label !== null ? item.label : '';
+      const label = item?.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const desc = item?.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
       const actions = this.getActions(item, isDisabled);
 
@@ -228,8 +228,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           {
             value: (
               <>
-                <div>{name}</div>
-                <div style={styles.infoDescription}>{desc}</div>
+                {name}
+                {desc}
               </>
             ),
           },

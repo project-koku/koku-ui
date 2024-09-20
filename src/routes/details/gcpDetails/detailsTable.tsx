@@ -127,10 +127,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     computedItems.map((item, index) => {
       const cost = this.getTotalCost(item, index);
-      const label = item && item.label !== null ? item.label : '';
+      const label = item?.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
-      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const desc = item?.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const actions = this.getActions(item, isDisabled);
 
       const name = isDisabled ? (
@@ -161,10 +161,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           {}, // Empty cell for row selection
           {
             value: (
-              <div>
+              <>
                 {name}
                 {desc}
-              </div>
+              </>
             ),
           },
           { value: monthOverMonth },
