@@ -195,6 +195,9 @@ spec:
 
           - name: pathInRepo
             value: tasks/parse-build-deploy-script/parse-build-deploy-script.yaml
+      workspaces:
+        - name: source
+          workspace: workspace
       runAfter:
         - clone-repository
 
@@ -249,6 +252,9 @@ spec:
 
           - name: pathInRepo
             value: tasks/create-frontend-dockerfile/create-frontend-dockerfile.yaml
+      workspaces:
+        - name: source
+          workspace: workspace
       runAfter:
         - parse-build-deploy-script
 
