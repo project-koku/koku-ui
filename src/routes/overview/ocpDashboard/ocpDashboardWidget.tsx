@@ -5,7 +5,6 @@ import { DashboardWidgetBase } from 'routes/overview/components';
 import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { createMapStateToProps } from 'store/common';
 import { ocpDashboardActions, ocpDashboardSelectors, OcpDashboardTab } from 'store/dashboard/ocpDashboard';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { getCurrency } from 'utils/sessionStorage';
@@ -112,9 +111,6 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
             queries.tabs
           ),
         }),
-      ...(widget.details.showOptimizations && {
-        isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
-      }),
     };
   }
 );

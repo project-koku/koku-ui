@@ -34,7 +34,6 @@ interface PermissionsOwnProps extends ChromeComponentProps {
 interface PermissionsStateProps {
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
-  isRosToggleEnabled?: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -48,7 +47,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   // chrome,
   isFinsightsToggleEnabled,
   isIbmToggleEnabled,
-  isRosToggleEnabled,
   userAccess,
   userAccessError,
   userAccessFetchStatus,
@@ -66,7 +64,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const oci = hasOciAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsToggleEnabled && hasRhelAccess(userAccess);
-    const ros = isRosToggleEnabled && hasRosAccess(userAccess);
+    const ros = hasRosAccess(userAccess);
     const settings = costModel || hasSettingsAccess(userAccess);
 
     switch (pathname) {
@@ -135,7 +133,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   return {
     isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
     isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
-    isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     userAccess,
     userAccessError,
     userAccessFetchStatus,
