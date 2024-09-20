@@ -8,9 +8,6 @@ export interface FeatureToggleActionMeta {
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
   isOcpCloudGroupBysToggleEnabled?: boolean;
-  isOcpCloudNetworkingToggleEnabled?: boolean;
-  isOcpProjectStorageToggleEnabled?: boolean;
-  isRosToggleEnabled?: boolean;
 }
 
 export const setFeatureToggle = createAction('feature/init_feature_toggle')<FeatureToggleActionMeta>();

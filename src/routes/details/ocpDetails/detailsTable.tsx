@@ -40,7 +40,6 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
-  isRosToggleEnabled?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
@@ -100,7 +99,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       hiddenColumns,
       intl,
       isAllSelected,
-      isRosToggleEnabled,
       query,
       report,
       router,
@@ -133,7 +131,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             name: '', // Default & Overhead column
           },
           {
-            hidden: !(isGroupByProject && isRosToggleEnabled),
+            hidden: !isGroupByProject,
             name: intl.formatMessage(messages.optimizations),
           },
           {
@@ -174,7 +172,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             name: '', // Default & Overhead column
           },
           {
-            hidden: !(isGroupByProject && isRosToggleEnabled),
+            hidden: !isGroupByProject,
             name: intl.formatMessage(messages.optimizations),
           },
           {
@@ -304,7 +302,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             ),
           },
           {
-            hidden: !(isGroupByProject && isRosToggleEnabled),
+            hidden: !isGroupByProject,
             value: !isPlatformProject && !isDisabled && (
               <AsyncComponent
                 scope="costManagementMfe"

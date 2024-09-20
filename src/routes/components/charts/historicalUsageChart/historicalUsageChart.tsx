@@ -405,7 +405,12 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
                 series.map((s, index) => {
                   return this.getChart(s, index);
                 })}
-              <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis
+                label={xAxisLabel}
+                style={chartStyles.xAxis}
+                tickValues={[1, midDate, endDate]}
+                fixAxisLabelHeight
+              />
               <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
             </Chart>
           </div>

@@ -18,7 +18,6 @@ import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
@@ -125,7 +124,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       <HistoricalData costDistribution={costDistribution} currency={currency} groupBy={groupBy} />
     ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
-    isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,

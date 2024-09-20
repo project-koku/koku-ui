@@ -28,7 +28,6 @@ import { connect } from 'react-redux';
 import { RateTable } from 'routes/settings/costModels/components/rateTable';
 import { WarningIcon } from 'routes/settings/costModels/components/warningIcon';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { CostModelContext } from './context';
 
@@ -67,17 +66,12 @@ interface ReviewDetailsOwnProps extends WrappedComponentProps {
 }
 
 interface ReviewDetailsStateProps {
-  isOcpCloudNetworkingToggleEnabled?: boolean;
-  isOcpProjectStorageToggleEnabled?: boolean;
+  // TBD...
 }
 
 type ReviewDetailsProps = ReviewDetailsOwnProps & ReviewDetailsStateProps;
 
-const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({
-  intl,
-  isOcpCloudNetworkingToggleEnabled,
-  isOcpProjectStorageToggleEnabled,
-}) => (
+const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({
       checked,
@@ -172,22 +166,18 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({
                           value: distributeWorkerUnallocated,
                         })}
                       </TextListItem>
-                      {isOcpCloudNetworkingToggleEnabled && (
-                        <TextListItem component={TextListItemVariants.dd}>
-                          {intl.formatMessage(messages.distributeCosts, {
-                            value: distributeNetwork,
-                            type: 'network',
-                          })}
-                        </TextListItem>
-                      )}
-                      {isOcpProjectStorageToggleEnabled && (
-                        <TextListItem component={TextListItemVariants.dd}>
-                          {intl.formatMessage(messages.distributeCosts, {
-                            value: distributeStorage,
-                            type: 'storage',
-                          })}
-                        </TextListItem>
-                      )}
+                      <TextListItem component={TextListItemVariants.dd}>
+                        {intl.formatMessage(messages.distributeCosts, {
+                          value: distributeNetwork,
+                          type: 'network',
+                        })}
+                      </TextListItem>
+                      <TextListItem component={TextListItemVariants.dd}>
+                        {intl.formatMessage(messages.distributeCosts, {
+                          value: distributeStorage,
+                          type: 'storage',
+                        })}
+                      </TextListItem>
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
@@ -209,10 +199,9 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({
   </CostModelContext.Consumer>
 );
 
-const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(state => {
+const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(() => {
   return {
-    isOcpCloudNetworkingToggleEnabled: FeatureToggleSelectors.selectIsOcpCloudNetworkingToggleEnabled(state),
-    isOcpProjectStorageToggleEnabled: FeatureToggleSelectors.selectIsOcpProjectStorageToggleEnabled(state),
+    // TBD...
   };
 });
 

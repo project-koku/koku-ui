@@ -336,10 +336,10 @@ exports[`null previous and current reports are handled 1`] = `
                 vector-effect="non-scaling-stroke"
                 width="79.2"
                 x="0"
-                y="57"
+                y="67"
               />
               <path
-                d="M 7.84, 73.156
+                d="M 7.84, 83.156
       h12.32
       v-4.312
       h-12.32
@@ -349,7 +349,7 @@ exports[`null previous and current reports are handled 1`] = `
                 style="fill: #8bc1f7;"
               />
               <path
-                d="M 47.44, 73.156
+                d="M 47.44, 83.156
       h12.320000000000007
       v-4.312
       h-12.320000000000007
@@ -363,7 +363,7 @@ exports[`null previous and current reports are handled 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
-                y="75.97"
+                y="85.97"
               >
                 <tspan
                   dx="0"
@@ -380,7 +380,7 @@ exports[`null previous and current reports are handled 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-1"
                 x="70.39999999999999"
-                y="75.97"
+                y="85.97"
               >
                 <tspan
                   dx="0"
@@ -705,10 +705,10 @@ exports[`reports are formatted to datums 1`] = `
                 vector-effect="non-scaling-stroke"
                 width="79.2"
                 x="0"
-                y="57"
+                y="67"
               />
               <path
-                d="M 7.84, 73.156
+                d="M 7.84, 83.156
       h12.32
       v-4.312
       h-12.32
@@ -718,7 +718,7 @@ exports[`reports are formatted to datums 1`] = `
                 style="fill: #8bc1f7;"
               />
               <path
-                d="M 47.44, 73.156
+                d="M 47.44, 83.156
       h12.320000000000007
       v-4.312
       h-12.320000000000007
@@ -732,7 +732,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-0"
                 x="30.8"
-                y="75.97"
+                y="85.97"
               >
                 <tspan
                   dx="0"
@@ -749,7 +749,7 @@ exports[`reports are formatted to datums 1`] = `
                 dx="0"
                 id="exampleCostChart-legend-ChartLabel-1"
                 x="70.39999999999999"
-                y="75.97"
+                y="85.97"
               >
                 <tspan
                   dx="0"

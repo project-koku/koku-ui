@@ -16,7 +16,6 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Form } from 'routes/settings/costModels/components/forms/form';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
@@ -26,15 +25,14 @@ interface DistributionOwnProps extends WrappedComponentProps {
 }
 
 interface DistributionStateProps {
-  isOcpCloudNetworkingToggleEnabled?: boolean;
-  isOcpProjectStorageToggleEnabled?: boolean;
+  // TBD...
 }
 
 type DistributionProps = DistributionOwnProps & DistributionStateProps;
 
 class DistributionBase extends React.Component<DistributionProps, DistributionStateProps> {
   public render() {
-    const { isOcpCloudNetworkingToggleEnabled, isOcpProjectStorageToggleEnabled, intl } = this.props;
+    const { intl } = this.props;
 
     return (
       <CostModelContext.Consumer>
@@ -114,24 +112,20 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       label={intl.formatMessage(messages.distributeWorker)}
                       onChange={handleDistributeWorkerUnallocatedChange}
                     />
-                    {isOcpCloudNetworkingToggleEnabled && (
-                      <Checkbox
-                        aria-label={intl.formatMessage(messages.distributeNetwork)}
-                        id="distribute-network"
-                        isChecked={distributeNetwork}
-                        label={intl.formatMessage(messages.distributeNetwork)}
-                        onChange={handleDistributeNetworkChange}
-                      />
-                    )}
-                    {isOcpProjectStorageToggleEnabled && (
-                      <Checkbox
-                        aria-label={intl.formatMessage(messages.distributeStorage)}
-                        id="distribute-storage"
-                        isChecked={distributeStorage}
-                        label={intl.formatMessage(messages.distributeStorage)}
-                        onChange={handleDistributeStorageChange}
-                      />
-                    )}
+                    <Checkbox
+                      aria-label={intl.formatMessage(messages.distributeNetwork)}
+                      id="distribute-network"
+                      isChecked={distributeNetwork}
+                      label={intl.formatMessage(messages.distributeNetwork)}
+                      onChange={handleDistributeNetworkChange}
+                    />
+                    <Checkbox
+                      aria-label={intl.formatMessage(messages.distributeStorage)}
+                      id="distribute-storage"
+                      isChecked={distributeStorage}
+                      label={intl.formatMessage(messages.distributeStorage)}
+                      onChange={handleDistributeStorageChange}
+                    />
                   </FormGroup>
                 </Form>
               </StackItem>
@@ -143,10 +137,9 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
   }
 }
 
-const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(state => {
+const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(() => {
   return {
-    isOcpCloudNetworkingToggleEnabled: FeatureToggleSelectors.selectIsOcpCloudNetworkingToggleEnabled(state),
-    isOcpProjectStorageToggleEnabled: FeatureToggleSelectors.selectIsOcpProjectStorageToggleEnabled(state),
+    // TBD...
   };
 });
 

@@ -12,9 +12,6 @@ export const enum FeatureToggle {
   finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
   ocpCloudGroupBys = 'cost-management.ui.ocp-cloud-group-bys', // https://issues.redhat.com/browse/COST-5514
-  ocpCloudNetworking = 'cost-management.ui.ocp-cloud-networking', // https://issues.redhat.com/browse/COST-4781
-  ocpProjectStorage = 'cost-management.ui.ocp-project-storage', // https://issues.redhat.com/browse/COST-4856
-  ros = 'cost-management.ui.ros', // ROS support https://issues.redhat.com/browse/COST-3477
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
@@ -50,18 +47,6 @@ export const useIsOcpCloudGroupBysToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.ocpCloudGroupBys);
 };
 
-export const useIsOcpCloudNetworkingToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.ocpCloudNetworking);
-};
-
-export const useIsOcpProjectStorageToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.ocpProjectStorage);
-};
-
-export const useIsRosToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.ros);
-};
-
 // The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
 export const useFeatureToggle = () => {
   const dispatch = useDispatch();
@@ -74,9 +59,6 @@ export const useFeatureToggle = () => {
   const isFinsightsToggleEnabled = useIsFinsightsToggleEnabled();
   const isIbmToggleEnabled = useIsIbmToggleEnabled();
   const isOcpCloudGroupBysToggleEnabled = useIsOcpCloudGroupBysToggleEnabled();
-  const isOcpCloudNetworkingToggleEnabled = useIsOcpCloudNetworkingToggleEnabled();
-  const isOcpProjectStorageToggleEnabled = useIsOcpProjectStorageToggleEnabled();
-  const isRosToggleEnabled = useIsRosToggleEnabled();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -95,9 +77,6 @@ export const useFeatureToggle = () => {
         isFinsightsToggleEnabled,
         isIbmToggleEnabled,
         isOcpCloudGroupBysToggleEnabled,
-        isOcpCloudNetworkingToggleEnabled,
-        isOcpProjectStorageToggleEnabled,
-        isRosToggleEnabled,
       })
     );
     if (isDebugToggleEnabled) {
@@ -112,9 +91,6 @@ export const useFeatureToggle = () => {
     isFinsightsToggleEnabled,
     isIbmToggleEnabled,
     isOcpCloudGroupBysToggleEnabled,
-    isOcpCloudNetworkingToggleEnabled,
-    isOcpProjectStorageToggleEnabled,
-    isRosToggleEnabled,
   ]);
 };
 
