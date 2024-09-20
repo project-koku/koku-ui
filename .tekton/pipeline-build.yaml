@@ -147,6 +147,9 @@ spec:
         - name: basic-auth
           workspace: git-auth
 
+        - name: output
+          workspace: workspace
+
     - name: prefetch-dependencies
       params:
         - name: input
@@ -188,10 +191,10 @@ spec:
         resolver: git
         params:
           - name: url
-            value: https://github.com/RedHatInsights/konflux-consoledot-frontend-build
+            value: https://github.com/samdoran/konflux-consoledot-frontend-build
 
           - name: revision
-            value: c0ff4861d5aa77584f51576b65f2eb9e12e1ded8
+            value: testing
 
           - name: pathInRepo
             value: tasks/parse-build-deploy-script/parse-build-deploy-script.yaml
