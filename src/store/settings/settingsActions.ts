@@ -1,5 +1,5 @@
+import { addNotification } from '@ausuliv/frontend-components-notifications/redux';
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import type { Settings, SettingsPayload } from 'api/settings';
 import { fetchSettings as apiFetchSettings, SettingsType, updateSettings as apiUpdateSettings } from 'api/settings';
 import type { AxiosError } from 'axios';

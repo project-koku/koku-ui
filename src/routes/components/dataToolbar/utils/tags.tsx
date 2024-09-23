@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
@@ -56,7 +56,7 @@ export const getTagKeySelect = ({
 export const getTagKeyOptions = (
   tagReport: Tag,
   isSelectWrapperOption = false
-): ToolbarChipGroup[] | SelectWrapperOption[] => {
+): ToolbarLabelGroup[] | SelectWrapperOption[] => {
   let data = [];
   let options = [];
 
@@ -124,7 +124,7 @@ export const getTagValueSelect = ({
   onTagValueSelect?: (event: any, selection) => void;
   onTagValueInput?: (event: any) => void;
   onTagValueInputChange?: (value: string) => void;
-  tagKeyOption?: ToolbarChipGroup;
+  tagKeyOption?: ToolbarLabelGroup;
   tagPathsType?: TagPathsType;
   tagKeyValueInput?: string;
 }) => {
@@ -137,8 +137,8 @@ export const getTagValueSelect = ({
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      chips={getChips(filters?.tag?.[tagKeyOption.key])}
-      deleteChip={onDelete}
+      labels={getChips(filters?.tag?.[tagKeyOption.key])}
+      deleteLabel={onDelete}
       key={tagKeyOption.key}
       showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
     >

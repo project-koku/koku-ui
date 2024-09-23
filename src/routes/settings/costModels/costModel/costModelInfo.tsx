@@ -1,13 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  Grid,
-  GridItem,
-  PageSection,
-  TabContent,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, Grid, GridItem, PageSection, TabContent } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { CostModel } from 'api/costModels';
@@ -31,7 +22,6 @@ import { rbacActions, rbacSelectors } from 'store/rbac';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-import { styles } from './costModelInfo.styles';
 import Header from './header';
 
 interface CostModelInfoOwnProps {
@@ -90,20 +80,17 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
               <PageHeader>
                 <PageHeaderTitle title={intl.formatMessage(messages.costModels)} />
               </PageHeader>
-              <PageSection>
-                <EmptyState>
-                  <EmptyStateHeader
-                    titleText={intl.formatMessage(messages.costModelsUUIDEmptyState)}
-                    icon={<EmptyStateIcon icon={ErrorCircleOIcon} />}
-                    headingLevel="h2"
-                  />
-                  <EmptyStateBody>
-                    {intl.formatMessage(messages.costModelsUUIDEmptyStateDesc, {
-                      uuid: this.props.router.params.uuid,
-                    })}
-                  </EmptyStateBody>
-                </EmptyState>
-              </PageSection>
+              <EmptyState
+                headingLevel="h2"
+                icon={ErrorCircleOIcon}
+                titleText={intl.formatMessage(messages.costModelsUUIDEmptyState)}
+              >
+                <EmptyStateBody>
+                  {intl.formatMessage(messages.costModelsUUIDEmptyStateDesc, {
+                    uuid: this.props.router.params.uuid,
+                  })}
+                </EmptyStateBody>
+              </EmptyState>
             </>
           );
         }
@@ -114,20 +101,18 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
     const current = costModels[0];
     const sources = current.sources;
     return (
-      <div>
+      <>
         <Header
           current={current}
           tabRefs={this.tabRefs}
           tabIndex={this.state.tabIndex}
           onSelectTab={tabIndex => this.setState({ tabIndex })}
         />
-        <div style={styles.content}>
+        <PageSection>
           {current.source_type === 'OpenShift Container Platform' ? (
             <>
               <TabContent eventKey={0} id="ref-price-list" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
-                <div style={styles.costmodelsContainer}>
-                  <PriceListTable assignees={sources.map(p => p.name)} costModel={current.name} current={current} />
-                </div>
+                <PriceListTable assignees={sources.map(p => p.name)} costModel={current.name} current={current} />
               </TabContent>
               <TabContent
                 eventKey={1}
@@ -135,39 +120,31 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
                 ref={this.tabRefs[1]}
                 hidden={this.state.tabIndex !== 1}
               >
-                <div style={styles.costCalculation}>
-                  <Grid hasGutter>
-                    <GridItem lg={6} id="ref-markup">
-                      <MarkupCard current={current} />
-                    </GridItem>
-                    <GridItem lg={6} id="ref-distribution">
-                      <DistributionCard current={current} />
-                    </GridItem>
-                  </Grid>
-                </div>
+                <Grid hasGutter>
+                  <GridItem lg={6} id="ref-markup">
+                    <MarkupCard current={current} />
+                  </GridItem>
+                  <GridItem lg={6} id="ref-distribution">
+                    <DistributionCard current={current} />
+                  </GridItem>
+                </Grid>
               </TabContent>
               <TabContent eventKey={3} id="ref-sources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
-                <div style={styles.costmodelsContainer}>
-                  <SourceTable costModel={current} sources={sources} />
-                </div>
+                <SourceTable costModel={current} sources={sources} />
               </TabContent>
             </>
           ) : (
             <>
               <TabContent eventKey={0} id="ref-markup" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
-                <div style={styles.costCalculation}>
-                  <MarkupCard current={current} />
-                </div>
+                <MarkupCard current={current} />
               </TabContent>
               <TabContent eventKey={1} id="ref-sources" ref={this.tabRefs[1]} hidden={this.state.tabIndex !== 1}>
-                <div style={styles.costmodelsContainer}>
-                  <SourceTable costModel={current} sources={sources} />
-                </div>
+                <SourceTable costModel={current} sources={sources} />
               </TabContent>
             </>
           )}
-        </div>
-      </div>
+        </PageSection>
+      </>
     );
   }
 }

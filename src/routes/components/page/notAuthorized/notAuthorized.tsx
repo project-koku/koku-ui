@@ -19,7 +19,7 @@ const NotAuthorized = ({ pathname, title }: NotAuthorizedProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
+      <PageSection hasBodyWrapper={false}>
         <NotAuthorizedState pathname={pathname} />
       </PageSection>
     </>

@@ -10,6 +10,10 @@ import {
   HelperText,
   HelperTextItem,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalVariant,
   Radio,
   TextInput,
 } from '@patternfly/react-core';
@@ -192,13 +196,117 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     const validated = helpText ? 'error' : 'default';
 
     return (
-      <Modal
-        style={styles.modal}
-        isOpen={this.props.isOpen}
-        onClose={this.handleOnClose}
-        title={intl.formatMessage(messages.exportTitle)}
-        variant="small"
-        actions={[
+      <Modal style={styles.modal} isOpen={this.props.isOpen} onClose={this.handleOnClose} variant={ModalVariant.small}>
+        <ModalHeader title={intl.formatMessage(messages.exportTitle)} />
+        <ModalBody>
+          {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.exportError)} />}
+          <div style={styles.title}>
+            {isExportsToggleEnabled ? (
+              <span>
+                {intl.formatMessage(messages.exportDesc, { value: <b>{intl.formatMessage(messages.exportsTitle)}</b> })}
+              </span>
+            ) : (
+              <span>{intl.formatMessage(messages.exportHeading, { groupBy })}</span>
+            )}
+          </div>
+          <Form style={styles.form}>
+            <Grid hasGutter md={6}>
+              {isExportsToggleEnabled && (
+                <GridItem span={12}>
+                  <FormGroup fieldId="exportName" label={intl.formatMessage(messages.names, { count: 1 })} isRequired>
+                    <TextInput
+                      isRequired
+                      type="text"
+                      id="exportName"
+                      name="exportName"
+                      value={defaultName}
+                      onChange={this.handleOnNameChange}
+                      validated={validated}
+                    />
+                    {validated === 'error' && (
+                      <HelperText>
+                        <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+                      </HelperText>
+                    )}
+                  </FormGroup>
+                </GridItem>
+              )}
+              {showAggregateType && (
+                <FormGroup fieldId="aggregate-type" label={intl.formatMessage(messages.exportAggregateType)} isRequired>
+                  <React.Fragment>
+                    {resolutionOptions.map((option, index) => (
+                      <Radio
+                        key={index}
+                        id={`resolution-${index}`}
+                        isValid={option.value !== undefined}
+                        label={intl.formatMessage(option.label, { value: option.value })}
+                        value={option.value}
+                        isChecked={resolution === option.value}
+                        name="resolution"
+                        onChange={this.handleOnResolutionChange}
+                        aria-label={intl.formatMessage(option.label, { value: option.value })}
+                      />
+                    ))}
+                  </React.Fragment>
+                </FormGroup>
+              )}
+              {showTimeScope && (
+                <FormGroup fieldId="timeScope" label={intl.formatMessage(messages.exportTimeScopeTitle)} isRequired>
+                  <React.Fragment>
+                    {timeScopeOptions.map((option, index) => (
+                      <Radio
+                        key={index}
+                        id={`timeScope-${index}`}
+                        isValid={option.value !== undefined}
+                        label={intl.formatMessage(option.label, {
+                          date: option.value === 'previous' ? previousMonth : currentMonth,
+                          value: option.value,
+                        })}
+                        value={option.value}
+                        isChecked={timeScope === option.value}
+                        name="timeScope"
+                        onChange={this.handleOnMonthChange}
+                        aria-label={intl.formatMessage(option.label, {
+                          date: option.value === 'previous' ? previousMonth : currentMonth,
+                          value: option.value,
+                        })}
+                      />
+                    ))}
+                  </React.Fragment>
+                </FormGroup>
+              )}
+              {showFormatType && isExportsToggleEnabled && (
+                <GridItem span={12}>
+                  <FormGroup fieldId="formatType" label={intl.formatMessage(messages.exportFormatTypeTitle)} isRequired>
+                    {formatTypeOptions.map((option, index) => (
+                      <Radio
+                        key={index}
+                        id={`formatType-${index}`}
+                        isValid={option.value !== undefined}
+                        label={intl.formatMessage(option.label, { value: option.value })}
+                        value={option.value}
+                        isChecked={formatType === option.value}
+                        name="formatType"
+                        onChange={this.handleOnTypeChange}
+                        aria-label={intl.formatMessage(option.label, { value: option.value })}
+                      />
+                    ))}
+                  </FormGroup>
+                </GridItem>
+              )}
+              <GridItem span={12}>
+                <FormGroup label={selectedLabel} fieldId="selectedLabels">
+                  <ul>
+                    {sortedItems.map((groupItem, index) => {
+                      return <li key={index}>{groupItem.label}</li>;
+                    })}
+                  </ul>
+                </FormGroup>
+              </GridItem>
+            </Grid>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
           <ExportSubmit
             disabled={validated === 'error'}
             formatType={formatType}
@@ -215,118 +323,11 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             reportQueryString={reportQueryString}
             reportType={reportType}
             resolution={resolution}
-          />,
+          />
           <Button ouiaId="cancel-btn" key="cancel" onClick={this.handleOnClose} variant={ButtonVariant.link}>
             {intl.formatMessage(messages.cancel)}
-          </Button>,
-        ]}
-      >
-        {error && <Alert variant="danger" style={styles.alert} title={intl.formatMessage(messages.exportError)} />}
-        <div style={styles.title}>
-          {isExportsToggleEnabled ? (
-            <span>
-              {intl.formatMessage(messages.exportDesc, { value: <b>{intl.formatMessage(messages.exportsTitle)}</b> })}
-            </span>
-          ) : (
-            <span>{intl.formatMessage(messages.exportHeading, { groupBy })}</span>
-          )}
-        </div>
-        <Form style={styles.form}>
-          <Grid hasGutter md={6}>
-            {isExportsToggleEnabled && (
-              <GridItem span={12}>
-                <FormGroup fieldId="exportName" label={intl.formatMessage(messages.names, { count: 1 })} isRequired>
-                  <TextInput
-                    isRequired
-                    type="text"
-                    id="exportName"
-                    name="exportName"
-                    value={defaultName}
-                    onChange={this.handleOnNameChange}
-                    validated={validated}
-                  />
-                  {validated === 'error' && (
-                    <HelperText>
-                      <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
-                    </HelperText>
-                  )}
-                </FormGroup>
-              </GridItem>
-            )}
-            {showAggregateType && (
-              <FormGroup fieldId="aggregate-type" label={intl.formatMessage(messages.exportAggregateType)} isRequired>
-                <React.Fragment>
-                  {resolutionOptions.map((option, index) => (
-                    <Radio
-                      key={index}
-                      id={`resolution-${index}`}
-                      isValid={option.value !== undefined}
-                      label={intl.formatMessage(option.label, { value: option.value })}
-                      value={option.value}
-                      isChecked={resolution === option.value}
-                      name="resolution"
-                      onChange={this.handleOnResolutionChange}
-                      aria-label={intl.formatMessage(option.label, { value: option.value })}
-                    />
-                  ))}
-                </React.Fragment>
-              </FormGroup>
-            )}
-            {showTimeScope && (
-              <FormGroup fieldId="timeScope" label={intl.formatMessage(messages.exportTimeScopeTitle)} isRequired>
-                <React.Fragment>
-                  {timeScopeOptions.map((option, index) => (
-                    <Radio
-                      key={index}
-                      id={`timeScope-${index}`}
-                      isValid={option.value !== undefined}
-                      label={intl.formatMessage(option.label, {
-                        date: option.value === 'previous' ? previousMonth : currentMonth,
-                        value: option.value,
-                      })}
-                      value={option.value}
-                      isChecked={timeScope === option.value}
-                      name="timeScope"
-                      onChange={this.handleOnMonthChange}
-                      aria-label={intl.formatMessage(option.label, {
-                        date: option.value === 'previous' ? previousMonth : currentMonth,
-                        value: option.value,
-                      })}
-                    />
-                  ))}
-                </React.Fragment>
-              </FormGroup>
-            )}
-            {showFormatType && isExportsToggleEnabled && (
-              <GridItem span={12}>
-                <FormGroup fieldId="formatType" label={intl.formatMessage(messages.exportFormatTypeTitle)} isRequired>
-                  {formatTypeOptions.map((option, index) => (
-                    <Radio
-                      key={index}
-                      id={`formatType-${index}`}
-                      isValid={option.value !== undefined}
-                      label={intl.formatMessage(option.label, { value: option.value })}
-                      value={option.value}
-                      isChecked={formatType === option.value}
-                      name="formatType"
-                      onChange={this.handleOnTypeChange}
-                      aria-label={intl.formatMessage(option.label, { value: option.value })}
-                    />
-                  ))}
-                </FormGroup>
-              </GridItem>
-            )}
-            <GridItem span={12}>
-              <FormGroup label={selectedLabel} fieldId="selectedLabels">
-                <ul>
-                  {sortedItems.map((groupItem, index) => {
-                    return <li key={index}>{groupItem.label}</li>;
-                  })}
-                </ul>
-              </FormGroup>
-            </GridItem>
-          </Grid>
-        </Form>
+          </Button>
+        </ModalFooter>
       </Modal>
     );
   }

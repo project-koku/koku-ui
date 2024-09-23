@@ -18,7 +18,6 @@ import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 import { awsCategoryKey, orgUnitIdKey, platformCategoryKey, tagKey } from 'utils/props';
 
-import { styles } from './dataToolbar.styles';
 import { getColumnManagement, getExportButton, getKebab, getPlatformCosts } from './utils/actions';
 import { getBulkSelect } from './utils/bulkSelect';
 import {
@@ -748,14 +747,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
-      <div className={className} style={style ? style : styles.toolbarContainer}>
+      <div className={className} style={style}>
         <Toolbar
           className="toolbarOverride"
           clearAllFilters={this.handleOnDelete as any}
           collapseListedFiltersBreakpoint="xl"
         >
           <ToolbarContent>
-            {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelectComponent()}</ToolbarItem>}
+            {showBulkSelect && <ToolbarItem>{this.getBulkSelectComponent()}</ToolbarItem>}
             {showFilter && (
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
@@ -774,12 +773,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
               </ToolbarToggleGroup>
             )}
             {(showExport || showColumnManagement) && (
-              <ToolbarGroup>
-                {showColumnManagement && this.getColumnManagementComponent()}
-                {showPlatformCosts && this.getPlatformCostsComponent()}
-                {showExport && this.getExportButtonComponent()}
-                {(showColumnManagement || showPlatformCosts) && this.getKebab()}
-              </ToolbarGroup>
+              <>
+                <ToolbarGroup>{showColumnManagement && this.getColumnManagementComponent()}</ToolbarGroup>
+                <ToolbarGroup>{showPlatformCosts && this.getPlatformCostsComponent()}</ToolbarGroup>
+                <ToolbarGroup>
+                  {showExport && this.getExportButtonComponent()}
+                  {(showColumnManagement || showPlatformCosts) && this.getKebab()}
+                </ToolbarGroup>
+              </>
             )}
             {(dateRange || datePicker) && (
               <ToolbarGroup>
@@ -787,7 +788,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                 {datePicker}
               </ToolbarGroup>
             )}
-            <ToolbarItem align={{ default: 'alignRight' }} variant="pagination">
+            <ToolbarItem align={{ default: 'alignEnd' }} variant="pagination">
               {pagination}
             </ToolbarItem>
           </ToolbarContent>

@@ -1,4 +1,6 @@
 import {
+  Content,
+  ContentVariants,
   Flex,
   FlexItem,
   FormGroup,
@@ -12,10 +14,7 @@ import {
   Radio,
   Stack,
   StackItem,
-  Text,
-  TextContent,
   TextInput,
-  TextVariants,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -85,9 +84,9 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
                 <Title headingLevel="h3" size={TitleSizes.md}>
                   {intl.formatMessage(messages.markupOrDiscount)}
                 </Title>
-                <TextContent>
-                  <Text>{intl.formatMessage(messages.markupOrDiscountModalDesc)}</Text>
-                </TextContent>
+                <Content>
+                  <Content component="p">{intl.formatMessage(messages.markupOrDiscountModalDesc)}</Content>
+                </Content>
               </StackItem>
               <StackItem>
                 <Flex style={costCalcStyles.markupRadioContainer}>
@@ -155,9 +154,9 @@ class MarkupWithDistributionBase extends React.Component<MarkupWithDistributionP
               </StackItem>
               <StackItem>
                 <div style={costCalcStyles.exampleMargin}>
-                  <TextContent>
-                    <Text component={TextVariants.h3}>{intl.formatMessage(messages.examplesTitle)}</Text>
-                  </TextContent>
+                  <Content>
+                    <Content component={ContentVariants.h3}>{intl.formatMessage(messages.examplesTitle)}</Content>
+                  </Content>
                   <List>
                     <ListItem>{intl.formatMessage(messages.costModelsExamplesNoAdjust)}</ListItem>
                     <ListItem>{intl.formatMessage(messages.costModelsExamplesDoubleMarkup)}</ListItem>

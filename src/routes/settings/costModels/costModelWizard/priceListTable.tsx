@@ -1,15 +1,12 @@
 import {
   Bullseye,
   Button,
+  Content,
   EmptyState,
   EmptyStateBody,
-  EmptyStateHeader,
-  EmptyStateIcon,
   Pagination,
   Stack,
   StackItem,
-  Text,
-  TextContent,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -92,12 +89,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
 
     const NoTiersEmptyState = () => (
       <Bullseye>
-        <EmptyState>
-          <EmptyStateHeader
-            titleText={intl.formatMessage(messages.costModelsWizardEmptyStateTitle)}
-            icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-            headingLevel="h2"
-          />
+        <EmptyState
+          headingLevel="h2"
+          icon={PlusCircleIcon}
+          titleText={intl.formatMessage(messages.costModelsWizardEmptyStateTitle)}
+        >
           <EmptyStateBody>
             {intl.formatMessage(messages.costModelsWizardEmptyStateSkipStep, {
               value: <strong>{intl.formatMessage(messages.next)}</strong>,
@@ -120,9 +116,9 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                 </Title>
               </StackItem>
               <StackItem>
-                <TextContent>
-                  <Text>{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Text>
-                </TextContent>
+                <Content>
+                  <Content component="p">{intl.formatMessage(messages.costModelsWizardSubTitleTable)}</Content>
+                </Content>
               </StackItem>
               <StackItem>
                 <WithPriceListSearch

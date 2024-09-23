@@ -147,13 +147,12 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
         </InputGroupItem>
         <InputGroupItem>
           <Button
+            icon={<SearchIcon />}
             isDisabled={isDisabled}
             variant={ButtonVariant.control}
             aria-label={intl.formatMessage(messages.filterByCostCategoryValueButtonAriaLabel)}
             onClick={evt => onCostCategoryValueInput(evt)}
-          >
-            <SearchIcon />
-          </Button>
+          ></Button>
         </InputGroupItem>
       </InputGroup>
     );

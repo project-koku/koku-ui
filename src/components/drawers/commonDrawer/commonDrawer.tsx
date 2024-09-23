@@ -50,7 +50,7 @@ class CommonDrawerBase extends React.Component<CommonDrawerProps> {
     // https://github.com/redhat-developer/rhosak-ui/blob/main/packages/ui/src/components/KafkaInstanceDrawer/KafkaInstanceDrawer.tsx#L69-L78
     return (
       <Drawer className="drawerOverride" isExpanded={isExpanded} onExpand={this.handleExpand}>
-        <DrawerContent colorVariant="light-200" panelContent={this.getPanelContent()}>
+        <DrawerContent colorVariant="secondary" panelContent={this.getPanelContent()}>
           {children}
         </DrawerContent>
       </Drawer>

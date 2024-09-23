@@ -5,8 +5,6 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   EmptyStateVariant,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
@@ -84,12 +82,13 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps, any> {
         icon = CostIcon;
     }
     return (
-      <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
-        <EmptyStateHeader
-          titleText={intl.formatMessage(titleKey)}
-          icon={<EmptyStateIcon icon={icon ? icon : PlusCircleIcon} />}
-          headingLevel="h1"
-        />
+      <EmptyState
+        headingLevel="h1"
+        icon={icon ? icon : PlusCircleIcon}
+        titleText={intl.formatMessage(titleKey)}
+        variant={EmptyStateVariant.lg}
+        className="pf-m-redhat-font"
+      >
         <EmptyStateBody>
           {intl.formatMessage(descKey)}
           {detailsComponent && <Bullseye style={styles.details}>{detailsComponent}</Bullseye>}

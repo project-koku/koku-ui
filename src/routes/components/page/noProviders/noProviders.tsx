@@ -20,7 +20,7 @@ const NoProviders = ({ providerType, title }: NoProvidersProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
+      <PageSection hasBodyWrapper={false}>
         <NoProvidersState providerType={providerType} />
       </PageSection>
     </>

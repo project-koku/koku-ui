@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Card, CardBody, PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { AwsQuery } from 'api/queries/awsQuery';
@@ -20,6 +20,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
@@ -408,31 +409,35 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     }
 
     return (
-      <div style={styles.awsDetails}>
-        <DetailsHeader
-          costType={costType}
-          currency={currency}
-          groupBy={groupById}
-          onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
-          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
-          onGroupBySelect={this.handleOnGroupBySelect}
-          report={report}
-        />
-        <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
-          {this.getExportModal(computedItems)}
-          {reportFetchStatus === FetchStatus.inProgress ? (
-            <Loading />
-          ) : (
-            <>
-              <div style={styles.tableContainer}>{this.getTable()}</div>
-              <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      <>
+        <PageSection style={styles.headerContainer}>
+          <DetailsHeader
+            costType={costType}
+            currency={currency}
+            groupBy={groupById}
+            onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+            onGroupBySelect={this.handleOnGroupBySelect}
+            report={report}
+          />
+        </PageSection>
+        <PageSection>
+          <Card>
+            <CardBody>
+              {this.getToolbar(computedItems)}
+              {this.getExportModal(computedItems)}
+              {reportFetchStatus === FetchStatus.inProgress ? (
+                <LoadingState />
+              ) : (
+                <>
+                  {this.getTable()}
+                  <div style={styles.paginationContainer}>{this.getPagination(isDisabled, true)}</div>
+                </>
+              )}
+            </CardBody>
+          </Card>
+        </PageSection>
+      </>
     );
   }
 }

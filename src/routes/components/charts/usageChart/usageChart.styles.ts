@@ -4,11 +4,11 @@ import chart_color_green_200 from '@patternfly/react-tokens/dist/js/chart_color_
 import chart_color_green_300 from '@patternfly/react-tokens/dist/js/chart_color_green_300';
 import chart_color_green_400 from '@patternfly/react-tokens/dist/js/chart_color_green_400';
 import chart_color_green_500 from '@patternfly/react-tokens/dist/js/chart_color_green_500';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
 
 export const chartStyles = {
   chartContainer: {
-    marginTop: global_spacer_lg.value,
+    marginTop: t_global_spacer_lg.value,
   },
   currentRequestData: {
     data: {

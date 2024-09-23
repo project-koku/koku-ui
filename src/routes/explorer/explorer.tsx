@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Card, CardBody, Grid, GridItem, PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -21,6 +21,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -506,63 +507,73 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     }
 
     return (
-      <div style={styles.explorer}>
-        <ExplorerHeader
-          costDistribution={costDistribution}
-          costType={costType}
-          currency={currency}
-          groupBy={
-            groupByCostCategory
-              ? `${awsCategoryPrefix}${groupByCostCategory}`
-              : groupByTagKey
-                ? `${tagPrefix}${groupByTagKey}`
-                : groupById
-          }
-          onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
-          onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
-          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
-          onDatePickerSelect={this.handleOnDatePickerSelect}
-          onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
-          onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
-          onGroupBySelect={this.handleOnGroupBySelect}
-          onPerspectiveClicked={this.handleOnPerspectiveClick}
-          perspective={perspective}
-          report={report}
-        />
-        {itemsTotal > 0 && (
-          <div style={styles.chartContent}>
-            <div style={styles.chartContainer}>
-              <ExplorerChart
-                costDistribution={costDistribution}
-                costType={costType}
-                currency={currency}
-                groupBy={
-                  groupByCostCategory
-                    ? `${awsCategoryPrefix}${groupByCostCategory}`
-                    : groupByTagKey
-                      ? `${tagPrefix}${groupByTagKey}`
-                      : groupById
-                }
-                perspective={perspective}
-              />
-            </div>
-          </div>
-        )}
-        <div style={styles.tableContent}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
-          {this.getExportModal(computedItems)}
-          {reportFetchStatus === FetchStatus.inProgress ? (
-            <Loading />
-          ) : (
-            <>
-              <div style={styles.tableContainer}>{this.getTable()}</div>
-              <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      <>
+        <PageSection style={styles.headerContainer}>
+          <ExplorerHeader
+            costDistribution={costDistribution}
+            costType={costType}
+            currency={currency}
+            groupBy={
+              groupByCostCategory
+                ? `${awsCategoryPrefix}${groupByCostCategory}`
+                : groupByTagKey
+                  ? `${tagPrefix}${groupByTagKey}`
+                  : groupById
+            }
+            onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
+            onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+            onDatePickerSelect={this.handleOnDatePickerSelect}
+            onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+            onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
+            onGroupBySelect={this.handleOnGroupBySelect}
+            onPerspectiveClicked={this.handleOnPerspectiveClick}
+            perspective={perspective}
+            report={report}
+          />
+        </PageSection>
+        <PageSection>
+          <Grid hasGutter>
+            {itemsTotal > 0 && (
+              <GridItem sm={12}>
+                <Card>
+                  <CardBody>
+                    <ExplorerChart
+                      costDistribution={costDistribution}
+                      costType={costType}
+                      currency={currency}
+                      groupBy={
+                        groupByCostCategory
+                          ? `${awsCategoryPrefix}${groupByCostCategory}`
+                          : groupByTagKey
+                            ? `${tagPrefix}${groupByTagKey}`
+                            : groupById
+                      }
+                      perspective={perspective}
+                    />
+                  </CardBody>
+                </Card>
+              </GridItem>
+            )}
+            <GridItem sm={12}>
+              <Card>
+                <CardBody>
+                  {this.getToolbar(computedItems)}
+                  {this.getExportModal(computedItems)}
+                  {reportFetchStatus === FetchStatus.inProgress ? (
+                    <LoadingState />
+                  ) : (
+                    <>
+                      {this.getTable()}
+                      <div style={styles.paginationContainer}>{this.getPagination(isDisabled, true)}</div>
+                    </>
+                  )}
+                </CardBody>
+              </Card>
+            </GridItem>
+          </Grid>
+        </PageSection>
+      </>
     );
   }
 }

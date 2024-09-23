@@ -28,6 +28,7 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateBaseOwnProps,
             <StackItem>{intl.formatMessage(messages.maintenanceEmptyStateThanks)}</StackItem>
           </Stack>
         }
+        titleText={undefined}
       />
     );
   }

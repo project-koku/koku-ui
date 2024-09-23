@@ -1,4 +1,4 @@
-import { Text, TextList, TextListItem, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
@@ -24,12 +24,12 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ provider }: CloudIn
 
   return (
     <>
-      <Text component={TextVariants.h3}>{intl.formatMessage(messages.cloudIntegration)}</Text>
-      <TextList isPlain>
-        <TextListItem>
+      <Content component={ContentVariants.h3}>{intl.formatMessage(messages.cloudIntegration)}</Content>
+      <Content component="ul" isPlainList>
+        <Content component="li">
           <SourceLink provider={provider} />
-        </TextListItem>
-        <TextListItem>
+        </Content>
+        <Content component="li">
           {provider?.cost_models?.length ? (
             provider.cost_models.map(cm => (
               <>
@@ -40,8 +40,8 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ provider }: CloudIn
           ) : (
             <a href={formatPath(routes.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
           )}
-        </TextListItem>
-      </TextList>
+        </Content>
+      </Content>
     </>
   );
 };

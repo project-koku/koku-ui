@@ -1,21 +1,21 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_warning_color_100 from '@patternfly/react-tokens/dist/js/global_warning_color_100';
+import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
+import t_global_color_status_warning_100 from '@patternfly/react-tokens/dist/js/t_global_color_status_warning_100';
+import t_global_font_size_body_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_body_sm';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import type React from 'react';
 
 export const styles = {
   clusterInfoButton: {
-    fontSize: global_FontSize_xs.value,
+    fontSize: t_global_font_size_body_sm.value,
   },
   loading: {
-    backgroundColor: global_BackgroundColor_light_100.value,
+    backgroundColor: t_global_background_color_100.value,
   },
   spacingRight: {
-    marginRight: global_spacer_md.value,
+    marginRight: t_global_spacer_md.value,
   },
   updateAvailable: {
-    color: global_warning_color_100.value,
+    color: t_global_color_status_warning_100.value,
     paddingLeft: '5px',
   },
 } as { [className: string]: React.CSSProperties };

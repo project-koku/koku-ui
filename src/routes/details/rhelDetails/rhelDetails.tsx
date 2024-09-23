@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Card, CardBody, PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -19,6 +19,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
 import { ProviderDetails } from 'routes/details/components/providerDetails';
@@ -424,30 +425,34 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
     }
 
     return (
-      <div style={styles.ocpDetails}>
-        <DetailsHeader
-          currency={currency}
-          groupBy={groupById}
-          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
-          onGroupBySelect={this.handleOnGroupBySelect}
-          report={report}
-        />
-        <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
-          {this.getExportModal(computedItems)}
-          {this.getColumnManagementModal()}
-          {reportFetchStatus === FetchStatus.inProgress ? (
-            <Loading />
-          ) : (
-            <>
-              <div style={styles.tableContainer}>{this.getTable()}</div>
-              <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      <>
+        <PageSection style={styles.headerContainer}>
+          <DetailsHeader
+            currency={currency}
+            groupBy={groupById}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+            onGroupBySelect={this.handleOnGroupBySelect}
+            report={report}
+          />
+        </PageSection>
+        <PageSection>
+          <Card>
+            <CardBody>
+              {this.getToolbar(computedItems)}
+              {this.getExportModal(computedItems)}
+              {this.getColumnManagementModal()}
+              {reportFetchStatus === FetchStatus.inProgress ? (
+                <LoadingState />
+              ) : (
+                <>
+                  {this.getTable()}
+                  <div style={styles.paginationContainer}>{this.getPagination(isDisabled, true)}</div>
+                </>
+              )}
+            </CardBody>
+          </Card>
+        </PageSection>
+      </>
     );
   }
 }

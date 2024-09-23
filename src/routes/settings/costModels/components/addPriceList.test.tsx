@@ -182,7 +182,7 @@ describe('add-a-new-rate', () => {
     expect(screen.queryByText(regExp(messages.priceListNumberRate))).toBeNull();
 
     // making sure button is enabled
-    const createButton = screen.getByText(regExp(messages.createRate));
+    const createButton = screen.getByRole('button', { name: regExp(messages.createRate)} );
     expect(createButton.getAttribute('aria-disabled')).toBe('false');
     await user.click(createButton);
     expect(submit).toHaveBeenCalled();
@@ -240,7 +240,7 @@ describe('add-a-new-rate', () => {
     expect(screen.getByText(regExp(messages.priceListPosNumberRate))).not.toBeNull();
 
     // setting a valid rate - now form is valid and can be submitted
-    const createButton = screen.getByText(regExp(messages.createRate));
+    const createButton = screen.getByRole('button', { name: regExp(messages.createRate)} );
     expect(createButton.getAttribute('aria-disabled')).toBe('true');
     await user.clear(tagRateInput);
 

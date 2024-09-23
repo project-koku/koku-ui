@@ -222,25 +222,25 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
 
   return (
     <>
-      <div>
-        {intl.formatMessage(messages.tagDesc, {
-          count: enabledTagsLimit,
-          learnMore: (
-            <a href={intl.formatMessage(messages.docsTags)} rel="noreferrer" target="_blank">
-              {intl.formatMessage(messages.learnMore)}
-            </a>
-          ),
-        })}
+      {intl.formatMessage(messages.tagDesc, {
+        count: enabledTagsLimit,
+        learnMore: (
+          <a href={intl.formatMessage(messages.docsTags)} rel="noreferrer" target="_blank">
+            {intl.formatMessage(messages.learnMore)}
+          </a>
+        ),
+      })}
+      <div style={styles.tableContainer}>
+        {getToolbar(tags)}
+        {settingsStatus === FetchStatus.inProgress ? (
+          <LoadingState />
+        ) : (
+          <>
+            {getTable()}
+            <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>
+          </>
+        )}
       </div>
-      {getToolbar(tags)}
-      {settingsStatus === FetchStatus.inProgress ? (
-        <LoadingState />
-      ) : (
-        <>
-          {getTable()}
-          <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
-        </>
-      )}
     </>
   );
 };

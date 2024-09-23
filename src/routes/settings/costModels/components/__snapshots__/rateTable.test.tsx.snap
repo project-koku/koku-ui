@@ -3,25 +3,25 @@
 exports[`rate-table sort by metric & measurement 1`] = `
 [
   <td
-    class="pf-v5-c-table__td"
+    class="pf-v6-c-table__td"
     tabindex="-1"
   >
     {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"Node"}
   </td>,
   <td
-    class="pf-v5-c-table__td"
+    class="pf-v6-c-table__td"
     tabindex="-1"
   >
     {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
   </td>,
   <td
-    class="pf-v5-c-table__td"
+    class="pf-v6-c-table__td"
     tabindex="-1"
   >
     {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}
   </td>,
   <td
-    class="pf-v5-c-table__td"
+    class="pf-v6-c-table__td"
     tabindex="-1"
   >
     {value, select, cpu {CPU} cluster {Cluster} memory {Memory} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} other {}}{"value":"CPU"}

@@ -2,12 +2,11 @@ import {
   ActionGroup,
   Button,
   ButtonVariant,
+  Content,
+  ContentVariants,
   Form,
   Stack,
   StackItem,
-  Text,
-  TextContent,
-  TextVariants,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -48,9 +47,11 @@ const AddPriceList: React.FC<AddPriceListProps> = ({
         </Title>
       </StackItem>
       <StackItem>
-        <TextContent>
-          <Text component={TextVariants.h3}>{intl.formatMessage(messages.costModelsWizardPriceListMetric)}</Text>
-        </TextContent>
+        <Content>
+          <Content component={ContentVariants.h3}>
+            {intl.formatMessage(messages.costModelsWizardPriceListMetric)}
+          </Content>
+        </Content>
       </StackItem>
       <StackItem>
         <Form>

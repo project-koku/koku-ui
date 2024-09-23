@@ -1,15 +1,6 @@
 import './explorerTable.scss';
 
-import {
-  Bullseye,
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  Label,
-  Spinner,
-  Tooltip,
-} from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody, Label, Spinner, Tooltip } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import {
@@ -385,8 +376,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       }
     }
     return (
-      <EmptyState>
-        <EmptyStateHeader icon={<EmptyStateIcon icon={CalculatorIcon} />} />
+      <EmptyState icon={CalculatorIcon} titleText="">
         <EmptyStateBody>{intl.formatMessage(messages.detailsEmptyState)}</EmptyStateBody>
       </EmptyState>
     );

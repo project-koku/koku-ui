@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 // Todo: Uncomment for use with non-shared PatternFly packages
-// import '@patternfly/patternfly/patternfly.css';
+import '@patternfly/patternfly/patternfly.css'; // Todo: revert
 import '@patternfly/patternfly/patternfly-addons.css';
 import './styles/global.css';
 
-import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
+import NotificationsPortal from '@ausuliv/frontend-components-notifications/NotificationPortal';
 import IntlProvider from '@redhat-cloud-services/frontend-components-translations/Provider';
 import { getLocale } from 'components/i18n';
 import React from 'react';

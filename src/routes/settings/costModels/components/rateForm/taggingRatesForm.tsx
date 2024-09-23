@@ -91,13 +91,12 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
               <FormGroup fieldId="__irrelevant" label={<div>&nbsp;</div>}>
                 <ReadOnlyTooltip defaultMsg={messages.costModelsRemoveTagLabel}>
                   <Button
+                    icon={<MinusCircleIcon />}
                     aria-label={intl.formatMessage(messages.costModelsRemoveTagLabel)}
                     variant={ButtonVariant.plain}
                     isDisabled={tagValues.length === 1}
                     onClick={() => removeTag(ix)}
-                  >
-                    <MinusCircleIcon />
-                  </Button>
+                  ></Button>
                 </ReadOnlyTooltip>
               </FormGroup>
             </SplitItem>

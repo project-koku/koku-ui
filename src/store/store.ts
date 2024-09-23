@@ -1,4 +1,4 @@
-import { notificationsMiddleware } from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
+import { notificationsMiddleware } from '@ausuliv/frontend-components-notifications/notificationsMiddleware';
 import { configureStore as createStore } from '@reduxjs/toolkit';
 import { axiosInstance } from 'api';
 

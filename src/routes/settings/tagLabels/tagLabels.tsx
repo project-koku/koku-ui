@@ -1,9 +1,8 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionToggle, PageSection } from '@patternfly/react-core';
+import { Accordion, AccordionContent, AccordionItem, AccordionToggle } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { styles } from './tagLabels.styles';
 import TagMapping from './tagMapping/tagMapping';
 import { Tags } from './tags';
 
@@ -80,17 +79,16 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
     return availableItems.map((val, index) => {
       const isExpanded = activeKey === index;
       return (
-        <AccordionItem key={`accordion-${index}`}>
+        <AccordionItem isExpanded={isExpanded} key={`accordion-${index}`}>
           <AccordionToggle
             id={`accordion-toggle-${index}`}
-            isExpanded={isExpanded}
             onClick={_evt => {
               handleOnToggle(_evt, index);
             }}
           >
             {val.label}
           </AccordionToggle>
-          <AccordionContent isHidden={!isExpanded}>{getAccordionContent(val.item, index)}</AccordionContent>
+          <AccordionContent>{getAccordionContent(val.item, index)}</AccordionContent>
         </AccordionItem>
       );
     });
@@ -98,13 +96,7 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
 
   const availableItems = getAvailableItems();
 
-  return (
-    <PageSection isFilled>
-      <div style={styles.container}>
-        <Accordion asDefinitionList>{getAccordionItem(availableItems)}</Accordion>
-      </div>
-    </PageSection>
-  );
+  return <Accordion asDefinitionList>{getAccordionItem(availableItems)}</Accordion>;
 };
 
 export default TagLabels;

@@ -1,7 +1,7 @@
-import type { ModalProps } from '@patternfly/react-core';
-import { Modal, ModalVariant } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
+import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -10,6 +10,34 @@ import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 import { DeleteDialogActions, DeleteDialogBody, getDialogStateName } from './utils/dialog';
+
+export interface ReportSummaryProps extends WrappedComponentProps {
+  actions?: React.ReactNode;
+  ariaLabel?: string;
+  children?: React.ReactNode;
+  isOpen?: boolean;
+  onClose?: () => void;
+  title?: string;
+  titleIconVariant?: 'warning';
+  variant?: ModalVariant;
+}
+
+const DeleteDialogBase: React.FC<ReportSummaryProps> = ({
+  actions,
+  ariaLabel: ariaLabel,
+  children,
+  isOpen,
+  onClose,
+  title,
+  titleIconVariant,
+  variant,
+}) => (
+  <Modal aria-label={ariaLabel} isOpen={isOpen} onClose={onClose} variant={variant}>
+    <ModalHeader title={title} titleIconVariant={titleIconVariant} />
+    <ModalBody>{children}</ModalBody>
+    <ModalFooter>{actions}</ModalFooter>
+  </Modal>
+);
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -61,14 +89,14 @@ const mergeProps = (
     actions,
     isOpen: stateName !== 'close',
     variant: ModalVariant.small,
-    'aria-label': intl.formatMessage(messages.costModelsDelete),
+    ariaLabel: intl.formatMessage(messages.costModelsDelete),
     title: intl.formatMessage(messages.costModelsDelete),
     titleIconVariant: 'warning',
     onClose: dispatchProps.closeDialog,
     children,
-  } as ModalProps;
+  };
 };
 
-const DeleteDialog = injectIntl(connect(mapStateToProps, mapDispatchToProps, mergeProps)(Modal));
+const DeleteDialog = injectIntl(connect(mapStateToProps, mapDispatchToProps, mergeProps)(DeleteDialogBase));
 
 export default DeleteDialog;

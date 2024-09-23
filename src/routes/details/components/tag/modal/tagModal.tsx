@@ -1,4 +1,4 @@
-import { Modal } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalHeader } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Tag, TagData, TagPathsType } from 'api/tags/tag';
@@ -97,18 +97,16 @@ class TagModalBase extends React.Component<TagModalProps, any> {
     const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
 
     return (
-      <Modal
-        isOpen={isOpen}
-        onClose={this.handleClose}
-        title={intl.formatMessage(messages.tagHeadingTitle, { value: this.getTagValueCount() })}
-        width={'50%'}
-      >
-        <TagContent
-          groupBy={groupBy}
-          groupByValue={this.props.isPlatformCosts ? platformCategoryKey : groupByValue}
-          tagData={tagData}
-          tagReport={tagReport}
-        />
+      <Modal className="costManagement" isOpen={isOpen} onClose={this.handleClose} width={'50%'}>
+        <ModalHeader title={intl.formatMessage(messages.tagHeadingTitle, { value: this.getTagValueCount() })} />
+        <ModalBody>
+          <TagContent
+            groupBy={groupBy}
+            groupByValue={this.props.isPlatformCosts ? platformCategoryKey : groupByValue}
+            tagData={tagData}
+            tagReport={tagReport}
+          />
+        </ModalBody>
       </Modal>
     );
   }

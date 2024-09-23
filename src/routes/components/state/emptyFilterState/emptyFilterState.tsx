@@ -1,5 +1,5 @@
 import type { MessageDescriptor } from '@formatjs/intl/src/types';
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateHeader, EmptyStateIcon } from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
@@ -112,9 +112,11 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
     } else if (showEmptyState2) {
       return <ItemScroll />;
     } else {
-      return <EmptyStateIcon icon={icon} />;
+      return null;
     }
   };
+
+  const item = getItem();
 
   return (
     <div
@@ -123,9 +125,8 @@ const EmptyFilterStateBase: React.FC<EmptyFilterStateProps> = ({
         ...(showMargin ? styles.containerMargin : {}),
       }}
     >
-      <EmptyState>
-        {getItem()}
-        <EmptyStateHeader titleText={intl.formatMessage(title)} headingLevel="h2" />
+      <EmptyState headingLevel="h2" icon={!item ? icon : undefined} titleText={intl.formatMessage(title)}>
+        {item}
         <EmptyStateBody>{intl.formatMessage(subTitle)}</EmptyStateBody>
       </EmptyState>
     </div>

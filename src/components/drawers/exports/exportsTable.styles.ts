@@ -1,25 +1,25 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_danger_color_200 from '@patternfly/react-tokens/dist/js/global_danger_color_200';
-import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
+import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
+import t_global_color_status_danger_200 from '@patternfly/react-tokens/dist/js/t_global_color_status_danger_200';
+import t_global_font_size_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_sm';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
+import t_global_spacer_xl from '@patternfly/react-tokens/dist/js/t_global_spacer_xl';
 import type React from 'react';
 
 export const styles = {
   emptyState: {
-    backgroundColor: global_BackgroundColor_light_100.value,
+    backgroundColor: t_global_background_color_100.value,
     display: 'flex',
     justifyContent: 'center',
-    paddingTop: global_spacer_xl.value,
+    paddingTop: t_global_spacer_xl.value,
     width: '100%',
   },
   failed: {
-    color: global_danger_color_200.value,
+    color: t_global_color_status_danger_200.value,
   },
   failedButton: {
-    fontSize: global_FontSize_sm.value,
+    fontSize: t_global_font_size_sm.value,
   },
   failedHeader: {
-    marginLeft: global_spacer_md.value,
+    marginLeft: t_global_spacer_md.value,
   },
 } as { [className: string]: React.CSSProperties };
