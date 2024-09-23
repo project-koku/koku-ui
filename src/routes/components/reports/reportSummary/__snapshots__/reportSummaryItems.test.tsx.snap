@@ -3,35 +3,35 @@
 exports[`contains skeleton readers if in progress 1`] = `
 <div>
   <div
-    class="pf-v5-c-skeleton"
-    style="--pf-v5-c-skeleton--Width: 66%;"
+    class="pf-v6-c-skeleton"
+    style="--pf-v6-c-skeleton--Width: 66%;"
   >
     <span
-      class="pf-v5-screen-reader"
+      class="pf-v6-screen-reader"
     />
   </div>
   <div
-    class="pf-v5-c-skeleton skeleton"
-    style="--pf-v5-c-skeleton--Width: 66%;"
+    class="pf-v6-c-skeleton skeleton"
+    style="--pf-v6-c-skeleton--Width: 66%;"
   >
     <span
-      class="pf-v5-screen-reader"
+      class="pf-v6-screen-reader"
     />
   </div>
   <div
-    class="pf-v5-c-skeleton skeleton"
-    style="--pf-v5-c-skeleton--Width: 66%;"
+    class="pf-v6-c-skeleton skeleton"
+    style="--pf-v6-c-skeleton--Width: 66%;"
   >
     <span
-      class="pf-v5-screen-reader"
+      class="pf-v6-screen-reader"
     />
   </div>
   <div
-    class="pf-v5-c-skeleton skeleton"
-    style="--pf-v5-c-skeleton--Width: 66%;"
+    class="pf-v6-c-skeleton skeleton"
+    style="--pf-v6-c-skeleton--Width: 66%;"
   >
     <span
-      class="pf-v5-screen-reader"
+      class="pf-v6-screen-reader"
     />
   </div>
 </div>
