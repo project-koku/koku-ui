@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { Org } from 'api/orgs/org';
 import { OrgPathsType, OrgType } from 'api/orgs/org';
 import type { AwsQuery } from 'api/queries/awsQuery';
@@ -61,7 +61,7 @@ interface DetailsToolbarDispatchProps {
 }
 
 interface DetailsToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarLabelGroup[];
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps &
@@ -111,7 +111,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
     }
   }
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl, orgReport, resourceReport, tagReport } = this.props;
 
     const options = [
