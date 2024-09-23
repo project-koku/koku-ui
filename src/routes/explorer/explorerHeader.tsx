@@ -83,6 +83,7 @@ interface ExplorerHeaderStateProps {
   isExportsToggleEnabled?: boolean;
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
+  isOcpCloudGroupBysToggleEnabled?: boolean;
   ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
@@ -255,6 +256,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       groupBy,
       intl,
       isExportsToggleEnabled,
+      isOcpCloudGroupBysToggleEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
@@ -277,7 +279,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const noProviders =
       noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders && noRhelProviders;
 
-    const groupByOptions = getGroupByOptions(perspective);
+    const groupByOptions = getGroupByOptions(perspective, isOcpCloudGroupBysToggleEnabled);
     const orgPathsType = getOrgReportPathsType(perspective);
     const resourcePathsType = getResourcePathsType(perspective);
     const tagPathsType = getTagReportPathsType(perspective);
@@ -387,6 +389,7 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
       isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
       isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
+      isOcpCloudGroupBysToggleEnabled: FeatureToggleSelectors.selectIsOcpCloudGroupBysToggleEnabled(state),
       ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,
