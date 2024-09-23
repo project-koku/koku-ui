@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { AzureQuery } from 'api/queries/azureQuery';
 import { getQuery } from 'api/queries/azureQuery';
 import { ResourcePathsType } from 'api/resources/resource';
@@ -47,7 +47,7 @@ interface DetailsToolbarDispatchProps {
 }
 
 interface DetailsToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarLabelGroup[];
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps &
@@ -89,7 +89,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
     }
   }
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl, tagReport } = this.props;
 
     const options = [

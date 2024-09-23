@@ -39,8 +39,8 @@ export const getCustomSelect = ({
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      chips={getChips(filters[categoryOption.key] as Filter[])}
-      deleteChip={onDelete}
+      labels={getChips(filters[categoryOption.key] as Filter[])}
+      deleteLabel={onDelete}
       key={`custom-select-${categoryOption.key}`}
       showToolbarItem={currentCategory === categoryOption.key}
     >

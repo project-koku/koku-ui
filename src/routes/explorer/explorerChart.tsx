@@ -245,30 +245,26 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
     // Todo: get title from perspective menu
     return (
       <>
-        <div style={styles.titleContainer}>
-          <Title headingLevel="h3" size={TitleSizes.md}>
-            {intl.formatMessage(messages.explorerChartTitle, { value: perspective })}
-          </Title>
-        </div>
-        <div style={styles.chartContainer}>
-          <div style={styles.costChart}>
-            {reportFetchStatus === FetchStatus.inProgress ? (
-              this.getSkeleton()
-            ) : (
-              <CostExplorerChart
-                baseHeight={chartStyles.chartHeight}
-                formatOptions={{}}
-                formatter={formatUnits}
-                isSkeleton={isSkeleton}
-                top1stData={datums.length > 0 ? datums[0] : []}
-                top2ndData={datums.length > 1 ? datums[1] : []}
-                top3rdData={datums.length > 2 ? datums[2] : []}
-                top4thData={datums.length > 3 ? datums[3] : []}
-                top5thData={datums.length > 4 ? datums[4] : []}
-                top6thData={datums.length > 5 ? datums[5] : []}
-              />
-            )}
-          </div>
+        <Title headingLevel="h3" size={TitleSizes.md}>
+          {intl.formatMessage(messages.explorerChartTitle, { value: perspective })}
+        </Title>
+        <div style={styles.costChart}>
+          {reportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <CostExplorerChart
+              baseHeight={chartStyles.chartHeight}
+              formatOptions={{}}
+              formatter={formatUnits}
+              isSkeleton={isSkeleton}
+              top1stData={datums.length > 0 ? datums[0] : []}
+              top2ndData={datums.length > 1 ? datums[1] : []}
+              top3rdData={datums.length > 2 ? datums[2] : []}
+              top4thData={datums.length > 3 ? datums[3] : []}
+              top5thData={datums.length > 4 ? datums[4] : []}
+              top6thData={datums.length > 5 ? datums[5] : []}
+            />
+          )}
         </div>
       </>
     );

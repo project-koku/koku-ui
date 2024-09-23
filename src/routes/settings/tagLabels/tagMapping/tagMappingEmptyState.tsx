@@ -3,8 +3,6 @@ import {
   EmptyStateActions,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   EmptyStateVariant,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
@@ -29,12 +27,13 @@ const TagMappingEmptyState: React.FC<TagMappingEmptyStateProps> = ({
   const intl = useIntl();
 
   return (
-    <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
-      <EmptyStateHeader
-        titleText={intl.formatMessage(messages.noMappedTags)}
-        icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-        headingLevel="h5"
-      />
+    <EmptyState
+      headingLevel="h5"
+      icon={PlusCircleIcon}
+      titleText={intl.formatMessage(messages.noMappedTags)}
+      variant={EmptyStateVariant.lg}
+      className="pf-m-redhat-font"
+    >
       <EmptyStateBody>
         {intl.formatMessage(messages.noMappedTagsDesc, {
           learnMore: (
