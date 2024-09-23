@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
@@ -18,7 +18,7 @@ interface PvcToolbarOwnProps {
 }
 
 interface PvcToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarLabelGroup[];
 }
 
 type PvcToolbarProps = PvcToolbarOwnProps & WrappedComponentProps;
@@ -33,7 +33,7 @@ class PvcToolbarBase extends React.Component<PvcToolbarProps, PvcToolbarState> {
     });
   }
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl } = this.props;
 
     const options = [

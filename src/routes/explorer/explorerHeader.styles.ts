@@ -1,10 +1,8 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_Color_100 from '@patternfly/react-tokens/dist/js/global_Color_100';
-import global_Color_200 from '@patternfly/react-tokens/dist/js/global_Color_200';
-import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import t_global_font_size_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_sm';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
+import t_global_text_color_100 from '@patternfly/react-tokens/dist/js/t_global_text_color_100';
+import t_global_text_color_200 from '@patternfly/react-tokens/dist/js/t_global_text_color_200';
 import type React from 'react';
 
 export const styles = {
@@ -18,25 +16,18 @@ export const styles = {
     textAlign: 'right',
   },
   costLabelUnit: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_100.var,
+    fontSize: t_global_font_size_sm.value,
+    color: t_global_text_color_100.var,
   },
   costLabelDate: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_200.var,
+    fontSize: t_global_font_size_sm.value,
+    color: t_global_text_color_200.var,
   },
   dateTitle: {
     textAlign: 'end',
   },
   filterContainer: {
     alignItems: 'unset',
-  },
-  header: {
-    backgroundColor: global_BackgroundColor_light_100.var,
-    paddingBottom: global_spacer_md.var,
-    paddingLeft: global_spacer_lg.var,
-    paddingRight: global_spacer_lg.var,
-    paddingTop: global_spacer_lg.var,
   },
   headerContent: {
     alignItems: 'unset',
@@ -47,9 +38,9 @@ export const styles = {
   },
   perspectiveContainer: {
     alignItems: 'unset',
-    paddingTop: global_spacer_md.var,
+    paddingTop: t_global_spacer_md.var,
   },
   title: {
-    paddingBottom: global_spacer_sm.var,
+    paddingBottom: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };
