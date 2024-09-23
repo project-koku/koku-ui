@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { AwsQuery } from 'api/queries/awsQuery';
 import { getQuery } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
@@ -52,7 +52,7 @@ interface InstancesToolbarDispatchProps {
 }
 
 interface InstancesToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarLabelGroup[];
 }
 
 type InstancesToolbarProps = InstancesToolbarOwnProps &
@@ -96,7 +96,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
     }
   }
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { hideAccount, hideRegion, hideTags, intl, tagReport } = this.props;
 
     const options = [

@@ -70,8 +70,8 @@ export const AssignSourcesToolbarBase: React.FC<AssignSourcesToolbarBaseProps> =
     <Toolbar id="assign-sources-modal-toolbar" clearAllFilters={filter.onClearAll}>
       <ToolbarContent>
         <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
-          <ToolbarItem variant="search-filter">
-            <ToolbarFilter deleteChip={filter.onRemove} chips={filter.query.name} categoryName="name">
+          <ToolbarItem>
+            <ToolbarFilter deleteLabel={filter.onRemove} labels={filter.query.name} categoryName="name">
               <FilterInput
                 placeholder={intl.formatMessage(messages.costModelsFilterPlaceholder)}
                 {...filterInputProps}

@@ -52,15 +52,15 @@
     "verify": "npm-run-all build lint test"
   },
   "dependencies": {
-    "@patternfly/patternfly": "5.4.1",
-    "@patternfly/react-charts": "7.4.3",
-    "@patternfly/react-component-groups": "^5.4.0",
-    "@patternfly/react-core": "5.4.1",
-    "@patternfly/react-icons": "5.4.0",
-    "@patternfly/react-table": "5.4.1",
-    "@patternfly/react-tokens": "5.4.0",
+    "@patternfly/patternfly": "6.0.0-prerelease.15",
+    "@patternfly/react-charts": "8.0.0-prerelease.14",
+    "@patternfly/react-component-groups": "6.0.0-prerelease.5",
+    "@patternfly/react-core": "6.0.0-prerelease.21",
+    "@patternfly/react-icons": "6.0.0-prerelease.7",
+    "@patternfly/react-table": "6.0.0-prerelease.22",
+    "@patternfly/react-tokens": "6.0.0-prerelease.7",
     "@redhat-cloud-services/frontend-components": "^4.2.16",
-    "@redhat-cloud-services/frontend-components-notifications": "^4.1.0",
+    "@ausuliv/frontend-components-notifications": "^4.1.5",
     "@redhat-cloud-services/frontend-components-translations": "^3.2.8",
     "@redhat-cloud-services/frontend-components-utilities": "^4.0.17",
     "@redhat-cloud-services/rbac-client": "^2.2.5",
@@ -79,7 +79,21 @@
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0",
-    "victory": "^37.1.2"
+    "victory-area": "^37.1.2",
+    "victory-axis": "^37.1.2",
+    "victory-bar": "^37.1.2",
+    "victory-box-plot": "^37.1.2",
+    "victory-chart": "^37.1.2",
+    "victory-core": "^37.1.2",
+    "victory-create-container": "^37.1.2",
+    "victory-group": "^37.1.2",
+    "victory-legend": "^37.1.2",
+    "victory-line": "^37.1.2",
+    "victory-pie": "^37.1.2",
+    "victory-scatter": "^37.1.2",
+    "victory-stack": "^37.1.2",
+    "victory-tooltip": "^37.1.2",
+    "victory-voronoi-container": "^37.1.2"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.0",
@@ -135,6 +149,9 @@
     "webpack-bundle-analyzer": "^4.10.2"
   },
   "overrides": {
+    "@patternfly/react-core": "6.0.0-prerelease.21",
+    "@patternfly/react-icons": "6.0.0-prerelease.7",
+    "@patternfly/react-table": "6.0.0-prerelease.22",
     "@typescript-eslint/eslint-plugin": "^8.8.1",
     "eslint": "^9.12.0",
     "redux": "^5.0.1"

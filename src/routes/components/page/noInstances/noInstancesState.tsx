@@ -1,10 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  EmptyStateVariant,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateVariant } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import messages from 'locales/messages';
 import React from 'react';
@@ -22,12 +16,13 @@ class NoInstancesStateBase extends React.Component<NoInstancesStateProps, any> {
     const { intl } = this.props;
 
     return (
-      <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
-        <EmptyStateHeader
-          titleText={intl.formatMessage(messages.noInstancesTitle)}
-          icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-          headingLevel="h1"
-        />
+      <EmptyState
+        headingLevel="h1"
+        icon={PlusCircleIcon}
+        titleText={intl.formatMessage(messages.noInstancesTitle)}
+        variant={EmptyStateVariant.lg}
+        className="pf-m-redhat-font"
+      >
         <EmptyStateBody>{intl.formatMessage(messages.noInstancesDesc)}</EmptyStateBody>
       </EmptyState>
     );

@@ -4,6 +4,7 @@ import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/re
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { styles } from 'routes/settings/costModels/costModel/costModelInfo.styles';
 
 interface PaginationToolbarTemplateProps extends PaginationProps, WrappedComponentProps {
   id?: string;
@@ -31,6 +32,7 @@ export const PaginationToolbarTemplateBase: React.FC<PaginationToolbarTemplatePr
             page={page}
             onSetPage={onSetPage}
             onPerPageSelect={onPerPageSelect}
+            style={styles.pagination}
             titles={titles}
           />
         </ToolbarItem>

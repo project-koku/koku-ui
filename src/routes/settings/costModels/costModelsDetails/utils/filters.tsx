@@ -143,7 +143,12 @@ const DescriptionFilterBase: React.FC<DescriptionFilterProps> = ({
       />
     ) : null;
   return (
-    <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>
+    <ToolbarFilter
+      deleteLabel={deleteChip}
+      deleteLabelGroup={deleteChipGroup}
+      labels={chips}
+      categoryName={categoryName}
+    >
       {children}
     </ToolbarFilter>
   );
@@ -218,7 +223,12 @@ const NameFilterBase: React.FC<NameFilterProps> = ({
       />
     ) : null;
   return (
-    <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>
+    <ToolbarFilter
+      deleteLabel={deleteChip}
+      deleteLabelGroup={deleteChipGroup}
+      labels={chips}
+      categoryName={categoryName}
+    >
       {children}
     </ToolbarFilter>
   );
@@ -310,7 +320,12 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
       />
     ) : null;
   return (
-    <ToolbarFilter deleteChip={deleteChip} deleteChipGroup={deleteChipGroup} chips={chips} categoryName={categoryName}>
+    <ToolbarFilter
+      deleteLabel={deleteChip}
+      deleteLabelGroup={deleteChipGroup}
+      labels={chips}
+      categoryName={categoryName}
+    >
       {children}
     </ToolbarFilter>
   );

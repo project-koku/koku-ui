@@ -1,6 +1,6 @@
 import './clusterInfoContent.scss';
 
-import { Icon, Text, TextContent, TextList, TextListItem, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Icon } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
@@ -60,17 +60,17 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
   const release = getReleasePath();
 
   return (
-    <TextContent className="textContentOverride">
-      <Text component={TextVariants.h3}>{intl.formatMessage(messages.clusterId)}</Text>
-      <TextList isPlain>
-        <TextListItem>
+    <Content className="textContentOverride">
+      <Content component={ContentVariants.h3}>{intl.formatMessage(messages.clusterId)}</Content>
+      <Content component="ul" isPlainList>
+        <Content component="li">
           <span style={styles.spacingRight}>{clusterId}</span>
           <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
-        </TextListItem>
-      </TextList>
-      <Text component={TextVariants.h3}>{intl.formatMessage(messages.metricsOperatorVersion)}</Text>
-      <TextList isPlain>
-        <TextListItem>
+        </Content>
+      </Content>
+      <Content component={ContentVariants.h3}>{intl.formatMessage(messages.metricsOperatorVersion)}</Content>
+      <Content component="ul" isPlainList>
+        <Content component="li">
           <span style={styles.spacingRight}>{clusterProvider?.additional_context?.operator_version}</span>
           {clusterProvider?.additional_context?.operator_update_available && (
             <>
@@ -80,17 +80,17 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
               <span style={styles.updateAvailable}>{intl.formatMessage(messages.updateAvailable)}</span>
             </>
           )}
-        </TextListItem>
-      </TextList>
+        </Content>
+      </Content>
       {clusterProvider && (
         <>
-          <Text component={TextVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Text>
-          <TextList isPlain>
-            <TextListItem>
+          <Content component={ContentVariants.h3}>{intl.formatMessage(messages.redHatIntegration)}</Content>
+          <Content component="ul" isPlainList>
+            <Content component="li">
               <span style={styles.spacingRight}>{intl.formatMessage(messages.source, { value: 'ocp' })}</span>
               <a href={`${release}/settings/integrations/detail/${clusterProvider.id}`}>{clusterProvider.name}</a>
-            </TextListItem>
-            <TextListItem>
+            </Content>
+            <Content component="li">
               {clusterProvider?.cost_models?.length ? (
                 clusterProvider.cost_models.map((cm, index) => (
                   <React.Fragment key={index}>
@@ -101,12 +101,12 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
               ) : (
                 <a href={formatPath(routes.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
               )}
-            </TextListItem>
-          </TextList>
+            </Content>
+          </Content>
           {cloudProvider && <CloudIntegration provider={cloudProvider} />}
         </>
       )}
-    </TextContent>
+    </Content>
   );
 };
 
