@@ -1,5 +1,5 @@
+import { addNotification } from '@ausuliv/frontend-components-notifications/redux';
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import type { AccountSettings, AccountSettingsPayload, AccountSettingsType } from 'api/accountSettings';
 import {
   fetchAccountSettings as apiFetchAccountSettings,

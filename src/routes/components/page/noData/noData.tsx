@@ -20,7 +20,7 @@ const NoData = ({ detailsComponent, showReload, title }: NoDataProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
+      <PageSection hasBodyWrapper={false}>
         <NoDataState detailsComponent={detailsComponent} showReload={showReload} />
       </PageSection>
     </>

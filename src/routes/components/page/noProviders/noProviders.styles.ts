@@ -1,8 +1,8 @@
 import { chart_color_blue_300 } from '@patternfly/react-tokens/dist/js/chart_color_blue_300';
-import { global_palette_blue_50 } from '@patternfly/react-tokens/dist/js/global_palette_blue_50';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import { t_global_color_nonstatus_blue_default } from '@patternfly/react-tokens/dist/js/t_global_color_nonstatus_blue_default';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import type React from 'react';
 
 export const styles = {
@@ -10,7 +10,7 @@ export const styles = {
     minHeight: '240px',
   },
   cardBodyItem: {
-    marginTop: global_spacer_md.var,
+    marginTop: t_global_spacer_md.var,
   },
   cardTitle: {
     display: 'flex',
@@ -18,45 +18,48 @@ export const styles = {
   },
   cardTitleIcon: {
     color: chart_color_blue_300.var,
-    marginRight: global_spacer_sm.var,
+    marginRight: t_global_spacer_sm.var,
   },
   divider: {
-    marginLeft: global_spacer_lg.var,
-    marginRight: global_spacer_lg.var,
+    marginLeft: t_global_spacer_lg.var,
+    marginRight: t_global_spacer_lg.var,
   },
   getStarted: {
-    marginBottom: global_spacer_md.var,
+    marginBottom: t_global_spacer_md.var,
+  },
+  getStartedContainer: {
+    paddingTop: 0,
   },
   header: {
     display: 'flex',
   },
   headerDesc: {
-    marginTop: global_spacer_md.var,
+    marginTop: t_global_spacer_md.var,
   },
   headerLink: {
     marginLeft: '-16px',
-    marginTop: global_spacer_sm.var,
+    marginTop: t_global_spacer_sm.var,
   },
   recommended: {
-    marginTop: global_spacer_md.var,
+    marginTop: t_global_spacer_md.var,
   },
   recommendedCol1: {
     paddingTop: '15px',
   },
   recommendedCol2: {
-    paddingTop: '10px',
+    paddingTop: '14px',
   },
   recommendedCol3: {
     textAlign: 'right',
     marginRight: '-20px',
   },
   resources: {
-    marginLeft: '-15px',
-    marginTop: global_spacer_sm.var,
+    marginLeft: '-5px',
+    marginTop: t_global_spacer_sm.var,
   },
   troubleshooting: {
-    backgroundColor: global_palette_blue_50.var,
-    marginTop: global_spacer_lg.var,
+    backgroundColor: t_global_color_nonstatus_blue_default.var,
+    marginTop: t_global_spacer_lg.var,
   },
   troubleshootingDesc: {
     display: 'flex',

@@ -1,6 +1,8 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
+  Content,
+  ContentVariants,
   List,
   ListItem,
   Split,
@@ -8,11 +10,6 @@ import {
   Tab,
   Tabs,
   TabTitleText,
-  TextContent,
-  TextList,
-  TextListItem,
-  TextListItemVariants,
-  TextListVariants,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
@@ -168,18 +165,16 @@ const Header: React.FC<Props> = ({
             />
           </SplitItem>
         </Split>
-        <TextContent style={styles.currency}>
-          <TextList component={TextListVariants.dl}>
-            <TextListItem component={TextListItemVariants.dt}>
-              {intl.formatMessage(messages.costModelsLastUpdated)}
-            </TextListItem>
-            <TextListItem component={TextListItemVariants.dd}>{dateTime}</TextListItem>
-            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.currency)}</TextListItem>
-            <TextListItem component={TextListItemVariants.dd}>
+        <Content style={styles.currency}>
+          <Content component={ContentVariants.dl}>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.costModelsLastUpdated)}</Content>
+            <Content component={ContentVariants.dd}>{dateTime}</Content>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
+            <Content component={ContentVariants.dd}>
               {intl.formatMessage(messages.currencyOptions, { units: current.currency || 'USD' })}
-            </TextListItem>
-          </TextList>
-        </TextContent>
+            </Content>
+          </Content>
+        </Content>
         {current.source_type === 'OpenShift Container Platform' ? (
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
