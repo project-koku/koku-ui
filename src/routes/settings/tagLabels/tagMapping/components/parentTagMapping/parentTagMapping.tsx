@@ -1,6 +1,8 @@
 import {
   Button,
   ButtonVariant,
+  Modal,
+  ModalVariant,
   Title,
   TitleSizes,
   Tooltip,
@@ -8,7 +10,6 @@ import {
   WizardHeader,
   WizardStep,
 } from '@patternfly/react-core';
-import { Modal, ModalVariant } from '@patternfly/react-core/next';
 import type { SettingsData } from 'api/settings';
 import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
@@ -75,7 +76,7 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
   const getSuccessEmptyState = () => {
     return (
       <Modal className="costManagement" isOpen={isOpen} variant={ModalVariant.medium}>
-        <div className="pf-v5-c-wizard">
+        <div className="pf-v6-c-wizard">
           <WizardHeader
             description={intl.formatMessage(messages.tagMappingWizardDesc)}
             onClose={handleOnClose}

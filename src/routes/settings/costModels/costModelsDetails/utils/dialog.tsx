@@ -3,13 +3,10 @@ import {
   AlertVariant,
   Button,
   ButtonVariant,
+  Content,
+  ContentVariants,
   Stack,
   StackItem,
-  Text,
-  TextContent,
-  TextList,
-  TextListItem,
-  TextListVariants,
 } from '@patternfly/react-core';
 import React from 'react';
 
@@ -62,19 +59,21 @@ function CannotDeleteContent({ head, body, sources }: CannotDeleteContentProps):
   return (
     <Stack hasGutter>
       <StackItem>
-        <TextContent>
-          <Text>{head}</Text>
-        </TextContent>
+        <Content>
+          <Content component="p">{head}</Content>
+        </Content>
       </StackItem>
       <StackItem>
-        <TextContent>
-          <Text>{body}</Text>
-          <TextList component={TextListVariants.ol}>
+        <Content>
+          <Content component="p">{body}</Content>
+          <Content component={ContentVariants.ol}>
             {sources.map(source => (
-              <TextListItem key={source}>{source}</TextListItem>
+              <Content component="li" key={source}>
+                {source}
+              </Content>
             ))}
-          </TextList>
-        </TextContent>
+          </Content>
+        </Content>
       </StackItem>
     </Stack>
   );

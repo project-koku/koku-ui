@@ -8,8 +8,8 @@ import { chart_color_green_200 } from '@patternfly/react-tokens/dist/js/chart_co
 import { chart_color_green_300 } from '@patternfly/react-tokens/dist/js/chart_color_green_300';
 import { chart_color_green_400 } from '@patternfly/react-tokens/dist/js/chart_color_green_400';
 import { chart_color_green_500 } from '@patternfly/react-tokens/dist/js/chart_color_green_500';
-import { global_spacer_lg } from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import { global_spacer_sm } from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import { t_global_spacer_lg } from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import { t_global_spacer_sm } from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import type React from 'react';
 
 export const chartStyles = {
@@ -79,9 +79,9 @@ export const chartStyles = {
 
 export const styles = {
   chart: {
-    marginTop: global_spacer_sm.value,
+    marginTop: t_global_spacer_sm.value,
   },
   title: {
-    marginLeft: '-' + global_spacer_lg.value,
+    marginLeft: '-' + t_global_spacer_lg.value,
   },
 } as { [className: string]: React.CSSProperties };

@@ -1,4 +1,4 @@
-import { ProgressStep, ProgressStepper, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, ProgressStep, ProgressStepper } from '@patternfly/react-core';
 import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
@@ -26,9 +26,9 @@ const CloudData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
 
   return (
     <>
-      <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsCloudData)}</Text>
-      </TextContent>
+      <Content>
+        <Content component={ContentVariants.h3}>{intl.formatMessage(messages.dataDetailsCloudData)}</Content>
+      </Content>
       <ProgressStepper aria-label={intl.formatMessage(messages.dataDetailsCloudData)} isVertical style={styles.stepper}>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsCloudIntegrationStatus)}
