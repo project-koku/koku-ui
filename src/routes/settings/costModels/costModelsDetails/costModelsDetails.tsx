@@ -1,4 +1,4 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import { parse, stringify } from 'qs';
 import React from 'react';
@@ -48,8 +48,8 @@ class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any>
     const { intl } = this.props;
 
     return (
-      <PageSection isFilled>
-        <div style={styles.descContainer}>
+      <Card>
+        <CardBody>
           {intl.formatMessage(messages.costModelsDesc, {
             learnMore: (
               <a href={intl.formatMessage(messages.docsUsingCostModels)} rel="noreferrer" target="_blank">
@@ -57,13 +57,17 @@ class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any>
               </a>
             ),
           })}
-        </div>
-        <CreateCostModelWizard />
-        <DeleteDialog />
-        <CostModelsToolbar />
-        <CostModelsTable />
-        <CostModelsBottomPagination />
-      </PageSection>
+          <CreateCostModelWizard />
+          <DeleteDialog />
+          <div style={styles.tableContainer}>
+            <CostModelsToolbar />
+            <CostModelsTable />
+            <div style={styles.paginationContainer}>
+              <CostModelsBottomPagination />
+            </div>
+          </div>
+        </CardBody>
+      </Card>
     );
   }
 }

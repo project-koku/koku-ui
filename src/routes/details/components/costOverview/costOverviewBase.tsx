@@ -111,9 +111,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
                 </>
               }
             >
-              <Button variant={ButtonVariant.plain}>
-                <OutlinedQuestionCircleIcon style={styles.info} />
-              </Button>
+              <Button icon={<OutlinedQuestionCircleIcon style={styles.info} />} variant={ButtonVariant.plain}></Button>
             </Popover>
           </Title>
         </CardTitle>
@@ -161,9 +159,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
                 </>
               }
             >
-              <Button variant={ButtonVariant.plain}>
-                <OutlinedQuestionCircleIcon style={styles.info} />
-              </Button>
+              <Button icon={<OutlinedQuestionCircleIcon style={styles.info} />} variant={ButtonVariant.plain}></Button>
             </Popover>
           </Title>
         </CardTitle>

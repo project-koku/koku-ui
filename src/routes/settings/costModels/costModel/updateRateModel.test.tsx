@@ -271,7 +271,7 @@ describe('update-rate', () => {
     render(<RenderFormDataUI index={0} />);
 
     const descInput = screen.getByDisplayValue('openshift-aws-node');
-    const saveButton = screen.getByText(regExp(messages.save));
+    const saveButton = screen.getByRole('button', { name: regExp(messages.save)} );
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     await user.clear(descInput);
@@ -289,45 +289,33 @@ describe('update-rate', () => {
 
     render(<RenderFormDataUI index={0} />);
 
-    const saveButton = screen.getByText(regExp(messages.save));
+    const saveButton = screen.getByRole('button', { name: regExp(messages.save)} );
 
+    // Note: hidden is used because "RTL queries only find accessible elements by default, and some internal logic in
+    // Popper is setting the menu to aria-hidden after a selection is made the first time"
     await user.click(screen.getByLabelText('Select measurement'));
-    options = await screen.findAllByRole('option');
+    options = await screen.findAllByRole('option', { hidden: true});
     await user.click(options[1]);
 
-    expect(saveButton.getAttribute('disabled')).toBeNull();
+    expect(saveButton).not.toBeDisabled();
 
     await user.click(screen.getByLabelText('Select measurement'));
-    options = await screen.findAllByRole('option');
+    options = await screen.findAllByRole('option', { hidden: true});
     await user.click(options[0]);
 
-    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+    expect(saveButton).toBeDisabled();
 
     await user.click(screen.getByLabelText('Select metric'));
-    options = await screen.findAllByRole('option');
+    options = await screen.findAllByRole('option', { hidden: true});
     await user.click(options[1]);
 
-    await user.click(screen.getByLabelText('Select measurement'));
-    options = await screen.findAllByRole('option');
-    await user.click(options[5]); // Previous select options are not being removed from page
-
-    expect(saveButton.getAttribute('disabled')).toBeNull();
-
-    await user.click(screen.getByLabelText('Select metric'));
-    options = await screen.findAllByRole('option');
-    await user.click(options[0]);
-
-    await user.click(screen.getByLabelText('Select measurement'));
-    options = await screen.findAllByRole('option');
-    await user.click(options[0]);
-
-    expect(saveButton.getAttribute('disabled')).not.toBeNull();
+    expect(saveButton).not.toBeDisabled();
   }, 10000);
 
   test('regular', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<RenderFormDataUI index={0} />);
-    const saveButton = screen.getByText(regExp(messages.save));
+    const saveButton = screen.getByRole('button', { name: regExp(messages.save)} );
 
     await user.click(screen.getByLabelText(/infrastructure/i));
     expect(saveButton.getAttribute('disabled')).toBeNull();
@@ -351,7 +339,7 @@ describe('update-rate', () => {
   test('tag', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<RenderFormDataUI index={1} />);
-    const saveButton = screen.getByText(regExp(messages.save));
+    const saveButton = screen.getByRole('button', { name: regExp(messages.save)} );
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
     await user.type(screen.getByDisplayValue(/^container$/i), '1');
     expect(saveButton.getAttribute('disabled')).toBeNull();

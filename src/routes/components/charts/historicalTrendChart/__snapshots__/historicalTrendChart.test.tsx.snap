@@ -5,9 +5,9 @@ exports[`null previous and current reports are handled 1`] = `
   class="chartOverride"
 >
   <h2
-    class="pf-v5-c-title pf-m-xl"
+    class="pf-v6-c-title pf-m-xl"
     data-ouia-component-id="OUIA-Generated-Title-2"
-    data-ouia-component-type="PF5/Title"
+    data-ouia-component-type="PF6/Title"
     data-ouia-safe="true"
     style="margin-left: -1.5rem;"
   >
@@ -21,7 +21,7 @@ exports[`null previous and current reports are handled 1`] = `
       style="height: 100px;"
     >
       <div
-        class="pf-v5-c-chart"
+        class="pf-v6-c-chart"
         style="height: 100%; width: 100%; user-select: none; pointer-events: none; position: relative;"
       >
         <svg
@@ -59,7 +59,7 @@ exports[`null previous and current reports are handled 1`] = `
                 d="M8,25C7.8933333333333335,24.886666666666667,7.786666666666666,24.773333333333333,7.68,24.66C7.573333333333333,24.546666666666667,7.466666666666666,24.433333333333334,7.359999999999999,24.32C7.253333333333333,24.206666666666667,7.146666666666667,24.093333333333334,7.040000000000001,23.98C6.9333333333333345,23.866666666666667,6.826666666666667,23.753333333333334,6.720000000000001,23.64C6.613333333333334,23.526666666666667,6.506666666666667,23.413333333333334,6.4,23.3C6.293333333333334,23.186666666666667,6.1866666666666665,23.073333333333334,6.08,22.96C5.973333333333334,22.846666666666668,5.866666666666666,22.733333333333334,5.76,22.62C5.653333333333333,22.506666666666668,5.546666666666666,22.393333333333334,5.4399999999999995,22.28C5.333333333333333,22.166666666666668,5.2266666666666675,22.053333333333335,5.120000000000001,21.94C5.0133333333333345,21.826666666666668,4.906666666666667,21.713333333333335,4.800000000000001,21.6C4.693333333333334,21.486666666666668,4.586666666666667,21.373333333333335,4.48,21.26C4.373333333333334,21.14666666666667,4.266666666666667,21.033333333333335,4.16,20.92C4.053333333333334,20.80666666666667,3.9466666666666668,20.69333333333333,3.84,20.58C3.733333333333333,20.466666666666665,3.6266666666666665,20.353333333333335,3.5199999999999996,20.240000000000002C3.413333333333333,20.12666666666667,3.306666666666666,20.013333333333332,3.1999999999999997,19.9C3.093333333333333,19.786666666666665,2.9866666666666664,19.673333333333332,2.8799999999999994,19.56C2.773333333333333,19.446666666666665,2.666666666666667,19.33333333333333,2.5600000000000005,19.219999999999995C2.4533333333333336,19.106666666666662,2.346666666666667,18.993333333333332,2.24,18.88C2.1333333333333333,18.766666666666666,2.026666666666667,18.653333333333332,1.92,18.54C1.8133333333333332,18.426666666666666,1.7066666666666663,18.313333333333333,1.5999999999999996,18.2C1.4933333333333334,18.086666666666666,1.386666666666667,17.973333333333336,1.2800000000000007,17.860000000000003C1.173333333333334,17.74666666666667,1.066666666666667,17.633333333333336,0.9600000000000004,17.520000000000003C0.8533333333333338,17.40666666666667,0.7466666666666671,17.293333333333333,0.6400000000000006,17.18C0.533333333333334,17.066666666666666,0.42666666666666736,16.953333333333333,0.32000000000000073,16.84C0.21333333333333382,16.726666666666667,0.10666666666666691,16.613333333333333,0,16.5C-0.10666666666666676,16.386666666666667,-0.21333333333333354,16.273333333333333,-0.3200000000000003,16.16C-0.42666666666666647,16.046666666666667,-0.5333333333333327,15.933333333333334,-0.6399999999999988,15.82C-0.7466666666666661,15.706666666666665,-0.8533333333333335,15.593333333333332,-0.9600000000000009,15.479999999999999C-1.066666666666667,15.366666666666665,-1.1733333333333331,15.253333333333334,-1.2799999999999994,15.14C-1.386666666666666,15.026666666666667,-1.493333333333333,14.913333333333334,-1.5999999999999996,14.8C-1.7066666666666659,14.686666666666667,-1.813333333333332,14.573333333333334,-1.9199999999999982,14.46C-2.0266666666666655,14.346666666666668,-2.133333333333333,14.233333333333334,-2.24,14.120000000000001C-2.346666666666667,14.006666666666668,-2.4533333333333336,13.893333333333334,-2.5600000000000005,13.780000000000001C-2.6666666666666665,13.666666666666668,-2.773333333333333,13.553333333333333,-2.879999999999999,13.44C-2.986666666666666,13.326666666666664,-3.0933333333333324,13.213333333333331,-3.1999999999999993,13.099999999999998C-3.306666666666666,12.986666666666665,-3.4133333333333327,12.873333333333335,-3.5199999999999996,12.760000000000002C-3.6266666666666665,12.646666666666668,-3.733333333333333,12.533333333333333,-3.84,12.42C-3.9466666666666668,12.306666666666667,-4.053333333333334,12.193333333333333,-4.16,12.08C-4.266666666666667,11.966666666666667,-4.373333333333332,11.853333333333332,-4.479999999999999,11.739999999999998C-4.586666666666666,11.626666666666663,-4.693333333333333,11.513333333333332,-4.800000000000001,11.399999999999999C-4.906666666666667,11.286666666666665,-5.013333333333333,11.173333333333332,-5.119999999999999,11.059999999999999C-5.226666666666666,10.946666666666665,-5.333333333333333,10.833333333333334,-5.4399999999999995,10.72C-5.546666666666666,10.606666666666667,-5.653333333333333,10.493333333333334,-5.76,10.38C-5.866666666666666,10.266666666666667,-5.973333333333334,10.153333333333332,-6.08,10.04C-6.1866666666666665,9.926666666666666,-6.293333333333334,9.813333333333333,-6.4,9.7C-6.506666666666667,9.586666666666666,-6.613333333333332,9.473333333333333,-6.719999999999999,9.36C-6.826666666666665,9.246666666666666,-6.933333333333333,9.133333333333333,-7.039999999999999,9.02C-7.146666666666666,8.906666666666666,-7.253333333333331,8.793333333333333,-7.359999999999998,8.68C-7.466666666666665,8.566666666666666,-7.573333333333332,8.453333333333333,-7.68,8.34C-7.786666666666666,8.226666666666667,-7.8933333333333335,8.113333333333333,-8,8"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill: none; stroke: #8bc1f7; fill-opacity: 0.3; stroke-width: 2;"
+                style="fill: none; stroke: #92c5f9; fill-opacity: 0.3; stroke-width: 2;"
               />
             </g>
           </g>
@@ -91,7 +91,7 @@ exports[`null previous and current reports are handled 1`] = `
                 d="M8,25C7.8933333333333335,24.886666666666667,7.786666666666666,24.773333333333333,7.68,24.66C7.573333333333333,24.546666666666667,7.466666666666666,24.433333333333334,7.359999999999999,24.32C7.253333333333333,24.206666666666667,7.146666666666667,24.093333333333334,7.040000000000001,23.98C6.9333333333333345,23.866666666666667,6.826666666666667,23.753333333333334,6.720000000000001,23.64C6.613333333333334,23.526666666666667,6.506666666666667,23.413333333333334,6.4,23.3C6.293333333333334,23.186666666666667,6.1866666666666665,23.073333333333334,6.08,22.96C5.973333333333334,22.846666666666668,5.866666666666666,22.733333333333334,5.76,22.62C5.653333333333333,22.506666666666668,5.546666666666666,22.393333333333334,5.4399999999999995,22.28C5.333333333333333,22.166666666666668,5.2266666666666675,22.053333333333335,5.120000000000001,21.94C5.0133333333333345,21.826666666666668,4.906666666666667,21.713333333333335,4.800000000000001,21.6C4.693333333333334,21.486666666666668,4.586666666666667,21.373333333333335,4.48,21.26C4.373333333333334,21.14666666666667,4.266666666666667,21.033333333333335,4.16,20.92C4.053333333333334,20.80666666666667,3.9466666666666668,20.69333333333333,3.84,20.58C3.733333333333333,20.466666666666665,3.6266666666666665,20.353333333333335,3.5199999999999996,20.240000000000002C3.413333333333333,20.12666666666667,3.306666666666666,20.013333333333332,3.1999999999999997,19.9C3.093333333333333,19.786666666666665,2.9866666666666664,19.673333333333332,2.8799999999999994,19.56C2.773333333333333,19.446666666666665,2.666666666666667,19.33333333333333,2.5600000000000005,19.219999999999995C2.4533333333333336,19.106666666666662,2.346666666666667,18.993333333333332,2.24,18.88C2.1333333333333333,18.766666666666666,2.026666666666667,18.653333333333332,1.92,18.54C1.8133333333333332,18.426666666666666,1.7066666666666663,18.313333333333333,1.5999999999999996,18.2C1.4933333333333334,18.086666666666666,1.386666666666667,17.973333333333336,1.2800000000000007,17.860000000000003C1.173333333333334,17.74666666666667,1.066666666666667,17.633333333333336,0.9600000000000004,17.520000000000003C0.8533333333333338,17.40666666666667,0.7466666666666671,17.293333333333333,0.6400000000000006,17.18C0.533333333333334,17.066666666666666,0.42666666666666736,16.953333333333333,0.32000000000000073,16.84C0.21333333333333382,16.726666666666667,0.10666666666666691,16.613333333333333,0,16.5C-0.10666666666666676,16.386666666666667,-0.21333333333333354,16.273333333333333,-0.3200000000000003,16.16C-0.42666666666666647,16.046666666666667,-0.5333333333333327,15.933333333333334,-0.6399999999999988,15.82C-0.7466666666666661,15.706666666666665,-0.8533333333333335,15.593333333333332,-0.9600000000000009,15.479999999999999C-1.066666666666667,15.366666666666665,-1.1733333333333331,15.253333333333334,-1.2799999999999994,15.14C-1.386666666666666,15.026666666666667,-1.493333333333333,14.913333333333334,-1.5999999999999996,14.8C-1.7066666666666659,14.686666666666667,-1.813333333333332,14.573333333333334,-1.9199999999999982,14.46C-2.0266666666666655,14.346666666666668,-2.133333333333333,14.233333333333334,-2.24,14.120000000000001C-2.346666666666667,14.006666666666668,-2.4533333333333336,13.893333333333334,-2.5600000000000005,13.780000000000001C-2.6666666666666665,13.666666666666668,-2.773333333333333,13.553333333333333,-2.879999999999999,13.44C-2.986666666666666,13.326666666666664,-3.0933333333333324,13.213333333333331,-3.1999999999999993,13.099999999999998C-3.306666666666666,12.986666666666665,-3.4133333333333327,12.873333333333335,-3.5199999999999996,12.760000000000002C-3.6266666666666665,12.646666666666668,-3.733333333333333,12.533333333333333,-3.84,12.42C-3.9466666666666668,12.306666666666667,-4.053333333333334,12.193333333333333,-4.16,12.08C-4.266666666666667,11.966666666666667,-4.373333333333332,11.853333333333332,-4.479999999999999,11.739999999999998C-4.586666666666666,11.626666666666663,-4.693333333333333,11.513333333333332,-4.800000000000001,11.399999999999999C-4.906666666666667,11.286666666666665,-5.013333333333333,11.173333333333332,-5.119999999999999,11.059999999999999C-5.226666666666666,10.946666666666665,-5.333333333333333,10.833333333333334,-5.4399999999999995,10.72C-5.546666666666666,10.606666666666667,-5.653333333333333,10.493333333333334,-5.76,10.38C-5.866666666666666,10.266666666666667,-5.973333333333334,10.153333333333332,-6.08,10.04C-6.1866666666666665,9.926666666666666,-6.293333333333334,9.813333333333333,-6.4,9.7C-6.506666666666667,9.586666666666666,-6.613333333333332,9.473333333333333,-6.719999999999999,9.36C-6.826666666666665,9.246666666666666,-6.933333333333333,9.133333333333333,-7.039999999999999,9.02C-7.146666666666666,8.906666666666666,-7.253333333333331,8.793333333333333,-7.359999999999998,8.68C-7.466666666666665,8.566666666666666,-7.573333333333332,8.453333333333333,-7.68,8.34C-7.786666666666666,8.226666666666667,-7.8933333333333335,8.113333333333333,-8,8"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill: none; stroke: #4cb140; fill-opacity: 0.3; stroke-width: 2;"
+                style="fill: none; stroke: #63993d; fill-opacity: 0.3; stroke-width: 2;"
               />
             </g>
           </g>
@@ -101,7 +101,7 @@ exports[`null previous and current reports are handled 1`] = `
             <line
               role="presentation"
               shape-rendering="auto"
-              style="stroke: var(--pf-v5-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-v5-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+              style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #c7c7c7); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
               vector-effect="non-scaling-stroke"
               x1="8"
               x2="-8"
@@ -121,7 +121,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: middle;"
                   text-anchor="middle"
                   x="8"
                 >
@@ -142,7 +142,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: middle;"
                   text-anchor="middle"
                   x="0.5333333333333332"
                 >
@@ -163,7 +163,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: middle;"
                   text-anchor="middle"
                   x="-8"
                 >
@@ -178,7 +178,7 @@ exports[`null previous and current reports are handled 1`] = `
             <line
               role="presentation"
               shape-rendering="auto"
-              style="stroke: var(--pf-v5-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-v5-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+              style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #c7c7c7); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
               vector-effect="non-scaling-stroke"
               x1="8"
               x2="8"
@@ -198,7 +198,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -219,7 +219,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -240,7 +240,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -261,7 +261,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -282,7 +282,7 @@ exports[`null previous and current reports are handled 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -310,7 +310,7 @@ exports[`null previous and current reports are handled 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: #8bc1f7;"
+              style="fill: #92c5f9;"
             />
             <path
               d="M 47.44, 73.156
@@ -320,7 +320,7 @@ exports[`null previous and current reports are handled 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: #4cb140;"
+              style="fill: #63993d;"
             />
             <text
               direction="inherit"
@@ -332,7 +332,7 @@ exports[`null previous and current reports are handled 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-global--label--Fill, #1f1f1f);"
                 text-anchor="start"
                 x="30.8"
               >
@@ -349,7 +349,7 @@ exports[`null previous and current reports are handled 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-global--label--Fill, #1f1f1f);"
                 text-anchor="start"
                 x="70.39999999999999"
               >
@@ -379,9 +379,9 @@ exports[`reports are formatted to datums 1`] = `
   class="chartOverride"
 >
   <h2
-    class="pf-v5-c-title pf-m-xl"
+    class="pf-v6-c-title pf-m-xl"
     data-ouia-component-id="OUIA-Generated-Title-1"
-    data-ouia-component-type="PF5/Title"
+    data-ouia-component-type="PF6/Title"
     data-ouia-safe="true"
     style="margin-left: -1.5rem;"
   >
@@ -395,7 +395,7 @@ exports[`reports are formatted to datums 1`] = `
       style="height: 100px;"
     >
       <div
-        class="pf-v5-c-chart"
+        class="pf-v6-c-chart"
         style="height: 100%; width: 100%; user-select: none; pointer-events: none; position: relative;"
       >
         <svg
@@ -433,7 +433,7 @@ exports[`reports are formatted to datums 1`] = `
                 d="M8,16.5Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill: none; stroke: #8bc1f7; fill-opacity: 0.3; stroke-width: 2;"
+                style="fill: none; stroke: #92c5f9; fill-opacity: 0.3; stroke-width: 2;"
               />
             </g>
           </g>
@@ -465,7 +465,7 @@ exports[`reports are formatted to datums 1`] = `
                 d="M8,16.5Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill: none; stroke: #4cb140; fill-opacity: 0.3; stroke-width: 2;"
+                style="fill: none; stroke: #63993d; fill-opacity: 0.3; stroke-width: 2;"
               />
             </g>
           </g>
@@ -475,7 +475,7 @@ exports[`reports are formatted to datums 1`] = `
             <line
               role="presentation"
               shape-rendering="auto"
-              style="stroke: var(--pf-v5-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-v5-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+              style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #c7c7c7); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
               vector-effect="non-scaling-stroke"
               x1="8"
               x2="-8"
@@ -495,7 +495,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: middle;"
                   text-anchor="middle"
                   x="8"
                 >
@@ -516,7 +516,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: middle;"
                   text-anchor="middle"
                   x="0.5333333333333332"
                 >
@@ -537,7 +537,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: middle;"
+                  style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: middle;"
                   text-anchor="middle"
                   x="-8"
                 >
@@ -552,7 +552,7 @@ exports[`reports are formatted to datums 1`] = `
             <line
               role="presentation"
               shape-rendering="auto"
-              style="stroke: var(--pf-v5-chart-axis--axis--stroke--Color, #d2d2d2); fill: var(--pf-v5-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+              style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #c7c7c7); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
               vector-effect="non-scaling-stroke"
               x1="8"
               x2="8"
@@ -572,7 +572,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -593,7 +593,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -614,7 +614,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -635,7 +635,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -656,7 +656,7 @@ exports[`reports are formatted to datums 1`] = `
                 <tspan
                   dx="0"
                   dy="0"
-                  style="font-size: 0px; font-family: "RedHatText",helvetica,arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-axis--tick-label--Fill, #4f5255); text-anchor: end;"
+                  style="font-size: 0px; font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-axis--tick-label--Fill, #383838); text-anchor: end;"
                   text-anchor="end"
                   x="-7"
                 >
@@ -684,7 +684,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: #8bc1f7;"
+              style="fill: #92c5f9;"
             />
             <path
               d="M 47.44, 73.156
@@ -694,7 +694,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: #4cb140;"
+              style="fill: #63993d;"
             />
             <text
               direction="inherit"
@@ -706,7 +706,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-global--label--Fill, #1f1f1f);"
                 text-anchor="start"
                 x="30.8"
               >
@@ -723,7 +723,7 @@ exports[`reports are formatted to datums 1`] = `
               <tspan
                 dx="0"
                 dy="0"
-                style="font-family: "RedHatText",helvetica,arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v5-chart-global--label--stroke, transparent); fill: var(--pf-v5-chart-global--label--Fill, #151515);"
+                style="font-family: "RedHatText","RedHatText","NotoSansArabic","NotoSansHebrew","NotoSansJP","NotoSansKR","NotoSansMalayalam","NotoSansSC","NotoSansTC","NotoSansThai",Helvetica,Arial,sans-serif; font-size: 14px; letter-spacing: normal; padding: 10px; stroke: var(--pf-v6-chart-global--label--stroke, transparent); fill: var(--pf-v6-chart-global--label--Fill, #1f1f1f);"
                 text-anchor="start"
                 x="70.39999999999999"
               >
