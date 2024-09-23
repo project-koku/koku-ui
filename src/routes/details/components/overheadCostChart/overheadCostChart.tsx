@@ -1,4 +1,4 @@
-import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
+import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts/victory';
 import { Skeleton } from '@patternfly/react-core';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';

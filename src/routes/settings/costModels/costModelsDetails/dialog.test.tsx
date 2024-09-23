@@ -74,11 +74,11 @@ test('delete dialog open', async () => {
     },
   };
   renderUI(state);
-  expect(screen.queryAllByText(regExp(messages.costModelsDelete))).toHaveLength(2);
+  expect(screen.getAllByRole('button', { name: regExp(messages.costModelsDelete)})).toHaveLength(1);
   expect(screen.queryAllByText(/This action will delete/i)).toHaveLength(1);
-  expect(screen.queryAllByText(/The following sources are assigned to/i)).toHaveLength(0);
-  await act(async () => user.click(screen.getAllByText(regExp(messages.costModelsDelete))[1]));
-  expect(screen.getAllByText(regExp(messages.costModelsDelete))[1].getAttribute('disabled')).not.toBeNull();
+  expect(screen.queryAllByText(/The following integrations are assigned to/i)).toHaveLength(0);
+  await act(async () => user.click(screen.getAllByRole('button', { name: regExp(messages.costModelsDelete)})[0]));
+  expect(screen.getAllByRole('button', { name: regExp(messages.costModelsDelete)})[0].getAttribute('disabled')).not.toBeNull();
 });
 
 test('delete dialog error', async () => {

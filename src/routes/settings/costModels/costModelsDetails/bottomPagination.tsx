@@ -1,12 +1,5 @@
 import type { PaginationProps } from '@patternfly/react-core';
-import {
-  Pagination,
-  PaginationVariant,
-  Toolbar,
-  ToolbarContent,
-  ToolbarItem,
-  ToolbarItemVariant,
-} from '@patternfly/react-core';
+import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -33,26 +26,20 @@ const BottomPaginationBase: React.FC<BottomPaginationBaseProps> = props => {
     onPerPageSelect,
   } = props;
   return (
-    <Toolbar>
-      <ToolbarContent>
-        <ToolbarItem variant={ToolbarItemVariant.pagination}>
-          <Pagination
-            onPerPageSelect={onPerPageSelect}
-            onSetPage={onSetPage}
-            variant={variant}
-            itemCount={itemCount}
-            page={page}
-            perPage={perPage}
-            titles={{
-              paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-                title: intl.formatMessage(messages.costModelsDetailsTitle),
-                placement: 'bottom',
-              }),
-            }}
-          />
-        </ToolbarItem>
-      </ToolbarContent>
-    </Toolbar>
+    <Pagination
+      onPerPageSelect={onPerPageSelect}
+      onSetPage={onSetPage}
+      variant={variant}
+      itemCount={itemCount}
+      page={page}
+      perPage={perPage}
+      titles={{
+        paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
+          title: intl.formatMessage(messages.costModelsDetailsTitle),
+          placement: 'bottom',
+        }),
+      }}
+    />
   );
 };
 

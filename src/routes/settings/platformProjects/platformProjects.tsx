@@ -1,4 +1,4 @@
-import { PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Settings } from 'api/settings';
@@ -11,8 +11,8 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { Loading } from 'routes/components/page/loading';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -221,8 +221,8 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
     return <NotAvailable />;
   }
   return (
-    <PageSection isFilled>
-      <div style={styles.descContainer}>
+    <Card>
+      <CardBody>
         {intl.formatMessage(messages.platformProjectsDesc, {
           learnMore: (
             <a href={intl.formatMessage(messages.docsPlatformProjects)} rel="noreferrer" target="_blank">
@@ -230,17 +230,19 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
             </a>
           ),
         })}
-      </div>
-      {getToolbar(categories)}
-      {settingsStatus === FetchStatus.inProgress ? (
-        <Loading />
-      ) : (
-        <>
-          {getTable()}
-          <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
-        </>
-      )}
-    </PageSection>
+        <div style={styles.tableContainer}>
+          {getToolbar(categories)}
+          {settingsStatus === FetchStatus.inProgress ? (
+            <LoadingState />
+          ) : (
+            <>
+              {getTable()}
+              <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>
+            </>
+          )}
+        </div>
+      </CardBody>
+    </Card>
   );
 };
 

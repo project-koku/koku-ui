@@ -1,29 +1,30 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_spacer_2xl from '@patternfly/react-tokens/dist/js/global_spacer_2xl';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import t_global_spacer_2xl from '@patternfly/react-tokens/dist/js/t_global_spacer_2xl';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import type React from 'react';
 
 export const styles = {
   action: {
-    marginLeft: global_spacer_md.var,
+    marginLeft: t_global_spacer_md.var,
   },
   childActionColumn: {
-    paddingRight: global_spacer_2xl.value,
+    paddingRight: t_global_spacer_2xl.value,
   },
   childSourceTypeColumn: {
-    paddingRight: global_spacer_sm.value,
+    paddingRight: t_global_spacer_sm.value,
   },
   childTagKeyColumn: {
-    paddingLeft: global_spacer_lg.value,
+    paddingLeft: t_global_spacer_lg.value,
   },
   emptyStateContainer: {
-    paddingTop: global_spacer_md.value,
+    paddingTop: t_global_spacer_md.value,
   },
-  pagination: {
-    backgroundColor: global_BackgroundColor_light_100.value,
-    paddingBottom: global_spacer_md.value,
-    paddingTop: global_spacer_md.value,
+  paginationContainer: {
+    paddingBottom: t_global_spacer_md.value,
+    paddingTop: t_global_spacer_sm.value,
+  },
+  tableContainer: {
+    marginTop: t_global_spacer_lg.var,
   },
 } as { [className: string]: React.CSSProperties };

@@ -2,7 +2,7 @@
 
 exports[`dialog title renders correctly with icon and title text 1`] = `
 <span
-  class="pf-v5-c-modal-box__title-text"
+  class="pf-v6-c-modal-box__title-text"
 >
   Test dialog
 </span>

@@ -279,7 +279,7 @@ const NoProviders = () => {
           {getHeaderTitle()}
         </div>
       </PageHeader>
-      <PageSection>
+      <PageSection style={styles.getStartedContainer}>
         <Stack>
           <StackItem style={styles.getStarted}>
             <Title headingLevel="h3" size={TitleSizes.md}>

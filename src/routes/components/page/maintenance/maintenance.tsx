@@ -1,12 +1,16 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import React from 'react';
 
 import { MaintenanceState } from './maintenanceState';
 
 const Maintenance = () => {
   return (
-    <PageSection>
-      <MaintenanceState />
+    <PageSection hasBodyWrapper={false}>
+      <Card>
+        <CardBody>
+          <MaintenanceState />
+        </CardBody>
+      </Card>
     </PageSection>
   );
 };

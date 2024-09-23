@@ -1,4 +1,4 @@
-import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import { PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import type { Providers } from 'api/providers';
 import type { ProviderType } from 'api/providers';
@@ -197,17 +197,13 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           <>
             <TabTitleText>{this.getTabTitle(tab)}</TabTitleText>
             {showBadge && (
-              <span>
-                {
-                  <AsyncComponent
-                    scope="costManagementMfe"
-                    appName="cost-management-mfe"
-                    module="./MfeOptimizationsBadge"
-                    cluster={queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined}
-                    project={groupBy === 'project' ? groupByValue : undefined}
-                  />
-                }
-              </span>
+              <AsyncComponent
+                scope="costManagementMfe"
+                appName="cost-management-mfe"
+                module="./MfeOptimizationsBadge"
+                cluster={queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined}
+                project={groupBy === 'project' ? groupByValue : undefined}
+              />
             )}
           </>
         }
@@ -365,35 +361,37 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
     return (
       <>
-        <BreakdownHeader
-          breadcrumbLabel={breadcrumbLabel}
-          breadcrumbPath={
-            router?.location?.state?.details?.breadcrumbPath
-              ? router.location.state.details.breadcrumbPath
-              : breadcrumbPath
-          }
-          clusterInfoComponent={clusterInfoComponent}
-          dataDetailsComponent={dataDetailsComponent}
-          costDistribution={costDistribution}
-          costType={costType}
-          currency={currency}
-          description={description}
-          detailsURL={detailsURL}
-          groupBy={groupBy}
-          onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router, router.location.state)}
-          onCostTypeSelect={() => handleOnCostTypeSelect(query, router, router.location.state)}
-          onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
-          query={query}
-          report={report}
-          showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}
-          showCostType={showCostType}
-          showCurrency={!(optimizationsComponent && activeTabKey === 3)}
-          tabs={this.getTabs(availableTabs)}
-          tagPathsType={tagPathsType}
-          timeScopeValue={timeScopeValue}
-          title={title}
-        />
-        <div style={styles.content}>{this.getTabContent(availableTabs)}</div>
+        <PageSection style={styles.headerContainer}>
+          <BreakdownHeader
+            breadcrumbLabel={breadcrumbLabel}
+            breadcrumbPath={
+              router?.location?.state?.details?.breadcrumbPath
+                ? router.location.state.details.breadcrumbPath
+                : breadcrumbPath
+            }
+            clusterInfoComponent={clusterInfoComponent}
+            costDistribution={costDistribution}
+            costType={costType}
+            currency={currency}
+            dataDetailsComponent={dataDetailsComponent}
+            description={description}
+            detailsURL={detailsURL}
+            groupBy={groupBy}
+            onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router, router.location.state)}
+            onCostTypeSelect={() => handleOnCostTypeSelect(query, router, router.location.state)}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
+            query={query}
+            report={report}
+            showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}
+            showCostType={showCostType}
+            showCurrency={!(optimizationsComponent && activeTabKey === 3)}
+            tabs={this.getTabs(availableTabs)}
+            tagPathsType={tagPathsType}
+            timeScopeValue={timeScopeValue}
+            title={title}
+          />
+        </PageSection>
+        <PageSection>{this.getTabContent(availableTabs)}</PageSection>
       </>
     );
   }

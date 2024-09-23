@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
@@ -69,7 +69,7 @@ export const getTagKeyOptions = (
   tagReport: Tag,
   filters: Filters,
   isSelectWrapperOption = false
-): ToolbarChipGroup[] | SelectWrapperOption[] => {
+): ToolbarLabelGroup[] | SelectWrapperOption[] => {
   const options = [];
   const reportOptions = getTagKeyOptionsFromReport(tagReport, isSelectWrapperOption);
   const filterOptions = getTagKeyOptionsFromFilters(filters, isSelectWrapperOption);
@@ -98,7 +98,7 @@ export const getTagKeyOptions = (
 const getTagKeyOptionsFromFilters = (
   filter: Filters,
   isSelectWrapperOption = false
-): ToolbarChipGroup[] | SelectWrapperOption[] => {
+): ToolbarLabelGroup[] | SelectWrapperOption[] => {
   const options = [];
 
   if (!filter?.tag) {
@@ -124,7 +124,7 @@ const getTagKeyOptionsFromFilters = (
 const getTagKeyOptionsFromReport = (
   tagReport: Tag,
   isSelectWrapperOption = false
-): ToolbarChipGroup[] | SelectWrapperOption[] => {
+): ToolbarLabelGroup[] | SelectWrapperOption[] => {
   let data = [];
   let options = [];
 
@@ -198,7 +198,7 @@ export const getTagValueSelect = ({
   onTagValueInputChange?: (value: string) => void;
   startDate?: string;
   tagKeyValueInput?: string;
-  tagKeyOption?: ToolbarChipGroup;
+  tagKeyOption?: ToolbarLabelGroup;
   tagPathsType?: TagPathsType;
   timeScopeValue?: number;
 }) => {
@@ -211,8 +211,8 @@ export const getTagValueSelect = ({
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      chips={getChips(filters?.tag?.[tagKeyOption.key])}
-      deleteChip={onDelete}
+      labels={getChips(filters?.tag?.[tagKeyOption.key])}
+      deleteLabel={onDelete}
       key={tagKeyOption.key}
       showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
     >

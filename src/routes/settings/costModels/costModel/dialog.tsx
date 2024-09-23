@@ -1,4 +1,4 @@
-import { Alert, Button, Modal } from '@patternfly/react-core';
+import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -50,13 +50,14 @@ const DialogBase: React.FC<Props> = ({
       aria-label={title}
       isOpen={isOpen}
       onClose={onClose}
-      actions={actions}
-      title={title}
-      titleIconVariant="warning"
-      variant={isSmall ? 'small' : 'default'}
+      variant={isSmall ? ModalVariant.small : ModalVariant.default}
     >
-      {error && <Alert variant="danger" title={`${error}`} />}
-      {body}
+      <ModalHeader title={title} titleIconVariant="warning" />
+      <ModalBody>
+        {error && <Alert variant="danger" title={`${error}`} />}
+        {body}
+      </ModalBody>
+      <ModalFooter>{actions}</ModalFooter>
     </Modal>
   );
 };

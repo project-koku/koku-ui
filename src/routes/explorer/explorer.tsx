@@ -1,4 +1,13 @@
-import { Alert, Pagination, PaginationVariant } from '@patternfly/react-core';
+import {
+  Alert,
+  Card,
+  CardBody,
+  Grid,
+  GridItem,
+  PageSection,
+  Pagination,
+  PaginationVariant,
+} from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -21,6 +30,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
@@ -564,111 +574,120 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const isDateRangeSelected = query.dateRangeType !== undefined;
 
     return (
-      <div style={styles.explorer}>
-        <ExplorerHeader
-          costDistribution={costDistribution}
-          costType={costType}
-          currency={currency}
-          dateRangeType={dateRangeType}
-          endDate={endDate}
-          groupBy={
-            groupByCostCategory
-              ? `${awsCategoryPrefix}${groupByCostCategory}`
-              : groupByTagKey
-                ? `${tagPrefix}${groupByTagKey}`
-                : groupById
-          }
-          isCurrentMonthData={isCurrentMonthData}
-          isDataAvailable={isDataAvailable}
-          isPreviousMonthData={isPreviousMonthData}
-          onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
-          onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
-          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
-          onDateRangeSelect={this.handleOnDateRangeSelect}
-          onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
-          onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
-          onGroupBySelect={this.handleOnGroupBySelect}
-          onPerspectiveClicked={this.handleOnPerspectiveClick}
-          perspective={perspective}
-          report={report}
-          startDate={startDate}
-        />
-        {!isDataAvailable && isDetailsDateRangeToggleEnabled ? (
-          this.getEmptyProviderState()
-        ) : (
-          <>
-            {isDetailsDateRangeToggleEnabled ? (
-              <div style={styles.chartContent}>
-                {!isCurrentMonthData && !isDateRangeSelected && dateRangeType === DateRangeType.previousMonth && (
-                  <Alert
-                    isInline
-                    style={styles.alert}
-                    title={intl.formatMessage(messages.noCurrentData, {
-                      dateRange: getSinceDateRangeString(),
-                    })}
-                    variant="info"
-                  />
-                )}
-                <div style={styles.chartContainer}>
-                  <ExplorerChart
-                    costDistribution={costDistribution}
-                    costType={costType}
-                    currency={currency}
-                    dateRangeType={dateRangeType}
-                    endDate={endDate}
-                    groupBy={
-                      groupByCostCategory
-                        ? `${awsCategoryPrefix}${groupByCostCategory}`
-                        : groupByTagKey
-                          ? `${tagPrefix}${groupByTagKey}`
-                          : groupById
-                    }
-                    perspective={perspective}
-                    startDate={startDate}
-                  />
-                </div>
-              </div>
-            ) : (
-              (itemsTotal > 0 || isChartSkeletonToggleEnabled) && (
-                <div style={styles.chartContent}>
-                  <div style={styles.chartContainer}>
-                    <ExplorerChart
-                      costDistribution={costDistribution}
-                      costType={costType}
-                      currency={currency}
-                      dateRangeType={dateRangeType}
-                      endDate={endDate}
-                      groupBy={
-                        groupByCostCategory
-                          ? `${awsCategoryPrefix}${groupByCostCategory}`
-                          : groupByTagKey
-                            ? `${tagPrefix}${groupByTagKey}`
-                            : groupById
-                      }
-                      perspective={perspective}
-                      startDate={startDate}
-                    />
-                  </div>
-                </div>
-              )
-            )}
-            <div style={styles.tableContent}>
-              <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
-              {this.getExportModal(computedItems)}
-              {reportFetchStatus === FetchStatus.inProgress ? (
-                <Loading />
+      <>
+        <PageSection style={styles.headerContainer}>
+          <ExplorerHeader
+            costDistribution={costDistribution}
+            costType={costType}
+            currency={currency}
+            dateRangeType={dateRangeType}
+            endDate={endDate}
+            groupBy={
+              groupByCostCategory
+                ? `${awsCategoryPrefix}${groupByCostCategory}`
+                : groupByTagKey
+                  ? `${tagPrefix}${groupByTagKey}`
+                  : groupById
+            }
+            isCurrentMonthData={isCurrentMonthData}
+            isPreviousMonthData={isPreviousMonthData}
+            onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
+            onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+            onDateRangeSelect={this.handleOnDateRangeSelect}
+            onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
+            onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
+            onGroupBySelect={this.handleOnGroupBySelect}
+            onPerspectiveClicked={this.handleOnPerspectiveClick}
+            perspective={perspective}
+            report={report}
+            startDate={startDate}
+          />
+        </PageSection>
+        <PageSection>
+          {!isDataAvailable && isDetailsDateRangeToggleEnabled ? (
+            this.getEmptyProviderState()
+          ) : (
+            <Grid hasGutter>
+              {isDetailsDateRangeToggleEnabled ? (
+                <GridItem sm={12}>
+                  <Card>
+                    {!isCurrentMonthData && !isDateRangeSelected && dateRangeType === DateRangeType.previousMonth && (
+                      <Alert
+                        isInline
+                        style={styles.alert}
+                        title={intl.formatMessage(messages.noCurrentData, {
+                          dateRange: getSinceDateRangeString(),
+                        })}
+                        variant="info"
+                      />
+                    )}
+                    <CardBody>
+                      <ExplorerChart
+                        costDistribution={costDistribution}
+                        costType={costType}
+                        currency={currency}
+                        dateRangeType={dateRangeType}
+                        endDate={endDate}
+                        groupBy={
+                          groupByCostCategory
+                            ? `${awsCategoryPrefix}${groupByCostCategory}`
+                            : groupByTagKey
+                              ? `${tagPrefix}${groupByTagKey}`
+                              : groupById
+                        }
+                        perspective={perspective}
+                        startDate={startDate}
+                      />
+                    </CardBody>
+                  </Card>
+                </GridItem>
               ) : (
-                <>
-                  <div style={styles.tableContainer}>{this.getTable()}</div>
-                  <div style={styles.paginationContainer}>
-                    <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-                  </div>
-                </>
+                (itemsTotal > 0 || isChartSkeletonToggleEnabled) && (
+                  <GridItem sm={12}>
+                    <Card>
+                      <CardBody>
+                        <ExplorerChart
+                          costDistribution={costDistribution}
+                          costType={costType}
+                          currency={currency}
+                          dateRangeType={dateRangeType}
+                          endDate={endDate}
+                          groupBy={
+                            groupByCostCategory
+                              ? `${awsCategoryPrefix}${groupByCostCategory}`
+                              : groupByTagKey
+                                ? `${tagPrefix}${groupByTagKey}`
+                                : groupById
+                          }
+                          perspective={perspective}
+                          startDate={startDate}
+                        />
+                      </CardBody>
+                    </Card>
+                  </GridItem>
+                )
               )}
-            </div>
-          </>
-        )}
-      </div>
+              <GridItem sm={12}>
+                <Card>
+                  <CardBody>
+                    {this.getToolbar(computedItems)}
+                    {this.getExportModal(computedItems)}
+                    {reportFetchStatus === FetchStatus.inProgress ? (
+                      <LoadingState />
+                    ) : (
+                      <>
+                        {this.getTable()}
+                        <div style={styles.paginationContainer}>{this.getPagination(isDisabled, true)}</div>
+                      </>
+                    )}
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </Grid>
+          )}
+        </PageSection>
+      </>
     );
   }
 }

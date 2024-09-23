@@ -311,7 +311,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     });
 
     return (
-      <header style={styles.header}>
+      <header>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.headerContent}>
           <FlexItem>
             <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>

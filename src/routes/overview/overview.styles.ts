@@ -1,7 +1,6 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_FontSize_md from '@patternfly/react-tokens/dist/js/global_FontSize_md';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
+import t_global_font_size_md from '@patternfly/react-tokens/dist/js/t_global_font_size_md';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import type React from 'react';
 
 export const styles = {
@@ -11,11 +10,13 @@ export const styles = {
     textAlign: 'end',
   },
   costType: {
-    marginLeft: global_spacer_md.var,
+    marginLeft: t_global_spacer_md.var,
   },
-  header: {
-    backgroundColor: global_BackgroundColor_light_100.var,
-    padding: global_spacer_lg.var,
+  headerContainer: {
+    paddingBottom: 0,
+  },
+  headerContent: {
+    display: 'flex',
   },
   headerContentLeft: {
     display: 'flex',
@@ -24,17 +25,13 @@ export const styles = {
     display: 'flex',
   },
   infoIcon: {
-    fontSize: global_FontSize_md.value,
+    fontSize: t_global_font_size_md.value,
   },
   infoTitle: {
     fontWeight: 'bold',
   },
-  main: {
-    padding: global_spacer_lg.value,
-  },
   tabs: {
-    backgroundColor: global_BackgroundColor_light_100.var,
-    paddingBottom: global_spacer_lg.var,
-    paddingTop: global_spacer_lg.var,
+    paddingBottom: t_global_spacer_lg.var,
+    paddingTop: t_global_spacer_lg.var,
   },
 } as { [className: string]: React.CSSProperties };
