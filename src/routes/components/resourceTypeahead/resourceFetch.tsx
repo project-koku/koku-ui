@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Resource } from 'api/resources/resource';
@@ -58,7 +58,7 @@ const ResourceFetch: React.FC<ResourceFetchProps> = ({
 }) => {
   const { resource, resourceFetchStatus } = useMapToProps({ resourcePathsType, resourceType, search });
 
-  const getOptions = (): ToolbarChipGroup[] => {
+  const getOptions = (): ToolbarLabelGroup[] => {
     let options = [];
     if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
       options = resource.data.map(item => {

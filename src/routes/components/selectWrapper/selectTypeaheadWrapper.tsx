@@ -183,12 +183,11 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
         <TextInputGroupUtilities>
           {!!inputValue && (
             <Button
+              icon={<TimesIcon aria-hidden />}
               variant="plain"
               onClick={handleOnClear}
               aria-label={intl.formatMessage(messages.selectClearAriaLabel)}
-            >
-              <TimesIcon aria-hidden />
-            </Button>
+            ></Button>
           )}
         </TextInputGroupUtilities>
       </TextInputGroup>

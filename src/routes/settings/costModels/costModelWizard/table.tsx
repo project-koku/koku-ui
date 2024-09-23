@@ -1,4 +1,4 @@
-import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title, TitleSizes } from '@patternfly/react-core';
+import { Checkbox, Content, ContentVariants, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
 import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
@@ -38,18 +38,18 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
               </Title>
             </StackItem>
             <StackItem>
-              <TextContent>
-                <Text>{intl.formatMessage(messages.costModelsWizardSourceSubtitle)}</Text>
-              </TextContent>
+              <Content>
+                <Content component="p">{intl.formatMessage(messages.costModelsWizardSourceSubtitle)}</Content>
+              </Content>
             </StackItem>
             <StackItem>
-              <TextContent>
-                <Text component={TextVariants.h3}>
+              <Content>
+                <Content component={ContentVariants.h3}>
                   {intl.formatMessage(messages.costModelsWizardSourceCaption, {
                     value: type.toLowerCase(),
                   })}
-                </Text>
-              </TextContent>
+                </Content>
+              </Content>
             </StackItem>
             <StackItem>
               <AssignSourcesToolbar

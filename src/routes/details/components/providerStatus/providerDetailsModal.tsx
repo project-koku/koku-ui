@@ -1,5 +1,4 @@
-import { Button, ButtonVariant } from '@patternfly/react-core';
-import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
+import { Button, ButtonVariant, Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import type { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useState } from 'react';

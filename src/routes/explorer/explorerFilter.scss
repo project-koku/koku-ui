@@ -1,7 +1,11 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 .explorerToolbarOverride {
-  .pf-v5-c-toolbar__content {
+  background-color: unset;
+  .pf-v6-c-toolbar__content {
     padding-left: 0;
+  }
+  .pf-v6-c-toolbar {
+    --pf-v6-c-toolbar--PaddingBlockEnd: 0;
   }
 }

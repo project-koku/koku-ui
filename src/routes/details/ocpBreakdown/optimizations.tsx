@@ -1,3 +1,4 @@
+import { Card, CardBody } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import messages from 'locales/messages';
 import React from 'react';
@@ -28,22 +29,26 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const isOptimizationsPath = queryFromRoute?.optimizationsPath === 'true';
 
   return (
-    <AsyncComponent
-      scope="costManagementMfe"
-      appName="cost-management-mfe"
-      module="./MfeOptimizationsTable"
-      breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-      breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
-      cluster={clusterFilter}
-      hideCluster={clusterFilter !== undefined}
-      hideProject={groupBy === 'project'}
-      isOptimizationsPath={isOptimizationsPath}
-      linkPath={formatPath(routes.optimizationsBreakdown.path)}
-      linkState={{
-        ...(location.state && location.state),
-      }}
-      project={groupBy === 'project' ? groupByValue : undefined}
-    />
+    <Card>
+      <CardBody>
+        <AsyncComponent
+          scope="costManagementMfe"
+          appName="cost-management-mfe"
+          module="./MfeOptimizationsTable"
+          breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
+          breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
+          cluster={clusterFilter}
+          hideCluster={clusterFilter !== undefined}
+          hideProject={groupBy === 'project'}
+          isOptimizationsPath={isOptimizationsPath}
+          linkPath={formatPath(routes.optimizationsBreakdown.path)}
+          linkState={{
+            ...(location.state && location.state),
+          }}
+          project={groupBy === 'project' ? groupByValue : undefined}
+        />
+      </CardBody>
+    </Card>
   );
 };
 
