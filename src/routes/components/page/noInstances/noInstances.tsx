@@ -1,16 +1,24 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
 import { NoInstancesState } from './noInstancesState';
 
 interface NoInstancesOwnProps {
+  isPageSection?: boolean;
   title?: string;
 }
 
 type NoInstancesProps = NoInstancesOwnProps;
 
-const NoInstances = ({ title }: NoInstancesProps) => {
+const NoInstances = ({ isPageSection = true, title }: NoInstancesProps) => {
+  const content = (
+    <Card>
+      <CardBody>
+        <NoInstancesState />
+      </CardBody>
+    </Card>
+  );
   return (
     <>
       {title && (
@@ -18,9 +26,7 @@ const NoInstances = ({ title }: NoInstancesProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
-        <NoInstancesState />
-      </PageSection>
+      {isPageSection ? <PageSection hasBodyWrapper={true}>{content}</PageSection> : content}
     </>
   );
 };

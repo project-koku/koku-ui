@@ -1,4 +1,4 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { ProviderType } from 'api/providers';
 import React from 'react';
@@ -21,7 +21,11 @@ const NoProviders = ({ providerType, title }: NoProvidersProps) => {
         </PageHeader>
       )}
       <PageSection>
-        <NoProvidersState providerType={providerType} />
+        <Card>
+          <CardBody>
+            <NoProvidersState providerType={providerType} />
+          </CardBody>
+        </Card>
       </PageSection>
     </>
   );

@@ -75,19 +75,17 @@ export const getBulkSelect = ({
         isExpanded={isBulkSelectOpen}
         onClick={() => onBulkSelectToggle(!isBulkSelectOpen)}
         ref={toggleRef}
-        splitButtonOptions={{
-          items: [
-            <MenuToggleCheckbox
-              id={`bulk-select-checkbox`}
-              key={`bulk-select-checkbox`}
-              aria-label={intl.formatMessage(
-                anySelected ? messages.toolBarBulkSelectAriaDeselect : messages.toolBarBulkSelectAriaSelect
-              )}
-              isChecked={isChecked}
-              onChange={handleOnBulkSelectClicked}
-            />,
-          ],
-        }}
+        splitButtonItems={[
+          <MenuToggleCheckbox
+            id={`bulk-select-checkbox`}
+            key={`bulk-select-checkbox`}
+            aria-label={intl.formatMessage(
+              anySelected ? messages.toolBarBulkSelectAriaDeselect : messages.toolBarBulkSelectAriaSelect
+            )}
+            isChecked={isChecked}
+            onChange={handleOnBulkSelectClicked}
+          />,
+        ]}
       >
         {anySelected ? intl.formatMessage(messages.selected, { value: numSelected }) : null}
       </MenuToggle>
