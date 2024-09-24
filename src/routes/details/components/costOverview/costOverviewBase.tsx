@@ -43,7 +43,6 @@ interface CostOverviewOwnProps {
 }
 
 export interface CostOverviewStateProps {
-  isOcpProjectStorageToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   title?: string;
   widgets: number[];
@@ -358,8 +357,6 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
-    const { isOcpProjectStorageToggleEnabled } = this.props;
-
     switch (widget.type) {
       case CostOverviewWidgetType.cluster:
         return this.getClusterCard(widget);
@@ -374,9 +371,6 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
       case CostOverviewWidgetType.pvc:
         return this.getPvcChart(widget);
       case CostOverviewWidgetType.reportSummary:
-        if (widget.reportType === ReportType.volume && !isOcpProjectStorageToggleEnabled) {
-          return null;
-        }
         return this.getReportSummaryCard(widget);
       case CostOverviewWidgetType.volumeUsage:
         return this.getVolumeUsageChart(widget);

@@ -9,8 +9,6 @@ exports[`default state 1`] = `
   "isExportsToggleEnabled": false,
   "isFinsightsToggleEnabled": false,
   "isIbmToggleEnabled": false,
-  "isOcpCloudNetworkingToggleEnabled": false,
-  "isOcpProjectStorageToggleEnabled": false,
-  "isRosToggleEnabled": false,
+  "isOcpCloudGroupBysToggleEnabled": false,
 }
 `;

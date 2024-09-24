@@ -1,16 +1,15 @@
-import type { Providers, ProviderType } from 'api/providers';
+import type { Provider, ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
-import { filterProviders } from 'routes/utils/providers';
 
 import { OverallStatus } from './components/overallStatus';
 import { SourceLink } from './components/sourceLink';
 import { ProviderDetailsModal } from './providerDetailsModal';
 
 interface ProviderDetailsTableOwnProps {
-  providers?: Providers;
+  providers?: Provider[];
   providerType?: ProviderType;
 }
 
@@ -25,9 +24,6 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
     if (!providers) {
       return;
     }
-
-    // Filter OCP providers to skip an extra API request
-    const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
 
     const newRows = [];
     const newColumns = [
@@ -45,7 +41,7 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
       },
     ];
 
-    filteredProviders?.map(item => {
+    providers?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
 
       newRows.push({
@@ -67,7 +63,7 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
     initDatum();
   }, [providers]);
 
-  return <DataTable columns={columns} isActionsCell rows={rows} />;
+  return rows.length ? <DataTable columns={columns} isActionsCell rows={rows} /> : null;
 };
 
 export { ProviderDetailsTable };

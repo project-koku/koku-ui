@@ -14,9 +14,7 @@ export type FeatureToggleState = Readonly<{
   isExportsToggleEnabled: boolean;
   isFinsightsToggleEnabled: boolean;
   isIbmToggleEnabled: boolean;
-  isOcpCloudNetworkingToggleEnabled: boolean;
-  isOcpProjectStorageToggleEnabled: boolean;
-  isRosToggleEnabled: boolean;
+  isOcpCloudGroupBysToggleEnabled: boolean;
 }>;
 
 export const defaultState: FeatureToggleState = {
@@ -27,9 +25,7 @@ export const defaultState: FeatureToggleState = {
   isExportsToggleEnabled: false,
   isFinsightsToggleEnabled: false,
   isIbmToggleEnabled: false,
-  isOcpCloudNetworkingToggleEnabled: false,
-  isOcpProjectStorageToggleEnabled: false,
-  isRosToggleEnabled: false,
+  isOcpCloudGroupBysToggleEnabled: false,
 };
 
 export const stateKey = 'FeatureToggle';
@@ -46,9 +42,7 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
         isFinsightsToggleEnabled: action.payload.isFinsightsToggleEnabled,
         isIbmToggleEnabled: action.payload.isIbmToggleEnabled,
-        isOcpCloudNetworkingToggleEnabled: action.payload.isOcpCloudNetworkingToggleEnabled,
-        isOcpProjectStorageToggleEnabled: action.payload.isOcpProjectStorageToggleEnabled,
-        isRosToggleEnabled: action.payload.isRosToggleEnabled,
+        isOcpCloudGroupBysToggleEnabled: action.payload.isOcpCloudGroupBysToggleEnabled,
       };
 
     default:

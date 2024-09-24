@@ -57,7 +57,6 @@ export interface DashboardWidgetStateProps extends DashboardWidget {
   forecastError?: AxiosError;
   forecastFetchStatus?: number;
   getIdKeyForTab?: (tab: string) => string;
-  isRosToggleEnabled?: boolean;
   previousReport?: Report;
   previousReportError?: AxiosError;
   previousReportFetchStatus?: number;
@@ -572,9 +571,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   };
 
   public render() {
-    const { details, isRosToggleEnabled } = this.props;
+    const { details } = this.props;
     if (details.showOptimizations) {
-      return isRosToggleEnabled ? this.getOptimizationsSummary() : null;
+      return this.getOptimizationsSummary();
     }
     return details.showHorizontal ? this.getHorizontalLayout() : this.getVerticalLayout();
   }

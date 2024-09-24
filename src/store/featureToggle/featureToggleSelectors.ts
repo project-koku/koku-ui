@@ -16,8 +16,5 @@ export const selectIsExportsToggleEnabled = (state: RootState) =>
 export const selectIsFinsightsToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isFinsightsToggleEnabled;
 export const selectIsIbmToggleEnabled = (state: RootState) => selectFeatureToggleState(state).isIbmToggleEnabled;
-export const selectIsOcpCloudNetworkingToggleEnabled = (state: RootState) =>
-  selectFeatureToggleState(state).isOcpCloudNetworkingToggleEnabled;
-export const selectIsOcpProjectStorageToggleEnabled = (state: RootState) =>
-  selectFeatureToggleState(state).isOcpProjectStorageToggleEnabled;
-export const selectIsRosToggleEnabled = (state: RootState) => selectFeatureToggleState(state).isRosToggleEnabled;
+export const selectIsOcpCloudGroupBysToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isOcpCloudGroupBysToggleEnabled;

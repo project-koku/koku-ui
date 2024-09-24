@@ -133,22 +133,27 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       const cost = getTotalCost(item);
       const actions = getActions(item);
 
+      const accountDesc =
+        item?.account !== item.account_alias ? <div style={styles.infoDescription}>{item.account}</div> : null;
+      const instanceDesc =
+        item?.resource_id !== item.instance_name ? <div style={styles.infoDescription}>{item.resource_id}</div> : null;
+
       newRows.push({
         cells: [
           {}, // Empty cell for row selection
           {
             value: (
               <>
-                <div>{item.instance_name ? item.instance_name : null}</div>
-                <div style={styles.infoDescription}>{item.resource_id ? item.resource_id : null}</div>
+                {item.instance_name ? item.instance_name : null}
+                {instanceDesc}
               </>
             ),
           },
           {
             value: (
               <>
-                <div>{item.account_alias ? item.account_alias : null}</div>
-                <div style={styles.infoDescription}>{item.account ? item.account : null}</div>
+                {item.account_alias ? item.account_alias : null}
+                {accountDesc}
               </>
             ),
           },
@@ -197,7 +202,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     // There is no group by for instances, but we use it to format messages
     return (
       <Actions
-        groupBy={'resource_id'}
+        groupBy={'instance'}
         isDisabled={isDisabled}
         item={item}
         isTimeScoped

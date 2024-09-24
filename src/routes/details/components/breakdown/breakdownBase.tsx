@@ -71,7 +71,6 @@ export interface BreakdownStateProps {
   instancesComponent?: React.ReactNode;
   isAwsEc2InstancesToggleEnabled?: boolean;
   isOptimizationsTab?: boolean;
-  isRosToggleEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   optimizationsComponent?: React.ReactNode;
   providers?: Providers;
@@ -136,7 +135,6 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       historicalDataComponent,
       instancesComponent,
       isAwsEc2InstancesToggleEnabled,
-      isRosToggleEnabled,
       optimizationsComponent,
     } = this.props;
 
@@ -159,7 +157,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         tab: BreakdownTab.instances,
       });
     }
-    if (optimizationsComponent && isRosToggleEnabled) {
+    if (optimizationsComponent) {
       availableTabs.push({
         contentRef: React.createRef(),
         showBadge: true,

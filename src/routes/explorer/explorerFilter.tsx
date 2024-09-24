@@ -21,6 +21,7 @@ import type { Filter } from 'routes/utils/filter';
 import { getRouteForQuery } from 'routes/utils/query';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { resourceActions, resourceSelectors } from 'store/resources';
 import { tagActions, tagSelectors } from 'store/tags';
@@ -53,6 +54,7 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
 
 interface ExplorerFilterStateProps {
   dateRangeType: DateRangeType;
+  isOcpCloudGroupBysToggleEnabled?: boolean;
   orgPathsType?: OrgPathsType;
   orgQueryString?: string;
   orgReport?: Org;
@@ -120,10 +122,10 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { orgReport, perspective, intl, resourceReport, tagReport } = this.props;
+    const { orgReport, perspective, intl, isOcpCloudGroupBysToggleEnabled, resourceReport, tagReport } = this.props;
 
     const options = [];
-    const groupByOptions = getGroupByOptions(perspective);
+    const groupByOptions = getGroupByOptions(perspective, isOcpCloudGroupBysToggleEnabled);
     groupByOptions.map(option => {
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: option.label }),
@@ -326,6 +328,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
 
     return {
       dateRangeType,
+      isOcpCloudGroupBysToggleEnabled: FeatureToggleSelectors.selectIsOcpCloudGroupBysToggleEnabled(state),
       orgPathsType,
       orgQueryString,
       orgReport,

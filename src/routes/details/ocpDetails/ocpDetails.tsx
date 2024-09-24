@@ -57,7 +57,6 @@ export interface OcpDetailsStateProps {
   costDistribution?: string;
   currency?: string;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
-  isRosToggleEnabled?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
@@ -251,8 +250,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   private getTable = () => {
-    const { costDistribution, isRosToggleEnabled, query, report, reportFetchStatus, reportQueryString, router } =
-      this.props;
+    const { costDistribution, query, report, reportFetchStatus, reportQueryString, router } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -269,7 +267,6 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isRosToggleEnabled={isRosToggleEnabled}
         onSelect={this.handleOnSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -531,7 +528,6 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     costDistribution,
     currency,
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
-    isRosToggleEnabled: FeatureToggleSelectors.selectIsRosToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     query,

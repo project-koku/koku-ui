@@ -21,8 +21,6 @@ interface HistoricalDataOwnProps {
 }
 
 export interface HistoricalDataStateProps {
-  isOcpCloudNetworkingToggleEnabled?: boolean;
-  isOcpProjectStorageToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   widgets: number[];
 }
@@ -190,7 +188,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widgetId: number) {
-    const { isOcpCloudNetworkingToggleEnabled, isOcpProjectStorageToggleEnabled, selectWidgets } = this.props;
+    const { selectWidgets } = this.props;
 
     const widget = selectWidgets[widgetId];
     let result = null;
@@ -200,7 +198,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
         result = this.getCostChart(widget);
         break;
       case HistoricalDataWidgetType.network:
-        result = isOcpCloudNetworkingToggleEnabled ? this.getNetworkChart(widget) : null;
+        result = this.getNetworkChart(widget);
         break;
       case HistoricalDataWidgetType.trend:
         result = this.getTrendChart(widget);
@@ -209,7 +207,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
         result = this.getUsageChart(widget);
         break;
       case HistoricalDataWidgetType.volume:
-        result = isOcpProjectStorageToggleEnabled ? this.getVolumeChart(widget) : null;
+        result = this.getVolumeChart(widget);
         break;
     }
     return result !== null ? <GridItem key={`widget-${widgetId}`}>{result}</GridItem> : null;

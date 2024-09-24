@@ -244,22 +244,30 @@ export const getGroupByDefault = (perspective: string) => {
   return result;
 };
 
-export const getGroupByOptions = (perspective: string) => {
+export const getGroupByOptions = (perspective: string, isOcpCloudGroupBysToggleEnabled) => {
   let result;
   switch (perspective) {
     case PerspectiveType.aws:
-    case PerspectiveType.awsOcp:
       result = groupByAwsOptions;
       break;
+    case PerspectiveType.awsOcp:
+      result = isOcpCloudGroupBysToggleEnabled ? [...groupByAwsOptions, ...groupByOcpOptions] : [...groupByAwsOptions];
+      break;
     case PerspectiveType.azure:
-    case PerspectiveType.azureOcp:
       result = groupByAzureOptions;
+      break;
+    case PerspectiveType.azureOcp:
+      result = isOcpCloudGroupBysToggleEnabled
+        ? [...groupByAzureOptions, ...groupByOcpOptions]
+        : [...groupByAzureOptions];
       break;
     case PerspectiveType.gcp:
       result = groupByGcpOptions;
       break;
     case PerspectiveType.gcpOcp:
-      result = groupByGcpOcpOptions;
+      result = isOcpCloudGroupBysToggleEnabled
+        ? [...groupByGcpOcpOptions, ...groupByOcpOptions]
+        : [...groupByGcpOcpOptions];
       break;
     case PerspectiveType.ibm:
       result = groupByIbmOptions;
