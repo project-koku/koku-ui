@@ -101,7 +101,7 @@ class CostChartBase extends React.Component<CostChartProps, any> {
               intl.formatMessage(messages.costBreakdownTooltip, {
                 name: datum.x,
                 value: formatCurrency(datum.y, datum.units),
-              })
+              }) as string
             }
             legendComponent={Legend}
             legendData={[

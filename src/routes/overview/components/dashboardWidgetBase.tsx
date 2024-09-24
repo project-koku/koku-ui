@@ -263,7 +263,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
 
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
-    const title = intl.formatMessage(trend.titleKey, { units: this.getFormattedUnits() });
+    const title: string = intl.formatMessage(trend.titleKey, { units: this.getFormattedUnits() });
 
     // Cost data
     const currentData = transformReport(
@@ -390,7 +390,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     if (computedReportItem === ComputedReportItemType.usage) {
       return intl.formatMessage(messages.units, { units: unitsLookupKey(units) });
     }
-    return intl.formatMessage(messages.currencyUnits, { units });
+    return intl.formatMessage(messages.currencyUnits, { units }) as string;
   };
 
   private getHorizontalLayout = () => {
