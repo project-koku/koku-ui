@@ -135,7 +135,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy="resource_id"
+        groupBy="instance"
         isOpen={isExportModalOpen}
         isTimeScoped
         items={items}
