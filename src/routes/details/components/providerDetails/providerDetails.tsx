@@ -1,3 +1,4 @@
+import { Bullseye } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -8,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -47,7 +49,17 @@ const ProviderDetails: React.FC<ProviderDetailsProps> = ({ providerType }: Provi
     );
   }
 
-  return <ProviderDetailsTable providers={providers} providerType={providerType} />;
+  // Filter providers to skip an extra API request
+  const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
+  if (filteredProviders.length === 0) {
+    return;
+  }
+
+  return (
+    <Bullseye style={styles.detailsTable}>
+      <ProviderDetailsTable providers={filteredProviders} providerType={providerType} />
+    </Bullseye>
+  );
 };
 
 const useMapToProps = (): ProviderDetailsStateProps => {

@@ -6,6 +6,9 @@ import { ResourceType } from './resource';
 export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
   [ResourceType.account]: 'resource-types/aws-accounts/',
   [ResourceType.aws_category]: 'resource-types/aws-categories/',
+  [ResourceType.cluster]: 'resource-types/openshift-clusters/',
+  [ResourceType.node]: 'resource-types/openshift-nodes/',
+  [ResourceType.project]: 'resource-types/openshift-projects/',
   [ResourceType.region]: 'resource-types/aws-regions/',
   [ResourceType.service]: 'resource-types/aws-services/',
 };

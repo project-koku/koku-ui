@@ -250,10 +250,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
       items.map(item => {
         if (!name) {
-          name = item?.label && item?.label !== null ? item.label : null;
+          name = item?.label !== null ? item.label : null;
         }
         if (!desc) {
-          desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+          desc = item?.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
         }
         if (!tooltipContent) {
           tooltipContent = (

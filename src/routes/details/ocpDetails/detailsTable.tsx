@@ -40,7 +40,6 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
-  isRosToggleEnabled?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
@@ -100,7 +99,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       hiddenColumns,
       intl,
       isAllSelected,
-      isRosToggleEnabled,
       query,
       report,
       router,
@@ -133,7 +131,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             name: '', // Default & Overhead column
           },
           {
-            hidden: !(isGroupByProject && isRosToggleEnabled),
+            hidden: !isGroupByProject,
             name: intl.formatMessage(messages.optimizations),
           },
           {
@@ -174,7 +172,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             name: '', // Default & Overhead column
           },
           {
-            hidden: !(isGroupByProject && isRosToggleEnabled),
+            hidden: !isGroupByProject,
             name: intl.formatMessage(messages.optimizations),
           },
           {
@@ -212,7 +210,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     computedItems.map((item, index) => {
       const cost = this.getTotalCost(item, index);
-      const label = item && item.label !== null ? item.label : '';
+      const label = item?.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
@@ -227,7 +225,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           item.cost?.platformDistributed?.value > 0 ||
           item.cost?.storageUnattributedDistributed?.value > 0 ||
           item.cost?.workerUnallocatedDistributed?.value > 0);
-      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const desc = item?.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
       const isLinkDisabled = isDisabled || isUnallocatedProject || isUnattributedCosts;
       const actions = this.getActions(item, isDisabled);
@@ -262,8 +260,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           {
             value: (
               <>
-                <div>{name}</div>
-                <div style={styles.infoDescription}>{desc}</div>
+                {name}
+                {desc}
               </>
             ),
           },
@@ -304,7 +302,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             ),
           },
           {
-            hidden: !(isGroupByProject && isRosToggleEnabled),
+            hidden: !isGroupByProject,
             value: !isPlatformProject && !isDisabled && (
               <AsyncComponent
                 scope="costManagementMfe"
