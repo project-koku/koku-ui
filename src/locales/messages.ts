@@ -2592,7 +2592,8 @@ export default defineMessages({
     id: 'noDataForDate',
   },
   noDataStateDesc: {
-    defaultMessage: 'We have detected an integration, but we are not done processing the incoming data.',
+    defaultMessage:
+      'We have detected an integration, but we are not done processing the incoming data. {status}The time to process could take up to 24 hours. Try refreshing the page at a later time.',
     description: 'still processing request, 24 hour message',
     id: 'noDataStateDesc',
   },
@@ -2600,11 +2601,6 @@ export default defineMessages({
     defaultMessage: 'Refresh this page',
     description: 'Refresh this page',
     id: 'noDataStateRefresh',
-  },
-  noDataStateRefreshDesc: {
-    defaultMessage: 'The time to process could take up to 24 hours. Try refreshing the page at a later time.',
-    description: 'still processing request, 24 hour message',
-    id: 'noDataStateRefreshDesc',
   },
   noDataStateTitle: {
     defaultMessage: 'Still processing the data',
