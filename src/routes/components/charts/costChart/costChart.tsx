@@ -70,7 +70,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
 
   public componentDidMount() {
     this.initDatum();
-    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef?.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: CostChartProps) {
@@ -301,7 +301,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
 
   private handleResize = () => {
     const { width } = this.state;
-    const { clientWidth = 0 } = this.containerRef.current || {};
+    const { clientWidth = 0 } = this.containerRef?.current || {};
 
     if (clientWidth !== width) {
       this.setState({ width: clientWidth });

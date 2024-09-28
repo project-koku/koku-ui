@@ -32,7 +32,7 @@ export const withChrome = Component => {
 
     useLayoutEffect(() => {
       isOrgAdmin(auth).then(val => {
-        if (isMounted.current) {
+        if (isMounted?.current) {
           setOrgAdmin(val);
           setInitialized(true);
         }
