@@ -118,8 +118,6 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 
     const costUnits = currentReport?.meta?.total?.cost ? currentReport.meta.total.cost[reportItemValue].units : 'USD';
 
-    const test = intl.formatMessage(messages.currencyUnits, { units: costUnits });
-
     return (
       <div style={styles.chartContainer}>
         <div style={styles.costChart}>
@@ -138,7 +136,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               previousInfrastructureCostData={previousInfrastructureCostData}
               xAxisLabel={intl.formatMessage(messages.historicalChartDayOfMonthLabel)}
               yAxisLabel={intl.formatMessage(messages.historicalChartCostLabel, {
-                units: test,
+                units: intl.formatMessage(messages.currencyUnits, { units: costUnits }) as string,
               })}
             />
           )}

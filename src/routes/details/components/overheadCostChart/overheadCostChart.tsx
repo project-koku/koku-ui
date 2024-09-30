@@ -169,7 +169,7 @@ class OverheadCostChartBase extends React.Component<OverheadCostChartProps, any>
               intl.formatMessage(messages.costBreakdownTooltip, {
                 name: datum.x,
                 value: formatCurrency(datum.y, datum.units),
-              })
+              }) as string
             }
             legendComponent={Legend}
             legendData={[

@@ -73,7 +73,7 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       }),
-    });
+    }) as string;
   }
 
   // If no format was found, format value without abbreviation
