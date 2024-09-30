@@ -136,7 +136,7 @@ const DescriptionFilterBase: React.FC<DescriptionFilterProps> = ({
   const children =
     filterType === 'description' ? (
       <FilterInput
-        placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
+        placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType }) as string}
         value={value}
         onChange={(val: string) => setValue(val)}
         onKeyPress={onKeyPress(router, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
@@ -211,7 +211,7 @@ const NameFilterBase: React.FC<NameFilterProps> = ({
   const children =
     filterType === 'name' ? (
       <FilterInput
-        placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType })}
+        placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType }) as string}
         value={value}
         onChange={(val: string) => setValue(val)}
         onKeyPress={onKeyPress(router, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}

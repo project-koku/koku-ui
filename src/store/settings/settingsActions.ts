@@ -138,10 +138,12 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
             title = intl.formatMessage(messages.settingsTagMappingDisableErrorTitle);
             description = intl.formatMessage(messages.settingsTagMappingDisableErrorDesc, {
               value: err.response?.data?.ids?.length,
-            });
+            }) as string;
           } else if (err.response?.data?.enabled && err.response?.data?.limit) {
-            title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit });
-            description = intl.formatMessage(messages.settingsTagsErrorDesc, { value: err.response.data.enabled });
+            title = intl.formatMessage(messages.settingsTagsErrorTitle, { value: err.response.data.limit }) as string;
+            description = intl.formatMessage(messages.settingsTagsErrorDesc, {
+              value: err.response.data.enabled,
+            }) as string;
           }
         } else if (settingsType === SettingsType.tagsMappingsChildAdd) {
           description = intl.formatMessage(messages.tagMappingAddErrorDesc);
