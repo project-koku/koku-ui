@@ -504,7 +504,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         return hasData ? <OcpCloudDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
-        return hasData ? <AwsDashboard costType={costType} /> : noData;
+        return hasData ? <AwsDashboard costType={costType} currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsOcp) {
         const hasData =
           hasCloudCurrentMonthData(awsProviders, ocpProviders) || hasCloudPreviousMonthData(awsProviders, ocpProviders);
