@@ -15,7 +15,9 @@ import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -43,7 +45,9 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+
   const currency = getCurrency();
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
   const reportQuery = {
@@ -51,7 +55,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
+      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
@@ -95,7 +99,8 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
     emptyStateTitle: intl.formatMessage(messages.gcpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData currency={currency} />,
+    historicalDataComponent: <HistoricalData currency={currency} timeScopeValue={timeScopeValue} />,
+    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.gcp),
     providersError,
     providersFetchStatus,
@@ -108,6 +113,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
     reportPathsType,
     reportQueryString,
     tagPathsType: TagPathsType.gcp,
+    timeScopeValue,
     title: queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue,
   };
 });

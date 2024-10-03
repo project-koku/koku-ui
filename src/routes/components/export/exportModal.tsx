@@ -45,9 +45,11 @@ export interface ExportModalOwnProps {
   showAggregateType?: boolean; // Monthly resolution filters are not valid with date range
   showFormatType?: boolean; // Format type; CVS / JSON
   showTimeScope?: boolean; // timeScope filters are not valid with date range
+  timeScopeValue?: number;
 }
 
 interface ExportModalStateProps {
+  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
 }
 
@@ -89,16 +91,17 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
   protected defaultState: ExportModalState = {
     error: undefined,
     formatType: 'csv',
-    timeScope: 'current',
     resolution: this.props.resolution || 'monthly',
+    timeScope: this.props.timeScopeValue === -2 ? 'previous' : 'current',
   };
   public state: ExportModalState = { ...this.defaultState };
 
-  constructor(stateProps, dispatchProps) {
-    super(stateProps, dispatchProps);
-    this.handleOnMonthChange = this.handleOnMonthChange.bind(this);
-    this.handleOnResolutionChange = this.handleOnResolutionChange.bind(this);
-    this.handleOnTypeChange = this.handleOnTypeChange.bind(this);
+  public componentDidUpdate(prevProps: ExportModalProps) {
+    const { timeScopeValue } = this.props;
+
+    if (timeScopeValue !== prevProps.timeScopeValue) {
+      this.setState({ timeScope: timeScopeValue === -2 ? 'previous' : 'current' });
+    }
   }
 
   // Reset default state upon close -- see https://issues.redhat.com/browse/COST-1134
@@ -145,6 +148,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       groupBy,
       intl,
       isAllItems,
+      isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
       isTimeScoped,
       items,
@@ -153,7 +157,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       reportType,
       showAggregateType = true,
       showFormatType = true,
-      showTimeScope = true,
+      showTimeScope = isDetailsDateRangeToggleEnabled ? false : true,
     } = this.props;
     const { error, formatType, name, resolution, timeScope } = this.state;
 
@@ -207,7 +211,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             isTimeScoped={isTimeScoped}
             items={items}
             key="confirm"
-            timeScope={showTimeScope ? timeScope : undefined}
+            timeScope={timeScope}
             onClose={this.handleOnClose}
             onError={this.handleOnError}
             name={defaultName}
@@ -334,6 +338,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
 const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(state => {
   return {
+    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
   };
 });

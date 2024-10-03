@@ -16,6 +16,7 @@ import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { PerspectiveType } from 'routes/explorer/explorerUtils';
 import { getDateRangeFromQuery } from 'routes/utils/dateRange';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -326,13 +327,14 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
   (state, { orgPathsType, router, resourcePathsType, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
+    const timeScopeValue = getTimeScopeValue(queryFromRoute);
 
     // Default to current month filter for details pages
     let tagFilter: any = {
       filter: {
         resolution: 'monthly',
         time_scope_units: 'month',
-        time_scope_value: -1,
+        time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
       },
     };
 

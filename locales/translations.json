@@ -403,6 +403,7 @@
   "networkUnattributedDistributedDesc": "Costs associated with ingress and egress network traffic for individual nodes.",
   "next": "next",
   "no": "No",
+  "noCurrentData": "No data available for {dateRange}. You are viewing data for the previous month.",
   "noDataForDate": "No data available for {dateRange}",
   "noDataStateDesc": "We have detected an integration, but we are not done processing the incoming data. {status}The time to process could take up to 24 hours. Try refreshing the page at a later time.",
   "noDataStateRefresh": "Refresh this page",

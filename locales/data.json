@@ -10880,6 +10880,20 @@
         "value": "No"
       }
     ],
+    "noCurrentData": [
+      {
+        "type": 0,
+        "value": "No data available for "
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ". You are viewing data for the previous month."
+      }
+    ],
     "noDataForDate": [
       {
         "type": 0,

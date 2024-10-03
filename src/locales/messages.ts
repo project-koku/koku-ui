@@ -2586,6 +2586,11 @@ export default defineMessages({
     description: 'No',
     id: 'no',
   },
+  noCurrentData: {
+    defaultMessage: 'No data available for {dateRange}. You are viewing data for the previous month.',
+    description: 'No data available for Jan 1-31. You are viewing data for the previous month.',
+    id: 'noCurrentData',
+  },
   noDataForDate: {
     defaultMessage: 'No data available for {dateRange}',
     description: 'No data available for Jan 1-31',

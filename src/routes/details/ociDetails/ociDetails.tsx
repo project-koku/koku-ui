@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Alert, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { OciQuery } from 'api/queries/ociQuery';
@@ -23,7 +23,7 @@ import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOciRe
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupByTagKey } from 'routes/utils/groupBy';
-import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
+import { filterProviders, hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
   handleOnCurrencySelect,
@@ -33,10 +33,12 @@ import {
   handleOnSetPage,
   handleOnSort,
 } from 'routes/utils/queryNavigate';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -51,6 +53,9 @@ import { styles } from './ociDetails.styles';
 interface OciDetailsStateProps {
   currency?: string;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
+  isCurrentMonthData?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
+  isPreviousMonthData?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -59,6 +64,7 @@ interface OciDetailsStateProps {
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
+  timeScopeValue?: number;
 }
 
 interface OciDetailsDispatchProps {
@@ -105,14 +111,6 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
   };
   public state: OciDetailsState = { ...this.defaultState };
 
-  constructor(stateProps, dispatchProps) {
-    super(stateProps, dispatchProps);
-    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
-    this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
-    this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
-    this.handleonSelect = this.handleonSelect.bind(this);
-  }
-
   public componentDidMount() {
     this.updateReport();
   }
@@ -144,7 +142,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { query, report, reportQueryString } = this.props;
+    const { query, report, reportQueryString, timeScopeValue } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -169,6 +167,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -203,7 +202,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -225,12 +224,13 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, router, report } = this.props;
+    const { query, router, report, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -253,6 +253,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
         pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -278,11 +279,11 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
     }
   };
 
-  public handleOnExportModalClose = (isOpen: boolean) => {
+  private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  public handleOnExportModalOpen = () => {
+  private handleOnExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
@@ -328,14 +329,17 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
       currency,
       intl,
       isAccountInfoEmptyStateToggleEnabled,
+      isCurrentMonthData,
+      isDetailsDateRangeToggleEnabled,
+      isPreviousMonthData,
       providers,
       providersFetchStatus,
       query,
       report,
       reportError,
       reportFetchStatus,
-
       router,
+      timeScopeValue,
     } = this.props;
 
     const computedItems = this.getComputedItems();
@@ -355,7 +359,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
       if (noProviders) {
         return <NoProviders providerType={ProviderType.oci} title={title} />;
       }
-      if (!hasCurrentMonthData(providers)) {
+      if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (
           <NoData
             detailsComponent={
@@ -372,12 +376,27 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
+          isCurrentMonthData={isCurrentMonthData}
+          isPreviousMonthData={isPreviousMonthData}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}
+          query={query}
           report={report}
+          timeScopeValue={timeScopeValue}
         />
         <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
+          <div style={styles.toolbarContainer}>
+            {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
+              <Alert
+                isInline
+                title={intl.formatMessage(messages.noCurrentData, {
+                  dateRange: getSinceDateRangeString(),
+                })}
+                variant="info"
+              />
+            )}
+            {this.getToolbar(computedItems)}
+          </div>
           {this.getExportModal(computedItems)}
           {reportFetchStatus === FetchStatus.inProgress ? (
             <Loading />
@@ -397,11 +416,36 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
 
 const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<OciQuery>(router.location.search);
+
   const currency = getCurrency();
+
+  // Check for current and previous data first
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.all,
+    providersQueryString
+  );
+
+  // Fetch based on time scope value
+  const filteredProviders = filterProviders(providers, ProviderType.oci);
+  const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
+  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
+
+  let timeScopeValue = getTimeScopeValue(queryFromRoute);
+  timeScopeValue = Number(
+    !isCurrentMonthData && isDetailsDateRangeToggleEnabled ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1
+  );
 
   const query: any = {
     ...baseQuery,
     ...queryFromRoute,
+    filter: {
+      ...queryFromRoute.filter,
+      time_scope_value: timeScopeValue,
+    },
   };
   const reportQuery = {
     currency,
@@ -411,7 +455,6 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
       ...query.filter,
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
     },
     filter_by: query.filter_by,
     group_by: query.group_by,
@@ -428,19 +471,13 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
     reportQueryString
   );
 
-  const providersQueryString = getProvidersQuery(providersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.all,
-    providersQueryString
-  );
-
   return {
     currency,
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
-    providers: filterProviders(providers, ProviderType.oci),
+    isCurrentMonthData,
+    isDetailsDateRangeToggleEnabled,
+    isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    providers: filteredProviders,
     providersError,
     providersFetchStatus,
     query,
@@ -448,6 +485,7 @@ const mapStateToProps = createMapStateToProps<OciDetailsOwnProps, OciDetailsStat
     reportError,
     reportFetchStatus,
     reportQueryString,
+    timeScopeValue,
   };
 });
 

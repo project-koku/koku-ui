@@ -29,6 +29,7 @@ interface HistoricalDataCostChartOwnProps extends RouterComponentProps, WrappedC
   currency?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  timeScopeValue?: number;
 }
 
 interface HistoricalDataCostChartStateProps {
@@ -147,7 +148,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
-  (state, { costType, currency, reportPathsType, reportType, router }) => {
+  (state, { costType, currency, reportPathsType, reportType, router, timeScopeValue }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = getQueryState(router.location, 'details');
 
@@ -182,7 +183,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       filter: {
         resolution: 'daily',
         time_scope_units: 'month',
-        time_scope_value: -1,
+        time_scope_value: timeScopeValue === -2 ? -2 : -1,
       },
       filter_by: {
         ...baseQuery.filter_by,
@@ -208,7 +209,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       filter: {
         resolution: 'daily',
         time_scope_units: 'month',
-        time_scope_value: -2,
+        time_scope_value: timeScopeValue === -2 ? -3 : -2,
       },
       filter_by: {
         ...baseQuery.filter_by,

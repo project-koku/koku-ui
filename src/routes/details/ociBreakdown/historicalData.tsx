@@ -5,7 +5,7 @@ import { ociHistoricalDataSelectors } from 'store/breakdown/historicalData/ociHi
 import { createMapStateToProps } from 'store/common';
 
 interface OciHistoricalDataOwnProps {
-  // TBD...
+  timeScopeValue?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

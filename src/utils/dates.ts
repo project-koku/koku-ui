@@ -27,7 +27,8 @@ export const getToday = (hrs: number = 0, min: number = 0, sec: number = 0, ms: 
 
 export const getNoDataForDateRangeString = (
   message: MessageDescriptor = messages.noDataForDate,
-  offset: number = 1
+  offset: number = 0,
+  isEndOfMonth = false
 ) => {
   const endDate = getToday();
   const startDate = getToday();
@@ -36,7 +37,11 @@ export const getNoDataForDateRangeString = (
 
   if (offset) {
     startDate.setMonth(startDate.getMonth() - offset);
-    endDate.setMonth(endDate.getMonth() - offset);
+    if (isEndOfMonth) {
+      endDate.setMonth(endDate.getMonth() - offset + 1, 0);
+    } else {
+      endDate.setMonth(endDate.getMonth() - offset);
+    }
   }
   const dateRange = intl.formatDateTimeRange(startDate, endDate, {
     day: 'numeric',
@@ -48,7 +53,8 @@ export const getNoDataForDateRangeString = (
 export const getForDateRangeString = (
   value: string | number,
   message: MessageDescriptor = messages.forDate,
-  offset = 1
+  offset = 0,
+  isEndOfMonth = false
 ) => {
   const endDate = getToday();
   const startDate = getToday();
@@ -57,7 +63,11 @@ export const getForDateRangeString = (
 
   if (offset) {
     startDate.setMonth(startDate.getMonth() - offset);
-    endDate.setMonth(endDate.getMonth() - offset);
+    if (isEndOfMonth) {
+      endDate.setMonth(endDate.getMonth() - offset + 1, 0);
+    } else {
+      endDate.setMonth(endDate.getMonth() - offset);
+    }
   }
   const dateRange = intl.formatDateTimeRange(startDate, endDate, {
     day: 'numeric',
@@ -66,11 +76,24 @@ export const getForDateRangeString = (
   return intl.formatMessage(message, { dateRange, value });
 };
 
-export const getSinceDateRangeString = (message: MessageDescriptor = messages.sinceDate) => {
+export const getSinceDateRangeString = (
+  message: MessageDescriptor = messages.sinceDate,
+  offset = 0,
+  isEndOfMonth = false
+) => {
   const endDate = getToday();
   const startDate = getToday();
 
   startDate.setDate(1);
+
+  if (offset) {
+    startDate.setMonth(startDate.getMonth() - offset);
+    if (isEndOfMonth) {
+      endDate.setMonth(endDate.getMonth() - offset + 1, 0);
+    } else {
+      endDate.setMonth(endDate.getMonth() - offset);
+    }
+  }
   const dateRange = intl.formatDateTimeRange(startDate, endDate, {
     day: 'numeric',
     month: 'long',
@@ -80,12 +103,23 @@ export const getSinceDateRangeString = (message: MessageDescriptor = messages.si
 
 export const getTotalCostDateRangeString = (
   value: string | number,
-  message: MessageDescriptor = messages.breakdownTotalCostDate
+  message: MessageDescriptor = messages.breakdownTotalCostDate,
+  offset = 0,
+  isEndOfMonth = false
 ) => {
   const endDate = getToday();
   const startDate = getToday();
 
   startDate.setDate(1);
+
+  if (offset) {
+    startDate.setMonth(startDate.getMonth() - offset);
+    if (isEndOfMonth) {
+      endDate.setMonth(endDate.getMonth() - offset + 1, 0);
+    } else {
+      endDate.setMonth(endDate.getMonth() - offset);
+    }
+  }
   const dateRange = intl.formatDateTimeRange(startDate, endDate, {
     day: 'numeric',
     month: 'long',

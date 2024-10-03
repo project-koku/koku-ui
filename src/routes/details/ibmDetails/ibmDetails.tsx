@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Alert, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { IbmQuery } from 'api/queries/ibmQuery';
@@ -23,7 +23,7 @@ import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedIbmRe
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupByTagKey } from 'routes/utils/groupBy';
-import { hasCurrentMonthData } from 'routes/utils/providers';
+import { hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import { filterProviders } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
@@ -34,10 +34,12 @@ import {
   handleOnSetPage,
   handleOnSort,
 } from 'routes/utils/queryNavigate';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -52,6 +54,9 @@ import { styles } from './ibmDetails.styles';
 interface IbmDetailsStateProps {
   currency?: string;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
+  isCurrentMonthData?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
+  isPreviousMonthData?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -60,6 +65,7 @@ interface IbmDetailsStateProps {
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
+  timeScopeValue?: number;
 }
 
 interface IbmDetailsDispatchProps {
@@ -106,14 +112,6 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
   };
   public state: IbmDetailsState = { ...this.defaultState };
 
-  constructor(stateProps, dispatchProps) {
-    super(stateProps, dispatchProps);
-    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
-    this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
-    this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
-    this.handleonSelect = this.handleonSelect.bind(this);
-  }
-
   public componentDidMount() {
     this.updateReport();
   }
@@ -145,7 +143,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { query, report, reportQueryString } = this.props;
+    const { query, report, reportQueryString, timeScopeValue } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -170,6 +168,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -204,7 +203,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -226,12 +225,13 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, router, report } = this.props;
+    const { query, router, report, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -254,6 +254,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -279,11 +280,11 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
     }
   };
 
-  public handleOnExportModalClose = (isOpen: boolean) => {
+  private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  public handleOnExportModalOpen = () => {
+  private handleOnExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
@@ -329,6 +330,9 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       currency,
       intl,
       isAccountInfoEmptyStateToggleEnabled,
+      isCurrentMonthData,
+      isDetailsDateRangeToggleEnabled,
+      isPreviousMonthData,
       providers,
       providersFetchStatus,
       query,
@@ -336,6 +340,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       reportError,
       reportFetchStatus,
       router,
+      timeScopeValue,
     } = this.props;
 
     const computedItems = this.getComputedItems();
@@ -355,7 +360,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       if (noProviders) {
         return <NoProviders providerType={ProviderType.ibm} title={title} />;
       }
-      if (!hasCurrentMonthData(providers)) {
+      if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (
           <NoData
             detailsComponent={
@@ -372,12 +377,27 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
+          isCurrentMonthData={isCurrentMonthData}
+          isPreviousMonthData={isPreviousMonthData}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}
+          query={query}
           report={report}
+          timeScopeValue={timeScopeValue}
         />
         <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
+          <div style={styles.toolbarContainer}>
+            {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
+              <Alert
+                isInline
+                title={intl.formatMessage(messages.noCurrentData, {
+                  dateRange: getSinceDateRangeString(),
+                })}
+                variant="info"
+              />
+            )}
+            {this.getToolbar(computedItems)}
+          </div>
           {this.getExportModal(computedItems)}
           {reportFetchStatus === FetchStatus.inProgress ? (
             <Loading />
@@ -397,11 +417,36 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
 
 const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<IbmQuery>(router.location.search);
+
   const currency = getCurrency();
+
+  // Check for current and previous data first
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.all,
+    providersQueryString
+  );
+
+  // Fetch based on time scope value
+  const filteredProviders = filterProviders(providers, ProviderType.ibm);
+  const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
+  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
+
+  let timeScopeValue = getTimeScopeValue(queryFromRoute);
+  timeScopeValue = Number(
+    !isCurrentMonthData && isDetailsDateRangeToggleEnabled ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1
+  );
 
   const query: any = {
     ...baseQuery,
     ...queryFromRoute,
+    filter: {
+      ...queryFromRoute.filter,
+      time_scope_value: timeScopeValue,
+    },
   };
   const reportQuery = {
     currency,
@@ -411,7 +456,6 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
       ...query.filter,
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
     },
     filter_by: query.filter_by,
     group_by: query.group_by,
@@ -427,19 +471,14 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
     reportType,
     reportQueryString
   );
-  const providersQueryString = getProvidersQuery(providersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.all,
-    providersQueryString
-  );
 
   return {
     currency,
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
-    providers: filterProviders(providers, ProviderType.ibm),
+    isCurrentMonthData,
+    isDetailsDateRangeToggleEnabled,
+    isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    providers: filteredProviders,
     providersError,
     providersFetchStatus,
     query,
@@ -447,6 +486,7 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
     reportError,
     reportFetchStatus,
     reportQueryString,
+    timeScopeValue,
   };
 });
 
