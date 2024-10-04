@@ -431,7 +431,6 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
           currency={currency}
           groupBy={groupById}
           isCurrentMonthData={isCurrentMonthData}
-          isPreviousMonthData={isPreviousMonthData}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}
           query={query}

@@ -22,6 +22,7 @@ import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/components/groupBy';
 import { Perspective } from 'routes/components/perspective';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
+import type { DateRangeType } from 'routes/utils/dateRange';
 import type { Filter } from 'routes/utils/filter';
 import { filterProviders, hasCloudProvider } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
@@ -61,11 +62,14 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  dateRangeType?: DateRangeType;
   groupBy?: string;
+  isCurrentMonthData?: boolean;
   onCostDistributionSelect(value: string);
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
   onDatePickerSelect(startDate: Date, endDate: Date);
+  onDateRangeSelect(value: DateRangeType);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onGroupBySelect(value: string);
@@ -106,7 +110,7 @@ type ExplorerHeaderProps = ExplorerHeaderOwnProps & ExplorerHeaderStateProps;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHeaderState> {
   protected defaultState: ExplorerHeaderState = {
-    // TBD...
+    currentPerspective: this.props.perspective,
   };
   public state: ExplorerHeaderState = { ...this.defaultState };
 
@@ -253,13 +257,16 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       costDistribution,
       costType,
       currency,
+      dateRangeType,
       groupBy,
       intl,
+      isCurrentMonthData,
       isExportsToggleEnabled,
       isOcpCloudGroupBysToggleEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
+      onDateRangeSelect,
       onFilterAdded,
       onFilterRemoved,
       onGroupBySelect,
@@ -335,10 +342,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           </FlexItem>
         </Flex>
         <ExplorerFilter
+          dateRangeType={dateRangeType}
           groupBy={groupBy}
+          isCurrentMonthData={isCurrentMonthData}
           isDisabled={noProviders}
           onFilterAdded={onFilterAdded}
           onFilterRemoved={onFilterRemoved}
+          onDateRangeSelect={onDateRangeSelect}
           perspective={perspective}
           query={query}
         />

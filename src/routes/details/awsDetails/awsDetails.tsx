@@ -419,7 +419,6 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
           currency={currency}
           groupBy={groupById}
           isCurrentMonthData={isCurrentMonthData}
-          isPreviousMonthData={isPreviousMonthData}
           onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}

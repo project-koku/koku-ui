@@ -19,6 +19,25 @@ export const enum DateRangeType {
   lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
 }
 
+export const getDateRangeById = (value: string) => {
+  switch (value) {
+    case 'current_month_to_date':
+      return DateRangeType.currentMonthToDate;
+    case 'custom':
+      return DateRangeType.custom;
+    case 'previous_month':
+      return DateRangeType.previousMonth;
+    case 'previous_month_to_date':
+      return DateRangeType.previousMonthToDate;
+    case 'last_ninety_days':
+      return DateRangeType.lastNinetyDays;
+    case 'last_sixty_days':
+      return DateRangeType.lastSixtyDays;
+    case 'last_thirty_days':
+      return DateRangeType.lastThirtyDays;
+  }
+};
+
 export const getDateRange = (dateRangeType: DateRangeType, isFormatted = true) => {
   const endDate = new Date();
   const startDate = new Date();

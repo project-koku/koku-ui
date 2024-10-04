@@ -15,9 +15,9 @@ import { connect } from 'react-redux';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { Currency } from 'routes/components/currency';
+import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
-import { DateRange } from 'routes/details/components/dateRange';
 import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { DateRangeType } from 'routes/utils/dateRange';
@@ -39,7 +39,6 @@ interface DetailsHeaderOwnProps {
   currency?: string;
   groupBy?: string;
   isCurrentMonthData?: boolean;
-  isPreviousMonthData?: boolean;
   onCurrencySelect(value: string);
   onCostDistributionSelect(value: string);
   onDateRangeSelected(value: string);
@@ -107,7 +106,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
-      isPreviousMonthData,
       onCostDistributionSelect,
       onCurrencySelect,
       onGroupBySelect,
@@ -184,7 +182,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
                     dateRangeType={currentDateRangeType}
                     isCurrentMonthData={isCurrentMonthData}
                     isDisabled={!showContent}
-                    isPreviousMonthData={isPreviousMonthData}
                     onSelect={this.handleOnDateRangeSelected}
                   />
                 </FlexItem>

@@ -13,9 +13,9 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
+import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
-import { DateRange } from 'routes/details/components/dateRange';
 import type { ComputedRhelReportItemsParams } from 'routes/utils/computedReport/getComputedRhelReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedRhelReportItems';
 import { DateRangeType } from 'routes/utils/dateRange';
@@ -36,7 +36,6 @@ interface DetailsHeaderOwnProps {
   currency?: string;
   groupBy?: string;
   isCurrentMonthData?: boolean;
-  isPreviousMonthData?: boolean;
   onCurrencySelect(value: string);
   onGroupBySelect(value: string);
   query?: Query;
@@ -103,7 +102,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
-      isPreviousMonthData,
       onCurrencySelect,
       onGroupBySelect,
       providers,
@@ -172,7 +170,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                     dateRangeType={currentDateRangeType}
                     isCurrentMonthData={isCurrentMonthData}
                     isDisabled={!showContent}
-                    isPreviousMonthData={isPreviousMonthData}
                     onSelect={this.handleOnDateRangeSelected}
                   />
                 </FlexItem>

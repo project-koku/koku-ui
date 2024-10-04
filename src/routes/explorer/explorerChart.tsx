@@ -20,7 +20,7 @@ import { CostExplorerChart } from 'routes/components/charts/costExplorerChart';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getDateRangeFromQuery } from 'routes/utils/dateRange';
+import { type DateRangeType, getDateRange } from 'routes/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -38,6 +38,7 @@ interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentPr
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  dateRangeType?: DateRangeType;
   groupBy?: string;
   perspective: PerspectiveType;
 }
@@ -269,16 +270,15 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
 }
 
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
-  (state, { costType, currency, perspective, router }) => {
+  (state, { costType, currency, dateRangeType, perspective, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-
-    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
     const group_by = queryFromRoute.group_by ? queryFromRoute.group_by : { [groupBy]: '*' }; // Ensure group_by key is not undefined
 
     const costDistribution =
       perspective === PerspectiveType.ocp && groupBy === 'project' ? getCostDistribution() : undefined;
+    const { end_date, start_date } = getDateRange(dateRangeType);
 
     const query: any = {
       ...queryFromRoute,

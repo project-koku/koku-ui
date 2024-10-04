@@ -24,7 +24,6 @@ import {
   Tr,
 } from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
@@ -36,7 +35,7 @@ import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/comp
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getDateRangeFromQuery } from 'routes/utils/dateRange';
+import { type DateRangeType, getDateRange } from 'routes/utils/dateRange';
 import { createMapStateToProps } from 'store/common';
 import { formatCurrency } from 'utils/format';
 import { classificationDefault, classificationUnallocated, noPrefix } from 'utils/props';
@@ -48,6 +47,7 @@ import { PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution?: string;
+  dateRangeType?: DateRangeType;
   groupBy: string;
   groupByCostCategory?: string;
   groupByOrg?: string;
@@ -584,15 +584,16 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, { router }) => {
-  const queryFromRoute = parseQuery<Query>(router.location.search);
-  const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
+const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>(
+  (state, { dateRangeType }) => {
+    const { end_date, start_date } = getDateRange(dateRangeType);
 
-  return {
-    end_date,
-    start_date,
-  };
-});
+    return {
+      end_date,
+      start_date,
+    };
+  }
+);
 
 const mapDispatchToProps: ExplorerTableDispatchProps = {};
 
