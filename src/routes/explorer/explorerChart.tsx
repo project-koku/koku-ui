@@ -31,6 +31,7 @@ import { withRouter } from 'utils/router';
 import { getCostDistribution } from 'utils/sessionStorage';
 
 import { chartStyles, styles } from './explorerChart.styles';
+import { getExplorerSkeletonData } from './explorerSkeletonData';
 import { PerspectiveType } from './explorerUtils';
 import { getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
@@ -233,9 +234,15 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   };
 
   public render() {
-    const { perspective, reportFetchStatus, intl } = this.props;
+    const { perspective, report, reportFetchStatus, intl } = this.props;
 
-    const datums = this.getChartDatums(this.getComputedItems());
+    let datums = this.getChartDatums(this.getComputedItems());
+    let isSkeleton = false;
+
+    if (report && datums.length === 0) {
+      isSkeleton = true;
+      datums = getExplorerSkeletonData(report?.meta?.count) as any;
+    }
 
     // Todo: get title from perspective menu
     return (
@@ -254,6 +261,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
                 baseHeight={chartStyles.chartHeight}
                 formatOptions={{}}
                 formatter={formatUnits}
+                isSkeleton={isSkeleton}
                 top1stData={datums.length > 0 ? datums[0] : []}
                 top2ndData={datums.length > 1 ? datums[1] : []}
                 top3rdData={datums.length > 2 ? datums[2] : []}
