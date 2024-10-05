@@ -73,7 +73,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   public componentDidMount() {
     this.initDatum();
-    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef?.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: TrendChartProps) {
@@ -325,7 +325,7 @@ class TrendChartBase extends React.Component<TrendChartProps, State> {
 
   private handleResize = () => {
     const { width } = this.state;
-    const { clientWidth = 0 } = this.containerRef.current || {};
+    const { clientWidth = 0 } = this.containerRef?.current || {};
 
     if (clientWidth !== width) {
       this.setState({ width: clientWidth });

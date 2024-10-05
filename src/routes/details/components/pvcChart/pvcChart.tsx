@@ -92,7 +92,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
   };
 
   public componentDidMount() {
-    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef?.current, this.handleResize);
     this.updateReport();
   }
 
@@ -111,7 +111,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
 
   private handleResize = () => {
     const { width } = this.state;
-    const { clientWidth = 0 } = this.containerRef.current || {};
+    const { clientWidth = 0 } = this.containerRef?.current || {};
 
     if (clientWidth !== width) {
       this.setState({ width: clientWidth });
