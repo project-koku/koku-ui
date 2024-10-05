@@ -525,11 +525,9 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
       },
     }),
     ...queryFromRoute,
-    filter: {
-      ...queryFromRoute.filter,
-      time_scope_value: timeScopeValue,
-    },
   };
+  query.filter.time_scope_value = timeScopeValue; // Add time scope here for breakdown pages
+
   const reportQuery = {
     category: query.category,
     currency,

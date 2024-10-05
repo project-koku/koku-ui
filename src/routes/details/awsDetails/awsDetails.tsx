@@ -485,11 +485,9 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
   const query: any = {
     ...baseQuery,
     ...queryFromRoute,
-    filter: {
-      ...queryFromRoute.filter,
-      time_scope_value: timeScopeValue,
-    },
   };
+  query.filter.time_scope_value = timeScopeValue; // Add time scope here for breakdown pages
+
   const reportQuery = {
     cost_type: costType,
     currency,
