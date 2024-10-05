@@ -39,6 +39,7 @@ interface DetailsToolbarOwnProps {
   pagination?: React.ReactNode;
   query?: AwsQuery;
   selectedItems?: ComputedReportItem[];
+  timeScopeValue?: number;
 }
 
 interface DetailsToolbarStateProps {
@@ -209,55 +210,61 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
-  // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
-  // however, for better server-side performance, we chose to use key_only here.
-  const baseQuery = {
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
-    key_only: true,
-    limit: 1000,
-  };
+const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>(
+  (state, { timeScopeValue = -1 }) => {
+    // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
+    // however, for better server-side performance, we chose to use key_only here.
+    const baseQuery = {
+      filter: {
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: timeScopeValue,
+      },
+      key_only: true,
+      limit: 1000,
+    };
 
-  const resourceQueryString = getQuery({
-    key_only: true,
-  });
-  const resourceReport = resourceSelectors.selectResource(state, resourcePathsType, resourceType, resourceQueryString);
-  const resourceReportFetchStatus = resourceSelectors.selectResourceFetchStatus(
-    state,
-    resourcePathsType,
-    resourceType,
-    resourceQueryString
-  );
+    const resourceQueryString = getQuery({
+      key_only: true,
+    });
+    const resourceReport = resourceSelectors.selectResource(
+      state,
+      resourcePathsType,
+      resourceType,
+      resourceQueryString
+    );
+    const resourceReportFetchStatus = resourceSelectors.selectResourceFetchStatus(
+      state,
+      resourcePathsType,
+      resourceType,
+      resourceQueryString
+    );
 
-  const tagQueryString = getQuery({
-    ...baseQuery,
-  });
-  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
+    const tagQueryString = getQuery({
+      ...baseQuery,
+    });
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
-  const orgQueryString = getQuery({
-    ...baseQuery,
-  });
-  const orgReport = orgSelectors.selectOrg(state, orgPathsType, orgType, orgQueryString);
-  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
+    const orgQueryString = getQuery({
+      ...baseQuery,
+    });
+    const orgReport = orgSelectors.selectOrg(state, orgPathsType, orgType, orgQueryString);
+    const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
 
-  return {
-    orgReport,
-    orgReportFetchStatus,
-    orgQueryString,
-    resourceReport,
-    resourceReportFetchStatus,
-    resourceQueryString,
-    tagReport,
-    tagReportFetchStatus,
-    tagQueryString,
-  };
-});
+    return {
+      orgReport,
+      orgReportFetchStatus,
+      orgQueryString,
+      resourceReport,
+      resourceReportFetchStatus,
+      resourceQueryString,
+      tagReport,
+      tagReportFetchStatus,
+      tagQueryString,
+    };
+  }
+);
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchOrg: orgActions.fetchOrg,

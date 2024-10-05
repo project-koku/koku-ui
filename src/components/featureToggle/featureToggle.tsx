@@ -8,6 +8,7 @@ export const enum FeatureToggle {
   accountInfoEmptyState = 'cost-management.ui.account-info-empty-state', // https://issues.redhat.com/browse/COST-5335
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
   debug = 'cost-management.ui.debug',
+  detailsDateRange = 'cost-management.ui.details-date-range', // https://issues.redhat.com/browse/COST-5563
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
@@ -29,6 +30,10 @@ export const useIsAwsEc2InstancesToggleEnabled = () => {
 
 export const useIsDebugToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.debug);
+};
+
+export const useIsDetailsDateRangeToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.detailsDateRange);
 };
 
 export const useIsExportsToggleEnabled = () => {
@@ -55,6 +60,7 @@ export const useFeatureToggle = () => {
   const isAccountInfoEmptyStateToggleEnabled = useIsAccountInfoEmptyStateToggleEnabled();
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
+  const isDetailsDateRangeToggleEnabled = useIsDetailsDateRangeToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isFinsightsToggleEnabled = useIsFinsightsToggleEnabled();
   const isIbmToggleEnabled = useIsIbmToggleEnabled();
@@ -73,6 +79,7 @@ export const useFeatureToggle = () => {
         isAccountInfoEmptyStateToggleEnabled,
         isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled,
+        isDetailsDateRangeToggleEnabled,
         isExportsToggleEnabled,
         isFinsightsToggleEnabled,
         isIbmToggleEnabled,
@@ -87,6 +94,7 @@ export const useFeatureToggle = () => {
     isAccountInfoEmptyStateToggleEnabled,
     isAwsEc2InstancesToggleEnabled,
     isDebugToggleEnabled,
+    isDetailsDateRangeToggleEnabled,
     isExportsToggleEnabled,
     isFinsightsToggleEnabled,
     isIbmToggleEnabled,

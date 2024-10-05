@@ -59,6 +59,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   showCurrency?: boolean;
   tabs: React.ReactNode;
   tagPathsType: TagPathsType;
+  timeScopeValue?: number;
   title: string;
 }
 
@@ -206,6 +207,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       showCurrency,
       tabs,
       tagPathsType,
+      timeScopeValue,
       title,
     } = this.props;
 
@@ -291,7 +293,10 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
               </Title>
               <div style={styles.costLabelDate}>
                 {getTotalCostDateRangeString(
-                  intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 })
+                  intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 }),
+                  undefined,
+                  timeScopeValue === -2 ? 1 : 0,
+                  true
                 )}
               </div>
             </div>

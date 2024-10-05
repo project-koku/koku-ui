@@ -11,6 +11,8 @@ export const selectIsAccountInfoEmptyStateToggleEnabled = (state: RootState) =>
 export const selectIsAwsEc2InstancesToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isAwsEc2InstancesToggleEnabled;
 export const selectIsDebugToggleEnabled = (state: RootState) => selectFeatureToggleState(state).isDebugToggleEnabled;
+export const selectIsDetailsDateRangeToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isDetailsDateRangeToggleEnabled;
 export const selectIsExportsToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isExportsToggleEnabled;
 export const selectIsFinsightsToggleEnabled = (state: RootState) =>

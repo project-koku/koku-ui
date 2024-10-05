@@ -18,6 +18,7 @@ import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { noop } from 'routes/utils/noop';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPercentage, formatUnits, formatUsage, unitsLookupKey } from 'utils/format';
@@ -468,13 +469,14 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
+    const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };
     const reportQuery: Query = {
       filter: {
-        time_scope_units: 'month',
-        time_scope_value: -1,
         resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
       },
       filter_by: {
         // Add filters here to apply logical OR/AND

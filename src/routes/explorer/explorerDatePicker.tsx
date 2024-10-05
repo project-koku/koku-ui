@@ -1,13 +1,11 @@
 import type { DatePickerRef } from '@patternfly/react-core';
 import { DatePicker } from '@patternfly/react-core';
-import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
 import messages from 'locales/messages';
 import type { FormEvent } from 'react';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/utils/dateRange';
+import { DateRangeType, getDateRange } from 'routes/utils/dateRange';
 import { formatDate, getLast90DaysDate, getToday } from 'utils/dates';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -15,6 +13,7 @@ import { withRouter } from 'utils/router';
 import { styles } from './explorerDatePicker.styles';
 
 interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedComponentProps {
+  dateRangeType?: DateRangeType;
   onSelect(startDate: Date, endDate: Date);
 }
 
@@ -37,10 +36,8 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
   private endDateRef = React.createRef<DatePickerRef>();
 
   public componentDidMount() {
-    const { router } = this.props;
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
+    const { dateRangeType } = this.props;
+    const { end_date, start_date } = getDateRange(dateRangeType);
 
     if (this.startDateRef?.current) {
       this.startDateRef.current.setCalendarOpen(dateRangeType !== DateRangeType.custom);

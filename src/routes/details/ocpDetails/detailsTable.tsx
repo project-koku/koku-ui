@@ -47,6 +47,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   report: OcpReport;
   reportQueryString: string;
   selectedItems?: ComputedReportItem[];
+  timeScopeValue?: number;
 }
 
 interface DetailsTableState {
@@ -75,7 +76,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { costDistribution, hiddenColumns, report, selectedItems } = this.props;
+    const { costDistribution, hiddenColumns, report, selectedItems, timeScopeValue } = this.props;
     const currentReport = report?.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
@@ -83,7 +84,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       previousReport !== currentReport ||
       prevProps.costDistribution !== costDistribution ||
       prevProps.selectedItems !== selectedItems ||
-      prevProps.hiddenColumns !== hiddenColumns
+      prevProps.hiddenColumns !== hiddenColumns ||
+      timeScopeValue !== prevProps.timeScopeValue
     ) {
       this.initDatum();
     }
@@ -416,7 +418,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
-    const { costDistribution, intl } = this.props;
+    const { costDistribution, intl, timeScopeValue } = this.props;
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const value = formatCurrency(
@@ -440,7 +442,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
     }
 
     if (!showValue) {
-      return getNoDataForDateRangeString();
+      return getNoDataForDateRangeString(
+        undefined,
+        timeScopeValue === -2 ? 2 : 1,
+        timeScopeValue === -2 ? true : false
+      );
     } else {
       return (
         <div className="monthOverMonthOverride">
@@ -458,7 +464,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             )}
           </div>
           <div style={styles.infoDescription} key={`month-over-month-info-${index}`}>
-            {getForDateRangeString(value)}
+            {getForDateRangeString(
+              value,
+              undefined,
+              timeScopeValue === -2 ? 2 : 1,
+              timeScopeValue === -2 ? true : false
+            )}
           </div>
         </div>
       );

@@ -5,7 +5,7 @@ import { awsHistoricalDataSelectors } from 'store/breakdown/historicalData/awsHi
 import { createMapStateToProps } from 'store/common';
 
 interface AwsHistoricalDataOwnProps {
-  // TBD...
+  timeScopeValue?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

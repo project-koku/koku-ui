@@ -4,6 +4,7 @@ export interface FeatureToggleActionMeta {
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isAwsEc2InstancesToggleEnabled?: boolean;
   isDebugToggleEnabled?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;

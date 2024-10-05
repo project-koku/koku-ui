@@ -13,9 +13,11 @@ import { DataToolbar } from 'routes/components/dataToolbar';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
+import { useQueryState } from 'utils/hooks';
 import { accountKey, regionKey, tagKey } from 'utils/props';
 
 interface InstancesToolbarOwnProps {
@@ -187,13 +189,16 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<InstancesToolbarOwnProps, InstancesToolbarStateProps>((state, props) => {
+  const queryState = useQueryState('details');
+  const timeScopeValue = getTimeScopeValue(queryState);
+
   // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
   // however, for better server-side performance, we chose to use key_only here.
   const baseQuery = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
+      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
     },
     key_only: true,
     limit: 1000,
