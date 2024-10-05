@@ -86,6 +86,7 @@ interface ExplorerStateProps {
   gcpProviders: Providers;
   ibmProviders: Providers;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
+  isChartSkeletonToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDataAvailable?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -496,6 +497,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       gcpProviders,
       ibmProviders,
       intl,
+      isChartSkeletonToggleEnabled,
       isCurrentMonthData,
       isDataAvailable,
       isDetailsDateRangeToggleEnabled,
@@ -620,7 +622,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                 </div>
               </div>
             ) : (
-              itemsTotal > 0 && (
+              (itemsTotal > 0 || isChartSkeletonToggleEnabled) && (
                 <div style={styles.chartContent}>
                   <div style={styles.chartContainer}>
                     <ExplorerChart
@@ -778,6 +780,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     gcpProviders,
     ibmProviders,
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
+    isChartSkeletonToggleEnabled: FeatureToggleSelectors.selectIsChartSkeletonToggleEnabled(state),
     isCurrentMonthData,
     isDataAvailable,
     isDetailsDateRangeToggleEnabled,

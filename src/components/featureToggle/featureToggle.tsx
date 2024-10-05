@@ -7,6 +7,7 @@ import { FeatureToggleActions } from 'store/featureToggle';
 export const enum FeatureToggle {
   accountInfoEmptyState = 'cost-management.ui.account-info-empty-state', // https://issues.redhat.com/browse/COST-5335
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
+  chartSkeleton = 'cost-management.ui.chart-skeleton', // https://issues.redhat.com/browse/COST-5573
   debug = 'cost-management.ui.debug',
   detailsDateRange = 'cost-management.ui.details-date-range', // https://issues.redhat.com/browse/COST-5563
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
@@ -26,6 +27,10 @@ export const useIsAccountInfoEmptyStateToggleEnabled = () => {
 
 export const useIsAwsEc2InstancesToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.awsEc2Instances);
+};
+
+export const useIsChartSkeletonToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.chartSkeleton);
 };
 
 export const useIsDebugToggleEnabled = () => {
@@ -59,6 +64,7 @@ export const useFeatureToggle = () => {
 
   const isAccountInfoEmptyStateToggleEnabled = useIsAccountInfoEmptyStateToggleEnabled();
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
+  const isChartSkeletonToggleEnabled = useIsChartSkeletonToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isDetailsDateRangeToggleEnabled = useIsDetailsDateRangeToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
@@ -78,6 +84,7 @@ export const useFeatureToggle = () => {
       FeatureToggleActions.setFeatureToggle({
         isAccountInfoEmptyStateToggleEnabled,
         isAwsEc2InstancesToggleEnabled,
+        isChartSkeletonToggleEnabled,
         isDebugToggleEnabled,
         isDetailsDateRangeToggleEnabled,
         isExportsToggleEnabled,
@@ -93,6 +100,7 @@ export const useFeatureToggle = () => {
   }, [
     isAccountInfoEmptyStateToggleEnabled,
     isAwsEc2InstancesToggleEnabled,
+    isChartSkeletonToggleEnabled,
     isDebugToggleEnabled,
     isDetailsDateRangeToggleEnabled,
     isExportsToggleEnabled,

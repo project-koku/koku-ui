@@ -15,7 +15,6 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { default as ChartTheme } from 'routes/components/charts/chartTheme';
 import { getMaxValue } from 'routes/components/charts/common/chartDatum';
 import type { ChartSeries } from 'routes/components/charts/common/chartUtils';
 import {
@@ -38,6 +37,7 @@ interface CostExplorerChartOwnProps {
   baseHeight?: number;
   formatOptions?: FormatOptions;
   formatter?: Formatter;
+  isSkeleton?: boolean;
   legendItemsPerRow?: number;
   name?: string;
   padding?: any;
@@ -97,7 +97,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
   }
 
   private initDatum = () => {
-    const { top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData } = this.props;
+    const { isSkeleton, top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData } = this.props;
 
     const series: ChartSeries[] = [];
     if (top1stData && top1stData.length) {
@@ -108,13 +108,13 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         legendItem: {
           name,
           symbol: {
-            fill: chartStyles.colorScale[0],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[0],
           },
           tooltip: name,
         },
         style: {
           data: {
-            fill: chartStyles.colorScale[0],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[0],
           },
         },
       });
@@ -127,13 +127,13 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         legendItem: {
           name,
           symbol: {
-            fill: chartStyles.colorScale[1],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[1],
           },
           tooltip: name,
         },
         style: {
           data: {
-            fill: chartStyles.colorScale[1],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[1],
           },
         },
       });
@@ -146,13 +146,13 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         legendItem: {
           name,
           symbol: {
-            fill: chartStyles.colorScale[2],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[2],
           },
           tooltip: name,
         },
         style: {
           data: {
-            fill: chartStyles.colorScale[2],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[2],
           },
         },
       });
@@ -165,13 +165,13 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         legendItem: {
           name,
           symbol: {
-            fill: chartStyles.colorScale[3],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[3],
           },
           tooltip: name,
         },
         style: {
           data: {
-            fill: chartStyles.colorScale[3],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[3],
           },
         },
       });
@@ -184,13 +184,13 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         legendItem: {
           name,
           symbol: {
-            fill: chartStyles.colorScale[4],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[4],
           },
           tooltip: name,
         },
         style: {
           data: {
-            fill: chartStyles.colorScale[4],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[4],
           },
         },
       });
@@ -203,13 +203,13 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         legendItem: {
           name,
           symbol: {
-            fill: chartStyles.colorScale[5],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[5],
           },
           tooltip: name,
         },
         style: {
           data: {
-            fill: chartStyles.colorScale[5],
+            fill: isSkeleton ? undefined : chartStyles.colorScale[5],
           },
         },
       });
@@ -384,7 +384,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
 
   private getTruncatedString = (str: string) => {
     const maxChars = 20;
-    return str.length > maxChars ? str.substring(0, maxChars - 1) + '...' : str;
+    return str?.length > maxChars ? str.substring(0, maxChars - 1) + '...' : str;
   };
 
   private getTickValue = (t: number) => {
@@ -430,7 +430,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
   };
 
   public render() {
-    const { baseHeight, intl, name, padding = this.getPadding() } = this.props;
+    const { baseHeight, intl, isSkeleton, name, padding = this.getPadding() } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, tickValues, width } = this.state;
 
     const barWidth = this.getBarWidth();
@@ -455,7 +455,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
         <div style={{ height: chartHeight }}>
           <Chart
             ariaTitle={intl.formatMessage(messages.explorerChartAriaTitle)}
-            containerComponent={container}
+            containerComponent={isSkeleton ? undefined : container}
             domain={this.getDomain(series, hiddenSeries)}
             domainPadding={{ x: this.getBarWidth(true) }}
             events={this.getEvents()}
@@ -466,8 +466,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
             legendPosition="bottom-left"
             name={name}
             padding={padding}
-            theme={ChartTheme}
-            themeColor={ChartThemeColor.multiOrdered}
+            themeColor={isSkeleton ? ChartThemeColor.skeleton : ChartThemeColor.multiOrdered}
             width={width}
           >
             {series && series.length > 0 && (

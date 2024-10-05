@@ -5,6 +5,7 @@ exports[`default state 1`] = `
   "hasFeatureToggle": false,
   "isAccountInfoEmptyStateToggleEnabled": false,
   "isAwsEc2InstancesToggleEnabled": false,
+  "isChartSkeletonToggleEnabled": false,
   "isDebugToggleEnabled": false,
   "isDetailsDateRangeToggleEnabled": false,
   "isExportsToggleEnabled": false,

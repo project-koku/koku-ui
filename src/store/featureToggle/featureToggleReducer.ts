@@ -10,6 +10,7 @@ export type FeatureToggleState = Readonly<{
   hasFeatureToggle: boolean;
   isAccountInfoEmptyStateToggleEnabled: boolean;
   isAwsEc2InstancesToggleEnabled: boolean;
+  isChartSkeletonToggleEnabled: boolean;
   isDebugToggleEnabled: boolean;
   isDetailsDateRangeToggleEnabled: boolean;
   isExportsToggleEnabled: boolean;
@@ -22,6 +23,7 @@ export const defaultState: FeatureToggleState = {
   hasFeatureToggle: false,
   isAccountInfoEmptyStateToggleEnabled: false,
   isAwsEc2InstancesToggleEnabled: false,
+  isChartSkeletonToggleEnabled: false,
   isDebugToggleEnabled: false,
   isDetailsDateRangeToggleEnabled: false,
   isExportsToggleEnabled: false,
@@ -40,6 +42,7 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         hasFeatureToggle: true,
         isAccountInfoEmptyStateToggleEnabled: action.payload.isAccountInfoEmptyStateToggleEnabled,
         isAwsEc2InstancesToggleEnabled: action.payload.isAwsEc2InstancesToggleEnabled,
+        isChartSkeletonToggleEnabled: action.payload.isChartSkeletonToggleEnabled,
         isDebugToggleEnabled: action.payload.isDebugToggleEnabled,
         isDetailsDateRangeToggleEnabled: action.payload.isDetailsDateRangeToggleEnabled,
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
