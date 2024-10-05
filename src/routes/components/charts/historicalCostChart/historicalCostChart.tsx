@@ -71,7 +71,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
 
   public componentDidMount() {
     this.initDatum();
-    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef?.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: HistoricalCostChartProps) {
@@ -247,7 +247,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
 
   private handleResize = () => {
     const { width } = this.state;
-    const { clientWidth = 0 } = this.containerRef.current || {};
+    const { clientWidth = 0 } = this.containerRef?.current || {};
 
     if (clientWidth !== width) {
       this.setState({ width: clientWidth });

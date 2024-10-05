@@ -84,7 +84,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
 
   public componentDidMount() {
     this.initDatum();
-    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef?.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: HistoricalUsageChartProps) {
@@ -351,7 +351,7 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
 
   private handleResize = () => {
     const { width } = this.state;
-    const { clientWidth = 0 } = this.containerRef.current || {};
+    const { clientWidth = 0 } = this.containerRef?.current || {};
 
     if (clientWidth !== width) {
       this.setState({ width: clientWidth });

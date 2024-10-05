@@ -32,9 +32,9 @@ class NoDataStateBase extends React.Component<NoDataStateProps, any> {
           headingLevel="h5"
         />
         <EmptyStateBody>
-          {intl.formatMessage(messages.noDataStateDesc)}
-          {detailsComponent && detailsComponent}
-          {intl.formatMessage(messages.noDataStateRefreshDesc)}
+          {intl.formatMessage(messages.noDataStateDesc, {
+            status: detailsComponent,
+          })}
         </EmptyStateBody>
         <EmptyStateFooter>
           {showReload && (
