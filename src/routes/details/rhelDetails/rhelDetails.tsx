@@ -55,6 +55,7 @@ import { styles } from './rhelDetails.styles';
 
 interface RhelDetailsStateProps {
   currency?: string;
+  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -242,7 +243,15 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
+    const {
+      isAccountInfoDetailsToggleEnabled,
+      query,
+      report,
+      reportFetchStatus,
+      reportQueryString,
+      router,
+      timeScopeValue,
+    } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -255,6 +264,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
+        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleonSelect}
@@ -524,6 +534,7 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
 
   return {
     currency,
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

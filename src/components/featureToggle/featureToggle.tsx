@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
+  accountInfoDetails = 'cost-management.ui.account-info-details', // https://issues.redhat.com/browse/COST-5386
   accountInfoEmptyState = 'cost-management.ui.account-info-empty-state', // https://issues.redhat.com/browse/COST-5335
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
   chartSkeleton = 'cost-management.ui.chart-skeleton', // https://issues.redhat.com/browse/COST-5573
@@ -19,6 +20,10 @@ export const enum FeatureToggle {
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
   const client = useUnleashClient();
   return client.isEnabled(toggle);
+};
+
+export const useIsAccountInfoDetailsToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.accountInfoDetails);
 };
 
 export const useIsAccountInfoEmptyStateToggleEnabled = () => {
@@ -62,6 +67,7 @@ export const useFeatureToggle = () => {
   const dispatch = useDispatch();
   const { auth } = useChrome();
 
+  const isAccountInfoDetailsToggleEnabled = useIsAccountInfoDetailsToggleEnabled();
   const isAccountInfoEmptyStateToggleEnabled = useIsAccountInfoEmptyStateToggleEnabled();
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
   const isChartSkeletonToggleEnabled = useIsChartSkeletonToggleEnabled();
@@ -82,6 +88,7 @@ export const useFeatureToggle = () => {
     // Workaround for code that doesn't use hooks
     dispatch(
       FeatureToggleActions.setFeatureToggle({
+        isAccountInfoDetailsToggleEnabled,
         isAccountInfoEmptyStateToggleEnabled,
         isAwsEc2InstancesToggleEnabled,
         isChartSkeletonToggleEnabled,
@@ -98,6 +105,7 @@ export const useFeatureToggle = () => {
       fetchUser(identity => console.log('User identity:', identity));
     }
   }, [
+    isAccountInfoDetailsToggleEnabled,
     isAccountInfoEmptyStateToggleEnabled,
     isAwsEc2InstancesToggleEnabled,
     isChartSkeletonToggleEnabled,

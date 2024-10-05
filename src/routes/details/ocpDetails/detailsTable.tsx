@@ -2,6 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { Label, Tooltip } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -15,6 +16,7 @@ import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/details/components/actions';
+import { ProviderDetailsModal } from 'routes/details/components/providerDetails';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getBreakdownPath } from 'routes/utils/paths';
@@ -38,6 +40,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   groupBy: string;
   groupByTagKey: string;
   hiddenColumns?: Set<string>;
+  isAccountInfoDetailsToggleEnabled?: boolean;
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
@@ -100,6 +103,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       groupByTagKey,
       hiddenColumns,
       intl,
+      isAccountInfoDetailsToggleEnabled,
       isAllSelected,
       query,
       report,
@@ -111,6 +115,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
     }
 
     const isGroupByProject = groupBy === 'project';
+    const isGroupByCluster = groupBy === 'cluster';
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
@@ -126,7 +131,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             name: intl.formatMessage(messages.tagNames),
-            style: groupBy === 'project' ? styles.nameColumn : undefined,
+            style: isGroupByProject ? styles.nameColumn : undefined,
           },
           {
             hidden: !isGroupByProject,
@@ -167,7 +172,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             orderBy: groupBy,
             name: intl.formatMessage(messages.detailsResourceNames, { value: groupBy }),
             ...(computedItems.length && { isSortable: true }),
-            style: groupBy === 'project' ? styles.nameColumn : undefined,
+            style: isGroupByProject ? styles.nameColumn : undefined,
           },
           {
             hidden: !isGroupByProject,
@@ -176,6 +181,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           {
             hidden: !isGroupByProject,
             name: intl.formatMessage(messages.optimizations),
+          },
+          {
+            hidden: !(isGroupByCluster && isAccountInfoDetailsToggleEnabled),
+            name: intl.formatMessage(messages.costModelsLastUpdated),
           },
           {
             id: DetailsTableColumnIds.monthOverMonth,
@@ -328,6 +337,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                   },
                 }}
                 project={item.id}
+              />
+            ),
+          },
+          {
+            hidden: !(isGroupByCluster && isAccountInfoDetailsToggleEnabled),
+            value: (
+              <ProviderDetailsModal
+                isLastUpdatedStatus
+                isOverallStatus
+                uuId={item.source_uuid?.[0]}
+                providerType={ProviderType.ocp}
               />
             ),
           },

@@ -47,9 +47,9 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
       newRows.push({
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
-          { value: <OverallStatus providerId={item.id} providerType={providerType} isLastUpdated /> },
-          { value: <OverallStatus providerId={item.id} providerType={providerType} isStatusMsg /> },
-          { value: <ProviderDetailsModal providerId={item.id} providerType={providerType} showStatus={false} /> },
+          { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
+          { value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} /> },
+          { value: <ProviderDetailsModal providerId={item.id} providerType={providerType} /> },
         ],
         item,
       });

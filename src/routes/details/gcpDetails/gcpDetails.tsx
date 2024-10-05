@@ -52,6 +52,7 @@ import { styles } from './gcpDetails.styles';
 
 interface GcpDetailsStateProps {
   currency?: string;
+  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -202,7 +203,15 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
+    const {
+      isAccountInfoDetailsToggleEnabled,
+      query,
+      report,
+      reportFetchStatus,
+      reportQueryString,
+      router,
+      timeScopeValue,
+    } = this.props;
     const { isAllSelected, selectedItems } = this.state;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -214,6 +223,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
+        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleonSelect}
@@ -469,6 +479,7 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
 
   return {
     currency,
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

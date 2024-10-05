@@ -103,7 +103,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
     dataDetailsComponent:
       groupBy === 'cluster' ? (
-        <ProviderDetailsModal clusterId={groupByValue} providerType={ProviderType.ocp} />
+        <ProviderDetailsModal clusterId={groupByValue} isOverallStatus providerType={ProviderType.ocp} />
       ) : undefined,
     costDistribution,
     costOverviewComponent: (

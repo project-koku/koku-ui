@@ -56,6 +56,7 @@ import { DetailsToolbar } from './detailsToolbar';
 interface AwsDetailsStateProps {
   costType: string;
   currency?: string;
+  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -215,7 +216,15 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
+    const {
+      isAccountInfoDetailsToggleEnabled,
+      query,
+      report,
+      reportFetchStatus,
+      reportQueryString,
+      router,
+      timeScopeValue,
+    } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -238,6 +247,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         groupByCostCategory={groupByCostCategory}
         groupByTagKey={groupByTagKey}
         groupByOrg={groupByOrg}
+        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleonSelect}
@@ -524,6 +534,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
   return {
     costType,
     currency,
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

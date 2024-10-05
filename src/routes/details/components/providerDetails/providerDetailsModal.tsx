@@ -11,18 +11,22 @@ import { ProviderDetailsContent } from './providerDetailsContent';
 
 interface ProviderDetailsModalOwnProps {
   clusterId?: string;
-  showStatus?: boolean;
+  isLastUpdatedStatus?: boolean;
+  isOverallStatus?: boolean;
   providerId?: string;
   providerType: ProviderType;
+  uuId?: string;
 }
 
 type ProviderDetailsModalProps = ProviderDetailsModalOwnProps;
 
 const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
   clusterId,
+  isOverallStatus = true,
+  isLastUpdatedStatus,
   providerId,
   providerType,
-  showStatus = true,
+  uuId,
 }: ProviderDetailsModalProps) => {
   const intl = useIntl();
   const [isOpen, setIsOpen] = useState(false);
@@ -40,14 +44,27 @@ const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({
 
   return (
     <>
-      {showStatus && <OverallStatus clusterId={clusterId} providerId={providerId} providerType={providerType} />}
+      {isOverallStatus && (
+        <OverallStatus
+          clusterId={clusterId}
+          isLastUpdatedStatus={isLastUpdatedStatus}
+          providerId={providerId}
+          providerType={providerType}
+          uuId={uuId}
+        />
+      )}
       <Button onClick={handleOnClick} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
         {intl.formatMessage(messages.dataDetails)}
       </Button>
       <Modal className="costManagement" isOpen={isOpen} onClose={handleOnClose} variant={ModalVariant.small}>
         <ModalHeader title={intl.formatMessage(messages.dataDetails)} />
         <ModalBody>
-          <ProviderDetailsContent clusterId={clusterId} providerId={providerId} providerType={providerType} />
+          <ProviderDetailsContent
+            clusterId={clusterId}
+            providerId={providerId}
+            providerType={providerType}
+            uuId={uuId}
+          />
         </ModalBody>
       </Modal>
     </>
