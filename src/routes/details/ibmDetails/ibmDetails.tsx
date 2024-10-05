@@ -442,11 +442,9 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
   const query: any = {
     ...baseQuery,
     ...queryFromRoute,
-    filter: {
-      ...queryFromRoute.filter,
-      time_scope_value: timeScopeValue,
-    },
   };
+  query.filter.time_scope_value = timeScopeValue; // Add time scope here for breakdown pages
+
   const reportQuery = {
     currency,
     delta: 'cost',
