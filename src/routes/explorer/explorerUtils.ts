@@ -326,7 +326,7 @@ export const getIsDataAvailable = ({
     case PerspectiveType.oci:
       isDataAvailable = hasData(ociProviders);
       isCurrentMonthData = hasCurrentMonthData(ociProviders);
-      isPreviousMonthData = isPreviousMonthData(ociProviders);
+      isPreviousMonthData = hasPreviousMonthData(ociProviders);
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
