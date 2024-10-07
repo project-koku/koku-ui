@@ -52,6 +52,7 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AzureDetailsStateProps {
   currency?: string;
+  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -202,7 +203,15 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
+    const {
+      isAccountInfoDetailsToggleEnabled,
+      query,
+      report,
+      reportFetchStatus,
+      reportQueryString,
+      router,
+      timeScopeValue,
+    } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -215,6 +224,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
+        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleOnSelect}
@@ -468,6 +478,7 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
 
   return {
     currency,
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

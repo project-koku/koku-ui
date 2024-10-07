@@ -22,6 +22,7 @@ interface ProviderDetailsContentOwnProps {
   clusterId?: string;
   providerId?: string;
   providerType: ProviderType;
+  uuId?: string;
 }
 
 interface ProviderDetailsContentStateProps {
@@ -37,6 +38,7 @@ const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
   clusterId,
   providerId,
   providerType,
+  uuId,
 }: ProviderDetailsContentProps) => {
   const intl = useIntl();
 
@@ -59,7 +61,10 @@ const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
   // Filter OCP providers to skip an extra API request
   const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
   const provider = filteredProviders?.find(
-    val => providerId === val.id || (clusterId && val.authentication?.credentials?.cluster_id === clusterId)
+    val =>
+      providerId === val.id ||
+      (clusterId && val.authentication?.credentials?.cluster_id === clusterId) ||
+      uuId === val.uuid
   );
 
   if (providerType === ProviderType.ocp) {

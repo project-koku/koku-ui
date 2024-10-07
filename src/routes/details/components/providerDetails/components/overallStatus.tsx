@@ -24,9 +24,11 @@ import { styles } from './component.styles';
 interface OverallStatusOwnProps {
   clusterId?: string;
   isLastUpdated?: boolean;
+  isLastUpdatedStatus?: boolean;
   isStatusMsg?: boolean;
   providerId?: string;
   providerType: ProviderType;
+  uuId?: string;
 }
 
 interface OverallStatusStateProps {
@@ -41,9 +43,11 @@ type OverallStatusProps = OverallStatusOwnProps;
 const OverallStatus: React.FC<OverallStatusProps> = ({
   clusterId,
   isLastUpdated,
+  isLastUpdatedStatus,
   isStatusMsg,
   providerId,
   providerType,
+  uuId,
 }: OverallStatusProps) => {
   const { providers, providersError } = useMapToProps();
   const intl = useIntl();
@@ -55,7 +59,10 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
   // Filter OCP providers to skip an extra API request
   const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
   const provider = filteredProviders?.find(
-    val => providerId === val.id || (clusterId && val.authentication?.credentials?.cluster_id === clusterId)
+    val =>
+      providerId === val.id ||
+      (clusterId && val.authentication?.credentials?.cluster_id === clusterId) ||
+      uuId === val.uuid
   );
   const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
 
@@ -121,6 +128,18 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
 
   if (isLastUpdated) {
     return overallStatus.lastUpdated ? formatDate(overallStatus.lastUpdated) : null;
+  }
+  if (isLastUpdatedStatus) {
+    return (
+      <>
+        <span style={styles.statusIcon}>{getOverallStatusIcon(overallStatus.status)}</span>
+        <span style={styles.description}>
+          {overallStatus.lastUpdated
+            ? formatDate(overallStatus.lastUpdated)
+            : intl.formatMessage(messages.statusMsg, { value: overallStatus.status })}
+        </span>
+      </>
+    );
   }
   if (overallStatus.msg && overallStatus.status) {
     return (

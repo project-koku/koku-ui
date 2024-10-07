@@ -6,6 +6,8 @@ export const selectFeatureToggleState = (state: RootState) => state[stateKey];
 
 export const selectHasFeatureToggle = (state: RootState) => selectFeatureToggleState(state).hasFeatureToggle;
 
+export const selectIsAccountInfoDetailsToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isAccountInfoDetailsToggleEnabled;
 export const selectIsAccountInfoEmptyStateToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isAccountInfoEmptyStateToggleEnabled;
 export const selectIsAwsEc2InstancesToggleEnabled = (state: RootState) =>
