@@ -2028,8 +2028,10 @@ export default defineMessages({
       'description {Filter by description} ' +
       'gcp_project {Filter by GCP project} ' +
       'group {Filter by group} ' +
+      'instance {Filter by instance} ' +
       'name {Filter by name} ' +
       'node {Filter by node} ' +
+      'operating_system {Filter by operating system} ' +
       'org_unit_id {Filter by organizational unit} ' +
       'payer_tenant_id {Filter by account} ' +
       'persistent_volume_claim {Filter by persistent volume claim} ' +
