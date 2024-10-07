@@ -59,7 +59,7 @@
     "@patternfly/react-icons": "5.4.0",
     "@patternfly/react-table": "5.4.1",
     "@patternfly/react-tokens": "5.4.0",
-    "@redhat-cloud-services/frontend-components": "^4.2.15",
+    "@redhat-cloud-services/frontend-components": "^4.2.16",
     "@redhat-cloud-services/frontend-components-notifications": "^4.1.0",
     "@redhat-cloud-services/frontend-components-translations": "^3.2.8",
     "@redhat-cloud-services/frontend-components-utilities": "^4.0.17",
