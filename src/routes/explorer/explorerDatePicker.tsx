@@ -5,7 +5,7 @@ import type { FormEvent } from 'react';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { DateRangeType, getDateRange } from 'routes/utils/dateRange';
+import { DateRangeType } from 'routes/utils/dateRange';
 import { formatDate, getLast90DaysDate, getToday } from 'utils/dates';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -14,7 +14,9 @@ import { styles } from './explorerDatePicker.styles';
 
 interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedComponentProps {
   dateRangeType?: DateRangeType;
+  endDate?: string;
   onSelect(startDate: Date, endDate: Date);
+  startDate?: Date;
 }
 
 interface ExplorerDatePickerState {
@@ -36,16 +38,20 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
   private endDateRef = React.createRef<DatePickerRef>();
 
   public componentDidMount() {
-    const { dateRangeType } = this.props;
-    const { end_date, start_date } = getDateRange(dateRangeType);
+    const { dateRangeType, endDate, startDate } = this.props;
+    // const queryFromRoute = parseQuery<Query>(router.location.search);
+    //
+    // // Query dates are undefined until a selection is made
+    // const end_date = queryFromRoute.end_date;
+    // const start_date = queryFromRoute.start_date;
 
     if (this.startDateRef?.current) {
       this.startDateRef.current.setCalendarOpen(dateRangeType !== DateRangeType.custom);
     }
-    if (dateRangeType === DateRangeType.custom) {
+    if (dateRangeType === DateRangeType.custom && endDate && startDate) {
       this.setState({
-        startDate: new Date(start_date + 'T00:00:00'),
-        endDate: new Date(end_date + 'T00:00:00'),
+        startDate: new Date(startDate + 'T00:00:00'),
+        endDate: new Date(endDate + 'T00:00:00'),
       });
     }
   }

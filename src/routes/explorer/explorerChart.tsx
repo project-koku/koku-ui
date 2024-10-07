@@ -20,7 +20,6 @@ import { CostExplorerChart } from 'routes/components/charts/costExplorerChart';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { type DateRangeType, getDateRange } from 'routes/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -39,20 +38,19 @@ interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentPr
   costDistribution?: string;
   costType?: string;
   currency?: string;
-  dateRangeType?: DateRangeType;
+  endDate?: string;
   groupBy?: string;
   perspective: PerspectiveType;
+  startDate?: string;
 }
 
 interface ExplorerChartStateProps {
-  end_date?: string;
   perspective: PerspectiveType;
   query: Query;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
-  start_date?: string;
 }
 
 interface ExplorerChartDispatchProps {
@@ -206,7 +204,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   // data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
   // message in the tooltip, which helps distinguish between zero values and when there is no data available.
   private padChartDatums = (items: any[]): ChartDatum[] => {
-    const { end_date, start_date } = this.props;
+    const { endDate, startDate } = this.props;
     const result = [];
 
     items.map(datums => {
@@ -215,8 +213,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
       const newItems = [];
 
       for (
-        let padDate = new Date(start_date + 'T00:00:00');
-        padDate <= new Date(end_date + 'T00:00:00');
+        let padDate = new Date(startDate + 'T00:00:00');
+        padDate <= new Date(endDate + 'T00:00:00');
         padDate.setDate(padDate.getDate() + 1)
       ) {
         const id = format(padDate, 'yyyy-MM-dd');
@@ -278,7 +276,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
 }
 
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
-  (state, { costType, currency, dateRangeType, perspective, router }) => {
+  (state, { costType, currency, endDate, perspective, router, startDate }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
@@ -286,7 +284,6 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
 
     const costDistribution =
       perspective === PerspectiveType.ocp && groupBy === 'project' ? getCostDistribution() : undefined;
-    const { end_date, start_date } = getDateRange(dateRangeType);
 
     const query: any = {
       ...queryFromRoute,
@@ -295,12 +292,12 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     const reportQuery = {
       cost_type: costType,
       currency,
-      end_date,
+      end_date: endDate,
       exclude: query.exclude,
       filter: { limit: 5 },
       filter_by: query.filter_by,
       group_by,
-      start_date,
+      start_date: startDate,
       ...(costDistribution === ComputedReportItemValueType.distributed && {
         order_by: { distributed_cost: 'desc' },
       }),
@@ -320,14 +317,12 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     );
 
     return {
-      end_date,
       perspective,
       query,
       report,
       reportError,
       reportFetchStatus,
       reportQueryString,
-      start_date,
     };
   }
 );

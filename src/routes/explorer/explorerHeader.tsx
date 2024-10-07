@@ -63,12 +63,12 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   costType?: string;
   currency?: string;
   dateRangeType?: DateRangeType;
+  endDate?: string;
   groupBy?: string;
   isCurrentMonthData?: boolean;
   onCostDistributionSelect(value: string);
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
-  onDatePickerSelect(startDate: Date, endDate: Date);
   onDateRangeSelect(value: DateRangeType);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
@@ -76,6 +76,7 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
   report: Report;
+  startDate?: string;
 }
 
 interface ExplorerHeaderStateProps {
@@ -258,6 +259,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       costType,
       currency,
       dateRangeType,
+      endDate,
       groupBy,
       intl,
       isCurrentMonthData,
@@ -274,6 +276,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       providersFetchStatus,
       query,
       report,
+      startDate,
     } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
@@ -343,6 +346,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         </Flex>
         <ExplorerFilter
           dateRangeType={dateRangeType}
+          endDate={endDate}
           groupBy={groupBy}
           isCurrentMonthData={isCurrentMonthData}
           isDisabled={noProviders}
@@ -351,6 +355,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           onDateRangeSelect={onDateRangeSelect}
           perspective={perspective}
           query={query}
+          startDate={startDate}
         />
       </header>
     );
