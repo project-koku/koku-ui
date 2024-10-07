@@ -25,8 +25,7 @@ import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { DateRangeType, getDateRange } from 'routes/utils/dateRange';
-import { getDateRangeTypeDefault } from 'routes/utils/dateRange';
+import { DateRangeType, getDateRangeFromQuery } from 'routes/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { filterProviders, hasData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
@@ -83,6 +82,7 @@ interface ExplorerStateProps {
   costType?: string;
   currency?: string;
   dateRangeType: DateRangeType;
+  endDate?: Date;
   gcpProviders: Providers;
   ibmProviders: Providers;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
@@ -103,6 +103,7 @@ interface ExplorerStateProps {
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
   rhelProviders: Providers;
+  startDate?: Date;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -115,13 +116,10 @@ interface ExplorerDispatchProps {
 
 interface ExplorerState {
   columns?: any[];
-  endDate?: Date;
   isAllSelected?: boolean;
-  isDateRangeSelected?: boolean;
   isExportModalOpen?: boolean;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
-  startDate?: Date;
 }
 
 type ExplorerOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -132,7 +130,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   protected defaultState: ExplorerState = {
     columns: [],
     isAllSelected: false,
-    isDateRangeSelected: false,
     isExportModalOpen: false,
     rows: [],
     selectedItems: [],
@@ -297,7 +294,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   };
 
   private getTable = () => {
-    const { costDistribution, dateRangeType, perspective, query, report, reportFetchStatus, router } = this.props;
+    const { costDistribution, endDate, perspective, query, report, reportFetchStatus, router, startDate } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -308,7 +305,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     return (
       <ExplorerTable
         costDistribution={costDistribution}
-        dateRangeType={dateRangeType}
+        endDate={endDate}
         groupBy={
           groupByCostCategory
             ? `${awsCategoryPrefix}${groupByCostCategory}`
@@ -329,6 +326,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         query={query}
         report={report}
         selectedItems={selectedItems}
+        startDate={startDate}
       />
     );
   };
@@ -375,18 +373,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
     }
-  };
-
-  private handleOnDatePickerSelect = (startDate: Date, endDate: Date) => {
-    const { query, router } = this.props;
-
-    this.setState({ startDate, endDate }, () => {
-      router.navigate(getRouteForQuery(query, router.location, true), { replace: true });
-    });
-  };
-
-  private handleOnDateRangeSelect = () => {
-    this.setState({ isDateRangeSelected: true });
   };
 
   private handleOnExportModalClose = (isOpen: boolean) => {
@@ -494,6 +480,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       costType,
       currency,
       dateRangeType,
+      endDate,
       gcpProviders,
       ibmProviders,
       intl,
@@ -510,8 +497,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       reportError,
       reportFetchStatus,
       router,
+      startDate,
     } = this.props;
-    const { isDateRangeSelected } = this.state;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noAwsProviders = !this.isAwsAvailable() && providersFetchStatus === FetchStatus.complete;
@@ -561,6 +548,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       return <NoData title={title} />;
     }
 
+    const isDateRangeSelected = query.dateRangeType !== undefined;
+
     return (
       <div style={styles.explorer}>
         <ExplorerHeader
@@ -568,6 +557,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           costType={costType}
           currency={currency}
           dateRangeType={dateRangeType}
+          endDate={endDate}
           groupBy={
             groupByCostCategory
               ? `${awsCategoryPrefix}${groupByCostCategory}`
@@ -579,14 +569,13 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
           onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
-          onDatePickerSelect={this.handleOnDatePickerSelect}
-          onDateRangeSelect={this.handleOnDateRangeSelect}
           onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
           onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
           onGroupBySelect={this.handleOnGroupBySelect}
           onPerspectiveClicked={this.handleOnPerspectiveClick}
           perspective={perspective}
           report={report}
+          startDate={startDate}
         />
         {!isDataAvailable && isDetailsDateRangeToggleEnabled ? (
           this.getEmptyProviderState()
@@ -610,6 +599,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                     costType={costType}
                     currency={currency}
                     dateRangeType={dateRangeType}
+                    endDate={endDate}
                     groupBy={
                       groupByCostCategory
                         ? `${awsCategoryPrefix}${groupByCostCategory}`
@@ -618,6 +608,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                           : groupById
                     }
                     perspective={perspective}
+                    startDate={startDate}
                   />
                 </div>
               </div>
@@ -630,6 +621,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                       costType={costType}
                       currency={currency}
                       dateRangeType={dateRangeType}
+                      endDate={endDate}
                       groupBy={
                         groupByCostCategory
                           ? `${awsCategoryPrefix}${groupByCostCategory}`
@@ -638,6 +630,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                             : groupById
                       }
                       perspective={perspective}
+                      startDate={startDate}
                     />
                   </div>
                 </div>
@@ -729,11 +722,10 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     rhelProviders,
   });
 
-  let dateRangeType = getDateRangeTypeDefault(queryFromRoute);
-  if (dateRangeType === DateRangeType.currentMonthToDate && !isCurrentMonthData && isDetailsDateRangeToggleEnabled) {
-    dateRangeType = DateRangeType.previousMonth;
-  }
-  const { end_date, start_date } = getDateRange(dateRangeType);
+  const { dateRangeType, end_date, start_date } = getDateRangeFromQuery(
+    queryFromRoute,
+    !isCurrentMonthData && isDetailsDateRangeToggleEnabled
+  );
 
   const query: any = {
     ...baseQuery,
@@ -777,6 +769,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     costType,
     currency,
     dateRangeType,
+    endDate: end_date,
     gcpProviders,
     ibmProviders,
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
@@ -793,6 +786,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     providersFetchStatus,
     providersQueryString,
     query,
+    startDate: start_date,
     report,
     reportError,
     reportFetchStatus,

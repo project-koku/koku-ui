@@ -16,7 +16,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/components/dataToolbar';
 import { DateRange } from 'routes/components/dateRange';
-import { DateRangeType, getDateRange, getDateRangeById } from 'routes/utils/dateRange';
+import { DateRangeType, getDateRangeById } from 'routes/utils/dateRange';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { getRouteForQuery } from 'routes/utils/query';
@@ -43,6 +43,7 @@ import {
 
 interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentProps {
   dateRangeType: DateRangeType;
+  endDate?: boolean;
   groupBy: string;
   isCurrentMonthData?: boolean;
   isDisabled?: boolean;
@@ -52,6 +53,7 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
   perspective: PerspectiveType;
   pagination?: React.ReactNode;
   query?: Query;
+  startDate?: boolean;
 }
 
 interface ExplorerFilterStateProps {
@@ -100,6 +102,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 
     this.updateReport();
     this.setState({
+      currentDateRange: dateRangeType,
       categoryOptions: this.getCategoryOptions(),
       showDatePicker: dateRangeType === DateRangeType.custom,
     });
@@ -119,11 +122,12 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       this.setState({
         currentDateRange: dateRangeType,
         categoryOptions: this.getCategoryOptions(),
+        showDatePicker: dateRangeType === DateRangeType.custom,
       });
     }
     // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
     if (prevProps.perspective !== perspective) {
-      const currentDateRange = DateRangeType.currentMonthToDate;
+      const currentDateRange = undefined;
       this.setState({ currentDateRange }, () => {
         this.updateDateRange(currentDateRange);
       });
@@ -183,12 +187,17 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   };
 
   private getDatePickerComponent = () => {
-    const { dateRangeType } = this.props;
+    const { dateRangeType, endDate, startDate } = this.props;
     const { showDatePicker } = this.state;
 
     return showDatePicker ? (
-      <ExplorerDatePicker dateRangeType={dateRangeType} onSelect={this.handleOnDatePickerSelect} />
-    ) : undefined;
+      <ExplorerDatePicker
+        dateRangeType={dateRangeType}
+        endDate={endDate}
+        onSelect={this.handleOnDatePickerSelect}
+        startDate={startDate}
+      />
+    ) : null;
   };
 
   private handleOnDatePickerSelect = (startDate: Date, endDate: Date) => {
@@ -213,10 +222,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     this.setState({ currentDateRange, showDatePicker }, () => {
       if (!showDatePicker) {
         this.updateDateRange(currentDateRange);
-      }
-      // Clear inline alert
-      if (onDateRangeSelect) {
-        onDateRangeSelect(currentDateRange);
+
+        // Clear inline alert
+        if (onDateRangeSelect) {
+          onDateRangeSelect(currentDateRange);
+        }
       }
     });
   };
@@ -298,13 +308,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 }
 
 const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>(
-  (state, { dateRangeType, perspective }) => {
-    const { end_date, start_date } = getDateRange(dateRangeType);
-
+  (state, { endDate, perspective, startDate }) => {
     // Omitting key_only to share a single request -- the toolbar needs key values
     const orgQueryString = getQuery({
-      end_date,
-      start_date,
+      end_date: endDate,
+      start_date: startDate,
       limit: 1000,
     });
 
@@ -335,8 +343,8 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
     // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
     // However, for better server-side performance, we chose to use key_only here.
     const tagQueryString = getQuery({
-      end_date,
-      start_date,
+      end_date: endDate,
+      start_date: startDate,
       key_only: true,
       limit: 1000,
     });
