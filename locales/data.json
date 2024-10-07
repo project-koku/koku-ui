@@ -7746,6 +7746,14 @@
               }
             ]
           },
+          "instance": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by instance"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7759,6 +7767,14 @@
               {
                 "type": 0,
                 "value": "Filter by node"
+              }
+            ]
+          },
+          "operating_system": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by operating system"
               }
             ]
           },
