@@ -375,6 +375,18 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     }
   };
 
+  private handleOnDateRangeSelect = (dateRangeType: string) => {
+    const { query, router } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      dateRangeType,
+      start_date: undefined,
+      end_date: undefined,
+    };
+    router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
+  };
+
   private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
@@ -569,6 +581,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
           onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+          onDateRangeSelect={this.handleOnDateRangeSelect}
           onFilterAdded={filter => handleOnFilterAdded(query, router, filter)}
           onFilterRemoved={filter => handleOnFilterRemoved(query, router, filter)}
           onGroupBySelect={this.handleOnGroupBySelect}

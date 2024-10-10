@@ -43,7 +43,7 @@ import {
 
 interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentProps {
   dateRangeType: DateRangeType;
-  endDate?: boolean;
+  endDate?: string;
   groupBy: string;
   isCurrentMonthData?: boolean;
   isDisabled?: boolean;
@@ -53,7 +53,7 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
   perspective: PerspectiveType;
   pagination?: React.ReactNode;
   query?: Query;
-  startDate?: boolean;
+  startDate?: string;
 }
 
 interface ExplorerFilterStateProps {
@@ -80,7 +80,6 @@ interface ExplorerFilterDispatchProps {
 
 interface ExplorerFilterState {
   categoryOptions?: ToolbarChipGroup[];
-  currentDateRange: DateRangeType;
   showDatePicker?: boolean;
 }
 
@@ -92,24 +91,20 @@ const tagType = TagType.tag;
 
 export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, ExplorerFilterState> {
   protected defaultState: ExplorerFilterState = {
-    currentDateRange: this.props.dateRangeType,
     showDatePicker: false,
   };
   public state: ExplorerFilterState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { dateRangeType } = this.props;
-
     this.updateReport();
     this.setState({
-      currentDateRange: dateRangeType,
       categoryOptions: this.getCategoryOptions(),
-      showDatePicker: dateRangeType === DateRangeType.custom,
+      showDatePicker: this.props.dateRangeType === DateRangeType.custom,
     });
   }
 
   public componentDidUpdate(prevProps: ExplorerFilterProps) {
-    const { dateRangeType, orgReport, perspective, query, tagReport } = this.props;
+    const { dateRangeType, orgReport, query, tagReport } = this.props;
 
     if (query && !isEqual(query, prevProps.query)) {
       this.updateReport();
@@ -120,16 +115,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       prevProps.dateRangeType !== dateRangeType
     ) {
       this.setState({
-        currentDateRange: dateRangeType,
         categoryOptions: this.getCategoryOptions(),
         showDatePicker: dateRangeType === DateRangeType.custom,
-      });
-    }
-    // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
-    if (prevProps.perspective !== perspective) {
-      const currentDateRange = undefined;
-      this.setState({ currentDateRange }, () => {
-        this.updateDateRange(currentDateRange);
       });
     }
   }
@@ -172,12 +159,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   };
 
   private getDateRangeComponent = () => {
-    const { isCurrentMonthData, isDisabled } = this.props;
-    const { currentDateRange } = this.state;
+    const { dateRangeType, isCurrentMonthData, isDisabled } = this.props;
 
     return (
       <DateRange
-        dateRangeType={currentDateRange}
+        dateRangeType={dateRangeType}
         isCurrentMonthData={isCurrentMonthData}
         isDisabled={isDisabled}
         isExplorer
@@ -219,28 +205,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 
     const currentDateRange = getDateRangeById(value);
     const showDatePicker = value === DateRangeType.custom;
-    this.setState({ currentDateRange, showDatePicker }, () => {
-      if (!showDatePicker) {
-        this.updateDateRange(currentDateRange);
-
-        // Clear inline alert
-        if (onDateRangeSelect) {
-          onDateRangeSelect(currentDateRange);
-        }
+    this.setState({ showDatePicker }, () => {
+      if (onDateRangeSelect && !showDatePicker) {
+        onDateRangeSelect(currentDateRange);
       }
     });
-  };
-
-  private updateDateRange = (value: string) => {
-    const { query, router } = this.props;
-
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      dateRangeType: value,
-      start_date: undefined,
-      end_date: undefined,
-    };
-    router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
   };
 
   private updateReport = () => {
