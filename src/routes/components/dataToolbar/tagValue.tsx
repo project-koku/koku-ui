@@ -147,13 +147,12 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
         </InputGroupItem>
         <InputGroupItem>
           <Button
+            icon={<SearchIcon />}
             isDisabled={isDisabled}
             variant={ButtonVariant.control}
             aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
             onClick={evt => onTagValueInput(evt)}
-          >
-            <SearchIcon />
-          </Button>
+          ></Button>
         </InputGroupItem>
       </InputGroup>
     );

@@ -72,10 +72,10 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
     <Toolbar id="assign-sources-toolbar" clearAllFilters={filter.onClearAll}>
       <ToolbarContent>
         <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
-          <ToolbarItem variant="search-filter">
+          <ToolbarItem>
             <ToolbarFilter
-              deleteChip={filter.onRemove}
-              chips={filter.query.name}
+              deleteLabel={filter.onRemove}
+              labels={filter.query.name}
               categoryName={filter.categoryNames.name}
             >
               <FilterInput {...filterInputProps} />

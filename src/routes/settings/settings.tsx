@@ -1,6 +1,4 @@
-import './settings.scss';
-
-import { Tab, TabContent, Tabs, TabTitleText, Title, TitleSizes } from '@patternfly/react-core';
+import { PageSection, Tab, TabContent, Tabs, TabTitleText, Title, TitleSizes } from '@patternfly/react-core';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
@@ -11,8 +9,8 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { routes } from 'routes';
-import { Loading } from 'routes/components/page/loading';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { Calculations } from 'routes/settings/calculations';
 import { CostModelsDetails } from 'routes/settings/costModels';
 import { PlatformProjects } from 'routes/settings/platformProjects';
@@ -199,21 +197,23 @@ const Settings: React.FC<SettingsProps> = () => {
   const availableTabs = getAvailableTabs();
 
   return (
-    <div className="tabsOverride">
-      <header style={styles.header}>
-        <div style={styles.headerContent}>
-          <Title headingLevel="h1" size={TitleSizes['2xl']}>
-            {intl.formatMessage(messages.settingsTitle)}
-          </Title>
-        </div>
-        {userAccessFetchStatus === FetchStatus.inProgress ? (
-          <Loading />
-        ) : (
-          <div style={styles.tabs}>{getTabs(availableTabs)}</div>
-        )}
-      </header>
-      <div>{getTabContent(availableTabs)}</div>
-    </div>
+    <>
+      <PageSection style={styles.headerContainer}>
+        <header>
+          <div style={styles.headerContent}>
+            <Title headingLevel="h1" size={TitleSizes['2xl']}>
+              {intl.formatMessage(messages.settingsTitle)}
+            </Title>
+          </div>
+          {userAccessFetchStatus === FetchStatus.inProgress ? (
+            <LoadingState />
+          ) : (
+            <div style={styles.tabs}>{getTabs(availableTabs)}</div>
+          )}
+        </header>
+      </PageSection>
+      <PageSection>{getTabContent(availableTabs)}</PageSection>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Alert, Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Alert, Card, CardBody, PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { GcpQuery } from 'api/queries/gcpQuery';
@@ -18,6 +18,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { ProviderDetails } from 'routes/details/components/providerDetails';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedGcpReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
@@ -381,43 +382,46 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     }
 
     return (
-      <div style={styles.gcpDetails}>
-        <DetailsHeader
-          currency={currency}
-          groupBy={groupById}
-          isCurrentMonthData={isCurrentMonthData}
-          onCurrencySelect={() => handleOnCurrencySelect(query, router)}
-          onGroupBySelect={this.handleOnGroupBySelect}
-          query={query}
-          report={report}
-          timeScopeValue={timeScopeValue}
-        />
-        <div style={styles.content}>
-          <div style={styles.toolbarContainer}>
+      <>
+        <PageSection style={styles.headerContainer}>
+          <DetailsHeader
+            currency={currency}
+            groupBy={groupById}
+            isCurrentMonthData={isCurrentMonthData}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+            onGroupBySelect={this.handleOnGroupBySelect}
+            query={query}
+            report={report}
+            timeScopeValue={timeScopeValue}
+          />
+        </PageSection>
+        <PageSection>
+          <Card>
             {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
               <Alert
                 isInline
+                style={styles.alert}
                 title={intl.formatMessage(messages.noCurrentData, {
                   dateRange: getSinceDateRangeString(),
                 })}
                 variant="info"
               />
             )}
-            {this.getToolbar(computedItems)}
-          </div>
-          {this.getExportModal(computedItems)}
-          {reportFetchStatus === FetchStatus.inProgress ? (
-            <Loading />
-          ) : (
-            <>
-              <div style={styles.tableContainer}>{this.getTable()}</div>
-              <div style={styles.paginationContainer}>
-                <div style={styles.pagination}>{this.getPagination(isDisabled, true)}</div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+            <CardBody>
+              {this.getToolbar(computedItems)}
+              {this.getExportModal(computedItems)}
+              {reportFetchStatus === FetchStatus.inProgress ? (
+                <LoadingState />
+              ) : (
+                <>
+                  {this.getTable()}
+                  <div style={styles.paginationContainer}>{this.getPagination(isDisabled, true)}</div>
+                </>
+              )}
+            </CardBody>
+          </Card>
+        </PageSection>
+      </>
     );
   }
 }

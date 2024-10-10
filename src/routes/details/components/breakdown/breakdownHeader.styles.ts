@@ -1,10 +1,9 @@
-import global_BackgroundColor_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_100';
-import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
-import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
+import t_global_color_disabled_100 from '@patternfly/react-tokens/dist/js/t_global_color_disabled_100';
+import t_global_font_size_body_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_body_sm';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
+import t_global_spacer_xs from '@patternfly/react-tokens/dist/js/t_global_spacer_xs';
 import type React from 'react';
 
 export const styles = {
@@ -12,11 +11,11 @@ export const styles = {
     marginLeft: '-17px',
   },
   costDistribution: {
-    marginTop: global_spacer_sm.var,
-    paddingBottom: global_spacer_sm.var,
+    marginTop: t_global_spacer_sm.var,
+    paddingBottom: t_global_spacer_sm.var,
   },
   costLabel: {
-    marginTop: global_spacer_lg.var,
+    marginTop: t_global_spacer_lg.var,
   },
   costValue: {
     marginTop: 0,
@@ -27,16 +26,16 @@ export const styles = {
     textAlign: 'right',
   },
   costType: {
-    marginTop: global_spacer_sm.var,
-    paddingBottom: global_spacer_sm.var,
+    marginTop: t_global_spacer_sm.var,
+    paddingBottom: t_global_spacer_sm.var,
   },
   description: {
-    color: global_disabled_color_100.value,
-    fontSize: global_FontSize_xs.value,
+    color: t_global_color_disabled_100.value,
+    fontSize: t_global_font_size_body_sm.value,
     marginBottom: 0,
   },
   filterChip: {
-    marginRight: global_spacer_md.var,
+    marginRight: t_global_spacer_md.var,
   },
   filteredBy: {
     whiteSpace: 'nowrap',
@@ -44,14 +43,8 @@ export const styles = {
   filteredByContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: global_spacer_sm.var,
-    marginTop: global_spacer_sm.var,
-  },
-  header: {
-    backgroundColor: global_BackgroundColor_100.var,
-    paddingLeft: global_spacer_lg.var,
-    paddingRight: global_spacer_lg.var,
-    paddingTop: global_spacer_lg.var,
+    marginBottom: t_global_spacer_sm.var,
+    marginTop: t_global_spacer_sm.var,
   },
   headerContent: {
     alignItems: 'unset',
@@ -59,14 +52,15 @@ export const styles = {
   },
   perspectiveContainer: {
     alignItems: 'unset',
-    paddingBottom: global_spacer_sm.var,
+    paddingBottom: t_global_spacer_sm.var,
     paddingLeft: '1px',
-    paddingTop: global_spacer_xs.var,
+    paddingTop: t_global_spacer_xs.var,
   },
   tabs: {
     display: 'flex',
   },
   tag: {
-    marginLeft: global_spacer_lg.var,
+    marginLeft: t_global_spacer_lg.var,
+    marginTop: t_global_spacer_xs.var,
   },
 } as { [className: string]: React.CSSProperties };

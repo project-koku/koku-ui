@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -33,7 +33,7 @@ interface ExplorerToolbarDispatchProps {
 }
 
 interface ExplorerToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarLabelGroup[];
 }
 
 type ExplorerToolbarProps = ExplorerToolbarOwnProps &
