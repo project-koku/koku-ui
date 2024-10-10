@@ -175,6 +175,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
+      dateRangeType: undefined, // Clear inline alert
       exclude: undefined,
       filter_by: undefined,
       group_by: { [getGroupByDefault(value)]: '*' },
@@ -315,6 +316,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               <FlexItem>{this.getPerspective(noProviders)}</FlexItem>
               <FlexItem>
                 <GroupBy
+                  endDate={endDate}
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
                   groupBy={groupBy}
                   isDisabled={noProviders}
@@ -328,6 +330,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
                   }
                   showOrgs={orgPathsType}
                   showTags={tagPathsType}
+                  startDate={startDate}
                   tagPathsType={tagPathsType}
                 />
               </FlexItem>

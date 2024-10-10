@@ -16,7 +16,7 @@ interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedCompon
   dateRangeType?: DateRangeType;
   endDate?: string;
   onSelect(startDate: Date, endDate: Date);
-  startDate?: Date;
+  startDate?: string;
 }
 
 interface ExplorerDatePickerState {
@@ -39,11 +39,6 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
 
   public componentDidMount() {
     const { dateRangeType, endDate, startDate } = this.props;
-    // const queryFromRoute = parseQuery<Query>(router.location.search);
-    //
-    // // Query dates are undefined until a selection is made
-    // const end_date = queryFromRoute.end_date;
-    // const start_date = queryFromRoute.start_date;
 
     if (this.startDateRef?.current) {
       this.startDateRef.current.setCalendarOpen(dateRangeType !== DateRangeType.custom);
