@@ -56,8 +56,9 @@ export const baseQuery: Query = {
 export const groupByAwsOptions: {
   label: string;
   value: ComputedAwsReportItemsParams['idKey'];
+  resourceKey?: string;
 }[] = [
-  { label: 'account', value: 'account' },
+  { label: 'account', value: 'account', resourceKey: 'account_alias' },
   { label: 'service', value: 'service' },
   { label: 'region', value: 'region' },
 ];
