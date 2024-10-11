@@ -64,6 +64,7 @@ const ResourceInput: React.FC<ResourceInputProps> = ({
             onChange={onChange}
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleOnTextInputKeyDown}
+            onBlur={onClear}
             placeholder={placeholder}
           />
           {search && search.length && (

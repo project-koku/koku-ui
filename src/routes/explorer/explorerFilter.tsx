@@ -130,6 +130,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: option.label }),
         key: option.value,
+        resourceKey: option.resourceKey,
       });
     });
     if (orgReport?.data?.length > 0) {
