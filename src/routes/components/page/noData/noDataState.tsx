@@ -1,4 +1,5 @@
 import {
+  Bullseye,
   Button,
   EmptyState,
   EmptyStateBody,
@@ -12,6 +13,8 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+
+import { styles } from './noData.styles';
 
 interface NoDataStateOwnProps {
   detailsComponent?: React.ReactNode;
@@ -33,7 +36,7 @@ class NoDataStateBase extends React.Component<NoDataStateProps, any> {
         />
         <EmptyStateBody>
           {intl.formatMessage(messages.noDataStateDesc, {
-            status: detailsComponent,
+            status: detailsComponent ? <Bullseye style={styles.details}>{detailsComponent}</Bullseye> : '',
           })}
         </EmptyStateBody>
         <EmptyStateFooter>

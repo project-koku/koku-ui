@@ -21,7 +21,7 @@ import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedRhelReportItems';
@@ -55,7 +55,6 @@ import { styles } from './rhelDetails.styles';
 
 interface RhelDetailsStateProps {
   currency?: string;
-  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -243,15 +242,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
   };
 
   private getTable = () => {
-    const {
-      isAccountInfoDetailsToggleEnabled,
-      query,
-      report,
-      reportFetchStatus,
-      reportQueryString,
-      router,
-      timeScopeValue,
-    } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -264,7 +255,6 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
-        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleonSelect}
@@ -427,7 +417,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         return (
           <NoData
             detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ocp} /> : undefined
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.ocp} /> : undefined
             }
             title={title}
           />
@@ -534,7 +524,6 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
 
   return {
     currency,
-    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

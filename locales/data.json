@@ -152,6 +152,12 @@
         "value": "Back"
       }
     ],
+    "backToIntegrations": [
+      {
+        "type": 0,
+        "value": "Back to integrations status"
+      }
+    ],
     "breakdownBackToDetails": [
       {
         "options": {
@@ -10394,6 +10400,18 @@
         "value": "Integration"
       }
     ],
+    "integrationsDetails": [
+      {
+        "type": 0,
+        "value": "Integrations details"
+      }
+    ],
+    "integrationsStatus": [
+      {
+        "type": 0,
+        "value": "Integrations status"
+      }
+    ],
     "lastProcessed": [
       {
         "type": 0,
@@ -11835,12 +11853,6 @@
       {
         "type": 0,
         "value": "Rate must be a positive number"
-      }
-    ],
-    "providerDetails": [
-      {
-        "type": 0,
-        "value": "Integrations details"
       }
     ],
     "pvcTitle": [
@@ -13587,6 +13599,12 @@
       {
         "type": 0,
         "value": "vCPU"
+      }
+    ],
+    "viewAll": [
+      {
+        "type": 0,
+        "value": "View all"
       }
     ],
     "volumeTitle": [

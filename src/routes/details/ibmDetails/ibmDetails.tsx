@@ -18,7 +18,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedIbmReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -53,7 +53,6 @@ import { styles } from './ibmDetails.styles';
 
 interface IbmDetailsStateProps {
   currency?: string;
-  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -204,15 +203,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
   };
 
   private getTable = () => {
-    const {
-      isAccountInfoDetailsToggleEnabled,
-      query,
-      report,
-      reportFetchStatus,
-      reportQueryString,
-      router,
-      timeScopeValue,
-    } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -225,7 +216,6 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
-        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleonSelect}
@@ -374,7 +364,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         return (
           <NoData
             detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ibm} /> : undefined
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.ibm} /> : undefined
             }
             title={title}
           />
@@ -481,7 +471,6 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
 
   return {
     currency,
-    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

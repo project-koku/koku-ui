@@ -1,6 +1,5 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import type { OciReport } from 'api/reports/ociReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -14,7 +13,6 @@ import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/details/components/actions';
-import { ProviderDetailsModal } from 'routes/details/components/providerDetails';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getBreakdownPath } from 'routes/utils/paths';
@@ -30,7 +28,6 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   filterBy?: any;
   groupBy: string;
   groupByTagKey?: string;
-  isAccountInfoDetailsToggleEnabled?: boolean;
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
@@ -77,23 +74,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 
   private initDatum = () => {
-    const {
-      breadcrumbPath,
-      groupBy,
-      groupByTagKey,
-      intl,
-      isAccountInfoDetailsToggleEnabled,
-      isAllSelected,
-      query,
-      report,
-      router,
-      selectedItems,
-    } = this.props;
+    const { breadcrumbPath, groupBy, groupByTagKey, intl, isAllSelected, query, report, router, selectedItems } =
+      this.props;
     if (!report) {
       return;
     }
-
-    const isGroupByPayerTenantId = groupBy === 'payer_tenant_id';
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
@@ -130,10 +115,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             orderBy: groupBy,
             name: intl.formatMessage(messages.detailsResourceNames, { value: groupBy }),
             ...(computedItems.length && { isSortable: true }),
-          },
-          {
-            hidden: !(isGroupByPayerTenantId && isAccountInfoDetailsToggleEnabled),
-            name: intl.formatMessage(messages.costModelsLastUpdated),
           },
           {
             name: intl.formatMessage(messages.monthOverMonthChange),
@@ -189,17 +170,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                 {name}
                 {desc}
               </>
-            ),
-          },
-          {
-            hidden: !(isGroupByPayerTenantId && isAccountInfoDetailsToggleEnabled),
-            value: (
-              <ProviderDetailsModal
-                isLastUpdatedStatus
-                isOverallStatus
-                uuId={item.source_uuid?.[0]}
-                providerType={ProviderType.oci}
-              />
             ),
           },
           { value: monthOverMonth },

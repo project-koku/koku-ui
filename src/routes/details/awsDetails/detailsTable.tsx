@@ -1,6 +1,5 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import type { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -14,7 +13,6 @@ import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { Actions } from 'routes/details/components/actions';
-import { ProviderDetailsModal } from 'routes/details/components/providerDetails';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getOrgBreakdownPath } from 'routes/utils/paths';
@@ -32,7 +30,6 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   groupByCostCategory?: string;
   groupByOrg?: string;
   groupByTagKey?: string;
-  isAccountInfoDetailsToggleEnabled?: boolean;
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
@@ -86,7 +83,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       groupByOrg,
       groupByTagKey,
       intl,
-      isAccountInfoDetailsToggleEnabled,
       isAllSelected,
       query,
       report,
@@ -147,10 +143,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
               ...(computedItems.length && { isSortable: true }),
             },
             {
-              hidden: !(isGroupByAccount && isAccountInfoDetailsToggleEnabled),
-              name: intl.formatMessage(messages.costModelsLastUpdated),
-            },
-            {
               name: intl.formatMessage(messages.monthOverMonthChange),
             },
             {
@@ -209,17 +201,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                 {name}
                 {desc}
               </>
-            ),
-          },
-          {
-            hidden: !(isGroupByAccount && isAccountInfoDetailsToggleEnabled),
-            value: (
-              <ProviderDetailsModal
-                isLastUpdatedStatus
-                isOverallStatus
-                uuId={item.source_uuid?.[0]}
-                providerType={ProviderType.aws}
-              />
             ),
           },
           { value: monthOverMonth },

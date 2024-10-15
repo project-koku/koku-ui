@@ -2,7 +2,7 @@ import type { Provider } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import type { MessageDescriptor } from 'react-intl';
-import { normalize } from 'routes/details/components/providerDetails/utils/normailize';
+import { normalize } from 'routes/details/components/providerStatus/utils/normailize';
 
 export const enum StatusType {
   complete = 'complete',

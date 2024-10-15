@@ -18,7 +18,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAzureReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -52,7 +52,6 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AzureDetailsStateProps {
   currency?: string;
-  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -203,15 +202,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
   };
 
   private getTable = () => {
-    const {
-      isAccountInfoDetailsToggleEnabled,
-      query,
-      report,
-      reportFetchStatus,
-      reportQueryString,
-      router,
-      timeScopeValue,
-    } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -224,7 +215,6 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
-        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleOnSelect}
@@ -372,7 +362,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         return (
           <NoData
             detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.azure} /> : undefined
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.azure} /> : undefined
             }
             title={title}
           />
@@ -478,7 +468,6 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
 
   return {
     currency,
-    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

@@ -26,6 +26,9 @@ export const styles = {
   perspectiveContainer: {
     alignItems: 'unset',
   },
+  status: {
+    marginBottom: global_spacer_sm.var,
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },

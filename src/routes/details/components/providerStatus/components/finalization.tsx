@@ -4,9 +4,9 @@ import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { formatDate } from 'routes/details/components/providerDetails/utils/format';
-import { getProgressStepIcon } from 'routes/details/components/providerDetails/utils/icon';
-import { getProgressStepVariant } from 'routes/details/components/providerDetails/utils/variant';
+import { formatDate } from 'routes/details/components/providerStatus/utils/format';
+import { getProgressStepIcon } from 'routes/details/components/providerStatus/utils/icon';
+import { getProgressStepVariant } from 'routes/details/components/providerStatus/utils/variant';
 
 import { styles } from './component.styles';
 
