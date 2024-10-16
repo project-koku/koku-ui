@@ -63,7 +63,7 @@
     "@redhat-cloud-services/frontend-components-notifications": "^4.1.0",
     "@redhat-cloud-services/frontend-components-translations": "^3.2.8",
     "@redhat-cloud-services/frontend-components-utilities": "^4.0.17",
-    "@redhat-cloud-services/rbac-client": "^2.2.5",
+    "@redhat-cloud-services/rbac-client": "^2.2.6",
     "@reduxjs/toolkit": "^2.3.0",
     "@unleash/proxy-client-react": "^4.3.1",
     "axios": "^1.7.7",
@@ -79,7 +79,7 @@
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0",
-    "victory": "^37.1.2"
+    "victory": "^37.2.0"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.0",
@@ -92,9 +92,9 @@
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.4",
     "@redhat-cloud-services/frontend-components-config": "^6.3.1",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.16",
-    "@swc/core": "^1.7.26",
+    "@swc/core": "^1.7.36",
     "@swc/jest": "^0.2.36",
-    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/jest-dom": "^6.6.1",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.13",
@@ -127,7 +127,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "swc_mut_cjs_exports": "^0.99.0",
+    "swc_mut_cjs_exports": "^0.109.1",
     "ts-jest": "^29.2.5",
     "ts-patch": "^3.2.1",
     "typescript": "^5.6.3"
