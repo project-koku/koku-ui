@@ -1103,6 +1103,18 @@
         "value": "Clusters"
       }
     ],
+    "copied": [
+      {
+        "type": 0,
+        "value": "Copied"
+      }
+    ],
+    "copy": [
+      {
+        "type": 0,
+        "value": "Copy"
+      }
+    ],
     "cost": [
       {
         "type": 0,
@@ -10973,13 +10985,27 @@
     "noInstancesDesc": [
       {
         "type": 0,
-        "value": "Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances."
+        "value": "To view the cost of EC2 instances, label your resources with the following tag and key value pair in the AWS console."
+      }
+    ],
+    "noInstancesMoreInfo": [
+      {
+        "type": 0,
+        "value": "For more information, "
+      },
+      {
+        "type": 1,
+        "value": "seeDocumentation"
+      },
+      {
+        "type": 0,
+        "value": "."
       }
     ],
     "noInstancesTitle": [
       {
         "type": 0,
-        "value": "No instances available"
+        "value": "View cost of EC2 instances"
       }
     ],
     "noMappedTags": [
@@ -12059,6 +12085,12 @@
         "value": "Save"
       }
     ],
+    "seeDocumentation": [
+      {
+        "type": 0,
+        "value": "see documentation"
+      }
+    ],
     "select": [
       {
         "type": 0,
@@ -12862,6 +12894,12 @@
         "value": "Value"
       }
     ],
+    "tagKey": [
+      {
+        "type": 0,
+        "value": "Tag key:"
+      }
+    ],
     "tagKeyChild": [
       {
         "type": 0,
@@ -13108,6 +13146,12 @@
       {
         "type": 0,
         "value": "Tag names"
+      }
+    ],
+    "tagValue": [
+      {
+        "type": 0,
+        "value": "Tag value:"
       }
     ],
     "timeOfExport": [

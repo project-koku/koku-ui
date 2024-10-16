@@ -1,15 +1,19 @@
 import {
+  ClipboardCopy,
   EmptyState,
   EmptyStateBody,
+  EmptyStateFooter,
   EmptyStateHeader,
   EmptyStateIcon,
   EmptyStateVariant,
 } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
+import { TagIcon } from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+
+import { styles } from './noInstances.styles';
 
 interface NoInstancesStateOwnProps {
   // TBD...
@@ -25,10 +29,49 @@ class NoInstancesStateBase extends React.Component<NoInstancesStateProps, any> {
       <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
         <EmptyStateHeader
           titleText={intl.formatMessage(messages.noInstancesTitle)}
-          icon={<EmptyStateIcon icon={PlusCircleIcon} />}
+          icon={<EmptyStateIcon icon={TagIcon} />}
           headingLevel="h1"
         />
-        <EmptyStateBody>{intl.formatMessage(messages.noInstancesDesc)}</EmptyStateBody>
+        <EmptyStateBody>
+          <div>{intl.formatMessage(messages.noInstancesDesc)}</div>
+          <div style={styles.clipboardContainer}>
+            <div style={styles.tagKey}>
+              <span style={styles.tagValueLabel}>{intl.formatMessage(messages.tagKey)}</span>
+              <ClipboardCopy
+                clickTip={intl.formatMessage(messages.copied)}
+                hoverTip={intl.formatMessage(messages.copy)}
+                isCode
+                isReadOnly
+                variant="inline-compact"
+              >
+                com_redhat_insights_cost_management
+              </ClipboardCopy>
+            </div>
+            <div style={styles.tagValue}>
+              <span style={styles.tagValueLabel}>{intl.formatMessage(messages.tagValue)}</span>
+              <ClipboardCopy
+                clickTip={intl.formatMessage(messages.copied)}
+                hoverTip={intl.formatMessage(messages.copy)}
+                isCode
+                isReadOnly
+                variant="inline-compact"
+              >
+                ec2_compute
+              </ClipboardCopy>
+            </div>
+          </div>
+        </EmptyStateBody>
+        <EmptyStateFooter>
+          <div style={styles.moreInfo}>
+            {intl.formatMessage(messages.noInstancesMoreInfo, {
+              seeDocumentation: (
+                <a href={intl.formatMessage(messages.docsTagMapping)} rel="noreferrer" target="_blank">
+                  {intl.formatMessage(messages.seeDocumentation)}
+                </a>
+              ),
+            })}
+          </div>
+        </EmptyStateFooter>
       </EmptyState>
     );
   }
