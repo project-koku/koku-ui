@@ -18,6 +18,7 @@ import { Currency } from 'routes/components/currency';
 import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
+import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { DateRangeType } from 'routes/utils/dateRange';
@@ -49,7 +50,8 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isDetailsDateRangeToggleEnabled: boolean;
+  isAccountInfoDetailsToggleEnabled?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -103,6 +105,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       currency,
       groupBy,
       intl,
+      isAccountInfoDetailsToggleEnabled,
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
@@ -157,19 +160,24 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
         </Flex>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
-            <Flex>
-              <FlexItem style={styles.perspective}>
-                <div style={styles.groupBy}>
-                  <GroupBy
-                    getIdKeyForGroupBy={getIdKeyForGroupBy}
-                    groupBy={groupBy}
-                    isDisabled={!showContent}
-                    onSelect={onGroupBySelect}
-                    options={groupByOptions}
-                    showTags
-                    tagPathsType={tagPathsType}
-                  />
-                </div>
+            {isAccountInfoDetailsToggleEnabled && (
+              <Flex>
+                <FlexItem style={styles.status}>
+                  <ProviderDetailsModal providerType={ProviderType.ocp} />
+                </FlexItem>
+              </Flex>
+            )}
+            <Flex style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
+              <FlexItem>
+                <GroupBy
+                  getIdKeyForGroupBy={getIdKeyForGroupBy}
+                  groupBy={groupBy}
+                  isDisabled={!showContent}
+                  onSelect={onGroupBySelect}
+                  options={groupByOptions}
+                  showTags
+                  tagPathsType={tagPathsType}
+                />
               </FlexItem>
               {showCostDistribution && (
                 <FlexItem>
@@ -226,6 +234,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),

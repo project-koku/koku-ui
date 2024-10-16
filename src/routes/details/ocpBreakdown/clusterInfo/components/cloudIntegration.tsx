@@ -4,7 +4,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { routes } from 'routes';
-import { SourceLink } from 'routes/details/components/providerDetails/components/sourceLink';
+import { SourceLink } from 'routes/details/components/providerStatus/components/sourceLink';
 import { formatPath } from 'utils/paths';
 
 import { styles } from '../clusterInfo.styles';

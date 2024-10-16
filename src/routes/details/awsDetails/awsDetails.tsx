@@ -20,7 +20,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -56,7 +56,6 @@ import { DetailsToolbar } from './detailsToolbar';
 interface AwsDetailsStateProps {
   costType: string;
   currency?: string;
-  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -216,15 +215,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
   };
 
   private getTable = () => {
-    const {
-      isAccountInfoDetailsToggleEnabled,
-      query,
-      report,
-      reportFetchStatus,
-      reportQueryString,
-      router,
-      timeScopeValue,
-    } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -247,7 +238,6 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         groupByCostCategory={groupByCostCategory}
         groupByTagKey={groupByTagKey}
         groupByOrg={groupByOrg}
-        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleonSelect}
@@ -414,7 +404,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
         return (
           <NoData
             detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.aws} /> : undefined
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.aws} /> : undefined
             }
             title={title}
           />
@@ -534,7 +524,6 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
   return {
     costType,
     currency,
-    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,

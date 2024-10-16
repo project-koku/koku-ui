@@ -101,6 +101,11 @@ export default defineMessages({
     description: 'Back',
     id: 'back',
   },
+  backToIntegrations: {
+    defaultMessage: 'Back to integrations status',
+    description: 'Back to integrations status',
+    id: 'backToIntegrations',
+  },
   breakdownBackToDetails: {
     defaultMessage:
       '{groupBy, select, ' +
@@ -2382,6 +2387,16 @@ export default defineMessages({
     description: 'Integration',
     id: 'integration',
   },
+  integrationsDetails: {
+    defaultMessage: 'Integrations details',
+    description: 'Integrations details',
+    id: 'integrationsDetails',
+  },
+  integrationsStatus: {
+    defaultMessage: 'Integrations status',
+    description: 'Integrations status',
+    id: 'integrationsStatus',
+  },
   lastProcessed: {
     defaultMessage: 'Last processed',
     description: 'Last processed',
@@ -3156,11 +3171,6 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
-  providerDetails: {
-    defaultMessage: 'Integrations details',
-    description: 'Integrations details',
-    id: 'providerDetails',
-  },
   pvcTitle: {
     defaultMessage: 'Persistent Volume Claims',
     description: 'Persistent Volume Claims',
@@ -3884,6 +3894,11 @@ export default defineMessages({
     defaultMessage: 'vCPU',
     description: 'vCPU',
     id: 'vcpuTitle',
+  },
+  viewAll: {
+    defaultMessage: 'View all',
+    description: 'View all',
+    id: 'viewAll',
   },
   volumeTitle: {
     defaultMessage: 'Volume',

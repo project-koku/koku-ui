@@ -18,6 +18,7 @@ import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
 import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
+import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedAwsReportItemsParams } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import { DateRangeType } from 'routes/utils/dateRange';
@@ -48,7 +49,8 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isDetailsDateRangeToggleEnabled: boolean;
+  isAccountInfoDetailsToggleEnabled?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -112,6 +114,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
       currency,
       groupBy,
       intl,
+      isAccountInfoDetailsToggleEnabled,
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
@@ -142,7 +145,14 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
         </Flex>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
-            <Flex style={styles.perspective}>
+            {isAccountInfoDetailsToggleEnabled && (
+              <Flex>
+                <FlexItem style={styles.status}>
+                  <ProviderDetailsModal providerType={ProviderType.aws} />
+                </FlexItem>
+              </Flex>
+            )}
+            <Flex style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
               <FlexItem>
                 <GroupBy
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
@@ -206,6 +216,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.aws),

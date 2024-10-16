@@ -6,6 +6,9 @@ import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm'
 import type React from 'react';
 
 export const styles = {
+  count: {
+    marginRight: global_spacer_sm.value,
+  },
   description: {
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,

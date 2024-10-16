@@ -16,6 +16,7 @@ import { Currency } from 'routes/components/currency';
 import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
+import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedRhelReportItemsParams } from 'routes/utils/computedReport/getComputedRhelReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedRhelReportItems';
 import { DateRangeType } from 'routes/utils/dateRange';
@@ -44,7 +45,8 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isDetailsDateRangeToggleEnabled: boolean;
+  isAccountInfoDetailsToggleEnabled?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -99,6 +101,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       currency,
       groupBy,
       intl,
+      isAccountInfoDetailsToggleEnabled,
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
@@ -150,19 +153,24 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         </Flex>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
+            {isAccountInfoDetailsToggleEnabled && (
+              <Flex>
+                <FlexItem style={styles.status}>
+                  <ProviderDetailsModal providerType={ProviderType.rhel} />
+                </FlexItem>
+              </Flex>
+            )}
             <Flex>
-              <FlexItem style={styles.perspective}>
-                <div style={styles.groupBy}>
-                  <GroupBy
-                    getIdKeyForGroupBy={getIdKeyForGroupBy}
-                    groupBy={groupBy}
-                    isDisabled={!showContent}
-                    onSelect={onGroupBySelect}
-                    options={groupByOptions}
-                    showTags
-                    tagPathsType={tagPathsType}
-                  />
-                </div>
+              <FlexItem style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
+                <GroupBy
+                  getIdKeyForGroupBy={getIdKeyForGroupBy}
+                  groupBy={groupBy}
+                  isDisabled={!showContent}
+                  onSelect={onGroupBySelect}
+                  options={groupByOptions}
+                  showTags
+                  tagPathsType={tagPathsType}
+                />
               </FlexItem>
               {isDetailsDateRangeToggleEnabled && (
                 <FlexItem>
@@ -214,6 +222,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.rhel),

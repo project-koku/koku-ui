@@ -21,7 +21,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -215,7 +215,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     return (
       <NoData
         detailsComponent={
-          isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={providerType} /> : undefined
+          isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={providerType} /> : undefined
         }
       />
     );

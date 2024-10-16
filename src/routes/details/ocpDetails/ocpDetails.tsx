@@ -22,7 +22,7 @@ import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -59,7 +59,6 @@ export interface OcpDetailsStateProps {
   costDistribution?: string;
   currency?: string;
   currentDateRangeType?: string;
-  isAccountInfoDetailsToggleEnabled?: boolean;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
@@ -247,16 +246,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   private getTable = () => {
-    const {
-      costDistribution,
-      isAccountInfoDetailsToggleEnabled,
-      query,
-      report,
-      reportFetchStatus,
-      reportQueryString,
-      router,
-      timeScopeValue,
-    } = this.props;
+    const { costDistribution, query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } =
+      this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -271,7 +262,6 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}
-        isAccountInfoDetailsToggleEnabled={isAccountInfoDetailsToggleEnabled}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelect={this.handleOnSelect}
@@ -448,7 +438,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         return (
           <NoData
             detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ocp} /> : undefined
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.ocp} /> : undefined
             }
             title={title}
           />
@@ -566,7 +556,6 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   return {
     costDistribution,
     currency,
-    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,
