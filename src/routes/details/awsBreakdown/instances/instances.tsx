@@ -311,6 +311,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   if (!query.filter_by && !hasInstances && reportFetchStatus === FetchStatus.complete) {
     return <NoInstances />;
   }
+  return <NoInstances />;
   const computedItems = getComputedItems();
 
   return (

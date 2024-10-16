@@ -405,6 +405,16 @@ export default defineMessages({
     description: 'Clusters',
     id: 'clusters',
   },
+  copied: {
+    defaultMessage: 'Copied',
+    description: 'Copied',
+    id: 'copied',
+  },
+  copy: {
+    defaultMessage: 'Copy',
+    description: 'Copy',
+    id: 'copy',
+  },
   cost: {
     defaultMessage: 'Cost',
     description: 'Cost',
@@ -2635,13 +2645,20 @@ export default defineMessages({
     id: 'noExportsStateTitle',
   },
   noInstancesDesc: {
-    defaultMessage: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
-    description: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
+    defaultMessage:
+      'To view the cost of EC2 instances, label your resources with the following tag and key value pair in the AWS console.',
+    description:
+      'To view the cost of EC2 instances, label your resources with the following tag and key value pair in the AWS console.',
     id: 'noInstancesDesc',
   },
+  noInstancesMoreInfo: {
+    defaultMessage: 'For more information, {seeDocumentation}.',
+    description: 'For more information, see documentation.',
+    id: 'noInstancesMoreInfo',
+  },
   noInstancesTitle: {
-    defaultMessage: 'No instances available',
-    description: 'No instances available',
+    defaultMessage: 'View cost of EC2 instances',
+    description: 'View cost of EC2 instances',
     id: 'noInstancesTitle',
   },
   noMappedTags: {
@@ -3314,6 +3331,11 @@ export default defineMessages({
     description: 'Save',
     id: 'save',
   },
+  seeDocumentation: {
+    defaultMessage: 'see documentation',
+    description: 'see documentation',
+    id: 'seeDocumentation',
+  },
   select: {
     defaultMessage: 'Select...',
     description: 'Select...',
@@ -3584,6 +3606,11 @@ export default defineMessages({
     description: 'Value',
     id: 'tagHeadingValue',
   },
+  tagKey: {
+    defaultMessage: 'Tag key:',
+    description: 'Tag keys',
+    id: 'tagKey',
+  },
   tagKeyChild: {
     defaultMessage: 'Child tag keys',
     description: 'Child tag keys',
@@ -3757,6 +3784,11 @@ export default defineMessages({
     defaultMessage: 'Tag names',
     description: 'Tag Names',
     id: 'tagNames',
+  },
+  tagValue: {
+    defaultMessage: 'Tag value:',
+    description: 'Tag value',
+    id: 'tagValue',
   },
   timeOfExport: {
     defaultMessage: 'Time of export',
