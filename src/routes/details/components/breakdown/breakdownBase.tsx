@@ -15,7 +15,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { hasCurrentMonthData } from 'routes/utils/providers';
+import { hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import {
   handleOnCostDistributionSelect,
   handleOnCostTypeSelect,
@@ -70,6 +70,7 @@ export interface BreakdownStateProps {
   historicalDataComponent?: React.ReactNode;
   instancesComponent?: React.ReactNode;
   isAwsEc2InstancesToggleEnabled?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
   isOptimizationsTab?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   optimizationsComponent?: React.ReactNode;
@@ -88,6 +89,7 @@ export interface BreakdownStateProps {
   showCostDistribution?: boolean;
   showCostType?: boolean;
   tagPathsType?: TagPathsType;
+  timeScopeValue?: number;
   title?: string;
 }
 
@@ -289,6 +291,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       detailsURL,
       emptyStateTitle,
       groupBy,
+      isDetailsDateRangeToggleEnabled,
       optimizationsComponent,
       providers,
       providersFetchStatus,
@@ -301,6 +304,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       showCostDistribution,
       showCostType,
       tagPathsType,
+      timeScopeValue,
       title,
     } = this.props;
     const { activeTabKey } = this.state;
@@ -320,7 +324,11 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       if (noProviders) {
         return <NoProviders providerType={providerType} title={emptyStateTitle} />;
       }
-      if (!hasCurrentMonthData(providers)) {
+      if (
+        isDetailsDateRangeToggleEnabled
+          ? !hasCurrentMonthData(providers) && !hasPreviousMonthData(providers)
+          : !hasCurrentMonthData(providers)
+      ) {
         return <NoData title={title} />;
       }
     }
@@ -352,6 +360,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           showCurrency={!(optimizationsComponent && activeTabKey === 2)}
           tabs={this.getTabs(availableTabs)}
           tagPathsType={tagPathsType}
+          timeScopeValue={timeScopeValue}
           title={title}
         />
         <div style={styles.content}>{this.getTabContent(availableTabs)}</div>

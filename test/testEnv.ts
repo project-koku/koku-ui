@@ -1,7 +1,3 @@
-import { StyleSheetTestUtils } from 'aphrodite';
-
-StyleSheetTestUtils.suppressStyleInjection();
-
 export interface Global {
   insights: any;
 }

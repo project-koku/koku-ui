@@ -24,7 +24,6 @@ import {
   Tr,
 } from '@patternfly/react-table';
 import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { format } from 'date-fns';
 import messages from 'locales/messages';
@@ -36,7 +35,6 @@ import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/comp
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getDateRangeFromQuery } from 'routes/utils/dateRange';
 import { createMapStateToProps } from 'store/common';
 import { formatCurrency } from 'utils/format';
 import { classificationDefault, classificationUnallocated, noPrefix } from 'utils/props';
@@ -48,6 +46,7 @@ import { PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution?: string;
+  endDate?: string;
   groupBy: string;
   groupByCostCategory?: string;
   groupByOrg?: string;
@@ -60,11 +59,11 @@ interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentPr
   query: Query;
   report: Report;
   selectedItems?: ComputedReportItem[];
+  startDate?: string;
 }
 
 interface ExplorerTableStateProps {
-  end_date?: string;
-  start_date?: string;
+  // TBD...
 }
 
 interface ExplorerTableDispatchProps {
@@ -118,7 +117,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   private initDatum = () => {
     const {
       costDistribution,
-      end_date,
+      endDate,
       groupBy,
       groupByCostCategory,
       groupByOrg,
@@ -127,7 +126,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
       perspective,
       report,
       selectedItems,
-      start_date,
+      startDate,
       intl,
     } = this.props;
     if (!report) {
@@ -192,8 +191,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
     // Fill in missing columns
     for (
-      let currentDate = new Date(start_date + 'T00:00:00');
-      currentDate <= new Date(end_date + 'T00:00:00');
+      let currentDate = new Date(startDate + 'T00:00:00');
+      currentDate <= new Date(endDate + 'T00:00:00');
       currentDate.setDate(currentDate.getDate() + 1)
     ) {
       const mapId = format(currentDate, 'yyyy-MM-dd');
@@ -584,13 +583,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, { router }) => {
-  const queryFromRoute = parseQuery<Query>(router.location.search);
-  const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
-
+const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>(() => {
   return {
-    end_date,
-    start_date,
+    // TBD
   };
 });
 

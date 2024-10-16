@@ -33,6 +33,7 @@ interface DetailsToolbarOwnProps {
   pagination?: React.ReactNode;
   query?: OciQuery;
   selectedItems?: ComputedReportItem[];
+  timeScopeValue?: number;
 }
 
 interface DetailsToolbarStateProps {
@@ -165,27 +166,28 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
-  // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
-  // However, for better server-side performance, we chose to use key_only here.
-  const tagQueryString = getQuery({
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
-    key_only: true,
-    limit: 1000,
-  });
-  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
-  return {
-    tagReportFetchStatus,
-    tagReport,
-    tagQueryString,
-  };
-});
+const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>(
+  (state, { timeScopeValue = -1 }) => {
+    // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
+    // However, for better server-side performance, we chose to use key_only here.
+    const tagQueryString = getQuery({
+      filter: {
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: timeScopeValue,
+      },
+      key_only: true,
+      limit: 1000,
+    });
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
+    return {
+      tagReportFetchStatus,
+      tagReport,
+      tagQueryString,
+    };
+  }
+);
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchTag: tagActions.fetchTag,

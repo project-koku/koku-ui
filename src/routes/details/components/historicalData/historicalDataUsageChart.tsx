@@ -26,6 +26,7 @@ interface HistoricalDataUsageChartOwnProps extends RouterComponentProps, Wrapped
   chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  timeScopeValue?: number;
 }
 
 interface HistoricalDataUsageChartStateProps {
@@ -120,7 +121,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
-  (state, { reportPathsType, reportType, router }) => {
+  (state, { reportPathsType, reportType, router, timeScopeValue }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = getQueryState(router.location, 'details');
 
@@ -160,7 +161,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       filter: {
         resolution: 'daily',
         time_scope_units: 'month',
-        time_scope_value: -1,
+        time_scope_value: timeScopeValue === -2 ? -2 : -1,
       },
       filter_by: {
         ...baseQuery.filter_by,
@@ -184,7 +185,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       filter: {
         resolution: 'daily',
         time_scope_units: 'month',
-        time_scope_value: -2,
+        time_scope_value: timeScopeValue === -2 ? -3 : -2,
       },
       filter_by: {
         ...baseQuery.filter_by,

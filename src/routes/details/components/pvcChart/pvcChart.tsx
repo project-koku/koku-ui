@@ -29,6 +29,7 @@ import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { noop } from 'routes/utils/noop';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatUsage, unitsLookupKey } from 'utils/format';
@@ -73,9 +74,6 @@ const baseQuery: OcpQuery = {
   filter: {
     limit: 2, // Render 2 items max
     offset: 0,
-    time_scope_units: 'month',
-    time_scope_value: -1,
-    resolution: 'monthly',
   },
   order_by: {
     request: 'desc',
@@ -358,11 +356,15 @@ const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStatePro
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
+    const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };
     const reportQuery: Query = {
       filter: {
         ...baseQuery.filter,
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
       },
       filter_by: {
         // Add filters here to apply logical OR/AND

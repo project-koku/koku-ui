@@ -3,11 +3,11 @@ import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { SourceLink } from 'routes/details/components/providerDetails/components/sourceLink';
-import { formatDate } from 'routes/details/components/providerDetails/utils/format';
-import { getProgressStepIcon } from 'routes/details/components/providerDetails/utils/icon';
-import { getProviderAvailability } from 'routes/details/components/providerDetails/utils/status';
-import { getProgressStepVariant } from 'routes/details/components/providerDetails/utils/variant';
+import { SourceLink } from 'routes/details/components/providerStatus/components/sourceLink';
+import { formatDate } from 'routes/details/components/providerStatus/utils/format';
+import { getProgressStepIcon } from 'routes/details/components/providerStatus/utils/icon';
+import { getProviderAvailability } from 'routes/details/components/providerStatus/utils/status';
+import { getProgressStepVariant } from 'routes/details/components/providerStatus/utils/variant';
 
 import { styles } from './component.styles';
 

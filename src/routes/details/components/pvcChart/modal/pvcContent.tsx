@@ -18,6 +18,7 @@ import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -46,12 +47,6 @@ export interface PvcContentMapProps {
 type PvcContentProps = PvcContentOwnProps;
 
 const baseQuery: OcpQuery = {
-  filter: {
-    time_scope_units: 'month',
-    time_scope_value: -1,
-    resolution: 'monthly',
-  },
-  filter_by: {},
   limit: 10,
   offset: 0,
   order_by: {},
@@ -184,12 +179,16 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery: Query = {
     filter: {
       ...query.filter,
       limit: query.limit,
       offset: query.offset,
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND

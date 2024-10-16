@@ -5,7 +5,7 @@ import { ibmHistoricalDataSelectors } from 'store/breakdown/historicalData/ibmHi
 import { createMapStateToProps } from 'store/common';
 
 interface IbmHistoricalDataOwnProps {
-  // TBD...
+  timeScopeValue?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

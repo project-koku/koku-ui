@@ -5,7 +5,7 @@ import { rhelHistoricalDataSelectors } from 'store/breakdown/historicalData/rhel
 import { createMapStateToProps } from 'store/common';
 
 interface RhelHistoricalDataOwnProps {
-  // TBD...
+  timeScopeValue?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -15,6 +15,7 @@ import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
@@ -56,6 +57,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
 
   const costType = getCostType();
   const currency = getCurrency();
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
   const reportQuery = {
@@ -64,7 +66,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
+      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
@@ -120,7 +122,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     emptyStateTitle: intl.formatMessage(messages.awsDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData costType={costType} currency={currency} />,
+    historicalDataComponent: <HistoricalData costType={costType} currency={currency} timeScopeValue={timeScopeValue} />,
     instancesComponent:
       groupBy === serviceKey && groupByValue === 'AmazonEC2' ? (
         <Instances costType={costType} currency={currency} />
@@ -139,6 +141,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     reportQueryString,
     showCostType: true,
     tagPathsType: TagPathsType.aws,
+    timeScopeValue,
     title,
   };
 });

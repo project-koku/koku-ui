@@ -12,11 +12,12 @@ import { connect } from 'react-redux';
 import { routes } from 'routes';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
-import { ProviderDetailsModal } from 'routes/details/components/providerDetails';
+import { ProviderBreakdownModal } from 'routes/details/components/providerStatus';
 import { ClusterInfoModal } from 'routes/details/ocpBreakdown/clusterInfo';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -51,6 +52,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
   const reportQuery = {
@@ -58,7 +60,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
+      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
@@ -101,7 +103,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
     dataDetailsComponent:
       groupBy === 'cluster' ? (
-        <ProviderDetailsModal clusterId={groupByValue} providerType={ProviderType.ocp} />
+        <ProviderBreakdownModal clusterId={groupByValue} isOverallStatus providerType={ProviderType.ocp} />
       ) : undefined,
     costDistribution,
     costOverviewComponent: (
@@ -121,7 +123,12 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     groupBy,
     groupByValue,
     historicalDataComponent: (
-      <HistoricalData costDistribution={costDistribution} currency={currency} groupBy={groupBy} />
+      <HistoricalData
+        costDistribution={costDistribution}
+        currency={currency}
+        groupBy={groupBy}
+        timeScopeValue={timeScopeValue}
+      />
     ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
@@ -138,6 +145,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     reportQueryString,
     showCostDistribution: groupBy === 'project',
     tagPathsType: TagPathsType.ocp,
+    timeScopeValue,
     title,
   };
 });

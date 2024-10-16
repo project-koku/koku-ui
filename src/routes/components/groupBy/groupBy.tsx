@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { PerspectiveType } from 'routes/explorer/explorerUtils';
-import { getDateRangeFromQuery } from 'routes/utils/dateRange';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -30,6 +30,7 @@ import { GroupByOrg } from './groupByOrg';
 import { GroupBySelect } from './groupBySelect';
 
 interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
+  endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -44,6 +45,7 @@ interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
   showCostCategories?: boolean;
   showOrgs?: boolean;
   showTags?: boolean;
+  startDate?: string;
   tagPathsType: TagPathsType;
 }
 
@@ -324,27 +326,25 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { orgPathsType, router, resourcePathsType, tagPathsType }) => {
+  (state, { endDate, orgPathsType, router, resourcePathsType, startDate, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
+    const timeScopeValue = getTimeScopeValue(queryFromRoute);
 
+    // Use start and end dates with Cost Explorer
     // Default to current month filter for details pages
-    let tagFilter: any = {
-      filter: {
-        resolution: 'monthly',
-        time_scope_units: 'month',
-        time_scope_value: -1,
-      },
-    };
-
-    // Replace with start and end dates for Cost Explorer
-    if (queryFromRoute.dateRangeType) {
-      const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
-
-      tagFilter = {
-        end_date,
-        start_date,
-      };
-    }
+    const tagFilter =
+      startDate && endDate
+        ? {
+            end_date: endDate,
+            start_date: startDate,
+          }
+        : {
+            filter: {
+              resolution: 'monthly',
+              time_scope_units: 'month',
+              time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
+            },
+          };
 
     // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
     // However, for better server-side performance, we chose to use key_only here.

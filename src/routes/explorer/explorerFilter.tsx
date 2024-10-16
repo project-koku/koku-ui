@@ -4,7 +4,7 @@ import type { ToolbarChipGroup } from '@patternfly/react-core';
 import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
-import { getQuery, parseQuery } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { Resource, ResourcePathsType } from 'api/resources/resource';
 import { ResourceType } from 'api/resources/resource';
 import type { Tag, TagPathsType } from 'api/tags/tag';
@@ -15,7 +15,8 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DataToolbar } from 'routes/components/dataToolbar';
-import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/utils/dateRange';
+import { DateRange } from 'routes/components/dateRange';
+import { DateRangeType, getDateRangeById } from 'routes/utils/dateRange';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { getRouteForQuery } from 'routes/utils/query';
@@ -31,10 +32,8 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { ExplorerDatePicker } from './explorerDatePicker';
-import { ExplorerDateRange } from './explorerDateRange';
 import { styles } from './explorerFilter.styles';
 import {
-  dateRangeOptions,
   getGroupByOptions,
   getOrgReportPathsType,
   getResourcePathsType,
@@ -43,17 +42,21 @@ import {
 } from './explorerUtils';
 
 interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentProps {
+  dateRangeType: DateRangeType;
+  endDate?: string;
   groupBy: string;
+  isCurrentMonthData?: boolean;
   isDisabled?: boolean;
+  onDateRangeSelect(value: string);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   perspective: PerspectiveType;
   pagination?: React.ReactNode;
   query?: Query;
+  startDate?: string;
 }
 
 interface ExplorerFilterStateProps {
-  dateRangeType: DateRangeType;
   isOcpCloudGroupBysToggleEnabled?: boolean;
   orgPathsType?: OrgPathsType;
   orgQueryString?: string;
@@ -77,7 +80,6 @@ interface ExplorerFilterDispatchProps {
 
 interface ExplorerFilterState {
   categoryOptions?: ToolbarChipGroup[];
-  currentDateRangeType?: string;
   showDatePicker?: boolean;
 }
 
@@ -94,30 +96,28 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   public state: ExplorerFilterState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { dateRangeType } = this.props;
-
     this.updateReport();
     this.setState({
       categoryOptions: this.getCategoryOptions(),
-      currentDateRangeType: dateRangeType,
-      showDatePicker: dateRangeType === DateRangeType.custom,
+      showDatePicker: this.props.dateRangeType === DateRangeType.custom,
     });
   }
 
   public componentDidUpdate(prevProps: ExplorerFilterProps) {
-    const { orgReport, perspective, query, tagReport } = this.props;
+    const { dateRangeType, orgReport, query, tagReport } = this.props;
 
     if (query && !isEqual(query, prevProps.query)) {
       this.updateReport();
     }
-    if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
+    if (
+      !isEqual(orgReport, prevProps.orgReport) ||
+      !isEqual(tagReport, prevProps.tagReport) ||
+      prevProps.dateRangeType !== dateRangeType
+    ) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
+        showDatePicker: dateRangeType === DateRangeType.custom,
       });
-    }
-    // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
-    if (prevProps.perspective !== perspective) {
-      this.handleOnDateRangeSelected(dateRangeOptions[0].value);
     }
   }
 
@@ -130,6 +130,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: option.label }),
         key: option.value,
+        resourceKey: option.resourceKey,
       });
     });
     if (orgReport?.data?.length > 0) {
@@ -159,26 +160,34 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   };
 
   private getDateRangeComponent = () => {
-    const { isDisabled } = this.props;
-    const { currentDateRangeType } = this.state;
+    const { dateRangeType, isCurrentMonthData, isDisabled } = this.props;
 
     return (
-      <ExplorerDateRange
-        dateRangeType={currentDateRangeType}
+      <DateRange
+        dateRangeType={dateRangeType}
+        isCurrentMonthData={isCurrentMonthData}
         isDisabled={isDisabled}
-        onSelect={this.handleOnDateRangeSelected}
-        options={dateRangeOptions}
+        isExplorer
+        onSelect={this.handleOnDateRangeSelect}
       />
     );
   };
 
   private getDatePickerComponent = () => {
+    const { dateRangeType, endDate, startDate } = this.props;
     const { showDatePicker } = this.state;
 
-    return showDatePicker ? <ExplorerDatePicker onSelect={this.handleOnDatePickerSelected} /> : undefined;
+    return showDatePicker ? (
+      <ExplorerDatePicker
+        dateRangeType={dateRangeType}
+        endDate={endDate}
+        onSelect={this.handleOnDatePickerSelect}
+        startDate={startDate}
+      />
+    ) : null;
   };
 
-  private handleOnDatePickerSelected = (startDate: Date, endDate: Date) => {
+  private handleOnDatePickerSelect = (startDate: Date, endDate: Date) => {
     const { query, router } = this.props;
 
     const { start_date, end_date } = formatStartEndDate(startDate, endDate);
@@ -192,19 +201,14 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
   };
 
-  private handleOnDateRangeSelected = (value: string) => {
-    const { query, router } = this.props;
+  private handleOnDateRangeSelect = (value: string) => {
+    const { onDateRangeSelect } = this.props;
 
+    const currentDateRange = getDateRangeById(value);
     const showDatePicker = value === DateRangeType.custom;
-    this.setState({ currentDateRangeType: value, showDatePicker }, () => {
-      if (!showDatePicker) {
-        const newQuery = {
-          ...JSON.parse(JSON.stringify(query)),
-          dateRangeType: value,
-          start_date: undefined,
-          end_date: undefined,
-        };
-        router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
+    this.setState({ showDatePicker }, () => {
+      if (onDateRangeSelect && !showDatePicker) {
+        onDateRangeSelect(currentDateRange);
       }
     });
   };
@@ -253,8 +257,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       <DataToolbar
         categoryOptions={categoryOptions}
         className="explorerToolbarOverride"
-        dateRange={this.getDateRangeComponent()}
         datePicker={this.getDatePickerComponent()}
+        dateRange={this.getDateRangeComponent()}
         groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
@@ -274,15 +278,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 }
 
 const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>(
-  (state, { perspective, router }) => {
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
-
+  (state, { endDate, perspective, startDate }) => {
     // Omitting key_only to share a single request -- the toolbar needs key values
     const orgQueryString = getQuery({
-      end_date,
-      start_date,
+      end_date: endDate,
+      start_date: startDate,
       limit: 1000,
     });
 
@@ -313,8 +313,8 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
     // Note: Omitting key_only would help to share a single, cached request -- the toolbar requires key values
     // However, for better server-side performance, we chose to use key_only here.
     const tagQueryString = getQuery({
-      end_date,
-      start_date,
+      end_date: endDate,
+      start_date: startDate,
       key_only: true,
       limit: 1000,
     });
@@ -327,7 +327,6 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
     }
 
     return {
-      dateRangeType,
       isOcpCloudGroupBysToggleEnabled: FeatureToggleSelectors.selectIsOcpCloudGroupBysToggleEnabled(state),
       orgPathsType,
       orgQueryString,

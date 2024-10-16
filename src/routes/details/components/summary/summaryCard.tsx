@@ -28,6 +28,7 @@ import { getComputedReportItems } from 'routes/utils/computedReport/getComputedR
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
@@ -232,6 +233,7 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };
     const reportQuery: Query = {
@@ -241,7 +243,7 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         limit: 3,
         resolution: 'monthly',
         time_scope_units: 'month',
-        time_scope_value: -1,
+        time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
       },
       filter_by: {
         // Add filters here to apply logical OR/AND

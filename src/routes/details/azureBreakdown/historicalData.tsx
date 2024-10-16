@@ -5,7 +5,7 @@ import { azureHistoricalDataSelectors } from 'store/breakdown/historicalData/azu
 import { createMapStateToProps } from 'store/common';
 
 interface AzureHistoricalDataOwnProps {
-  // TBD...
+  timeScopeValue?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

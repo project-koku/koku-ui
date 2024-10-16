@@ -1,4 +1,3 @@
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { OrgPathsType } from 'api/orgs/org';
 import type { Providers } from 'api/providers';
 import type { Query } from 'api/queries/query';
@@ -6,14 +5,13 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import type { UserAccess } from 'api/userAccess';
-import messages from 'locales/messages';
 import type { ComputedAwsReportItemsParams } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import type { ComputedAzureReportItemsParams } from 'routes/utils/computedReport/getComputedAzureReportItems';
 import type { ComputedGcpReportItemsParams } from 'routes/utils/computedReport/getComputedGcpReportItems';
 import type { ComputedIbmReportItemsParams } from 'routes/utils/computedReport/getComputedIbmReportItems';
 import type { ComputedOciReportItemsParams } from 'routes/utils/computedReport/getComputedOciReportItems';
 import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/getComputedOcpReportItems';
-import { hasCloudProvider } from 'routes/utils/providers';
+import { hasCloudProvider, hasCurrentMonthData, hasData, hasPreviousMonthData } from 'routes/utils/providers';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -55,24 +53,12 @@ export const baseQuery: Query = {
   },
 };
 
-export const dateRangeOptions: {
-  label: MessageDescriptor;
-  value: string;
-}[] = [
-  { label: messages.explorerDateRange, value: 'current_month_to_date' },
-  { label: messages.explorerDateRange, value: 'previous_month' },
-  { label: messages.explorerDateRange, value: 'previous_month_to_date' },
-  { label: messages.explorerDateRange, value: 'last_thirty_days' },
-  { label: messages.explorerDateRange, value: 'last_sixty_days' },
-  { label: messages.explorerDateRange, value: 'last_ninety_days' },
-  { label: messages.explorerDateRange, value: 'custom' },
-];
-
 export const groupByAwsOptions: {
   label: string;
   value: ComputedAwsReportItemsParams['idKey'];
+  resourceKey?: string;
 }[] = [
-  { label: 'account', value: 'account' },
+  { label: 'account', value: 'account', resourceKey: 'account_alias' },
   { label: 'service', value: 'service' },
   { label: 'region', value: 'region' },
 ];
@@ -167,6 +153,7 @@ export const getPerspectiveDefault = ({
   const perspective = queryFromRoute.perspective;
 
   // Upon page refresh, perspective param takes precedence
+  // Todo: Add ocp here?
   switch (perspective) {
     case PerspectiveType.aws:
     case PerspectiveType.awsOcp:
@@ -287,6 +274,78 @@ export const getGroupByOptions = (perspective: string, isOcpCloudGroupBysToggleE
       break;
   }
   return result;
+};
+
+export const getIsDataAvailable = ({
+  awsProviders,
+  azureProviders,
+  ociProviders,
+  gcpProviders,
+  ibmProviders,
+  ocpProviders,
+  perspective,
+  rhelProviders,
+}: {
+  awsProviders: Providers;
+  azureProviders: Providers;
+  ociProviders: Providers;
+  gcpProviders: Providers;
+  ibmProviders: Providers;
+  ocpProviders: Providers;
+  perspective: string;
+  rhelProviders: Providers;
+}) => {
+  let isCurrentMonthData;
+  let isDataAvailable;
+  let isPreviousMonthData;
+
+  switch (perspective) {
+    case PerspectiveType.aws:
+    case PerspectiveType.awsOcp:
+      isDataAvailable = hasData(awsProviders);
+      isCurrentMonthData = hasCurrentMonthData(awsProviders);
+      isPreviousMonthData = hasPreviousMonthData(awsProviders);
+      break;
+    case PerspectiveType.azure:
+    case PerspectiveType.azureOcp:
+      isDataAvailable = hasData(azureProviders);
+      isCurrentMonthData = hasCurrentMonthData(azureProviders);
+      isPreviousMonthData = hasPreviousMonthData(azureProviders);
+      break;
+    case PerspectiveType.gcp:
+    case PerspectiveType.gcpOcp:
+      isDataAvailable = hasData(gcpProviders);
+      isCurrentMonthData = hasCurrentMonthData(gcpProviders);
+      isPreviousMonthData = hasPreviousMonthData(gcpProviders);
+      break;
+    case PerspectiveType.ibm:
+    case PerspectiveType.ibmOcp:
+      isDataAvailable = hasData(ibmProviders);
+      isCurrentMonthData = hasCurrentMonthData(ibmProviders);
+      isPreviousMonthData = hasPreviousMonthData(ibmProviders);
+      break;
+    case PerspectiveType.oci:
+      isDataAvailable = hasData(ociProviders);
+      isCurrentMonthData = hasCurrentMonthData(ociProviders);
+      isPreviousMonthData = hasPreviousMonthData(ociProviders);
+      break;
+    case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
+      isDataAvailable = hasData(ocpProviders);
+      isCurrentMonthData = hasCurrentMonthData(ocpProviders);
+      isPreviousMonthData = hasPreviousMonthData(ocpProviders);
+      break;
+    case PerspectiveType.rhel:
+      isDataAvailable = hasData(rhelProviders);
+      isCurrentMonthData = hasCurrentMonthData(rhelProviders);
+      isPreviousMonthData = hasPreviousMonthData(rhelProviders);
+      break;
+  }
+  return {
+    isCurrentMonthData,
+    isDataAvailable,
+    isPreviousMonthData,
+  };
 };
 
 export const getOrgReportPathsType = (perspective: string) => {

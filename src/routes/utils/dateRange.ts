@@ -19,6 +19,25 @@ export const enum DateRangeType {
   lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
 }
 
+export const getDateRangeById = (value: string) => {
+  switch (value) {
+    case 'current_month_to_date':
+      return DateRangeType.currentMonthToDate;
+    case 'custom':
+      return DateRangeType.custom;
+    case 'previous_month':
+      return DateRangeType.previousMonth;
+    case 'previous_month_to_date':
+      return DateRangeType.previousMonthToDate;
+    case 'last_ninety_days':
+      return DateRangeType.lastNinetyDays;
+    case 'last_sixty_days':
+      return DateRangeType.lastSixtyDays;
+    case 'last_thirty_days':
+      return DateRangeType.lastThirtyDays;
+  }
+};
+
 export const getDateRange = (dateRangeType: DateRangeType, isFormatted = true) => {
   const endDate = new Date();
   const startDate = new Date();
@@ -56,24 +75,22 @@ export const getDateRange = (dateRangeType: DateRangeType, isFormatted = true) =
   return dateRange;
 };
 
-export const getDateRangeTypeDefault = (queryFromRoute: Query) => {
-  return queryFromRoute.dateRangeType || DateRangeType.currentMonthToDate;
+export const getDateRangeTypeDefault = (queryFromRoute: Query, defaultToPreviousMonth: boolean): DateRangeType => {
+  if (queryFromRoute.dateRangeType) {
+    return queryFromRoute.dateRangeType;
+  }
+  return defaultToPreviousMonth ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate;
 };
 
-export const getDateRangeFromQuery = (queryFromRoute: Query) => {
-  let end_date;
-  let start_date;
-
-  if (queryFromRoute.dateRangeType === DateRangeType.custom) {
-    end_date = queryFromRoute.end_date;
-    start_date = queryFromRoute.start_date;
-  }
-  if (!(end_date && start_date)) {
-    const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
-    return getDateRange(dateRangeType);
-  }
+export const getDateRangeFromQuery = (queryFromRoute: Query, defaultToPreviousMonth: boolean = false) => {
+  const dateRangeType = getDateRangeTypeDefault(queryFromRoute, defaultToPreviousMonth);
+  const dateRange =
+    dateRangeType === DateRangeType.custom
+      ? { start_date: queryFromRoute.start_date, end_date: queryFromRoute.end_date }
+      : getDateRange(dateRangeType);
   return {
-    end_date,
-    start_date,
+    dateRangeType,
+    end_date: dateRange.end_date,
+    start_date: dateRange.start_date,
   };
 };

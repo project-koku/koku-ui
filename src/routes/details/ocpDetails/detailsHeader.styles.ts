@@ -36,6 +36,9 @@ export const styles = {
   infoTitle: {
     fontWeight: 'bold',
   },
+  status: {
+    marginBottom: global_spacer_sm.var,
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },

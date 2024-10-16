@@ -22,6 +22,7 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getExcludeTagKey, getFilterByTagKey } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -333,6 +334,7 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState('details');
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery = {
     cost_type: costType,
@@ -341,7 +343,7 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
       ...(query.filter || baseQuery.filter),
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
+      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND

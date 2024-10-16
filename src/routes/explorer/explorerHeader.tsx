@@ -22,6 +22,7 @@ import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/components/groupBy';
 import { Perspective } from 'routes/components/perspective';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
+import type { DateRangeType } from 'routes/utils/dateRange';
 import type { Filter } from 'routes/utils/filter';
 import { filterProviders, hasCloudProvider } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
@@ -61,17 +62,21 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  dateRangeType?: DateRangeType;
+  endDate?: string;
   groupBy?: string;
+  isCurrentMonthData?: boolean;
   onCostDistributionSelect(value: string);
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
-  onDatePickerSelect(startDate: Date, endDate: Date);
+  onDateRangeSelect(value: DateRangeType);
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onGroupBySelect(value: string);
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
   report: Report;
+  startDate?: string;
 }
 
 interface ExplorerHeaderStateProps {
@@ -106,7 +111,7 @@ type ExplorerHeaderProps = ExplorerHeaderOwnProps & ExplorerHeaderStateProps;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHeaderState> {
   protected defaultState: ExplorerHeaderState = {
-    // TBD...
+    currentPerspective: this.props.perspective,
   };
   public state: ExplorerHeaderState = { ...this.defaultState };
 
@@ -170,6 +175,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
+      dateRangeType: undefined, // Clear inline alert
       exclude: undefined,
       filter_by: undefined,
       group_by: { [getGroupByDefault(value)]: '*' },
@@ -253,13 +259,17 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       costDistribution,
       costType,
       currency,
+      dateRangeType,
+      endDate,
       groupBy,
       intl,
+      isCurrentMonthData,
       isExportsToggleEnabled,
       isOcpCloudGroupBysToggleEnabled,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
+      onDateRangeSelect,
       onFilterAdded,
       onFilterRemoved,
       onGroupBySelect,
@@ -267,6 +277,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       providersFetchStatus,
       query,
       report,
+      startDate,
     } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
@@ -305,6 +316,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               <FlexItem>{this.getPerspective(noProviders)}</FlexItem>
               <FlexItem>
                 <GroupBy
+                  endDate={endDate}
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
                   groupBy={groupBy}
                   isDisabled={noProviders}
@@ -318,6 +330,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
                   }
                   showOrgs={orgPathsType}
                   showTags={tagPathsType}
+                  startDate={startDate}
                   tagPathsType={tagPathsType}
                 />
               </FlexItem>
@@ -335,12 +348,17 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           </FlexItem>
         </Flex>
         <ExplorerFilter
+          dateRangeType={dateRangeType}
+          endDate={endDate}
           groupBy={groupBy}
+          isCurrentMonthData={isCurrentMonthData}
           isDisabled={noProviders}
           onFilterAdded={onFilterAdded}
           onFilterRemoved={onFilterRemoved}
+          onDateRangeSelect={onDateRangeSelect}
           perspective={perspective}
           query={query}
+          startDate={startDate}
         />
       </header>
     );

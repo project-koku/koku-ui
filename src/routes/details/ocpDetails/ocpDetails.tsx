@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Alert, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
@@ -22,12 +22,12 @@ import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupById, getGroupByTagKey } from 'routes/utils/groupBy';
-import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
+import { filterProviders, hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
   handleOnCostDistributionSelect,
@@ -38,10 +38,12 @@ import {
   handleOnSetPage,
   handleOnSort,
 } from 'routes/utils/queryNavigate';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -56,7 +58,11 @@ import { styles } from './ocpDetails.styles';
 export interface OcpDetailsStateProps {
   costDistribution?: string;
   currency?: string;
+  currentDateRangeType?: string;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
+  isCurrentMonthData?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
+  isPreviousMonthData?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
@@ -64,6 +70,7 @@ export interface OcpDetailsStateProps {
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
+  timeScopeValue?: number;
 }
 
 interface OcpDetailsDispatchProps {
@@ -130,18 +137,6 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
   public state: OcpDetailsState = { ...this.defaultState };
 
-  constructor(stateProps, dispatchProps) {
-    super(stateProps, dispatchProps);
-    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
-    this.handleOnColumnManagementModalClose = this.handleOnColumnManagementModalClose.bind(this);
-    this.handleOnColumnManagementModalOpen = this.handleOnColumnManagementModalOpen.bind(this);
-    this.handleOnColumnManagementModalSave = this.handleOnColumnManagementModalSave.bind(this);
-    this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
-    this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
-    this.handleOnPlatformCostsChanged = this.handleOnPlatformCostsChanged.bind(this);
-    this.handleOnSelect = this.handleOnSelect.bind(this);
-  }
-
   public componentDidMount() {
     this.updateReport();
   }
@@ -191,7 +186,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { query, report, reportQueryString } = this.props;
+    const { query, report, reportQueryString, timeScopeValue } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -216,6 +211,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -250,7 +246,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   private getTable = () => {
-    const { costDistribution, query, report, reportFetchStatus, reportQueryString, router } = this.props;
+    const { costDistribution, query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } =
+      this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -274,12 +271,13 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, report, router } = this.props;
+    const { query, report, router, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -304,6 +302,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -329,23 +328,23 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     }
   };
 
-  public handleOnColumnManagementModalClose = (isOpen: boolean) => {
+  private handleOnColumnManagementModalClose = (isOpen: boolean) => {
     this.setState({ isColumnManagementModalOpen: isOpen });
   };
 
-  public handleOnColumnManagementModalOpen = () => {
+  private handleOnColumnManagementModalOpen = () => {
     this.setState({ isColumnManagementModalOpen: true });
   };
 
-  public handleOnColumnManagementModalSave = (hiddenColumns: Set<string>) => {
+  private handleOnColumnManagementModalSave = (hiddenColumns: Set<string>) => {
     this.setState({ hiddenColumns });
   };
 
-  public handleOnExportModalClose = (isOpen: boolean) => {
+  private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  public handleOnExportModalOpen = () => {
+  private handleOnExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
@@ -405,6 +404,9 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       currency,
       intl,
       isAccountInfoEmptyStateToggleEnabled,
+      isCurrentMonthData,
+      isDetailsDateRangeToggleEnabled,
+      isPreviousMonthData,
       providers,
       providersFetchStatus,
       query,
@@ -412,6 +414,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       reportError,
       reportFetchStatus,
       router,
+      timeScopeValue,
     } = this.props;
 
     const computedItems = this.getComputedItems();
@@ -431,11 +434,11 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       if (noProviders) {
         return <NoProviders providerType={ProviderType.ocp} title={title} />;
       }
-      if (!hasCurrentMonthData(providers)) {
+      if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (
           <NoData
             detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.ocp} /> : undefined
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.ocp} /> : undefined
             }
             title={title}
           />
@@ -449,13 +452,27 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           costDistribution={costDistribution}
           currency={currency}
           groupBy={groupById}
+          isCurrentMonthData={isCurrentMonthData}
           onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}
+          query={query}
           report={report}
+          timeScopeValue={timeScopeValue}
         />
         <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
+          <div style={styles.toolbarContainer}>
+            {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
+              <Alert
+                isInline
+                title={intl.formatMessage(messages.noCurrentData, {
+                  dateRange: getSinceDateRangeString(),
+                })}
+                variant="info"
+              />
+            )}
+            {this.getToolbar(computedItems)}
+          </div>
           {this.getExportModal(computedItems)}
           {this.getColumnManagementModal()}
           {reportFetchStatus === FetchStatus.inProgress ? (
@@ -481,6 +498,25 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
 
+  // Check for current and previous data first
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.all,
+    providersQueryString
+  );
+
+  // Fetch based on time scope value
+  const filteredProviders = filterProviders(providers, ProviderType.ocp);
+  const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
+  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
+
+  let timeScopeValue = getTimeScopeValue(queryFromRoute);
+  timeScopeValue = Number(
+    !isCurrentMonthData && isDetailsDateRangeToggleEnabled ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1
+  );
+
   const query: any = {
     ...baseQuery,
     ...(costDistribution === ComputedReportItemValueType.distributed && {
@@ -490,6 +526,8 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     }),
     ...queryFromRoute,
   };
+  query.filter.time_scope_value = timeScopeValue; // Add time scope here for breakdown pages
+
   const reportQuery = {
     category: query.category,
     currency,
@@ -499,7 +537,6 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
       ...query.filter,
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
     },
     filter_by: query.filter_by,
     group_by: query.group_by,
@@ -516,25 +553,21 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     reportQueryString
   );
 
-  const providersQueryString = getProvidersQuery(providersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.all,
-    providersQueryString
-  );
-
   return {
     costDistribution,
     currency,
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
-    providers: filterProviders(providers, ProviderType.ocp),
+    isCurrentMonthData,
+    isDetailsDateRangeToggleEnabled,
+    isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    providers: filteredProviders,
     providersFetchStatus,
     query,
     report,
     reportError,
     reportFetchStatus,
     reportQueryString,
+    timeScopeValue,
   };
 });
 
