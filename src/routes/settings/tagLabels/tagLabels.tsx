@@ -1,29 +1,28 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionToggle, PageSection } from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { type RefObject, useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { styles } from './tagLabels.styles';
 import TagMapping from './tagMapping/tagMapping';
 import { Tags } from './tags';
 
-const enum TagLabelsItem {
+const enum TagLabelsTab {
   tagMapping = 'tagMapping',
   tags = 'tags',
 }
 
-const getIdKeyForItem = (item: TagLabelsItem) => {
-  switch (item) {
-    case TagLabelsItem.tagMapping:
+export const getIdKeyForTab = (tab: TagLabelsTab) => {
+  switch (tab) {
+    case TagLabelsTab.tagMapping:
       return 'tagMapping';
-    case TagLabelsItem.tags:
+    case TagLabelsTab.tags:
       return 'tags';
   }
 };
 
-interface AvailableItem {
-  item: TagLabelsItem;
-  label: string;
+interface AvailableTab {
+  contentRef: RefObject<any>;
+  tab: TagLabelsTab;
 }
 
 interface TagLabelsOwnProps {
@@ -33,76 +32,97 @@ interface TagLabelsOwnProps {
 type TagLabelsProps = TagLabelsOwnProps;
 
 const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
-  const [activeKey, setActiveKey] = useState(0);
+  const [activeTabKey, setActiveTabKey] = useState(0);
   const intl = useIntl();
 
-  const getAvailableItems = () => {
-    const availableItems: AvailableItem[] = [
+  const getAvailableTabs = () => {
+    const availableTabs: AvailableTab[] = [
       {
-        item: TagLabelsItem.tags,
-        label: intl.formatMessage(messages.tagLabelsEnable),
+        contentRef: React.createRef(),
+        tab: TagLabelsTab.tags,
       },
       {
-        item: TagLabelsItem.tagMapping,
-        label: intl.formatMessage(messages.tagLabelsMap),
+        contentRef: React.createRef(),
+        tab: TagLabelsTab.tagMapping,
       },
     ];
-    return availableItems;
+    return availableTabs;
   };
 
-  const handleOnToggle = (event, index) => {
-    const isOpen = activeKey === index;
-    if (isOpen) {
-      setActiveKey(index === 0 ? 1 : 0);
-    } else {
-      setActiveKey(index);
-    }
+  const getTab = (tab: TagLabelsTab, contentRef, index: number) => {
+    return (
+      <Tab
+        eventKey={index}
+        key={`${getIdKeyForTab(tab)}-tab`}
+        tabContentId={`tab-${index}`}
+        tabContentRef={contentRef}
+        title={<TabTitleText>{getTabTitle(tab)}</TabTitleText>}
+      />
+    );
   };
 
-  const getAccordionContent = (item: TagLabelsItem, index: number) => {
+  const getTabContent = (availableTabs: AvailableTab[]) => {
+    return availableTabs.map((val, index) => {
+      return (
+        <TabContent
+          eventKey={index}
+          key={`${getIdKeyForTab(val.tab)}-tabContent`}
+          id={`tab-${index}`}
+          ref={val.contentRef as any}
+        >
+          {getTabItem(val.tab, index)}
+        </TabContent>
+      );
+    });
+  };
+
+  const getTabItem = (tab: TagLabelsTab, index: number) => {
     const emptyTab = <></>; // Lazily load tabs
 
-    if (activeKey !== index) {
+    if (activeTabKey !== index) {
       return emptyTab;
     }
 
-    const currentItem = getIdKeyForItem(item);
-    if (currentItem === TagLabelsItem.tagMapping) {
+    const currentTab = getIdKeyForTab(tab);
+    if (currentTab === TagLabelsTab.tagMapping) {
       return <TagMapping canWrite={canWrite} />;
-    } else if (currentItem === TagLabelsItem.tags) {
+    } else if (currentTab === TagLabelsTab.tags) {
       return <Tags canWrite={canWrite} />;
     } else {
       return emptyTab;
     }
   };
 
-  const getAccordionItem = (availableItems: AvailableItem[]) => {
-    return availableItems.map((val, index) => {
-      const isExpanded = activeKey === index;
-      return (
-        <AccordionItem key={`accordion-${index}`}>
-          <AccordionToggle
-            id={`accordion-toggle-${index}`}
-            isExpanded={isExpanded}
-            onClick={_evt => {
-              handleOnToggle(_evt, index);
-            }}
-          >
-            {val.label}
-          </AccordionToggle>
-          <AccordionContent isHidden={!isExpanded}>{getAccordionContent(val.item, index)}</AccordionContent>
-        </AccordionItem>
-      );
-    });
+  const getTabs = (availableTabs: AvailableTab[]) => {
+    return (
+      <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+        {availableTabs.map((val, index) => getTab(val.tab, val.contentRef, index))}
+      </Tabs>
+    );
   };
 
-  const availableItems = getAvailableItems();
+  const getTabTitle = (tab: TagLabelsTab) => {
+    if (tab === TagLabelsTab.tagMapping) {
+      return intl.formatMessage(messages.tagLabelsMap);
+    } else if (tab === TagLabelsTab.tags) {
+      return intl.formatMessage(messages.tagLabelsEnable);
+    }
+  };
+
+  const handleTabClick = (event, tabIndex) => {
+    if (activeTabKey !== tabIndex) {
+      setActiveTabKey(tabIndex);
+    }
+  };
+
+  const availableTabs = getAvailableTabs();
 
   return (
-    <PageSection isFilled>
-      <div style={styles.container}>
-        <Accordion asDefinitionList>{getAccordionItem(availableItems)}</Accordion>
-      </div>
+    <PageSection>
+      <Card>
+        <CardTitle>{getTabs(availableTabs)}</CardTitle>
+        <CardBody>{getTabContent(availableTabs)}</CardBody>
+      </Card>
     </PageSection>
   );
 };
