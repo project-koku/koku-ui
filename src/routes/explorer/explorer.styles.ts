@@ -3,6 +3,10 @@ import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg'
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 
 export const styles = {
+  alert: {
+    marginLeft: global_spacer_lg.value,
+    marginRight: global_spacer_lg.value,
+  },
   chartContainer: {
     backgroundColor: global_BackgroundColor_light_100.value,
     marginLeft: global_spacer_lg.value,

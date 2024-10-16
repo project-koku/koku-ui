@@ -291,7 +291,12 @@ class HistoricalTrendChartBase extends React.Component<HistoricalTrendChartProps
                 series.map((s, index) => {
                   return this.getChart(s, index);
                 })}
-              <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis
+                fixAxisLabelHeight
+                label={xAxisLabel}
+                style={chartStyles.xAxis}
+                tickValues={[1, midDate, endDate]}
+              />
               <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
             </Chart>
           </div>

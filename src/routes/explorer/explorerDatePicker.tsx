@@ -1,13 +1,11 @@
 import type { DatePickerRef } from '@patternfly/react-core';
 import { DatePicker } from '@patternfly/react-core';
-import type { Query } from 'api/queries/query';
-import { parseQuery } from 'api/queries/query';
 import messages from 'locales/messages';
 import type { FormEvent } from 'react';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { DateRangeType, getDateRangeFromQuery, getDateRangeTypeDefault } from 'routes/utils/dateRange';
+import { DateRangeType } from 'routes/utils/dateRange';
 import { formatDate, getLast90DaysDate, getToday } from 'utils/dates';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -15,7 +13,10 @@ import { withRouter } from 'utils/router';
 import { styles } from './explorerDatePicker.styles';
 
 interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedComponentProps {
+  dateRangeType?: DateRangeType;
+  endDate?: string;
   onSelect(startDate: Date, endDate: Date);
+  startDate?: string;
 }
 
 interface ExplorerDatePickerState {
@@ -37,18 +38,15 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
   private endDateRef = React.createRef<DatePickerRef>();
 
   public componentDidMount() {
-    const { router } = this.props;
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const dateRangeType = getDateRangeTypeDefault(queryFromRoute);
-    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
+    const { dateRangeType, endDate, startDate } = this.props;
 
     if (this.startDateRef?.current) {
       this.startDateRef.current.setCalendarOpen(dateRangeType !== DateRangeType.custom);
     }
-    if (dateRangeType === DateRangeType.custom) {
+    if (dateRangeType === DateRangeType.custom && endDate && startDate) {
       this.setState({
-        startDate: new Date(start_date + 'T00:00:00'),
-        endDate: new Date(end_date + 'T00:00:00'),
+        startDate: new Date(startDate + 'T00:00:00'),
+        endDate: new Date(endDate + 'T00:00:00'),
       });
     }
   }

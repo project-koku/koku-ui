@@ -15,6 +15,7 @@ import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -43,7 +44,9 @@ const mapStateToProps = createMapStateToProps<OciOwnProps, BreakdownStateProps>(
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+
   const currency = getCurrency();
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
   const reportQuery = {
@@ -51,7 +54,7 @@ const mapStateToProps = createMapStateToProps<OciOwnProps, BreakdownStateProps>(
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
+      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
@@ -95,7 +98,7 @@ const mapStateToProps = createMapStateToProps<OciOwnProps, BreakdownStateProps>(
     emptyStateTitle: intl.formatMessage(messages.ociDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData currency={currency} />,
+    historicalDataComponent: <HistoricalData currency={currency} timeScopeValue={timeScopeValue} />,
     providers: filterProviders(providers, ProviderType.oci),
     providersError,
     providersFetchStatus,
@@ -108,6 +111,7 @@ const mapStateToProps = createMapStateToProps<OciOwnProps, BreakdownStateProps>(
     reportPathsType,
     reportQueryString,
     tagPathsType: TagPathsType.oci,
+    timeScopeValue,
     title: groupByValue,
   };
 });

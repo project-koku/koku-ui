@@ -5,9 +5,12 @@ import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
+  accountInfoDetails = 'cost-management.ui.account-info-details', // https://issues.redhat.com/browse/COST-5386
   accountInfoEmptyState = 'cost-management.ui.account-info-empty-state', // https://issues.redhat.com/browse/COST-5335
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
+  chartSkeleton = 'cost-management.ui.chart-skeleton', // https://issues.redhat.com/browse/COST-5573
   debug = 'cost-management.ui.debug',
+  detailsDateRange = 'cost-management.ui.details-date-range', // https://issues.redhat.com/browse/COST-5563
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
@@ -19,6 +22,10 @@ const useIsToggleEnabled = (toggle: FeatureToggle) => {
   return client.isEnabled(toggle);
 };
 
+export const useIsAccountInfoDetailsToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.accountInfoDetails);
+};
+
 export const useIsAccountInfoEmptyStateToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.accountInfoEmptyState);
 };
@@ -27,8 +34,16 @@ export const useIsAwsEc2InstancesToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.awsEc2Instances);
 };
 
+export const useIsChartSkeletonToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.chartSkeleton);
+};
+
 export const useIsDebugToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.debug);
+};
+
+export const useIsDetailsDateRangeToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.detailsDateRange);
 };
 
 export const useIsExportsToggleEnabled = () => {
@@ -52,9 +67,12 @@ export const useFeatureToggle = () => {
   const dispatch = useDispatch();
   const { auth } = useChrome();
 
+  const isAccountInfoDetailsToggleEnabled = useIsAccountInfoDetailsToggleEnabled();
   const isAccountInfoEmptyStateToggleEnabled = useIsAccountInfoEmptyStateToggleEnabled();
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
+  const isChartSkeletonToggleEnabled = useIsChartSkeletonToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
+  const isDetailsDateRangeToggleEnabled = useIsDetailsDateRangeToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isFinsightsToggleEnabled = useIsFinsightsToggleEnabled();
   const isIbmToggleEnabled = useIsIbmToggleEnabled();
@@ -70,9 +88,12 @@ export const useFeatureToggle = () => {
     // Workaround for code that doesn't use hooks
     dispatch(
       FeatureToggleActions.setFeatureToggle({
+        isAccountInfoDetailsToggleEnabled,
         isAccountInfoEmptyStateToggleEnabled,
         isAwsEc2InstancesToggleEnabled,
+        isChartSkeletonToggleEnabled,
         isDebugToggleEnabled,
+        isDetailsDateRangeToggleEnabled,
         isExportsToggleEnabled,
         isFinsightsToggleEnabled,
         isIbmToggleEnabled,
@@ -84,9 +105,12 @@ export const useFeatureToggle = () => {
       fetchUser(identity => console.log('User identity:', identity));
     }
   }, [
+    isAccountInfoDetailsToggleEnabled,
     isAccountInfoEmptyStateToggleEnabled,
     isAwsEc2InstancesToggleEnabled,
+    isChartSkeletonToggleEnabled,
     isDebugToggleEnabled,
+    isDetailsDateRangeToggleEnabled,
     isExportsToggleEnabled,
     isFinsightsToggleEnabled,
     isIbmToggleEnabled,

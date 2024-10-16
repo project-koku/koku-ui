@@ -2,6 +2,7 @@ import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
+import type { Query } from 'api/queries/query';
 import type { AzureReport } from 'api/reports/azureReports';
 import { TagPathsType } from 'api/tags/tag';
 import type { AxiosError } from 'axios';
@@ -12,28 +13,39 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Currency } from 'routes/components/currency';
+import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
+import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedAzureReportItemsParams } from 'routes/utils/computedReport/getComputedAzureReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAzureReportItems';
+import { DateRangeType } from 'routes/utils/dateRange';
 import { filterProviders } from 'routes/utils/providers';
+import { getRouteForQuery } from 'routes/utils/query';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
   currency?: string;
   groupBy?: string;
+  isCurrentMonthData?: boolean;
   onCurrencySelect(value: string);
   onGroupBySelect(value: string);
+  query?: Query;
   report: AzureReport;
+  timeScopeValue?: number;
 }
 
 interface DetailsHeaderStateProps {
+  isAccountInfoDetailsToggleEnabled?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -41,7 +53,14 @@ interface DetailsHeaderStateProps {
   providersQueryString?: string;
 }
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WrappedComponentProps;
+interface DetailsHeaderState {
+  currentDateRangeType?: string;
+}
+
+type DetailsHeaderProps = DetailsHeaderOwnProps &
+  DetailsHeaderStateProps &
+  RouterComponentProps &
+  WrappedComponentProps;
 
 const groupByOptions: {
   label: string;
@@ -55,20 +74,44 @@ const groupByOptions: {
 const tagPathsType = TagPathsType.azure;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
+  protected defaultState: DetailsHeaderState = {
+    currentDateRangeType:
+      this.props.timeScopeValue === -2 ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate,
+  };
+  public state: DetailsHeaderState = { ...this.defaultState };
+
+  private handleOnDateRangeSelected = (value: string) => {
+    const { query, router } = this.props;
+
+    this.setState({ currentDateRangeType: value }, () => {
+      const newQuery = {
+        filter: {},
+        ...JSON.parse(JSON.stringify(query)),
+      };
+      newQuery.filter.time_scope_value = value === DateRangeType.previousMonth ? -2 : -1;
+      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
+    });
+  };
+
   public render() {
     const {
       currency,
       groupBy,
+      intl,
+      isAccountInfoDetailsToggleEnabled,
+      isCurrentMonthData,
+      isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
       onCurrencySelect,
       onGroupBySelect,
       providers,
       providersError,
       report,
-      intl,
+      timeScopeValue,
     } = this.props;
-    const showContent = report && !providersError && providers?.meta?.count > 0;
+    const { currentDateRangeType } = this.state;
 
+    const showContent = report && !providersError && providers?.meta?.count > 0;
     const hasCost = report?.meta?.total?.cost?.total;
 
     return (
@@ -86,20 +129,35 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
         </Flex>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
+            {isAccountInfoDetailsToggleEnabled && (
+              <Flex>
+                <FlexItem style={styles.status}>
+                  <ProviderDetailsModal providerType={ProviderType.azure} />
+                </FlexItem>
+              </Flex>
+            )}
             <Flex>
-              <FlexItem style={styles.perspective}>
-                <div style={styles.groupBy}>
-                  <GroupBy
-                    getIdKeyForGroupBy={getIdKeyForGroupBy}
-                    groupBy={groupBy}
-                    isDisabled={!showContent}
-                    onSelect={onGroupBySelect}
-                    options={groupByOptions}
-                    showTags
-                    tagPathsType={tagPathsType}
-                  />
-                </div>
+              <FlexItem style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
+                <GroupBy
+                  getIdKeyForGroupBy={getIdKeyForGroupBy}
+                  groupBy={groupBy}
+                  isDisabled={!showContent}
+                  onSelect={onGroupBySelect}
+                  options={groupByOptions}
+                  showTags
+                  tagPathsType={tagPathsType}
+                />
               </FlexItem>
+              {isDetailsDateRangeToggleEnabled && (
+                <FlexItem>
+                  <DateRange
+                    dateRangeType={currentDateRangeType}
+                    isCurrentMonthData={isCurrentMonthData}
+                    isDisabled={!showContent}
+                    onSelect={this.handleOnDateRangeSelected}
+                  />
+                </FlexItem>
+              )}
             </Flex>
           </FlexItem>
           <FlexItem>
@@ -111,7 +169,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
                     hasCost ? report.meta.total.cost.total.units : 'USD'
                   )}
                 </Title>
-                <div style={styles.dateTitle}>{getSinceDateRangeString()}</div>
+                <div style={styles.dateTitle}>
+                  {getSinceDateRangeString(undefined, timeScopeValue === -2 ? 1 : 0, true)}
+                </div>
               </>
             )}
           </FlexItem>
@@ -133,6 +193,8 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
+    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
+    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.azure),
     providersError,
@@ -141,7 +203,7 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   };
 });
 
-const DetailsHeader = injectIntl(connect(mapStateToProps, {})(DetailsHeaderBase));
+const DetailsHeader = injectIntl(withRouter(connect(mapStateToProps, {})(DetailsHeaderBase)));
 
 export { DetailsHeader };
 export type { DetailsHeaderProps };

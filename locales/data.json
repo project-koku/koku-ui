@@ -152,6 +152,12 @@
         "value": "Back"
       }
     ],
+    "backToIntegrations": [
+      {
+        "type": 0,
+        "value": "Back to integrations status"
+      }
+    ],
     "breakdownBackToDetails": [
       {
         "options": {
@@ -7746,6 +7752,14 @@
               }
             ]
           },
+          "instance": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by instance"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7759,6 +7773,14 @@
               {
                 "type": 0,
                 "value": "Filter by node"
+              }
+            ]
+          },
+          "operating_system": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by operating system"
               }
             ]
           },
@@ -10378,6 +10400,18 @@
         "value": "Integration"
       }
     ],
+    "integrationsDetails": [
+      {
+        "type": 0,
+        "value": "Integrations details"
+      }
+    ],
+    "integrationsStatus": [
+      {
+        "type": 0,
+        "value": "Integrations status"
+      }
+    ],
     "lastProcessed": [
       {
         "type": 0,
@@ -10878,6 +10912,20 @@
       {
         "type": 0,
         "value": "No"
+      }
+    ],
+    "noCurrentData": [
+      {
+        "type": 0,
+        "value": "No data available for "
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ". You are viewing data for the previous month."
       }
     ],
     "noDataForDate": [
@@ -11805,12 +11853,6 @@
       {
         "type": 0,
         "value": "Rate must be a positive number"
-      }
-    ],
-    "providerDetails": [
-      {
-        "type": 0,
-        "value": "Integrations details"
       }
     ],
     "pvcTitle": [
@@ -13557,6 +13599,12 @@
       {
         "type": 0,
         "value": "vCPU"
+      }
+    ],
+    "viewAll": [
+      {
+        "type": 0,
+        "value": "View all"
       }
     ],
     "volumeTitle": [

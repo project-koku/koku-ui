@@ -5,7 +5,7 @@ import { gcpHistoricalDataSelectors } from 'store/breakdown/historicalData/gcpHi
 import { createMapStateToProps } from 'store/common';
 
 interface GcpHistoricalDataOwnProps {
-  // TBD...
+  timeScopeValue?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

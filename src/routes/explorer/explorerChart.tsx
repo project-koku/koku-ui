@@ -20,7 +20,6 @@ import { CostExplorerChart } from 'routes/components/charts/costExplorerChart';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getDateRangeFromQuery } from 'routes/utils/dateRange';
 import { getGroupByCostCategory, getGroupById, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -31,6 +30,7 @@ import { withRouter } from 'utils/router';
 import { getCostDistribution } from 'utils/sessionStorage';
 
 import { chartStyles, styles } from './explorerChart.styles';
+import { getExplorerSkeletonData } from './explorerSkeletonData';
 import { PerspectiveType } from './explorerUtils';
 import { getGroupByDefault, getReportPathsType, getReportType } from './explorerUtils';
 
@@ -38,19 +38,19 @@ interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentPr
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  endDate?: string;
   groupBy?: string;
   perspective: PerspectiveType;
+  startDate?: string;
 }
 
 interface ExplorerChartStateProps {
-  end_date?: string;
   perspective: PerspectiveType;
   query: Query;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
-  start_date?: string;
 }
 
 interface ExplorerChartDispatchProps {
@@ -204,7 +204,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   // data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
   // message in the tooltip, which helps distinguish between zero values and when there is no data available.
   private padChartDatums = (items: any[]): ChartDatum[] => {
-    const { end_date, start_date } = this.props;
+    const { endDate, startDate } = this.props;
     const result = [];
 
     items.map(datums => {
@@ -213,8 +213,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
       const newItems = [];
 
       for (
-        let padDate = new Date(start_date + 'T00:00:00');
-        padDate <= new Date(end_date + 'T00:00:00');
+        let padDate = new Date(startDate + 'T00:00:00');
+        padDate <= new Date(endDate + 'T00:00:00');
         padDate.setDate(padDate.getDate() + 1)
       ) {
         const id = format(padDate, 'yyyy-MM-dd');
@@ -232,9 +232,15 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
   };
 
   public render() {
-    const { perspective, reportFetchStatus, intl } = this.props;
+    const { perspective, report, reportFetchStatus, intl } = this.props;
 
-    const datums = this.getChartDatums(this.getComputedItems());
+    let datums = this.getChartDatums(this.getComputedItems());
+    let isSkeleton = false;
+
+    if (report && datums.length === 0) {
+      isSkeleton = true;
+      datums = getExplorerSkeletonData(report?.meta?.count) as any;
+    }
 
     // Todo: get title from perspective menu
     return (
@@ -253,6 +259,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
                 baseHeight={chartStyles.chartHeight}
                 formatOptions={{}}
                 formatter={formatUnits}
+                isSkeleton={isSkeleton}
                 top1stData={datums.length > 0 ? datums[0] : []}
                 top2ndData={datums.length > 1 ? datums[1] : []}
                 top3rdData={datums.length > 2 ? datums[2] : []}
@@ -269,10 +276,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps, ExplorerChar
 }
 
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
-  (state, { costType, currency, perspective, router }) => {
+  (state, { costType, currency, endDate, perspective, router, startDate }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-
-    const { end_date, start_date } = getDateRangeFromQuery(queryFromRoute);
 
     const groupBy = queryFromRoute.group_by ? getGroupById(queryFromRoute) : getGroupByDefault(perspective);
     const group_by = queryFromRoute.group_by ? queryFromRoute.group_by : { [groupBy]: '*' }; // Ensure group_by key is not undefined
@@ -287,12 +292,12 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     const reportQuery = {
       cost_type: costType,
       currency,
-      end_date,
+      end_date: endDate,
       exclude: query.exclude,
       filter: { limit: 5 },
       filter_by: query.filter_by,
       group_by,
-      start_date,
+      start_date: startDate,
       ...(costDistribution === ComputedReportItemValueType.distributed && {
         order_by: { distributed_cost: 'desc' },
       }),
@@ -312,14 +317,12 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     );
 
     return {
-      end_date,
       perspective,
       query,
       report,
       reportError,
       reportFetchStatus,
       reportQueryString,
-      start_date,
     };
   }
 );

@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Alert, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { GcpQuery } from 'api/queries/gcpQuery';
@@ -18,12 +18,12 @@ import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { ProviderDetails } from 'routes/details/components/providerDetails';
+import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedGcpReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getGroupByTagKey } from 'routes/utils/groupBy';
-import { filterProviders, hasCurrentMonthData } from 'routes/utils/providers';
+import { filterProviders, hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
 import {
   handleOnCurrencySelect,
@@ -33,10 +33,12 @@ import {
   handleOnSetPage,
   handleOnSort,
 } from 'routes/utils/queryNavigate';
+import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import { noPrefix, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -51,6 +53,9 @@ import { styles } from './gcpDetails.styles';
 interface GcpDetailsStateProps {
   currency?: string;
   isAccountInfoEmptyStateToggleEnabled?: boolean;
+  isCurrentMonthData?: boolean;
+  isDetailsDateRangeToggleEnabled?: boolean;
+  isPreviousMonthData?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -59,6 +64,7 @@ interface GcpDetailsStateProps {
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
+  timeScopeValue?: number;
 }
 
 interface GcpDetailsDispatchProps {
@@ -105,14 +111,6 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   };
   public state: GcpDetailsState = { ...this.defaultState };
 
-  constructor(stateProps, dispatchProps) {
-    super(stateProps, dispatchProps);
-    this.handleOnBulkSelect = this.handleOnBulkSelect.bind(this);
-    this.handleOnExportModalClose = this.handleOnExportModalClose.bind(this);
-    this.handleOnExportModalOpen = this.handleOnExportModalOpen.bind(this);
-    this.handleonSelect = this.handleonSelect.bind(this);
-  }
-
   public componentDidMount() {
     this.updateReport();
   }
@@ -144,7 +142,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { query, report, reportQueryString } = this.props;
+    const { query, report, reportQueryString, timeScopeValue } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -169,6 +167,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -203,7 +202,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
   };
 
   private getTable = () => {
-    const { query, report, reportFetchStatus, reportQueryString, router } = this.props;
+    const { query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -224,12 +223,13 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         report={report}
         reportQueryString={reportQueryString}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, router, report } = this.props;
+    const { query, router, report, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -252,6 +252,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -277,11 +278,11 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     }
   };
 
-  public handleOnExportModalClose = (isOpen: boolean) => {
+  private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
-  public handleOnExportModalOpen = () => {
+  private handleOnExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
   };
 
@@ -327,6 +328,9 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
       currency,
       intl,
       isAccountInfoEmptyStateToggleEnabled,
+      isCurrentMonthData,
+      isDetailsDateRangeToggleEnabled,
+      isPreviousMonthData,
       providers,
       providersFetchStatus,
       query,
@@ -334,6 +338,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
       reportError,
       reportFetchStatus,
       router,
+      timeScopeValue,
     } = this.props;
 
     const computedItems = this.getComputedItems();
@@ -353,11 +358,11 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
       if (noProviders) {
         return <NoProviders providerType={ProviderType.gcp} title={title} />;
       }
-      if (!hasCurrentMonthData(providers)) {
+      if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (
           <NoData
             detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderDetails providerType={ProviderType.gcp} /> : undefined
+              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.gcp} /> : undefined
             }
             title={title}
           />
@@ -370,12 +375,26 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         <DetailsHeader
           currency={currency}
           groupBy={groupById}
+          isCurrentMonthData={isCurrentMonthData}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}
+          query={query}
           report={report}
+          timeScopeValue={timeScopeValue}
         />
         <div style={styles.content}>
-          <div style={styles.toolbarContainer}>{this.getToolbar(computedItems)}</div>
+          <div style={styles.toolbarContainer}>
+            {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
+              <Alert
+                isInline
+                title={intl.formatMessage(messages.noCurrentData, {
+                  dateRange: getSinceDateRangeString(),
+                })}
+                variant="info"
+              />
+            )}
+            {this.getToolbar(computedItems)}
+          </div>
           {this.getExportModal(computedItems)}
           {reportFetchStatus === FetchStatus.inProgress ? (
             <Loading />
@@ -395,12 +414,35 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
 
 const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStateProps>((state, { router }) => {
   const queryFromRoute = parseQuery<GcpQuery>(router.location.search);
+
   const currency = getCurrency();
+
+  // Check for current and previous data first
+  const providersQueryString = getProvidersQuery(providersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.all,
+    providersQueryString
+  );
+
+  // Fetch based on time scope value
+  const filteredProviders = filterProviders(providers, ProviderType.gcp);
+  const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
+  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
+
+  let timeScopeValue = getTimeScopeValue(queryFromRoute);
+  timeScopeValue = Number(
+    !isCurrentMonthData && isDetailsDateRangeToggleEnabled ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1
+  );
 
   const query: any = {
     ...baseQuery,
     ...queryFromRoute,
   };
+  query.filter.time_scope_value = timeScopeValue; // Add time scope here for breakdown pages
+
   const reportQuery = {
     currency,
     delta: 'cost',
@@ -409,7 +451,6 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
       ...query.filter,
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: -1,
     },
     filter_by: query.filter_by,
     group_by: query.group_by,
@@ -426,19 +467,13 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
     reportQueryString
   );
 
-  const providersQueryString = getProvidersQuery(providersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.all,
-    providersQueryString
-  );
-
   return {
     currency,
     isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
-    providers: filterProviders(providers, ProviderType.gcp),
+    isCurrentMonthData,
+    isDetailsDateRangeToggleEnabled,
+    isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    providers: filteredProviders,
     providersError,
     providersFetchStatus,
     query,
@@ -446,6 +481,7 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
     reportError,
     reportFetchStatus,
     reportQueryString,
+    timeScopeValue,
   };
 });
 

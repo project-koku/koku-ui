@@ -13,36 +13,29 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 
-import { CloudData } from './components/cloudData';
-import { ClusterData } from './components/clusterData';
-import { Finalization } from './components/finalization';
-import { styles } from './providerDetails.styles';
+import { styles } from './providerStatus.styles';
+import { ProviderTable } from './providerTable';
 
-interface ProviderDetailsContentOwnProps {
-  clusterId?: string;
-  providerId?: string;
+interface ProviderStatusOwnProps {
+  onClick?: (providerId: string) => void;
   providerType: ProviderType;
 }
 
-interface ProviderDetailsContentStateProps {
+interface ProviderStatusStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
 }
 
-type ProviderDetailsContentProps = ProviderDetailsContentOwnProps;
+type ProviderStatusProps = ProviderStatusOwnProps;
 
-const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
-  clusterId,
-  providerId,
-  providerType,
-}: ProviderDetailsContentProps) => {
+const ProviderStatus: React.FC<ProviderStatusProps> = ({ onClick, providerType }: ProviderStatusProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
-  const title = intl.formatMessage(messages.optimizations);
+  const title = intl.formatMessage(messages.integrationsDetails);
 
   if (providersError) {
     return <NotAvailable title={title} />;
@@ -56,31 +49,16 @@ const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
     );
   }
 
-  // Filter OCP providers to skip an extra API request
+  // Filter providers to skip an extra API request
   const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
-  const provider = filteredProviders?.find(
-    val => providerId === val.id || (clusterId && val.authentication?.credentials?.cluster_id === clusterId)
-  );
-
-  if (providerType === ProviderType.ocp) {
-    const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
-    return (
-      <>
-        <CloudData provider={cloudProvider} />
-        <ClusterData provider={provider} />
-        <Finalization provider={provider} providerType={providerType} />
-      </>
-    );
+  if (filteredProviders.length === 0) {
+    return;
   }
-  return (
-    <>
-      <CloudData provider={provider} />
-      <Finalization provider={provider} providerType={providerType} />
-    </>
-  );
+
+  return <ProviderTable onClick={onClick} providers={filteredProviders} providerType={providerType} />;
 };
 
-const useMapToProps = (): ProviderDetailsContentStateProps => {
+const useMapToProps = (): ProviderStatusStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
@@ -101,4 +79,4 @@ const useMapToProps = (): ProviderDetailsContentStateProps => {
   };
 };
 
-export { ProviderDetailsContent };
+export { ProviderStatus };

@@ -7,13 +7,13 @@ import React from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { formatDate } from 'routes/details/components/providerDetails/utils/format';
-import { getOverallStatusIcon } from 'routes/details/components/providerDetails/utils/icon';
+import { formatDate } from 'routes/details/components/providerStatus/utils/format';
+import { getOverallStatusIcon } from 'routes/details/components/providerStatus/utils/icon';
 import {
   getProviderAvailability,
   getProviderStatus,
   StatusType,
-} from 'routes/details/components/providerDetails/utils/status';
+} from 'routes/details/components/providerStatus/utils/status';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import type { FetchStatus } from 'store/common';
@@ -27,6 +27,7 @@ interface OverallStatusOwnProps {
   isStatusMsg?: boolean;
   providerId?: string;
   providerType: ProviderType;
+  uuId?: string;
 }
 
 interface OverallStatusStateProps {
@@ -44,22 +45,20 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
   isStatusMsg,
   providerId,
   providerType,
+  uuId,
 }: OverallStatusProps) => {
   const { providers, providersError } = useMapToProps();
   const intl = useIntl();
 
-  if (!providers || providersError) {
-    return null;
-  }
+  // Filter providers to skip an extra API request
+  const getFilteredProviders = () => {
+    return filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
+  };
 
-  // Filter OCP providers to skip an extra API request
-  const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
-  const provider = filteredProviders?.find(
-    val => providerId === val.id || (clusterId && val.authentication?.credentials?.cluster_id === clusterId)
-  );
-  const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
-
-  const getOverallStatus = (): { lastUpdated: string; msg: MessageDescriptor; status: StatusType } => {
+  const getOverallStatus = (
+    provider,
+    cloudProvider
+  ): { lastUpdated: string; msg: MessageDescriptor; status: StatusType } => {
     let lastUpdated;
     let msg;
     let status;
@@ -117,24 +116,111 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
     return { lastUpdated, msg, status };
   };
 
-  const overallStatus = getOverallStatus();
+  const getAllStatus = () => {
+    let completeCount = 0;
+    let failedCount = 0;
+    let inProgressCount = 0;
+    let pausedCount = 0;
+    let pendingCount = 0;
 
-  if (isLastUpdated) {
-    return overallStatus.lastUpdated ? formatDate(overallStatus.lastUpdated) : null;
-  }
-  if (overallStatus.msg && overallStatus.status) {
+    const overallProviderStatus = [];
+    const filteredProviders = getFilteredProviders();
+
+    filteredProviders.map(provider => {
+      const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
+      overallProviderStatus.push(getOverallStatus(provider, cloudProvider));
+    });
+
+    overallProviderStatus.map(overallStatus => {
+      if (overallStatus.status === StatusType.failed) {
+        failedCount++;
+      }
+      if (overallStatus.status === StatusType.paused) {
+        pausedCount++;
+      }
+      if (overallStatus.status === StatusType.inProgress) {
+        inProgressCount++;
+      }
+      if (overallStatus.status === StatusType.pending) {
+        pendingCount++;
+      }
+      if (overallStatus.status === StatusType.complete) {
+        completeCount++;
+      }
+    });
     return (
       <>
-        <span style={styles.statusIcon}>{getOverallStatusIcon(overallStatus.status)}</span>
-        <span style={styles.description}>
-          {isStatusMsg
-            ? intl.formatMessage(messages.statusMsg, { value: overallStatus.status })
-            : intl.formatMessage(overallStatus.msg)}
-        </span>
+        {completeCount > 0 && (
+          <>
+            <span style={styles.count}>{completeCount}</span>
+            <span style={styles.statusIcon}>{getOverallStatusIcon(StatusType.complete)}</span>
+          </>
+        )}
+        {failedCount > 0 && (
+          <>
+            <span style={styles.count}>{failedCount}</span>
+            <span style={styles.statusIcon}>{getOverallStatusIcon(StatusType.failed)}</span>
+          </>
+        )}
+        {inProgressCount > 0 && (
+          <>
+            <span style={styles.count}>{inProgressCount}</span>
+            <span style={styles.statusIcon}>{getOverallStatusIcon(StatusType.inProgress)}</span>
+          </>
+        )}
+        {pausedCount > 0 && (
+          <>
+            <span style={styles.count}>{pausedCount}</span>
+            <span style={styles.statusIcon}>{getOverallStatusIcon(StatusType.paused)}</span>
+          </>
+        )}
+        {pendingCount > 0 && (
+          <>
+            <span style={styles.count}>{pendingCount}</span>
+            <span style={styles.statusIcon}>{getOverallStatusIcon(StatusType.pending)}</span>
+          </>
+        )}
       </>
     );
+  };
+
+  const getStatus = () => {
+    const filteredProviders = getFilteredProviders();
+    const provider = filteredProviders?.find(
+      val =>
+        providerId === val.id ||
+        (clusterId && val.authentication?.credentials?.cluster_id === clusterId) ||
+        uuId === val.uuid
+    );
+    const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
+    const overallStatus = getOverallStatus(provider, cloudProvider);
+
+    if (isLastUpdated) {
+      return overallStatus.lastUpdated ? formatDate(overallStatus.lastUpdated) : null;
+    }
+    if (overallStatus.msg && overallStatus.status) {
+      return (
+        <>
+          <span style={styles.statusIcon}>{getOverallStatusIcon(overallStatus.status)}</span>
+          <span style={styles.description}>
+            {isStatusMsg
+              ? intl.formatMessage(messages.statusMsg, { value: overallStatus.status })
+              : intl.formatMessage(overallStatus.msg)}
+          </span>
+        </>
+      );
+    }
+    return null;
+  };
+
+  if (!providers || providersError) {
+    return null;
   }
-  return null;
+  if (providerId || clusterId || uuId) {
+    return getStatus();
+  } else {
+    return getAllStatus();
+  }
 };
 
 const useMapToProps = (): OverallStatusStateProps => {

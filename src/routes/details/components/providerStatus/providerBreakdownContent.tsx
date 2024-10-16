@@ -1,4 +1,3 @@
-import { Bullseye } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -14,28 +13,38 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 
-import { styles } from './providerDetails.styles';
-import { ProviderDetailsTable } from './providerDetailsTable';
+import { CloudData } from './components/cloudData';
+import { ClusterData } from './components/clusterData';
+import { Finalization } from './components/finalization';
+import { styles } from './providerStatus.styles';
 
-interface ProviderDetailsOwnProps {
+interface ProviderDetailsContentOwnProps {
+  clusterId?: string;
+  providerId?: string;
   providerType: ProviderType;
+  uuId?: string;
 }
 
-interface ProviderDetailsStateProps {
+interface ProviderDetailsContentStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
 }
 
-type ProviderDetailsProps = ProviderDetailsOwnProps;
+type ProviderDetailsContentProps = ProviderDetailsContentOwnProps;
 
-const ProviderDetails: React.FC<ProviderDetailsProps> = ({ providerType }: ProviderDetailsProps) => {
+const ProviderBreakdownContent: React.FC<ProviderDetailsContentProps> = ({
+  clusterId,
+  providerId,
+  providerType,
+  uuId,
+}: ProviderDetailsContentProps) => {
   const intl = useIntl();
 
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
-  const title = intl.formatMessage(messages.providerDetails);
+  const title = intl.formatMessage(messages.optimizations);
 
   if (providersError) {
     return <NotAvailable title={title} />;
@@ -49,20 +58,34 @@ const ProviderDetails: React.FC<ProviderDetailsProps> = ({ providerType }: Provi
     );
   }
 
-  // Filter providers to skip an extra API request
+  // Filter OCP providers to skip an extra API request
   const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
-  if (filteredProviders.length === 0) {
-    return;
-  }
+  const provider = filteredProviders?.find(
+    val =>
+      providerId === val.id ||
+      (clusterId && val.authentication?.credentials?.cluster_id === clusterId) ||
+      uuId === val.uuid
+  );
 
+  if (providerType === ProviderType.ocp) {
+    const cloudProvider = providers?.data?.find(val => val.uuid === provider?.infrastructure?.uuid);
+    return (
+      <>
+        <CloudData provider={cloudProvider} />
+        <ClusterData provider={provider} />
+        <Finalization provider={provider} providerType={providerType} />
+      </>
+    );
+  }
   return (
-    <Bullseye style={styles.detailsTable}>
-      <ProviderDetailsTable providers={filteredProviders} providerType={providerType} />
-    </Bullseye>
+    <>
+      <CloudData provider={provider} />
+      <Finalization provider={provider} providerType={providerType} />
+    </>
   );
 };
 
-const useMapToProps = (): ProviderDetailsStateProps => {
+const useMapToProps = (): ProviderDetailsContentStateProps => {
   // PermissionsWrapper has already made an API request
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = useSelector((state: RootState) =>
@@ -83,4 +106,4 @@ const useMapToProps = (): ProviderDetailsStateProps => {
   };
 };
 
-export { ProviderDetails };
+export { ProviderBreakdownContent };

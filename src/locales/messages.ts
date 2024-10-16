@@ -101,6 +101,11 @@ export default defineMessages({
     description: 'Back',
     id: 'back',
   },
+  backToIntegrations: {
+    defaultMessage: 'Back to integrations status',
+    description: 'Back to integrations status',
+    id: 'backToIntegrations',
+  },
   breakdownBackToDetails: {
     defaultMessage:
       '{groupBy, select, ' +
@@ -2028,8 +2033,10 @@ export default defineMessages({
       'description {Filter by description} ' +
       'gcp_project {Filter by GCP project} ' +
       'group {Filter by group} ' +
+      'instance {Filter by instance} ' +
       'name {Filter by name} ' +
       'node {Filter by node} ' +
+      'operating_system {Filter by operating system} ' +
       'org_unit_id {Filter by organizational unit} ' +
       'payer_tenant_id {Filter by account} ' +
       'persistent_volume_claim {Filter by persistent volume claim} ' +
@@ -2380,6 +2387,16 @@ export default defineMessages({
     description: 'Integration',
     id: 'integration',
   },
+  integrationsDetails: {
+    defaultMessage: 'Integrations details',
+    description: 'Integrations details',
+    id: 'integrationsDetails',
+  },
+  integrationsStatus: {
+    defaultMessage: 'Integrations status',
+    description: 'Integrations status',
+    id: 'integrationsStatus',
+  },
   lastProcessed: {
     defaultMessage: 'Last processed',
     description: 'Last processed',
@@ -2585,6 +2602,11 @@ export default defineMessages({
     defaultMessage: 'No',
     description: 'No',
     id: 'no',
+  },
+  noCurrentData: {
+    defaultMessage: 'No data available for {dateRange}. You are viewing data for the previous month.',
+    description: 'No data available for Jan 1-31. You are viewing data for the previous month.',
+    id: 'noCurrentData',
   },
   noDataForDate: {
     defaultMessage: 'No data available for {dateRange}',
@@ -3148,11 +3170,6 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
-  },
-  providerDetails: {
-    defaultMessage: 'Integrations details',
-    description: 'Integrations details',
-    id: 'providerDetails',
   },
   pvcTitle: {
     defaultMessage: 'Persistent Volume Claims',
@@ -3877,6 +3894,11 @@ export default defineMessages({
     defaultMessage: 'vCPU',
     description: 'vCPU',
     id: 'vcpuTitle',
+  },
+  viewAll: {
+    defaultMessage: 'View all',
+    description: 'View all',
+    id: 'viewAll',
   },
   volumeTitle: {
     defaultMessage: 'Volume',

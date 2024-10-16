@@ -1,3 +1,4 @@
+import { Button, ButtonVariant } from '@patternfly/react-core';
 import type { Provider, ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -6,16 +7,19 @@ import { DataTable } from 'routes/components/dataTable';
 
 import { OverallStatus } from './components/overallStatus';
 import { SourceLink } from './components/sourceLink';
-import { ProviderDetailsModal } from './providerDetailsModal';
+import { ProviderBreakdownModal } from './providerBreakdownModal';
+import { styles } from './providerStatus.styles';
 
-interface ProviderDetailsTableOwnProps {
+interface ProviderTableOwnProps {
+  onClick?: (id: string) => void;
   providers?: Provider[];
   providerType?: ProviderType;
+  showContent?: boolean;
 }
 
-type ProviderDetailsTableProps = ProviderDetailsTableOwnProps;
+type ProviderTableProps = ProviderTableOwnProps;
 
-const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, providerType }) => {
+const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, providerType }) => {
   const intl = useIntl();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -47,9 +51,17 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
       newRows.push({
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
-          { value: <OverallStatus providerId={item.id} providerType={providerType} isLastUpdated /> },
-          { value: <OverallStatus providerId={item.id} providerType={providerType} isStatusMsg /> },
-          { value: <ProviderDetailsModal providerId={item.id} providerType={providerType} showStatus={false} /> },
+          { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
+          { value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} /> },
+          {
+            value: onClick ? (
+              <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
+                {intl.formatMessage(messages.dataDetails)}
+              </Button>
+            ) : (
+              <ProviderBreakdownModal providerId={item.id} providerType={providerType} />
+            ),
+          },
         ],
         item,
       });
@@ -66,4 +78,4 @@ const ProviderDetailsTable: React.FC<ProviderDetailsTableProps> = ({ providers, 
   return rows.length ? <DataTable columns={columns} isActionsCell rows={rows} /> : null;
 };
 
-export { ProviderDetailsTable };
+export { ProviderTable };
