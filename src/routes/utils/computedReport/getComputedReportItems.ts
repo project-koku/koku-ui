@@ -319,7 +319,7 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
   const default_project = val.default_project && val.default_project.toLowerCase() === 'true';
 
   let label;
-  if (report.meta && report.meta.others && (id === 'Other' || id === 'Others')) {
+  if (report?.meta?.others && (id === 'Other' || id === 'Others')) {
     // Add count to "Others" label
     label = intl.formatMessage(messages.chartOthers, { count: report.meta.others });
   } else {
