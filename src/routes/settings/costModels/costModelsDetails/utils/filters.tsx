@@ -1,6 +1,6 @@
 import type { ToolbarProps } from '@patternfly/react-core';
-import { InputGroup, InputGroupItem, InputGroupText, TextInput, Toolbar, ToolbarFilter } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import { SearchInput } from '@patternfly/react-core';
+import { Toolbar, ToolbarFilter } from '@patternfly/react-core';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
@@ -21,47 +21,36 @@ import type { Inputer } from './types';
 interface FilterInputProps {
   value: string;
   onChange: (value: string) => void;
-  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onSearch: (event, value: string) => void;
   placeholder?: string;
 }
 
-const FilterInput: React.FC<FilterInputProps> = ({ placeholder = '', value, onChange, onKeyPress }) => {
+const FilterInput: React.FC<FilterInputProps> = ({ placeholder = '', value, onChange, onSearch }) => {
   return (
-    <InputGroup>
-      <InputGroupItem isFill>
-        <TextInput
-          aria-label={placeholder}
-          value={value}
-          placeholder={placeholder}
-          onChange={(_evt, val) => onChange(val)}
-          onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
-            if (evt.key !== 'Enter' || value === '') {
-              return;
-            }
-            onKeyPress(evt);
-          }}
-        />
-      </InputGroupItem>
-      <InputGroupText style={{ borderLeft: '0' }}>
-        <SearchIcon />
-      </InputGroupText>
-    </InputGroup>
+    <SearchInput
+      aria-label={placeholder}
+      id="cost-model-filter-input"
+      onChange={(_evt, val) => onChange(val)}
+      onClear={() => onChange('')}
+      onSearch={onSearch}
+      placeholder={placeholder}
+      value={value}
+    />
   );
 };
 
-export const onKeyPress =
-  (router, key: string, query: CostModelsQuery, inputer: Inputer) => (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && inputer.value !== '') {
-      const currentValue = inputer.value;
-      router.navigate(
-        stringifySearch({
-          ...query,
-          [key]: query[key] ? `${query[key]},${currentValue}` : currentValue,
-        })
-      );
-      inputer.setValue('');
-    }
-  };
+export const onSearch = (router, key: string, query: CostModelsQuery, inputer: Inputer) => () => {
+  if (inputer.value !== '') {
+    const currentValue = inputer.value;
+    router.navigate(
+      stringifySearch({
+        ...query,
+        [key]: query[key] ? `${query[key]},${currentValue}` : currentValue,
+      })
+    );
+    inputer.setValue('');
+  }
+};
 
 export const onDeleteChip = (router, key, query: CostModelsQuery) => {
   return (_filterName: string, chipName: string) => {
@@ -139,7 +128,7 @@ const DescriptionFilterBase: React.FC<DescriptionFilterProps> = ({
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType }) as string}
         value={value}
         onChange={(val: string) => setValue(val)}
-        onKeyPress={onKeyPress(router, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
+        onSearch={onSearch(router, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
   return (
@@ -214,7 +203,7 @@ const NameFilterBase: React.FC<NameFilterProps> = ({
         placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: filterType }) as string}
         value={value}
         onChange={(val: string) => setValue(val)}
-        onKeyPress={onKeyPress(router, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
+        onSearch={onSearch(router, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
   return (

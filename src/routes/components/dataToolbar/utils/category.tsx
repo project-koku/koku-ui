@@ -1,15 +1,6 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
-import {
-  Button,
-  ButtonVariant,
-  InputGroup,
-  InputGroupItem,
-  TextInput,
-  ToolbarFilter,
-  ToolbarItem,
-} from '@patternfly/react-core';
+import { SearchInput, ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
-import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import type { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { intl } from 'components/i18n';
@@ -63,44 +54,28 @@ export const getCategoryInput = ({
       key={categoryOption.key}
       showToolbarItem={currentCategory === categoryOption.key}
     >
-      <InputGroup>
-        <InputGroupItem>
-          {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
-            <ResourceTypeahead
-              ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
-              isDisabled={isDisabled && !_hasFilters}
-              onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
-              placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
-              resourceKey={categoryOption.resourceKey}
-              resourcePathsType={resourcePathsType}
-              resourceType={categoryOption.key as ResourceType}
-            />
-          ) : (
-            <>
-              <TextInput
-                isDisabled={isDisabled && !_hasFilters}
-                name={`category-input-${categoryOption.key}`}
-                id={`category-input-${categoryOption.key}`}
-                type="search"
-                aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
-                onChange={(_evt, value) => onCategoryInputChange(value)}
-                value={categoryInput}
-                placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
-                onKeyDown={evt => onCategoryInput(evt, categoryOption.key)}
-                size={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey }).length}
-              />
-              <Button
-                isDisabled={isDisabled && !_hasFilters}
-                variant={ButtonVariant.control}
-                aria-label={intl.formatMessage(messages.filterByButtonAriaLabel, { value: placeholderKey })}
-                onClick={evt => onCategoryInput(evt, categoryOption.key)}
-              >
-                <SearchIcon />
-              </Button>
-            </>
-          )}
-        </InputGroupItem>
-      </InputGroup>
+      {isResourceTypeValid(resourcePathsType, categoryOption.key as ResourceType) ? (
+        <ResourceTypeahead
+          ariaLabel={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
+          isDisabled={isDisabled && !_hasFilters}
+          onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
+          placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
+          resourceKey={categoryOption.resourceKey}
+          resourcePathsType={resourcePathsType}
+          resourceType={categoryOption.key as ResourceType}
+        />
+      ) : (
+        <SearchInput
+          aria-label={intl.formatMessage(messages.filterByInputAriaLabel, { value: ariaLabelKey })}
+          id={`category-input-${categoryOption.key}`}
+          isDisabled={isDisabled && !_hasFilters}
+          onChange={(_evt, value) => onCategoryInputChange(value)}
+          onClear={() => onCategoryInputChange('')}
+          onSearch={evt => onCategoryInput(evt, categoryOption.key)}
+          placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
+          value={categoryInput}
+        />
+      )}
     </ToolbarFilter>
   );
 };

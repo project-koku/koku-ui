@@ -1,5 +1,4 @@
-import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import { SearchInput } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
@@ -131,31 +130,16 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
       );
     }
     return (
-      <InputGroup>
-        <InputGroupItem isFill>
-          <TextInput
-            isDisabled={isDisabled}
-            name="tag-key-value-input"
-            id="tag-key-value-input"
-            type="search"
-            aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
-            onChange={(_evt, value) => this.onTagValueChange(value)}
-            value={tagKeyValue}
-            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
-            onKeyDown={evt => onTagValueInput(evt)}
-          />
-        </InputGroupItem>
-        <InputGroupItem>
-          <Button
-            isDisabled={isDisabled}
-            variant={ButtonVariant.control}
-            aria-label={intl.formatMessage(messages.filterByTagValueButtonAriaLabel)}
-            onClick={evt => onTagValueInput(evt)}
-          >
-            <SearchIcon />
-          </Button>
-        </InputGroupItem>
-      </InputGroup>
+      <SearchInput
+        aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+        id="tag-key-value-input"
+        isDisabled={isDisabled}
+        onChange={(_evt, value) => this.onTagValueChange(value)}
+        onClear={() => this.onTagValueChange('')}
+        onSearch={evt => onTagValueInput(evt)}
+        placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+        value={tagKeyValue}
+      />
     );
   }
 }
