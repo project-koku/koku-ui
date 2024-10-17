@@ -1,5 +1,4 @@
-import { Button, ButtonVariant, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import { SearchInput } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import type { Resource, ResourcePathsType } from 'api/resources/resource';
@@ -131,31 +130,16 @@ class CostCategoryValueBase extends React.Component<CostCategoryValueProps, Cost
       );
     }
     return (
-      <InputGroup>
-        <InputGroupItem isFill>
-          <TextInput
-            isDisabled={isDisabled}
-            name="tag-key-value-input"
-            id="tag-key-value-input"
-            type="search"
-            aria-label={intl.formatMessage(messages.filterByCostCategoryValueAriaLabel)}
-            onChange={(_evt, value) => this.onCostCategoryValueChange(value)}
-            value={costCategoryKeyValue}
-            placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
-            onKeyDown={evt => onCostCategoryValueInput(evt)}
-          />
-        </InputGroupItem>
-        <InputGroupItem>
-          <Button
-            isDisabled={isDisabled}
-            variant={ButtonVariant.control}
-            aria-label={intl.formatMessage(messages.filterByCostCategoryValueButtonAriaLabel)}
-            onClick={evt => onCostCategoryValueInput(evt)}
-          >
-            <SearchIcon />
-          </Button>
-        </InputGroupItem>
-      </InputGroup>
+      <SearchInput
+        aria-label={intl.formatMessage(messages.filterByCostCategoryValueButtonAriaLabel)}
+        id="tag-key-value-input"
+        isDisabled={isDisabled}
+        onChange={(_evt, value) => this.onCostCategoryValueChange(value)}
+        onClear={() => this.onCostCategoryValueChange('')}
+        onSearch={evt => onCostCategoryValueInput(evt)}
+        placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+        value={costCategoryKeyValue}
+      />
     );
   }
 }
