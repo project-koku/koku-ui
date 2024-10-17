@@ -1,29 +1,29 @@
-import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
-import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import t_global_font_size_body_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_body_sm';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
+import t_global_text_color_subtle from '@patternfly/react-tokens/dist/js/t_global_text_color_subtle';
 import type React from 'react';
 
 export const styles = {
   count: {
-    marginRight: global_spacer_sm.value,
+    marginRight: t_global_spacer_sm.value,
   },
   description: {
-    color: global_disabled_color_100.value,
-    fontSize: global_FontSize_xs.value,
+    color: t_global_text_color_subtle.value,
+    fontSize: t_global_font_size_body_sm.value,
   },
   sourceLink: {
-    fontSize: global_FontSize_xs.value,
+    fontSize: t_global_font_size_body_sm.value,
   },
   spacingRight: {
-    marginRight: global_spacer_md.value,
+    marginRight: t_global_spacer_md.value,
   },
   statusIcon: {
-    fontSize: global_FontSize_xs.value,
-    paddingRight: global_spacer_sm.value,
+    fontSize: t_global_font_size_body_sm.value,
+    paddingRight: t_global_spacer_sm.value,
   },
   stepper: {
-    margin: global_spacer_lg.value,
+    margin: t_global_spacer_lg.value,
   },
 } as { [className: string]: React.CSSProperties };

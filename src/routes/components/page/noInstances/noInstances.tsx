@@ -18,7 +18,7 @@ const NoInstances = ({ title }: NoInstancesProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
+      <PageSection hasBodyWrapper={false}>
         <NoInstancesState />
       </PageSection>
     </>

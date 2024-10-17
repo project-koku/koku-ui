@@ -44,8 +44,8 @@ export const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
               return (
                 <ToolbarItem key={secondary.name}>
                   <ToolbarFilter
-                    deleteChip={secondary.onRemove}
-                    chips={secondary.filters}
+                    deleteLabel={secondary.onRemove}
+                    labels={secondary.filters}
                     categoryName={secondary.name}
                   >
                     {selected === secondary.name ? secondary.component : ''}
@@ -58,7 +58,6 @@ export const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
         <ToolbarItem>{button}</ToolbarItem>
         <ToolbarItem variant={ToolbarItemVariant.pagination}>{pagination}</ToolbarItem>
       </ToolbarContent>
-      <hr className="pf-v5-c-divider" />
     </Toolbar>
   );
 };
