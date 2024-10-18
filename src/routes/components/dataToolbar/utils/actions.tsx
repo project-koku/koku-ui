@@ -37,18 +37,17 @@ export const getExportButton = ({
 }) => {
   return (
     <ToolbarItem
-      spacer={{
-        default: 'spacerNone',
+      gap={{
+        default: 'gapNone',
       }}
     >
       <Button
+        icon={<ExportIcon />}
         aria-label="Export data"
         isDisabled={isDisabled || isExportDisabled}
         onClick={onExportClicked}
         variant={ButtonVariant.plain}
-      >
-        <ExportIcon />
-      </Button>
+      ></Button>
     </ToolbarItem>
   );
 };

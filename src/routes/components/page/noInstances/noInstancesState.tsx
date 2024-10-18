@@ -1,12 +1,4 @@
-import {
-  ClipboardCopy,
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  EmptyStateVariant,
-} from '@patternfly/react-core';
+import { ClipboardCopy, EmptyState, EmptyStateBody, EmptyStateFooter, EmptyStateVariant } from '@patternfly/react-core';
 import { TagIcon } from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import messages from 'locales/messages';
 import React from 'react';
@@ -26,12 +18,13 @@ class NoInstancesStateBase extends React.Component<NoInstancesStateProps, any> {
     const { intl } = this.props;
 
     return (
-      <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
-        <EmptyStateHeader
-          titleText={intl.formatMessage(messages.noInstancesTitle)}
-          icon={<EmptyStateIcon icon={TagIcon} />}
-          headingLevel="h1"
-        />
+      <EmptyState
+        headingLevel="h5"
+        icon={TagIcon}
+        titleText={intl.formatMessage(messages.noInstancesTitle)}
+        variant={EmptyStateVariant.lg}
+        className="pf-m-redhat-font"
+      >
         <EmptyStateBody>
           <div>{intl.formatMessage(messages.noInstancesDesc)}</div>
           <div style={styles.clipboardContainer}>

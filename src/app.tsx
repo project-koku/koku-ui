@@ -1,8 +1,8 @@
 import './app.scss';
 
+import NotificationsPortal from '@ausuliv/frontend-components-notifications/NotificationPortal';
+import { notificationsReducer } from '@ausuliv/frontend-components-notifications/redux';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
-import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
-import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import React, { useEffect, useLayoutEffect } from 'react';
 import { invalidateSession } from 'utils/sessionStorage';
