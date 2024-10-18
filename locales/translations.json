@@ -414,7 +414,7 @@
   "noDataStateRefresh": "Refresh this page",
   "noDataStateTitle": "Still processing the data",
   "noExportsStateTitle": "There are no export files available",
-  "noInstancesDesc": "To view the cost of EC2 instances, label your resources with the following tag and key value pair in the AWS console.",
+  "noInstancesDesc": "To view the cost of EC2 instances, label your resources with the following tag key and value pair in the AWS console.",
   "noInstancesMoreInfo": "For more information, {seeDocumentation}.",
   "noInstancesTitle": "View cost of EC2 instances",
   "noMappedTags": "No mapped tags",

@@ -10985,7 +10985,7 @@
     "noInstancesDesc": [
       {
         "type": 0,
-        "value": "To view the cost of EC2 instances, label your resources with the following tag and key value pair in the AWS console."
+        "value": "To view the cost of EC2 instances, label your resources with the following tag key and value pair in the AWS console."
       }
     ],
     "noInstancesMoreInfo": [
