@@ -2646,9 +2646,9 @@ export default defineMessages({
   },
   noInstancesDesc: {
     defaultMessage:
-      'To view the cost of EC2 instances, label your resources with the following tag and key value pair in the AWS console.',
+      'To view the cost of EC2 instances, label your resources with the following tag key and value pair in the AWS console.',
     description:
-      'To view the cost of EC2 instances, label your resources with the following tag and key value pair in the AWS console.',
+      'To view the cost of EC2 instances, label your resources with the following tag key and value pair in the AWS console.',
     id: 'noInstancesDesc',
   },
   noInstancesMoreInfo: {
