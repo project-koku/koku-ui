@@ -40,6 +40,7 @@ interface DetailsHeaderOwnProps {
   costType?: string;
   groupBy?: string;
   isCurrentMonthData?: boolean;
+  isPreviousMonthData?: boolean;
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
   onGroupBySelect(value: string);
@@ -118,6 +119,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
+      isPreviousMonthData,
       onCurrencySelect,
       onGroupBySelect,
       providers,
@@ -177,6 +179,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
                     dateRangeType={currentDateRangeType}
                     isCurrentMonthData={isCurrentMonthData}
                     isDisabled={!showContent}
+                    isPreviousMonthData={isPreviousMonthData}
                     onSelect={this.handleOnDateRangeSelected}
                   />
                 </FlexItem>

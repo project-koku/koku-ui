@@ -66,6 +66,8 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   endDate?: string;
   groupBy?: string;
   isCurrentMonthData?: boolean;
+  isDataAvailable?: boolean;
+  isPreviousMonthData?: boolean;
   onCostDistributionSelect(value: string);
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
@@ -264,8 +266,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       groupBy,
       intl,
       isCurrentMonthData,
+      isDataAvailable,
       isExportsToggleEnabled,
       isOcpCloudGroupBysToggleEnabled,
+      isPreviousMonthData,
       onCostDistributionSelect,
       onCostTypeSelect,
       onCurrencySelect,
@@ -352,7 +356,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
           endDate={endDate}
           groupBy={groupBy}
           isCurrentMonthData={isCurrentMonthData}
+          isDataAvailable={isDataAvailable}
           isDisabled={noProviders}
+          isPreviousMonthData={isPreviousMonthData}
           onFilterAdded={onFilterAdded}
           onFilterRemoved={onFilterRemoved}
           onDateRangeSelect={onDateRangeSelect}

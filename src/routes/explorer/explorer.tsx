@@ -91,6 +91,7 @@ interface ExplorerStateProps {
   isDataAvailable?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
   isFinsightsToggleEnabled?: boolean;
+  isPreviousMonthData?: boolean;
   ocpProviders: Providers;
   perspective: PerspectiveType;
   providers: Providers;
@@ -500,6 +501,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       isCurrentMonthData,
       isDataAvailable,
       isDetailsDateRangeToggleEnabled,
+      isPreviousMonthData,
       ocpProviders,
       providersFetchStatus,
       perspective,
@@ -578,6 +580,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                 : groupById
           }
           isCurrentMonthData={isCurrentMonthData}
+          isDataAvailable={isDataAvailable}
+          isPreviousMonthData={isPreviousMonthData}
           onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
           onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
@@ -724,7 +728,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
   // Fetch based on time scope
   const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
-  const { isCurrentMonthData, isDataAvailable } = getIsDataAvailable({
+  const { isCurrentMonthData, isDataAvailable, isPreviousMonthData } = getIsDataAvailable({
     awsProviders,
     azureProviders,
     ociProviders,
@@ -791,6 +795,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     isDataAvailable,
     isDetailsDateRangeToggleEnabled,
     isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
+    isPreviousMonthData,
     ociProviders,
     ocpProviders,
     perspective,
