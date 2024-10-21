@@ -453,6 +453,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           currency={currency}
           groupBy={groupById}
           isCurrentMonthData={isCurrentMonthData}
+          isPreviousMonthData={isPreviousMonthData}
           onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router)}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}

@@ -46,6 +46,8 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
   endDate?: string;
   groupBy: string;
   isCurrentMonthData?: boolean;
+  isDataAvailable?: boolean;
+  isPreviousMonthData?: boolean;
   isDisabled?: boolean;
   onDateRangeSelect(value: string);
   onFilterAdded(filter: Filter);
@@ -160,14 +162,16 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   };
 
   private getDateRangeComponent = () => {
-    const { dateRangeType, isCurrentMonthData, isDisabled } = this.props;
+    const { dateRangeType, isCurrentMonthData, isDataAvailable, isPreviousMonthData, isDisabled } = this.props;
 
     return (
       <DateRange
         dateRangeType={dateRangeType}
         isCurrentMonthData={isCurrentMonthData}
+        isDataAvailable={isDataAvailable}
         isDisabled={isDisabled}
         isExplorer
+        isPreviousMonthData={isPreviousMonthData}
         onSelect={this.handleOnDateRangeSelect}
       />
     );
