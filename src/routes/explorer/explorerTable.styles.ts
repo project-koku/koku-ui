@@ -1,8 +1,8 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
-import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
-import global_spacer_3xl from '@patternfly/react-tokens/dist/js/global_spacer_3xl';
-import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
+import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
+import t_global_font_size_body_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_body_sm';
+import t_global_spacer_3xl from '@patternfly/react-tokens/dist/js/t_global_spacer_3xl';
+import t_global_spacer_xs from '@patternfly/react-tokens/dist/js/t_global_spacer_xs';
+import t_global_text_color_subtle from '@patternfly/react-tokens/dist/js/t_global_text_color_subtle';
 import type React from 'react';
 
 export const styles = {
@@ -10,10 +10,10 @@ export const styles = {
     minWidth: '50px',
   },
   emptyState: {
-    backgroundColor: global_BackgroundColor_light_100.value,
+    backgroundColor: t_global_background_color_100.value,
     display: 'flex',
     justifyContent: 'center',
-    paddingTop: global_spacer_3xl.value,
+    paddingTop: t_global_spacer_3xl.value,
     height: '35vh',
     width: '100%',
   },
@@ -21,10 +21,10 @@ export const styles = {
     position: 'relative',
   },
   infoArrowDesc: {
-    bottom: global_spacer_xs.value,
+    bottom: t_global_spacer_xs.value,
   },
   infoDescription: {
-    color: global_disabled_color_100.value,
-    fontSize: global_FontSize_xs.value,
+    color: t_global_text_color_subtle.value,
+    fontSize: t_global_font_size_body_sm.value,
   },
 } as { [className: string]: React.CSSProperties };

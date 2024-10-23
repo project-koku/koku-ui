@@ -19,7 +19,7 @@ const Loading = ({ body, heading, title }: LoadingProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
+      <PageSection hasBodyWrapper={false}>
         <LoadingState body={body} heading={heading} />
       </PageSection>
     </>

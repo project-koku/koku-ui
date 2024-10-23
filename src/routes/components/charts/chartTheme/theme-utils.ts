@@ -1,4 +1,4 @@
-import { ChartThemeColor, getCustomTheme } from '@patternfly/react-charts';
+import { ChartThemeColor, getCustomTheme } from '@patternfly/react-charts/victory';
 
 import { default as ChartTheme } from './theme-koku';
 

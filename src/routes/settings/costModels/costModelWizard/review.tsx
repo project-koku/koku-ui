@@ -1,25 +1,17 @@
 import {
   Alert,
   Button,
+  Content,
+  ContentVariants,
   EmptyState,
   EmptyStateActions,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  Icon,
   Stack,
   StackItem,
-  Text,
-  TextContent,
-  TextList,
-  TextListItem,
-  TextListItemVariants,
-  TextListVariants,
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
-import { OkIcon } from '@patternfly/react-icons/dist/esm/icons/ok-icon';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -34,16 +26,7 @@ import { CostModelContext } from './context';
 const ReviewSuccessBase: React.FC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({ onClose, name }) => (
-      <EmptyState>
-        <EmptyStateHeader
-          titleText={intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}
-          icon={
-            <Icon status="success">
-              <EmptyStateIcon icon={OkIcon} />
-            </Icon>
-          }
-          headingLevel="h2"
-        />
+      <EmptyState headingLevel="h2" titleText={intl.formatMessage(messages.costModelsWizardReviewStatusTitle)}>
         <EmptyStateBody>
           {intl.formatMessage(messages.costModelsWizardReviewStatusSubTitle, { value: name })}
         </EmptyStateBody>
@@ -102,95 +85,83 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
               </Title>
             </StackItem>
             <StackItem>
-              <TextContent>
-                <Text>
+              <Content>
+                <Content component="p">
                   {intl.formatMessage(messages.costModelsWizardReviewStatusSubDetails, {
                     create: <strong>{intl.formatMessage(messages.create)}</strong>,
                     back: <strong>{intl.formatMessage(messages.back)}</strong>,
                   })}
-                </Text>
-              </TextContent>
+                </Content>
+              </Content>
             </StackItem>
             <StackItem>
-              <TextContent>
-                <TextList component={TextListVariants.dl}>
-                  <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.names, { count: 1 })}
-                  </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>{name}</TextListItem>
-                  <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.description)}
-                  </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>{description}</TextListItem>
-                  <TextListItem component={TextListItemVariants.dt}>
-                    {intl.formatMessage(messages.currency)}
-                  </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>
+              <Content>
+                <Content component={ContentVariants.dl}>
+                  <Content component={ContentVariants.dt}>{intl.formatMessage(messages.names, { count: 1 })}</Content>
+                  <Content component={ContentVariants.dd}>{name}</Content>
+                  <Content component={ContentVariants.dt}>{intl.formatMessage(messages.description)}</Content>
+                  <Content component={ContentVariants.dd}>{description}</Content>
+                  <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
+                  <Content component={ContentVariants.dd}>
                     {intl.formatMessage(messages.currencyOptions, { units: currencyUnits })}
-                  </TextListItem>
+                  </Content>
                   {type === 'OCP' && (
                     <>
-                      <TextListItem component={TextListItemVariants.dt}>
-                        {intl.formatMessage(messages.priceList)}
-                      </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
+                      <Content component={ContentVariants.dt}>{intl.formatMessage(messages.priceList)}</Content>
+                      <Content component={ContentVariants.dd}>
                         {tiers.length > 0 ? (
                           <RateTable tiers={tiers} />
                         ) : (
                           intl.formatMessage(messages.costModelsWizardNoRatesAdded)
                         )}
-                      </TextListItem>
+                      </Content>
                     </>
                   )}
-                  <TextListItem component={TextListItemVariants.dt}>
+                  <Content component={ContentVariants.dt}>
                     {intl.formatMessage(messages.costModelsWizardReviewMarkDiscount)}
-                  </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>
+                  </Content>
+                  <Content component={ContentVariants.dd}>
                     {intl.formatMessage(messages.percent, { value: isDiscount ? '-' + markup : markup })}
-                  </TextListItem>
+                  </Content>
                   {type === 'OCP' && (
                     <>
-                      <TextListItem component={TextListItemVariants.dt}>
-                        {intl.formatMessage(messages.costDistribution)}
-                      </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
+                      <Content component={ContentVariants.dt}>{intl.formatMessage(messages.costDistribution)}</Content>
+                      <Content component={ContentVariants.dd}>
                         {intl.formatMessage(messages.distributionTypeDesc, { type: distribution })}
-                      </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
+                      </Content>
+                      <Content component={ContentVariants.dd}>
                         {intl.formatMessage(messages.distributePlatformCosts, {
                           value: distributePlatformUnallocated,
                         })}
-                      </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
+                      </Content>
+                      <Content component={ContentVariants.dd}>
                         {intl.formatMessage(messages.distributeUnallocatedCapacity, {
                           value: distributeWorkerUnallocated,
                         })}
-                      </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
+                      </Content>
+                      <Content component={ContentVariants.dd}>
                         {intl.formatMessage(messages.distributeCosts, {
                           value: distributeNetwork,
                           type: 'network',
                         })}
-                      </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
+                      </Content>
+                      <Content component={ContentVariants.dd}>
                         {intl.formatMessage(messages.distributeCosts, {
                           value: distributeStorage,
                           type: 'storage',
                         })}
-                      </TextListItem>
+                      </Content>
                     </>
                   )}
-                  <TextListItem component={TextListItemVariants.dt}>
+                  <Content component={ContentVariants.dt}>
                     {intl.formatMessage(messages.costModelsAssignSources, { count: 2 })}{' '}
                     {selectedSources.find(src => Boolean(src.costmodel)) && (
                       <WarningIcon text={intl.formatMessage(messages.costModelsWizardWarningSources)} />
                     )}
-                  </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>
-                    {selectedSources.map(r => r.name).join(', ')}
-                  </TextListItem>
-                </TextList>
-              </TextContent>
+                  </Content>
+                  <Content component={ContentVariants.dd}>{selectedSources.map(r => r.name).join(', ')}</Content>
+                </Content>
+              </Content>
             </StackItem>
           </Stack>
         </>
