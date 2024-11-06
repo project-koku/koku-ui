@@ -1090,6 +1090,7 @@ export default defineMessages({
     defaultMessage:
       '{units, select, ' +
       'AUD {AUD (A$) - Australian Dollar}' +
+      'BRL {BRL (R$) - Brazilian Real}' +
       'CAD {CAD (CA$) - Canadian Dollar}' +
       'CHF {CHF (CHF) - Swiss Franc}' +
       'CNY {CNY (CN¥) - Chinese Yuan}' +
@@ -1097,6 +1098,7 @@ export default defineMessages({
       'EUR {EUR (€) - Euro}' +
       'GBP {GBP (£) - British Pound}' +
       'HKD {HKD (HK$) - Hong Kong Dollar}' +
+      'INR {INR (₹) - Indian Rupee}' +
       'JPY {JPY (¥) - Japanese Yen}' +
       'NOK {NOK (NOK) - Norwegian Krone}' +
       'NZD {NZD (NZ$) - New Zealand Dollar}' +
@@ -1113,6 +1115,7 @@ export default defineMessages({
     defaultMessage:
       '{units, select, ' +
       'AUD {A$}' +
+      'BRL {R$}' +
       'CAD {CA$}' +
       'CHF {CHF}' +
       'CNY {CN¥}' +
@@ -1120,6 +1123,7 @@ export default defineMessages({
       'EUR {€}' +
       'GBP {£}' +
       'HKD {HK$}' +
+      'INR {₹}' +
       'JPY {¥}' +
       'NOK {NOK}' +
       'NZD {NZ$}' +
