@@ -398,7 +398,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders providerType={ProviderType.aws} title={title} />;
+        return <NoProviders />;
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (

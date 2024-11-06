@@ -432,7 +432,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders providerType={ProviderType.ocp} title={title} />;
+        return <NoProviders />;
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (

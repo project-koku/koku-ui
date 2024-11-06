@@ -411,7 +411,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders providerType={ProviderType.ocp} title={title} />;
+        return <NoProviders />;
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (

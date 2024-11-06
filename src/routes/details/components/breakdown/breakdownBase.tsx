@@ -295,7 +295,6 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       optimizationsComponent,
       providers,
       providersFetchStatus,
-      providerType,
       query,
       report,
       reportError,
@@ -322,7 +321,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        return <NoProviders providerType={providerType} title={emptyStateTitle} />;
+        return <NoProviders />;
       }
       if (
         isDetailsDateRangeToggleEnabled
