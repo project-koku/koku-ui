@@ -2147,6 +2147,14 @@
               }
             ]
           },
+          "BRL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BRL (R$) - Brazilian Real"
+              }
+            ]
+          },
           "CAD": {
             "value": [
               {
@@ -2200,6 +2208,14 @@
               {
                 "type": 0,
                 "value": "HKD (HK$) - Hong Kong Dollar"
+              }
+            ]
+          },
+          "INR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "INR (₹) - Indian Rupee"
               }
             ]
           },
@@ -2278,6 +2294,14 @@
               }
             ]
           },
+          "BRL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "R$"
+              }
+            ]
+          },
           "CAD": {
             "value": [
               {
@@ -2331,6 +2355,14 @@
               {
                 "type": 0,
                 "value": "HK$"
+              }
+            ]
+          },
+          "INR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "₹"
               }
             ]
           },
