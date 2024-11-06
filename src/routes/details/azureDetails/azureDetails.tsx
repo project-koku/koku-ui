@@ -356,7 +356,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders providerType={ProviderType.azure} title={title} />;
+        return <NoProviders />;
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (

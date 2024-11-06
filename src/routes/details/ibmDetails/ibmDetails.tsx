@@ -358,7 +358,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders providerType={ProviderType.ibm} title={title} />;
+        return <NoProviders />;
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (

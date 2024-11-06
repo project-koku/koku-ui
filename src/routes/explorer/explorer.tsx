@@ -548,7 +548,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     } else if (isLoading) {
       return <Loading title={title} />;
     } else if (noProviders) {
-      return <NoProviders title={title} />;
+      return <NoProviders />;
     } else if (
       !(
         hasData(awsProviders) ||
