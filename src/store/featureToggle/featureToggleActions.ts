@@ -11,6 +11,7 @@ export interface FeatureToggleActionMeta {
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
   isOcpCloudGroupBysToggleEnabled?: boolean;
+  isProviderEmptyStateToggleEnabled?: boolean;
 }
 
 export const setFeatureToggle = createAction('feature/init_feature_toggle')<FeatureToggleActionMeta>();

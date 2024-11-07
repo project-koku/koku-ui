@@ -3856,6 +3856,12 @@
         "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_cost_management/about-cost-management#what_can_you_accomplish_with_cost_management"
       }
     ],
+    "docsAddOcpSources": [
+      {
+        "type": 0,
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management"
+      }
+    ],
     "docsCostCategory": [
       {
         "type": 0,
@@ -11167,10 +11173,88 @@
         "value": "What can you accomplish with cost management?"
       }
     ],
+    "noProvidersStateAwsDesc": [
+      {
+        "type": 0,
+        "value": "Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags."
+      }
+    ],
+    "noProvidersStateAwsTitle": [
+      {
+        "type": 0,
+        "value": "Track your Amazon Web Services spending!"
+      }
+    ],
+    "noProvidersStateAzureDesc": [
+      {
+        "type": 0,
+        "value": "Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
+      }
+    ],
+    "noProvidersStateAzureTitle": [
+      {
+        "type": 0,
+        "value": "Track your Microsoft Azure spending!"
+      }
+    ],
+    "noProvidersStateGcpDesc": [
+      {
+        "type": 0,
+        "value": "Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
+      }
+    ],
+    "noProvidersStateGcpTitle": [
+      {
+        "type": 0,
+        "value": "Track your Google Cloud Platform spending!"
+      }
+    ],
     "noProvidersStateGetStarted": [
       {
         "type": 0,
         "value": "Get started with Integrations"
+      }
+    ],
+    "noProvidersStateIbmDesc": [
+      {
+        "type": 0,
+        "value": "Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
+      }
+    ],
+    "noProvidersStateIbmTitle": [
+      {
+        "type": 0,
+        "value": "Track your IBM Cloud spending!"
+      }
+    ],
+    "noProvidersStateOcpAddSources": [
+      {
+        "type": 0,
+        "value": "Add an OpenShift cluster to Cost Management"
+      }
+    ],
+    "noProvidersStateOcpDesc": [
+      {
+        "type": 0,
+        "value": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels."
+      }
+    ],
+    "noProvidersStateOcpTitle": [
+      {
+        "type": 0,
+        "value": "Track your OpenShift spending!"
+      }
+    ],
+    "noProvidersStateOverviewDesc": [
+      {
+        "type": 0,
+        "value": "Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage."
+      }
+    ],
+    "noProvidersStateOverviewTitle": [
+      {
+        "type": 0,
+        "value": "Track your spending!"
       }
     ],
     "noProvidersTroubleshooting": [

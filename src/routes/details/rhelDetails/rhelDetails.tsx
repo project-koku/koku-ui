@@ -18,6 +18,7 @@ import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
+import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
@@ -59,6 +60,7 @@ interface RhelDetailsStateProps {
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
   isPreviousMonthData?: boolean;
+  isProviderEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: RhelQuery;
@@ -386,6 +388,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isPreviousMonthData,
+      isProviderEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -411,7 +414,11 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders />;
+        return isProviderEmptyStateToggleEnabled ? (
+          <NoProviders />
+        ) : (
+          <NoProvidersOld providerType={ProviderType.rhel} title={title} />
+        );
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (
@@ -529,6 +536,7 @@ const mapStateToProps = createMapStateToProps<RhelDetailsOwnProps, RhelDetailsSt
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filteredProviders,
     providersFetchStatus,
     query,

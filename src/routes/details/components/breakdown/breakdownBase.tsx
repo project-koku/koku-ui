@@ -14,6 +14,7 @@ import { injectIntl } from 'react-intl';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
+import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import {
@@ -72,6 +73,7 @@ export interface BreakdownStateProps {
   isAwsEc2InstancesToggleEnabled?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
   isOptimizationsTab?: boolean;
+  isProviderEmptyStateToggleEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   optimizationsComponent?: React.ReactNode;
   providers?: Providers;
@@ -292,9 +294,11 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       emptyStateTitle,
       groupBy,
       isDetailsDateRangeToggleEnabled,
+      isProviderEmptyStateToggleEnabled,
       optimizationsComponent,
       providers,
       providersFetchStatus,
+      providerType,
       query,
       report,
       reportError,
@@ -321,7 +325,11 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        return <NoProviders />;
+        return isProviderEmptyStateToggleEnabled ? (
+          <NoProviders />
+        ) : (
+          <NoProvidersOld providerType={providerType} title={emptyStateTitle} />
+        );
       }
       if (
         isDetailsDateRangeToggleEnabled
