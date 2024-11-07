@@ -1547,6 +1547,12 @@ export default defineMessages({
     description: 'What can you accomplish with cost management?',
     id: 'docsAccomplish',
   },
+  docsAddOcpSources: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management',
+    description: 'Integrating OpenShift Container Platform data into cost management',
+    id: 'docsAddOcpSources',
+  },
   docsCostCategory: {
     defaultMessage:
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int',
@@ -2825,10 +2831,87 @@ export default defineMessages({
     description: 'What can you accomplish with cost management?',
     id: 'noProvidersRecommendedAccomplish',
   },
+  noProvidersStateAwsDesc: {
+    defaultMessage:
+      'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
+    description:
+      'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
+    id: 'noProvidersStateAwsDesc',
+  },
+  noProvidersStateAwsTitle: {
+    defaultMessage: 'Track your Amazon Web Services spending!',
+    description: 'Track your Amazon Web Services spending!',
+    id: 'noProvidersStateAwsTitle',
+  },
+  noProvidersStateAzureDesc: {
+    defaultMessage:
+      'Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+    description:
+      'Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+    id: 'noProvidersStateAzureDesc',
+  },
+  noProvidersStateAzureTitle: {
+    defaultMessage: 'Track your Microsoft Azure spending!',
+    description: 'Track your Microsoft Azure spending!',
+    id: 'noProvidersStateAzureTitle',
+  },
+  noProvidersStateGcpDesc: {
+    defaultMessage:
+      'Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+    description:
+      'Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+    id: 'noProvidersStateGcpDesc',
+  },
+  noProvidersStateGcpTitle: {
+    defaultMessage: 'Track your Google Cloud Platform spending!',
+    description: 'Track your Google Cloud Platform spending!',
+    id: 'noProvidersStateGcpTitle',
+  },
   noProvidersStateGetStarted: {
     defaultMessage: 'Get started with Integrations',
     description: 'Get started with Integrations',
     id: 'noProvidersStateGetStarted',
+  },
+  noProvidersStateIbmDesc: {
+    defaultMessage:
+      'Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+    description:
+      'Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
+    id: 'noProvidersStateIbmDesc',
+  },
+  noProvidersStateIbmTitle: {
+    defaultMessage: 'Track your IBM Cloud spending!',
+    description: 'Track your IBM Cloud spending!',
+    id: 'noProvidersStateIbmTitle',
+  },
+  noProvidersStateOcpAddSources: {
+    defaultMessage: 'Add an OpenShift cluster to Cost Management',
+    description: 'Add an OpenShift cluster to Cost Management',
+    id: 'noProvidersStateOcpAddSources',
+  },
+  noProvidersStateOcpDesc: {
+    defaultMessage:
+      'Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.',
+    description:
+      'Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.',
+    id: 'noProvidersStateOcpDesc',
+  },
+  noProvidersStateOcpTitle: {
+    defaultMessage: 'Track your OpenShift spending!',
+    description: 'Track your OpenShift spending!',
+    id: 'noProvidersStateOcpTitle',
+  },
+  noProvidersStateOverviewDesc: {
+    defaultMessage:
+      'Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
+    description:
+      'Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
+    id: 'noProvidersStateOverviewDesc',
+  },
+  noProvidersStateOverviewTitle: {
+    defaultMessage: 'Track your spending!',
+    description: 'Track your spending!',
+    id: 'noProvidersStateOverviewTitle',
   },
   noProvidersTroubleshooting: {
     defaultMessage: 'Having problem seeing data? See Troubleshooting part of the documentation',
