@@ -15,6 +15,7 @@ export const enum FeatureToggle {
   finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
   ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
   ocpCloudGroupBys = 'cost-management.ui.ocp-cloud-group-bys', // https://issues.redhat.com/browse/COST-5514
+  providerEmptyState = 'cost-management.ui.provider-empty-state', // https://issues.redhat.com/browse/COST-5613
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
@@ -62,6 +63,10 @@ export const useIsOcpCloudGroupBysToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.ocpCloudGroupBys);
 };
 
+export const useIsProviderEmptyStateToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.providerEmptyState);
+};
+
 // The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
 export const useFeatureToggle = () => {
   const dispatch = useDispatch();
@@ -77,6 +82,7 @@ export const useFeatureToggle = () => {
   const isFinsightsToggleEnabled = useIsFinsightsToggleEnabled();
   const isIbmToggleEnabled = useIsIbmToggleEnabled();
   const isOcpCloudGroupBysToggleEnabled = useIsOcpCloudGroupBysToggleEnabled();
+  const isProviderEmptyStateToggleEnabled = useIsProviderEmptyStateToggleEnabled();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -98,6 +104,7 @@ export const useFeatureToggle = () => {
         isFinsightsToggleEnabled,
         isIbmToggleEnabled,
         isOcpCloudGroupBysToggleEnabled,
+        isProviderEmptyStateToggleEnabled,
       })
     );
     if (isDebugToggleEnabled) {
@@ -115,6 +122,7 @@ export const useFeatureToggle = () => {
     isFinsightsToggleEnabled,
     isIbmToggleEnabled,
     isOcpCloudGroupBysToggleEnabled,
+    isProviderEmptyStateToggleEnabled,
   ]);
 };
 

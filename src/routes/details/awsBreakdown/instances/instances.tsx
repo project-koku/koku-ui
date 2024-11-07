@@ -45,6 +45,7 @@ export interface InstancesStateProps {
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
+  timeScopeValue?: number;
 }
 
 export interface InstancesMapProps {
@@ -92,12 +93,20 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const [query, setQuery] = useState({ ...baseQuery });
-  const { hasAccountFilter, hasRegionFilter, hasTagFilter, report, reportError, reportFetchStatus, reportQueryString } =
-    useMapToProps({
-      costType,
-      currency,
-      query,
-    });
+  const {
+    hasAccountFilter,
+    hasRegionFilter,
+    hasTagFilter,
+    report,
+    reportError,
+    reportFetchStatus,
+    reportQueryString,
+    timeScopeValue,
+  } = useMapToProps({
+    costType,
+    currency,
+    query,
+  });
 
   const getColumnManagementModal = () => {
     const options = cloneDeep(defaultColumnOptions);
@@ -218,6 +227,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
         pagination={getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
@@ -303,7 +313,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
-  const hasInstances = report?.meta && report.meta.count > 0;
+  const hasInstances = report?.meta?.count > 0;
 
   if (reportError) {
     return <NotAvailable title={intl.formatMessage(messages.optimizations)} />;
@@ -311,6 +321,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   if (!query.filter_by && !hasInstances && reportFetchStatus === FetchStatus.complete) {
     return <NoInstances />;
   }
+
   const computedItems = getComputedItems();
 
   return (
@@ -387,6 +398,7 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
     reportError,
     reportFetchStatus,
     reportQueryString,
+    timeScopeValue,
   };
 };
 

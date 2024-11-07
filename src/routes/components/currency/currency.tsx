@@ -39,6 +39,7 @@ export const currencyOptions: {
   value: string;
 }[] = [
   { label: messages.currencyOptions, value: 'AUD' },
+  { label: messages.currencyOptions, value: 'BRL' },
   { label: messages.currencyOptions, value: 'CAD' },
   { label: messages.currencyOptions, value: 'CHF' },
   { label: messages.currencyOptions, value: 'CNY' },
@@ -46,6 +47,7 @@ export const currencyOptions: {
   { label: messages.currencyOptions, value: 'EUR' },
   { label: messages.currencyOptions, value: 'GBP' },
   { label: messages.currencyOptions, value: 'HKD' },
+  { label: messages.currencyOptions, value: 'INR' },
   { label: messages.currencyOptions, value: 'JPY' },
   { label: messages.currencyOptions, value: 'NOK' },
   { label: messages.currencyOptions, value: 'NZD' },

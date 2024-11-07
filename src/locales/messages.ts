@@ -405,6 +405,16 @@ export default defineMessages({
     description: 'Clusters',
     id: 'clusters',
   },
+  copied: {
+    defaultMessage: 'Copied',
+    description: 'Copied',
+    id: 'copied',
+  },
+  copy: {
+    defaultMessage: 'Copy',
+    description: 'Copy',
+    id: 'copy',
+  },
   cost: {
     defaultMessage: 'Cost',
     description: 'Cost',
@@ -492,9 +502,14 @@ export default defineMessages({
     id: 'costDistributionType',
   },
   costManagement: {
-    defaultMessage: 'Cost Management',
-    description: 'Cost Management',
+    defaultMessage: 'Cost management',
+    description: 'Cost management',
     id: 'costManagement',
+  },
+  costManagementDocs: {
+    defaultMessage: 'Cost management documentation',
+    description: 'Cost management documentation',
+    id: 'costManagementDocs',
   },
   costModel: {
     defaultMessage: 'Cost Model:',
@@ -1080,6 +1095,7 @@ export default defineMessages({
     defaultMessage:
       '{units, select, ' +
       'AUD {AUD (A$) - Australian Dollar}' +
+      'BRL {BRL (R$) - Brazilian Real}' +
       'CAD {CAD (CA$) - Canadian Dollar}' +
       'CHF {CHF (CHF) - Swiss Franc}' +
       'CNY {CNY (CN¥) - Chinese Yuan}' +
@@ -1087,6 +1103,7 @@ export default defineMessages({
       'EUR {EUR (€) - Euro}' +
       'GBP {GBP (£) - British Pound}' +
       'HKD {HKD (HK$) - Hong Kong Dollar}' +
+      'INR {INR (₹) - Indian Rupee}' +
       'JPY {JPY (¥) - Japanese Yen}' +
       'NOK {NOK (NOK) - Norwegian Krone}' +
       'NZD {NZD (NZ$) - New Zealand Dollar}' +
@@ -1103,6 +1120,7 @@ export default defineMessages({
     defaultMessage:
       '{units, select, ' +
       'AUD {A$}' +
+      'BRL {R$}' +
       'CAD {CA$}' +
       'CHF {CHF}' +
       'CNY {CN¥}' +
@@ -1110,6 +1128,7 @@ export default defineMessages({
       'EUR {€}' +
       'GBP {£}' +
       'HKD {HK$}' +
+      'INR {₹}' +
       'JPY {¥}' +
       'NOK {NOK}' +
       'NZD {NZ$}' +
@@ -1522,6 +1541,12 @@ export default defineMessages({
     description: 'Distribution type description',
     id: 'distributionTypeDesc',
   },
+  docsAccomplish: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_cost_management/about-cost-management#what_can_you_accomplish_with_cost_management',
+    description: 'What can you accomplish with cost management?',
+    id: 'docsAccomplish',
+  },
   docsAddOcpSources: {
     defaultMessage:
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management',
@@ -1533,6 +1558,11 @@ export default defineMessages({
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int',
     description: 'Configuring Amazon Web Services cost categories in cost management',
     id: 'docsCostCategory',
+  },
+  docsCostManagement: {
+    defaultMessage: 'https://docs.redhat.com/en/documentation/cost_management_service/1-latest',
+    description: 'Introduction to cost management',
+    id: 'docsCostManagement',
   },
   docsCostModelTerminology: {
     defaultMessage:
@@ -1564,11 +1594,63 @@ export default defineMessages({
     description: 'Creating a cost model for an OpenShift Container Platform cluster',
     id: 'docsCostModelsOcp',
   },
+  docsIntegrations: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/#Setting%20up%20integrations',
+    description: 'Setting up integrations',
+    id: 'docsIntegrations',
+  },
+  docsIntegrationsAws: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_amazon_web_services_aws_data_into_cost_management/index',
+    description: 'Integrating Amazon Web Services (AWS) data into cost management',
+    id: 'docsIntegrationsAws',
+  },
+  docsIntegrationsAzure: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_microsoft_azure_data_into_cost_management/index',
+    description: 'Integrating Microsoft Azure data into cost management',
+    id: 'docsIntegrationsAzure',
+  },
+  docsIntegrationsGcp: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_google_cloud_data_into_cost_management/index',
+    description: 'Integrating Google Cloud data into cost management',
+    id: 'docsIntegrationsGcp',
+  },
+  docsIntegrationsOci: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_oracle_cloud_data_into_cost_management/index',
+    description: 'docsIntegrating Oracle Cloud data into cost management',
+    id: 'docsIntegrationsOci',
+  },
+  docsKokuMetricsOperator: {
+    defaultMessage: 'https://github.com/project-koku/koku-metrics-operator',
+    description: 'Koku Metrics Operator',
+    id: 'docsKokuMetricsOperator',
+  },
+  docsMetricsOperator: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator_adding-an-ocp-int',
+    description: 'Installing the cost operator by using OperatorHub',
+    id: 'docsMetricsOperator',
+  },
+  docsOcpCli: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator-cli_adding-an-ocp-int',
+    description: 'Optional: Installing the cost management operator by using the CLI',
+    id: 'docsOcpCli',
+  },
   docsPlatformProjects: {
     defaultMessage:
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#adding-openshift-projects',
     description: 'Adding OpenShift projects',
     id: 'docsPlatformProjects',
+  },
+  docsReleases: {
+    defaultMessage: 'https://github.com/project-koku/koku/releases',
+    description: 'Releases',
+    id: 'docsReleases',
   },
   docsTagMapping: {
     defaultMessage:
@@ -1582,11 +1664,22 @@ export default defineMessages({
     description: 'Configuring tags and labels in cost management',
     id: 'docsTags',
   },
+  docsTroubleshooting: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_adding-an-ocp-int',
+    description: 'Troubleshooting issues with your Cost Management Operator',
+    id: 'docsTroubleshooting',
+  },
   docsUsingCostModels: {
     defaultMessage:
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models',
     description: 'Using cost models',
     id: 'docsUsingCostModels',
+  },
+  documentation: {
+    defaultMessage: 'Documentation',
+    description: 'What can you accomplish with cost management?',
+    id: 'documentation',
   },
   download: {
     defaultMessage: 'Download',
@@ -1948,38 +2041,10 @@ export default defineMessages({
     description: 'Export cannot be generated',
     id: 'exportsUnavailable',
   },
-  filterByButtonAriaLabel: {
-    defaultMessage:
-      '{value, select, ' +
-      'account {Filter button for account name} ' +
-      'aws_category {Filter button for cost category name} ' +
-      'cluster {Filter button for cluster name} ' +
-      'gcp_project {Filter button for GCP project name} ' +
-      'name {Filter button for name name} ' +
-      'node {Filter button for node name} ' +
-      'org_unit_id {Filter button for organizational unit name} ' +
-      'payer_tenant_id {Filter button for account name} ' +
-      'product_service {Filter button for service name} ' +
-      'project {Filter button for project name} ' +
-      'region {Filter button for region name} ' +
-      'resource_location {Filter button for region name} ' +
-      'service {Filter button for service name} ' +
-      'service_name {Filter button for service_name name} ' +
-      'subscription_guid {Filter button for account name} ' +
-      'tag {Filter button for tag name} ' +
-      'other {}}',
-    description: 'Filter button for "value" name',
-    id: 'filterByButtonAriaLabel',
-  },
   filterByCostCategoryKeyAriaLabel: {
     defaultMessage: 'Cost category keys',
     description: 'Cost category keys',
     id: 'filterByCostCategoryKeyAriaLabel',
-  },
-  filterByCostCategoryValueAriaLabel: {
-    defaultMessage: 'Cost category values',
-    description: 'Cost category values',
-    id: 'filterByCostCategoryValueAriaLabel',
   },
   filterByCostCategoryValueButtonAriaLabel: {
     defaultMessage: 'Filter button for cost category value',
@@ -2069,11 +2134,6 @@ export default defineMessages({
     defaultMessage: 'Tag values',
     description: 'Tag values',
     id: 'filterByTagValueAriaLabel',
-  },
-  filterByTagValueButtonAriaLabel: {
-    defaultMessage: 'Filter button for tag value',
-    description: 'Filter button for tag value',
-    id: 'filterByTagValueButtonAriaLabel',
   },
   filterByValuePlaceholder: {
     defaultMessage: 'Filter by value',
@@ -2397,6 +2457,11 @@ export default defineMessages({
     description: 'Integrations status',
     id: 'integrationsStatus',
   },
+  kokuMetricsOperator: {
+    defaultMessage: 'Koku metrics operator',
+    description: 'Koku metrics operator',
+    id: 'kokuMetricsOperator',
+  },
   lastProcessed: {
     defaultMessage: 'Last processed',
     description: 'Last processed',
@@ -2635,13 +2700,20 @@ export default defineMessages({
     id: 'noExportsStateTitle',
   },
   noInstancesDesc: {
-    defaultMessage: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
-    description: 'Add an Amazon EC2 instance to see a total cost breakdown of your spend by instances.',
+    defaultMessage:
+      'To view the cost of EC2 instances, label your resources with the following tag key and value pair in the AWS console.',
+    description:
+      'To view the cost of EC2 instances, label your resources with the following tag key and value pair in the AWS console.',
     id: 'noInstancesDesc',
   },
+  noInstancesMoreInfo: {
+    defaultMessage: 'For more information, {seeDocumentation}.',
+    description: 'For more information, see documentation.',
+    id: 'noInstancesMoreInfo',
+  },
   noInstancesTitle: {
-    defaultMessage: 'No instances available',
-    description: 'No instances available',
+    defaultMessage: 'View cost of EC2 instances',
+    description: 'View cost of EC2 instances',
     id: 'noInstancesTitle',
   },
   noMappedTags: {
@@ -2660,6 +2732,104 @@ export default defineMessages({
     defaultMessage: 'Tags must be enabled to be mapped.',
     description: 'Tags must be enabled to be mapped.',
     id: 'noMappedTagsWarning',
+  },
+  noProvidersCloudCost: {
+    defaultMessage: 'Include Cloud provider (AWS, GCP, Azure, OCI) cost',
+    description: 'Include Cloud provider (AWS, GCP, Azure, OCI) cost',
+    id: 'noProvidersCloudCost',
+  },
+  noProvidersCloudCostDesc: {
+    defaultMessage:
+      'If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using Cost Management service.',
+    description:
+      'If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using Cost Management service.',
+    id: 'noProvidersCloudCostDesc',
+  },
+  noProvidersCloudIntegration: {
+    defaultMessage: 'Set up a Cloud provider integration',
+    description: 'Set up a Cloud provider integration',
+    id: 'noProvidersCloudIntegration',
+  },
+  noProvidersCloudIntegrationHelp: {
+    defaultMessage: 'If you need further help setting up Cloud provider in cost management',
+    description: 'If you need further help setting up Cloud provider in cost management',
+    id: 'noProvidersCloudIntegrationHelp',
+  },
+  noProvidersCloudIntegrationHelpAws: {
+    defaultMessage: 'Integrating Amazon Web Services data into cost management',
+    description: 'Integrating Amazon Web Services data into cost management',
+    id: 'noProvidersCloudIntegrationHelpAws',
+  },
+  noProvidersCloudIntegrationHelpAzure: {
+    defaultMessage: 'Integrating Microsoft Azure data into cost management',
+    description: 'Integrating Microsoft Azure data into cost management',
+    id: 'noProvidersCloudIntegrationHelpAzure',
+  },
+  noProvidersCloudIntegrationHelpDesc: {
+    defaultMessage:
+      'The process to set up an integration for each provider varies. To learn how to add your specific integration to cost management, see the following guides:',
+    description:
+      'The process to set up an integration for each provider varies. To learn how to add your specific integration to cost management, see the following guides:',
+    id: 'noProvidersCloudIntegrationHelpDesc',
+  },
+  noProvidersCloudIntegrationHelpGcp: {
+    defaultMessage: 'Integrating Google Cloud data into cost management',
+    description: 'Integrating Google Cloud data into cost management',
+    id: 'noProvidersCloudIntegrationHelpGcp',
+  },
+  noProvidersCloudIntegrationHelpOci: {
+    defaultMessage: 'Integrating Oracle Cloud Infrastructure data into cost management',
+    description: 'Integrating Oracle Cloud Infrastructure data into cost management',
+    id: 'noProvidersCloudIntegrationHelpOci',
+  },
+  noProvidersDesc: {
+    defaultMessage:
+      'Helps you simplify the management of your resources and costs of {ocp}, as well as public clouds like {aws}, {gcp}, {oci}, and {azure}.',
+    description:
+      'Helps you simplify the management of your resources and costs of {ocp}, as well as public clouds like {aws}, {gcp}, {oci}, and {azure}.',
+    id: 'noProvidersDesc',
+  },
+  noProvidersGetStarted: {
+    defaultMessage: 'Get started with Cost management',
+    description: 'Get started with Cost management',
+    id: 'noProvidersGetStarted',
+  },
+  noProvidersMetricsOperator: {
+    defaultMessage: 'Install Cost Management metric operator',
+    description: 'Install Cost Management metric operator',
+    id: 'noProvidersMetricsOperator',
+  },
+  noProvidersOcpCli: {
+    defaultMessage: 'If you want to use {cli} to install the operator, follow {link}.',
+    description: 'If you want to use OpenShift CLI to install the operator, follow this documentation',
+    id: 'noProvidersOcpCli',
+  },
+  noProvidersOcpCliLink: {
+    defaultMessage: 'this documentation',
+    description: 'this documentation',
+    id: 'noProvidersOcpCliLink',
+  },
+  noProvidersOcpCost: {
+    defaultMessage: 'Include OpenShift cost',
+    description: 'Include OpenShift cost',
+    id: 'noProvidersOcpCost',
+  },
+  noProvidersOcpCostDesc: {
+    defaultMessage:
+      'Additionally to your OpenShift cluster set up, you need to set up Cost Management Metrics Operator in order to start using Cost Management service.',
+    description:
+      'Additionally to your OpenShift cluster set up, you need to set up Cost Management Metrics Operator in order to start using Cost Management service.',
+    id: 'noProvidersOcpCostDesc',
+  },
+  noProvidersRecommended: {
+    defaultMessage: 'Recommended content',
+    description: 'Recommended content',
+    id: 'noProvidersRecommended',
+  },
+  noProvidersRecommendedAccomplish: {
+    defaultMessage: 'What can you accomplish with cost management?',
+    description: 'What can you accomplish with cost management?',
+    id: 'noProvidersRecommendedAccomplish',
   },
   noProvidersStateAwsDesc: {
     defaultMessage:
@@ -2742,6 +2912,11 @@ export default defineMessages({
     defaultMessage: 'Track your spending!',
     description: 'Track your spending!',
     id: 'noProvidersStateOverviewTitle',
+  },
+  noProvidersTroubleshooting: {
+    defaultMessage: 'Having problem seeing data? See Troubleshooting part of the documentation',
+    description: 'Having problem seeing data? See Troubleshooting part of the documentation',
+    id: 'noProvidersTroubleshooting',
   },
   noResultsFound: {
     defaultMessage: 'No results found',
@@ -2832,6 +3007,16 @@ export default defineMessages({
     defaultMessage: 'Oracle Cloud Infrastructure Details',
     description: 'Oracle Cloud Infrastructure Details',
     id: 'ociDetailsTitle',
+  },
+  ocp: {
+    defaultMessage: 'OpenShift Container Platform',
+    description: 'OpenShift Container Platform',
+    id: 'ocp',
+  },
+  ocpCli: {
+    defaultMessage: 'OpenShift CLI',
+    description: 'OpenShift CLI',
+    id: 'ocpCli',
   },
   ocpCloudDashboardComputeTitle: {
     defaultMessage: 'Compute services usage',
@@ -3171,6 +3356,11 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
+  projectKoku: {
+    defaultMessage: 'Upstream project Koku',
+    description: 'Upstream project Koku',
+    id: 'projectKoku',
+  },
   pvcTitle: {
     defaultMessage: 'Persistent Volume Claims',
     description: 'Persistent Volume Claims',
@@ -3221,6 +3411,11 @@ export default defineMessages({
     defaultMessage: 'https://status.redhat.com',
     description: 'Red Hat status url for cloud services',
     id: 'redHatStatusUrl',
+  },
+  releaseNotes: {
+    defaultMessage: 'Release notes',
+    description: 'Release notes',
+    id: 'releaseNotes',
   },
   remove: {
     defaultMessage: 'Remove',
@@ -3313,6 +3508,11 @@ export default defineMessages({
     defaultMessage: 'Save',
     description: 'Save',
     id: 'save',
+  },
+  seeDocumentation: {
+    defaultMessage: 'see documentation',
+    description: 'see documentation',
+    id: 'seeDocumentation',
   },
   select: {
     defaultMessage: 'Select...',
@@ -3584,6 +3784,11 @@ export default defineMessages({
     description: 'Value',
     id: 'tagHeadingValue',
   },
+  tagKey: {
+    defaultMessage: 'Tag key:',
+    description: 'Tag keys',
+    id: 'tagKey',
+  },
   tagKeyChild: {
     defaultMessage: 'Child tag keys',
     description: 'Child tag keys',
@@ -3758,6 +3963,11 @@ export default defineMessages({
     description: 'Tag Names',
     id: 'tagNames',
   },
+  tagValue: {
+    defaultMessage: 'Tag value:',
+    description: 'Tag value',
+    id: 'tagValue',
+  },
   timeOfExport: {
     defaultMessage: 'Time of export',
     description: 'Time of export',
@@ -3899,6 +4109,21 @@ export default defineMessages({
     defaultMessage: 'View all',
     description: 'View all',
     id: 'viewAll',
+  },
+  viewDocumentation: {
+    defaultMessage: 'View documentation',
+    description: 'View documentation',
+    id: 'viewDocumentation',
+  },
+  viewLearningResources: {
+    defaultMessage: 'View all OpenShift learning resources',
+    description: 'View all OpenShift learning resources',
+    id: 'viewLearningResources',
+  },
+  viewReleaseNotes: {
+    defaultMessage: 'View release notes',
+    description: 'View release notes',
+    id: 'viewReleaseNotes',
   },
   volumeTitle: {
     defaultMessage: 'Volume',

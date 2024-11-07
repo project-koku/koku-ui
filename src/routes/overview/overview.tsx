@@ -724,7 +724,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     if (isLoading) {
       return <Loading title={title} />;
     } else if (noProviders) {
-      return <NoProviders title={title} />;
+      return <NoProviders />;
     }
     return (
       <>

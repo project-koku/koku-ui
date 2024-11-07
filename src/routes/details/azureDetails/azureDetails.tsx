@@ -17,6 +17,7 @@ import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
+import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAzureReportItems';
@@ -56,6 +57,7 @@ interface AzureDetailsStateProps {
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
   isPreviousMonthData?: boolean;
+  isProviderEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -331,6 +333,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isPreviousMonthData,
+      isProviderEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -356,7 +359,11 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders providerType={ProviderType.azure} title={title} />;
+        return isProviderEmptyStateToggleEnabled ? (
+          <NoProviders />
+        ) : (
+          <NoProvidersOld providerType={ProviderType.azure} title={title} />
+        );
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (
@@ -376,6 +383,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
           currency={currency}
           groupBy={groupById}
           isCurrentMonthData={isCurrentMonthData}
+          isPreviousMonthData={isPreviousMonthData}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}
           query={query}
@@ -472,6 +480,7 @@ const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetails
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filteredProviders,
     providersError,
     providersFetchStatus,
