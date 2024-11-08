@@ -4148,7 +4148,7 @@
     "explorerChartAriaTitle": [
       {
         "type": 0,
-        "value": "Cost explorer chart"
+        "value": "Cost Explorer chart"
       }
     ],
     "explorerChartTitle": [
@@ -4320,13 +4320,13 @@
     "explorerTableAriaLabel": [
       {
         "type": 0,
-        "value": "Cost explorer table"
+        "value": "Cost Explorer table"
       }
     ],
     "explorerTitle": [
       {
         "type": 0,
-        "value": "Cost explorer"
+        "value": "Cost Explorer"
       }
     ],
     "exportAggregateType": [
@@ -11632,7 +11632,7 @@
     "pageTitleExplorer": [
       {
         "type": 0,
-        "value": "Cost explorer - Cost management | OpenShift"
+        "value": "Cost Explorer - Cost management | OpenShift"
       }
     ],
     "pageTitleGcp": [
