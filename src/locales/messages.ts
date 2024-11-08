@@ -1787,8 +1787,8 @@ export default defineMessages({
     id: 'expiresOn',
   },
   explorerChartAriaTitle: {
-    defaultMessage: 'Cost explorer chart',
-    description: 'Cost explorer chart',
+    defaultMessage: 'Cost Explorer chart',
+    description: 'Cost Explorer chart',
     id: 'explorerChartAriaTitle',
   },
   explorerChartTitle: {
@@ -1806,7 +1806,7 @@ export default defineMessages({
       'ocp {All OpenShift - Top 5 Costliest} ' +
       'ocp_cloud {All cloud filtered by OpenShift - Top 5 Costliest} ' +
       'other {}}',
-    description: 'Cost explorer chart title',
+    description: 'Cost Explorer chart title',
     id: 'explorerChartTitle',
   },
   explorerDateRange: {
@@ -1824,13 +1824,13 @@ export default defineMessages({
     id: 'explorerDateRange',
   },
   explorerTableAriaLabel: {
-    defaultMessage: 'Cost explorer table',
-    description: 'Cost explorer table',
+    defaultMessage: 'Cost Explorer table',
+    description: 'Cost Explorer table',
     id: 'explorerTableAriaLabel',
   },
   explorerTitle: {
-    defaultMessage: 'Cost explorer',
-    description: 'Cost explorer title',
+    defaultMessage: 'Cost Explorer',
+    description: 'Cost Explorer title',
     id: 'explorerTitle',
   },
   exportAggregateType: {
@@ -3180,8 +3180,8 @@ export default defineMessages({
     id: 'pageTitleDefault',
   },
   pageTitleExplorer: {
-    defaultMessage: 'Cost explorer - Cost management | OpenShift',
-    description: 'Cost explorer - Cost management | OpenShift',
+    defaultMessage: 'Cost Explorer - Cost management | OpenShift',
+    description: 'Cost Explorer - Cost management | OpenShift',
     id: 'pageTitleExplorer',
   },
   pageTitleGcp: {
