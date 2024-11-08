@@ -13,5 +13,6 @@ exports[`default state 1`] = `
   "isFinsightsToggleEnabled": false,
   "isIbmToggleEnabled": false,
   "isOcpCloudGroupBysToggleEnabled": false,
+  "isProviderEmptyStateToggleEnabled": false,
 }
 `;

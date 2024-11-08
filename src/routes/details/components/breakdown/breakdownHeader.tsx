@@ -302,7 +302,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </div>
           </FlexItem>
         </Flex>
-        <div>
+        <div className="pf-v5-c-tabs">
           <div style={styles.tabs}>
             {tabs}
             <div style={styles.tag}>{showTags && <TagLink id="tags" tagPathsType={tagPathsType} />}</div>

@@ -24,3 +24,5 @@ export const selectIsFinsightsToggleEnabled = (state: RootState) =>
 export const selectIsIbmToggleEnabled = (state: RootState) => selectFeatureToggleState(state).isIbmToggleEnabled;
 export const selectIsOcpCloudGroupBysToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isOcpCloudGroupBysToggleEnabled;
+export const selectIsProviderEmptyStateToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isProviderEmptyStateToggleEnabled;

@@ -17,6 +17,7 @@ import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
+import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedIbmReportItems';
@@ -57,6 +58,7 @@ interface IbmDetailsStateProps {
   isCurrentMonthData?: boolean;
   isDetailsDateRangeToggleEnabled?: boolean;
   isPreviousMonthData?: boolean;
+  isProviderEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -333,6 +335,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       isCurrentMonthData,
       isDetailsDateRangeToggleEnabled,
       isPreviousMonthData,
+      isProviderEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -358,7 +361,11 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return <NoProviders providerType={ProviderType.ibm} title={title} />;
+        return isProviderEmptyStateToggleEnabled ? (
+          <NoProviders />
+        ) : (
+          <NoProvidersOld providerType={ProviderType.ibm} title={title} />
+        );
       }
       if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
         return (
@@ -378,6 +385,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
           currency={currency}
           groupBy={groupById}
           isCurrentMonthData={isCurrentMonthData}
+          isPreviousMonthData={isPreviousMonthData}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
           onGroupBySelect={this.handleOnGroupBySelect}
           query={query}
@@ -475,6 +483,7 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
     isCurrentMonthData,
     isDetailsDateRangeToggleEnabled,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filteredProviders,
     providersError,
     providersFetchStatus,
