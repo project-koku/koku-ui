@@ -21,6 +21,11 @@ export default defineMessages({
     description: 'Amazon Web Services',
     id: 'aws',
   },
+  awsAlt: {
+    defaultMessage: 'Amazon Web Services (AWS)',
+    description: 'Amazon Web Services (AWS)',
+    id: 'awsAlt',
+  },
   awsComputeTitle: {
     defaultMessage: 'Compute (EC2) instances usage',
     description: 'Compute (EC2) instances usage',
@@ -47,8 +52,8 @@ export default defineMessages({
     id: 'awsDesc',
   },
   awsDetailsTitle: {
-    defaultMessage: 'Amazon Web Services Details',
-    description: 'Amazon Web Services Details',
+    defaultMessage: 'Amazon Web Services details',
+    description: 'Amazon Web Services details',
     id: 'awsDetailsTitle',
   },
   awsOcpDashboardCostTitle: {
@@ -87,8 +92,8 @@ export default defineMessages({
     id: 'azureDesc',
   },
   azureDetailsTitle: {
-    defaultMessage: 'Microsoft Azure Details',
-    description: 'Microsoft Azure Details',
+    defaultMessage: 'Microsoft Azure details',
+    description: 'Microsoft Azure details',
     id: 'azureDetailsTitle',
   },
   azureOcpDashboardCostTitle: {
@@ -512,13 +517,13 @@ export default defineMessages({
     id: 'costManagementDocs',
   },
   costModel: {
-    defaultMessage: 'Cost Model:',
-    description: 'Cost Model:',
+    defaultMessage: 'Cost model:',
+    description: 'Cost model:',
     id: 'costModel',
   },
   costModels: {
-    defaultMessage: 'Cost Models',
-    description: 'Cost Models',
+    defaultMessage: 'Cost models',
+    description: 'Cost models',
     id: 'costModels',
   },
   costModelsActions: {
@@ -554,7 +559,7 @@ export default defineMessages({
   },
   costModelsAssignedSources: {
     defaultMessage: 'Assigned integrations',
-    description: 'Assigned integrationss',
+    description: 'Assigned integrations',
     id: 'costModelsAssignedSources',
   },
   costModelsAvailableSources: {
@@ -600,8 +605,8 @@ export default defineMessages({
     id: 'costModelsDescTooLong',
   },
   costModelsDetailsTitle: {
-    defaultMessage: 'Cost Model Details',
-    description: 'Cost Model Details',
+    defaultMessage: 'Cost model details',
+    description: 'Cost model details',
     id: 'costModelsDetailsTitle',
   },
   costModelsDistributionDesc: {
@@ -727,13 +732,13 @@ export default defineMessages({
     id: 'costModelsRouterServerError',
   },
   costModelsSelectMeasurement: {
-    defaultMessage: 'Select Measurement',
-    description: 'Select Measurement',
+    defaultMessage: 'Select measurement',
+    description: 'Select measurement',
     id: 'costModelsSelectMeasurement',
   },
   costModelsSelectMetric: {
-    defaultMessage: 'Select Metric',
-    description: 'Select Metric',
+    defaultMessage: 'Select metric',
+    description: 'Select metric',
     id: 'costModelsSelectMetric',
   },
   costModelsSourceDelete: {
@@ -837,11 +842,6 @@ export default defineMessages({
     defaultMessage: 'No rates were added to the price list',
     description: 'No rates were added to the price list',
     id: 'costModelsWizardNoRatesAdded',
-  },
-  costModelsWizardOnboardAws: {
-    defaultMessage: 'Amazon Web Services (AWS)',
-    description: 'Amazon Web Services (AWS)',
-    id: 'costModelsWizardOnboardAws',
   },
   costModelsWizardOnboardOcp: {
     defaultMessage: 'Red Hat OpenShift Container Platform',
@@ -1202,8 +1202,8 @@ export default defineMessages({
     id: 'dataDetailsClusterData',
   },
   dataDetailsCostManagementData: {
-    defaultMessage: 'Cost Management data',
-    description: 'Cost Management data',
+    defaultMessage: 'Cost management data',
+    description: 'Cost management data',
     id: 'dataDetailsCostManagementData',
   },
   dataDetailsIntegrationAndFinalization: {
@@ -1752,8 +1752,8 @@ export default defineMessages({
     id: 'errorStateNotAuthorizedDesc',
   },
   errorStateNotAuthorizedTitle: {
-    defaultMessage: "You don't have access to the Cost management application",
-    description: "You don't have access to the Cost management application",
+    defaultMessage: "You don't have access to the cost management application",
+    description: "You don't have access to the cost management application",
     id: 'errorStateNotAuthorizedTitle',
   },
   errorStateUnexpectedDesc: {
@@ -1787,8 +1787,8 @@ export default defineMessages({
     id: 'expiresOn',
   },
   explorerChartAriaTitle: {
-    defaultMessage: 'Cost Explorer Chart',
-    description: 'Cost Explorer Chart',
+    defaultMessage: 'Cost explorer chart',
+    description: 'Cost explorer chart',
     id: 'explorerChartAriaTitle',
   },
   explorerChartTitle: {
@@ -1806,7 +1806,7 @@ export default defineMessages({
       'ocp {All OpenShift - Top 5 Costliest} ' +
       'ocp_cloud {All cloud filtered by OpenShift - Top 5 Costliest} ' +
       'other {}}',
-    description: 'Explorer chart title',
+    description: 'Cost explorer chart title',
     id: 'explorerChartTitle',
   },
   explorerDateRange: {
@@ -1824,13 +1824,13 @@ export default defineMessages({
     id: 'explorerDateRange',
   },
   explorerTableAriaLabel: {
-    defaultMessage: 'Cost Explorer table',
-    description: 'Cost Explorer table',
+    defaultMessage: 'Cost explorer table',
+    description: 'Cost explorer table',
     id: 'explorerTableAriaLabel',
   },
   explorerTitle: {
-    defaultMessage: 'Cost Explorer',
-    description: 'Cost Explorer title',
+    defaultMessage: 'Cost explorer',
+    description: 'Cost explorer title',
     id: 'explorerTitle',
   },
   exportAggregateType: {
@@ -2213,18 +2213,18 @@ export default defineMessages({
     id: 'gcpComputeTitle',
   },
   gcpCostTitle: {
-    defaultMessage: 'Google Cloud Platform Services cost',
-    description: 'Google Cloud Platform Services cost',
+    defaultMessage: 'Google Cloud Platform services cost',
+    description: 'Google Cloud Platform services cost',
     id: 'gcpCostTitle',
   },
   gcpCostTrendTitle: {
-    defaultMessage: 'Google Cloud Platform Services cumulative cost comparison ({units})',
-    description: 'Google Cloud Platform Services cumulative cost comparison ({units})',
+    defaultMessage: 'Google Cloud Platform services cumulative cost comparison ({units})',
+    description: 'Google Cloud Platform services cumulative cost comparison ({units})',
     id: 'gcpCostTrendTitle',
   },
   gcpDailyCostTrendTitle: {
-    defaultMessage: 'Google Cloud Platform Services daily cost comparison ({units})',
-    description: 'Google Cloud Platform Services daily cost comparison ({units})',
+    defaultMessage: 'Google Cloud Platform services daily cost comparison ({units})',
+    description: 'Google Cloud Platform services daily cost comparison ({units})',
     id: 'gcpDailyCostTrendTitle',
   },
   gcpDesc: {
@@ -2233,8 +2233,8 @@ export default defineMessages({
     id: 'gcpDesc',
   },
   gcpDetailsTitle: {
-    defaultMessage: 'Google Cloud Platform Details',
-    description: 'Google Cloud Platform Details',
+    defaultMessage: 'Google Cloud Platform details',
+    description: 'Google Cloud Platform details',
     id: 'gcpDetailsTitle',
   },
   groupByAll: {
@@ -2358,8 +2358,8 @@ export default defineMessages({
     id: 'historicalChartCostLabel',
   },
   historicalChartDayOfMonthLabel: {
-    defaultMessage: 'Day of Month',
-    description: 'Day of Month',
+    defaultMessage: 'Day of month',
+    description: 'Day of month',
     id: 'historicalChartDayOfMonthLabel',
   },
   historicalChartTitle: {
@@ -2393,18 +2393,18 @@ export default defineMessages({
     id: 'ibmComputeTitle',
   },
   ibmCostTitle: {
-    defaultMessage: 'IBM Cloud Services cost',
-    description: 'IBM Cloud Services cost',
+    defaultMessage: 'IBM Cloud services cost',
+    description: 'IBM Cloud services cost',
     id: 'ibmCostTitle',
   },
   ibmCostTrendTitle: {
-    defaultMessage: 'IBM Cloud Services cumulative cost comparison ({units})',
-    description: 'IBM Cloud Services cumulative cost comparison ({units})',
+    defaultMessage: 'IBM Cloud services cumulative cost comparison ({units})',
+    description: 'IBM Cloud services cumulative cost comparison ({units})',
     id: 'ibmCostTrendTitle',
   },
   ibmDailyCostTrendTitle: {
-    defaultMessage: 'IBM Cloud Services daily cost comparison ({units})',
-    description: 'IBM Cloud Services daily cost comparison ({units})',
+    defaultMessage: 'IBM Cloud services daily cost comparison ({units})',
+    description: 'IBM Cloud services daily cost comparison ({units})',
     id: 'ibmDailyCostTrendTitle',
   },
   ibmDesc: {
@@ -2413,13 +2413,13 @@ export default defineMessages({
     id: 'ibmDesc',
   },
   ibmDetailsTitle: {
-    defaultMessage: 'IBM Cloud Details',
-    description: 'IBM details title',
+    defaultMessage: 'IBM Cloud details',
+    description: 'IBM Cloud details',
     id: 'ibmDetailsTitle',
   },
   inactiveSourcesGoTo: {
-    defaultMessage: 'Go to Integrations for more information',
-    description: 'Go to Integrations for more information',
+    defaultMessage: 'Go to integrations for more information',
+    description: 'Go to integrations for more information',
     id: 'inactiveSourcesGoTo',
   },
   inactiveSourcesTitle: {
@@ -2489,8 +2489,8 @@ export default defineMessages({
   },
   maintenanceEmptyStateDesc: {
     defaultMessage:
-      'Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
-    description: 'Cost Management is currently undergoing scheduled maintenance',
+      'Cost management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
+    description: 'Cost management is currently undergoing scheduled maintenance',
     id: 'maintenanceEmptyStateDesc',
   },
   maintenanceEmptyStateInfo: {
@@ -2629,8 +2629,8 @@ export default defineMessages({
     id: 'metricValues',
   },
   metricsOperatorVersion: {
-    defaultMessage: 'Cost Management operator version',
-    description: 'Cost Management operator version',
+    defaultMessage: 'Cost management operator version',
+    description: 'Cost management operator version',
     id: 'metricsOperatorVersion',
   },
   monthOverMonthChange: {
@@ -2734,25 +2734,25 @@ export default defineMessages({
     id: 'noMappedTagsWarning',
   },
   noProvidersCloudCost: {
-    defaultMessage: 'Include Cloud provider (AWS, GCP, Azure, OCI) cost',
-    description: 'Include Cloud provider (AWS, GCP, Azure, OCI) cost',
+    defaultMessage: 'Include cloud provider (AWS, GCP, Azure, OCI) cost',
+    description: 'Include cloud provider (AWS, GCP, Azure, OCI) cost',
     id: 'noProvidersCloudCost',
   },
   noProvidersCloudCostDesc: {
     defaultMessage:
-      'If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using Cost Management service.',
+      'If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using cost management service.',
     description:
-      'If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using Cost Management service.',
+      'If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using cost management service.',
     id: 'noProvidersCloudCostDesc',
   },
   noProvidersCloudIntegration: {
-    defaultMessage: 'Set up a Cloud provider integration',
-    description: 'Set up a Cloud provider integration',
+    defaultMessage: 'Set up a cloud provider integration',
+    description: 'Set up a cloud provider integration',
     id: 'noProvidersCloudIntegration',
   },
   noProvidersCloudIntegrationHelp: {
-    defaultMessage: 'If you need further help setting up Cloud provider in cost management',
-    description: 'If you need further help setting up Cloud provider in cost management',
+    defaultMessage: 'If you need further help setting up cloud provider in cost management',
+    description: 'If you need further help setting up cloud provider in cost management',
     id: 'noProvidersCloudIntegrationHelp',
   },
   noProvidersCloudIntegrationHelpAws: {
@@ -2790,13 +2790,13 @@ export default defineMessages({
     id: 'noProvidersDesc',
   },
   noProvidersGetStarted: {
-    defaultMessage: 'Get started with Cost management',
-    description: 'Get started with Cost management',
+    defaultMessage: 'Get started with cost management',
+    description: 'Get started with cost management',
     id: 'noProvidersGetStarted',
   },
   noProvidersMetricsOperator: {
-    defaultMessage: 'Install Cost Management metric operator',
-    description: 'Install Cost Management metric operator',
+    defaultMessage: 'Install cost management metric operator',
+    description: 'Install cost management metric operator',
     id: 'noProvidersMetricsOperator',
   },
   noProvidersOcpCli: {
@@ -2816,9 +2816,9 @@ export default defineMessages({
   },
   noProvidersOcpCostDesc: {
     defaultMessage:
-      'Additionally to your OpenShift cluster set up, you need to set up Cost Management Metrics Operator in order to start using Cost Management service.',
+      'Additionally to your OpenShift cluster set up, you need to set up cost management metrics operator in order to start using cost management service.',
     description:
-      'Additionally to your OpenShift cluster set up, you need to set up Cost Management Metrics Operator in order to start using Cost Management service.',
+      'Additionally to your OpenShift cluster set up, you need to set up cost management metrics operator in order to start using cost management service.',
     id: 'noProvidersOcpCostDesc',
   },
   noProvidersRecommended: {
@@ -2885,8 +2885,8 @@ export default defineMessages({
     id: 'noProvidersStateIbmTitle',
   },
   noProvidersStateOcpAddSources: {
-    defaultMessage: 'Add an OpenShift cluster to Cost Management',
-    description: 'Add an OpenShift cluster to Cost Management',
+    defaultMessage: 'Add an OpenShift cluster to cost management',
+    description: 'Add an OpenShift cluster to cost management',
     id: 'noProvidersStateOcpAddSources',
   },
   noProvidersStateOcpDesc: {
@@ -2924,53 +2924,53 @@ export default defineMessages({
     id: 'noResultsFound',
   },
   notAuthorizedStateAws: {
-    defaultMessage: 'Amazon Web Services in Cost Management',
-    description: 'Amazon Web Services in Cost Management',
+    defaultMessage: 'Amazon Web Services in cost management',
+    description: 'Amazon Web Services in cost management',
     id: 'notAuthorizedStateAws',
   },
   notAuthorizedStateAzure: {
-    defaultMessage: 'Microsoft Azure in Cost Management',
-    description: 'Microsoft Azure in Cost Management',
+    defaultMessage: 'Microsoft Azure in cost management',
+    description: 'Microsoft Azure in cost management',
     id: 'notAuthorizedStateAzure',
   },
   notAuthorizedStateCostModels: {
-    defaultMessage: 'Cost Models in Cost Management',
-    description: 'Cost Models in Cost Management',
+    defaultMessage: 'Cost models in cost management',
+    description: 'Cost models in cost management',
     id: 'notAuthorizedStateCostModels',
   },
   notAuthorizedStateGcp: {
-    defaultMessage: 'Google Cloud Platform in Cost Management',
-    description: 'Google Cloud Platform in Cost Management',
+    defaultMessage: 'Google Cloud Platform in cost management',
+    description: 'Google Cloud Platform in cost management',
     id: 'notAuthorizedStateGcp',
   },
   notAuthorizedStateIbm: {
-    defaultMessage: 'IBM Cloud in Cost Management',
-    description: 'IBM Cloud in Cost Management',
+    defaultMessage: 'IBM Cloud in cost management',
+    description: 'IBM Cloud in cost management',
     id: 'notAuthorizedStateIbm',
   },
   notAuthorizedStateOci: {
-    defaultMessage: 'Oracle Cloud Infrastructure in Cost Management',
-    description: 'Oracle Cloud Infrastructure in Cost Management',
+    defaultMessage: 'Oracle Cloud Infrastructure in cost management',
+    description: 'Oracle Cloud Infrastructure in cost management',
     id: 'notAuthorizedStateOci',
   },
   notAuthorizedStateOcp: {
-    defaultMessage: 'OpenShift in Cost Management',
-    description: 'OpenShift in Cost Management',
+    defaultMessage: 'OpenShift in cost management',
+    description: 'OpenShift in cost management',
     id: 'notAuthorizedStateOcp',
   },
   notAuthorizedStateOptimizations: {
-    defaultMessage: 'Optimizations in Cost Management',
-    description: 'Optimizations in Cost Management',
+    defaultMessage: 'Optimizations in cost management',
+    description: 'Optimizations in cost management',
     id: 'notAuthorizedStateOptimizations',
   },
   notAuthorizedStateRhel: {
-    defaultMessage: 'RHEL in Cost Management',
-    description: 'RHEL in Cost Management',
+    defaultMessage: 'RHEL in cost management',
+    description: 'RHEL in cost management',
     id: 'notAuthorizedStateRhel',
   },
   notAuthorizedStateSettings: {
-    defaultMessage: 'Settings in Cost Management',
-    description: 'Settings in Cost Management',
+    defaultMessage: 'Settings in cost management',
+    description: 'Settings in cost management',
     id: 'notAuthorizedStateSettings',
   },
   oci: {
@@ -3004,8 +3004,8 @@ export default defineMessages({
     id: 'ociDesc',
   },
   ociDetailsTitle: {
-    defaultMessage: 'Oracle Cloud Infrastructure Details',
-    description: 'Oracle Cloud Infrastructure Details',
+    defaultMessage: 'Oracle Cloud Infrastructure details',
+    description: 'Oracle Cloud Infrastructure details',
     id: 'ociDetailsTitle',
   },
   ocp: {
@@ -3091,8 +3091,8 @@ export default defineMessages({
     id: 'ocpDetailsSupplementaryCostDesc',
   },
   ocpDetailsTitle: {
-    defaultMessage: 'OpenShift Details',
-    description: 'OpenShift Details',
+    defaultMessage: 'OpenShift details',
+    description: 'OpenShift details',
     id: 'ocpDetailsTitle',
   },
   ocpMemoryUsageAndRequests: {
@@ -3155,73 +3155,73 @@ export default defineMessages({
     id: 'overviewInfoButtonArialLabel',
   },
   overviewTitle: {
-    defaultMessage: 'Cost Management Overview',
-    description: 'Cost Management Overview',
+    defaultMessage: 'Cost management overview',
+    description: 'Cost management overview',
     id: 'overviewTitle',
   },
   pageTitleAws: {
-    defaultMessage: 'Amazon Web Services - Cost Management | OpenShift',
-    description: 'Amazon Web Services - Cost Management | OpenShift',
+    defaultMessage: 'Amazon Web Services - Cost management | OpenShift',
+    description: 'Amazon Web Services - Cost management | OpenShift',
     id: 'pageTitleAws',
   },
   pageTitleAzure: {
-    defaultMessage: 'Microsoft Azure - Cost Management | OpenShift',
-    description: 'Microsoft Azure - Cost Management | OpenShift',
+    defaultMessage: 'Microsoft Azure - Cost management | OpenShift',
+    description: 'Microsoft Azure - Cost management | OpenShift',
     id: 'pageTitleAzure',
   },
   pageTitleCostModels: {
-    defaultMessage: 'Cost Models - Cost Management | OpenShift',
-    description: 'Cost Models - Cost Management | OpenShift',
+    defaultMessage: 'Cost models - Cost management | OpenShift',
+    description: 'Cost models - Cost management | OpenShift',
     id: 'pageTitleCostModels',
   },
   pageTitleDefault: {
-    defaultMessage: 'Cost Management | OpenShift',
-    description: 'Cost Management | OpenShift',
+    defaultMessage: 'Cost management | OpenShift',
+    description: 'Cost management | OpenShift',
     id: 'pageTitleDefault',
   },
   pageTitleExplorer: {
-    defaultMessage: 'Cost Explorer - Cost Management | OpenShift',
-    description: 'Cost Explorer - Cost Management | OpenShift',
+    defaultMessage: 'Cost explorer - Cost management | OpenShift',
+    description: 'Cost explorer - Cost management | OpenShift',
     id: 'pageTitleExplorer',
   },
   pageTitleGcp: {
-    defaultMessage: 'Google Cloud Platform - Cost Management | OpenShift',
-    description: 'Google Cloud Platform - Cost Management | OpenShift',
+    defaultMessage: 'Google Cloud Platform - Cost management | OpenShift',
+    description: 'Google Cloud Platform - Cost management | OpenShift',
     id: 'pageTitleGcp',
   },
   pageTitleIbm: {
-    defaultMessage: 'IBM Cloud - Cost Management | OpenShift',
-    description: 'IBM Cloud - Cost Management | OpenShift',
+    defaultMessage: 'IBM Cloud - Cost management | OpenShift',
+    description: 'IBM Cloud - Cost management | OpenShift',
     id: 'pageTitleIbm',
   },
   pageTitleOci: {
-    defaultMessage: 'Oracle Cloud Infrastructure - Cost Management | OpenShift',
-    description: 'Oracle Cloud Infrastructure - Cost Management | OpenShift',
+    defaultMessage: 'Oracle Cloud Infrastructure - Cost management | OpenShift',
+    description: 'Oracle Cloud Infrastructure - Cost management | OpenShift',
     id: 'pageTitleOci',
   },
   pageTitleOcp: {
-    defaultMessage: 'OpenShift - Cost Management | OpenShift',
-    description: 'OpenShift - Cost Management | OpenShift',
+    defaultMessage: 'OpenShift - Cost management | OpenShift',
+    description: 'OpenShift - Cost management | OpenShift',
     id: 'pageTitleOcp',
   },
   pageTitleOptimizations: {
-    defaultMessage: 'Optimizations - Cost Management | OpenShift',
-    description: 'Optimizations - Cost Management | OpenShift',
+    defaultMessage: 'Optimizations - Cost management | OpenShift',
+    description: 'Optimizations - Cost management | OpenShift',
     id: 'pageTitleOptimizations',
   },
   pageTitleOverview: {
-    defaultMessage: 'Overview - Cost Management | OpenShift',
-    description: 'Overview - Cost Management | OpenShift',
+    defaultMessage: 'Overview - Cost management | OpenShift',
+    description: 'Overview - Cost management | OpenShift',
     id: 'pageTitleOverview',
   },
   pageTitleRhel: {
-    defaultMessage: 'RHEL - Cost Management | OpenShift',
-    description: 'RHEL - Cost Management | OpenShift',
+    defaultMessage: 'RHEL - Cost management | OpenShift',
+    description: 'RHEL - Cost management | OpenShift',
     id: 'pageTitleRhel',
   },
   pageTitleSettings: {
-    defaultMessage: 'Settings - Cost Management | OpenShift',
-    description: 'Settings - Cost Management | OpenShift',
+    defaultMessage: 'Settings - Cost management | OpenShift',
+    description: 'Settings - Cost management | OpenShift',
     id: 'pageTitleSettings',
   },
   paginationTitle: {
@@ -3490,8 +3490,8 @@ export default defineMessages({
     id: 'rhelDetailsSupplementaryCost',
   },
   rhelDetailsTitle: {
-    defaultMessage: 'RHEL Details',
-    description: 'RHEL Details',
+    defaultMessage: 'RHEL details',
+    description: 'RHEL details',
     id: 'rhelDetailsTitle',
   },
   rhelMemoryUsageAndRequests: {
@@ -3594,8 +3594,8 @@ export default defineMessages({
     id: 'settingsSuccessCostCategories',
   },
   settingsSuccessDesc: {
-    defaultMessage: 'Settings for Cost Management were replaced with new values',
-    description: 'Settings for Cost Management were replaced with new values',
+    defaultMessage: 'Settings for cost management were replaced with new values',
+    description: 'Settings for cost management were replaced with new values',
     id: 'settingsSuccessDesc',
   },
   settingsSuccessPlatformProjects: {
@@ -3644,8 +3644,8 @@ export default defineMessages({
     id: 'settingsTagsErrorTitle',
   },
   settingsTitle: {
-    defaultMessage: 'Cost Management Settings',
-    description: 'Cost Management Settings',
+    defaultMessage: 'Cost management settings',
+    description: 'Cost management settings',
     id: 'settingsTitle',
   },
   sinceDate: {
@@ -3897,9 +3897,9 @@ export default defineMessages({
   },
   tagMappingSelectParentTagsDesc: {
     defaultMessage:
-      'Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in Cost Management.',
+      'Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in cost management.',
     description:
-      'Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in Cost Management.',
+      'Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in cost management.',
     id: 'tagMappingSelectParentTagsDesc',
   },
   tagMappingWarning: {
@@ -3920,8 +3920,8 @@ export default defineMessages({
     id: 'tagMappingWizardNavToCreateTagMapping',
   },
   tagMappingWizardNavToTagMapping: {
-    defaultMessage: 'Go back to Cost Management Settings',
-    description: 'Go back to Cost Management Settings',
+    defaultMessage: 'Go back to cost management settings',
+    description: 'Go back to cost management settings',
     id: 'tagMappingWizardNavToTagMapping',
   },
   tagMappingWizardReview: {

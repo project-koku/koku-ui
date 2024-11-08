@@ -99,7 +99,7 @@ const NoProviders = () => {
         <div style={styles.headerDesc}>
           {intl.formatMessage(messages.noProvidersDesc, {
             ocp: <b>{intl.formatMessage(messages.ocp)}</b>,
-            aws: <b>{intl.formatMessage(messages.aws)}</b>,
+            aws: <b>{intl.formatMessage(messages.awsAlt)}</b>,
             gcp: <b>{intl.formatMessage(messages.gcp)}</b>,
             oci: <b>{intl.formatMessage(messages.oci)}</b>,
             azure: <b>{intl.formatMessage(messages.azure)}</b>,
