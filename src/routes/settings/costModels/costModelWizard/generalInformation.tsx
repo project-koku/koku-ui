@@ -49,7 +49,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
     const { intl } = this.props;
     const sourceTypeOptions = [
       {
-        label: messages.costModelsWizardOnboardAws,
+        label: messages.awsAlt,
         value: 'AWS',
       },
       {

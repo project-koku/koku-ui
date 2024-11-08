@@ -452,7 +452,14 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         );
       }
     }
-
+    const test = true;
+    if (test) {
+      return isProviderEmptyStateToggleEnabled ? (
+        <NoProviders />
+      ) : (
+        <NoProvidersOld providerType={ProviderType.ocp} title={title} />
+      );
+    }
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader
