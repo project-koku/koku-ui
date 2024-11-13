@@ -14,6 +14,7 @@ export interface OcpReportItem extends ReportItem {
   request?: ReportValue;
   storage_class?: string;
   usage?: ReportValue;
+  vm_name?: string;
 }
 
 export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
@@ -30,12 +31,15 @@ export interface GroupByProjectData extends Omit<OcpReportData, 'projects'> {
 
 export type GroupByPvcData = Omit<OcpReportData, 'persistentvolumeclaims'>;
 
+export type GroupByVmNameData = Omit<OcpReportData, 'vm_name'>;
+
 export interface OcpReportData extends ReportData {
   cluster_alias?: string;
   clusters?: GroupByClusterData[];
   nodes?: GroupByNodeData[];
   persistentvolumeclaims?: GroupByPvcData[];
   projects?: GroupByProjectData[];
+  vm_names?: GroupByVmNameData[];
 }
 
 export interface OcpReportMeta extends ReportMeta {
@@ -61,6 +65,7 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.memory]: 'reports/openshift/memory/',
   [ReportType.network]: 'reports/openshift/network/',
   [ReportType.volume]: 'reports/openshift/volumes/',
+  [ReportType.virtualization]: 'reports/openshift/resources/virtual-machines/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

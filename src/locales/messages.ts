@@ -1336,6 +1336,7 @@ export default defineMessages({
       'account {Account names} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
+      'cpu {CPU} ' +
       'gcp_project {GCP project names} ' +
       'group {Group} ' +
       'instance {Instance names} ' +
@@ -1361,6 +1362,7 @@ export default defineMessages({
       'tag_key {Tag keys} ' +
       'usage {Usage} ' +
       'vcpu {vCPU} ' +
+      'vm_name {Virtual machine names} ' +
       'other {}}',
     description: 'Details table resource names',
     id: 'detailsResourceNames',
@@ -1973,6 +1975,7 @@ export default defineMessages({
       'service_name {Selected services ({count})} ' +
       'subscription_guid {Selected accounts ({count})} ' +
       'tag {Selected tags ({count})} ' +
+      'vm_name {Selected virtual machines ({count})}' +
       'other {}}',
     description: 'Selected items for export',
     id: 'exportSelected',
@@ -2171,6 +2174,7 @@ export default defineMessages({
       'tag_key {Tag key} ' +
       'tag_key_child {Child tag Key} ' +
       'tag_key_parent {Parent tag Key} ' +
+      'vm_name {Virtual machine}' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
       'other {}}',
@@ -2922,6 +2926,16 @@ export default defineMessages({
     defaultMessage: 'No results found',
     description: 'No results found',
     id: 'noResultsFound',
+  },
+  noVirtualizationStateDesc: {
+    defaultMessage: 'Changes will be reflected within 24 hours.',
+    description: 'Changes will be reflected within 24 hours.',
+    id: 'noVirtualizationStateDesc',
+  },
+  noVirtualizationStateTitle: {
+    defaultMessage: 'No OpenShift virtualization virtual machines detected',
+    description: 'No OpenShift virtualization virtual machines detected',
+    id: 'noVirtualizationStateTitle',
   },
   notAuthorizedStateAws: {
     defaultMessage: 'Amazon Web Services in cost management',
@@ -4124,6 +4138,11 @@ export default defineMessages({
     defaultMessage: 'View release notes',
     description: 'View release notes',
     id: 'viewReleaseNotes',
+  },
+  virtualization: {
+    defaultMessage: 'Virtualization',
+    description: 'Virtualization',
+    id: 'virtualization',
   },
   volumeTitle: {
     defaultMessage: 'Volume',

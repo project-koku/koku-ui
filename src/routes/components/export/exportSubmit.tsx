@@ -188,8 +188,11 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       ...reportQuery,
       delta: undefined, // Don't want cost delta percentage
       filter: {
+        ...(reportQuery.filter ? reportQuery.filter : {}),
         limit: undefined, // Don't want paginated data
-        offset: undefined, // Don't want a page
+        offset: undefined, // Don't want a specific page
+        time_scope_units: undefined, // Omitted for export?
+        time_scope_value: undefined, // Not used with start and end date, use isTimeScoped
         resolution: resolution ? resolution : undefined, // Resolution is defined by export modal
         ...(isTimeScoped && { time_scope_value: isPrevious ? -2 : -1 }),
       },

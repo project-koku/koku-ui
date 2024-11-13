@@ -16,11 +16,12 @@ import type { Filter } from 'routes/utils/filter';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
-import { accountKey, regionKey, tagKey } from 'utils/props';
+import { tagKey } from 'utils/props';
 
-interface InstancesToolbarOwnProps {
-  hideAccount?: boolean;
-  hideRegion?: boolean;
+interface VirtualizationToolbarOwnProps {
+  hideCluster?: boolean;
+  hideNode?: boolean;
+  hideProject?: boolean;
   hideTag?: boolean;
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -40,32 +41,32 @@ interface InstancesToolbarOwnProps {
   timeScopeValue?: number;
 }
 
-interface InstancesToolbarStateProps {
+interface VirtualizationToolbarStateProps {
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagQueryString?: string;
 }
 
-interface InstancesToolbarDispatchProps {
+interface VirtualizationToolbarDispatchProps {
   fetchTag?: typeof tagActions.fetchTag;
 }
 
-interface InstancesToolbarState {
+interface VirtualizationToolbarState {
   categoryOptions?: ToolbarChipGroup[];
 }
 
-type InstancesToolbarProps = InstancesToolbarOwnProps &
-  InstancesToolbarStateProps &
-  InstancesToolbarDispatchProps &
+type VirtualizationToolbarProps = VirtualizationToolbarOwnProps &
+  VirtualizationToolbarStateProps &
+  VirtualizationToolbarDispatchProps &
   WrappedComponentProps;
 
-const resourcePathsType = ResourcePathsType.aws;
-const tagPathsType = TagPathsType.aws;
+const resourcePathsType = ResourcePathsType.ocp;
+const tagPathsType = TagPathsType.ocp;
 const tagType = TagType.tag;
 
-export class InstancesToolbarBase extends React.Component<InstancesToolbarProps, InstancesToolbarState> {
-  protected defaultState: InstancesToolbarState = {};
-  public state: InstancesToolbarState = { ...this.defaultState };
+export class VirtualizationToolbarBase extends React.Component<VirtualizationToolbarProps, VirtualizationToolbarState> {
+  protected defaultState: VirtualizationToolbarState = {};
+  public state: VirtualizationToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState(
@@ -78,7 +79,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
     );
   }
 
-  public componentDidUpdate(prevProps: InstancesToolbarProps) {
+  public componentDidUpdate(prevProps: VirtualizationToolbarProps) {
     const { query, tagReport } = this.props;
 
     if (!isEqual(tagReport, prevProps.tagReport)) {
@@ -96,25 +97,33 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { hideAccount, hideRegion, hideTag, intl, tagReport } = this.props;
+    const { hideCluster, hideNode, hideProject, hideTag, intl, tagReport } = this.props;
 
-    const options = [
+    const options: { name: string; key: string; resourceKey?: string }[] = [
       {
-        name: intl.formatMessage(messages.filterByValues, { value: 'instance' }),
-        key: 'instance',
-        resourceKey: 'instance_name',
+        name: intl.formatMessage(messages.filterByValues, { value: 'vm_name' }),
+        key: 'vm_name',
       },
-      {
-        name: intl.formatMessage(messages.filterByValues, { value: 'account' }),
-        key: 'account',
-        resourceKey: 'account_alias',
-      },
-      {
-        name: intl.formatMessage(messages.filterByValues, { value: 'operating_system' }),
-        key: 'operating_system',
-      },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'region' }), key: 'region' },
     ];
+    if (!hideCluster) {
+      options.push({
+        name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }),
+        key: 'cluster',
+        resourceKey: 'cluster_alias',
+      });
+    }
+    if (!hideNode) {
+      options.push({
+        name: intl.formatMessage(messages.filterByValues, { value: 'node' }),
+        key: 'node',
+      });
+    }
+    if (!hideProject) {
+      options.push({
+        name: intl.formatMessage(messages.filterByValues, { value: 'project' }),
+        key: 'project',
+      });
+    }
     if (!hideTag && tagReport?.data?.length) {
       options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
     }
@@ -127,8 +136,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
       }
       return 0;
     });
-    const filteredOptions = hideRegion ? sortedOptions.filter(option => option.key !== regionKey) : sortedOptions;
-    return hideAccount ? filteredOptions.filter(option => option.key !== accountKey) : filteredOptions;
+    return sortedOptions;
   };
 
   private updateReport = () => {
@@ -186,7 +194,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
   }
 }
 
-const mapStateToProps = createMapStateToProps<InstancesToolbarOwnProps, InstancesToolbarStateProps>(
+const mapStateToProps = createMapStateToProps<VirtualizationToolbarOwnProps, VirtualizationToolbarStateProps>(
   (state, { timeScopeValue }) => {
     // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
     // however, for better server-side performance, we chose to use key_only here.
@@ -214,11 +222,11 @@ const mapStateToProps = createMapStateToProps<InstancesToolbarOwnProps, Instance
   }
 );
 
-const mapDispatchToProps: InstancesToolbarDispatchProps = {
+const mapDispatchToProps: VirtualizationToolbarDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const InstancesToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(InstancesToolbarBase);
-const InstancesToolbar = injectIntl(InstancesToolbarConnect);
+const VirtualizationToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(VirtualizationToolbarBase);
+const VirtualizationToolbar = injectIntl(VirtualizationToolbarConnect);
 
-export { InstancesToolbar };
+export { VirtualizationToolbar };
