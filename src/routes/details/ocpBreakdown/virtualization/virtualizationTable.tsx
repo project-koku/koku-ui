@@ -1,22 +1,25 @@
 import 'routes/components/dataTable/dataTable.scss';
 
 import type { Query } from 'api/queries/query';
-import type { AwsReport, AwsReportItem } from 'api/reports/awsReports';
+import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
-import { NoInstancesState } from 'routes/components/page/noInstances/noInstancesState';
+import { NoVirtualizationState } from 'routes/components/page/noVirtualization/noVirtualizationState';
 import { Actions } from 'routes/details/components/actions';
 import { TagLink } from 'routes/details/components/tag';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
-interface InstancesTableOwnProps {
+interface VirtualizationTableOwnProps {
   filterBy?: any;
+  hideCluster?: boolean;
+  hideNode?: boolean;
+  hideProject?: boolean;
   hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
@@ -31,16 +34,18 @@ interface InstancesTableOwnProps {
   selectedItems?: ComputedReportItem[];
 }
 
-type InstancesTableProps = InstancesTableOwnProps;
+type VirtualizationTableProps = VirtualizationTableOwnProps;
 
-export const InstanceTableColumnIds = {
+export const VirtualizationTableColumnIds = {
+  cpu: 'cpu',
   memory: 'memory',
-  usage: 'usage',
-  vcpu: 'vcpu',
 };
 
-const InstancesTable: React.FC<InstancesTableProps> = ({
+const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
   filterBy,
+  hideCluster,
+  hideNode,
+  hideProject,
   hiddenColumns,
   isAllSelected,
   isLoading,
@@ -63,8 +68,8 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     }
 
     const newRows = [];
-    const computedItems = getUnsortedComputedReportItems<AwsReport, AwsReportItem>({
-      idKey: 'resource_id',
+    const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
+      idKey: 'vm_name',
       report,
     });
 
@@ -74,45 +79,40 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         name: '',
       },
       {
-        orderBy: 'instance_name',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'instance' }),
+        orderBy: 'vm_name',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'vm_name' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        orderBy: 'account_alias',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'account' }),
+        hidden: hideProject,
+        orderBy: 'project',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'project' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        orderBy: 'operating_system',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'os' }),
+        hidden: hideCluster,
+        orderBy: 'cluster',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'cluster' }),
+        ...(computedItems.length && { isSortable: true }),
+      },
+      {
+        hidden: hideNode,
+        orderBy: 'node',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'node' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'tags' }),
       },
       {
-        orderBy: 'instance_type',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'instance_type' }),
+        id: VirtualizationTableColumnIds.cpu,
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'cpu' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        orderBy: 'region',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'region' }),
-        ...(computedItems.length && { isSortable: true }),
-      },
-      {
-        id: InstanceTableColumnIds.vcpu,
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'vcpu' }),
-      },
-      {
-        id: InstanceTableColumnIds.memory,
+        id: VirtualizationTableColumnIds.memory,
+        orderBy: 'memory',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'memory' }),
-      },
-      {
-        id: InstanceTableColumnIds.usage,
-        orderBy: 'usage',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'usage' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
@@ -130,50 +130,50 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       const cost = getTotalCost(item);
       const actions = getActions(item);
 
-      const accountDesc =
-        item?.account !== item.account_alias ? <div style={styles.infoDescription}>{item.account}</div> : null;
-      const instanceDesc =
-        item?.resource_id !== item.instance_name ? <div style={styles.infoDescription}>{item.resource_id}</div> : null;
-
       newRows.push({
         cells: [
           {}, // Empty cell for row selection
           {
-            value: (
-              <>
-                {item.instance_name ? item.instance_name : null}
-                {instanceDesc}
-              </>
-            ),
+            value: item.vm_name ? item.vm_name : null,
           },
           {
-            value: (
-              <>
-                {item.account_alias ? item.account_alias : null}
-                {accountDesc}
-              </>
-            ),
-          },
-          { value: item.operating_system ? item.operating_system : null },
-          { value: <TagLink tagData={item.tags} /> },
-          { value: item.instance_type ? item.instance_type : null },
-          { value: item.region ? item.region : null },
-          {
-            value: item.vcpu ? item.vcpu : '',
-            id: InstanceTableColumnIds.vcpu,
+            hidden: hideProject,
+            value: item.project ? item.project : null,
           },
           {
-            value: item.memory ? item.memory : '', // Not translatable
-            id: InstanceTableColumnIds.memory,
+            hidden: hideCluster,
+            value: item.cluster ? item.cluster : null,
           },
           {
+            hidden: hideNode,
+            value: item.node ? item.node : null,
+          },
+          {
+            value: <TagLink tagData={item.tags} />,
+          },
+          {
+            id: VirtualizationTableColumnIds.cpu,
             value: intl.formatMessage(messages.valueUnits, {
-              value: item.usage ? formatUnits(item.usage.value, item.usage.units) : '',
-              units: item.usage
-                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.usage.units) })
+              value:
+                item.request?.cpu?.value !== undefined
+                  ? formatUnits(item.request.cpu.value, item.request.cpu.units)
+                  : '',
+              units: item.request?.cpu?.units
+                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.request.cpu.units) })
                 : null,
             }),
-            id: InstanceTableColumnIds.usage,
+          },
+          {
+            id: VirtualizationTableColumnIds.memory,
+            value: intl.formatMessage(messages.valueUnits, {
+              value:
+                item.request?.memory?.value !== undefined
+                  ? formatUnits(item.request.memory.value, item.request.memory.units)
+                  : '',
+              units: item.request?.memory?.units
+                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.request.memory.units) })
+                : null,
+            }),
           },
           { value: cost, style: styles.managedColumn },
           { value: actions },
@@ -193,10 +193,10 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
   };
 
   const getActions = (item: ComputedReportItem, isDisabled = false) => {
-    // There is no group by for instances, but we use it to format messages
+    // There is no group by for virtualization, but we use it to format messages
     return (
       <Actions
-        groupBy={'instance'}
+        groupBy="vm_name"
         isDisabled={isDisabled}
         item={item}
         isTimeScoped
@@ -227,7 +227,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
   return (
     <DataTable
       columns={columns}
-      emptyState={<NoInstancesState />}
+      emptyState={<NoVirtualizationState />}
       filterBy={filterBy}
       isActionsCell
       isLoading={isLoading}
@@ -241,4 +241,4 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
   );
 };
 
-export { InstancesTable };
+export { VirtualizationTable };

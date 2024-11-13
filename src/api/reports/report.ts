@@ -174,6 +174,7 @@ export const enum ReportType {
   org = 'org',
   storage = 'storage',
   volume = 'volume',
+  virtualization = 'virtualization',
 }
 
 export const enum ReportPathsType {

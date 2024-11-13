@@ -14,5 +14,6 @@ exports[`default state 1`] = `
   "isIbmToggleEnabled": false,
   "isOcpCloudGroupBysToggleEnabled": false,
   "isProviderEmptyStateToggleEnabled": false,
+  "isVirtualizationToggleEnabled": false,
 }
 `;

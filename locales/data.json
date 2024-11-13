@@ -2972,6 +2972,14 @@
               }
             ]
           },
+          "cpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CPU"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -3172,6 +3180,14 @@
               {
                 "type": 0,
                 "value": "vCPU"
+              }
+            ]
+          },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Virtual machine names"
               }
             ]
           }
@@ -7354,6 +7370,22 @@
                 "value": ")"
               }
             ]
+          },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Selected virtual machines ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
+              }
+            ]
           }
         },
         "type": 5,
@@ -8172,6 +8204,14 @@
               {
                 "type": 0,
                 "value": "Parent tag Key"
+              }
+            ]
+          },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Virtual machine"
               }
             ]
           },
@@ -11269,6 +11309,18 @@
         "value": "No results found"
       }
     ],
+    "noVirtualizationStateDesc": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected within 24 hours."
+      }
+    ],
+    "noVirtualizationStateTitle": [
+      {
+        "type": 0,
+        "value": "No OpenShift virtualization virtual machines detected"
+      }
+    ],
     "notAuthorizedStateAws": [
       {
         "type": 0,
@@ -13832,6 +13884,12 @@
       {
         "type": 0,
         "value": "View release notes"
+      }
+    ],
+    "virtualization": [
+      {
+        "type": 0,
+        "value": "Virtualization"
       }
     ],
     "volumeTitle": [

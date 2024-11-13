@@ -35,6 +35,7 @@ const enum BreakdownTab {
   historicalData = 'historical-data',
   instances = 'instances',
   optimizations = 'optimizations',
+  virtualization = 'virtualization',
 }
 
 export const getIdKeyForTab = (tab: BreakdownTab) => {
@@ -47,6 +48,8 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
       return 'instances';
     case BreakdownTab.optimizations:
       return 'optimizations';
+    case BreakdownTab.virtualization:
+      return 'virtualization';
   }
 };
 
@@ -74,6 +77,7 @@ export interface BreakdownStateProps {
   isDetailsDateRangeToggleEnabled?: boolean;
   isOptimizationsTab?: boolean;
   isProviderEmptyStateToggleEnabled?: boolean;
+  isVirtualizationToggleEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   optimizationsComponent?: React.ReactNode;
   providers?: Providers;
@@ -93,6 +97,7 @@ export interface BreakdownStateProps {
   tagPathsType?: TagPathsType;
   timeScopeValue?: number;
   title?: string;
+  virtualizationComponent?: React.ReactNode;
 }
 
 interface BreakdownDispatchProps {
@@ -139,7 +144,9 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       historicalDataComponent,
       instancesComponent,
       isAwsEc2InstancesToggleEnabled,
+      isVirtualizationToggleEnabled,
       optimizationsComponent,
+      virtualizationComponent,
     } = this.props;
 
     const availableTabs = [];
@@ -159,6 +166,12 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: BreakdownTab.instances,
+      });
+    }
+    if (virtualizationComponent && isVirtualizationToggleEnabled) {
+      availableTabs.push({
+        contentRef: React.createRef(),
+        tab: BreakdownTab.virtualization,
       });
     }
     if (optimizationsComponent) {
@@ -218,7 +231,13 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   };
 
   private getTabItem = (tab: BreakdownTab, index: number) => {
-    const { costOverviewComponent, historicalDataComponent, instancesComponent, optimizationsComponent } = this.props;
+    const {
+      costOverviewComponent,
+      historicalDataComponent,
+      instancesComponent,
+      optimizationsComponent,
+      virtualizationComponent,
+    } = this.props;
     const { activeTabKey } = this.state;
     const emptyTab = <></>; // Lazily load tabs
 
@@ -234,6 +253,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       return instancesComponent;
     } else if (currentTab === BreakdownTab.optimizations) {
       return optimizationsComponent;
+    } else if (currentTab === BreakdownTab.virtualization) {
+      return virtualizationComponent;
     } else {
       return emptyTab;
     }
@@ -260,6 +281,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       return intl.formatMessage(messages.instances);
     } else if (tab === BreakdownTab.optimizations) {
       return intl.formatMessage(messages.optimizations);
+    } else if (tab === BreakdownTab.virtualization) {
+      return intl.formatMessage(messages.virtualization);
     }
   };
 

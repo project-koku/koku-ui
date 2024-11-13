@@ -32,6 +32,7 @@ import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 import { Optimizations } from './optimizations';
+import { Virtualization } from './virtualization';
 
 interface OcpBreakdownDispatchProps {
   closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
@@ -133,6 +134,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
     isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
+    isVirtualizationToggleEnabled: FeatureToggleSelectors.selectIsVirtualizationToggleEnabled(state),
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
@@ -149,6 +151,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     tagPathsType: TagPathsType.ocp,
     timeScopeValue,
     title,
+    virtualizationComponent: <Virtualization currency={currency} />,
   };
 });
 
