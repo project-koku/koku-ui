@@ -2928,13 +2928,15 @@ export default defineMessages({
     id: 'noResultsFound',
   },
   noVirtualizationStateDesc: {
-    defaultMessage: 'Changes will be reflected within 24 hours.',
-    description: 'Changes will be reflected within 24 hours.',
+    defaultMessage:
+      'No virtual machines are present in OpenShift virtualization. Newly added machines will appear within 24 hours.',
+    description:
+      'No virtual machines are present in OpenShift virtualization. Newly added machines will appear within 24 hours.',
     id: 'noVirtualizationStateDesc',
   },
   noVirtualizationStateTitle: {
-    defaultMessage: 'No OpenShift virtualization virtual machines detected',
-    description: 'No OpenShift virtualization virtual machines detected',
+    defaultMessage: 'No virtual machines detected',
+    description: 'No virtual machines detected',
     id: 'noVirtualizationStateTitle',
   },
   notAuthorizedStateAws: {
