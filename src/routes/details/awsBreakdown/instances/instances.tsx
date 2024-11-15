@@ -316,7 +316,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   const hasInstances = report?.meta?.count > 0;
 
   if (reportError) {
-    return <NotAvailable title={intl.formatMessage(messages.optimizations)} />;
+    return <NotAvailable />;
   }
   if (!query.filter_by && !hasInstances && reportFetchStatus === FetchStatus.complete) {
     return <NoInstances />;

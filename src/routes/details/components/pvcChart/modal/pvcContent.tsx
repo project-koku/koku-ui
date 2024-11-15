@@ -150,10 +150,9 @@ const PvcContent: React.FC<PvcContentProps> = () => {
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
-  const title = intl.formatMessage(messages.optimizations);
 
   if (reportError) {
-    return <NotAvailable title={title} />;
+    return <NotAvailable />;
   }
   return (
     <div style={styles.container}>

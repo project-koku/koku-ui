@@ -324,7 +324,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costType, currency }) =
   const hasVirtualization = report?.meta?.count > 0;
 
   if (reportError) {
-    return <NotAvailable title={intl.formatMessage(messages.optimizations)} />;
+    return <NotAvailable />;
   }
   if (!query.filter_by && !hasVirtualization && reportFetchStatus === FetchStatus.complete) {
     return <NoVirtualization />;
