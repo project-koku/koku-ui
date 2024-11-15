@@ -11312,13 +11312,13 @@
     "noVirtualizationStateDesc": [
       {
         "type": 0,
-        "value": "Changes will be reflected within 24 hours."
+        "value": "No virtual machines are present in OpenShift virtualization. Newly added machines will appear within 24 hours."
       }
     ],
     "noVirtualizationStateTitle": [
       {
         "type": 0,
-        "value": "No OpenShift virtualization virtual machines detected"
+        "value": "No virtual machines detected"
       }
     ],
     "notAuthorizedStateAws": [
