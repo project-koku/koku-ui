@@ -4044,6 +4044,7 @@ export default defineMessages({
       'gb_hours {{value} GB-hours} ' +
       'gb_month {{value} GB-month} ' +
       'gb_ms {{value} GB-ms} ' +
+      'gib {{value} GiB} ' +
       'gib_hours {{value} GiB-hours} ' +
       'gib_month {{value} GiB-month} ' +
       'gibibyte_month {{value} GiB-month} ' +
@@ -4068,6 +4069,7 @@ export default defineMessages({
       'gb_hours {GB-hours} ' +
       'gb_month {GB-month} ' +
       'gb_ms {GB-ms} ' +
+      'gib {GiB} ' +
       'gib_hours {GiB-hours} ' +
       'gib_month {GiB-month} ' +
       'gibibyte_month {GiB-month} ' +
