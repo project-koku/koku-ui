@@ -2124,6 +2124,7 @@ export default defineMessages({
       'tag_key {Filter by tag key} ' +
       'tag_key_child {Filter by child tag key} ' +
       'tag_key_parent {Filter by parent tag key} ' +
+      'vm_name {Filter by virtual machine} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'filterByPlaceholder',

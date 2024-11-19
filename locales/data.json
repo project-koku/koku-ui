@@ -7938,6 +7938,14 @@
               }
             ]
           },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by virtual machine"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
