@@ -1,7 +1,7 @@
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import formatjs from "eslint-plugin-formatjs";
-import patternflyReact from "eslint-plugin-patternfly-react";
+// import patternflyReact from "eslint-plugin-patternfly-react";
 import react from "eslint-plugin-react";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import sortKeysFix from "eslint-plugin-sort-keys-fix";
@@ -11,7 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
-// import prettier from "eslint-plugin-prettier";
+import prettier from "eslint-plugin-prettier";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,7 +45,7 @@ export default [{
         '**/*.test.tsx',
     ],
 }, ...fixupConfigRules(compat.extends(
-    '@redhat-cloud-services/eslint-config-redhat-cloud-services',
+    // '@redhat-cloud-services/eslint-config-redhat-cloud-services',
     'eslint:recommended', // Extended by eslint-config-redhat-cloud-services
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended', // Extended by eslint-config-redhat-cloud-services
@@ -54,8 +54,8 @@ export default [{
     plugins: {
         '@typescript-eslint': fixupPluginRules(typescriptEslint),
         formatjs,
-        'patternfly-react': patternflyReact,
-        // prettier, // Plugin defined by eslint-config-redhat-cloud-services
+        // 'patternfly-react': patternflyReact,
+        prettier, // Plugin defined by eslint-config-redhat-cloud-services
         react: fixupPluginRules(react),
         'simple-import-sort': simpleImportSort,
         'sort-keys-fix': sortKeysFix,
