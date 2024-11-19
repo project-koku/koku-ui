@@ -16,6 +16,7 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 interface VirtualizationTableOwnProps {
+  exclude?: any;
   filterBy?: any;
   hideCluster?: boolean;
   hideNode?: boolean;
@@ -42,6 +43,7 @@ export const VirtualizationTableColumnIds = {
 };
 
 const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
+  exclude,
   filterBy,
   hideCluster,
   hideNode,
@@ -228,6 +230,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
     <DataTable
       columns={columns}
       emptyState={<NoVirtualizationState />}
+      exclude={exclude}
       filterBy={filterBy}
       isActionsCell
       isLoading={isLoading}

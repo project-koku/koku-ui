@@ -16,6 +16,7 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 interface InstancesTableOwnProps {
+  exclude?: any;
   filterBy?: any;
   hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
@@ -40,6 +41,7 @@ export const InstanceTableColumnIds = {
 };
 
 const InstancesTable: React.FC<InstancesTableProps> = ({
+  exclude,
   filterBy,
   hiddenColumns,
   isAllSelected,
@@ -228,6 +230,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
     <DataTable
       columns={columns}
       emptyState={<NoInstancesState />}
+      exclude={exclude}
       filterBy={filterBy}
       isActionsCell
       isLoading={isLoading}

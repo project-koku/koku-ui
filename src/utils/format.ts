@@ -137,6 +137,7 @@ export const formatUnits: Formatter = (value, units, options) => {
     case 'gb_hours':
     case 'gb_month':
     case 'gb_ms':
+    case 'gib':
     case 'gib_hours':
     case 'gib_month':
     case 'gibibyte_month':
@@ -262,6 +263,7 @@ export const unitsLookupKey = (units): string => {
     case 'gb':
     case 'gb_hours':
     case 'gb_ms':
+    case 'gib':
     case 'gib_hours':
     case 'gib_month':
     case 'gibibyte_month':

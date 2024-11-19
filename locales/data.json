@@ -7938,6 +7938,14 @@
               }
             ]
           },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by virtual machine"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
@@ -13530,6 +13538,18 @@
               }
             ]
           },
+          "gib": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GiB"
+              }
+            ]
+          },
           "gib_hours": {
             "value": [
               {
@@ -13711,6 +13731,14 @@
               {
                 "type": 0,
                 "value": "GB-ms"
+              }
+            ]
+          },
+          "gib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GiB"
               }
             ]
           },
