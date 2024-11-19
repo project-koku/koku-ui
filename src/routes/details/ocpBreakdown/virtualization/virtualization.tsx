@@ -192,6 +192,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costType, currency }) =
   const getTable = () => {
     return (
       <VirtualizationTable
+        exclude={query.exclude}
         filterBy={query.filter_by}
         hideCluster={hasClusterFilter}
         hideNode={hasNodeFilter}
@@ -326,7 +327,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costType, currency }) =
   if (reportError) {
     return <NotAvailable />;
   }
-  if (!query.filter_by && !hasVirtualization && reportFetchStatus === FetchStatus.complete) {
+  if (!query.filter_by && !query.exclude && !hasVirtualization && reportFetchStatus === FetchStatus.complete) {
     return <NoVirtualization />;
   }
 

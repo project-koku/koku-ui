@@ -188,6 +188,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   const getTable = () => {
     return (
       <InstancesTable
+        exclude={query.exclude}
         filterBy={query.filter_by}
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
@@ -318,7 +319,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   if (reportError) {
     return <NotAvailable />;
   }
-  if (!query.filter_by && !hasInstances && reportFetchStatus === FetchStatus.complete) {
+  if (!query.filter_by && !query.exclude && !hasInstances && reportFetchStatus === FetchStatus.complete) {
     return <NoInstances />;
   }
 
