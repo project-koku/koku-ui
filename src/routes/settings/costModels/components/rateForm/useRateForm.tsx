@@ -1,13 +1,12 @@
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
 import React from 'react';
-import { unFormat } from 'utils/format';
 
 import { textHelpers } from './constants';
 import type { RateFormData, RateFormTagValue } from './utils';
 import {
   descriptionErrors,
-  initialtaggingRates,
+  initialTaggingRates,
   isDuplicateTagRate,
   OtherTierFromRate,
   OtherTierFromRateForm,
@@ -123,8 +122,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         tieredRates: [
           {
             isDirty: true,
-            inputValue: action.value,
-            value: unFormat(action.value), // Normalize for API requests where USD decimal format is expected
+            value: action.value,
           },
         ],
         errors: {
@@ -199,8 +197,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
               ...state.taggingRates.tagValues[action.index],
               ...action.payload,
               ...(action.payload.value !== undefined && {
-                inputValue: action.payload.value, // Original user input
-                value: unFormat(action.payload.value), // Normalize for API requests where USD decimal format is expected
+                value: action.payload.value,
               }),
               isDirty,
               isTagValueDirty,
@@ -275,7 +272,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         },
         taggingRates: {
           ...state.taggingRates,
-          tagValues: [...state.taggingRates.tagValues, { ...initialtaggingRates.tagValues[0] }],
+          tagValues: [...state.taggingRates.tagValues, { ...initialTaggingRates.tagValues[0] }],
         },
       };
     }
@@ -292,6 +289,7 @@ export type UseRateData = ReturnType<typeof useRateData>;
 
 export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tiers: Rate[] = []) {
   const initial = genFormDataFromRate(rate, undefined, tiers);
+
   const [state, dispatch] = React.useReducer(rateFormReducer, initial);
   return {
     ...state,

@@ -6,19 +6,18 @@ import { countDecimals, formatCurrencyRateRaw, isCurrencyFormatValid, unFormat }
 
 import { textHelpers } from './constants';
 
-export const initialtaggingRates = {
+export const initialTaggingRates = {
   tagKey: {
-    value: '',
     isDirty: false,
+    value: '',
   },
   defaultTag: null,
   tagValues: [
     {
-      tagValue: '',
       description: '',
       isDirty: false,
       isTagValueDirty: false,
-      inputValue: '',
+      tagValue: '',
       value: '',
     },
   ],
@@ -38,11 +37,10 @@ export const initialRateFormData = {
   tieredRates: [
     {
       isDirty: false,
-      inputValue: '',
       value: '',
     },
   ],
-  taggingRates: { ...initialtaggingRates },
+  taggingRates: { ...initialTaggingRates },
   errors: {
     description: null,
     measurement: textHelpers.required,
@@ -59,18 +57,18 @@ export type RateFormTagValue = (typeof initialRateFormData)['taggingRates']['tag
 export type taggingRates = (typeof initialRateFormData)['taggingRates'];
 export type RateFormErrors = (typeof initialRateFormData)['errors'];
 
-export const checkRateOnChange = (inputValue: string) => {
-  if (inputValue.length === 0) {
+export const checkRateOnChange = (value: string) => {
+  if (value.length === 0) {
     return textHelpers.required;
   }
-  if (!isCurrencyFormatValid(inputValue)) {
+  if (!isCurrencyFormatValid(value)) {
     return textHelpers.not_number;
   }
-  if (Number(unFormat(inputValue)) < 0) {
+  if (Number(value) < 0) {
     return textHelpers.not_positive;
   }
   // Test number of decimals
-  const decimals = countDecimals(inputValue);
+  const decimals = countDecimals(value);
   if (decimals > 10) {
     return textHelpers.rate_too_long;
   }
@@ -91,12 +89,13 @@ export function getDefaultCalculation(metricsHash: MetricHash, metric: string) {
 
 export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormData, tiers: Rate[]): RateFormData {
   const otherTiers = tiers || defaultValue.otherTiers;
+
   if (!rate) {
     return { ...defaultValue, otherTiers };
   }
   const rateKind = rate.tiered_rates ? 'regular' : 'tagging';
-  let tieredRates = [{ inputValue: '', value: '', isDirty: true }];
-  const tagRates = { ...initialtaggingRates };
+  let tieredRates = [{ isDirty: true, value: '' }];
+  const tagRates = { ...initialTaggingRates };
   const errors = {
     description: null,
     measurement: null,
@@ -108,14 +107,13 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   };
   if (rateKind === 'tagging') {
     const item = rate.tag_rates as TagRates;
-    tagRates.tagKey = { value: item.tag_key, isDirty: true };
+    tagRates.tagKey = { isDirty: true, value: item.tag_key };
     const defaultIndex = item.tag_values.findIndex(tvalue => tvalue.default);
     tagRates.defaultTag = defaultIndex === -1 ? null : defaultIndex;
     tagRates.tagValues = item.tag_values.map(tvalue => {
       const value = formatCurrencyRateRaw(tvalue.value, tvalue.unit);
       return {
         description: tvalue.description,
-        inputValue: value,
         isDirty: false,
         isTagValueDirty: false,
         tagValue: tvalue.tag_value,
@@ -131,7 +129,6 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     tieredRates = rate.tiered_rates.map(tieredRate => {
       const value = formatCurrencyRateRaw(tieredRate.value, tieredRate.unit);
       return {
-        inputValue: value,
         isDirty: true,
         value,
       };
@@ -198,7 +195,7 @@ export const transformFormDataToRequest = (
             return {
               tag_value: tvalue.tagValue,
               unit: currencyUnits,
-              value: tvalue.value,
+              value: unFormat(tvalue.value), // Normalize for API requests where USD decimal format is expected
               description: tvalue.description,
               default: ix === rateFormData.taggingRates.defaultTag,
             };
@@ -206,7 +203,7 @@ export const transformFormDataToRequest = (
         }
       : rateFormData.tieredRates.map(tiered => {
           return {
-            value: tiered.value,
+            value: unFormat(tiered.value), // Normalize for API requests where USD decimal format is expected
             unit: currencyUnits,
             usage: { unit: currencyUnits },
           };
