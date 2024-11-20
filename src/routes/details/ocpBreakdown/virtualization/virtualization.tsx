@@ -17,7 +17,6 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NoVirtualization } from 'routes/components/page/noVirtualization';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
-import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import {
@@ -35,6 +34,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { logicalAndPrefix } from 'utils/props';
 
+import { styles } from './virtualization.styles';
 import { VirtualizationTable, VirtualizationTableColumnIds } from './virtualizationTable';
 import { VirtualizationToolbar } from './virtualizationToolbar';
 
