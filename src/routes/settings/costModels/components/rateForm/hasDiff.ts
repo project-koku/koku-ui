@@ -1,4 +1,5 @@
 import type { Rate } from 'api/rates';
+import { formatCurrencyRateRaw } from 'utils/format';
 
 import type { RateFormData } from './utils';
 
@@ -23,7 +24,8 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
     return true;
   }
   if (rateKind === 'regular') {
-    if (Number(rate.tiered_rates[0].value) !== Number(rateFormData.tieredRates[0].value)) {
+    const value = formatCurrencyRateRaw(rate.tiered_rates[0].value, rate.tiered_rates[0].unit);
+    if (value !== rateFormData.tieredRates[0].value) {
       return true;
     }
   }
@@ -38,9 +40,10 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
     const hasTagValuesDiff = tr.tag_values.some((tvalue, ix) => {
       const cur = rateFormData.taggingRates.tagValues[ix];
       const isCurDefault = rateFormData.taggingRates.defaultTag === ix;
+      const value = formatCurrencyRateRaw(tvalue.value, tvalue.unit);
       return (
         tvalue.tag_value !== cur.tagValue ||
-        Number(tvalue.value) !== Number(cur.inputValue) ||
+        value !== cur.value ||
         tvalue.description !== cur.description ||
         tvalue.default !== isCurDefault
       );

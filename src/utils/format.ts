@@ -36,11 +36,12 @@ export const formatCurrency: Formatter = (value: number, units: string, options:
     fValue = 0;
   }
   // Don't specify default fraction digits here, rely on react-intl instead
-  return intl.formatNumber(fValue, {
+  const test = intl.formatNumber(fValue, {
     style: 'currency',
     currency: units ? units.toUpperCase() : 'USD',
     ...options,
   });
+  return test;
 };
 
 export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
@@ -116,8 +117,10 @@ export const formatCurrencyRaw: Formatter = (value: number, units: string, optio
     ...options,
   } as any)
     .toString()
+    .trim()
     .replace(units, '')
-    .trim();
+    .replace(/\u202f/g, '') // Small non-breaking space for group separator
+    .replace(/\xa0/g, ''); // Non-breaking space before currency
 };
 
 // Returns formatted units or currency with given currency-code
@@ -134,6 +137,7 @@ export const formatUnits: Formatter = (value, units, options) => {
     case 'gb_hours':
     case 'gb_month':
     case 'gb_ms':
+    case 'gib':
     case 'gib_hours':
     case 'gib_month':
     case 'gibibyte_month':
@@ -167,7 +171,11 @@ export const formatPercentageMarkup: PercentageFormatter = (
     maximumFractionDigits: 10,
   }
 ) => {
-  return value.toLocaleString(getLocale(), options);
+  return value
+    .toLocaleString(getLocale(), options)
+    .trim()
+    .replace(/\u202f/g, '') // Small non-breaking space for group separator
+    .replace(/\xa0/g, ''); // Non-breaking space before currency;
 };
 
 // Format optimization metrics
@@ -200,14 +208,14 @@ export const isCurrencyFormatValid = (value: string) => {
   // \d* The number can then have any number of any digits
   // (...)$ look at the next group from the end (...)$
   // (...)*(...)? Look for groups optionally. The first is for the comma, the second is for the decimal.
-  // (,\d{3}){1} Look for one occurrence of a comma followed by exactly three digits
-  // \.\d Look for a decimal followed by any number of any digits
+  // (,\d{3})* Look for one or more occurrences of a comma followed by three digits
+  // \.\d* Look for a decimal followed by any number of any digits
   //
-  // See https://stackoverflow.com/questions/2227370/currency-validation
-  const regex =
-    decimalSeparator === '.' ? /^-?[0-9]\d*(((,\d{3}){1})*(\.\d*)?)$/ : /^-?[0-9]\d*(((\.\d{3}){1})*(,\d*)?)$/;
+  // Based on https://stackoverflow.com/questions/2227370/currency-validation
+  const regex = decimalSeparator === ',' ? /^-?[0-9]\d*((\.\d{3})*(,\d*)?)$/ : /^-?[0-9]\d*((,\d{3})*(\.\d*)?)$/;
 
-  return regex.test(value);
+  const test = regex.test(value);
+  return test;
 };
 
 // Returns true if given percentage is valid for current locale
@@ -226,13 +234,17 @@ export const unFormat = (value: string) => {
   if (!value) {
     return value;
   }
-  const groupSeparator = intl.formatNumber(1111).toString().replace(/1/g, '');
+
   const decimalSeparator = intl.formatNumber(1.1).toString().replace(/1/g, '');
 
-  let rawValue = value.toString().replace(groupSeparator === ',' ? /,/g : /\./g, '');
-  rawValue = rawValue.replace(decimalSeparator === '.' ? /\./g : /,/g, '.');
-
-  return Number.isNaN(rawValue) ? '0' : rawValue;
+  let rawValue = value.toString();
+  if (decimalSeparator === ',') {
+    rawValue = rawValue.replace(/\./g, ''); // Remove group separator
+    rawValue = rawValue.replace(/,/g, '.'); // Replace decimal separator
+  } else {
+    rawValue = rawValue.replace(/,/g, ''); // Remove group separator
+  }
+  return rawValue;
 };
 
 const unknownTypeFormatter = (value: number, options: FormatOptions) => {
@@ -251,6 +263,7 @@ export const unitsLookupKey = (units): string => {
     case 'gb':
     case 'gb_hours':
     case 'gb_ms':
+    case 'gib':
     case 'gib_hours':
     case 'gib_month':
     case 'gibibyte_month':

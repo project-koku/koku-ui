@@ -254,6 +254,8 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
       <DetailsTable
         basePath={formatPath(routes.rhelBreakdown.path)}
         breadcrumbPath={formatPath(`${routes.rhelDetails.path}${location.search}`)}
+        exclude={query.exclude}
+        filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
         hiddenColumns={hiddenColumns}

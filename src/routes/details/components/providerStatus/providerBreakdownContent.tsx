@@ -2,9 +2,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios';
-import messages from 'locales/messages';
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -40,14 +38,10 @@ const ProviderBreakdownContent: React.FC<ProviderDetailsContentProps> = ({
   providerType,
   uuId,
 }: ProviderDetailsContentProps) => {
-  const intl = useIntl();
-
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
-  const title = intl.formatMessage(messages.optimizations);
-
   if (providersError) {
-    return <NotAvailable title={title} />;
+    return <NotAvailable />;
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {

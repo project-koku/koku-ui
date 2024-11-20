@@ -214,6 +214,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
       <DetailsTable
         basePath={formatPath(routes.azureBreakdown.path)}
         breadcrumbPath={formatPath(`${routes.azureDetails.path}${location.search}`)}
+        exclude={query.exclude}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}

@@ -19,6 +19,7 @@ export type FeatureToggleState = Readonly<{
   isIbmToggleEnabled: boolean;
   isOcpCloudGroupBysToggleEnabled: boolean;
   isProviderEmptyStateToggleEnabled: boolean;
+  isVirtualizationToggleEnabled: boolean;
 }>;
 
 export const defaultState: FeatureToggleState = {
@@ -34,6 +35,7 @@ export const defaultState: FeatureToggleState = {
   isIbmToggleEnabled: false,
   isOcpCloudGroupBysToggleEnabled: false,
   isProviderEmptyStateToggleEnabled: false,
+  isVirtualizationToggleEnabled: false,
 };
 
 export const stateKey = 'FeatureToggle';
@@ -55,6 +57,7 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         isIbmToggleEnabled: action.payload.isIbmToggleEnabled,
         isOcpCloudGroupBysToggleEnabled: action.payload.isOcpCloudGroupBysToggleEnabled,
         isProviderEmptyStateToggleEnabled: action.payload.isProviderEmptyStateToggleEnabled,
+        isVirtualizationToggleEnabled: action.payload.isVirtualizationToggleEnabled,
       };
 
     default:

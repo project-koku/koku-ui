@@ -2,9 +2,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios';
-import messages from 'locales/messages';
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -19,6 +17,7 @@ import { ProviderTable } from './providerTable';
 interface ProviderStatusOwnProps {
   onClick?: (providerId: string) => void;
   providerType: ProviderType;
+  showNotAvailable?: boolean;
 }
 
 interface ProviderStatusStateProps {
@@ -30,15 +29,16 @@ interface ProviderStatusStateProps {
 
 type ProviderStatusProps = ProviderStatusOwnProps;
 
-const ProviderStatus: React.FC<ProviderStatusProps> = ({ onClick, providerType }: ProviderStatusProps) => {
-  const intl = useIntl();
-
+const ProviderStatus: React.FC<ProviderStatusProps> = ({
+  onClick,
+  providerType,
+  showNotAvailable,
+}: ProviderStatusProps) => {
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
-  const title = intl.formatMessage(messages.integrationsDetails);
-
+  // Omit NotAvailable when used in combination with the noData empty state
   if (providersError) {
-    return <NotAvailable title={title} />;
+    return showNotAvailable ? <NotAvailable /> : null;
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {

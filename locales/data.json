@@ -24,6 +24,12 @@
         "value": "Amazon Web Services"
       }
     ],
+    "awsAlt": [
+      {
+        "type": 0,
+        "value": "Amazon Web Services (AWS)"
+      }
+    ],
     "awsComputeTitle": [
       {
         "type": 0,
@@ -73,7 +79,7 @@
     "awsDetailsTitle": [
       {
         "type": 0,
-        "value": "Amazon Web Services Details"
+        "value": "Amazon Web Services details"
       }
     ],
     "awsOcpDashboardCostTitle": [
@@ -137,7 +143,7 @@
     "azureDetailsTitle": [
       {
         "type": 0,
-        "value": "Microsoft Azure Details"
+        "value": "Microsoft Azure details"
       }
     ],
     "azureOcpDashboardCostTitle": [
@@ -1259,13 +1265,13 @@
     "costModel": [
       {
         "type": 0,
-        "value": "Cost Model:"
+        "value": "Cost model:"
       }
     ],
     "costModels": [
       {
         "type": 0,
-        "value": "Cost Models"
+        "value": "Cost models"
       }
     ],
     "costModelsActions": [
@@ -1417,7 +1423,7 @@
     "costModelsDetailsTitle": [
       {
         "type": 0,
-        "value": "Cost Model Details"
+        "value": "Cost model details"
       }
     ],
     "costModelsDistributionDesc": [
@@ -1561,13 +1567,13 @@
     "costModelsSelectMeasurement": [
       {
         "type": 0,
-        "value": "Select Measurement"
+        "value": "Select measurement"
       }
     ],
     "costModelsSelectMetric": [
       {
         "type": 0,
-        "value": "Select Metric"
+        "value": "Select metric"
       }
     ],
     "costModelsSourceDelete": [
@@ -1720,12 +1726,6 @@
       {
         "type": 0,
         "value": "No rates were added to the price list"
-      }
-    ],
-    "costModelsWizardOnboardAws": [
-      {
-        "type": 0,
-        "value": "Amazon Web Services (AWS)"
       }
     ],
     "costModelsWizardOnboardOcp": [
@@ -2539,7 +2539,7 @@
     "dataDetailsCostManagementData": [
       {
         "type": 0,
-        "value": "Cost Management data"
+        "value": "Cost management data"
       }
     ],
     "dataDetailsIntegrationAndFinalization": [
@@ -2972,6 +2972,14 @@
               }
             ]
           },
+          "cpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CPU"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -3172,6 +3180,14 @@
               {
                 "type": 0,
                 "value": "vCPU"
+              }
+            ]
+          },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Virtual machine names"
               }
             ]
           }
@@ -4081,7 +4097,7 @@
     "errorStateNotAuthorizedTitle": [
       {
         "type": 0,
-        "value": "You don't have access to the Cost management application"
+        "value": "You don't have access to the cost management application"
       }
     ],
     "errorStateUnexpectedDesc": [
@@ -4148,7 +4164,7 @@
     "explorerChartAriaTitle": [
       {
         "type": 0,
-        "value": "Cost Explorer Chart"
+        "value": "Cost Explorer chart"
       }
     ],
     "explorerChartTitle": [
@@ -7354,6 +7370,22 @@
                 "value": ")"
               }
             ]
+          },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Selected virtual machines ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
+              }
+            ]
           }
         },
         "type": 5,
@@ -7906,6 +7938,14 @@
               }
             ]
           },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by virtual machine"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
@@ -8175,6 +8215,14 @@
               }
             ]
           },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Virtual machine"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
@@ -8249,13 +8297,13 @@
     "gcpCostTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform Services cost"
+        "value": "Google Cloud Platform services cost"
       }
     ],
     "gcpCostTrendTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform Services cumulative cost comparison ("
+        "value": "Google Cloud Platform services cumulative cost comparison ("
       },
       {
         "type": 1,
@@ -8269,7 +8317,7 @@
     "gcpDailyCostTrendTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform Services daily cost comparison ("
+        "value": "Google Cloud Platform services daily cost comparison ("
       },
       {
         "type": 1,
@@ -8289,7 +8337,7 @@
     "gcpDetailsTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform Details"
+        "value": "Google Cloud Platform details"
       }
     ],
     "groupByAll": [
@@ -10170,7 +10218,7 @@
     "historicalChartDayOfMonthLabel": [
       {
         "type": 0,
-        "value": "Day of Month"
+        "value": "Day of month"
       }
     ],
     "historicalChartTitle": [
@@ -10294,13 +10342,13 @@
     "ibmCostTitle": [
       {
         "type": 0,
-        "value": "IBM Cloud Services cost"
+        "value": "IBM Cloud services cost"
       }
     ],
     "ibmCostTrendTitle": [
       {
         "type": 0,
-        "value": "IBM Cloud Services cumulative cost comparison ("
+        "value": "IBM Cloud services cumulative cost comparison ("
       },
       {
         "type": 1,
@@ -10314,7 +10362,7 @@
     "ibmDailyCostTrendTitle": [
       {
         "type": 0,
-        "value": "IBM Cloud Services daily cost comparison ("
+        "value": "IBM Cloud services daily cost comparison ("
       },
       {
         "type": 1,
@@ -10334,13 +10382,13 @@
     "ibmDetailsTitle": [
       {
         "type": 0,
-        "value": "IBM Cloud Details"
+        "value": "IBM Cloud details"
       }
     ],
     "inactiveSourcesGoTo": [
       {
         "type": 0,
-        "value": "Go to Integrations for more information"
+        "value": "Go to integrations for more information"
       }
     ],
     "inactiveSourcesTitle": [
@@ -10428,7 +10476,7 @@
     "maintenanceEmptyStateDesc": [
       {
         "type": 0,
-        "value": "Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT)."
+        "value": "Cost management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT)."
       }
     ],
     "maintenanceEmptyStateInfo": [
@@ -10832,7 +10880,7 @@
     "metricsOperatorVersion": [
       {
         "type": 0,
-        "value": "Cost Management operator version"
+        "value": "Cost management operator version"
       }
     ],
     "monthOverMonthChange": [
@@ -11012,25 +11060,25 @@
     "noProvidersCloudCost": [
       {
         "type": 0,
-        "value": "Include Cloud provider (AWS, GCP, Azure, OCI) cost"
+        "value": "Include cloud provider (AWS, GCP, Azure, OCI) cost"
       }
     ],
     "noProvidersCloudCostDesc": [
       {
         "type": 0,
-        "value": "If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using Cost Management service."
+        "value": "If you want to do only cloud provider such as AWS, Google, Azure, or Oracle, you need to set up an integration in order to start using cost management service."
       }
     ],
     "noProvidersCloudIntegration": [
       {
         "type": 0,
-        "value": "Set up a Cloud provider integration"
+        "value": "Set up a cloud provider integration"
       }
     ],
     "noProvidersCloudIntegrationHelp": [
       {
         "type": 0,
-        "value": "If you need further help setting up Cloud provider in cost management"
+        "value": "If you need further help setting up cloud provider in cost management"
       }
     ],
     "noProvidersCloudIntegrationHelpAws": [
@@ -11112,13 +11160,13 @@
     "noProvidersGetStarted": [
       {
         "type": 0,
-        "value": "Get started with Cost management"
+        "value": "Get started with cost management"
       }
     ],
     "noProvidersMetricsOperator": [
       {
         "type": 0,
-        "value": "Install Cost Management metric operator"
+        "value": "Install cost management metric operator"
       }
     ],
     "noProvidersOcpCli": [
@@ -11158,7 +11206,7 @@
     "noProvidersOcpCostDesc": [
       {
         "type": 0,
-        "value": "Additionally to your OpenShift cluster set up, you need to set up Cost Management Metrics Operator in order to start using Cost Management service."
+        "value": "Additionally to your OpenShift cluster set up, you need to set up cost management metrics operator in order to start using cost management service."
       }
     ],
     "noProvidersRecommended": [
@@ -11230,7 +11278,7 @@
     "noProvidersStateOcpAddSources": [
       {
         "type": 0,
-        "value": "Add an OpenShift cluster to Cost Management"
+        "value": "Add an OpenShift cluster to cost management"
       }
     ],
     "noProvidersStateOcpDesc": [
@@ -11269,64 +11317,76 @@
         "value": "No results found"
       }
     ],
+    "noVirtualizationStateDesc": [
+      {
+        "type": 0,
+        "value": "No virtual machines are present in OpenShift virtualization. Newly added machines will appear within 24 hours."
+      }
+    ],
+    "noVirtualizationStateTitle": [
+      {
+        "type": 0,
+        "value": "No virtual machines detected"
+      }
+    ],
     "notAuthorizedStateAws": [
       {
         "type": 0,
-        "value": "Amazon Web Services in Cost Management"
+        "value": "Amazon Web Services in cost management"
       }
     ],
     "notAuthorizedStateAzure": [
       {
         "type": 0,
-        "value": "Microsoft Azure in Cost Management"
+        "value": "Microsoft Azure in cost management"
       }
     ],
     "notAuthorizedStateCostModels": [
       {
         "type": 0,
-        "value": "Cost Models in Cost Management"
+        "value": "Cost models in cost management"
       }
     ],
     "notAuthorizedStateGcp": [
       {
         "type": 0,
-        "value": "Google Cloud Platform in Cost Management"
+        "value": "Google Cloud Platform in cost management"
       }
     ],
     "notAuthorizedStateIbm": [
       {
         "type": 0,
-        "value": "IBM Cloud in Cost Management"
+        "value": "IBM Cloud in cost management"
       }
     ],
     "notAuthorizedStateOci": [
       {
         "type": 0,
-        "value": "Oracle Cloud Infrastructure in Cost Management"
+        "value": "Oracle Cloud Infrastructure in cost management"
       }
     ],
     "notAuthorizedStateOcp": [
       {
         "type": 0,
-        "value": "OpenShift in Cost Management"
+        "value": "OpenShift in cost management"
       }
     ],
     "notAuthorizedStateOptimizations": [
       {
         "type": 0,
-        "value": "Optimizations in Cost Management"
+        "value": "Optimizations in cost management"
       }
     ],
     "notAuthorizedStateRhel": [
       {
         "type": 0,
-        "value": "RHEL in Cost Management"
+        "value": "RHEL in cost management"
       }
     ],
     "notAuthorizedStateSettings": [
       {
         "type": 0,
-        "value": "Settings in Cost Management"
+        "value": "Settings in cost management"
       }
     ],
     "oci": [
@@ -11384,7 +11444,7 @@
     "ociDetailsTitle": [
       {
         "type": 0,
-        "value": "Oracle Cloud Infrastructure Details"
+        "value": "Oracle Cloud Infrastructure details"
       }
     ],
     "ocp": [
@@ -11526,7 +11586,7 @@
     "ocpDetailsTitle": [
       {
         "type": 0,
-        "value": "OpenShift Details"
+        "value": "OpenShift details"
       }
     ],
     "ocpMemoryUsageAndRequests": [
@@ -11602,85 +11662,85 @@
     "overviewTitle": [
       {
         "type": 0,
-        "value": "Cost Management Overview"
+        "value": "Cost management overview"
       }
     ],
     "pageTitleAws": [
       {
         "type": 0,
-        "value": "Amazon Web Services - Cost Management | OpenShift"
+        "value": "Amazon Web Services - Cost management | OpenShift"
       }
     ],
     "pageTitleAzure": [
       {
         "type": 0,
-        "value": "Microsoft Azure - Cost Management | OpenShift"
+        "value": "Microsoft Azure - Cost management | OpenShift"
       }
     ],
     "pageTitleCostModels": [
       {
         "type": 0,
-        "value": "Cost Models - Cost Management | OpenShift"
+        "value": "Cost models - Cost management | OpenShift"
       }
     ],
     "pageTitleDefault": [
       {
         "type": 0,
-        "value": "Cost Management | OpenShift"
+        "value": "Cost management | OpenShift"
       }
     ],
     "pageTitleExplorer": [
       {
         "type": 0,
-        "value": "Cost Explorer - Cost Management | OpenShift"
+        "value": "Cost Explorer - Cost management | OpenShift"
       }
     ],
     "pageTitleGcp": [
       {
         "type": 0,
-        "value": "Google Cloud Platform - Cost Management | OpenShift"
+        "value": "Google Cloud Platform - Cost management | OpenShift"
       }
     ],
     "pageTitleIbm": [
       {
         "type": 0,
-        "value": "IBM Cloud - Cost Management | OpenShift"
+        "value": "IBM Cloud - Cost management | OpenShift"
       }
     ],
     "pageTitleOci": [
       {
         "type": 0,
-        "value": "Oracle Cloud Infrastructure - Cost Management | OpenShift"
+        "value": "Oracle Cloud Infrastructure - Cost management | OpenShift"
       }
     ],
     "pageTitleOcp": [
       {
         "type": 0,
-        "value": "OpenShift - Cost Management | OpenShift"
+        "value": "OpenShift - Cost management | OpenShift"
       }
     ],
     "pageTitleOptimizations": [
       {
         "type": 0,
-        "value": "Optimizations - Cost Management | OpenShift"
+        "value": "Optimizations - Cost management | OpenShift"
       }
     ],
     "pageTitleOverview": [
       {
         "type": 0,
-        "value": "Overview - Cost Management | OpenShift"
+        "value": "Overview - Cost management | OpenShift"
       }
     ],
     "pageTitleRhel": [
       {
         "type": 0,
-        "value": "RHEL - Cost Management | OpenShift"
+        "value": "RHEL - Cost management | OpenShift"
       }
     ],
     "pageTitleSettings": [
       {
         "type": 0,
-        "value": "Settings - Cost Management | OpenShift"
+        "value": "Settings - Cost management | OpenShift"
       }
     ],
     "paginationTitle": [
@@ -12229,7 +12289,7 @@
     "rhelDetailsTitle": [
       {
         "type": 0,
-        "value": "RHEL Details"
+        "value": "RHEL details"
       }
     ],
     "rhelMemoryUsageAndRequests": [
@@ -12434,7 +12494,7 @@
     "settingsSuccessDesc": [
       {
         "type": 0,
-        "value": "Settings for Cost Management were replaced with new values"
+        "value": "Settings for cost management were replaced with new values"
       }
     ],
     "settingsSuccessPlatformProjects": [
@@ -12732,7 +12792,7 @@
     "settingsTitle": [
       {
         "type": 0,
-        "value": "Cost Management Settings"
+        "value": "Cost management settings"
       }
     ],
     "sinceDate": [
@@ -13228,7 +13288,7 @@
     "tagMappingSelectParentTagsDesc": [
       {
         "type": 0,
-        "value": "Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in Cost Management."
+        "value": "Select a parent tag key that will be mapped to child tags in the next step. This tag will be available for filtering in cost management."
       }
     ],
     "tagMappingWarning": [
@@ -13252,7 +13312,7 @@
     "tagMappingWizardNavToTagMapping": [
       {
         "type": 0,
-        "value": "Go back to Cost Management Settings"
+        "value": "Go back to cost management settings"
       }
     ],
     "tagMappingWizardReview": [
@@ -13478,6 +13538,18 @@
               }
             ]
           },
+          "gib": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GiB"
+              }
+            ]
+          },
           "gib_hours": {
             "value": [
               {
@@ -13662,6 +13734,14 @@
               }
             ]
           },
+          "gib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GiB"
+              }
+            ]
+          },
           "gib_hours": {
             "value": [
               {
@@ -13832,6 +13912,12 @@
       {
         "type": 0,
         "value": "View release notes"
+      }
+    ],
+    "virtualization": [
+      {
+        "type": 0,
+        "value": "Virtualization"
       }
     ],
     "volumeTitle": [

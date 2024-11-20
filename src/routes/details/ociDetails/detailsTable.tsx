@@ -25,6 +25,7 @@ import { withRouter } from 'utils/router';
 
 interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   breadcrumbPath?: string;
+  exclude?: any;
   filterBy?: any;
   groupBy: string;
   groupByTagKey?: string;
@@ -283,12 +284,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   public render() {
-    const { filterBy, isLoading, onSelect, onSort, orderBy, selectedItems } = this.props;
+    const { exclude, filterBy, isLoading, onSelect, onSort, orderBy, selectedItems } = this.props;
     const { columns, rows } = this.state;
 
     return (
       <DataTable
         columns={columns}
+        exclude={exclude}
         filterBy={filterBy}
         isActionsCell
         isLoading={isLoading}

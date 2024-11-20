@@ -46,7 +46,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
       tagValues,
     },
     tieredRates: {
-      0: { inputValue, isDirty: regularDirty },
+      0: { value: tagValue, isDirty: regularDirty },
     },
     toggleTaggingRate,
     updateDefaultTag,
@@ -198,7 +198,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
               onChange={(_evt, value) => setRegular(value)}
               style={style}
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
-              value={inputValue}
+              value={tagValue}
             />
           ) : (
             <>

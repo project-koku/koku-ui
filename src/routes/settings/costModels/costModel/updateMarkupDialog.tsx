@@ -107,7 +107,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
 
     const helpText = this.markupValidator();
     const validated = helpText ? 'error' : 'default';
-    const markup = `${isDiscount ? '-' : ''}${unFormat(this.state.markup)}`;
+    const markup = `${isDiscount ? '-' : ''}${this.state.markup}`;
 
     return (
       <Modal
@@ -125,7 +125,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
                 source_uuids: current.sources.map(provider => provider.uuid),
                 source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                 markup: {
-                  value: markup,
+                  value: unFormat(markup),
                   unit: 'percent',
                 },
               };
