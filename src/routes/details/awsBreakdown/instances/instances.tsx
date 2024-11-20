@@ -17,7 +17,6 @@ import { NoInstances } from 'routes/components/page/noInstances';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
-import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getExcludeTagKey, getFilterByTagKey } from 'routes/utils/groupBy';
@@ -29,6 +28,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { accountKey, logicalAndPrefix, orgUnitIdKey, regionKey, serviceKey } from 'utils/props';
 
+import { styles } from './instances.styles';
 import { InstancesTable, InstanceTableColumnIds } from './instancesTable';
 import { InstancesToolbar } from './instancesToolbar';
 
