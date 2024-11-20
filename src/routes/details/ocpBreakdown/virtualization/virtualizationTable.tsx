@@ -108,12 +108,13 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
       },
       {
         id: VirtualizationTableColumnIds.cpu,
+        orderBy: 'request_cpu',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'cpu' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
         id: VirtualizationTableColumnIds.memory,
-        orderBy: 'memory',
+        orderBy: 'request_memory',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'memory' }),
         ...(computedItems.length && { isSortable: true }),
       },
