@@ -26,7 +26,8 @@ interface DataTableOwnProps {
   ariaLabel?: string;
   columns?: any[];
   emptyState?: React.ReactNode;
-  filterBy: any;
+  exclude?: any;
+  filterBy?: any;
   isActionsCell?: boolean;
   isLoading?: boolean;
   isSelectable?: boolean;
@@ -42,10 +43,17 @@ type DataTableProps = DataTableOwnProps & RouterComponentProps & WrappedComponen
 
 class DataTable extends React.Component<DataTableProps, any> {
   private getEmptyState = () => {
-    const { emptyState, filterBy, intl } = this.props;
+    const { emptyState, exclude, filterBy, intl } = this.props;
 
     if (filterBy) {
       for (const val of Object.values(filterBy)) {
+        if (val !== '*') {
+          return <EmptyFilterState filter={val as string} showMargin={false} />;
+        }
+      }
+    }
+    if (exclude) {
+      for (const val of Object.values(exclude)) {
         if (val !== '*') {
           return <EmptyFilterState filter={val as string} showMargin={false} />;
         }

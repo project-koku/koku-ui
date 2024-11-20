@@ -13,33 +13,41 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
-import { NoInstances } from 'routes/components/page/noInstances';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { NoVirtualization } from 'routes/components/page/noVirtualization';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getExcludeTagKey, getFilterByTagKey } from 'routes/utils/groupBy';
+import {
+  getExcludeTagKey,
+  getFilterByTagKey,
+  getGroupById,
+  getGroupByTagKey,
+  getGroupByValue,
+} from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
-import { accountKey, logicalAndPrefix, orgUnitIdKey, regionKey, serviceKey } from 'utils/props';
+import { logicalAndPrefix } from 'utils/props';
 
-import { styles } from './instances.styles';
-import { InstancesTable, InstanceTableColumnIds } from './instancesTable';
-import { InstancesToolbar } from './instancesToolbar';
+import { styles } from './virtualization.styles';
+import { VirtualizationTable, VirtualizationTableColumnIds } from './virtualizationTable';
+import { VirtualizationToolbar } from './virtualizationToolbar';
 
-interface InstancesOwnProps {
+interface VirtualizationOwnProps {
   costType?: string;
   currency?: string;
 }
 
-export interface InstancesStateProps {
-  hasAccountFilter: boolean;
-  hasRegionFilter: boolean;
+export interface VirtualizationStateProps {
+  groupBy: string;
+  hasClusterFilter: boolean;
+  hasNodeFilter: boolean;
+  hasProjectFilter: boolean;
   hasTagFilter: boolean;
   report: Report;
   reportError: AxiosError;
@@ -48,11 +56,11 @@ export interface InstancesStateProps {
   timeScopeValue?: number;
 }
 
-export interface InstancesMapProps {
+export interface VirtualizationMapProps {
   // TBD...
 }
 
-type InstancesProps = InstancesOwnProps;
+type VirtualizationProps = VirtualizationOwnProps;
 
 const baseQuery: Query = {
   limit: 10,
@@ -64,26 +72,21 @@ const baseQuery: Query = {
 
 const defaultColumnOptions: ColumnManagementModalOption[] = [
   {
-    label: messages.vcpuTitle,
-    value: InstanceTableColumnIds.vcpu,
+    label: messages.cpuTitle,
+    value: VirtualizationTableColumnIds.cpu,
     hidden: true,
   },
   {
     label: messages.memoryTitle,
-    value: InstanceTableColumnIds.memory,
-    hidden: true,
-  },
-  {
-    label: messages.usage,
-    value: InstanceTableColumnIds.usage,
+    value: VirtualizationTableColumnIds.memory,
     hidden: true,
   },
 ];
 
-const reportType = ReportType.ec2Compute;
-const reportPathsType = ReportPathsType.aws;
+const reportType = ReportType.virtualization;
+const reportPathsType = ReportPathsType.ocp;
 
-const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
+const Virtualization: React.FC<VirtualizationProps> = ({ costType, currency }) => {
   const intl = useIntl();
 
   const [hiddenColumns, setHiddenColumns] = useState(initHiddenColumns(defaultColumnOptions));
@@ -94,8 +97,9 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 
   const [query, setQuery] = useState({ ...baseQuery });
   const {
-    hasAccountFilter,
-    hasRegionFilter,
+    hasClusterFilter,
+    hasNodeFilter,
+    hasProjectFilter,
     hasTagFilter,
     report,
     reportError,
@@ -126,7 +130,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 
   const getComputedItems = () => {
     return getUnsortedComputedReportItems({
-      idKey: 'resource_id' as any,
+      idKey: 'vm_name' as any,
       isGroupBy: false,
       report,
     });
@@ -140,12 +144,12 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
     selectedItems.map(item => {
       items.push(item);
     });
-    // Todo: May need to adjust "instance" for group_by?
+
     return (
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
-        groupBy="instance"
+        groupBy="vm_name"
         isOpen={isExportModalOpen}
         isTimeScoped
         items={items}
@@ -187,9 +191,12 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 
   const getTable = () => {
     return (
-      <InstancesTable
+      <VirtualizationTable
         exclude={query.exclude}
         filterBy={query.filter_by}
+        hideCluster={hasClusterFilter}
+        hideNode={hasNodeFilter}
+        hideProject={hasProjectFilter}
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -211,9 +218,10 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
     const itemsTotal = report?.meta ? report.meta.count : 0;
 
     return (
-      <InstancesToolbar
-        hideAccount={hasAccountFilter}
-        hideRegion={hasRegionFilter}
+      <VirtualizationToolbar
+        hideCluster={hasClusterFilter}
+        hideNode={hasNodeFilter}
+        hideProject={hasProjectFilter}
         hideTag={hasTagFilter}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
@@ -314,13 +322,13 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
-  const hasInstances = report?.meta?.count > 0;
+  const hasVirtualization = report?.meta?.count > 0;
 
   if (reportError) {
     return <NotAvailable />;
   }
-  if (!query.filter_by && !query.exclude && !hasInstances && reportFetchStatus === FetchStatus.complete) {
-    return <NoInstances />;
+  if (!query.filter_by && !query.exclude && !hasVirtualization && reportFetchStatus === FetchStatus.complete) {
+    return <NoVirtualization />;
   }
 
   const computedItems = getComputedItems();
@@ -342,11 +350,14 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   );
 };
 
-const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
+const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState('details');
   const timeScopeValue = getTimeScopeValue(queryState);
+
+  const groupBy = getGroupById(queryFromRoute);
+  const groupByValue = getGroupByValue(queryFromRoute);
 
   const reportQuery = {
     cost_type: costType,
@@ -356,14 +367,13 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
+      [groupBy]: groupByValue,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       ...(query.filter_by && query.filter_by),
-      [orgUnitIdKey]: undefined, // Unsupported filter
-      [serviceKey]: undefined, // Unsupported filter
     },
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
@@ -372,6 +382,7 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
     limit: query.limit,
     offset: query.offset,
     order_by: query.order_by || baseQuery.order_by,
+    // category: 'Platform',
   };
   const reportQueryString = getQuery(reportQuery);
   const report = useSelector((state: RootState) =>
@@ -391,10 +402,21 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
   }, [costType, currency, query]);
 
   return {
-    hasAccountFilter:
-      queryState?.filter_by?.[accountKey] !== undefined || queryState?.exclude?.[accountKey] !== undefined,
-    hasRegionFilter: queryState?.filter_by?.[regionKey] !== undefined || queryState?.exclude?.[regionKey] !== undefined,
-    hasTagFilter: getFilterByTagKey(queryState) !== undefined || getExcludeTagKey(queryState),
+    groupBy,
+    hasClusterFilter:
+      groupBy === 'cluster' ||
+      queryState?.filter_by?.cluster !== undefined ||
+      queryState?.exclude?.cluster !== undefined,
+    hasNodeFilter:
+      groupBy === 'node' || queryState?.filter_by?.node !== undefined || queryState?.exclude?.node !== undefined,
+    hasProjectFilter:
+      groupBy === 'project' ||
+      queryState?.filter_by?.project !== undefined ||
+      queryState?.exclude?.project !== undefined,
+    hasTagFilter:
+      getGroupByTagKey(queryFromRoute) !== undefined ||
+      getFilterByTagKey(queryState) !== undefined ||
+      getExcludeTagKey(queryState),
     report,
     reportError,
     reportFetchStatus,
@@ -403,4 +425,4 @@ const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
   };
 };
 
-export default Instances;
+export default Virtualization;

@@ -214,6 +214,7 @@ class OciDetails extends React.Component<OciDetailsProps, OciDetailsState> {
       <DetailsTable
         basePath={formatPath(routes.ociBreakdown.path)}
         breadcrumbPath={formatPath(`${routes.ociDetails.path}${location.search}`)}
+        exclude={query.exclude}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}

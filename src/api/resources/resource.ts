@@ -26,6 +26,7 @@ export const enum ResourceType {
   service = 'service',
   serviceName = 'service_name',
   subscriptionGuid = 'subscription_guid',
+  virtualization = 'vm_name',
 }
 
 export const enum ResourcePathsType {

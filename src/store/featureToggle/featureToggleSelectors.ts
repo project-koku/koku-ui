@@ -26,3 +26,5 @@ export const selectIsOcpCloudGroupBysToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isOcpCloudGroupBysToggleEnabled;
 export const selectIsProviderEmptyStateToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isProviderEmptyStateToggleEnabled;
+export const selectIsVirtualizationToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isVirtualizationToggleEnabled;

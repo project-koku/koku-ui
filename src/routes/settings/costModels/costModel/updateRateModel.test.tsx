@@ -283,7 +283,7 @@ describe('update-rate', () => {
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
   });
 
-  test('Select Measurement', async () => {
+  test('Select measurement', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     let options = null;
 
@@ -291,33 +291,33 @@ describe('update-rate', () => {
 
     const saveButton = screen.getByText(regExp(messages.save));
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[5]); // Previous select options are not being removed from page
 
     expect(saveButton.getAttribute('disabled')).toBeNull();
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
@@ -393,7 +393,7 @@ describe('update-rate', () => {
     let options = null;
     render(<RenderFormDataUI index={0} />);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 

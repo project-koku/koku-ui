@@ -223,8 +223,22 @@ function getUsageData(val, item?: any) {
     }),
     ...(val.request && {
       request: {
-        value: val.request.value + (item?.request ? item.request.value : 0),
-        units: val.request.units ? val.request.units : defaultUnits,
+        ...(val.request.cpu !== undefined && {
+          cpu: {
+            value: val.request.cpu.value + (item?.request?.cpu ? item.request.cpu.value : 0),
+            units: val.request.cpu.units ? val.request.cpu.units : defaultUnits,
+          },
+        }),
+        ...(val.request.memory !== undefined && {
+          memory: {
+            value: val.request.memory.value + (item?.request?.memory ? item.request.memory.value : 0),
+            units: val.request.memory.units ? val.request.memory.units : defaultUnits,
+          },
+        }),
+        ...(val.request.value !== undefined && {
+          value: val.request.value + (item?.request ? item.request.value : 0),
+          units: val.request.units ? val.request.units : defaultUnits,
+        }),
         ...(val.request.unused !== undefined && {
           unused: val.request.unused + (item?.request ? item.request.unused : 0),
         }),

@@ -260,6 +260,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         basePath={formatPath(routes.ocpBreakdown.path)}
         breadcrumbPath={formatPath(`${routes.ocpDetails.path}${location.search}`)}
         costDistribution={costDistribution}
+        exclude={query.exclude}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}

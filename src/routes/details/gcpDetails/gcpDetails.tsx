@@ -213,6 +213,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
       <DetailsTable
         basePath={formatPath(routes.gcpBreakdown.path)}
         breadcrumbPath={formatPath(`${routes.gcpDetails.path}${location.search}`)}
+        exclude={query.exclude}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}
