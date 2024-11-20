@@ -215,6 +215,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       <DetailsTable
         basePath={formatPath(routes.ibmBreakdown.path)}
         breadcrumbPath={formatPath(`${routes.ibmDetails.path}${location.search}`)}
+        exclude={query.exclude}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         groupByTagKey={groupByTagKey}

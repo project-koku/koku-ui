@@ -49,7 +49,7 @@ const ProviderDetailsContent: React.FC<ProviderDetailsContentProps> = ({
       <ProviderBreakdownContent providerId={providerId} providerType={providerType} />
     </>
   ) : (
-    <ProviderStatus onClick={handleOnDetailsClick} providerType={providerType} />
+    <ProviderStatus onClick={handleOnDetailsClick} providerType={providerType} showNotAvailable />
   );
 };
 

@@ -229,6 +229,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
       <DetailsTable
         basePath={formatPath(routes.awsBreakdown.path)}
         breadcrumbPath={formatPath(`${routes.awsDetails.path}${location.search}`)}
+        exclude={query.exclude}
         filterBy={query.filter_by}
         groupBy={
           groupByCostCategory

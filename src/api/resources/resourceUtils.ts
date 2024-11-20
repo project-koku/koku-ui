@@ -45,6 +45,7 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
       case ResourceType.service:
       case ResourceType.serviceName:
       case ResourceType.subscriptionGuid:
+      case ResourceType.virtualization:
         result = true;
         break;
     }

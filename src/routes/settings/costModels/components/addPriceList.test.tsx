@@ -127,12 +127,12 @@ describe('add-a-new-rate', () => {
     await user.type(screen.getByLabelText('Description'), 'regular rate test');
 
     // select first option for metric
-    await user.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
     // select first option for measurement
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[3]); // Previous select options are not being removed from page
 
@@ -142,7 +142,7 @@ describe('add-a-new-rate', () => {
     // selecting a different measurement does not reset cost type to default
     await user.click(screen.getByLabelText(qr.supplradio));
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
@@ -151,13 +151,13 @@ describe('add-a-new-rate', () => {
     // selecting metric will reset both measurement and cost type
     await user.click(screen.getByLabelText(qr.infraradio));
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
     expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[3]); // Previous select options are not being removed from page
 
@@ -198,11 +198,11 @@ describe('add-a-new-rate', () => {
 
     await user.type(screen.getByLabelText('Description'), 'tag rate test');
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[3]); // Previous select options are not being removed from page
 
@@ -269,11 +269,11 @@ describe('add-a-new-rate', () => {
 
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[3]); // Previous select options are not being removed from page
 
@@ -291,13 +291,13 @@ describe('add-a-new-rate', () => {
     await user.type(tagKeyInput, '{backspace}');
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[1]);
 
     expect(screen.queryByText(regExp(messages.priceListDuplicate))).toBeNull();
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[3]);
 
@@ -312,11 +312,11 @@ describe('add-a-new-rate', () => {
 
     await render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
-    await user.click(screen.getByLabelText('Select Metric'));
+    await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
     await user.click(options[2]);
 
-    await user.click(screen.getByLabelText('Select Measurement'));
+    await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options[0]);
     expect(screen.queryAllByLabelText(regExp(messages.costModelsEnterTagRate))).toHaveLength(0);
