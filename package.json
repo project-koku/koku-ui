@@ -66,7 +66,7 @@
     "@redhat-cloud-services/rbac-client": "^2.2.11",
     "@reduxjs/toolkit": "^2.3.0",
     "@unleash/proxy-client-react": "^4.4.0",
-    "axios": "^1.7.7",
+    "axios": "^1.7.8",
     "date-fns": "^4.1.0",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
