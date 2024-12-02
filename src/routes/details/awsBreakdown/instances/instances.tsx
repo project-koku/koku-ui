@@ -154,6 +154,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
         reportQueryString={reportQueryString}
         reportType={reportType}
         showAggregateType={false}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
