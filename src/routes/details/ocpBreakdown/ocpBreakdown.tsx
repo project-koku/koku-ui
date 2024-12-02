@@ -100,7 +100,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   const breadcrumbLabel = queryFromRoute[breadcrumbLabelKey] ? queryFromRoute[breadcrumbLabelKey] : undefined;
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
-  return {
+  const test = {
     breadcrumbLabel,
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
     dataDetailsComponent:
@@ -133,6 +133,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       />
     ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
+    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     isVirtualizationToggleEnabled: FeatureToggleSelectors.selectIsVirtualizationToggleEnabled(state),
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
@@ -153,6 +154,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     title,
     virtualizationComponent: <Virtualization currency={currency} />,
   };
+  return test;
 });
 
 const mapDispatchToProps: OcpBreakdownDispatchProps = {
