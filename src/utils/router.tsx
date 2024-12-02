@@ -1,6 +1,5 @@
-import type { Location } from '@remix-run/router';
 import React from 'react';
-import type { NavigateFunction } from 'react-router/dist/lib/hooks';
+import type { Location, NavigateFunction } from 'react-router-dom';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export interface RouteComponentProps {
