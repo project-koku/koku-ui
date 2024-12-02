@@ -1,6 +1,6 @@
-import type { Location } from '@remix-run/router';
 import type { Query } from 'api/queries/query';
 import { getQueryRoute } from 'api/queries/query';
+import type { Location } from 'react-router-dom';
 
 import type { Filter } from './filter';
 import { addFilterToQuery, removeFilterFromQuery } from './filter';
