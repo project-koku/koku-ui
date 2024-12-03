@@ -3720,11 +3720,6 @@ export default defineMessages({
     description: 'Status/Actions',
     id: 'statusActions',
   },
-  statusMissing: {
-    defaultMessage: 'Missing status',
-    description: 'Missing status',
-    id: 'statusMissing',
-  },
   statusMsg: {
     defaultMessage:
       '{value, select, ' +
@@ -3741,6 +3736,11 @@ export default defineMessages({
     defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
     description: 'Status states',
     id: 'statusStates',
+  },
+  statusUnavailable: {
+    defaultMessage: 'Unavailable',
+    description: 'Unavailable',
+    id: 'statusUnavailable',
   },
   storage: {
     defaultMessage: 'Storage',
