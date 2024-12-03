@@ -8,7 +8,7 @@ import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { formatDate } from 'routes/details/components/providerStatus/utils/format';
-import { getOverallStatusIcon } from 'routes/details/components/providerStatus/utils/icon';
+import { getOverallStatusIcon, getWarningStatusIcon } from 'routes/details/components/providerStatus/utils/icon';
 import {
   getProviderAvailability,
   getProviderStatus,
@@ -27,6 +27,7 @@ interface OverallStatusOwnProps {
   isStatusMsg?: boolean;
   providerId?: string;
   providerType: ProviderType;
+  showWarningIcon?: boolean; // Show warning icon for no status
   uuId?: string;
 }
 
@@ -45,6 +46,7 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
   isStatusMsg,
   providerId,
   providerType,
+  showWarningIcon,
   uuId,
 }: OverallStatusProps) => {
   const { providers, providersError } = useMapToProps();
@@ -210,7 +212,12 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
         </>
       );
     }
-    return null;
+    return showWarningIcon ? (
+      <>
+        <span style={styles.statusIcon}>{getWarningStatusIcon()}</span>
+        <span style={styles.description}>{intl.formatMessage(messages.statusMissing)}</span>
+      </>
+    ) : null;
   };
 
   if (!providers || providersError) {
