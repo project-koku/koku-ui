@@ -3720,6 +3720,11 @@ export default defineMessages({
     description: 'Status/Actions',
     id: 'statusActions',
   },
+  statusMissing: {
+    defaultMessage: 'Missing status',
+    description: 'Missing status',
+    id: 'statusMissing',
+  },
   statusMsg: {
     defaultMessage:
       '{value, select, ' +

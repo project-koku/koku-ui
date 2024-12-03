@@ -612,6 +612,7 @@
   "start": "Start",
   "status": "Status",
   "statusActions": "Status/Actions",
+  "statusMissing": "Missing status",
   "statusMsg": "{value, select, complete {Complete} failed {Failed} in_progress {in-Progress} paused {Paused} pending {Pending} other {}}",
   "statusStates": "{value, select, pending {Pending} running {Running} failed {Failed} other {}}",
   "storage": "Storage",

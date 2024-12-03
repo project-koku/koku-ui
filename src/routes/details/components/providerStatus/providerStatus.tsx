@@ -50,7 +50,7 @@ const ProviderStatus: React.FC<ProviderStatusProps> = ({
   }
 
   // Filter providers to skip an extra API request
-  const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
+  const filteredProviders = filterProviders(providers, providerType)?.data;
   if (filteredProviders.length === 0) {
     return;
   }

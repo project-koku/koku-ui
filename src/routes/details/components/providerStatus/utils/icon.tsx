@@ -4,6 +4,7 @@ import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/ex
 import { InProgressIcon } from '@patternfly/react-icons/dist/esm/icons/in-progress-icon';
 import { PauseIcon } from '@patternfly/react-icons/dist/esm/icons/pause-icon';
 import { PendingIcon } from '@patternfly/react-icons/dist/esm/icons/pending-icon';
+import { WarningTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/warning-triangle-icon';
 import React from 'react';
 
 import { lookupKey, StatusType } from './status';
@@ -47,4 +48,12 @@ export const getOverallStatusIcon = (status: StatusType) => {
       break;
   }
   return icon ? <Icon status={variant}>{icon}</Icon> : null;
+};
+
+export const getWarningStatusIcon = () => {
+  return (
+    <Icon status="warning">
+      <WarningTriangleIcon />
+    </Icon>
+  );
 };
