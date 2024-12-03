@@ -61,7 +61,9 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
           { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
-          { value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} showWarningIcon /> },
+          {
+            value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} showUnavailableStatus />,
+          },
           {
             value: item.status !== null ? getDetailsLink() : null,
           },

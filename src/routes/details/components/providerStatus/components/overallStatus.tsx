@@ -27,7 +27,7 @@ interface OverallStatusOwnProps {
   isStatusMsg?: boolean;
   providerId?: string;
   providerType: ProviderType;
-  showWarningIcon?: boolean; // Show warning icon for no status
+  showUnavailableStatus?: boolean; // Show warning icon for no status
   uuId?: string;
 }
 
@@ -46,7 +46,7 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
   isStatusMsg,
   providerId,
   providerType,
-  showWarningIcon,
+  showUnavailableStatus,
   uuId,
 }: OverallStatusProps) => {
   const { providers, providersError } = useMapToProps();
@@ -212,10 +212,10 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
         </>
       );
     }
-    return showWarningIcon ? (
+    return showUnavailableStatus ? (
       <>
         <span style={styles.statusIcon}>{getWarningStatusIcon()}</span>
-        <span style={styles.description}>{intl.formatMessage(messages.statusMissing)}</span>
+        <span style={styles.description}>{intl.formatMessage(messages.statusUnavailable)}</span>
       </>
     ) : null;
   };

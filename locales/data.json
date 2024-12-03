@@ -12941,12 +12941,6 @@
         "value": "Status/Actions"
       }
     ],
-    "statusMissing": [
-      {
-        "type": 0,
-        "value": "Missing status"
-      }
-    ],
     "statusMsg": [
       {
         "options": {
@@ -13031,6 +13025,12 @@
         },
         "type": 5,
         "value": "value"
+      }
+    ],
+    "statusUnavailable": [
+      {
+        "type": 0,
+        "value": "Unavailable"
       }
     ],
     "storage": [
