@@ -8,6 +8,7 @@ export const enum StatusType {
   complete = 'complete',
   failed = 'failed',
   inProgress = 'in_progress',
+  none = 'none',
   paused = 'paused',
   pending = 'pending',
 }
@@ -25,7 +26,7 @@ export const lookupKey = (value: string) => {
     case 'pending':
       return StatusType.pending;
     default:
-      return undefined;
+      return StatusType.none;
   }
 };
 
@@ -119,6 +120,13 @@ export const getProviderStatus = (
   ) {
     status = StatusType.pending;
     msg = getProviderStatusMsg({ downloadState, processingState, summaryState }, StatusType.pending);
+  } else if (
+    downloadState === StatusType.none &&
+    processingState === StatusType.none &&
+    summaryState === StatusType.none
+  ) {
+    status = StatusType.none;
+    msg = getProviderStatusMsg({ downloadState, processingState, summaryState }, StatusType.none);
   } else if (
     downloadState === StatusType.complete &&
     processingState === StatusType.complete &&

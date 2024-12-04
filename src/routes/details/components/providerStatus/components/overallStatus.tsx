@@ -8,7 +8,7 @@ import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { formatDate } from 'routes/details/components/providerStatus/utils/format';
-import { getOverallStatusIcon, getWarningStatusIcon } from 'routes/details/components/providerStatus/utils/icon';
+import { getOverallStatusIcon } from 'routes/details/components/providerStatus/utils/icon';
 import {
   getProviderAvailability,
   getProviderStatus,
@@ -27,7 +27,6 @@ interface OverallStatusOwnProps {
   isStatusMsg?: boolean;
   providerId?: string;
   providerType: ProviderType;
-  showUnavailableStatus?: boolean; // Show warning icon for no status
   uuId?: string;
 }
 
@@ -46,7 +45,6 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
   isStatusMsg,
   providerId,
   providerType,
-  showUnavailableStatus,
   uuId,
 }: OverallStatusProps) => {
   const { providers, providersError } = useMapToProps();
@@ -54,7 +52,7 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
 
   // Filter providers to skip an extra API request
   const getFilteredProviders = () => {
-    return filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
+    return filterProviders(providers, providerType)?.data;
   };
 
   const getOverallStatus = (
@@ -74,18 +72,17 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
       if (msg && status) {
         return;
       }
-      if (statusType === StatusType.complete) {
-        // A cluster may not have an integration, so cloudProvider could be undefined
-        if (
-          (state1 === undefined || state1?.status === statusType) &&
-          (state2 === undefined || state2?.status === statusType) &&
-          (state3 === undefined || state3?.status === statusType) &&
-          (state4 === undefined || state4?.status === statusType)
-        ) {
-          lastUpdated = state1?.lastUpdated;
-          msg = state1?.msg;
-          status = statusType;
-        }
+      // A cluster may not have an integration, so cloudProvider could be undefined
+      if (
+        statusType === StatusType.complete &&
+        (state1 === undefined || state1?.status === statusType) &&
+        (state2 === undefined || state2?.status === statusType) &&
+        (state3 === undefined || state3?.status === statusType) &&
+        (state4 === undefined || state4?.status === statusType)
+      ) {
+        lastUpdated = state1?.lastUpdated;
+        msg = state1?.msg;
+        status = statusType;
       } else {
         if (state1?.status === statusType) {
           lastUpdated = state1?.lastUpdated;
@@ -113,6 +110,7 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
     initializeState(StatusType.paused, cloudAvailability, providerAvailability, cloudStatus, providerStatus);
     initializeState(StatusType.inProgress, cloudAvailability, providerAvailability, cloudStatus, providerStatus); // Availability won't likely have in-progress and pending states
     initializeState(StatusType.pending, cloudAvailability, providerAvailability, cloudStatus, providerStatus);
+    initializeState(StatusType.none, providerStatus, cloudStatus, providerAvailability, cloudAvailability); // Cannot show complete with an undefined status
     initializeState(StatusType.complete, providerStatus, cloudStatus, providerAvailability, cloudAvailability); // Must display the cluster status msg here
 
     return { lastUpdated, msg, status };
@@ -122,6 +120,7 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
     let completeCount = 0;
     let failedCount = 0;
     let inProgressCount = 0;
+    let noneCount = 0;
     let pausedCount = 0;
     let pendingCount = 0;
 
@@ -148,6 +147,9 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
       }
       if (overallStatus.status === StatusType.complete) {
         completeCount++;
+      }
+      if (overallStatus.status === StatusType.none) {
+        noneCount++;
       }
     });
     return (
@@ -182,6 +184,12 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
             <span style={styles.statusIcon}>{getOverallStatusIcon(StatusType.pending)}</span>
           </>
         )}
+        {noneCount > 0 && (
+          <>
+            <span style={styles.count}>{noneCount}</span>
+            <span style={styles.statusIcon}>{getOverallStatusIcon(StatusType.none)}</span>
+          </>
+        )}
       </>
     );
   };
@@ -212,12 +220,7 @@ const OverallStatus: React.FC<OverallStatusProps> = ({
         </>
       );
     }
-    return showUnavailableStatus ? (
-      <>
-        <span style={styles.statusIcon}>{getWarningStatusIcon()}</span>
-        <span style={styles.description}>{intl.formatMessage(messages.statusUnavailable)}</span>
-      </>
-    ) : null;
+    return null;
   };
 
   if (!providers || providersError) {

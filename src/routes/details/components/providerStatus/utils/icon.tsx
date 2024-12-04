@@ -29,14 +29,18 @@ export const getOverallStatusIcon = (status: StatusType) => {
   switch (status) {
     case StatusType.complete:
       icon = <CheckCircleIcon />;
-      variant = 'success'; // Use green color
+      variant = 'success'; // Green
       break;
     case StatusType.failed:
       icon = <ExclamationCircleIcon />;
-      variant = 'danger'; // Use red color
+      variant = 'danger'; // Red
       break;
     case StatusType.inProgress:
       icon = <InProgressIcon />;
+      break;
+    case StatusType.none:
+      icon = <WarningTriangleIcon />;
+      variant = 'warning'; // Yellow
       break;
     case StatusType.paused:
       icon = <PauseIcon />;
@@ -48,12 +52,4 @@ export const getOverallStatusIcon = (status: StatusType) => {
       break;
   }
   return icon ? <Icon status={variant}>{icon}</Icon> : null;
-};
-
-export const getWarningStatusIcon = () => {
-  return (
-    <Icon status="warning">
-      <WarningTriangleIcon />
-    </Icon>
-  );
 };
