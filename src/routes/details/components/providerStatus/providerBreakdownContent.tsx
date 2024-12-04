@@ -53,7 +53,7 @@ const ProviderBreakdownContent: React.FC<ProviderDetailsContentProps> = ({
   }
 
   // Filter OCP providers to skip an extra API request
-  const filteredProviders = filterProviders(providers, providerType)?.data?.filter(data => data.status !== null);
+  const filteredProviders = filterProviders(providers, providerType)?.data;
   const provider = filteredProviders?.find(
     val =>
       providerId === val.id ||

@@ -48,24 +48,21 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
     providers?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
 
-      const getDetailsLink = () => {
-        return onClick ? (
-          <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
-            {intl.formatMessage(messages.dataDetails)}
-          </Button>
-        ) : (
-          <ProviderBreakdownModal providerId={item.id} providerType={providerType} />
-        );
-      };
       newRows.push({
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
           { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
           {
-            value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} showUnavailableStatus />,
+            value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
           },
           {
-            value: item.status !== null ? getDetailsLink() : null,
+            value: onClick ? (
+              <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
+                {intl.formatMessage(messages.dataDetails)}
+              </Button>
+            ) : (
+              <ProviderBreakdownModal providerId={item.id} providerType={providerType} />
+            ),
           },
         ],
         item,

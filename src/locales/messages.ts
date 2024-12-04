@@ -3726,6 +3726,7 @@ export default defineMessages({
       'complete {Complete} ' +
       'failed {Failed} ' +
       'in_progress {in-Progress} ' +
+      'none {Incomplete} ' +
       'paused {Paused} ' +
       'pending {Pending} ' +
       'other {}}',
@@ -3736,11 +3737,6 @@ export default defineMessages({
     defaultMessage: '{value, select, ' + 'pending {Pending} ' + 'running {Running} ' + 'failed {Failed} ' + 'other {}}',
     description: 'Status states',
     id: 'statusStates',
-  },
-  statusUnavailable: {
-    defaultMessage: 'Unavailable',
-    description: 'Unavailable',
-    id: 'statusUnavailable',
   },
   storage: {
     defaultMessage: 'Storage',
