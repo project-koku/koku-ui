@@ -5,7 +5,7 @@ import { MaintenanceState } from './maintenanceState';
 
 const Maintenance = () => {
   return (
-    <PageSection>
+    <PageSection hasBodyWrapper={false}>
       <MaintenanceState />
     </PageSection>
   );

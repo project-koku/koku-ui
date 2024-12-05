@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { AwsQuery } from 'api/queries/awsQuery';
 import { getQuery } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
@@ -52,7 +52,7 @@ interface VirtualizationToolbarDispatchProps {
 }
 
 interface VirtualizationToolbarState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarLabelGroup[];
 }
 
 type VirtualizationToolbarProps = VirtualizationToolbarOwnProps &
@@ -96,7 +96,7 @@ export class VirtualizationToolbarBase extends React.Component<VirtualizationToo
     }
   }
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { hideCluster, hideNode, hideProject, hideTag, intl, tagReport } = this.props;
 
     const options: { name: string; key: string; resourceKey?: string }[] = [

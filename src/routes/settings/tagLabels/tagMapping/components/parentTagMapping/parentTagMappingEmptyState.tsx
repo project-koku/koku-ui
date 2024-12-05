@@ -4,17 +4,11 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   EmptyStateVariant,
-  Icon,
 } from '@patternfly/react-core';
-import { CheckCircleIcon } from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-
-import { styles } from './parentTagMapping.styles';
 
 interface ParentTagMappingEmptyStateOwnProps {
   onClose(event);
@@ -30,16 +24,12 @@ const ParentTagMappingEmptyState: React.FC<ParentTagMappingEmptyStateProps> = ({
   const intl = useIntl();
 
   return (
-    <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
-      <EmptyStateHeader
-        titleText={intl.formatMessage(messages.tagMappingWizardSuccess)}
-        icon={
-          <Icon status="success" style={styles.icon}>
-            <EmptyStateIcon icon={CheckCircleIcon} />
-          </Icon>
-        }
-        headingLevel="h5"
-      />
+    <EmptyState
+      headingLevel="h5"
+      titleText={intl.formatMessage(messages.tagMappingWizardSuccess)}
+      variant={EmptyStateVariant.lg}
+      className="pf-m-redhat-font"
+    >
       <EmptyStateBody>
         {intl.formatMessage(messages.tagMappingWizardSuccessDesc, {
           learnMore: (
