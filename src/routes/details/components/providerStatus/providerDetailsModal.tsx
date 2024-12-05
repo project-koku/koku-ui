@@ -26,18 +26,19 @@ const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({ providerTyp
   };
 
   const handleOnClick = () => {
+    setTitle(messages.integrationsStatus);
     setVariant(ModalVariant.medium);
     setIsOpen(true);
   };
 
   const handleOnBackClick = () => {
-    setVariant(ModalVariant.medium);
     setTitle(messages.integrationsStatus);
+    setVariant(ModalVariant.medium);
   };
 
   const handleOnDetailsClick = () => {
-    setVariant(ModalVariant.small);
     setTitle(messages.integrationsDetails);
+    setVariant(ModalVariant.small);
   };
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
