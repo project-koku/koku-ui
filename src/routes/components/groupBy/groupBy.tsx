@@ -30,6 +30,7 @@ import { GroupByOrg } from './groupByOrg';
 import { GroupBySelect } from './groupBySelect';
 
 interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
+  dateRangeType?: string;
   endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
@@ -122,8 +123,12 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const { groupBy, perspective } = this.props;
-    if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
+    const { dateRangeType, groupBy, perspective } = this.props;
+    if (
+      prevProps.groupBy !== groupBy ||
+      prevProps.perspective !== perspective ||
+      prevProps.dateRangeType !== dateRangeType
+    ) {
       let options;
       if (prevProps.perspective !== perspective) {
         options = {

@@ -52,7 +52,9 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
           { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
-          { value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} /> },
+          {
+            value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
+          },
           {
             value: onClick ? (
               <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>

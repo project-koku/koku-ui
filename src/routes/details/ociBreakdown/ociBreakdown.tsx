@@ -100,6 +100,7 @@ const mapStateToProps = createMapStateToProps<OciOwnProps, BreakdownStateProps>(
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData currency={currency} timeScopeValue={timeScopeValue} />,
+    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.oci),
     providersError,

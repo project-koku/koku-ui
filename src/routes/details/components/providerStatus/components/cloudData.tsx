@@ -24,6 +24,9 @@ const CloudData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
     return null;
   }
 
+  // Note: The sources API returns two types for last_payload_received_at. We're expecting a date string, but a boolean
+  // may be returned instead. See https://issues.redhat.com/browse/COST-5750
+
   return (
     <>
       <TextContent>
@@ -46,7 +49,7 @@ const CloudData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
           aria-label={intl.formatMessage(messages.dataDetailsAvailability)}
           id="step2"
           titleId="step2-title"
-          variant="success"
+          variant={typeof provider.last_payload_received_at === 'string' ? 'success' : 'default'}
         >
           {intl.formatMessage(messages.dataDetailsAvailability)}
           <div style={styles.description}>{formatDate(provider.last_payload_received_at)}</div>
