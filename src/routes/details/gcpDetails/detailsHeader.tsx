@@ -142,7 +142,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
             <Flex>
               <FlexItem style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
                 <GroupBy
-                  dateRangeType={currentDateRangeType}
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
                   groupBy={groupBy}
                   isDisabled={!showContent}
@@ -150,6 +149,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
                   options={groupByOptions}
                   showTags
                   tagPathsType={tagPathsType}
+                  timeScopeValue={timeScopeValue}
                 />
               </FlexItem>
               {isDetailsDateRangeToggleEnabled && (

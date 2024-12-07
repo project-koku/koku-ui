@@ -233,7 +233,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, router, report } = this.props;
+    const { query, router, report, timeScopeValue } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -256,6 +256,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
         pagination={this.getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
+        timeScopeValue={timeScopeValue}
       />
     );
   };
