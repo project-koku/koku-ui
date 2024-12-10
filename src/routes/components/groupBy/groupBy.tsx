@@ -131,7 +131,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       prevProps.startDate !== startDate ||
       prevProps.timeScopeValue !== timeScopeValue
     ) {
-      let options = {};
+      let options;
       if (prevProps.perspective !== perspective) {
         options = {
           isGroupByCostCategoryVisible: false,
@@ -141,7 +141,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
       }
       if (prevProps.timeScopeValue !== timeScopeValue && this.getCurrentGroupBy() !== tagKey) {
         options = {
-          ...options,
+          ...(options && options),
           isGroupByTagVisible: false,
         };
       }

@@ -135,7 +135,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     ) {
       this.setState(() => {
         const filters = getActiveFilters(query);
-        return categoryOptions !== prevProps.categoryOptions || prevProps.groupBy !== groupBy
+        return prevProps.groupBy !== groupBy ||
+          !isEqual(tagReport, prevProps.tagReport) ||
+          !isEqual(categoryOptions, prevProps.categoryOptions)
           ? {
               categoryInput: '',
               costCategoryKeyValueInput: '',
@@ -582,9 +584,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       onTagValueSelect: this.handleOnTagValueSelect,
       onTagValueInput: this.handleOnTagValueInput,
       onTagValueInputChange: this.handleOnTagValueInputChange,
+      tagKeyValueInput,
       tagKeyOption,
       tagPathsType,
-      tagKeyValueInput,
     });
   };
 
@@ -739,8 +741,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       showFilter,
       showPlatformCosts,
       style,
+      query,
       tagReport,
     } = this.props;
+
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
     const filteredOptions = options.filter(
       option => option.key !== awsCategoryKey && option.key !== tagKey && option.key !== orgUnitIdKey
@@ -766,7 +770,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                     this.getCostCategoryValueSelectComponent(option)
                   )}
                   {this.getTagKeySelectComponent()}
-                  {getTagKeyOptions(tagReport).map(option => this.getTagValueSelect(option))}
+                  {getTagKeyOptions(tagReport, query).map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelectComponent()}
                   {filteredOptions.map(option => this.getCategoryInputComponent(option))}
                   {filteredOptions.map(option => this.getCustomSelectComponent(option))}

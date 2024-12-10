@@ -92,22 +92,21 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { orgReport, query, resourceReport, tagReport } = this.props;
+    const { orgReport, query, resourceReport, tagQueryString, tagReport } = this.props;
 
     if (
       !isEqual(orgReport, prevProps.orgReport) ||
       !isEqual(resourceReport, prevProps.resourceReport) ||
       !isEqual(tagReport, prevProps.tagReport)
     ) {
-      this.setState(
-        {
-          categoryOptions: this.getCategoryOptions(),
-        },
-        () => {
-          this.updateReport();
-        }
-      );
-    } else if (query && !isEqual(query, prevProps.query)) {
+      this.setState({
+        categoryOptions: this.getCategoryOptions(),
+      });
+    }
+    if (
+      (query && !isEqual(query, prevProps.query)) ||
+      (tagQueryString && !isEqual(tagQueryString, prevProps.tagQueryString))
+    ) {
       this.updateReport();
     }
   }
