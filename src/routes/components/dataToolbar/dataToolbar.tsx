@@ -47,6 +47,7 @@ interface DataToolbarOwnProps {
   className?: string;
   dateRange?: React.ReactNode; // Optional date range controls to display in toolbar
   datePicker?: React.ReactNode; // Optional date picker controls to display in toolbar
+  endDate?: string; // For Cost Explorer tag key value
   groupBy?: string; // Sync category selection with groupBy value
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -72,9 +73,11 @@ interface DataToolbarOwnProps {
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   showPlatformCosts?: boolean; // Show platform costs switch
+  startDate?: string; // For Cost Explorer tag key value
   style?: React.CSSProperties;
   tagPathsType?: TagPathsType;
   tagReport?: Tag; // Data containing tag key and value data
+  timeScopeValue?: number;
 }
 
 interface DataToolbarState {
@@ -572,21 +575,24 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   // Tag value select
 
   public getTagValueSelect = (tagKeyOption: ToolbarChipGroupExt) => {
-    const { isDisabled, tagPathsType } = this.props;
+    const { endDate, isDisabled, startDate, tagPathsType, timeScopeValue } = this.props;
     const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
 
     return getTagValueSelect({
       currentCategory,
       currentTagKey,
+      endDate,
       filters,
       isDisabled,
       onDelete: this.handleOnDelete,
       onTagValueSelect: this.handleOnTagValueSelect,
       onTagValueInput: this.handleOnTagValueInput,
       onTagValueInputChange: this.handleOnTagValueInputChange,
+      startDate,
       tagKeyValueInput,
       tagKeyOption,
       tagPathsType,
+      timeScopeValue,
     });
   };
 
@@ -741,9 +747,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       showFilter,
       showPlatformCosts,
       style,
-      query,
       tagReport,
     } = this.props;
+    const { filters } = this.state;
 
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
     const filteredOptions = options.filter(
@@ -770,7 +776,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
                     this.getCostCategoryValueSelectComponent(option)
                   )}
                   {this.getTagKeySelectComponent()}
-                  {getTagKeyOptions(tagReport, query).map(option => this.getTagValueSelect(option))}
+                  {getTagKeyOptions(tagReport, filters).map(option => this.getTagValueSelect(option))}
                   {this.getOrgUnitSelectComponent()}
                   {filteredOptions.map(option => this.getCategoryInputComponent(option))}
                   {filteredOptions.map(option => this.getCustomSelectComponent(option))}

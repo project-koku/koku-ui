@@ -175,6 +175,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       resourceReport,
       selectedItems,
       tagReport,
+      timeScopeValue,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -204,6 +205,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         showFilter
         tagPathsType={tagPathsType}
         tagReport={tagReport}
+        timeScopeValue={timeScopeValue}
       />
     );
   }
@@ -215,8 +217,6 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     // however, for better server-side performance, we chose to use key_only here.
     const baseQuery = {
       filter: {
-        resolution: 'monthly',
-        time_scope_units: 'month',
         time_scope_value: timeScopeValue,
       },
       key_only: true,
