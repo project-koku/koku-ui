@@ -366,7 +366,7 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
       ...(query.filter || baseQuery.filter),
       resolution: 'monthly',
       time_scope_units: 'month',
-      time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
+      time_scope_value: timeScopeValue,
       [groupBy]: groupByValue,
     },
     filter_by: {

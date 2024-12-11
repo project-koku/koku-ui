@@ -339,9 +339,8 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { endDate, orgPathsType, resourcePathsType, startDate, tagPathsType, timeScopeValue }) => {
-    // Use start and end dates with Cost Explorer
-    // Default to current month filter for details pages
+  (state, { endDate, orgPathsType, resourcePathsType, startDate, tagPathsType, timeScopeValue = -1 }) => {
+    // Use start and end dates with Cost Explorer, default to current month filter for details pages
     const tagFilter =
       startDate && endDate
         ? {
@@ -350,9 +349,7 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
           }
         : {
             filter: {
-              resolution: 'monthly',
-              time_scope_units: 'month',
-              time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
+              time_scope_value: timeScopeValue,
             },
           };
 

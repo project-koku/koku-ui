@@ -247,6 +247,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 
   public render() {
     const {
+      endDate,
       groupBy,
       isDisabled,
       onFilterAdded,
@@ -255,6 +256,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       query,
       resourcePathsType,
       resourceReport,
+      startDate,
       tagPathsType,
       tagReport,
     } = this.props;
@@ -266,6 +268,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         className="explorerToolbarOverride"
         datePicker={this.getDatePickerComponent()}
         dateRange={this.getDateRangeComponent()}
+        endDate={endDate}
         groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
@@ -274,6 +277,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         query={query}
         resourceReport={resourceReport}
         resourcePathsType={resourcePathsType}
+        startDate={startDate}
         style={styles.toolbarContainer}
         showExcludes
         showFilter
