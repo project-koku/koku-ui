@@ -106,20 +106,23 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   }
 
   public componentDidUpdate(prevProps: ExplorerFilterProps) {
-    const { dateRangeType, orgReport, query, tagReport } = this.props;
+    const { dateRangeType, orgReport, query, tagQueryString, tagReport } = this.props;
 
-    if (query && !isEqual(query, prevProps.query)) {
-      this.updateReport();
-    }
     if (
+      prevProps.dateRangeType !== dateRangeType ||
       !isEqual(orgReport, prevProps.orgReport) ||
-      !isEqual(tagReport, prevProps.tagReport) ||
-      prevProps.dateRangeType !== dateRangeType
+      !isEqual(tagReport, prevProps.tagReport)
     ) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
         showDatePicker: dateRangeType === DateRangeType.custom,
       });
+    }
+    if (
+      (query && !isEqual(query, prevProps.query)) ||
+      (tagQueryString && !isEqual(tagQueryString, prevProps.tagQueryString))
+    ) {
+      this.updateReport();
     }
   }
 

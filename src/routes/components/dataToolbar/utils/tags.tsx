@@ -1,5 +1,6 @@
 import type { ToolbarChipGroup } from '@patternfly/react-core';
 import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
+import type { Query } from 'api/queries/query';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -35,7 +36,7 @@ export const getTagKeySelect = ({
     return null;
   }
 
-  const selectOptions = getTagKeyOptions(tagReport, true) as SelectWrapperOption[];
+  const selectOptions = getTagKeyOptions(tagReport, undefined, true) as SelectWrapperOption[];
 
   return (
     <ToolbarItem>
@@ -53,7 +54,78 @@ export const getTagKeySelect = ({
   );
 };
 
+// Ensure tag keys are available for given date range
+//
+// Note: It's possible the user applied a tag filter which is no longer available in a new date range.
+// For example, when switching the date range between current and previous months. Tags may only be available in the
+// current month and vice versa.
+//
+// The problem is that we obtain a list of tag keys from the tag report, in order to show the currently applied filters
+// using PatternFly filter chips. If an applied filter is not available in the tag report, then the associated
+// filter chip will not be shown and users cannot clear that filter.
+//
+// As a workaround, we can use the filter_by query params to discover any missing tag keys. This represents the
+// previously applied filters, which we combine with keys from the tag report.
 export const getTagKeyOptions = (
+  tagReport: Tag,
+  query: Query,
+  isSelectWrapperOption = false
+): ToolbarChipGroup[] | SelectWrapperOption[] => {
+  const options = [];
+  const reportOptions = getTagKeyOptionsFromReport(tagReport, isSelectWrapperOption);
+  const queryOptions = getTagKeyOptionsFromQuery(query, isSelectWrapperOption);
+
+  const isTagKeyEqual = (a, b) => {
+    if (isSelectWrapperOption) {
+      return a.value === b.value;
+    } else {
+      return a.name === b.name;
+    }
+  };
+
+  for (const reportoption of reportOptions) {
+    if (!options.find(option => isTagKeyEqual(option, reportoption))) {
+      options.push(reportoption);
+    }
+  }
+  for (const queryOption of queryOptions) {
+    if (!options.find(option => isTagKeyEqual(option, queryOption))) {
+      options.push(queryOption);
+    }
+  }
+  return options;
+};
+
+const getTagKeyOptionsFromQuery = (
+  query: Query,
+  isSelectWrapperOption = false
+): ToolbarChipGroup[] | SelectWrapperOption[] => {
+  const options = [];
+
+  if (!query?.filter_by) {
+    return options;
+  }
+
+  for (const filter of Object.keys(query.filter_by)) {
+    if (filter.indexOf(tagPrefix) !== -1) {
+      const key = filter.substring(tagPrefix.length);
+      options.push(
+        isSelectWrapperOption
+          ? {
+              toString: () => key, // Tag keys not localized
+              value: key,
+            }
+          : {
+              key,
+              name: key, // Tag keys not localized
+            }
+      );
+    }
+  }
+  return options;
+};
+
+const getTagKeyOptionsFromReport = (
   tagReport: Tag,
   isSelectWrapperOption = false
 ): ToolbarChipGroup[] | SelectWrapperOption[] => {
@@ -112,9 +184,9 @@ export const getTagValueSelect = ({
   onTagValueSelect,
   onTagValueInput,
   onTagValueInputChange,
+  tagKeyValueInput,
   tagKeyOption,
   tagPathsType,
-  tagKeyValueInput,
 }: {
   currentCategory?: string;
   currentTagKey?: string;
@@ -124,9 +196,9 @@ export const getTagValueSelect = ({
   onTagValueSelect?: (event: any, selection) => void;
   onTagValueInput?: (event: any) => void;
   onTagValueInputChange?: (value: string) => void;
+  tagKeyValueInput?: string;
   tagKeyOption?: ToolbarChipGroup;
   tagPathsType?: TagPathsType;
-  tagKeyValueInput?: string;
 }) => {
   // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
   const categoryName = {

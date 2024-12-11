@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { PerspectiveType } from 'routes/explorer/explorerUtils';
-import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -30,7 +29,6 @@ import { GroupByOrg } from './groupByOrg';
 import { GroupBySelect } from './groupBySelect';
 
 interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
-  dateRangeType?: string;
   endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
@@ -48,6 +46,7 @@ interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
   showTags?: boolean;
   startDate?: string;
   tagPathsType: TagPathsType;
+  timeScopeValue?: number;
 }
 
 interface GroupByStateProps {
@@ -123,17 +122,26 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const { dateRangeType, groupBy, perspective } = this.props;
+    const { endDate, groupBy, perspective, startDate, timeScopeValue } = this.props;
+
     if (
+      prevProps.endDate !== endDate ||
       prevProps.groupBy !== groupBy ||
       prevProps.perspective !== perspective ||
-      prevProps.dateRangeType !== dateRangeType
+      prevProps.startDate !== startDate ||
+      prevProps.timeScopeValue !== timeScopeValue
     ) {
       let options;
       if (prevProps.perspective !== perspective) {
         options = {
           isGroupByCostCategoryVisible: false,
           isGroupByOrgVisible: false,
+          isGroupByTagVisible: false,
+        };
+      }
+      if (prevProps.timeScopeValue !== timeScopeValue && this.getCurrentGroupBy() !== tagKey) {
+        options = {
+          ...(options && options),
           isGroupByTagVisible: false,
         };
       }
@@ -331,10 +339,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { endDate, orgPathsType, router, resourcePathsType, startDate, tagPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(router.location.search);
-    const timeScopeValue = getTimeScopeValue(queryFromRoute);
-
+  (state, { endDate, orgPathsType, resourcePathsType, startDate, tagPathsType, timeScopeValue }) => {
     // Use start and end dates with Cost Explorer
     // Default to current month filter for details pages
     const tagFilter =
