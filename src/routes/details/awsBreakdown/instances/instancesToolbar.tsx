@@ -187,22 +187,17 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
 }
 
 const mapStateToProps = createMapStateToProps<InstancesToolbarOwnProps, InstancesToolbarStateProps>(
-  (state, { timeScopeValue }) => {
+  (state, { timeScopeValue = -1 }) => {
     // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
     // however, for better server-side performance, we chose to use key_only here.
-    const baseQuery = {
+    const tagQueryString = getQuery({
       filter: {
-        resolution: 'monthly',
-        time_scope_units: 'month',
-        time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
+        time_scope_value: timeScopeValue,
       },
       key_only: true,
       limit: 1000,
-    };
-
-    const tagQueryString = getQuery({
-      ...baseQuery,
     });
+
     const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 

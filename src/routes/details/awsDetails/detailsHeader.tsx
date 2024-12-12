@@ -23,7 +23,6 @@ import type { ComputedAwsReportItemsParams } from 'routes/utils/computedReport/g
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import { DateRangeType } from 'routes/utils/dateRange';
 import { filterProviders } from 'routes/utils/providers';
-import { getRouteForQuery } from 'routes/utils/query';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
@@ -43,6 +42,7 @@ interface DetailsHeaderOwnProps {
   isPreviousMonthData?: boolean;
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
+  onDateRangeSelect(value: string);
   onGroupBySelect(value: string);
   query?: Query;
   report: AwsReport;
@@ -96,16 +96,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
     }
   };
 
-  private handleOnDateRangeSelected = (value: string) => {
-    const { query, router } = this.props;
+  private handleOnDateRangeSelect = (value: string) => {
+    const { onDateRangeSelect } = this.props;
 
     this.setState({ currentDateRangeType: value }, () => {
-      const newQuery = {
-        filter: {},
-        ...JSON.parse(JSON.stringify(query)),
-      };
-      newQuery.filter.time_scope_value = value === DateRangeType.previousMonth ? -2 : -1;
-      router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
+      if (onDateRangeSelect) {
+        onDateRangeSelect(value);
+      }
     });
   };
 
@@ -157,7 +154,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
             <Flex style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
               <FlexItem>
                 <GroupBy
-                  dateRangeType={currentDateRangeType}
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
                   groupBy={groupBy}
                   isDisabled={!showContent}
@@ -169,6 +165,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
                   showOrgs
                   showTags
                   tagPathsType={tagPathsType}
+                  timeScopeValue={timeScopeValue}
                 />
               </FlexItem>
               <FlexItem>
@@ -181,7 +178,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
                     isCurrentMonthData={isCurrentMonthData}
                     isDisabled={!showContent}
                     isPreviousMonthData={isPreviousMonthData}
-                    onSelect={this.handleOnDateRangeSelected}
+                    onSelect={this.handleOnDateRangeSelect}
                   />
                 </FlexItem>
               )}

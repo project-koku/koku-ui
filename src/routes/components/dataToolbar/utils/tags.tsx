@@ -35,7 +35,7 @@ export const getTagKeySelect = ({
     return null;
   }
 
-  const selectOptions = getTagKeyOptions(tagReport, true) as SelectWrapperOption[];
+  const selectOptions = getTagKeyOptions(tagReport, undefined, true) as SelectWrapperOption[];
 
   return (
     <ToolbarItem>
@@ -53,7 +53,75 @@ export const getTagKeySelect = ({
   );
 };
 
+// Ensure tag keys are available for given date range
+//
+// Note: It's possible the user applied a tag filter which is no longer available in a new date range.
+// For example, when switching the date range between current and previous months. Tags may only be available in the
+// current month and vice versa.
+//
+// The problem is that we obtain a list of tag keys from the tag report, in order to show the user's filters
+// via PatternFly filter chips. If the user's filter is no longer available in the tag report, then the associated
+// filter chip will not be shown and the user cannot clear that filter.
+//
+// As a workaround, we can use active filters (i.e., obtained from query params) to discover any missing tag keys. Then,
+// we can create a complete list of tag keys by combining previously applied filters with keys from the tag report.
 export const getTagKeyOptions = (
+  tagReport: Tag,
+  filters: Filters,
+  isSelectWrapperOption = false
+): ToolbarChipGroup[] | SelectWrapperOption[] => {
+  const options = [];
+  const reportOptions = getTagKeyOptionsFromReport(tagReport, isSelectWrapperOption);
+  const filterOptions = getTagKeyOptionsFromFilters(filters, isSelectWrapperOption);
+
+  const isTagKeyEqual = (a, b) => {
+    if (isSelectWrapperOption) {
+      return a.value === b.value;
+    } else {
+      return a.name === b.name;
+    }
+  };
+
+  for (const reportoption of reportOptions) {
+    if (!options.find(option => isTagKeyEqual(option, reportoption))) {
+      options.push(reportoption);
+    }
+  }
+  for (const filterOption of filterOptions) {
+    if (!options.find(option => isTagKeyEqual(option, filterOption))) {
+      options.push(filterOption);
+    }
+  }
+  return options;
+};
+
+const getTagKeyOptionsFromFilters = (
+  filter: Filters,
+  isSelectWrapperOption = false
+): ToolbarChipGroup[] | SelectWrapperOption[] => {
+  const options = [];
+
+  if (!filter?.tag) {
+    return options;
+  }
+
+  for (const key of Object.keys(filter.tag)) {
+    options.push(
+      isSelectWrapperOption
+        ? {
+            toString: () => key, // Tag keys not localized
+            value: key,
+          }
+        : {
+            key,
+            name: key, // Tag keys not localized
+          }
+    );
+  }
+  return options;
+};
+
+const getTagKeyOptionsFromReport = (
   tagReport: Tag,
   isSelectWrapperOption = false
 ): ToolbarChipGroup[] | SelectWrapperOption[] => {
@@ -106,27 +174,33 @@ export const getTagKeyOptions = (
 export const getTagValueSelect = ({
   currentCategory,
   currentTagKey,
+  endDate,
   filters,
   isDisabled,
   onDelete,
   onTagValueSelect,
   onTagValueInput,
   onTagValueInputChange,
+  startDate,
+  tagKeyValueInput,
   tagKeyOption,
   tagPathsType,
-  tagKeyValueInput,
+  timeScopeValue,
 }: {
   currentCategory?: string;
   currentTagKey?: string;
+  endDate?: string;
   filters?: Filters;
   isDisabled?: boolean;
   onDelete?: (type: any, chip: any) => void;
   onTagValueSelect?: (event: any, selection) => void;
   onTagValueInput?: (event: any) => void;
   onTagValueInputChange?: (value: string) => void;
+  startDate?: string;
+  tagKeyValueInput?: string;
   tagKeyOption?: ToolbarChipGroup;
   tagPathsType?: TagPathsType;
-  tagKeyValueInput?: string;
+  timeScopeValue?: number;
 }) => {
   // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
   const categoryName = {
@@ -143,14 +217,17 @@ export const getTagValueSelect = ({
       showToolbarItem={currentCategory === tagKey && currentTagKey === tagKeyOption.key}
     >
       <TagValue
+        endDate={endDate}
         isDisabled={isDisabled && !hasFilters(filters)}
         onTagValueSelect={onTagValueSelect}
         onTagValueInput={onTagValueInput}
         onTagValueInputChange={onTagValueInputChange}
-        selections={filters?.tag?.[tagKeyOption.key] ? filters.tag[tagKeyOption.key].map(filter => filter.value) : []}
+        selections={filters?.tag?.[tagKeyOption.key]?.map(filter => filter.value)}
+        startDate={startDate}
         tagKey={currentTagKey}
         tagKeyValue={tagKeyValueInput}
         tagPathsType={tagPathsType}
+        timeScopeValue={timeScopeValue}
       />
     </ToolbarFilter>
   );

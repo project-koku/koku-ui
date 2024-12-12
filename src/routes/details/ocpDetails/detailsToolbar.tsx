@@ -75,17 +75,17 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { query, tagReport } = this.props;
+    const { query, tagQueryString, tagReport } = this.props;
+
     if (!isEqual(tagReport, prevProps.tagReport)) {
-      this.setState(
-        {
-          categoryOptions: this.getCategoryOptions(),
-        },
-        () => {
-          this.updateReport();
-        }
-      );
-    } else if (query && !isEqual(query, prevProps.query)) {
+      this.setState({
+        categoryOptions: this.getCategoryOptions(),
+      });
+    }
+    if (
+      (query && !isEqual(query, prevProps.query)) ||
+      (tagQueryString && !isEqual(tagQueryString, prevProps.tagQueryString))
+    ) {
       this.updateReport();
     }
   }
@@ -135,6 +135,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       query,
       selectedItems,
       tagReport,
+      timeScopeValue,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -165,6 +166,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         showPlatformCosts={groupBy === 'project'}
         tagReport={tagReport}
         tagPathsType={tagPathsType}
+        timeScopeValue={timeScopeValue}
       />
     );
   }
@@ -176,13 +178,12 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     // However, for better server-side performance, we chose to use key_only here.
     const tagQueryString = getQuery({
       filter: {
-        resolution: 'monthly',
-        time_scope_units: 'month',
         time_scope_value: timeScopeValue,
       },
       key_only: true,
       limit: 1000,
     });
+
     const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
     return {
