@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import messages from 'locales/messages';
 import React from 'react';
@@ -32,7 +32,7 @@ type ExportsToolbarProps = ExportsToolbarOwnProps &
   WrappedComponentProps;
 
 export class ExportsToolbarBase extends React.Component<ExportsToolbarProps, any> {
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl } = this.props;
 
     return [{ name: intl.formatMessage(messages.filterByValues, { value: 'name' }), key: 'name' }];

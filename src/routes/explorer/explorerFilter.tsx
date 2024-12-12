@@ -1,6 +1,4 @@
-import './explorerFilter.scss';
-
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
@@ -81,7 +79,7 @@ interface ExplorerFilterDispatchProps {
 }
 
 interface ExplorerFilterState {
-  categoryOptions?: ToolbarChipGroup[];
+  categoryOptions?: ToolbarLabelGroup[];
   showDatePicker?: boolean;
 }
 
@@ -126,7 +124,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     }
   }
 
-  private getCategoryOptions = (): ToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { orgReport, perspective, intl, isOcpCloudGroupBysToggleEnabled, resourceReport, tagReport } = this.props;
 
     const options = [];
@@ -265,7 +263,6 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     return (
       <DataToolbar
         categoryOptions={categoryOptions}
-        className="explorerToolbarOverride"
         datePicker={this.getDatePickerComponent()}
         dateRange={this.getDateRangeComponent()}
         endDate={endDate}
