@@ -145,9 +145,7 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     const query = { ...queryFromRoute };
     const tagQuery = {
       filter: {
-        resolution: 'monthly',
-        time_scope_units: 'month',
-        time_scope_value: timeScopeValue !== undefined ? timeScopeValue : -1,
+        time_scope_value: timeScopeValue,
       },
       filter_by: {
         // Add filters here to apply logical OR/AND

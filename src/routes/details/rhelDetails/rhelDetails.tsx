@@ -26,6 +26,7 @@ import { ProviderStatus } from 'routes/details/components/providerStatus';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedRhelReportItems';
+import { DateRangeType } from 'routes/utils/dateRange';
 import { getGroupByTagKey } from 'routes/utils/groupBy';
 import { filterProviders, hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
@@ -336,6 +337,17 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
     this.setState({ hiddenColumns });
   };
 
+  private handleOnDateRangeSelect = (value: string) => {
+    const { query, router } = this.props;
+
+    const newQuery = {
+      filter: {},
+      ...JSON.parse(JSON.stringify(query)),
+    };
+    newQuery.filter.time_scope_value = value === DateRangeType.previousMonth ? -2 : -1;
+    router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
+  };
+
   private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
@@ -442,6 +454,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
           isCurrentMonthData={isCurrentMonthData}
           isPreviousMonthData={isPreviousMonthData}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+          onDateRangeSelect={this.handleOnDateRangeSelect}
           onGroupBySelect={this.handleOnGroupBySelect}
           query={query}
           report={report}

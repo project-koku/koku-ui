@@ -92,22 +92,21 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { orgReport, query, resourceReport, tagReport } = this.props;
+    const { orgReport, query, resourceReport, tagQueryString, tagReport } = this.props;
 
     if (
       !isEqual(orgReport, prevProps.orgReport) ||
       !isEqual(resourceReport, prevProps.resourceReport) ||
       !isEqual(tagReport, prevProps.tagReport)
     ) {
-      this.setState(
-        {
-          categoryOptions: this.getCategoryOptions(),
-        },
-        () => {
-          this.updateReport();
-        }
-      );
-    } else if (query && !isEqual(query, prevProps.query)) {
+      this.setState({
+        categoryOptions: this.getCategoryOptions(),
+      });
+    }
+    if (
+      (query && !isEqual(query, prevProps.query)) ||
+      (tagQueryString && !isEqual(tagQueryString, prevProps.tagQueryString))
+    ) {
       this.updateReport();
     }
   }
@@ -176,6 +175,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       resourceReport,
       selectedItems,
       tagReport,
+      timeScopeValue,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -205,6 +205,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         showFilter
         tagPathsType={tagPathsType}
         tagReport={tagReport}
+        timeScopeValue={timeScopeValue}
       />
     );
   }
@@ -216,8 +217,6 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     // however, for better server-side performance, we chose to use key_only here.
     const baseQuery = {
       filter: {
-        resolution: 'monthly',
-        time_scope_units: 'month',
         time_scope_value: timeScopeValue,
       },
       key_only: true,

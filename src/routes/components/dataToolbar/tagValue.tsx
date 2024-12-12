@@ -19,14 +19,17 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface TagValueOwnProps extends RouterComponentProps, WrappedComponentProps {
+  endDate?: string;
   isDisabled?: boolean;
   onTagValueSelect(event, selection);
   onTagValueInput(event);
   onTagValueInputChange(value: string);
   selections?: SelectWrapperOption[];
+  startDate?: string;
   tagKey: string;
   tagKeyValue: string;
   tagPathsType: TagPathsType;
+  timeScopeValue?: number;
 }
 
 interface TagValueStateProps {
@@ -71,6 +74,29 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
     }
   }
 
+  // Ensure tag key values are available for given date range
+  private getSelections() {
+    const { selections, tagKey, tagReport } = this.props;
+
+    const result = [];
+    if (!selections?.length) {
+      return result;
+    }
+
+    const tagKeyItem = tagReport?.data?.find(item => item.key === tagKey);
+    selections?.map(selection => {
+      if (tagKeyItem?.values?.length) {
+        for (const item of tagKeyItem.values) {
+          if (item === selection) {
+            result.push(selection);
+            break;
+          }
+        }
+      }
+    });
+    return result;
+  }
+
   private getTagValueOptions(): SelectWrapperOption[] {
     const { tagKey, tagReport } = this.props;
 
@@ -112,7 +138,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   };
 
   public render() {
-    const { intl, isDisabled, onTagValueInput, onTagValueSelect, selections, tagKeyValue } = this.props;
+    const { intl, isDisabled, onTagValueInput, onTagValueSelect, tagKeyValue } = this.props;
 
     const selectOptions = this.getTagValueOptions();
 
@@ -125,7 +151,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
           onSelect={onTagValueSelect}
           options={selectOptions}
           placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
-          selections={selections}
+          selections={this.getSelections()}
         />
       );
     }
@@ -145,7 +171,7 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
 }
 
 const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStateProps>(
-  (state, { router, tagKey, tagPathsType }) => {
+  (state, { endDate, router, startDate, tagKey, tagPathsType, timeScopeValue = -1 }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
@@ -154,10 +180,22 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
 
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
-      filter: {
-        key: tagKey,
-      },
+      ...(startDate && endDate
+        ? {
+            end_date: endDate,
+            filter: {
+              key: tagKey,
+            },
+            start_date: startDate,
+          }
+        : {
+            filter: {
+              key: tagKey,
+              time_scope_value: timeScopeValue,
+            },
+          }),
     });
+
     const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 

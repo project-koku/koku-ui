@@ -7,5 +7,5 @@ export const getTimeScope = (query: Query) => {
 
 export const getTimeScopeValue = (query: Query) => {
   const timeScope = getTimeScope(query);
-  return timeScope ? query.filter[timeScope] : undefined;
+  return timeScope ? query.filter[timeScope] : -1;
 };
