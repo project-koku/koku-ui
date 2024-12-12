@@ -320,7 +320,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
               <FlexItem>{this.getPerspective(noProviders)}</FlexItem>
               <FlexItem>
                 <GroupBy
-                  dateRangeType={dateRangeType}
                   endDate={endDate}
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
                   groupBy={groupBy}

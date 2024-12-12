@@ -106,20 +106,23 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   }
 
   public componentDidUpdate(prevProps: ExplorerFilterProps) {
-    const { dateRangeType, orgReport, query, tagReport } = this.props;
+    const { dateRangeType, orgReport, query, tagQueryString, tagReport } = this.props;
 
-    if (query && !isEqual(query, prevProps.query)) {
-      this.updateReport();
-    }
     if (
+      prevProps.dateRangeType !== dateRangeType ||
       !isEqual(orgReport, prevProps.orgReport) ||
-      !isEqual(tagReport, prevProps.tagReport) ||
-      prevProps.dateRangeType !== dateRangeType
+      !isEqual(tagReport, prevProps.tagReport)
     ) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
         showDatePicker: dateRangeType === DateRangeType.custom,
       });
+    }
+    if (
+      (query && !isEqual(query, prevProps.query)) ||
+      (tagQueryString && !isEqual(tagQueryString, prevProps.tagQueryString))
+    ) {
+      this.updateReport();
     }
   }
 
@@ -244,6 +247,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 
   public render() {
     const {
+      endDate,
       groupBy,
       isDisabled,
       onFilterAdded,
@@ -252,6 +256,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       query,
       resourcePathsType,
       resourceReport,
+      startDate,
       tagPathsType,
       tagReport,
     } = this.props;
@@ -263,6 +268,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         className="explorerToolbarOverride"
         datePicker={this.getDatePickerComponent()}
         dateRange={this.getDateRangeComponent()}
+        endDate={endDate}
         groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
@@ -271,6 +277,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         query={query}
         resourceReport={resourceReport}
         resourcePathsType={resourcePathsType}
+        startDate={startDate}
         style={styles.toolbarContainer}
         showExcludes
         showFilter

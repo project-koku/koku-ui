@@ -153,7 +153,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
-  (state, { costType, currency, reportPathsType, reportType, router, timeScopeValue }) => {
+  (state, { costType, currency, reportPathsType, reportType, router, timeScopeValue = -1 }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
     const queryState = getQueryState(router.location, 'details');
 
@@ -190,7 +190,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter: {
         resolution: 'daily',
         time_scope_units: 'month',
-        time_scope_value: timeScopeValue === -2 ? -2 : -1,
+        time_scope_value: timeScopeValue,
       },
       filter_by: {
         ...baseQuery.filter_by,
@@ -216,7 +216,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter: {
         resolution: 'daily',
         time_scope_units: 'month',
-        time_scope_value: timeScopeValue === -2 ? -3 : -2,
+        time_scope_value: timeScopeValue - 1,
       },
       filter_by: {
         ...baseQuery.filter_by,

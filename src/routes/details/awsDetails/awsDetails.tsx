@@ -25,6 +25,7 @@ import { ProviderStatus } from 'routes/details/components/providerStatus';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
+import { DateRangeType } from 'routes/utils/dateRange';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
 import { filterProviders, hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import { getRouteForQuery } from 'routes/utils/query';
@@ -312,6 +313,17 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     }
   };
 
+  private handleOnDateRangeSelect = (value: string) => {
+    const { query, router } = this.props;
+
+    const newQuery = {
+      filter: {},
+      ...JSON.parse(JSON.stringify(query)),
+    };
+    newQuery.filter.time_scope_value = value === DateRangeType.previousMonth ? -2 : -1;
+    router.navigate(getRouteForQuery(newQuery, router.location, true), { replace: true });
+  };
+
   private handleOnExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
@@ -430,6 +442,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
           isPreviousMonthData={isPreviousMonthData}
           onCostTypeSelect={() => handleOnCostTypeSelect(query, router)}
           onCurrencySelect={() => handleOnCurrencySelect(query, router)}
+          onDateRangeSelect={this.handleOnDateRangeSelect}
           onGroupBySelect={this.handleOnGroupBySelect}
           query={query}
           report={report}
