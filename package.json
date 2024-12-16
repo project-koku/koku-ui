@@ -60,7 +60,7 @@
     "@patternfly/react-table": "5.4.11",
     "@patternfly/react-tokens": "5.4.1",
     "@redhat-cloud-services/frontend-components": "^4.2.22",
-    "@redhat-cloud-services/frontend-components-notifications": "^4.1.1",
+    "@redhat-cloud-services/frontend-components-notifications": "^4.1.2",
     "@redhat-cloud-services/frontend-components-translations": "^3.2.11",
     "@redhat-cloud-services/frontend-components-utilities": "^5.0.3",
     "@redhat-cloud-services/rbac-client": "^3.0.4",
