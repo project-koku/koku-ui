@@ -1,0 +1,3 @@
+codecov:
+  require_ci_to_pass: no
+  strict_yaml_branch: main  # only use the latest copy on main branch
