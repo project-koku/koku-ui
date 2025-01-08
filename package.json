@@ -92,7 +92,7 @@
     "@formatjs/intl-localematcher": "^0.5.10",
     "@redhat-cloud-services/frontend-components-config": "^6.3.5",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.21",
-    "@swc/core": "^1.10.6",
+    "@swc/core": "1.10.4",
     "@swc/jest": "^0.2.37",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -133,6 +133,8 @@
     "typescript": "^5.7.2"
   },
   "overrides": {
+    "@patternfly/react-core": "5.4.12",
+    "@patternfly/react-icons": "5.4.2",
     "@typescript-eslint/eslint-plugin": "^8.19.1",
     "eslint": "^9.17.0",
     "react-intl": "^7.1.0",
