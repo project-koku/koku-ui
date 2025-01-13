@@ -82,9 +82,9 @@
     "victory": "^37.3.5"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.2.4",
+    "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.18.0",
     "@formatjs/cli": "^6.3.15",
     "@formatjs/ecma402-abstract": "^2.3.2",
     "@formatjs/fast-memoize": "^2.2.6",
@@ -113,7 +113,7 @@
     "eslint-plugin-jsdoc": "^50.6.1",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.37.3",
+    "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-testing-library": "^7.1.1",
