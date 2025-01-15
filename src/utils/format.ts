@@ -72,7 +72,7 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
       symbol,
       value: formatCurrency(fValue / val, units, {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: 2,
       }),
     }) as string;
   }
