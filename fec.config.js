@@ -67,6 +67,8 @@ module.exports = {
       { 'react-router-dom': { version: dependencies['react-router-dom'], import: false, singleton: true } },
       { '@unleash/proxy-client-react': { version: dependencies['@unleash/proxy-client-react'], singleton: true } },
     ],
+    // See inventory frontend https://github.com/RedHatInsights/insights-inventory-frontend/pull/2296/files#diff-d0f06d7cd724a6add60ee1bac8183344dc66faae9dac3ee6ee920f5b7ac3a88eR150
+    // _unstableSpdy: true, // enable HTTP2/SPDY
   },
   /**
    * Add additional webpack plugins
