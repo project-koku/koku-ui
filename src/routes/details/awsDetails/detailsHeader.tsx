@@ -21,7 +21,7 @@ import { GroupBy } from 'routes/components/groupBy';
 import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedAwsReportItemsParams } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedAwsReportItems';
-import { DateRangeType } from 'routes/utils/dateRange';
+import { DateRangeType, getCurrentDateRangeType } from 'routes/utils/dateRange';
 import { filterProviders } from 'routes/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -83,10 +83,23 @@ const tagPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
   protected defaultState: DetailsHeaderState = {
-    currentDateRangeType:
-      this.props.timeScopeValue === -2 ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate,
+    currentDateRangeType: DateRangeType.currentMonthToDate,
   };
   public state: DetailsHeaderState = { ...this.defaultState };
+
+  public componentDidMount() {
+    const { timeScopeValue } = this.props;
+
+    this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
+  }
+
+  public componentDidUpdate(prevProps: DetailsHeaderProps) {
+    const { timeScopeValue } = this.props;
+
+    if (prevProps.timeScopeValue !== timeScopeValue) {
+      this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
+    }
+  }
 
   private handleOnCostTypeSelect = (value: string) => {
     const { onCostTypeSelect } = this.props;
