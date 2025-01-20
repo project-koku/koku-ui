@@ -325,8 +325,6 @@
   "exportNameTooLong": "Should not exceed 255 characters",
   "exportResolution": "{value, select, daily {Daily} monthly {Monthly} other {}}",
   "exportSelected": "{groupBy, select, account {Selected accounts ({count})} aws_category {Selected cost categories ({count})} cluster {Selected clusters ({count})} gcp_project {Selected GCP projects ({count})} instance {Selected instances ({count})} node {Selected nodes ({count})} org_unit_id {Selected organizational units ({count})} payer_tenant_id {Selected accounts ({count})} product_service {Selected services ({count})} project {Selected projects ({count})} region {Selected regions ({count})} resource_location {Selected regions ({count})} service {Selected services ({count})} service_name {Selected services ({count})} subscription_guid {Selected accounts ({count})} tag {Selected tags ({count})} vm_name {Selected virtual machines ({count})}other {}}",
-  "exportTimeScope": "{value, select, current {Current ({date})} previous {Previous ({date})} other {}}",
-  "exportTimeScopeTitle": "Month",
   "exportTitle": "Export",
   "exportsDesc": "Exports are available for download from the time that they are generated up to 7 days later. After 7 days, the export file will be removed.",
   "exportsEmptyState": "To get started, close this view and select rows in the table you want to export and click the export button to start the journey.",

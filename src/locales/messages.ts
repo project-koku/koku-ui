@@ -1980,16 +1980,6 @@ export default defineMessages({
     description: 'Selected items for export',
     id: 'exportSelected',
   },
-  exportTimeScope: {
-    defaultMessage: '{value, select, current {Current ({date})} previous {Previous ({date})} other {}}',
-    description: 'Export time scope',
-    id: 'exportTimeScope',
-  },
-  exportTimeScopeTitle: {
-    defaultMessage: 'Month',
-    description: 'Month',
-    id: 'exportTimeScopeTitle',
-  },
   exportTitle: {
     defaultMessage: 'Export',
     description: 'Export title',

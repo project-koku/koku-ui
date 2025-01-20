@@ -24,6 +24,7 @@ interface DetailsActionsOwnProps extends WrappedComponentProps, RouterComponentP
   reportType: ReportType;
   showAggregateType?: boolean;
   showPriceListOption?: boolean;
+  timeScopeValue?: number;
 }
 
 interface DetailsActionsStateProps {
@@ -53,8 +54,16 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
   }
 
   private getExportModal = () => {
-    const { groupBy, isTimeScoped, item, reportPathsType, reportQueryString, reportType, showAggregateType } =
-      this.props;
+    const {
+      groupBy,
+      isTimeScoped,
+      item,
+      timeScopeValue,
+      reportPathsType,
+      reportQueryString,
+      reportType,
+      showAggregateType,
+    } = this.props;
     const { isExportModalOpen } = this.state;
 
     return (
@@ -69,6 +78,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
         reportQueryString={reportQueryString}
         reportType={reportType}
         showAggregateType={showAggregateType}
+        timeScopeValue={timeScopeValue}
       />
     );
   };

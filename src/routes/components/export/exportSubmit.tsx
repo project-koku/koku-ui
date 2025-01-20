@@ -37,7 +37,7 @@ export interface ExportSubmitOwnProps extends RouterComponentProps, WrappedCompo
   reportQueryString: string;
   reportType: ReportType;
   resolution: string;
-  timeScope: 'current' | 'previous';
+  timeScopeValue?: number;
 }
 
 interface ExportSubmitDispatchProps {
@@ -159,10 +159,10 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
     reportType,
     resolution,
     router,
-    timeScope,
+    timeScopeValue,
   } = props;
 
-  const isPrevious = timeScope === 'previous';
+  const isPrevious = timeScopeValue === -2;
   const queryFromRoute = parseQuery<Query>(router.location.search);
   const getDateRange = () => {
     if (queryFromRoute.dateRangeType) {

@@ -7392,55 +7392,6 @@
         "value": "groupBy"
       }
     ],
-    "exportTimeScope": [
-      {
-        "options": {
-          "current": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Current ("
-              },
-              {
-                "type": 1,
-                "value": "date"
-              },
-              {
-                "type": 0,
-                "value": ")"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
-          "previous": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Previous ("
-              },
-              {
-                "type": 1,
-                "value": "date"
-              },
-              {
-                "type": 0,
-                "value": ")"
-              }
-            ]
-          }
-        },
-        "type": 5,
-        "value": "value"
-      }
-    ],
-    "exportTimeScopeTitle": [
-      {
-        "type": 0,
-        "value": "Month"
-      }
-    ],
     "exportTitle": [
       {
         "type": 0,
