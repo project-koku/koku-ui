@@ -281,17 +281,19 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   private getActions = (item: ComputedReportItem, isDisabled) => {
-    const { groupBy, reportQueryString } = this.props;
+    const { groupBy, reportQueryString, timeScopeValue } = this.props;
 
     return (
       <Actions
         groupBy={groupBy}
         isDisabled={isDisabled}
+        isTimeScoped
         item={item}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={ReportType.cost}
         showPriceListOption={groupBy === 'cluster'}
+        timeScopeValue={timeScopeValue}
       />
     );
   };

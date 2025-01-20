@@ -205,6 +205,7 @@ class RhelDetails extends React.Component<RhelDetailsProps, RhelDetailsState> {
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
+        isTimeScoped
         items={items}
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}
