@@ -81,10 +81,27 @@ const tagPathsType = TagPathsType.ocp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeaderState> {
   protected defaultState: DetailsHeaderState = {
-    currentDateRangeType:
-      this.props.timeScopeValue === -2 ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate,
+    currentDateRangeType: DateRangeType.currentMonthToDate,
   };
   public state: DetailsHeaderState = { ...this.defaultState };
+
+  public componentDidMount() {
+    this.setState({ currentDateRangeType: this.getCurrentDateRangeType() });
+  }
+
+  public componentDidUpdate(prevProps: DetailsHeaderProps) {
+    const { timeScopeValue } = this.props;
+
+    if (prevProps.timeScopeValue !== timeScopeValue) {
+      this.setState({ currentDateRangeType: this.getCurrentDateRangeType() });
+    }
+  }
+
+  private getCurrentDateRangeType = () => {
+    const { timeScopeValue } = this.props;
+
+    return timeScopeValue === -2 ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate;
+  };
 
   private handleOnDateRangeSelect = (value: string) => {
     const { onDateRangeSelect } = this.props;
