@@ -23,12 +23,12 @@ exports[`reports are formatted to datums 1`] = `
         Usage Chart
       </title>
       <g
-        clip-path="url(#victory-clip-3)"
+        clip-path="url(#victory-clip-4)"
         style="height: 100%; width: 100%; user-select: none;"
       >
         <defs>
           <clippath
-            id="victory-clip-3"
+            id="victory-clip-4"
           >
             <rect
               height="17"
@@ -55,12 +55,12 @@ exports[`reports are formatted to datums 1`] = `
         </g>
       </g>
       <g
-        clip-path="url(#victory-clip-5)"
+        clip-path="url(#victory-clip-6)"
         style="height: 100%; width: 100%; user-select: none;"
       >
         <defs>
           <clippath
-            id="victory-clip-5"
+            id="victory-clip-6"
           >
             <rect
               height="17"
@@ -87,12 +87,12 @@ exports[`reports are formatted to datums 1`] = `
         </g>
       </g>
       <g
-        clip-path="url(#victory-clip-7)"
+        clip-path="url(#victory-clip-8)"
         style="height: 100%; width: 100%; user-select: none;"
       >
         <defs>
           <clippath
-            id="victory-clip-7"
+            id="victory-clip-8"
           >
             <rect
               height="17"
@@ -117,12 +117,12 @@ exports[`reports are formatted to datums 1`] = `
         </g>
       </g>
       <g
-        clip-path="url(#victory-clip-9)"
+        clip-path="url(#victory-clip-10)"
         style="height: 100%; width: 100%; user-select: none;"
       >
         <defs>
           <clippath
-            id="victory-clip-9"
+            id="victory-clip-10"
           >
             <rect
               height="17"

@@ -166,6 +166,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
+        isTimeScoped
         items={items}
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}

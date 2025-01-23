@@ -18,7 +18,7 @@ import { GroupBy } from 'routes/components/groupBy';
 import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedIbmReportItemsParams } from 'routes/utils/computedReport/getComputedIbmReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedIbmReportItems';
-import { DateRangeType } from 'routes/utils/dateRange';
+import { DateRangeType, getCurrentDateRangeType } from 'routes/utils/dateRange';
 import { filterProviders } from 'routes/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -77,10 +77,23 @@ const tagPathsType = TagPathsType.ibm;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, any> {
   protected defaultState: DetailsHeaderState = {
-    currentDateRangeType:
-      this.props.timeScopeValue === -2 ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate,
+    currentDateRangeType: DateRangeType.currentMonthToDate,
   };
   public state: DetailsHeaderState = { ...this.defaultState };
+
+  public componentDidMount() {
+    const { timeScopeValue } = this.props;
+
+    this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
+  }
+
+  public componentDidUpdate(prevProps: DetailsHeaderProps) {
+    const { timeScopeValue } = this.props;
+
+    if (prevProps.timeScopeValue !== timeScopeValue) {
+      this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
+    }
+  }
 
   private handleOnDateRangeSelect = (value: string) => {
     const { onDateRangeSelect } = this.props;
