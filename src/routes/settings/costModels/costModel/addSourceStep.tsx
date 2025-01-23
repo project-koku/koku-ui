@@ -16,6 +16,7 @@ import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
+import { styles } from './costModelInfo.styles';
 
 interface AddSourcesStepOwnProps extends WrappedComponentProps {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
@@ -230,6 +231,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 isDisabled={this.props.isLoadingSources}
                 perPage={this.props.pagination.perPage}
                 page={this.props.pagination.page}
+                style={styles.pagination}
                 titles={{
                   paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
                     title: intl.formatMessage(messages.costModelsAssignSourcesParen),

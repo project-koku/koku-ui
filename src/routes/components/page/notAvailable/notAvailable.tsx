@@ -17,7 +17,7 @@ const NotAvailable = ({ title }: NotAvailableProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
+      <PageSection hasBodyWrapper={false}>
         <Unavailable />
       </PageSection>
     </>

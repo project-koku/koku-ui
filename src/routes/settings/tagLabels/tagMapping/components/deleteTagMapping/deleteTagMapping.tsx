@@ -1,7 +1,6 @@
 import './deleteTagMapping.scss';
 
-import { Button } from '@patternfly/react-core';
-import { Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core/next';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import type { SettingsData } from 'api/settings';
 import type { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';

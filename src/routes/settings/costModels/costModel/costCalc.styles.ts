@@ -1,16 +1,16 @@
-import global_FontSize_md from '@patternfly/react-tokens/dist/js/global_FontSize_md';
-import global_FontSize_xl from '@patternfly/react-tokens/dist/js/global_FontSize_xl';
+import t_global_font_size_md from '@patternfly/react-tokens/dist/js/t_global_font_size_md';
+import t_global_font_size_xl from '@patternfly/react-tokens/dist/js/t_global_font_size_xl';
 import type React from 'react';
 
 export const styles = {
   card: {
-    minHeight: 310,
+    minHeight: 330,
   },
   cardDescription: {
-    fontSize: global_FontSize_md.value,
+    fontSize: t_global_font_size_md.value,
   },
   cardBody: {
-    fontSize: global_FontSize_xl.value,
+    fontSize: t_global_font_size_xl.value,
     textAlign: 'center',
   },
   exampleMargin: {

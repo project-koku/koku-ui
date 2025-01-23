@@ -1,14 +1,4 @@
-import {
-  Checkbox,
-  FormGroup,
-  Radio,
-  Stack,
-  StackItem,
-  Text,
-  TextContent,
-  Title,
-  TitleSizes,
-} from '@patternfly/react-core';
+import { Checkbox, Content, FormGroup, Radio, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -62,11 +52,13 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                 <Title headingLevel="h3" size={TitleSizes.md}>
                   {intl.formatMessage(messages.distributionType)}
                 </Title>
-                <TextContent>
-                  <Text style={styles.cardDescription}>{intl.formatMessage(messages.distributionModelDesc)}</Text>
-                </TextContent>
+                <Content>
+                  <Content component="p" style={styles.cardDescription}>
+                    {intl.formatMessage(messages.distributionModelDesc)}
+                  </Content>
+                </Content>
               </StackItem>
-              <StackItem isFilled>
+              <StackItem>
                 <Form>
                   <FormGroup isInline fieldId="distribution-type" isRequired>
                     <Radio
@@ -95,7 +87,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                   {intl.formatMessage(messages.distributeCostsToProjects)}
                 </Title>
               </StackItem>
-              <StackItem isFilled>
+              <StackItem>
                 <Form>
                   <FormGroup fieldId="distribute-unallocated-costs" isRequired>
                     <Checkbox

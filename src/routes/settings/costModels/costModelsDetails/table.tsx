@@ -137,14 +137,13 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
                 <Td isActionCell>
                   <ReadOnlyTooltip defaultMsg={messages.costModelsDelete} key="action" isDisabled={!canWrite}>
                     <Button
+                      icon={<MinusCircleIcon />}
                       aria-label={intl.formatMessage(messages.delete)}
                       isAriaDisabled={!canWrite}
                       onClick={() => openDeleteDialog(r.data)}
                       size="sm"
                       variant={ButtonVariant.plain}
-                    >
-                      <MinusCircleIcon />
-                    </Button>
+                    ></Button>
                   </ReadOnlyTooltip>
                 </Td>
               )}
