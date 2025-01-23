@@ -15,7 +15,6 @@ import {
 } from '@patternfly/react-core';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
-import { format } from 'date-fns';
 import messages from 'locales/messages';
 import { orderBy } from 'lodash';
 import React from 'react';
@@ -35,7 +34,7 @@ export interface ExportModalOwnProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
-  isTimeScoped?: boolean;
+  isTimeScoped?: boolean; // Indicates API should use time_scope_value or start and end date parameters
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   reportPathsType: ReportPathsType;
@@ -44,7 +43,6 @@ export interface ExportModalOwnProps {
   resolution?: 'daily' | 'monthly'; // Default resolution
   showAggregateType?: boolean; // Monthly resolution filters are not valid with date range
   showFormatType?: boolean; // Format type; CVS / JSON
-  showTimeScope?: boolean; // timeScope filters are not valid with date range
   timeScopeValue?: number;
 }
 
@@ -79,30 +77,13 @@ const resolutionOptions: {
   { label: messages.exportResolution, value: 'monthly' },
 ];
 
-const timeScopeOptions: {
-  label: MessageDescriptor;
-  value: string;
-}[] = [
-  { label: messages.exportTimeScope, value: 'current' },
-  { label: messages.exportTimeScope, value: 'previous' },
-];
-
 export class ExportModalBase extends React.Component<ExportModalProps, ExportModalState> {
   protected defaultState: ExportModalState = {
     error: undefined,
     formatType: 'csv',
     resolution: this.props.resolution || 'monthly',
-    timeScope: this.props.timeScopeValue === -2 ? 'previous' : 'current',
   };
   public state: ExportModalState = { ...this.defaultState };
-
-  public componentDidUpdate(prevProps: ExportModalProps) {
-    const { timeScopeValue } = this.props;
-
-    if (timeScopeValue !== prevProps.timeScopeValue) {
-      this.setState({ timeScope: timeScopeValue === -2 ? 'previous' : 'current' });
-    }
-  }
 
   // Reset default state upon close -- see https://issues.redhat.com/browse/COST-1134
   private handleOnClose = () => {
@@ -113,10 +94,6 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
   private handleOnError = (error: AxiosError) => {
     this.setState({ error });
-  };
-
-  private handleOnMonthChange = event => {
-    this.setState({ timeScope: event.currentTarget.value });
   };
 
   private handleOnNameChange = event => {
@@ -148,7 +125,6 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       groupBy,
       intl,
       isAllItems,
-      isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
       isTimeScoped,
       items,
@@ -157,9 +133,9 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       reportType,
       showAggregateType = true,
       showFormatType = true,
-      showTimeScope = isDetailsDateRangeToggleEnabled ? false : true,
+      timeScopeValue,
     } = this.props;
-    const { error, formatType, name, resolution, timeScope } = this.state;
+    const { error, formatType, name, resolution } = this.state;
 
     let sortedItems = [...items];
     if (this.props.isOpen) {
@@ -178,11 +154,6 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     if (groupBy?.indexOf(tagPrefix) !== -1) {
       selectedLabel = intl.formatMessage(messages.exportSelected, { groupBy: 'tag', count });
     }
-
-    const thisMonth = new Date();
-    const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
-    const currentMonth = format(thisMonth, 'MMMM yyyy');
-    const previousMonth = format(lastMonth - 1, 'MMMM yyyy');
 
     const defaultName =
       name !== undefined
@@ -211,7 +182,6 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             isTimeScoped={isTimeScoped}
             items={items}
             key="confirm"
-            timeScope={timeScope}
             onClose={this.handleOnClose}
             onError={this.handleOnError}
             name={defaultName}
@@ -219,6 +189,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             reportQueryString={reportQueryString}
             reportType={reportType}
             resolution={resolution}
+            timeScopeValue={timeScopeValue}
           />,
           <Button ouiaId="cancel-btn" key="cancel" onClick={this.handleOnClose} variant={ButtonVariant.link}>
             {intl.formatMessage(messages.cancel)}
@@ -271,31 +242,6 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                       name="resolution"
                       onChange={this.handleOnResolutionChange}
                       aria-label={intl.formatMessage(option.label, { value: option.value })}
-                    />
-                  ))}
-                </React.Fragment>
-              </FormGroup>
-            )}
-            {showTimeScope && (
-              <FormGroup fieldId="timeScope" label={intl.formatMessage(messages.exportTimeScopeTitle)} isRequired>
-                <React.Fragment>
-                  {timeScopeOptions.map((option, index) => (
-                    <Radio
-                      key={index}
-                      id={`timeScope-${index}`}
-                      isValid={option.value !== undefined}
-                      label={intl.formatMessage(option.label, {
-                        date: option.value === 'previous' ? previousMonth : currentMonth,
-                        value: option.value,
-                      })}
-                      value={option.value}
-                      isChecked={timeScope === option.value}
-                      name="timeScope"
-                      onChange={this.handleOnMonthChange}
-                      aria-label={intl.formatMessage(option.label, {
-                        date: option.value === 'previous' ? previousMonth : currentMonth,
-                        value: option.value,
-                      })}
                     />
                   ))}
                 </React.Fragment>

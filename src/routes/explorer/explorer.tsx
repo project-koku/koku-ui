@@ -259,7 +259,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         reportQueryString={reportQueryString}
         reportType={ReportType.cost}
         resolution="daily"
-        showTimeScope={false}
       />
     );
   };

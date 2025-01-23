@@ -1,4 +1,4 @@
-import type { Access } from '@redhat-cloud-services/rbac-client/dist/types';
+import type { Access } from '@redhat-cloud-services/rbac-client/types';
 
 export interface RBAC {
   isOrgAdmin: boolean;

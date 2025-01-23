@@ -178,6 +178,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
               : groupById
         }
         isOpen={isExportModalOpen}
+        isTimeScoped
         items={items}
         onClose={this.handleOnExportModalClose}
         reportPathsType={reportPathsType}

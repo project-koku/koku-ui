@@ -75,6 +75,10 @@ export const getDateRange = (dateRangeType: DateRangeType, isFormatted = true) =
   return dateRange;
 };
 
+export const getCurrentDateRangeType = (timeScopeValue: number) => {
+  return timeScopeValue === -2 ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate;
+};
+
 export const getDateRangeTypeDefault = (queryFromRoute: Query, defaultToPreviousMonth: boolean): DateRangeType => {
   if (queryFromRoute.dateRangeType) {
     return queryFromRoute.dateRangeType;

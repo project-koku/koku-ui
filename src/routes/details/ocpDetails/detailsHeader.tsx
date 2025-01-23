@@ -21,7 +21,7 @@ import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
-import { DateRangeType } from 'routes/utils/dateRange';
+import { DateRangeType, getCurrentDateRangeType } from 'routes/utils/dateRange';
 import { filterProviders } from 'routes/utils/providers';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -81,10 +81,23 @@ const tagPathsType = TagPathsType.ocp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeaderState> {
   protected defaultState: DetailsHeaderState = {
-    currentDateRangeType:
-      this.props.timeScopeValue === -2 ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate,
+    currentDateRangeType: DateRangeType.currentMonthToDate,
   };
   public state: DetailsHeaderState = { ...this.defaultState };
+
+  public componentDidMount() {
+    const { timeScopeValue } = this.props;
+
+    this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
+  }
+
+  public componentDidUpdate(prevProps: DetailsHeaderProps) {
+    const { timeScopeValue } = this.props;
+
+    if (prevProps.timeScopeValue !== timeScopeValue) {
+      this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
+    }
+  }
 
   private handleOnDateRangeSelect = (value: string) => {
     const { onDateRangeSelect } = this.props;
