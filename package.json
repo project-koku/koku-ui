@@ -84,7 +84,7 @@
   "devDependencies": {
     "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.18.0",
+    "@eslint/js": "^9.19.0",
     "@formatjs/cli": "^6.5.1",
     "@formatjs/ecma402-abstract": "^2.3.2",
     "@formatjs/fast-memoize": "^2.2.6",
@@ -110,7 +110,7 @@
     "eslint-plugin-formatjs": "^5.2.13",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-jest-dom": "^5.5.0",
-    "eslint-plugin-jsdoc": "^50.6.2",
+    "eslint-plugin-jsdoc": "^50.6.3",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
