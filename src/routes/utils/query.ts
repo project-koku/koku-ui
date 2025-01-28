@@ -60,11 +60,13 @@ export const handleOnPerPageSelect = (query: Query, perPage: number, isLimit = f
     ...(isLimit
       ? {
           limit: perPage,
+          offset: 0,
         }
       : {
           filter: {
             ...query.filter,
             limit: perPage,
+            offset: 0,
           },
         }),
   });
