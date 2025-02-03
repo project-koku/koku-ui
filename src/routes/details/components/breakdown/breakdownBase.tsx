@@ -118,7 +118,7 @@ type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatc
 
 class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   protected defaultState: BreakdownState = {
-    activeTabKey: this.props.isOptimizationsTab ? 2 : 0,
+    activeTabKey: this.props.isOptimizationsTab ? 3 : 0,
   };
   public state: BreakdownState = { ...this.defaultState };
 
