@@ -151,7 +151,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     }
 
     return (
-      <header style={styles.header}>
+      <header>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
           <FlexItem>
             <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>

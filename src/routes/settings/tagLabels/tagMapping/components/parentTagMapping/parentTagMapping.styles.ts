@@ -1,31 +1,31 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_FontSize_md from '@patternfly/react-tokens/dist/js/global_FontSize_md';
+import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
+import t_global_font_size_md from '@patternfly/react-tokens/dist/js/t_global_font_size_md';
 import type React from 'react';
 
 export const styles = {
   alert: {
-    marginBottom: global_FontSize_md.value,
+    marginBottom: t_global_font_size_md.value,
   },
   descContainer: {
-    marginTop: global_FontSize_md.value,
+    marginTop: t_global_font_size_md.value,
   },
   emptyState: {
-    margin: global_FontSize_md.value,
+    margin: t_global_font_size_md.value,
   },
   icon: {
-    margin: global_FontSize_md.value,
+    margin: t_global_font_size_md.value,
   },
   loading: {
-    backgroundColor: global_BackgroundColor_light_100.value,
+    backgroundColor: t_global_background_color_100.value,
     minHeight: '520px',
   },
   reviewDescContainer: {
-    marginBottom: global_FontSize_md.value,
+    marginBottom: t_global_font_size_md.value,
   },
   reviewTable: {
     marginTop: '-10px',
   },
   spacing: {
-    marginRight: global_FontSize_md.value,
+    marginRight: t_global_font_size_md.value,
   },
 } as { [className: string]: React.CSSProperties };

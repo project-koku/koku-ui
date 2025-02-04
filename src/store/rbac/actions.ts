@@ -1,5 +1,5 @@
+import { addNotification } from '@ausuliv/frontend-components-notifications/redux';
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import type { RBAC } from 'api/rbac';
 import { getRBAC } from 'api/rbac';
 import { intl } from 'components/i18n';
