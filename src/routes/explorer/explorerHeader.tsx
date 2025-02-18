@@ -16,6 +16,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
@@ -280,7 +281,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       perspective,
       providersFetchStatus,
       query,
-      report,
       startDate,
     } = this.props;
 
@@ -299,7 +299,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const resourcePathsType = getResourcePathsType(perspective);
     const tagPathsType = getTagReportPathsType(perspective);
 
-    const showCostDistribution = costDistribution && report?.meta?.distributed_overhead === true;
+    const showCostDistribution = costDistribution === ComputedReportItemValueType.distributed; // Always show -- see https://issues.redhat.com/browse/COST-5870
 
     return (
       <header style={styles.header}>
