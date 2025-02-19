@@ -131,7 +131,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
     const { currentDateRangeType } = this.state;
 
     const showContent = report && !providersError && providers?.meta?.count > 0;
-    const showCostDistribution = groupBy === 'project' && report?.meta?.distributed_overhead === true;
+    const showCostDistribution = costDistribution === ComputedReportItemValueType.distributed; // Always show -- see https://issues.redhat.com/browse/COST-5870
 
     let cost: string | React.ReactNode = <EmptyValueState />;
     let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
