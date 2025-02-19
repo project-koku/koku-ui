@@ -1,4 +1,14 @@
-import { Alert, Button, Modal, Stack, StackItem } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalVariant,
+  Stack,
+  StackItem,
+} from '@patternfly/react-core';
 import type { CostModelRequest } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import { intl as defaultIntl } from 'components/i18n';
@@ -102,12 +112,28 @@ const UpdateRateModalBase: React.FC<UpdateRateModalProps> = ({
 
   return (
     <Modal
+      aria-label={intl.formatMessage(messages.priceListEditRate)}
       className="costManagement"
-      title={intl.formatMessage(messages.priceListEditRate)}
       isOpen={isOpen}
       onClose={onClose}
-      variant="large"
-      actions={[
+      variant={ModalVariant.large}
+    >
+      <ModalHeader title={intl.formatMessage(messages.priceListEditRate)} />
+      <ModalBody>
+        <Stack hasGutter>
+          {updateError && (
+            <StackItem>
+              <Alert variant="danger" title={`${updateError}`} />
+            </StackItem>
+          )}
+          <StackItem>
+            <Form>
+              <RateForm currencyUnits={getCurrencyUnits(rate)} metricsHash={metricsHash} rateFormData={rateFormData} />
+            </Form>
+          </StackItem>
+        </Stack>
+      </ModalBody>
+      <ModalFooter>
         <Button
           key="proceed"
           variant="primary"
@@ -115,24 +141,11 @@ const UpdateRateModalBase: React.FC<UpdateRateModalProps> = ({
           isDisabled={isProcessing || !canSubmit || !gotDiffs}
         >
           {intl.formatMessage(messages.save)}
-        </Button>,
+        </Button>
         <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
           {intl.formatMessage(messages.cancel)}
-        </Button>,
-      ]}
-    >
-      <Stack hasGutter>
-        {updateError && (
-          <StackItem>
-            <Alert variant="danger" title={`${updateError}`} />
-          </StackItem>
-        )}
-        <StackItem>
-          <Form>
-            <RateForm currencyUnits={getCurrencyUnits(rate)} metricsHash={metricsHash} rateFormData={rateFormData} />
-          </Form>
-        </StackItem>
-      </Stack>
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };

@@ -181,19 +181,21 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
           warning: <b>{intl.formatMessage(messages.tagMappingWarning)}</b>,
         })}
       </div>
-      {hasMappings && getToolbar(mappings)}
-      {settingsStatus === FetchStatus.inProgress ? (
-        <LoadingState />
-      ) : hasMappings ? (
-        <>
-          {getTable()}
-          <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
-        </>
-      ) : (
-        <div style={styles.emptyStateContainer}>
-          <TagMappingEmptyState canWrite={canWrite} onWizardClose={refresh} />
-        </div>
-      )}
+      <div style={styles.tableContainer}>
+        {hasMappings && getToolbar(mappings)}
+        {settingsStatus === FetchStatus.inProgress ? (
+          <LoadingState />
+        ) : hasMappings ? (
+          <>
+            {getTable()}
+            <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>
+          </>
+        ) : (
+          <div style={styles.emptyStateContainer}>
+            <TagMappingEmptyState canWrite={canWrite} onWizardClose={refresh} />
+          </div>
+        )}
+      </div>
     </>
   );
 };

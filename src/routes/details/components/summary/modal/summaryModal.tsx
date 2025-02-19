@@ -1,4 +1,4 @@
-import { Modal } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import messages from 'locales/messages';
@@ -43,23 +43,22 @@ class SummaryModalBase extends React.Component<SummaryModalProps, any> {
       this.props;
 
     return (
-      <Modal
-        className="modalOverride"
-        isOpen={isOpen}
-        onClose={this.handleClose}
-        title={intl.formatMessage(messages.detailsSummaryModalTitle, {
-          groupBy: reportGroupBy,
-          name: groupByValue,
-        })}
-        variant="large"
-      >
-        <SummaryContent
-          costDistribution={costDistribution}
-          costType={costType}
-          currency={currency}
-          reportGroupBy={reportGroupBy}
-          reportPathsType={reportPathsType}
+      <Modal className="modalOverride" isOpen={isOpen} onClose={this.handleClose} variant={ModalVariant.large}>
+        <ModalHeader
+          title={intl.formatMessage(messages.detailsSummaryModalTitle, {
+            groupBy: reportGroupBy,
+            name: groupByValue,
+          })}
         />
+        <ModalBody>
+          <SummaryContent
+            costDistribution={costDistribution}
+            costType={costType}
+            currency={currency}
+            reportGroupBy={reportGroupBy}
+            reportPathsType={reportPathsType}
+          />
+        </ModalBody>
       </Modal>
     );
   }
