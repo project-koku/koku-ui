@@ -15,7 +15,15 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
 
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
-  const openshiftParam = resourceType === ResourceType.aws_category ? '' : 'openshift=true&';
-  const queryString = query ? `?${openshiftParam}${query}` : '';
+  const openshiftParam = resourceType === ResourceType.aws_category ? '' : 'openshift=true';
+  let queryString;
+
+  if (openshiftParam && query) {
+    queryString = `?${openshiftParam}&${query}`;
+  } else if (openshiftParam) {
+    queryString = `?${openshiftParam}`;
+  } else if (query) {
+    queryString = `?${query}`;
+  }
   return axiosInstance.get<Resource>(`${path}${queryString}`);
 }
