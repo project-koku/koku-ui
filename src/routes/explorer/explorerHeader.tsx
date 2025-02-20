@@ -16,7 +16,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
@@ -304,9 +303,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const tagPathsType = getTagReportPathsType(perspective);
 
     const showContent = report && !providersError && providers?.meta?.count > 0;
-    const showCostDistribution = costDistribution === ComputedReportItemValueType.distributed; // Always show -- see https://issues.redhat.com/browse/COST-5870
-
     const { cost, infrastructureCost, supplementaryCost } = getTotalCost(report, costDistribution);
+
     const dateRange = intl.formatDateTimeRange(new Date(startDate + 'T00:00:00'), new Date(endDate + 'T00:00:00'), {
       day: 'numeric',
       month: 'long',
@@ -349,7 +347,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
                   tagPathsType={tagPathsType}
                 />
               </FlexItem>
-              {showCostDistribution && (
+              {costDistribution && (
                 <FlexItem>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
                 </FlexItem>
