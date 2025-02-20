@@ -12,7 +12,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { Currency } from 'routes/components/currency';
 import { DateRange } from 'routes/components/dateRange';
@@ -130,8 +129,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
     const { currentDateRangeType } = this.state;
 
     const showContent = report && !providersError && providers?.meta?.count > 0;
-    const showCostDistribution = costDistribution === ComputedReportItemValueType.distributed; // Always show -- see https://issues.redhat.com/browse/COST-5870
-
     const { cost, infrastructureCost, supplementaryCost } = getTotalCost(report, costDistribution);
 
     return (
@@ -169,7 +166,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
                   timeScopeValue={timeScopeValue}
                 />
               </FlexItem>
-              {showCostDistribution && (
+              {costDistribution && (
                 <FlexItem>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
                 </FlexItem>
