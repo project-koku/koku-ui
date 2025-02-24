@@ -82,9 +82,9 @@
     "victory": "^37.3.6"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.2.6",
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.20.0",
+    "@eslint/compat": "^1.2.7",
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.21.0",
     "@formatjs/cli": "^6.6.1",
     "@formatjs/ecma402-abstract": "^2.3.3",
     "@formatjs/fast-memoize": "^2.2.6",
