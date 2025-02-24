@@ -128,7 +128,7 @@
     "prettier": "^3.5.1",
     "rimraf": "^6.0.1",
     "swc_mut_cjs_exports": "^8.0.1",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.2.6",
     "ts-patch": "^3.3.0",
     "typescript": "^5.7.3"
   },
