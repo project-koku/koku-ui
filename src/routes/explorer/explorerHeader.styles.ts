@@ -15,7 +15,7 @@ export const styles = {
   costValue: {
     marginTop: 0,
     marginBottom: 0,
-    marginRight: global_spacer_md.var,
+    textAlign: 'right',
   },
   costLabelUnit: {
     fontSize: global_FontSize_sm.value,
@@ -24,6 +24,12 @@ export const styles = {
   costLabelDate: {
     fontSize: global_FontSize_sm.value,
     color: global_Color_200.var,
+  },
+  dateTitle: {
+    textAlign: 'end',
+  },
+  filterContainer: {
+    alignItems: 'unset',
   },
   header: {
     backgroundColor: global_BackgroundColor_light_100.var,

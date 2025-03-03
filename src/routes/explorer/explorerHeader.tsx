@@ -1,4 +1,4 @@
-import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
+import { Flex, FlexItem, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -22,6 +22,7 @@ import { Currency } from 'routes/components/currency';
 import { GroupBy } from 'routes/components/groupBy';
 import { Perspective } from 'routes/components/perspective';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedExplorerReportItems';
+import { getTotalCost } from 'routes/utils/cost';
 import type { DateRangeType } from 'routes/utils/dateRange';
 import type { Filter } from 'routes/utils/filter';
 import { filterProviders, hasCloudProvider } from 'routes/utils/providers';
@@ -278,9 +279,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
       onFilterRemoved,
       onGroupBySelect,
       perspective,
+      providers,
+      providersError,
       providersFetchStatus,
-      query,
       report,
+      query,
       startDate,
     } = this.props;
 
@@ -299,7 +302,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const resourcePathsType = getResourcePathsType(perspective);
     const tagPathsType = getTagReportPathsType(perspective);
 
-    const showCostDistribution = costDistribution && report?.meta?.distributed_overhead === true;
+    const showContent = report && !providersError && providers?.meta?.count > 0;
+    const { cost, infrastructureCost, supplementaryCost } = getTotalCost(report, costDistribution);
+
+    const dateRange = intl.formatDateTimeRange(new Date(startDate + 'T00:00:00'), new Date(endDate + 'T00:00:00'), {
+      day: 'numeric',
+      month: 'long',
+    });
 
     return (
       <header style={styles.header}>
@@ -338,7 +347,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
                   tagPathsType={tagPathsType}
                 />
               </FlexItem>
-              {showCostDistribution && (
+              {costDistribution && (
                 <FlexItem>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
                 </FlexItem>
@@ -351,21 +360,49 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
             </Flex>
           </FlexItem>
         </Flex>
-        <ExplorerFilter
-          dateRangeType={dateRangeType}
-          endDate={endDate}
-          groupBy={groupBy}
-          isCurrentMonthData={isCurrentMonthData}
-          isDataAvailable={isDataAvailable}
-          isDisabled={noProviders}
-          isPreviousMonthData={isPreviousMonthData}
-          onFilterAdded={onFilterAdded}
-          onFilterRemoved={onFilterRemoved}
-          onDateRangeSelect={onDateRangeSelect}
-          perspective={perspective}
-          query={query}
-          startDate={startDate}
-        />
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.filterContainer}>
+          <FlexItem>
+            <ExplorerFilter
+              dateRangeType={dateRangeType}
+              endDate={endDate}
+              groupBy={groupBy}
+              isCurrentMonthData={isCurrentMonthData}
+              isDataAvailable={isDataAvailable}
+              isDisabled={noProviders}
+              isPreviousMonthData={isPreviousMonthData}
+              onFilterAdded={onFilterAdded}
+              onFilterRemoved={onFilterRemoved}
+              onDateRangeSelect={onDateRangeSelect}
+              perspective={perspective}
+              query={query}
+              startDate={startDate}
+            />
+          </FlexItem>
+          <FlexItem>
+            {showContent && (
+              <>
+                {perspective === PerspectiveType.ocp ? (
+                  <Tooltip
+                    content={intl.formatMessage(messages.dashboardTotalCostTooltip, {
+                      infrastructureCost,
+                      supplementaryCost,
+                    })}
+                    enableFlip
+                  >
+                    <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                      {cost}
+                    </Title>
+                  </Tooltip>
+                ) : (
+                  <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                    {cost}
+                  </Title>
+                )}
+                <div style={styles.dateTitle}>{intl.formatMessage(messages.sinceDate, { dateRange })}</div>
+              </>
+            )}
+          </FlexItem>
+        </Flex>
       </header>
     );
   }
