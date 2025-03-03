@@ -10,6 +10,7 @@ import {
   TextListItem,
   TextListItemVariants,
   TextListVariants,
+  Tooltip,
 } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { parseQuery } from 'api/queries/ocpQuery';
@@ -214,6 +215,31 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     );
   };
 
+  private getClusterName = item => {
+    const { width } = this.state;
+
+    // Cluster name may be up to 256 chars, while the ID is 50
+    let maxCharsPerName = 50;
+    const clusterName = item?.clusters ? item.clusters[0] : null;
+
+    // Max (non-whitespace) characters that fit without overlapping card
+    if (width < 475) {
+      maxCharsPerName = 25; // Provide more space for tooltip at smallest window size
+    } else if (width < 800) {
+      const k = 100 + (800 - width) / 8;
+      maxCharsPerName = (width / k) * 5;
+    }
+
+    if (clusterName?.length > maxCharsPerName) {
+      return (
+        <Tooltip content={clusterName} enableFlip>
+          <span>{clusterName.slice(0, maxCharsPerName).trim().concat('...')}</span>
+        </Tooltip>
+      );
+    }
+    return clusterName;
+  };
+
   private getDescription = item => {
     const { intl } = this.props;
 
@@ -226,7 +252,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
             </TextListItem>
             <TextListItem component={TextListItemVariants.dd}>{item.persistent_volume_claim}</TextListItem>
             <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.cluster)}</TextListItem>
-            <TextListItem component={TextListItemVariants.dd}>{item.clusters ? item.clusters[0] : null}</TextListItem>
+            <TextListItem component={TextListItemVariants.dd}>{this.getClusterName(item)}</TextListItem>
           </TextList>
         </TextContent>
         <TextContent className="textContentOverride">

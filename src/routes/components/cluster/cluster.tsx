@@ -4,7 +4,9 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { getComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
+import { noop } from 'routes/utils/noop';
 
 import { styles } from './cluster.styles';
 import { ClusterModal } from './modal/clusterModal';
@@ -20,14 +22,18 @@ interface ClusterOwnProps {
 interface ClusterState {
   isOpen?: boolean;
   showAll?: boolean;
+  width?: number;
 }
 
 type ClusterProps = ClusterOwnProps & WrappedComponentProps;
 
 class ClusterBase extends React.Component<ClusterProps, ClusterState> {
+  private containerRef = React.createRef<HTMLDivElement>();
+  private observer: any = noop;
   protected defaultState: ClusterState = {
     isOpen: false,
     showAll: false,
+    width: 0,
   };
   public state: ClusterState = { ...this.defaultState };
 
@@ -35,6 +41,16 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
     super(props);
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
+  }
+
+  public componentDidMount() {
+    this.observer = getResizeObserver(this.containerRef?.current, this.handleResize);
+  }
+
+  public componentWillUnmount() {
+    if (this.observer) {
+      this.observer();
+    }
   }
 
   public handleClose = (isOpen: boolean) => {
@@ -47,11 +63,21 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
     return false;
   };
 
+  private handleResize = () => {
+    const { width } = this.state;
+    const { clientWidth = 0 } = this.containerRef?.current || {};
+
+    if (clientWidth !== width) {
+      this.setState({ width: clientWidth });
+    }
+  };
+
   public render() {
     const { clusters, groupBy, intl, report, title } = this.props;
-    const { isOpen, showAll } = this.state;
+    const { isOpen, showAll, width } = this.state;
 
-    const maxCharsPerName = 45; // Max (non-whitespace) characters that fit without overlapping card
+    // Cluster name may be up to 256 chars, while the ID is 50
+    let maxCharsPerName = 55; // Max (non-whitespace) characters that fit without overlapping card
     const maxItems = 2; // Max items to show before adding "more" link
     const someClusters = [];
 
@@ -95,6 +121,9 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
         someClusters.push(clusterString);
       } else if (someClusters.length < maxItems) {
         if (clusterString.length > maxCharsPerName) {
+          if (width < 475) {
+            maxCharsPerName = 40;
+          }
           clusterString = clusterString.slice(0, maxCharsPerName).trim().concat('...');
           someClusters.push(
             <Tooltip content={cluster} enableFlip>
@@ -108,7 +137,7 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
     }
 
     return (
-      <div style={styles.clustersContainer}>
+      <div ref={this.containerRef} style={styles.clustersContainer}>
         {someClusters && someClusters.map((cluster, index) => <span key={index}>{cluster}</span>)}
         {someClusters.length < allClusters.length && (
           <a data-testid="cluster-lnk" href="#/" onClick={this.handleOpen}>

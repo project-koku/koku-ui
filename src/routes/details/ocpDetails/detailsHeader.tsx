@@ -12,15 +12,14 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { CostDistribution } from 'routes/components/costDistribution';
 import { Currency } from 'routes/components/currency';
 import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
-import { EmptyValueState } from 'routes/components/state/emptyValueState';
 import { ProviderDetailsModal } from 'routes/details/components/providerStatus';
 import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
+import { getTotalCost } from 'routes/utils/cost';
 import { DateRangeType, getCurrentDateRangeType } from 'routes/utils/dateRange';
 import { filterProviders } from 'routes/utils/providers';
 import type { FetchStatus } from 'store/common';
@@ -28,7 +27,6 @@ import { createMapStateToProps } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { getSinceDateRangeString } from 'utils/dates';
-import { formatCurrency } from 'utils/format';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -131,30 +129,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
     const { currentDateRangeType } = this.state;
 
     const showContent = report && !providersError && providers?.meta?.count > 0;
-    const showCostDistribution = groupBy === 'project' && report?.meta?.distributed_overhead === true;
-
-    let cost: string | React.ReactNode = <EmptyValueState />;
-    let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
-    let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
-
-    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
-    if (report?.meta?.total) {
-      const hasCost = report.meta.total.cost && report.meta.total.cost[reportItemValue];
-      const hasSupplementaryCost = report.meta.total.supplementary && report.meta.total.supplementary.total;
-      const hasInfrastructureCost = report.meta.total.infrastructure && report.meta.total.infrastructure.total;
-      cost = formatCurrency(
-        hasCost ? report.meta.total.cost[reportItemValue].value : 0,
-        hasCost ? report.meta.total.cost[reportItemValue].units : 'USD'
-      );
-      supplementaryCost = formatCurrency(
-        hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
-        hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD'
-      );
-      infrastructureCost = formatCurrency(
-        hasInfrastructureCost ? report.meta.total.infrastructure.total.value : 0,
-        hasInfrastructureCost ? report.meta.total.infrastructure.total.units : 'USD'
-      );
-    }
+    const { cost, infrastructureCost, supplementaryCost } = getTotalCost(report, costDistribution);
 
     return (
       <header style={styles.header}>
@@ -191,7 +166,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
                   timeScopeValue={timeScopeValue}
                 />
               </FlexItem>
-              {showCostDistribution && (
+              {costDistribution && (
                 <FlexItem>
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
                 </FlexItem>
