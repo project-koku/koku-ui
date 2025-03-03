@@ -31,14 +31,13 @@ const DeleteTagMappingAction: React.FC<DeleteTagMappingActionProps> = ({ canWrit
 
     return getTooltip(
       <Button
+        icon={<MinusCircleIcon />}
         aria-label={intl.formatMessage(messages.tagMappingRemove)}
         isAriaDisabled={!canWrite || isDisabled}
         onClick={() => handleOnClick()}
         size="sm"
         variant={ButtonVariant.plain}
-      >
-        <MinusCircleIcon />
-      </Button>
+      ></Button>
     );
   };
 
