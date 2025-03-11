@@ -9,7 +9,7 @@ import AddPriceList from './addPriceList';
 
 const metricsHash: any = {
   CPU: {
-    Request: {
+    cpu_core_request_per_hour: {
       source_type: 'Openshift Container Platform',
       metric: 'cpu_core_request_per_hour',
       label_metric: 'CPU',
@@ -17,7 +17,7 @@ const metricsHash: any = {
       label_measurement_unit: 'core-hours',
       default_cost_type: 'Infrastructure',
     },
-    Usage: {
+    cpu_core_usage_per_hour: {
       source_type: 'Openshift Container Platform',
       metric: 'cpu_core_usage_per_hour',
       label_metric: 'CPU',
@@ -27,7 +27,7 @@ const metricsHash: any = {
     },
   },
   Memory: {
-    Request: {
+    memory_gb_request_per_hour: {
       source_type: 'Openshift Container Platform',
       metric: 'memory_gb_request_per_hour',
       label_metric: 'Memory',
@@ -35,7 +35,7 @@ const metricsHash: any = {
       label_measurement_unit: 'GiB-hours',
       default_cost_type: 'Supplementary',
     },
-    Usage: {
+    memory_gb_usage_per_hour: {
       source_type: 'Openshift Container Platform',
       metric: 'memory_gb_usage_per_hour',
       label_metric: 'Memory',
@@ -45,7 +45,7 @@ const metricsHash: any = {
     },
   },
   Cluster: {
-    Currency: {
+    cluster_cost_per_month: {
       source_type: 'Openshift Container Platform',
       metric: 'cluster_cost_per_month',
       label_metric: 'Cluster',
@@ -275,7 +275,7 @@ describe('add-a-new-rate', () => {
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[3]); // Previous select options are not being removed from page
+    await user.click(options[4]); // Previous select options are not being removed from page
 
     await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
 
@@ -299,7 +299,7 @@ describe('add-a-new-rate', () => {
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[3]);
+    await user.click(options[4]);
 
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
