@@ -152,7 +152,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     tagPathsType: TagPathsType.ocp,
     timeScopeValue,
     title,
-    virtualizationComponent: <Virtualization currency={currency} />,
+    virtualizationComponent: <Virtualization costDistribution={costDistribution} currency={currency} />,
   };
   return test;
 });

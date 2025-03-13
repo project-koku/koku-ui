@@ -6,6 +6,7 @@ import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoVirtualizationState } from 'routes/components/page/noVirtualization/noVirtualizationState';
@@ -16,6 +17,7 @@ import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getC
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
 interface VirtualizationTableOwnProps {
+  costDistribution?: string;
   exclude?: any;
   filterBy?: any;
   hideCluster?: boolean;
@@ -43,6 +45,7 @@ export const VirtualizationTableColumnIds = {
 };
 
 const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
+  costDistribution,
   exclude,
   filterBy,
   hideCluster,
@@ -119,7 +122,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        orderBy: 'cost',
+        orderBy: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
         name: intl.formatMessage(messages.cost),
         style: styles.costColumn,
         ...(computedItems.length && { isSortable: true }),
@@ -212,8 +215,10 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
   };
 
   const getTotalCost = (item: ComputedReportItem) => {
-    const value = item.cost?.total?.value || 0;
-    const units = item.cost?.total?.units || 'USD';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
+    const hasTotal = item?.cost?.[reportItemValue];
+    const value = hasTotal ? item?.cost?.[reportItemValue]?.value : 0;
+    const units = hasTotal ? item?.cost?.[reportItemValue]?.units : 'USD';
     return formatCurrency(value, units);
   };
 
@@ -225,7 +230,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [hiddenColumns, report, selectedItems]);
+  }, [costDistribution, hiddenColumns, report, selectedItems]);
 
   return (
     <DataTable
