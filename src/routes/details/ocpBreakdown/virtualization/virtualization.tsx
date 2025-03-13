@@ -39,6 +39,7 @@ import { VirtualizationTable, VirtualizationTableColumnIds } from './virtualizat
 import { VirtualizationToolbar } from './virtualizationToolbar';
 
 interface VirtualizationOwnProps {
+  costDistribution?: string;
   costType?: string;
   currency?: string;
 }
@@ -86,7 +87,7 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
 const reportType = ReportType.virtualization;
 const reportPathsType = ReportPathsType.ocp;
 
-const Virtualization: React.FC<VirtualizationProps> = ({ costType, currency }) => {
+const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costType, currency }) => {
   const intl = useIntl();
 
   const [hiddenColumns, setHiddenColumns] = useState(initHiddenColumns(defaultColumnOptions));
@@ -192,6 +193,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costType, currency }) =
   const getTable = () => {
     return (
       <VirtualizationTable
+        costDistribution={costDistribution}
         exclude={query.exclude}
         filterBy={query.filter_by}
         hideCluster={hasClusterFilter}
