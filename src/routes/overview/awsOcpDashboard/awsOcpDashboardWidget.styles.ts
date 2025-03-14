@@ -1,5 +1,5 @@
-import global_spacer_2xl from '@patternfly/react-tokens/dist/js/global_spacer_2xl';
-import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
+import t_global_spacer_2xl from '@patternfly/react-tokens/dist/js/t_global_spacer_2xl';
+import t_global_spacer_xl from '@patternfly/react-tokens/dist/js/t_global_spacer_xl';
 import type React from 'react';
 
 export const chartStyles = {
@@ -9,9 +9,9 @@ export const chartStyles = {
 
 export const styles = {
   tabs: {
-    marginTop: global_spacer_2xl.value,
+    marginTop: t_global_spacer_2xl.value,
   },
   tabItems: {
-    marginTop: global_spacer_xl.value,
+    marginTop: t_global_spacer_xl.value,
   },
 } as { [className: string]: React.CSSProperties };

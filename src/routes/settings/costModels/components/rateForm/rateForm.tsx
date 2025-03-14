@@ -230,8 +230,8 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                 updateDefaultTag={updateDefaultTag}
                 updateTag={updateTag}
               />
-              <Button style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                <PlusCircleIcon /> {intl.formatMessage(messages.costModelsAddTagValues)}
+              <Button icon={<PlusCircleIcon />} style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
+                {intl.formatMessage(messages.costModelsAddTagValues)}
               </Button>
             </>
           )}

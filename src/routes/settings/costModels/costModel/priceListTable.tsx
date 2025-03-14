@@ -1,18 +1,4 @@
-import {
-  Bullseye,
-  Button,
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  List,
-  ListItem,
-  Pagination,
-  Toolbar,
-  ToolbarContent,
-  ToolbarItem,
-  ToolbarItemVariant,
-} from '@patternfly/react-core';
+import { Bullseye, Button, EmptyState, EmptyStateBody, List, ListItem, Pagination } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { SortByDirection } from '@patternfly/react-table';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
@@ -41,6 +27,7 @@ import { rbacSelectors } from 'store/rbac';
 import { unitsLookupKey } from 'utils/format';
 
 import AddRateModal from './addRateModal';
+import { styles } from './costModelInfo.styles';
 import Dialog from './dialog';
 import UpdateRateModal from './updateRateModel';
 
@@ -297,12 +284,11 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                   search.measurements.length === 0 &&
                   search.metrics.length === 0 && (
                     <Bullseye>
-                      <EmptyState>
-                        <EmptyStateHeader
-                          titleText={intl.formatMessage(messages.priceListEmptyRate)}
-                          icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-                          headingLevel="h2"
-                        />
+                      <EmptyState
+                        headingLevel="h2"
+                        icon={PlusCircleIcon}
+                        titleText={intl.formatMessage(messages.priceListEmptyRate)}
+                      >
                         <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyRateDesc)}</EmptyStateBody>
                       </EmptyState>
                     </Bullseye>
@@ -363,35 +349,29 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                         });
                       }}
                     />
-
-                    <Toolbar id="price-list-toolbar-bottom">
-                      <ToolbarContent>
-                        <ToolbarItem variant={ToolbarItemVariant.pagination}>
-                          <Pagination
-                            itemCount={res.length}
-                            perPage={this.state.pagination.perPage}
-                            page={this.state.pagination.page}
-                            onSetPage={(_evt, page) =>
-                              this.setState({
-                                pagination: { ...this.state.pagination, page },
-                              })
-                            }
-                            onPerPageSelect={(_evt, perPage) =>
-                              this.setState({
-                                pagination: { page: 1, perPage },
-                              })
-                            }
-                            titles={{
-                              paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-                                title: intl.formatMessage(messages.priceList),
-                                placement: 'bottom',
-                              }),
-                            }}
-                            variant="bottom"
-                          />
-                        </ToolbarItem>
-                      </ToolbarContent>
-                    </Toolbar>
+                    <Pagination
+                      itemCount={res.length}
+                      perPage={this.state.pagination.perPage}
+                      page={this.state.pagination.page}
+                      onSetPage={(_evt, page) =>
+                        this.setState({
+                          pagination: { ...this.state.pagination, page },
+                        })
+                      }
+                      onPerPageSelect={(_evt, perPage) =>
+                        this.setState({
+                          pagination: { page: 1, perPage },
+                        })
+                      }
+                      style={styles.pagination}
+                      titles={{
+                        paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
+                          title: intl.formatMessage(messages.priceList),
+                          placement: 'bottom',
+                        }),
+                      }}
+                      variant="bottom"
+                    />
                   </>
                 )}
               </>
