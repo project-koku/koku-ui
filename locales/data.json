@@ -691,6 +691,12 @@
         "value": "Cancel"
       }
     ],
+    "capacity": [
+      {
+        "type": 0,
+        "value": "Capacity"
+      }
+    ],
     "chartCostForecastConeLabel": [
       {
         "type": 0,
@@ -3132,6 +3138,14 @@
               {
                 "type": 0,
                 "value": "Status"
+              }
+            ]
+          },
+          "storage": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Storage"
               }
             ]
           },
@@ -12998,6 +13012,26 @@
         "value": "StorageClass"
       }
     ],
+    "storageHeadingTitle": [
+      {
+        "type": 0,
+        "value": "Storage ("
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "storageNames": [
+      {
+        "type": 0,
+        "value": "Storage names"
+      }
+    ],
     "storageUnattributedDistributed": [
       {
         "type": 0,
@@ -13871,6 +13905,12 @@
       {
         "type": 0,
         "value": "View release notes"
+      }
+    ],
+    "virtualMachine": [
+      {
+        "type": 0,
+        "value": "Virtual machine"
       }
     ],
     "virtualization": [
