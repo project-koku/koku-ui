@@ -16,6 +16,8 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
+import { StorageLink } from './storage';
+
 interface VirtualizationTableOwnProps {
   costDistribution?: string;
   exclude?: any;
@@ -107,6 +109,9 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'storage' }),
+      },
+      {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'tags' }),
       },
       {
@@ -155,7 +160,10 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
             value: item.node ? item.node : null,
           },
           {
-            value: <TagLink tagData={item.tags} />,
+            value: <StorageLink storageData={item.storage} virtualMachine={item.vm_name} />,
+          },
+          {
+            value: <TagLink tagData={item.tags} virtualMachine={item.vm_name} />,
           },
           {
             id: VirtualizationTableColumnIds.cpu,

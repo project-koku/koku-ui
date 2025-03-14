@@ -14,6 +14,7 @@ interface TagContentOwnProps {
   groupByValue: string | number;
   tagData?: TagData[];
   tagReport?: Tag;
+  virtualMachine?: string;
 }
 
 type TagContentProps = TagContentOwnProps & WrappedComponentProps;
@@ -49,19 +50,18 @@ class TagContentBase extends React.Component<TagContentProps, any> {
   };
 
   public render() {
-    const { groupBy, groupByValue, intl } = this.props;
+    const { groupBy, groupByValue, intl, virtualMachine } = this.props;
     const dataListItems = this.getDataListItems();
 
     return (
       <>
-        <div>
-          <span style={styles.dataListHeading}>
-            {intl.formatMessage(messages.groupByValues, { value: groupBy, count: 1 })}
-          </span>
+        <div style={styles.dataListHeading}>
+          {intl.formatMessage(virtualMachine ? messages.virtualMachine : messages.groupByValuesTitleCase, {
+            value: groupBy,
+            count: 1,
+          })}
         </div>
-        <div style={styles.groupByHeading}>
-          <span>{groupByValue}</span>
-        </div>
+        <div style={styles.dataListSubHeading}>{virtualMachine ? virtualMachine : groupByValue}</div>
         <DataList aria-label={intl.formatMessage(messages.tagNames)} isCompact>
           <DataListItem aria-labelledby="heading1">
             <DataListItemRow>
