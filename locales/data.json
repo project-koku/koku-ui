@@ -10836,6 +10836,14 @@
                 "value": "Storage"
               }
             ]
+          },
+          "virtual_machine": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Virtual machine"
+              }
+            ]
           }
         },
         "type": 5,
