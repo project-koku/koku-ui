@@ -2625,6 +2625,7 @@ export default defineMessages({
       'node {Node} ' +
       'persistent_volume_claims {Persistent volume claims} ' +
       'storage {Storage} ' +
+      'virtual_machine {Virtual machine}' +
       'other {}}',
     description: 'Metric values',
     id: 'metricValues',
