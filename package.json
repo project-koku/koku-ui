@@ -110,7 +110,7 @@
     "eslint-plugin-formatjs": "^5.2.14",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-jest-dom": "^5.5.0",
-    "eslint-plugin-jsdoc": "^50.6.6",
+    "eslint-plugin-jsdoc": "^50.6.7",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
