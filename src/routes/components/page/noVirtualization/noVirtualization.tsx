@@ -1,16 +1,24 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
 import { NoVirtualizationState } from './noVirtualizationState';
 
 interface NoVirtualizationOwnProps {
+  isPageSection?: boolean;
   title?: string;
 }
 
 type NoVirtualizationProps = NoVirtualizationOwnProps;
 
-const NoVirtualization = ({ title }: NoVirtualizationProps) => {
+const NoVirtualization = ({ isPageSection = true, title }: NoVirtualizationProps) => {
+  const content = (
+    <Card>
+      <CardBody>
+        <NoVirtualizationState />
+      </CardBody>
+    </Card>
+  );
   return (
     <>
       {title && (
@@ -18,9 +26,7 @@ const NoVirtualization = ({ title }: NoVirtualizationProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
-        <NoVirtualizationState />
-      </PageSection>
+      {isPageSection ? <PageSection hasBodyWrapper={true}>{content}</PageSection> : content}
     </>
   );
 };

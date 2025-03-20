@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { ExportModal } from 'routes/components/export';
-import { Loading } from 'routes/components/page/loading';
 import { NoInstances } from 'routes/components/page/noInstances';
 import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
 import { ColumnManagementModal, initHiddenColumns } from 'routes/details/components/columnManagement';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
@@ -318,28 +318,30 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   const hasInstances = report?.meta?.count > 0;
 
   if (reportError) {
-    return <NotAvailable />;
+    return <NotAvailable isPageSection={false} />;
   }
   if (!query.filter_by && !query.exclude && !hasInstances && reportFetchStatus === FetchStatus.complete) {
-    return <NoInstances />;
+    return <NoInstances isPageSection={false} />;
   }
 
   const computedItems = getComputedItems();
 
   return (
-    <>
-      {getExportModal(computedItems)}
-      {getColumnManagementModal()}
-      {getToolbar(computedItems)}
-      {reportFetchStatus === FetchStatus.inProgress ? (
-        <Loading />
-      ) : (
-        <>
-          {getTable()}
-          <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
-        </>
-      )}
-    </>
+    <Card>
+      <CardBody>
+        {getExportModal(computedItems)}
+        {getColumnManagementModal()}
+        {getToolbar(computedItems)}
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <LoadingState />
+        ) : (
+          <>
+            {getTable()}
+            <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
+          </>
+        )}
+      </CardBody>
+    </Card>
   );
 };
 

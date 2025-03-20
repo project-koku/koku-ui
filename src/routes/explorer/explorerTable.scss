@@ -1,15 +1,15 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 .explorerTableOverride {
-  &.pf-v5-c-table {
-    .pf-v5-c-table__sticky-column {
+  &.pf-v6-c-table {
+    .pf-v6-c-table__sticky-column {
       z-index: 99;
     }
   }
-  &.pf-v5-c-table tbody .pf-v5-c-table__check input {
-    margin-top: .40rem;
+  &.pf-v6-c-table tbody .pf-v6-c-table__check input {
+    margin-top: .35rem;
   }
   .stickyColumn {
-    --pf-v5-c-table--cell--Width: 1%;
+    --pf-v6-c-table--cell--Width: 1%;
   }
 }

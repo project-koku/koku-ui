@@ -36,10 +36,10 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <div>
       <NotificationsPortal />
       <Routes />
-    </>
+    </div>
   );
 };
 

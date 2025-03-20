@@ -1,4 +1,4 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
@@ -19,8 +19,12 @@ const NotAuthorized = ({ pathname, title }: NotAuthorizedProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
-        <NotAuthorizedState pathname={pathname} />
+      <PageSection hasBodyWrapper={false}>
+        <Card>
+          <CardBody>
+            <NotAuthorizedState pathname={pathname} />
+          </CardBody>
+        </Card>
       </PageSection>
     </>
   );
