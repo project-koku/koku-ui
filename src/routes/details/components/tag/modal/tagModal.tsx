@@ -25,6 +25,7 @@ interface TagModalOwnProps extends RouterComponentProps, WrappedComponentProps {
   onClose(isOpen: boolean);
   tagData?: TagData[];
   tagPathsType: TagPathsType;
+  virtualMachine?: string;
 }
 
 interface TagModalStateProps {
@@ -92,7 +93,7 @@ class TagModalBase extends React.Component<TagModalProps, any> {
   };
 
   public render() {
-    const { groupBy, intl, isOpen, query, tagData, tagReport } = this.props;
+    const { groupBy, intl, isOpen, query, tagData, tagReport, virtualMachine } = this.props;
 
     // Match page header description
     const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
@@ -109,6 +110,7 @@ class TagModalBase extends React.Component<TagModalProps, any> {
           groupByValue={this.props.isPlatformCosts ? platformCategoryKey : groupByValue}
           tagData={tagData}
           tagReport={tagReport}
+          virtualMachine={virtualMachine}
         />
       </Modal>
     );

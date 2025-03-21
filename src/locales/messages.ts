@@ -215,6 +215,11 @@ export default defineMessages({
     description: 'Cancel',
     id: 'cancel',
   },
+  capacity: {
+    defaultMessage: 'Capacity',
+    description: 'Capacity',
+    id: 'capacity',
+  },
   chartCostForecastConeLabel: {
     defaultMessage: 'Cost confidence ({dateRange})',
     description: 'Cost confidence (Jan 1-31)',
@@ -1357,6 +1362,7 @@ export default defineMessages({
       'status {Status} ' +
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
+      'storage {Storage} ' +
       'tag {Tag names} ' +
       'tags {Tags} ' +
       'tag_key {Tag keys} ' +
@@ -2619,6 +2625,7 @@ export default defineMessages({
       'node {Node} ' +
       'persistent_volume_claims {Persistent volume claims} ' +
       'storage {Storage} ' +
+      'virtual_machine {Virtual machine}' +
       'other {}}',
     description: 'Metric values',
     id: 'metricValues',
@@ -3738,6 +3745,16 @@ export default defineMessages({
     description: 'StorageClass',
     id: 'storageClass',
   },
+  storageHeadingTitle: {
+    defaultMessage: 'Storage ({value})',
+    description: 'Storage ({value})',
+    id: 'storageHeadingTitle',
+  },
+  storageNames: {
+    defaultMessage: 'Storage names',
+    description: 'Storage names',
+    id: 'storageNames',
+  },
   storageUnattributedDistributed: {
     defaultMessage: 'Storage unattributed',
     description: 'Storage unattributed',
@@ -4134,6 +4151,11 @@ export default defineMessages({
     defaultMessage: 'View release notes',
     description: 'View release notes',
     id: 'viewReleaseNotes',
+  },
+  virtualMachine: {
+    defaultMessage: 'Virtual machine',
+    description: 'Virtual machine',
+    id: 'virtualMachine',
   },
   virtualization: {
     defaultMessage: 'Virtualization',

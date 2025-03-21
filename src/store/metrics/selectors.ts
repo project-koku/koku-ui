@@ -23,12 +23,11 @@ export const metrics = (state: RootState): MetricHash => {
   if (metricsPayload === null) {
     return {};
   }
-
   return metricsPayload.data.reduce((acc, curr) => {
     const prev = acc[curr.label_metric] ? { ...acc[curr.label_metric] } : {};
     return {
       ...acc,
-      [curr.label_metric]: { ...prev, [curr.label_measurement]: curr },
+      [curr.label_metric]: { ...prev, [curr.metric]: curr },
     };
   }, {});
 };

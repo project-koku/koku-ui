@@ -13,7 +13,7 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
   if (rate.metric.label_metric !== rateFormData.metric) {
     return true;
   }
-  if (rate.metric.label_measurement !== rateFormData.measurement.value) {
+  if (rate.metric.name !== rateFormData.measurement.value) {
     return true;
   }
   if (rate.cost_type !== rateFormData.calculation) {

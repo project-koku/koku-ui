@@ -20,5 +20,5 @@ export type Metrics = PagedResponse<Metric>;
 
 export function fetchRateMetrics(source_type = '') {
   const query = source_type ? `&source_type=${source_type}` : '';
-  return axiosInstance.get<Metrics>(`metrics/?limit=20${query}`);
+  return axiosInstance.get<Metrics>(`metrics/?limit=1000${query}`);
 }

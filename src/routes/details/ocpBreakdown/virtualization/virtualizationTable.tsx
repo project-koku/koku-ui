@@ -6,6 +6,7 @@ import type { Report } from 'api/reports/report';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoVirtualizationState } from 'routes/components/page/noVirtualization/noVirtualizationState';
@@ -15,7 +16,10 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
 
+import { StorageLink } from './storage';
+
 interface VirtualizationTableOwnProps {
+  costDistribution?: string;
   exclude?: any;
   filterBy?: any;
   hideCluster?: boolean;
@@ -43,6 +47,7 @@ export const VirtualizationTableColumnIds = {
 };
 
 const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
+  costDistribution,
   exclude,
   filterBy,
   hideCluster,
@@ -104,6 +109,9 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'storage' }),
+      },
+      {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'tags' }),
       },
       {
@@ -119,7 +127,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        orderBy: 'cost',
+        orderBy: costDistribution === ComputedReportItemValueType.distributed ? 'distributed_cost' : 'cost',
         name: intl.formatMessage(messages.cost),
         style: styles.costColumn,
         ...(computedItems.length && { isSortable: true }),
@@ -152,7 +160,10 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
             value: item.node ? item.node : null,
           },
           {
-            value: <TagLink tagData={item.tags} />,
+            value: <StorageLink storageData={item.storage} virtualMachine={item.vm_name} />,
+          },
+          {
+            value: <TagLink tagData={item.tags} virtualMachine={item.vm_name} />,
           },
           {
             id: VirtualizationTableColumnIds.cpu,
@@ -212,8 +223,10 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
   };
 
   const getTotalCost = (item: ComputedReportItem) => {
-    const value = item.cost?.total?.value || 0;
-    const units = item.cost?.total?.units || 'USD';
+    const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
+    const hasTotal = item?.cost?.[reportItemValue];
+    const value = hasTotal ? item?.cost?.[reportItemValue]?.value : 0;
+    const units = hasTotal ? item?.cost?.[reportItemValue]?.units : 'USD';
     return formatCurrency(value, units);
   };
 
@@ -225,7 +238,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [hiddenColumns, report, selectedItems]);
+  }, [costDistribution, hiddenColumns, report, selectedItems]);
 
   return (
     <DataTable

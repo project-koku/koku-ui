@@ -24,6 +24,7 @@ interface TagLinkOwnProps extends RouterComponentProps, WrappedComponentProps {
   id?: string;
   tagData?: TagData[];
   tagPathsType: TagPathsType;
+  virtualMachine?: string;
 }
 
 interface TagLinkState {
@@ -81,7 +82,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   };
 
   public render() {
-    const { id, tagData, tagReport, tagPathsType } = this.props;
+    const { id, tagData, tagReport, tagPathsType, virtualMachine } = this.props;
     const { isOpen } = this.state;
 
     let count = 0;
@@ -104,7 +105,13 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
         <a data-testid="tag-lnk" href="#/" onClick={this.handleOpen} style={styles.tagLink}>
           {count}
         </a>
-        <TagModal isOpen={isOpen} onClose={this.handleClose} tagData={tagData} tagPathsType={tagPathsType} />
+        <TagModal
+          isOpen={isOpen}
+          onClose={this.handleClose}
+          tagData={tagData}
+          tagPathsType={tagPathsType}
+          virtualMachine={virtualMachine}
+        />
       </div>
     );
   }

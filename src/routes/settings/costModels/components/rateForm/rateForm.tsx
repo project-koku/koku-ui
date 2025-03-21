@@ -138,18 +138,22 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
               value={
                 !metricsHash[metric][measurement]
                   ? measurement
-                  : getMeasurementLabel(measurement, metricsHash[metric][measurement].label_measurement_unit)
+                  : getMeasurementLabel(
+                      metricsHash[metric][measurement].label_measurement,
+                      metricsHash[metric][measurement].label_measurement_unit
+                    )
               }
               onSelect={(_evt, value) => setMeasurement(value)}
               placeholderText={intl.formatMessage(messages.select)}
               options={[
                 ...measurementOptions.map(opt => {
-                  const unit = metricsHash[metric][opt].label_measurement_unit;
+                  const m = metricsHash[metric][opt];
+                  const unit = m.label_measurement_unit;
                   return {
-                    label: getMeasurementLabel(opt, unit),
-                    value: opt,
+                    label: getMeasurementLabel(m.label_measurement, unit),
+                    value: m.metric,
                     isDisabled: false,
-                    description: getMeasurementDescription(opt, unit),
+                    description: getMeasurementDescription(m.label_measurement, unit),
                   };
                 }),
               ]}

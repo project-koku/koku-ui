@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { type RouterComponentProps, withRouter } from 'utils/router';
 
 import { DeleteDialogActions, DeleteDialogBody, getDialogStateName } from './utils/dialog';
 
@@ -23,14 +24,17 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     closeDialog: () => dispatch(costModelsActions.setCostModelDialog({ name: 'deleteCostModel', isOpen: false })),
-    deleteCostModel: (uuid: string) => costModelsActions.deleteCostModel(uuid, 'deleteCostModel')(dispatch),
+    deleteCostModel: (uuid: string, router) =>
+      costModelsActions.deleteCostModel(uuid, 'deleteCostModel', router)(dispatch),
   };
 };
+
+interface Props extends RouterComponentProps, WrappedComponentProps {}
 
 const mergeProps = (
   stateProps: ReturnType<typeof mapStateToProps>,
   dispatchProps: ReturnType<typeof mapDispatchToProps>,
-  ownProps: WrappedComponentProps
+  ownProps: Props
 ) => {
   const { intl = defaultIntl } = ownProps; // Default required for testing
   const stateName = getDialogStateName(stateProps.isLoading, stateProps.isOpen, stateProps.deleteError);
@@ -42,7 +46,7 @@ const mergeProps = (
   const actions = DeleteDialogActions({
     status: stateName,
     deleteText: intl.formatMessage(messages.costModelsDelete),
-    deleteAction: () => dispatchProps.deleteCostModel(uuid),
+    deleteAction: () => dispatchProps.deleteCostModel(uuid, ownProps.router),
     cancelText: intl.formatMessage(messages.cancel),
     cancelAction: dispatchProps.closeDialog,
     sourcesNo: sources.length,
@@ -69,6 +73,6 @@ const mergeProps = (
   } as ModalProps;
 };
 
-const DeleteDialog = injectIntl(connect(mapStateToProps, mapDispatchToProps, mergeProps)(Modal));
+const DeleteDialog = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(Modal)));
 
 export default DeleteDialog;

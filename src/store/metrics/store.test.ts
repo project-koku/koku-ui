@@ -69,14 +69,14 @@ test('fetch metrics', async () => {
   expect(selectors.error(store.getState())).toBe('');
   expect(selectors.metrics(store.getState())).toEqual({
     CPU: {
-      Request: {
+      cpu_core_request_per_hour: {
         source_type: 'Openshift Container Platform',
         metric: 'cpu_core_request_per_hour',
         label_metric: 'CPU',
         label_measurement: 'Request',
         label_measurement_unit: 'core-hours',
       },
-      Usage: {
+      cpu_core_usage_per_hour: {
         source_type: 'Openshift Container Platform',
         metric: 'cpu_core_usage_per_hour',
         label_metric: 'CPU',
@@ -85,14 +85,14 @@ test('fetch metrics', async () => {
       },
     },
     Memory: {
-      Request: {
+      memory_gb_request_per_hour: {
         source_type: 'Openshift Container Platform',
         metric: 'memory_gb_request_per_hour',
         label_metric: 'Memory',
         label_measurement: 'Request',
         label_measurement_unit: 'GiB-hours',
       },
-      Usage: {
+      memory_gb_usage_per_hour: {
         source_type: 'Openshift Container Platform',
         metric: 'memory_gb_usage_per_hour',
         label_metric: 'Memory',
