@@ -142,7 +142,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     description: rate.description,
     metric: rate.metric.label_metric,
     measurement: {
-      value: rate.metric.label_measurement,
+      value: rate.metric.name,
       isDirty: true,
     },
     calculation: rate.cost_type,
@@ -236,7 +236,7 @@ export const OtherTierFromRate = (rate: Rate): OtherTier => {
   const tagKey = rate.tag_rates && rate.tag_rates.tag_key ? rate.tag_rates.tag_key : null;
   return {
     metric: rate.metric.label_metric,
-    measurement: rate.metric.label_measurement,
+    measurement: rate.metric.name,
     tagKey,
     costType: rate.cost_type,
   };
