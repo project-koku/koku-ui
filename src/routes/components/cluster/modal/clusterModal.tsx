@@ -1,6 +1,6 @@
 import './clusterModal.scss';
 
-import { Modal } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalHeader } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -38,18 +38,16 @@ class ClusterModalBase extends React.Component<ClusterModalProps, any> {
     const { clusters, groupBy, intl, isOpen, title } = this.props;
 
     return (
-      <Modal
-        className="modalOverride"
-        style={styles.modal}
-        isOpen={isOpen}
-        onClose={this.handleClose}
-        title={intl.formatMessage(messages.detailsClustersModalTitle, {
-          groupBy,
-          name: title,
-        })}
-        width={'50%'}
-      >
-        <ClusterContent clusters={clusters} />
+      <Modal className="modalOverride" style={styles.modal} isOpen={isOpen} onClose={this.handleClose} width={'50%'}>
+        <ModalHeader
+          title={intl.formatMessage(messages.detailsClustersModalTitle, {
+            groupBy,
+            name: title,
+          })}
+        />
+        <ModalBody>
+          <ClusterContent clusters={clusters} />
+        </ModalBody>
       </Modal>
     );
   }

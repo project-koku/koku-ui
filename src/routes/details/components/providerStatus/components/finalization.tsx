@@ -1,4 +1,4 @@
-import { ProgressStep, ProgressStepper, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, ProgressStep, ProgressStepper } from '@patternfly/react-core';
 import type { Provider } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
@@ -30,9 +30,9 @@ const Finalization: React.FC<FinalizationDataProps> = ({ provider, providerType 
 
   return (
     <>
-      <TextContent>
-        <Text component={TextVariants.h3}>{title}</Text>
-      </TextContent>
+      <Content>
+        <Content component={ContentVariants.h3}>{title}</Content>
+      </Content>
       <ProgressStepper aria-label={title} isVertical style={styles.stepper}>
         <ProgressStep
           aria-label={intl.formatMessage(messages.dataDetailsIntegrationAndFinalization)}

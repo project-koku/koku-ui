@@ -1,4 +1,16 @@
-import { Alert, Button, Form, FormGroup, Modal, TextArea, TextInput } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  Form,
+  FormGroup,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalVariant,
+  TextArea,
+  TextInput,
+} from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
@@ -76,50 +88,12 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
     };
     return (
       <Modal
-        title={intl.formatMessage(messages.editCostModel)}
         isOpen
         onClose={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
-        variant="small"
-        actions={[
-          <Button
-            key="proceed"
-            variant="primary"
-            onClick={() => {
-              const { uuid, sources, ...previous } = current;
-              updateCostModel(
-                uuid,
-                {
-                  ...previous,
-                  source_uuids: sources.map(provider => provider.uuid),
-                  name: this.state.name,
-                  currency: this.state.currency,
-                  description: this.state.description,
-                  source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
-                  rates: updateRatesCurrency(previous.rates),
-                } as any,
-                'updateCostModel'
-              );
-            }}
-            isDisabled={
-              isProcessing ||
-              (this.state.name === current.name &&
-                this.state.currency === current.currency &&
-                this.state.description === current.description)
-            }
-          >
-            {intl.formatMessage(messages.save)}
-          </Button>,
-          <Button
-            key="cancel"
-            variant="secondary"
-            onClick={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
-            isDisabled={isProcessing}
-          >
-            {intl.formatMessage(messages.cancel)}
-          </Button>,
-        ]}
+        variant={ModalVariant.small}
       >
-        <>
+        <ModalHeader title={intl.formatMessage(messages.editCostModel)} />
+        <ModalBody>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Form>
             <FormGroup label={intl.formatMessage(messages.names, { count: 1 })} isRequired fieldId="name">
@@ -160,7 +134,45 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
               />
             </FormGroup>
           </Form>
-        </>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            key="proceed"
+            variant="primary"
+            onClick={() => {
+              const { uuid, sources, ...previous } = current;
+              updateCostModel(
+                uuid,
+                {
+                  ...previous,
+                  source_uuids: sources.map(provider => provider.uuid),
+                  name: this.state.name,
+                  currency: this.state.currency,
+                  description: this.state.description,
+                  source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
+                  rates: updateRatesCurrency(previous.rates),
+                } as any,
+                'updateCostModel'
+              );
+            }}
+            isDisabled={
+              isProcessing ||
+              (this.state.name === current.name &&
+                this.state.currency === current.currency &&
+                this.state.description === current.description)
+            }
+          >
+            {intl.formatMessage(messages.save)}
+          </Button>
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
+            isDisabled={isProcessing}
+          >
+            {intl.formatMessage(messages.cancel)}
+          </Button>
+        </ModalFooter>
       </Modal>
     );
   }

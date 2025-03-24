@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import { ToolbarFilter } from '@patternfly/react-core';
 import type { Org } from 'api/orgs/org';
 import { intl } from 'components/i18n';
@@ -62,8 +62,8 @@ export const getOrgUnitSelect = ({
         key: orgUnitIdKey,
         name: intl.formatMessage(messages.filterByValues, { value: 'org_unit_id' }),
       }}
-      chips={chips}
-      deleteChip={onDelete}
+      labels={chips}
+      deleteLabel={onDelete}
       key={orgUnitIdKey}
       showToolbarItem={currentCategory === orgUnitIdKey}
     >
@@ -81,7 +81,7 @@ export const getOrgUnitSelect = ({
   );
 };
 
-export const getOrgUnitOptions = (orgReport: Org): ToolbarChipGroup[] => {
+export const getOrgUnitOptions = (orgReport: Org): ToolbarLabelGroup[] => {
   let options = [];
   if (!orgReport?.data) {
     return options;

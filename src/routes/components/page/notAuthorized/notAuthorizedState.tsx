@@ -1,4 +1,4 @@
-import UnAuthorized from '@patternfly/react-component-groups/dist/esm/NotAuthorized';
+import UnauthorizedAccess from '@patternfly/react-component-groups/dist/esm/UnauthorizedAccess';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -62,7 +62,12 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
         msg = messages.costManagement;
         break;
     }
-    return <UnAuthorized serviceName={intl.formatMessage(msg)} />;
+    return (
+      <>
+        Test
+        <UnauthorizedAccess serviceName={intl.formatMessage(msg)} />
+      </>
+    );
   }
 }
 

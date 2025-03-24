@@ -1,4 +1,4 @@
-import { Modal } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalHeader } from '@patternfly/react-core';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -32,8 +32,11 @@ class PvcModalBase extends React.Component<PvcModalProps, any> {
     const { isOpen, title } = this.props;
 
     return (
-      <Modal isOpen={isOpen} onClose={this.handleClose} title={title} width={'50%'}>
-        <PvcContent />
+      <Modal isOpen={isOpen} onClose={this.handleClose} width={'50%'}>
+        <ModalHeader title={title} />
+        <ModalBody>
+          <PvcContent />
+        </ModalBody>
       </Modal>
     );
   }

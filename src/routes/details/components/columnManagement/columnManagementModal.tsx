@@ -1,6 +1,8 @@
 import {
   Button,
   ButtonVariant,
+  Content,
+  ContentVariants,
   DataList,
   DataListCell,
   DataListCheck,
@@ -8,10 +10,10 @@ import {
   DataListItemCells,
   DataListItemRow,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   ModalVariant,
-  Text,
-  TextContent,
-  TextVariants,
 } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
@@ -124,58 +126,57 @@ export class ColumnManagementModalBase extends React.Component<ColumnManagementM
     const { options, intl } = this.props;
 
     return (
-      <Modal
-        description={
-          <TextContent>
-            <Text component={TextVariants.p}>{intl.formatMessage(messages.manageColumnsDesc)}</Text>
-            <Button isInline onClick={this.selectAll} variant="link">
-              {intl.formatMessage(messages.selectAll)}
-            </Button>
-          </TextContent>
-        }
-        // style={styles.modal}
-        isOpen={this.props.isOpen}
-        onClose={this.handleClose}
-        title={intl.formatMessage(messages.manageColumnsTitle)}
-        variant={ModalVariant.medium}
-        actions={[
+      <Modal isOpen={this.props.isOpen} onClose={this.handleClose} variant={ModalVariant.medium}>
+        <ModalHeader
+          description={
+            <Content>
+              <Content component={ContentVariants.p}>{intl.formatMessage(messages.manageColumnsDesc)}</Content>
+              <Button isInline onClick={this.selectAll} variant="link">
+                {intl.formatMessage(messages.selectAll)}
+              </Button>
+            </Content>
+          }
+          title={intl.formatMessage(messages.manageColumnsTitle)}
+        />
+        <ModalBody>
+          <DataList
+            aria-label={intl.formatMessage(messages.manageColumnsAriaLabel)}
+            id="table-column-management"
+            isCompact
+          >
+            {options.map(option => (
+              <DataListItem aria-labelledby={option.value} key={option.value}>
+                <DataListItemRow>
+                  <DataListCheck
+                    aria-labelledby={`${option.value}Label`}
+                    isChecked={!this.isHidden(option.value)}
+                    name={option.value}
+                    id={option.value}
+                    onChange={this.handleChange}
+                  />
+                  <DataListItemCells
+                    dataListCells={[
+                      <DataListCell id={`${option.value}Label`} key="table-column-management-item1">
+                        <span>{intl.formatMessage(option.label)}</span>
+                      </DataListCell>,
+                      <DataListCell key="table-column-management-item2">
+                        {option.description && <span>{intl.formatMessage(option.description)}</span>}
+                      </DataListCell>,
+                    ]}
+                  />
+                </DataListItemRow>
+              </DataListItem>
+            ))}
+          </DataList>
+        </ModalBody>
+        <ModalFooter>
           <Button key="save" onClick={this.handleSave} variant={ButtonVariant.link}>
             {intl.formatMessage(messages.save)}
-          </Button>,
+          </Button>
           <Button key="cancel" onClick={this.handleClose} variant={ButtonVariant.link}>
             {intl.formatMessage(messages.cancel)}
-          </Button>,
-        ]}
-      >
-        <DataList
-          aria-label={intl.formatMessage(messages.manageColumnsAriaLabel)}
-          id="table-column-management"
-          isCompact
-        >
-          {options.map(option => (
-            <DataListItem aria-labelledby={option.value} key={option.value}>
-              <DataListItemRow>
-                <DataListCheck
-                  aria-labelledby={`${option.value}Label`}
-                  isChecked={!this.isHidden(option.value)}
-                  name={option.value}
-                  id={option.value}
-                  onChange={this.handleChange}
-                />
-                <DataListItemCells
-                  dataListCells={[
-                    <DataListCell id={`${option.value}Label`} key="table-column-management-item1">
-                      <span>{intl.formatMessage(option.label)}</span>
-                    </DataListCell>,
-                    <DataListCell key="table-column-management-item2">
-                      {option.description && <span>{intl.formatMessage(option.description)}</span>}
-                    </DataListCell>,
-                  ]}
-                />
-              </DataListItemRow>
-            </DataListItem>
-          ))}
-        </DataList>
+          </Button>
+        </ModalFooter>
       </Modal>
     );
   }
