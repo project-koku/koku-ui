@@ -18,6 +18,7 @@ import { SortByDirection } from '@patternfly/react-table';
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
+import uniqWith from 'lodash/uniqWith';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
@@ -83,12 +84,17 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
       toString: () => getMetricLabel(m),
       value: m,
     }));
-    const measurementOpts = metricOpts.reduce((acc, curr) => {
-      const measurs = Object.keys(metricsHash[curr.value])
-        .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ toString: () => getMeasurementLabel(m), value: m }));
-      return [...acc, ...measurs];
-    }, []);
+
+    const measurementOpts = uniqWith(
+      metricOpts.reduce((acc, curr) => {
+        const measures = Object.keys(metricsHash[curr.value]).map(m => ({
+          toString: () => getMeasurementLabel(metricsHash[curr.value][m]?.label_measurement),
+          value: metricsHash[curr.value][m]?.label_measurement,
+        }));
+        return [...acc, ...measures];
+      }, []),
+      (a, b) => a?.toString() === b?.toString()
+    );
 
     const NoTiersEmptyState = () => (
       <Bullseye>
