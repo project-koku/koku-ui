@@ -488,7 +488,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       this.state;
 
     const emptyTab = <></>; // Lazily load tabs
-    const noData = <NoData showReload={false} />;
+    const noData = <NoData isPageSection={false} showReload={false} />;
 
     if (activeTabKey !== index) {
       return emptyTab;

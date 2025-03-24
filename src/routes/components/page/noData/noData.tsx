@@ -6,13 +6,21 @@ import { NoDataState } from './noDataState';
 
 interface NoDataOwnProps {
   detailsComponent?: React.ReactNode;
+  isPageSection?: boolean;
   showReload?: boolean;
   title?: string;
 }
 
 type NoDataProps = NoDataOwnProps;
 
-const NoData = ({ detailsComponent, showReload, title }: NoDataProps) => {
+const NoData = ({ detailsComponent, isPageSection = true, showReload, title }: NoDataProps) => {
+  const content = (
+    <Card>
+      <CardBody>
+        <NoDataState detailsComponent={detailsComponent} showReload={showReload} />
+      </CardBody>
+    </Card>
+  );
   return (
     <>
       {title && (
@@ -20,13 +28,7 @@ const NoData = ({ detailsComponent, showReload, title }: NoDataProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection hasBodyWrapper={false}>
-        <Card>
-          <CardBody>
-            <NoDataState detailsComponent={detailsComponent} showReload={showReload} />
-          </CardBody>
-        </Card>
-      </PageSection>
+      {isPageSection ? <PageSection hasBodyWrapper={false}>{content}</PageSection> : content}
     </>
   );
 };
