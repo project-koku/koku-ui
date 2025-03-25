@@ -7,6 +7,7 @@ exports[`default state 1`] = `
   "isAccountInfoEmptyStateToggleEnabled": false,
   "isAwsEc2InstancesToggleEnabled": false,
   "isChartSkeletonToggleEnabled": false,
+  "isCostBreakdownChartToggleEnabled": false,
   "isDebugToggleEnabled": false,
   "isDetailsDateRangeToggleEnabled": false,
   "isExportsToggleEnabled": false,

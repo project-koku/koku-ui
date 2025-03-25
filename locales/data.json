@@ -891,6 +891,12 @@
         "value": "day"
       }
     ],
+    "chartDestination": [
+      {
+        "type": 0,
+        "value": "Destination"
+      }
+    ],
     "chartLimitLabel": [
       {
         "type": 0,
@@ -997,6 +1003,12 @@
       {
         "type": 0,
         "value": ")"
+      }
+    ],
+    "chartSource": [
+      {
+        "type": 0,
+        "value": "Source"
       }
     ],
     "chartSupplementaryCostLabel": [
@@ -13450,6 +13462,12 @@
         "value": "Filter by metrics"
       }
     ],
+    "totalCost": [
+      {
+        "type": 0,
+        "value": "Total cost"
+      }
+    ],
     "typeaheadAriaClear": [
       {
         "type": 0,
@@ -13943,6 +13961,12 @@
       {
         "type": 0,
         "value": "Distribute unused and non-reserved resource costs to projects"
+      }
+    ],
+    "workloadCost": [
+      {
+        "type": 0,
+        "value": "Workload cost"
       }
     ],
     "yes": [
