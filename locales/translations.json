@@ -51,6 +51,7 @@
   "chartDataOutLabelNoData": "Data out (no data)",
   "chartDataOutTooltip": "Data out ({month})",
   "chartDayOfTheMonth": "Day {day}",
+  "chartDestination": "Destination",
   "chartLimitLabel": "Limit ({dateRange})",
   "chartLimitLabelNoData": "Limit (no data)",
   "chartLimitTooltip": "Limit ({month})",
@@ -59,6 +60,7 @@
   "chartRequestsLabel": "Requests ({dateRange})",
   "chartRequestsLabelNoData": "Requests (no data)",
   "chartRequestsTooltip": "Requests ({month})",
+  "chartSource": "Source",
   "chartSupplementaryCostLabel": "Supplementary cost ({dateRange})",
   "chartSupplementaryCostLabelNoData": "Supplementary cost (no data)",
   "chartSupplementaryCostTooltip": "Supplementary cost ({month})",
@@ -670,6 +672,7 @@
   "toolBarBulkSelectPage": "Select page ({value} items)",
   "toolBarPriceListMeasurementPlaceHolder": "Filter by measurements",
   "toolBarPriceListMetricPlaceHolder": "Filter by metrics",
+  "totalCost": "Total cost",
   "typeaheadAriaClear": "Clear button and input",
   "unitTooltips": "{units, select, byte_ms {{value} Byte-ms} cluster_month {cluster-month} core_hours {{value} core-hours} gb {{value} GB} gb_hours {{value} GB-hours} gb_month {{value} GB-month} gb_ms {{value} GB-ms} gib {{value} GiB} gib_hours {{value} GiB-hours} gib_month {{value} GiB-month} gibibyte_month {{value} GiB-month} hour {{value} hours} hrs {{value} hours} ms {{value} milliseconds} pvc_month {PVC-month} tag_month {{value} tag-month} vm_hours {{value} VM-hours} other {{value}}}",
   "units": "{units, select, byte_ms {Byte-ms} cluster_month {cluster-month} core {core} core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_month {GB-month} gb_ms {GB-ms} gib {GiB} gib_hours {GiB-hours} gib_month {GiB-month} gibibyte_month {GiB-month} hour {hours} hrs {hours} ms {milliseconds} pvc_month {PVC-month} tag_month {tag-month} vm_hours {VM-hours} other {}}",
@@ -690,5 +693,6 @@
   "volumeTitle": "Volume",
   "workerUnallocated": "Worker unallocated",
   "workerUnallocatedDesc": "Distribute unused and non-reserved resource costs to projects",
+  "workloadCost": "Workload cost",
   "yes": "Yes"
 }

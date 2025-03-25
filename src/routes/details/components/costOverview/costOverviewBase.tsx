@@ -21,6 +21,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Cluster } from 'routes/components/cluster';
+import { CostBreakdownChart } from 'routes/details/components/costBreakdownChart';
 import { CostChart } from 'routes/details/components/costChart';
 import { OverheadCostChart } from 'routes/details/components/overheadCostChart';
 import { PvcChart } from 'routes/details/components/pvcChart';
@@ -43,6 +44,7 @@ interface CostOverviewOwnProps {
 }
 
 export interface CostOverviewStateProps {
+  isCostBreakdownChartToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   title?: string;
   widgets: number[];
@@ -80,6 +82,61 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     } else {
       return PLACEHOLDER;
     }
+  };
+
+  // Returns cost breakdown chart
+  private getCostBreakdownChart = (widget: CostOverviewWidget) => {
+    const { costDistribution, report, intl } = this.props;
+
+    return (
+      <Card>
+        <CardTitle>
+          <Title headingLevel="h2" size={TitleSizes.lg}>
+            {intl.formatMessage(messages.costBreakdownTitle)}
+            <Popover
+              aria-label={intl.formatMessage(messages.costBreakdownAriaLabel)}
+              enableFlip
+              bodyContent={
+                <>
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.markupTitle)}</p>
+                  <p>{intl.formatMessage(messages.markupDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.networkUnattributedDistributed)}</p>
+                  <p>{intl.formatMessage(messages.networkUnattributedDistributedDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.platformDistributed)}</p>
+                  <p>{intl.formatMessage(messages.platformDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.rawCostTitle)}</p>
+                  <p>{intl.formatMessage(messages.rawCostDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.storageUnattributedDistributed)}</p>
+                  <p>{intl.formatMessage(messages.storageUnattributedDistributedDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.usageCostTitle)}</p>
+                  <p>{intl.formatMessage(messages.usageCostDesc)}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{intl.formatMessage(messages.workerUnallocated)}</p>
+                  <p>{intl.formatMessage(messages.workerUnallocatedDesc)}</p>
+                  <br />
+                  <a href={intl.formatMessage(messages.docsCostModelTerminology)} rel="noreferrer" target="_blank">
+                    {intl.formatMessage(messages.learnMore)}
+                  </a>
+                  <a href={intl.formatMessage(messages.docsCostModelTerminology)} rel="noreferrer" target="_blank">
+                    {intl.formatMessage(messages.learnMore)}
+                  </a>
+                </>
+              }
+            >
+              <Button icon={<OutlinedQuestionCircleIcon style={styles.info} />} variant={ButtonVariant.plain}></Button>
+            </Popover>
+          </Title>
+        </CardTitle>
+        <CardBody>
+          <CostBreakdownChart costDistribution={costDistribution} id={widget.chartName} report={report} />
+        </CardBody>
+      </Card>
+    );
   };
 
   // Returns cost breakdown chart
@@ -122,10 +179,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     );
   };
 
-  // Returns cost distribution chart
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  private getCostDistributionChart = (widget: CostOverviewWidget) => {
+  // Returns cost overhead chart
+  private getCostOverheadChart = (widget: CostOverviewWidget) => {
     const { costDistribution, intl, report } = this.props;
 
     if (!costDistribution) {
@@ -353,13 +408,17 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
+    const { isCostBreakdownChartToggleEnabled } = this.props;
+
     switch (widget.type) {
       case CostOverviewWidgetType.cluster:
         return this.getClusterCard(widget);
       case CostOverviewWidgetType.cost:
-        return this.getCostChart(widget);
+        return !isCostBreakdownChartToggleEnabled ? this.getCostChart(widget) : null;
+      case CostOverviewWidgetType.costBreakdown:
+        return isCostBreakdownChartToggleEnabled ? this.getCostBreakdownChart(widget) : null;
       case CostOverviewWidgetType.costDistribution:
-        return this.getCostDistributionChart(widget);
+        return !isCostBreakdownChartToggleEnabled ? this.getCostOverheadChart(widget) : null;
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:
