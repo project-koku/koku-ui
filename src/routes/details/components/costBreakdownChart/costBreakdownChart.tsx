@@ -158,10 +158,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
         target: 'totalCost',
         value: 100,
       },
-      {
-        source: 'totalCost',
-        value: 160,
-      },
     ];
 
     return (
@@ -296,16 +292,16 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
     const links = [
       {
-        source: markupLabel,
-        target: workloadCostLabel,
-        value: markupValue + getMinNodeHeight(markupValue),
-        _value: markupValue,
-      },
-      {
         source: rawLabel,
         target: workloadCostLabel,
         value: rawValue + getMinNodeHeight(rawValue),
         _value: rawValue,
+      },
+      {
+        source: markupLabel,
+        target: workloadCostLabel,
+        value: markupValue + getMinNodeHeight(markupValue),
+        _value: markupValue,
       },
       {
         source: usageLabel,
@@ -367,11 +363,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           storageUnattributedDistributedValue +
           workerUnallocatedValue,
       },
-      {
-        source: totalCostLabel,
-        value: totalCostValue,
-        _value: totalCostValue,
-      },
     ];
     this.setState({ data, links, units });
   };
@@ -408,9 +399,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                 tooltip: {
                   destinationLabel: intl.formatMessage(messages.chartDestination),
                   sourceLabel: intl.formatMessage(messages.chartSource),
-                  valueFormatter: value => {
-                    const link = links.find(item => item.value === value);
-                    return `&nbsp;${formatCurrency(link._value, units)}`;
+                  valueFormatter: (value, index) => {
+                    return `&nbsp;${formatCurrency(links[index] ? links[index]._value : value, units)}`;
                   },
                 },
               }}
