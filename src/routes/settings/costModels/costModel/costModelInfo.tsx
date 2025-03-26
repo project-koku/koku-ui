@@ -1,4 +1,13 @@
-import { EmptyState, EmptyStateBody, Grid, GridItem, PageSection, TabContent } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  EmptyState,
+  EmptyStateBody,
+  Grid,
+  GridItem,
+  PageSection,
+  TabContent,
+} from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { CostModel } from 'api/costModels';
@@ -112,7 +121,11 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
           {current.source_type === 'OpenShift Container Platform' ? (
             <>
               <TabContent eventKey={0} id="ref-price-list" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
-                <PriceListTable assignees={sources.map(p => p.name)} costModel={current.name} current={current} />
+                <Card>
+                  <CardBody>
+                    <PriceListTable assignees={sources.map(p => p.name)} costModel={current.name} current={current} />
+                  </CardBody>
+                </Card>
               </TabContent>
               <TabContent
                 eventKey={1}
@@ -130,7 +143,11 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
                 </Grid>
               </TabContent>
               <TabContent eventKey={3} id="ref-sources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
-                <SourceTable costModel={current} sources={sources} />
+                <Card>
+                  <CardBody>
+                    <SourceTable costModel={current} sources={sources} />
+                  </CardBody>
+                </Card>
               </TabContent>
             </>
           ) : (
