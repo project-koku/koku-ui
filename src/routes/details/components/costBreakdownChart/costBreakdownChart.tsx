@@ -204,6 +204,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       return;
     }
 
+    const hasCostTotal = report?.meta?.total?.cost?.[costDistribution];
     const hasMarkup = report?.meta?.total?.cost?.markup;
     const hasNetworkUnattributedDistributed =
       report?.meta?.total?.cost?.network_unattributed_distributed &&
@@ -218,7 +219,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const hasWorkerUnallocated =
       report?.meta?.total?.cost?.worker_unallocated_distributed &&
       costDistribution === ComputedReportItemValueType.distributed;
-    const hasCostTotal = report?.meta?.total?.cost?.[costDistribution];
 
     const markupValue = hasMarkup ? report.meta.total.cost.markup.value : 0;
     const networkUnattributedDistributedValue =

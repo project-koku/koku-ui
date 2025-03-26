@@ -5,6 +5,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { StorageData } from 'routes/details/ocpBreakdown/virtualization/storage/storageLink';
+import { formatUnits, unitsLookupKey } from 'utils/format';
 
 import { styles } from './storageContent.styles';
 
@@ -17,13 +18,15 @@ type StorageContentProps = StorageContentOwnProps & WrappedComponentProps;
 
 class StorageContentBase extends React.Component<StorageContentProps, any> {
   private getDataListItems = () => {
-    const { storageData } = this.props;
+    const { intl, storageData } = this.props;
     const result = [];
 
     if (storageData) {
       Object.keys(storageData).map((key, i) => {
         const data = storageData[key];
         const id = `data-list-${i}`;
+        const units = data.usage_units ? unitsLookupKey(data.usage_units) : null;
+
         result.push(
           <DataListItem aria-labelledby={id} key={`${id}-item`}>
             <DataListItemRow>
@@ -33,8 +36,18 @@ class StorageContentBase extends React.Component<StorageContentProps, any> {
                     <span id={id}>{data.pvc_name}</span>
                   </DataListCell>,
                   <DataListCell key={`${id}-cell2`}>{data.storage_class}</DataListCell>,
-                  <DataListCell key={`${id}-cell2`}>{data.usage}</DataListCell>,
-                  <DataListCell key={`${id}-cell2`}>{data.capacity}</DataListCell>,
+                  <DataListCell key={`${id}-cell2`}>
+                    {intl.formatMessage(messages.valueUnits, {
+                      value: formatUnits(data.usage, units),
+                      units: intl.formatMessage(messages.units, { units }),
+                    })}
+                  </DataListCell>,
+                  <DataListCell key={`${id}-cell2`}>
+                    {intl.formatMessage(messages.valueUnits, {
+                      value: formatUnits(data.capacity, units),
+                      units: intl.formatMessage(messages.units, { units }),
+                    })}
+                  </DataListCell>,
                 ]}
               />
             </DataListItemRow>
