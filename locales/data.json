@@ -13963,12 +13963,6 @@
         "value": "Distribute unused and non-reserved resource costs to projects"
       }
     ],
-    "workloadCost": [
-      {
-        "type": 0,
-        "value": "Workload cost"
-      }
-    ],
     "yes": [
       {
         "type": 0,

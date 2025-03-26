@@ -4192,11 +4192,6 @@ export default defineMessages({
     description: 'Distribute unused and non-reserved resource costs to projects',
     id: 'workerUnallocatedDesc',
   },
-  workloadCost: {
-    defaultMessage: 'Workload cost',
-    description: 'Workload cost',
-    id: 'workloadCost',
-  },
   yes: {
     defaultMessage: 'Yes',
     description: 'Yes',
