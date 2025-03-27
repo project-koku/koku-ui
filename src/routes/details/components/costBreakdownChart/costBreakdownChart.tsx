@@ -31,6 +31,8 @@ interface CostBreakdownChartStateProps {
   data?: any[];
   isChecked?: boolean;
   links?: any[];
+  minNodeHeight?: number;
+  totalCostHeight?: number;
   units?: string;
   width?: number;
 }
@@ -50,6 +52,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
   public state: CostBreakdownChartStateProps = {
     isChecked: false,
+    minNodeHeight: 0,
+    totalCostHeight: 0,
     units: 'USD',
     width: 0,
   };
@@ -234,12 +238,19 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       hasStorageUnattributedDistributed && report.meta.total.cost.storage_unattributed_distributed.value > 0
         ? report.meta.total.cost.storage_unattributed_distributed.value
         : 0;
-    const totalCostValue = hasCostTotal ? report.meta.total.cost[costDistribution].value : 0;
     const workerUnallocatedValue =
       hasWorkerUnallocated && report.meta.total.cost.worker_unallocated_distributed.value > 0
         ? report.meta.total.cost.worker_unallocated_distributed.value
         : 0;
     const usageValue = hasUsage ? report.meta.total.cost.usage.value : 0;
+
+    const overheadCostValue =
+      networkUnattributedDistributedValue +
+      platformDistributedValue +
+      storageUnattributedDistributedValue +
+      workerUnallocatedValue;
+    const workloadCostValue = markupValue + rawValue + usageValue;
+    const totalCostValue = overheadCostValue + workloadCostValue;
 
     const markupLabel = intl.formatMessage(messages.markupTitle);
     const networkUnattributedDistributedLabel = intl.formatMessage(messages.networkUnattributedDistributed);
@@ -250,9 +261,29 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const totalCostLabel = intl.formatMessage(messages.totalCost);
     const usageLabel = intl.formatMessage(messages.usageCostTitle);
     const workerUnallocatedLabel = intl.formatMessage(messages.workerUnallocated);
-    const workloadCostLabel = intl.formatMessage(messages.workloadCost);
+    const workloadCostLabel = intl.formatMessage(messages.allOtherProjectCosts);
 
+    const minNodeHeight = totalCostValue / 7;
+    const getMinNodeHeight = value => (isChecked && minNodeHeight > value ? minNodeHeight : 0);
     const units = hasCostTotal ? report.meta.total.cost[costDistribution].units : 'USD';
+
+    const rawHeight = rawValue + getMinNodeHeight(rawValue);
+    const markupHeight = markupValue + getMinNodeHeight(markupValue);
+    const usageHeight = usageValue + getMinNodeHeight(usageValue);
+    const networkUnattributedDistributedHeight =
+      networkUnattributedDistributedValue + getMinNodeHeight(networkUnattributedDistributedValue);
+    const platformDistributedHeight = platformDistributedValue + getMinNodeHeight(platformDistributedValue);
+    const storageUnattributedDistributedHeight =
+      storageUnattributedDistributedValue + getMinNodeHeight(storageUnattributedDistributedValue);
+    const workerUnallocatedHeight = workerUnallocatedValue + getMinNodeHeight(workerUnallocatedValue);
+
+    const overheadCostHeight =
+      networkUnattributedDistributedHeight +
+      platformDistributedHeight +
+      storageUnattributedDistributedHeight +
+      workerUnallocatedHeight;
+    const workloadCostHeight = markupHeight + rawHeight + usageHeight;
+    const totalCostHeight = overheadCostHeight + workloadCostHeight;
 
     const data = [
       {
@@ -287,89 +318,73 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       },
     ];
 
-    const minNodeHeight = isChecked ? totalCostValue / data.length : 0;
-    const getMinNodeHeight = value => (minNodeHeight > value ? minNodeHeight : 0);
-
     const links = [
       {
         source: rawLabel,
         target: workloadCostLabel,
-        value: rawValue + getMinNodeHeight(rawValue),
+        value: rawHeight,
         _value: rawValue,
       },
       {
         source: markupLabel,
         target: workloadCostLabel,
-        value: markupValue + getMinNodeHeight(markupValue),
+        value: markupHeight,
         _value: markupValue,
       },
       {
         source: usageLabel,
         target: workloadCostLabel,
-        value: usageValue + getMinNodeHeight(usageValue),
+        value: usageHeight,
         _value: usageValue,
       },
       {
         source: networkUnattributedDistributedLabel,
         target: overheadCostLabel,
-        value: networkUnattributedDistributedValue + getMinNodeHeight(networkUnattributedDistributedValue),
+        value: networkUnattributedDistributedHeight,
         _value: networkUnattributedDistributedValue,
       },
       {
         source: platformDistributedLabel,
         target: overheadCostLabel,
-        value: platformDistributedValue + getMinNodeHeight(platformDistributedValue),
+        value: platformDistributedHeight,
         _value: platformDistributedValue,
       },
       {
         source: storageUnattributedDistributedLabel,
         target: overheadCostLabel,
-        value: storageUnattributedDistributedValue + getMinNodeHeight(storageUnattributedDistributedValue),
+        value: storageUnattributedDistributedHeight,
         _value: storageUnattributedDistributedValue,
       },
       {
         source: workerUnallocatedLabel,
         target: overheadCostLabel,
-        value: workerUnallocatedValue + getMinNodeHeight(workerUnallocatedValue),
+        value: workerUnallocatedHeight,
         _value: workerUnallocatedValue,
       },
       {
         source: workloadCostLabel,
         target: totalCostLabel,
-        value:
-          markupValue +
-          rawValue +
-          usageValue +
-          getMinNodeHeight(markupValue) +
-          getMinNodeHeight(rawValue) +
-          getMinNodeHeight(usageValue),
-        _value: markupValue + rawValue + usageValue,
+        value: workloadCostHeight,
+        _value: workloadCostValue,
       },
       {
         source: overheadCostLabel,
         target: totalCostLabel,
-        value:
-          networkUnattributedDistributedValue +
-          platformDistributedValue +
-          storageUnattributedDistributedValue +
-          workerUnallocatedValue +
-          getMinNodeHeight(networkUnattributedDistributedValue) +
-          getMinNodeHeight(platformDistributedValue) +
-          getMinNodeHeight(storageUnattributedDistributedValue) +
-          getMinNodeHeight(workerUnallocatedValue),
-        _value:
-          networkUnattributedDistributedValue +
-          platformDistributedValue +
-          storageUnattributedDistributedValue +
-          workerUnallocatedValue,
+        value: overheadCostHeight,
+        _value: overheadCostValue,
+      },
+      {
+        source: totalCostLabel,
+        value: totalCostHeight,
+        _value: totalCostValue,
       },
     ];
-    this.setState({ data, links, units });
+    this.setState({ data, links, minNodeHeight, totalCostHeight, units });
   };
 
   public render() {
     const { id, intl } = this.props;
-    const { data, isChecked, links, units, width } = this.state;
+    const { data, isChecked, links, minNodeHeight, totalCostHeight, units, width } = this.state;
 
     const isSkeleton = !(data && links);
 
@@ -388,6 +403,18 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   {
                     bottom: 25,
                     data,
+                    label: {
+                      formatter: params => {
+                        const value = formatCurrency(links[params.dataIndex]?._value, units);
+                        const percent = ((params.value as number) / totalCostHeight) * 100;
+
+                        if (links[params.dataIndex]?.value > minNodeHeight && percent > 15) {
+                          return `${params.name}\n${value}`;
+                        } else {
+                          return `${params.name} ${value}`;
+                        }
+                      },
+                    },
                     layoutIterations: 0,
                     left: 25,
                     links,

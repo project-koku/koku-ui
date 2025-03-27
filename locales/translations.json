@@ -693,6 +693,5 @@
   "volumeTitle": "Volume",
   "workerUnallocated": "Worker unallocated",
   "workerUnallocatedDesc": "Distribute unused and non-reserved resource costs to projects",
-  "workloadCost": "Workload cost",
   "yes": "Yes"
 }
