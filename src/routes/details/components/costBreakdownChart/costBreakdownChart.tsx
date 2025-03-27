@@ -1,7 +1,6 @@
 import 'routes/components/charts/common/chart.scss';
 
 import { Charts, ThemeColor } from '@patternfly/react-charts/echarts';
-import { Switch } from '@patternfly/react-core';
 import type { Report } from 'api/reports/report';
 import { SankeyChart } from 'echarts/charts';
 import { TitleComponent, TooltipComponent } from 'echarts/components';
@@ -29,10 +28,7 @@ interface CostBreakdownChartOwnProps {
 
 interface CostBreakdownChartStateProps {
   data?: any[];
-  isChecked?: boolean;
   links?: any[];
-  minNodeHeight?: number;
-  totalCostHeight?: number;
   units?: string;
   width?: number;
 }
@@ -51,9 +47,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
   private observer: any = noop;
 
   public state: CostBreakdownChartStateProps = {
-    isChecked: false,
-    minNodeHeight: 0,
-    totalCostHeight: 0,
     units: 'USD',
     width: 0,
   };
@@ -63,12 +56,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: CostBreakdownChartProps, prevState: CostBreakdownChartStateProps) {
-    if (
-      prevProps.costDistribution !== this.props.costDistribution ||
-      prevProps.report !== this.props.report ||
-      prevState.isChecked !== this.state.isChecked
-    ) {
+  public componentDidUpdate(prevProps: CostBreakdownChartProps) {
+    if (prevProps.costDistribution !== this.props.costDistribution || prevProps.report !== this.props.report) {
       this.initDatum();
     }
   }
@@ -187,10 +176,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     );
   };
 
-  private handleChange = (_event, checked: boolean) => {
-    this.setState({ isChecked: checked });
-  };
-
   private handleResize = () => {
     const { width } = this.state;
     const { clientWidth = 0 } = this.containerRef?.current || {};
@@ -202,7 +187,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
   private initDatum = () => {
     const { costDistribution, report, intl } = this.props;
-    const { isChecked } = this.state;
 
     if (!report) {
       return;
@@ -263,27 +247,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const workerUnallocatedLabel = intl.formatMessage(messages.workerUnallocated);
     const workloadCostLabel = intl.formatMessage(messages.allOtherProjectCosts);
 
-    const minNodeHeight = totalCostValue / 7;
-    const getMinNodeHeight = value => (isChecked && minNodeHeight > value ? minNodeHeight : 0);
     const units = hasCostTotal ? report.meta.total.cost[costDistribution].units : 'USD';
-
-    const rawHeight = rawValue + getMinNodeHeight(rawValue);
-    const markupHeight = markupValue + getMinNodeHeight(markupValue);
-    const usageHeight = usageValue + getMinNodeHeight(usageValue);
-    const networkUnattributedDistributedHeight =
-      networkUnattributedDistributedValue + getMinNodeHeight(networkUnattributedDistributedValue);
-    const platformDistributedHeight = platformDistributedValue + getMinNodeHeight(platformDistributedValue);
-    const storageUnattributedDistributedHeight =
-      storageUnattributedDistributedValue + getMinNodeHeight(storageUnattributedDistributedValue);
-    const workerUnallocatedHeight = workerUnallocatedValue + getMinNodeHeight(workerUnallocatedValue);
-
-    const overheadCostHeight =
-      networkUnattributedDistributedHeight +
-      platformDistributedHeight +
-      storageUnattributedDistributedHeight +
-      workerUnallocatedHeight;
-    const workloadCostHeight = markupHeight + rawHeight + usageHeight;
-    const totalCostHeight = overheadCostHeight + workloadCostHeight;
 
     const data = [
       {
@@ -322,75 +286,64 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       {
         source: rawLabel,
         target: workloadCostLabel,
-        value: rawHeight,
-        _value: rawValue,
+        value: rawValue,
       },
       {
         source: markupLabel,
         target: workloadCostLabel,
-        value: markupHeight,
-        _value: markupValue,
+        value: markupValue,
       },
       {
         source: usageLabel,
         target: workloadCostLabel,
-        value: usageHeight,
-        _value: usageValue,
+        value: usageValue,
       },
       {
         source: networkUnattributedDistributedLabel,
         target: overheadCostLabel,
-        value: networkUnattributedDistributedHeight,
-        _value: networkUnattributedDistributedValue,
+        value: networkUnattributedDistributedValue,
       },
       {
         source: platformDistributedLabel,
         target: overheadCostLabel,
-        value: platformDistributedHeight,
-        _value: platformDistributedValue,
+        value: platformDistributedValue,
       },
       {
         source: storageUnattributedDistributedLabel,
         target: overheadCostLabel,
-        value: storageUnattributedDistributedHeight,
-        _value: storageUnattributedDistributedValue,
+        value: storageUnattributedDistributedValue,
       },
       {
         source: workerUnallocatedLabel,
         target: overheadCostLabel,
-        value: workerUnallocatedHeight,
-        _value: workerUnallocatedValue,
+        value: workerUnallocatedValue,
       },
       {
         source: workloadCostLabel,
         target: totalCostLabel,
-        value: workloadCostHeight,
-        _value: workloadCostValue,
+        value: workloadCostValue,
       },
       {
         source: overheadCostLabel,
         target: totalCostLabel,
-        value: overheadCostHeight,
-        _value: overheadCostValue,
+        value: overheadCostValue,
       },
       {
         source: totalCostLabel,
-        value: totalCostHeight,
-        _value: totalCostValue,
+        value: totalCostValue,
       },
     ];
-    this.setState({ data, links, minNodeHeight, totalCostHeight, units });
+    this.setState({ data, links, units });
   };
 
   public render() {
     const { id, intl } = this.props;
-    const { data, isChecked, links, minNodeHeight, totalCostHeight, units, width } = this.state;
+    const { data, links, units, width } = this.state;
 
     const isSkeleton = !(data && links);
 
     return (
       <div className="chartOverride" ref={this.containerRef}>
-        <Switch label="Toggle minimum node height" isChecked={isChecked} onChange={this.handleChange} />
         <div style={{ height: chartStyles.chartHeight }}>
           {isSkeleton ? (
             this.getSkeleton()
@@ -401,18 +354,11 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
               option={{
                 series: [
                   {
-                    bottom: 25,
                     data,
                     label: {
                       formatter: params => {
-                        const value = formatCurrency(links[params.dataIndex]?._value, units);
-                        const percent = ((params.value as number) / totalCostHeight) * 100;
-
-                        if (links[params.dataIndex]?.value > minNodeHeight && percent > 15) {
-                          return `{a|${value}}\n${params.name}`;
-                        } else {
-                          return `{a|${value}}{b|}${params.name}`;
-                        }
+                        const value = formatCurrency(links[params.dataIndex]?.value, units);
+                        return `{a|${value}}\n${params.name}`;
                       },
                       lineHeight: 12,
                       rich: {
@@ -425,12 +371,11 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                         },
                       },
                     },
-                    layoutIterations: 0,
-                    left: 25,
+                    // layoutIterations: 0,
                     links,
-                    nodeGap: 20,
-                    right: 75,
-                    top: 25,
+                    nodeGap: 26,
+                    right: 70,
+                    top: 20,
                     type: 'sankey',
                   },
                 ],
