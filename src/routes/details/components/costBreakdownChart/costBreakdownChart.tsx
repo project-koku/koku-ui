@@ -362,9 +362,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                           fontWeight: 'bold',
                           fontSize: 12,
                         },
-                        b: {
-                          width: 12,
-                        },
                       },
                     },
                     // layoutIterations: 0,
