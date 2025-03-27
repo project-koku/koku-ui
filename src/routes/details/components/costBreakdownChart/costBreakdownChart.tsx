@@ -409,15 +409,26 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                         const percent = ((params.value as number) / totalCostHeight) * 100;
 
                         if (links[params.dataIndex]?.value > minNodeHeight && percent > 15) {
-                          return `${params.name}\n${value}`;
+                          return `{a|${value}}\n${params.name}`;
                         } else {
-                          return `${params.name} ${value}`;
+                          return `{a|${value}}{b|}${params.name}`;
                         }
+                      },
+                      lineHeight: 12,
+                      rich: {
+                        a: {
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                        },
+                        b: {
+                          width: 12,
+                        },
                       },
                     },
                     layoutIterations: 0,
                     left: 25,
                     links,
+                    nodeGap: 20,
                     right: 75,
                     top: 25,
                     type: 'sankey',
