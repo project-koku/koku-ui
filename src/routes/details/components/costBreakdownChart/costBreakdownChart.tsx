@@ -234,7 +234,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       storageUnattributedDistributedValue +
       workerUnallocatedValue;
     const workloadCostValue = markupValue + rawValue + usageValue;
-    const totalCostValue = overheadCostValue + workloadCostValue;
 
     const markupLabel = intl.formatMessage(messages.markupTitle);
     const networkUnattributedDistributedLabel = intl.formatMessage(messages.networkUnattributedDistributed);
@@ -328,10 +327,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
         target: totalCostLabel,
         value: overheadCostValue,
       },
-      {
-        source: totalCostLabel,
-        value: totalCostValue,
-      },
     ];
     this.setState({ data, links, units });
   };
@@ -354,10 +349,11 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
               option={{
                 series: [
                   {
+                    bottom: 0,
                     data,
                     label: {
                       formatter: params => {
-                        const value = formatCurrency(links[params.dataIndex]?.value, units);
+                        const value = formatCurrency(params.value as number, units);
                         return `{a|${value}}\n${params.name}`;
                       },
                       lineHeight: 12,
@@ -373,6 +369,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                     },
                     // layoutIterations: 0,
                     links,
+                    left: 0,
                     nodeGap: 26,
                     right: 70,
                     top: 20,
@@ -382,8 +379,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                 tooltip: {
                   destinationLabel: intl.formatMessage(messages.chartDestination),
                   sourceLabel: intl.formatMessage(messages.chartSource),
-                  valueFormatter: (value, index) => {
-                    return `&nbsp;${formatCurrency(links[index] ? links[index]._value : value, units)}`;
+                  valueFormatter: (value: number) => {
+                    return `&nbsp;${formatCurrency(value, units)}`;
                   },
                 },
               }}
