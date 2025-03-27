@@ -74,81 +74,81 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
     const data = [
       {
-        name: 'raw',
+        name: 'a1',
       },
       {
-        name: 'markup',
+        name: 'a2',
       },
       {
-        name: 'usage',
+        name: 'a3',
       },
       {
-        name: 'networkUnattributedDistributed',
+        name: 'b1',
       },
       {
-        name: 'platformDistributed',
+        name: 'b2',
       },
       {
-        name: 'storageUnattributedDistributed',
+        name: 'b3',
       },
       {
-        name: 'workerUnallocated',
+        name: 'b4',
       },
       {
-        name: 'workloadCost',
+        name: 'c1',
       },
       {
-        name: 'overheadCost',
+        name: 'c2',
       },
       {
-        name: 'totalCost',
+        name: 'd1',
       },
     ];
 
     const links = [
       {
-        source: 'markup',
-        target: 'workloadCost',
-        value: 10,
-      },
-      {
-        source: 'raw',
-        target: 'workloadCost',
+        source: 'a1',
+        target: 'c1',
         value: 20,
       },
       {
-        source: 'usage',
-        target: 'workloadCost',
-        value: 30,
-      },
-      {
-        source: 'networkUnattributedDistributed',
-        target: 'overheadCost',
+        source: 'a2',
+        target: 'c1',
         value: 10,
       },
       {
-        source: 'platformDistributed',
-        target: 'overheadCost',
-        value: 20,
-      },
-      {
-        source: 'storageUnattributedDistributed',
-        target: 'overheadCost',
+        source: 'a3',
+        target: 'c1',
         value: 30,
       },
       {
-        source: 'workerUnallocated',
-        target: 'overheadCost',
-        value: 40,
-      },
-      {
-        source: 'workloadCost',
-        target: 'totalCost',
+        source: 'b1',
+        target: 'c2',
         value: 60,
       },
       {
-        source: 'overheadCost',
-        target: 'totalCost',
+        source: 'b2',
+        target: 'c2',
+        value: 20,
+      },
+      {
+        source: 'b3',
+        target: 'c2',
+        value: 10,
+      },
+      {
+        source: 'b4',
+        target: 'c2',
+        value: 10,
+      },
+      {
+        source: 'c1',
+        target: 'd1',
+        value: 60,
+      },
+      {
+        source: 'c2',
+        target: 'd1',
         value: 100,
       },
     ];
@@ -160,12 +160,13 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
         option={{
           series: [
             {
-              bottom: 25,
+              bottom: 0,
               data,
-              left: 25,
+              layoutIterations: 0,
+              left: 0,
               links,
-              right: 75,
-              top: 25,
+              right: 70,
+              top: 20,
               type: 'sankey',
             },
           ],
