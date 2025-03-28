@@ -95,11 +95,8 @@ interface ExplorerStateProps {
   endDate?: Date;
   gcpProviders: Providers;
   ibmProviders: Providers;
-  isAccountInfoEmptyStateToggleEnabled?: boolean;
-  isChartSkeletonToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
   isDataAvailable?: boolean;
-  isDetailsDateRangeToggleEnabled?: boolean;
   isFinsightsToggleEnabled?: boolean;
   isPreviousMonthData?: boolean;
   ocpProviders: Providers;
@@ -189,8 +186,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   };
 
   private getEmptyProviderState = () => {
-    const { isAccountInfoEmptyStateToggleEnabled } = this.props;
-
     const { perspective } = this.props;
 
     let providerType;
@@ -223,13 +218,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         break;
     }
 
-    return (
-      <NoData
-        detailsComponent={
-          isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={providerType} /> : undefined
-        }
-      />
-    );
+    return <NoData detailsComponent={<ProviderStatus providerType={providerType} />} />;
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
@@ -506,10 +495,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       gcpProviders,
       ibmProviders,
       intl,
-      isChartSkeletonToggleEnabled,
       isCurrentMonthData,
       isDataAvailable,
-      isDetailsDateRangeToggleEnabled,
       isPreviousMonthData,
       ocpProviders,
       providersFetchStatus,
@@ -545,7 +532,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
     const computedItems = this.getComputedItems();
     const isDisabled = computedItems.length === 0;
-    const itemsTotal = report?.meta ? report.meta.count : 0;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByCostCategory = getGroupByCostCategory(query);
     const groupByTagKey = getGroupByTagKey(query);
@@ -605,69 +591,42 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           />
         </PageSection>
         <PageSection>
-          {!isDataAvailable && isDetailsDateRangeToggleEnabled ? (
+          {!isDataAvailable ? (
             this.getEmptyProviderState()
           ) : (
             <Grid hasGutter>
-              {isDetailsDateRangeToggleEnabled ? (
-                <GridItem sm={12}>
-                  <Card>
-                    {!isCurrentMonthData && !isDateRangeSelected && dateRangeType === DateRangeType.previousMonth && (
-                      <Alert
-                        isInline
-                        style={styles.alert}
-                        title={intl.formatMessage(messages.noCurrentData, {
-                          dateRange: getSinceDateRangeString(),
-                        })}
-                        variant="info"
-                      />
-                    )}
-                    <CardBody>
-                      <ExplorerChart
-                        costDistribution={costDistribution}
-                        costType={costType}
-                        currency={currency}
-                        dateRangeType={dateRangeType}
-                        endDate={endDate}
-                        groupBy={
-                          groupByCostCategory
-                            ? `${awsCategoryPrefix}${groupByCostCategory}`
-                            : groupByTagKey
-                              ? `${tagPrefix}${groupByTagKey}`
-                              : groupById
-                        }
-                        perspective={perspective}
-                        startDate={startDate}
-                      />
-                    </CardBody>
-                  </Card>
-                </GridItem>
-              ) : (
-                (itemsTotal > 0 || isChartSkeletonToggleEnabled) && (
-                  <GridItem sm={12}>
-                    <Card>
-                      <CardBody>
-                        <ExplorerChart
-                          costDistribution={costDistribution}
-                          costType={costType}
-                          currency={currency}
-                          dateRangeType={dateRangeType}
-                          endDate={endDate}
-                          groupBy={
-                            groupByCostCategory
-                              ? `${awsCategoryPrefix}${groupByCostCategory}`
-                              : groupByTagKey
-                                ? `${tagPrefix}${groupByTagKey}`
-                                : groupById
-                          }
-                          perspective={perspective}
-                          startDate={startDate}
-                        />
-                      </CardBody>
-                    </Card>
-                  </GridItem>
-                )
-              )}
+              <GridItem sm={12}>
+                <Card>
+                  {!isCurrentMonthData && !isDateRangeSelected && dateRangeType === DateRangeType.previousMonth && (
+                    <Alert
+                      isInline
+                      style={styles.alert}
+                      title={intl.formatMessage(messages.noCurrentData, {
+                        dateRange: getSinceDateRangeString(),
+                      })}
+                      variant="info"
+                    />
+                  )}
+                  <CardBody>
+                    <ExplorerChart
+                      costDistribution={costDistribution}
+                      costType={costType}
+                      currency={currency}
+                      dateRangeType={dateRangeType}
+                      endDate={endDate}
+                      groupBy={
+                        groupByCostCategory
+                          ? `${awsCategoryPrefix}${groupByCostCategory}`
+                          : groupByTagKey
+                            ? `${tagPrefix}${groupByTagKey}`
+                            : groupById
+                      }
+                      perspective={perspective}
+                      startDate={startDate}
+                    />
+                  </CardBody>
+                </Card>
+              </GridItem>
               <GridItem sm={12}>
                 <Card>
                   <CardBody>
@@ -745,7 +704,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const currency = getCurrency();
 
   // Fetch based on time scope
-  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
   const { isCurrentMonthData, isDataAvailable, isPreviousMonthData } = getIsDataAvailable({
     awsProviders,
     azureProviders,
@@ -757,10 +715,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     rhelProviders,
   });
 
-  const { dateRangeType, end_date, start_date } = getDateRangeFromQuery(
-    queryFromRoute,
-    !isCurrentMonthData && isDetailsDateRangeToggleEnabled
-  );
+  const { dateRangeType, end_date, start_date } = getDateRangeFromQuery(queryFromRoute, !isCurrentMonthData);
 
   const query: any = {
     ...baseQuery,
@@ -807,11 +762,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     endDate: end_date,
     gcpProviders,
     ibmProviders,
-    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
-    isChartSkeletonToggleEnabled: FeatureToggleSelectors.selectIsChartSkeletonToggleEnabled(state),
     isCurrentMonthData,
     isDataAvailable,
-    isDetailsDateRangeToggleEnabled,
     isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
     isPreviousMonthData,
     ociProviders,

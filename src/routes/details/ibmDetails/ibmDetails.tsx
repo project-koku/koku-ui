@@ -17,7 +17,6 @@ import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
-import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { ProviderStatus } from 'routes/details/components/providerStatus';
@@ -39,7 +38,6 @@ import {
 } from 'routes/utils/queryNavigate';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getSinceDateRangeString } from 'utils/dates';
@@ -56,11 +54,8 @@ import { styles } from './ibmDetails.styles';
 
 interface IbmDetailsStateProps {
   currency?: string;
-  isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
-  isDetailsDateRangeToggleEnabled?: boolean;
   isPreviousMonthData?: boolean;
-  isProviderEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -346,11 +341,8 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
     const {
       currency,
       intl,
-      isAccountInfoEmptyStateToggleEnabled,
       isCurrentMonthData,
-      isDetailsDateRangeToggleEnabled,
       isPreviousMonthData,
-      isProviderEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -376,21 +368,10 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return isProviderEmptyStateToggleEnabled ? (
-          <NoProviders />
-        ) : (
-          <NoProvidersOld providerType={ProviderType.ibm} title={title} />
-        );
+        return <NoProviders />;
       }
-      if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
-        return (
-          <NoData
-            detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.ibm} /> : undefined
-            }
-            title={title}
-          />
-        );
+      if (!isCurrentMonthData && !isPreviousMonthData) {
+        return <NoData detailsComponent={<ProviderStatus providerType={ProviderType.ibm} />} title={title} />;
       }
     }
 
@@ -412,7 +393,7 @@ class IbmDetails extends React.Component<IbmDetailsProps, IbmDetailsState> {
         </PageSection>
         <PageSection>
           <Card>
-            {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
+            {!isCurrentMonthData && (
               <Alert
                 isInline
                 style={styles.alert}
@@ -459,12 +440,9 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
   // Fetch based on time scope value
   const filteredProviders = filterProviders(providers, ProviderType.ibm);
   const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
-  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
 
   let timeScopeValue = getTimeScopeValue(queryFromRoute);
-  timeScopeValue = Number(
-    !isCurrentMonthData && isDetailsDateRangeToggleEnabled ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1
-  );
+  timeScopeValue = Number(!isCurrentMonthData ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1);
 
   const query: any = {
     ...baseQuery,
@@ -498,11 +476,8 @@ const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStat
 
   return {
     currency,
-    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
-    isDetailsDateRangeToggleEnabled,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
-    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filteredProviders,
     providersError,
     providersFetchStatus,

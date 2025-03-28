@@ -7,37 +7,19 @@ import { setFeatureToggle } from './featureToggleActions';
 export type FeatureToggleAction = ActionType<typeof setFeatureToggle | typeof resetState>;
 
 export type FeatureToggleState = Readonly<{
-  hasFeatureToggle: boolean;
-  isAccountInfoDetailsToggleEnabled: boolean;
-  isAccountInfoEmptyStateToggleEnabled: boolean;
-  isAwsEc2InstancesToggleEnabled: boolean;
-  isChartSkeletonToggleEnabled: boolean;
   isCostBreakdownChartToggleEnabled: boolean;
   isDebugToggleEnabled: boolean;
-  isDetailsDateRangeToggleEnabled: boolean;
   isExportsToggleEnabled: boolean;
   isFinsightsToggleEnabled: boolean;
   isIbmToggleEnabled: boolean;
-  isOcpCloudGroupBysToggleEnabled: boolean;
-  isProviderEmptyStateToggleEnabled: boolean;
-  isVirtualizationToggleEnabled: boolean;
 }>;
 
 export const defaultState: FeatureToggleState = {
-  hasFeatureToggle: false,
-  isAccountInfoDetailsToggleEnabled: false,
-  isAccountInfoEmptyStateToggleEnabled: false,
-  isAwsEc2InstancesToggleEnabled: false,
-  isChartSkeletonToggleEnabled: false,
   isCostBreakdownChartToggleEnabled: false,
   isDebugToggleEnabled: false,
-  isDetailsDateRangeToggleEnabled: false,
   isExportsToggleEnabled: false,
   isFinsightsToggleEnabled: false,
   isIbmToggleEnabled: false,
-  isOcpCloudGroupBysToggleEnabled: false,
-  isProviderEmptyStateToggleEnabled: false,
-  isVirtualizationToggleEnabled: false,
 };
 
 export const stateKey = 'FeatureToggle';
@@ -47,20 +29,11 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
     case getType(setFeatureToggle):
       return {
         ...state,
-        hasFeatureToggle: true,
-        isAccountInfoDetailsToggleEnabled: action.payload.isAccountInfoDetailsToggleEnabled,
-        isAccountInfoEmptyStateToggleEnabled: action.payload.isAccountInfoEmptyStateToggleEnabled,
-        isAwsEc2InstancesToggleEnabled: action.payload.isAwsEc2InstancesToggleEnabled,
-        isChartSkeletonToggleEnabled: action.payload.isChartSkeletonToggleEnabled,
         isCostBreakdownChartToggleEnabled: action.payload.isCostBreakdownChartToggleEnabled,
         isDebugToggleEnabled: action.payload.isDebugToggleEnabled,
-        isDetailsDateRangeToggleEnabled: action.payload.isDetailsDateRangeToggleEnabled,
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
         isFinsightsToggleEnabled: action.payload.isFinsightsToggleEnabled,
         isIbmToggleEnabled: action.payload.isIbmToggleEnabled,
-        isOcpCloudGroupBysToggleEnabled: action.payload.isOcpCloudGroupBysToggleEnabled,
-        isProviderEmptyStateToggleEnabled: action.payload.isProviderEmptyStateToggleEnabled,
-        isVirtualizationToggleEnabled: action.payload.isVirtualizationToggleEnabled,
       };
 
     default:

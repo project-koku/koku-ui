@@ -17,7 +17,6 @@ import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
-import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { ProviderStatus } from 'routes/details/components/providerStatus';
@@ -38,7 +37,6 @@ import {
 } from 'routes/utils/queryNavigate';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getSinceDateRangeString } from 'utils/dates';
@@ -55,11 +53,8 @@ import { styles } from './gcpDetails.styles';
 
 interface GcpDetailsStateProps {
   currency?: string;
-  isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
-  isDetailsDateRangeToggleEnabled?: boolean;
   isPreviousMonthData?: boolean;
-  isProviderEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -344,11 +339,8 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     const {
       currency,
       intl,
-      isAccountInfoEmptyStateToggleEnabled,
       isCurrentMonthData,
-      isDetailsDateRangeToggleEnabled,
       isPreviousMonthData,
-      isProviderEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -374,21 +366,10 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return isProviderEmptyStateToggleEnabled ? (
-          <NoProviders />
-        ) : (
-          <NoProvidersOld providerType={ProviderType.gcp} title={title} />
-        );
+        return <NoProviders />;
       }
-      if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
-        return (
-          <NoData
-            detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.gcp} /> : undefined
-            }
-            title={title}
-          />
-        );
+      if (!isCurrentMonthData && !isPreviousMonthData) {
+        return <NoData detailsComponent={<ProviderStatus providerType={ProviderType.gcp} />} title={title} />;
       }
     }
 
@@ -410,7 +391,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
         </PageSection>
         <PageSection>
           <Card>
-            {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
+            {!isCurrentMonthData && (
               <Alert
                 isInline
                 style={styles.alert}
@@ -457,12 +438,9 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
   // Fetch based on time scope value
   const filteredProviders = filterProviders(providers, ProviderType.gcp);
   const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
-  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
 
   let timeScopeValue = getTimeScopeValue(queryFromRoute);
-  timeScopeValue = Number(
-    !isCurrentMonthData && isDetailsDateRangeToggleEnabled ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1
-  );
+  timeScopeValue = Number(!isCurrentMonthData ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1);
 
   const query: any = {
     ...baseQuery,
@@ -496,11 +474,8 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
 
   return {
     currency,
-    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
-    isDetailsDateRangeToggleEnabled,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
-    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filteredProviders,
     providersError,
     providersFetchStatus,
