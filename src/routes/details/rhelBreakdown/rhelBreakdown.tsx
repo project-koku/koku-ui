@@ -17,7 +17,6 @@ import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -102,8 +101,6 @@ const mapStateToProps = createMapStateToProps<RhelBreakdownOwnProps, BreakdownSt
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData currency={currency} timeScopeValue={timeScopeValue} />,
-    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
-    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.rhel),
     providersFetchStatus,
     providerType: ProviderType.rhel,

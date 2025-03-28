@@ -1,7 +1,6 @@
 import t_global_font_size_md from '@patternfly/react-tokens/dist/js/t_global_font_size_md';
 import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
-import t_global_spacer_xs from '@patternfly/react-tokens/dist/js/t_global_spacer_xs';
 import type React from 'react';
 
 export const styles = {
@@ -14,10 +13,6 @@ export const styles = {
   },
   exportContainer: {
     display: 'flex',
-  },
-  perspective: {
-    paddingTop: t_global_spacer_lg.var,
-    marginTop: t_global_spacer_xs.var,
   },
   perspectiveContainer: {
     alignItems: 'unset',

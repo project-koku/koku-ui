@@ -19,7 +19,6 @@ import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
-import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { ColumnManagementModalOption } from 'routes/details/components/columnManagement';
@@ -43,7 +42,6 @@ import {
 } from 'routes/utils/queryNavigate';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getSinceDateRangeString } from 'utils/dates';
@@ -62,11 +60,8 @@ export interface OcpDetailsStateProps {
   costDistribution?: string;
   currency?: string;
   currentDateRangeType?: string;
-  isAccountInfoEmptyStateToggleEnabled?: boolean;
   isCurrentMonthData?: boolean;
-  isDetailsDateRangeToggleEnabled?: boolean;
   isPreviousMonthData?: boolean;
-  isProviderEmptyStateToggleEnabled?: boolean;
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
@@ -420,11 +415,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       costDistribution,
       currency,
       intl,
-      isAccountInfoEmptyStateToggleEnabled,
       isCurrentMonthData,
-      isDetailsDateRangeToggleEnabled,
       isPreviousMonthData,
-      isProviderEmptyStateToggleEnabled,
       providers,
       providersFetchStatus,
       query,
@@ -450,21 +442,11 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       const noProviders = providers && providers.meta && providers.meta.count === 0;
 
       if (noProviders) {
-        return isProviderEmptyStateToggleEnabled ? (
-          <NoProviders />
-        ) : (
-          <NoProvidersOld providerType={ProviderType.ocp} title={title} />
-        );
+        return;
+        <NoProviders />;
       }
-      if (isDetailsDateRangeToggleEnabled ? !isCurrentMonthData && !isPreviousMonthData : !isCurrentMonthData) {
-        return (
-          <NoData
-            detailsComponent={
-              isAccountInfoEmptyStateToggleEnabled ? <ProviderStatus providerType={ProviderType.ocp} /> : undefined
-            }
-            title={title}
-          />
-        );
+      if (!isCurrentMonthData && !isPreviousMonthData) {
+        return <NoData detailsComponent={<ProviderStatus providerType={ProviderType.ocp} />} title={title} />;
       }
     }
 
@@ -488,7 +470,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         </PageSection>
         <PageSection>
           <Card>
-            {!isCurrentMonthData && isDetailsDateRangeToggleEnabled && (
+            {!isCurrentMonthData && (
               <Alert
                 isInline
                 style={styles.alert}
@@ -537,12 +519,9 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   // Fetch based on time scope value
   const filteredProviders = filterProviders(providers, ProviderType.ocp);
   const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
-  const isDetailsDateRangeToggleEnabled = FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state);
 
   let timeScopeValue = getTimeScopeValue(queryFromRoute);
-  timeScopeValue = Number(
-    !isCurrentMonthData && isDetailsDateRangeToggleEnabled ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1
-  );
+  timeScopeValue = Number(!isCurrentMonthData ? -2 : timeScopeValue !== undefined ? timeScopeValue : -1);
 
   const query: any = {
     ...baseQuery,
@@ -583,11 +562,8 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   return {
     costDistribution,
     currency,
-    isAccountInfoEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoEmptyStateToggleEnabled(state),
     isCurrentMonthData,
-    isDetailsDateRangeToggleEnabled,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
-    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filteredProviders,
     providersFetchStatus,
     query,

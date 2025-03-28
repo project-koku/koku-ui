@@ -50,7 +50,6 @@ export interface ExportModalOwnProps {
 }
 
 interface ExportModalStateProps {
-  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
 }
 
@@ -284,7 +283,6 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
 const mapStateToProps = createMapStateToProps<ExportModalOwnProps, unknown>(state => {
   return {
-    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
   };
 });

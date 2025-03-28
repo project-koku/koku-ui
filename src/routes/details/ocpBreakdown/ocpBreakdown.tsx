@@ -19,7 +19,6 @@ import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
@@ -133,9 +132,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       />
     ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
-    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
-    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
-    isVirtualizationToggleEnabled: FeatureToggleSelectors.selectIsVirtualizationToggleEnabled(state),
     optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
