@@ -1,10 +1,10 @@
 /* For testing only */
 /* https://developer.mozilla.org/en-US/docs/Web/CSS/revert */
-[class*="pf-v5-c"],
-[class*="pf-v5-c"] *,
-[class*="pf-v5-l"],
-[class*="pf-v5-l"] *,
-[class*="pf-v5-u"],
-[class*="pf-v5-u"] * {
+[class*="pf-v6-c"],
+[class*="pf-v6-c"] *,
+[class*="pf-v6-l"],
+[class*="pf-v6-l"] *,
+[class*="pf-v6-u"],
+[class*="pf-v6-u"] * {
   all: revert;
 }

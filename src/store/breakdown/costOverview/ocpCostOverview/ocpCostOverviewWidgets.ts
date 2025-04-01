@@ -25,6 +25,14 @@ export const costWidget: CostOverviewWidget = {
   type: CostOverviewWidgetType.cost,
 };
 
+export const costBreakdownWidget: CostOverviewWidget = {
+  chartName: 'costBreakdownWidget',
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
+  type: CostOverviewWidgetType.costBreakdown,
+};
+
 export const costDistributionWidget: CostOverviewWidget = {
   chartName: 'ocpCostDistributionWidget',
   id: getId(),

@@ -1,11 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  EmptyStateVariant,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateFooter, EmptyStateVariant } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import messages from 'locales/messages';
 import React from 'react';
@@ -24,12 +17,13 @@ class NoVirtualizationStateBase extends React.Component<NoVirtualizationStatePro
 
     // Todo: Update URL when virtualization docs are available
     return (
-      <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
-        <EmptyStateHeader
-          titleText={intl.formatMessage(messages.noVirtualizationStateTitle)}
-          icon={<EmptyStateIcon icon={CubesIcon} />}
-          headingLevel="h5"
-        />
+      <EmptyState
+        headingLevel="h5"
+        icon={CubesIcon}
+        titleText={intl.formatMessage(messages.noVirtualizationStateTitle)}
+        variant={EmptyStateVariant.lg}
+        className="pf-m-redhat-font"
+      >
         <EmptyStateBody>{intl.formatMessage(messages.noVirtualizationStateDesc)}</EmptyStateBody>
         <EmptyStateFooter>
           <a href={intl.formatMessage(messages.docsCostManagement)} rel="noreferrer" target="_blank">

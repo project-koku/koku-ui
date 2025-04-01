@@ -10,7 +10,7 @@ import {
   ChartThemeColor,
   createContainer,
   getInteractiveLegendEvents,
-} from '@patternfly/react-charts';
+} from '@patternfly/react-charts/victory';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';

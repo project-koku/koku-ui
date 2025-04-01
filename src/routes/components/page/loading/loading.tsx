@@ -1,4 +1,4 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -19,8 +19,12 @@ const Loading = ({ body, heading, title }: LoadingProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
-        <LoadingState body={body} heading={heading} />
+      <PageSection hasBodyWrapper={false}>
+        <Card>
+          <CardBody>
+            <LoadingState body={body} heading={heading} />
+          </CardBody>
+        </Card>
       </PageSection>
     </>
   );

@@ -4,8 +4,6 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   Label,
   Popover,
 } from '@patternfly/react-core';
@@ -140,12 +138,11 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
     }
 
     return (
-      <EmptyState>
-        <EmptyStateHeader
-          titleText={<>{intl.formatMessage(messages.noExportsStateTitle)}</>}
-          icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-          headingLevel="h5"
-        />
+      <EmptyState
+        headingLevel="h5"
+        icon={PlusCircleIcon}
+        titleText={<>{intl.formatMessage(messages.noExportsStateTitle)}</>}
+      >
         <EmptyStateBody>{intl.formatMessage(messages.exportsEmptyState)}</EmptyStateBody>
         <EmptyStateFooter>
           <Button variant="primary" onClick={onClose}>
@@ -185,13 +182,12 @@ class ExportsTableBase extends React.Component<ExportsTableProps, ExportsTableSt
                 bodyContent={<div>{intl.formatMessage(messages.exportsFailedDesc)}</div>}
               >
                 <Button
+                  icon={content}
                   className={className}
                   innerRef={componentRef}
                   style={styles.failedButton}
                   variant={ButtonVariant.plain}
-                >
-                  {content}
-                </Button>
+                ></Button>
               </Popover>
             )}
           >

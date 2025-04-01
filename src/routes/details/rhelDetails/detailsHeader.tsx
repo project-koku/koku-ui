@@ -46,8 +46,6 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isAccountInfoDetailsToggleEnabled?: boolean;
-  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -112,9 +110,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       currency,
       groupBy,
       intl,
-      isAccountInfoDetailsToggleEnabled,
       isCurrentMonthData,
-      isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
       isPreviousMonthData,
       onCurrencySelect,
@@ -151,7 +147,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     }
 
     return (
-      <header style={styles.header}>
+      <header>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
           <FlexItem>
             <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
@@ -165,15 +161,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         </Flex>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
-            {isAccountInfoDetailsToggleEnabled && (
-              <Flex>
-                <FlexItem style={styles.status}>
-                  <ProviderDetailsModal providerType={ProviderType.rhel} />
-                </FlexItem>
-              </Flex>
-            )}
             <Flex>
-              <FlexItem style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
+              <FlexItem style={styles.status}>
+                <ProviderDetailsModal providerType={ProviderType.rhel} />
+              </FlexItem>
+            </Flex>
+            <Flex>
+              <FlexItem>
                 <GroupBy
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
                   groupBy={groupBy}
@@ -185,17 +179,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                   timeScopeValue={timeScopeValue}
                 />
               </FlexItem>
-              {isDetailsDateRangeToggleEnabled && (
-                <FlexItem>
-                  <DateRange
-                    dateRangeType={currentDateRangeType}
-                    isCurrentMonthData={isCurrentMonthData}
-                    isDisabled={!showContent}
-                    isPreviousMonthData={isPreviousMonthData}
-                    onSelect={this.handleOnDateRangeSelect}
-                  />
-                </FlexItem>
-              )}
+              <FlexItem>
+                <DateRange
+                  dateRangeType={currentDateRangeType}
+                  isCurrentMonthData={isCurrentMonthData}
+                  isDisabled={!showContent}
+                  isPreviousMonthData={isPreviousMonthData}
+                  onSelect={this.handleOnDateRangeSelect}
+                />
+              </FlexItem>
             </Flex>
           </FlexItem>
           <FlexItem>
@@ -236,8 +228,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
-    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
-    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.rhel),
     providersError,

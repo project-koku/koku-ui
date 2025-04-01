@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import { ToolbarFilter, ToolbarItem } from '@patternfly/react-core';
 import type { Resource, ResourcePathsType } from 'api/resources/resource';
 import { intl } from 'components/i18n';
@@ -59,7 +59,7 @@ export const getCostCategoryKeySelect = ({
 export const getCostCategoryKeyOptions = (
   resourceReport: Resource,
   isSelectWrapperOption = false
-): ToolbarChipGroup[] | SelectWrapperOption[] => {
+): ToolbarLabelGroup[] | SelectWrapperOption[] => {
   let data = [];
   let options = [];
 
@@ -122,7 +122,7 @@ export const getCostCategoryValueSelect = ({
 }: {
   currentCategory?: string;
   currentCostCategoryKey?: string;
-  costCategoryKeyOption: ToolbarChipGroup;
+  costCategoryKeyOption: ToolbarLabelGroup;
   costCategoryKeyValueInput?: string;
   filters?: Filters;
   isDisabled?: boolean;
@@ -141,8 +141,8 @@ export const getCostCategoryValueSelect = ({
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      chips={getChips(filters[awsCategoryKey][costCategoryKeyOption.key])}
-      deleteChip={onDelete}
+      labels={getChips(filters[awsCategoryKey][costCategoryKeyOption.key])}
+      deleteLabel={onDelete}
       key={costCategoryKeyOption.key}
       showToolbarItem={currentCategory === awsCategoryKey && currentCostCategoryKey === costCategoryKeyOption.key}
     >

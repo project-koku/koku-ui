@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
@@ -327,28 +327,30 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
   const hasVirtualization = report?.meta?.count > 0;
 
   if (reportError) {
-    return <NotAvailable />;
+    return <NotAvailable isPageSection={false} />;
   }
   if (!query.filter_by && !query.exclude && !hasVirtualization && reportFetchStatus === FetchStatus.complete) {
-    return <NoVirtualization />;
+    return <NoVirtualization isPageSection={false} />;
   }
 
   const computedItems = getComputedItems();
 
   return (
-    <>
-      {getExportModal(computedItems)}
-      {getColumnManagementModal()}
-      {getToolbar(computedItems)}
-      {reportFetchStatus === FetchStatus.inProgress ? (
-        <Loading />
-      ) : (
-        <>
-          {getTable()}
-          <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
-        </>
-      )}
-    </>
+    <Card>
+      <CardBody>
+        {getExportModal(computedItems)}
+        {getColumnManagementModal()}
+        {getToolbar(computedItems)}
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
+        ) : (
+          <>
+            {getTable()}
+            <div style={styles.pagination}>{getPagination(isDisabled, true)}</div>
+          </>
+        )}
+      </CardBody>
+    </Card>
   );
 };
 

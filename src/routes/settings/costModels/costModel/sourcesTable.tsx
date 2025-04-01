@@ -58,14 +58,13 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
             <Td isActionCell>
               <ReadOnlyTooltip defaultMsg={messages.costModelsSourceDeleteSource} key="action" isDisabled={!canWrite}>
                 <Button
+                  icon={<MinusCircleIcon />}
                   aria-label={intl.formatMessage(messages.costModelsSourceDelete)}
                   isAriaDisabled={!canWrite}
                   onClick={() => showDeleteDialog(rowIndex)}
                   size="sm"
                   variant={ButtonVariant.plain}
-                >
-                  <MinusCircleIcon />
-                </Button>
+                ></Button>
               </ReadOnlyTooltip>
             </Td>
           </Tr>

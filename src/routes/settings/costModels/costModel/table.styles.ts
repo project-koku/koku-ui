@@ -1,3 +1,4 @@
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import type React from 'react';
 
 export const styles = {
@@ -7,8 +8,6 @@ export const styles = {
     justifyContent: 'center',
   },
   sourceTypeTitle: {
-    marginLeft: 20,
-    marginTop: 8,
-    marginBottom: 8,
+    marginBottom: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };

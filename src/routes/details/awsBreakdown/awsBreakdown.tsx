@@ -17,7 +17,6 @@ import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -127,9 +126,6 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
       groupBy === serviceKey && groupByValue === 'AmazonEC2' ? (
         <Instances costType={costType} currency={currency} />
       ) : undefined,
-    isAwsEc2InstancesToggleEnabled: FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(state),
-    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
-    isProviderEmptyStateToggleEnabled: FeatureToggleSelectors.selectIsProviderEmptyStateToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,

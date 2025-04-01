@@ -1,6 +1,6 @@
 import 'routes/components/charts/common/chart.scss';
 
-import { ChartBullet } from '@patternfly/react-charts';
+import { ChartBullet } from '@patternfly/react-charts/victory';
 import { Grid, GridItem, Skeleton } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { parseQuery } from 'api/queries/ocpQuery';

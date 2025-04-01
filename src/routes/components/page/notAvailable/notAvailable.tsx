@@ -1,15 +1,23 @@
 import Unavailable from '@patternfly/react-component-groups/dist/esm/UnavailableContent';
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
 interface NoProvidersOwnProps {
+  isPageSection?: boolean;
   title?: string;
 }
 
 type NotAvailableProps = NoProvidersOwnProps;
 
-const NotAvailable = ({ title }: NotAvailableProps) => {
+const NotAvailable = ({ isPageSection = true, title }: NotAvailableProps) => {
+  const content = (
+    <Card>
+      <CardBody>
+        <Unavailable />
+      </CardBody>
+    </Card>
+  );
   return (
     <>
       {title && (
@@ -17,9 +25,7 @@ const NotAvailable = ({ title }: NotAvailableProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
-        <Unavailable />
-      </PageSection>
+      {isPageSection ? <PageSection hasBodyWrapper={true}>{content}</PageSection> : content}
     </>
   );
 };

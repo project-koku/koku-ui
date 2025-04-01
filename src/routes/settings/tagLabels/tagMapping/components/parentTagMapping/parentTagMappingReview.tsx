@@ -1,16 +1,4 @@
-import {
-  Alert,
-  Stack,
-  StackItem,
-  Text,
-  TextContent,
-  TextList,
-  TextListItem,
-  TextListItemVariants,
-  TextListVariants,
-  Title,
-  TitleSizes,
-} from '@patternfly/react-core';
+import { Alert, Content, ContentVariants, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
 import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { SettingsData } from 'api/settings';
 import type { AxiosError } from 'axios';
@@ -51,34 +39,28 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
           </Title>
         </StackItem>
         <StackItem>
-          <TextContent style={styles.reviewDescContainer}>
-            <Text>
+          <Content style={styles.reviewDescContainer}>
+            <Content component="p">
               {intl.formatMessage(messages.tagMappingWizardReviewDesc, {
                 create: <strong>{intl.formatMessage(messages.create)}</strong>,
                 back: <strong>{intl.formatMessage(messages.back)}</strong>,
               })}
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </StackItem>
         <StackItem>
-          <TextContent>
-            <TextList component={TextListVariants.dl}>
-              <TextListItem component={TextListItemVariants.dt}>
-                {intl.formatMessage(messages.tagKeyParent)}
-              </TextListItem>
-              <TextListItem component={TextListItemVariants.dd}>{parentTags.map(item => item.key)}</TextListItem>
-              <TextListItem component={TextListItemVariants.dt}>
-                {intl.formatMessage(messages.tagKeyParentSource)}
-              </TextListItem>
-              <TextListItem component={TextListItemVariants.dd}>
+          <Content>
+            <Content component={ContentVariants.dl}>
+              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.tagKeyParent)}</Content>
+              <Content component={ContentVariants.dd}>{parentTags.map(item => item.key)}</Content>
+              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.tagKeyParentSource)}</Content>
+              <Content component={ContentVariants.dd}>
                 {parentTags.map(item =>
                   intl.formatMessage(messages.sourceTypes, { value: item?.source_type?.toLowerCase() })
                 )}
-              </TextListItem>
-              <TextListItem component={TextListItemVariants.dt}>
-                {intl.formatMessage(messages.tagKeyChild)}
-              </TextListItem>
-              <TextListItem component={TextListItemVariants.dd}>
+              </Content>
+              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.tagKeyChild)}</Content>
+              <Content component={ContentVariants.dd}>
                 <div style={styles.reviewTable}>
                   <Table
                     aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
@@ -105,9 +87,9 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
                     </Tbody>
                   </Table>
                 </div>
-              </TextListItem>
-            </TextList>
-          </TextContent>
+              </Content>
+            </Content>
+          </Content>
         </StackItem>
       </Stack>
     </>

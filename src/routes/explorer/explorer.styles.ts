@@ -1,45 +1,15 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
+import type React from 'react';
 
 export const styles = {
   alert: {
-    marginLeft: global_spacer_lg.value,
-    marginRight: global_spacer_lg.value,
+    marginBottom: t_global_spacer_lg.value,
   },
-  chartContainer: {
-    backgroundColor: global_BackgroundColor_light_100.value,
-    marginLeft: global_spacer_lg.value,
-    marginRight: global_spacer_lg.value,
-    paddingRight: global_spacer_lg.value,
-    paddingBottom: global_spacer_lg.value,
-    paddingTop: global_spacer_lg.value,
-  },
-  chartContent: {
-    paddingTop: global_spacer_lg.value,
-  },
-  explorer: {
-    minHeight: '100%',
+  headerContainer: {
+    paddingBottom: 0,
   },
   paginationContainer: {
-    marginLeft: global_spacer_lg.value,
-    marginRight: global_spacer_lg.value,
-  },
-  pagination: {
-    backgroundColor: global_BackgroundColor_light_100.value,
-    paddingBottom: global_spacer_md.value,
-    paddingTop: global_spacer_md.value,
-  },
-  tableContainer: {
-    marginLeft: global_spacer_lg.value,
-    marginRight: global_spacer_lg.value,
-  },
-  tableContent: {
-    paddingBottom: global_spacer_lg.value,
-    paddingTop: global_spacer_lg.value,
-  },
-  toolbarContainer: {
-    marginLeft: global_spacer_lg.value,
-    marginRight: global_spacer_lg.value,
+    marginTop: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

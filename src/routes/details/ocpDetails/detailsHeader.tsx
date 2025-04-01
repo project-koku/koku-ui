@@ -48,8 +48,6 @@ interface DetailsHeaderOwnProps {
 }
 
 interface DetailsHeaderStateProps {
-  isAccountInfoDetailsToggleEnabled?: boolean;
-  isDetailsDateRangeToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   providers: Providers;
   providersError: AxiosError;
@@ -113,9 +111,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
       currency,
       groupBy,
       intl,
-      isAccountInfoDetailsToggleEnabled,
       isCurrentMonthData,
-      isDetailsDateRangeToggleEnabled,
       isExportsToggleEnabled,
       isPreviousMonthData,
       onCostDistributionSelect,
@@ -132,7 +128,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
     const { cost, infrastructureCost, supplementaryCost } = getTotalCost(report, costDistribution);
 
     return (
-      <header style={styles.header}>
+      <header>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
           <FlexItem>
             <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
@@ -146,14 +142,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
         </Flex>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
           <FlexItem>
-            {isAccountInfoDetailsToggleEnabled && (
-              <Flex>
-                <FlexItem style={styles.status}>
-                  <ProviderDetailsModal providerType={ProviderType.ocp} />
-                </FlexItem>
-              </Flex>
-            )}
-            <Flex style={isAccountInfoDetailsToggleEnabled ? undefined : styles.perspective}>
+            <Flex>
+              <FlexItem style={styles.status}>
+                <ProviderDetailsModal providerType={ProviderType.ocp} />
+              </FlexItem>
+            </Flex>
+            <Flex>
               <FlexItem>
                 <GroupBy
                   getIdKeyForGroupBy={getIdKeyForGroupBy}
@@ -171,17 +165,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps, DetailsHeade
                   <CostDistribution costDistribution={costDistribution} onSelect={onCostDistributionSelect} />
                 </FlexItem>
               )}
-              {isDetailsDateRangeToggleEnabled && (
-                <FlexItem>
-                  <DateRange
-                    dateRangeType={currentDateRangeType}
-                    isCurrentMonthData={isCurrentMonthData}
-                    isDisabled={!showContent}
-                    isPreviousMonthData={isPreviousMonthData}
-                    onSelect={this.handleOnDateRangeSelect}
-                  />
-                </FlexItem>
-              )}
+              <FlexItem>
+                <DateRange
+                  dateRangeType={currentDateRangeType}
+                  isCurrentMonthData={isCurrentMonthData}
+                  isDisabled={!showContent}
+                  isPreviousMonthData={isPreviousMonthData}
+                  onSelect={this.handleOnDateRangeSelect}
+                />
+              </FlexItem>
             </Flex>
           </FlexItem>
           <FlexItem>
@@ -222,8 +214,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   );
 
   return {
-    isAccountInfoDetailsToggleEnabled: FeatureToggleSelectors.selectIsAccountInfoDetailsToggleEnabled(state),
-    isDetailsDateRangeToggleEnabled: FeatureToggleSelectors.selectIsDetailsDateRangeToggleEnabled(state),
     isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
     providers: filterProviders(providers, ProviderType.ocp),
     providersError,

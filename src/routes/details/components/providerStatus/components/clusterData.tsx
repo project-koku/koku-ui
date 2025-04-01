@@ -1,4 +1,4 @@
-import { ProgressStep, ProgressStepper, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, ProgressStep, ProgressStepper } from '@patternfly/react-core';
 import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
@@ -26,9 +26,9 @@ const ClusterData: React.FC<ClusterDataProps> = ({ provider }: ClusterDataProps)
 
   return (
     <>
-      <TextContent>
-        <Text component={TextVariants.h3}>{intl.formatMessage(messages.dataDetailsClusterData)}</Text>
-      </TextContent>
+      <Content>
+        <Content component={ContentVariants.h3}>{intl.formatMessage(messages.dataDetailsClusterData)}</Content>
+      </Content>
       <ProgressStepper
         aria-label={intl.formatMessage(messages.dataDetailsClusterData)}
         isVertical
