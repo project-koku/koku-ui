@@ -1,4 +1,4 @@
-import { PageSection, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -59,7 +59,7 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
 
   const getCurrency = () => {
     return (
-      <div style={styles.currencyContainer}>
+      <>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
           {intl.formatMessage(messages.currency)}
         </Title>
@@ -75,7 +75,7 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
             />
           )}
         </div>
-      </div>
+      </>
     );
   };
 
@@ -105,10 +105,12 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
   }, [costTypeAccountSettingsUpdateStatus, currencyAccountSettingsUpdateStatus]);
 
   return (
-    <PageSection isFilled>
-      {getCurrency()}
-      {getCostType()}
-    </PageSection>
+    <Card>
+      <CardBody>
+        {getCurrency()}
+        {getCostType()}
+      </CardBody>
+    </Card>
   );
 };
 

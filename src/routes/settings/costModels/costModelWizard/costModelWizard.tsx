@@ -1,5 +1,17 @@
-import { Button, Icon, Modal, Title, TitleSizes, Wizard, WizardHeader, WizardStep } from '@patternfly/react-core';
-import { ModalVariant } from '@patternfly/react-core/next';
+import {
+  Button,
+  Icon,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalVariant,
+  Title,
+  TitleSizes,
+  Wizard,
+  WizardHeader,
+  WizardStep,
+} from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
@@ -131,7 +143,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
 
   // Todo: Remove key={newSteps.length} workaround -- see https://github.com/patternfly/patternfly-react/issues/9752
   return (
-    <Modal className="costManagement" hasNoBodyWrapper isOpen={isOpen} showClose={false} variant={ModalVariant.large}>
+    <Modal className="costManagement" isOpen={isOpen} variant={ModalVariant.large}>
       <Wizard
         header={
           <WizardHeader
@@ -583,19 +595,22 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
         <Modal
           aria-label={intl.formatMessage(messages.createCostModelExit)}
           isOpen={this.state.isDialogOpen}
-          header={
+          onClose={closeConfirmDialog}
+          variant={ModalVariant.small}
+        >
+          <ModalHeader>
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
               <Icon status="warning">
                 <ExclamationTriangleIcon />
               </Icon>{' '}
               {intl.formatMessage(messages.createCostModelExit)}
             </Title>
-          }
-          onClose={closeConfirmDialog}
-          actions={[OkButton, CancelButton]}
-          variant="small"
-        >
-          {intl.formatMessage(messages.createCostModelConfirmMsg)}
+          </ModalHeader>
+          <ModalBody>{intl.formatMessage(messages.createCostModelConfirmMsg)}</ModalBody>
+          <ModalFooter>
+            {OkButton}
+            {CancelButton}
+          </ModalFooter>
         </Modal>
       </CostModelContext.Provider>
     );

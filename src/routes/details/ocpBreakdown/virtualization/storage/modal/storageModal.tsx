@@ -1,4 +1,4 @@
-import { Modal } from '@patternfly/react-core';
+import { Modal, ModalBody, ModalHeader } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -25,13 +25,11 @@ class StorageModalBase extends React.Component<StorageModalProps, any> {
     const { intl, isOpen, storageData, virtualMachine } = this.props;
 
     return (
-      <Modal
-        isOpen={isOpen}
-        onClose={this.handleClose}
-        title={intl.formatMessage(messages.storageHeadingTitle, { value: storageData?.length })}
-        width={'50%'}
-      >
-        <StorageContent storageData={storageData} virtualMachine={virtualMachine} />
+      <Modal className="costManagement" isOpen={isOpen} onClose={this.handleClose} width={'50%'}>
+        <ModalHeader title={intl.formatMessage(messages.storageHeadingTitle, { value: storageData?.length })} />
+        <ModalBody>
+          <StorageContent storageData={storageData} virtualMachine={virtualMachine} />
+        </ModalBody>
       </Modal>
     );
   }

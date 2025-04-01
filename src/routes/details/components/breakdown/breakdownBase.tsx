@@ -1,7 +1,6 @@
-import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import { PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import type { Providers } from 'api/providers';
-import type { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
@@ -14,7 +13,6 @@ import { injectIntl } from 'react-intl';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
-import { NoProvidersOld } from 'routes/components/page/noProvidersOld';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
 import {
@@ -73,17 +71,12 @@ export interface BreakdownStateProps {
   groupByValue?: string;
   historicalDataComponent?: React.ReactNode;
   instancesComponent?: React.ReactNode;
-  isAwsEc2InstancesToggleEnabled?: boolean;
-  isDetailsDateRangeToggleEnabled?: boolean;
   isOptimizationsTab?: boolean;
-  isProviderEmptyStateToggleEnabled?: boolean;
-  isVirtualizationToggleEnabled?: boolean;
   optimizationsBadgeComponent?: React.ReactNode;
   optimizationsComponent?: React.ReactNode;
   providers?: Providers;
   providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
-  providerType?: ProviderType;
   query?: Query;
   queryState?: Query;
   report?: Report;
@@ -143,8 +136,6 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       costOverviewComponent,
       historicalDataComponent,
       instancesComponent,
-      isAwsEc2InstancesToggleEnabled,
-      isVirtualizationToggleEnabled,
       optimizationsComponent,
       virtualizationComponent,
     } = this.props;
@@ -162,13 +153,13 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         tab: BreakdownTab.historicalData,
       });
     }
-    if (instancesComponent && isAwsEc2InstancesToggleEnabled) {
+    if (instancesComponent) {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: BreakdownTab.instances,
       });
     }
-    if (virtualizationComponent && isVirtualizationToggleEnabled) {
+    if (virtualizationComponent) {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: BreakdownTab.virtualization,
@@ -197,17 +188,13 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
           <>
             <TabTitleText>{this.getTabTitle(tab)}</TabTitleText>
             {showBadge && (
-              <span>
-                {
-                  <AsyncComponent
-                    scope="costManagementMfe"
-                    appName="cost-management-mfe"
-                    module="./MfeOptimizationsBadge"
-                    cluster={queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined}
-                    project={groupBy === 'project' ? groupByValue : undefined}
-                  />
-                }
-              </span>
+              <AsyncComponent
+                scope="costManagementMfe"
+                appName="cost-management-mfe"
+                module="./MfeOptimizationsBadge"
+                cluster={queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined}
+                project={groupBy === 'project' ? groupByValue : undefined}
+              />
             )}
           </>
         }
@@ -316,12 +303,9 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       detailsURL,
       emptyStateTitle,
       groupBy,
-      isDetailsDateRangeToggleEnabled,
-      isProviderEmptyStateToggleEnabled,
       optimizationsComponent,
       providers,
       providersFetchStatus,
-      providerType,
       query,
       report,
       reportError,
@@ -348,52 +332,46 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        return isProviderEmptyStateToggleEnabled ? (
-          <NoProviders />
-        ) : (
-          <NoProvidersOld providerType={providerType} title={emptyStateTitle} />
-        );
+        return <NoProviders />;
       }
-      if (
-        isDetailsDateRangeToggleEnabled
-          ? !hasCurrentMonthData(providers) && !hasPreviousMonthData(providers)
-          : !hasCurrentMonthData(providers)
-      ) {
+      if (!hasCurrentMonthData(providers) && !hasPreviousMonthData(providers)) {
         return <NoData title={title} />;
       }
     }
 
     return (
       <>
-        <BreakdownHeader
-          breadcrumbLabel={breadcrumbLabel}
-          breadcrumbPath={
-            router?.location?.state?.details?.breadcrumbPath
-              ? router.location.state.details.breadcrumbPath
-              : breadcrumbPath
-          }
-          clusterInfoComponent={clusterInfoComponent}
-          dataDetailsComponent={dataDetailsComponent}
-          costDistribution={costDistribution}
-          costType={costType}
-          currency={currency}
-          description={description}
-          detailsURL={detailsURL}
-          groupBy={groupBy}
-          onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router, router.location.state)}
-          onCostTypeSelect={() => handleOnCostTypeSelect(query, router, router.location.state)}
-          onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
-          query={query}
-          report={report}
-          showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}
-          showCostType={showCostType}
-          showCurrency={!(optimizationsComponent && activeTabKey === 3)}
-          tabs={this.getTabs(availableTabs)}
-          tagPathsType={tagPathsType}
-          timeScopeValue={timeScopeValue}
-          title={title}
-        />
-        <div style={styles.content}>{this.getTabContent(availableTabs)}</div>
+        <PageSection style={styles.headerContainer}>
+          <BreakdownHeader
+            breadcrumbLabel={breadcrumbLabel}
+            breadcrumbPath={
+              router?.location?.state?.details?.breadcrumbPath
+                ? router.location.state.details.breadcrumbPath
+                : breadcrumbPath
+            }
+            clusterInfoComponent={clusterInfoComponent}
+            costDistribution={costDistribution}
+            costType={costType}
+            currency={currency}
+            dataDetailsComponent={dataDetailsComponent}
+            description={description}
+            detailsURL={detailsURL}
+            groupBy={groupBy}
+            onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router, router.location.state)}
+            onCostTypeSelect={() => handleOnCostTypeSelect(query, router, router.location.state)}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
+            query={query}
+            report={report}
+            showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}
+            showCostType={showCostType}
+            showCurrency={!(optimizationsComponent && activeTabKey === 3)}
+            tabs={this.getTabs(availableTabs)}
+            tagPathsType={tagPathsType}
+            timeScopeValue={timeScopeValue}
+            title={title}
+          />
+        </PageSection>
+        <PageSection>{this.getTabContent(availableTabs)}</PageSection>
       </>
     );
   }

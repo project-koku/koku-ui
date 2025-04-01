@@ -1,7 +1,7 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 .textContentOverride {
-  &.pf-v5-c-content ul {
-    padding-left: var(--pf-v5-global--spacer--lg);
+  &.pf-v6-c-content ul {
+    padding-left: var(--pf-t--global--spacer--lg);
   }
 }

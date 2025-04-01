@@ -1,6 +1,6 @@
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
+import t_global_spacer_xs from '@patternfly/react-tokens/dist/js/t_global_spacer_xs';
 
 export const styles = {
   clipboardContainer: {
@@ -10,15 +10,15 @@ export const styles = {
     display: 'block',
   },
   tagKey: {
-    marginTop: global_spacer_lg.var,
+    marginTop: t_global_spacer_lg.var,
   },
   tagKeyLabel: {
-    marginRight: global_spacer_sm.var,
+    marginRight: t_global_spacer_sm.var,
   },
   tagValue: {
-    marginTop: global_spacer_xs.var,
+    marginTop: t_global_spacer_xs.var,
   },
   tagValueLabel: {
-    marginRight: global_spacer_sm.var,
+    marginRight: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

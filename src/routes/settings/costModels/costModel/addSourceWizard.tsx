@@ -1,14 +1,17 @@
 import {
   Alert,
   Button,
+  Content,
+  ContentVariants,
   Grid,
   GridItem,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalVariant,
   Stack,
   StackItem,
-  Text,
-  TextContent,
-  TextVariants,
 } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import type { Provider } from 'api/providers';
@@ -26,6 +29,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import AddSourceStep from './addSourceStep';
+import { styles } from './costModelInfo.styles';
 
 interface AddSourceWizardOwnProps extends RouterComponentProps {
   assigned?: Provider[];
@@ -104,12 +108,53 @@ class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourc
     const { intl, isUpdateInProgress, onClose, isOpen, onSave, costModel, updateApiError } = this.props;
 
     return (
-      <Modal
-        isOpen={isOpen}
-        title={intl.formatMessage(messages.costModelsAssignSources, { count: 2 })}
-        onClose={onClose}
-        variant="large"
-        actions={[
+      <Modal isOpen={isOpen} onClose={onClose} variant={ModalVariant.large}>
+        <ModalHeader title={intl.formatMessage(messages.costModelsAssignSources, { count: 2 })} />
+        <ModalBody>
+          <Stack>
+            <StackItem>{updateApiError && <Alert variant="danger" title={`${updateApiError}`} />}</StackItem>
+            <StackItem>
+              <Grid>
+                <GridItem span={2}>
+                  <Content>
+                    <Content component={ContentVariants.p}>{intl.formatMessage(messages.names, { count: 1 })}</Content>
+                  </Content>
+                </GridItem>
+                <GridItem span={10}>
+                  <Content>
+                    <Content component={ContentVariants.p}>{this.props.costModel.name}</Content>
+                  </Content>
+                </GridItem>
+                <GridItem span={2}>
+                  <Content>
+                    <Content component={ContentVariants.p}>{intl.formatMessage(messages.sourceType)}</Content>
+                  </Content>
+                </GridItem>
+                <GridItem span={10}>
+                  <Content>
+                    <Content component={ContentVariants.p}>{this.props.costModel.source_type}</Content>
+                  </Content>
+                </GridItem>
+              </Grid>
+            </StackItem>
+            <StackItem style={styles.addSourceStep}>
+              <AddSourceStep
+                fetch={this.props.fetch}
+                fetchingSourcesError={this.props.fetchingSourcesError}
+                isLoadingSources={this.props.isLoadingSources}
+                providers={this.props.providers}
+                pagination={this.props.pagination}
+                query={this.props.query}
+                costModel={costModel}
+                checked={this.state.checked}
+                setState={newState => {
+                  this.setState({ checked: newState });
+                }}
+              />
+            </StackItem>
+          </Stack>
+        </ModalBody>
+        <ModalFooter>
           <Button
             key="save"
             isDisabled={
@@ -123,54 +168,11 @@ class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourc
             }}
           >
             {intl.formatMessage(messages.costModelsAssignSourcesParen)}
-          </Button>,
+          </Button>
           <Button key="cancel" variant="link" isDisabled={isUpdateInProgress} onClick={onClose}>
             {intl.formatMessage(messages.cancel)}
-          </Button>,
-        ]}
-      >
-        <Stack>
-          <StackItem>{updateApiError && <Alert variant="danger" title={`${updateApiError}`} />}</StackItem>
-          <StackItem>
-            <Grid>
-              <GridItem span={2}>
-                <TextContent>
-                  <Text component={TextVariants.p}>{intl.formatMessage(messages.names, { count: 1 })}</Text>
-                </TextContent>
-              </GridItem>
-              <GridItem span={10}>
-                <TextContent>
-                  <Text component={TextVariants.p}>{this.props.costModel.name}</Text>
-                </TextContent>
-              </GridItem>
-              <GridItem span={2}>
-                <TextContent>
-                  <Text component={TextVariants.p}>{intl.formatMessage(messages.sourceType)}</Text>
-                </TextContent>
-              </GridItem>
-              <GridItem span={10}>
-                <TextContent>
-                  <Text component={TextVariants.p}>{this.props.costModel.source_type}</Text>
-                </TextContent>
-              </GridItem>
-            </Grid>
-          </StackItem>
-          <StackItem>
-            <AddSourceStep
-              fetch={this.props.fetch}
-              fetchingSourcesError={this.props.fetchingSourcesError}
-              isLoadingSources={this.props.isLoadingSources}
-              providers={this.props.providers}
-              pagination={this.props.pagination}
-              query={this.props.query}
-              costModel={costModel}
-              checked={this.state.checked}
-              setState={newState => {
-                this.setState({ checked: newState });
-              }}
-            />
-          </StackItem>
-        </Stack>
+          </Button>
+        </ModalFooter>
       </Modal>
     );
   }

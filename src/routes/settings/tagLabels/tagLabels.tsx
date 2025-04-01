@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle, PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React, { type RefObject, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -118,12 +118,10 @@ const TagLabels: React.FC<TagLabelsProps> = ({ canWrite }) => {
   const availableTabs = getAvailableTabs();
 
   return (
-    <PageSection>
-      <Card>
-        <CardTitle>{getTabs(availableTabs)}</CardTitle>
-        <CardBody>{getTabContent(availableTabs)}</CardBody>
-      </Card>
-    </PageSection>
+    <Card>
+      <CardTitle>{getTabs(availableTabs)}</CardTitle>
+      <CardBody>{getTabContent(availableTabs)}</CardBody>
+    </Card>
   );
 };
 

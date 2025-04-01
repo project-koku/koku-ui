@@ -305,6 +305,11 @@ export default defineMessages({
     description: 'The day of the month',
     id: 'chartDayOfTheMonth',
   },
+  chartDestination: {
+    defaultMessage: 'Destination',
+    description: 'Destination',
+    id: 'chartDestination',
+  },
   chartLimitLabel: {
     defaultMessage: 'Limit ({dateRange})',
     description: 'Limit (Jan 1-31)',
@@ -344,6 +349,11 @@ export default defineMessages({
     defaultMessage: 'Requests ({month})',
     description: 'Requests (Jan)',
     id: 'chartRequestsTooltip',
+  },
+  chartSource: {
+    defaultMessage: 'Source',
+    description: 'Source',
+    id: 'chartSource',
   },
   chartSupplementaryCostLabel: {
     defaultMessage: 'Supplementary cost ({dateRange})',
@@ -4037,6 +4047,11 @@ export default defineMessages({
     defaultMessage: 'Filter by metrics',
     description: 'Filter by metrics',
     id: 'toolBarPriceListMetricPlaceHolder',
+  },
+  totalCost: {
+    defaultMessage: 'Total cost',
+    description: 'Total cost',
+    id: 'totalCost',
   },
   typeaheadAriaClear: {
     defaultMessage: 'Clear button and input',

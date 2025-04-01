@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  Content,
   Flex,
   FlexItem,
   Form,
@@ -13,12 +14,13 @@ import {
   List,
   ListItem,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   ModalVariant,
   Radio,
   Stack,
   StackItem,
-  Text,
-  TextContent,
   TextInput,
   Title,
   TitleSizes,
@@ -110,12 +112,104 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
     const markup = `${isDiscount ? '-' : ''}${this.state.markup}`;
 
     return (
-      <Modal
-        title={intl.formatMessage(messages.editMarkupOrDiscount)}
-        isOpen
-        onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
-        variant={ModalVariant.medium}
-        actions={[
+      <Modal isOpen onClose={() => onClose({ name: 'updateMarkup', isOpen: false })} variant={ModalVariant.medium}>
+        <ModalHeader title={intl.formatMessage(messages.editMarkupOrDiscount)} />
+        <ModalBody>
+          <Stack hasGutter>
+            <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
+            <StackItem>
+              <Content>
+                <Content component="p" style={styles.cardDescription}>
+                  {intl.formatMessage(messages.markupOrDiscountModalDesc)}
+                </Content>
+              </Content>
+            </StackItem>
+            <StackItem>
+              <Content>
+                <Title headingLevel="h2" size={TitleSizes.md}>
+                  {intl.formatMessage(messages.markupOrDiscount)}
+                </Title>
+              </Content>
+              <Flex style={styles.markupRadioContainer}>
+                <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
+                  <FlexItem>
+                    <Radio
+                      isChecked={!isDiscount}
+                      name="discount"
+                      label={intl.formatMessage(messages.markupPlus)}
+                      aria-label={intl.formatMessage(messages.markupPlus)}
+                      id="markup"
+                      value="false" // "+"
+                      onChange={this.handleSignChange}
+                      style={styles.markupRadio}
+                    />
+                    <Radio
+                      isChecked={isDiscount}
+                      name="discount"
+                      label={intl.formatMessage(messages.discountMinus)}
+                      aria-label={intl.formatMessage(messages.discountMinus)}
+                      id="discount"
+                      value="true" // '-'
+                      onChange={this.handleSignChange}
+                    />
+                  </FlexItem>
+                </Flex>
+                <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
+                  <FlexItem>
+                    <Form>
+                      <FormGroup fieldId="markup-input-box" style={styles.rateContainer}>
+                        <InputGroup>
+                          <InputGroupText style={styles.sign}>
+                            {isDiscount
+                              ? intl.formatMessage(messages.discountMinus)
+                              : intl.formatMessage(messages.markupPlus)}
+                          </InputGroupText>
+                          <InputGroupItem isFill>
+                            <TextInput
+                              aria-label={intl.formatMessage(messages.rate)}
+                              id="markup-input-box"
+                              isRequired
+                              onKeyDown={this.handleOnKeyDown}
+                              onChange={this.handleMarkupDiscountChange}
+                              placeholder={'0'}
+                              style={styles.inputField}
+                              type="text"
+                              validated={validated}
+                              value={this.state.markup}
+                            />
+                          </InputGroupItem>
+                          <InputGroupText style={styles.percent}>
+                            {intl.formatMessage(messages.percentSymbol)}
+                          </InputGroupText>
+                        </InputGroup>
+                        {validated === 'error' && (
+                          <HelperText>
+                            <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
+                          </HelperText>
+                        )}
+                      </FormGroup>
+                    </Form>
+                  </FlexItem>
+                </Flex>
+              </Flex>
+            </StackItem>
+            <StackItem />
+            <StackItem>
+              <Content>
+                <Title headingLevel="h3" size={TitleSizes.md}>
+                  {intl.formatMessage(messages.examplesTitle)}
+                </Title>
+              </Content>
+              <List>
+                <ListItem>{intl.formatMessage(messages.costModelsExamplesNoAdjust)}</ListItem>
+                <ListItem>{intl.formatMessage(messages.costModelsExamplesDoubleMarkup)}</ListItem>
+                <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceZero)}</ListItem>
+                <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceSeventyfive)}</ListItem>
+              </List>
+            </StackItem>
+          </Stack>
+        </ModalBody>
+        <ModalFooter>
           <Button
             key="proceed"
             variant="primary"
@@ -139,7 +233,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
             }
           >
             {intl.formatMessage(messages.save)}
-          </Button>,
+          </Button>
           <Button
             key="cancel"
             variant="link"
@@ -147,100 +241,8 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
             isDisabled={isLoading}
           >
             {intl.formatMessage(messages.cancel)}
-          </Button>,
-        ]}
-      >
-        <Stack hasGutter>
-          <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
-          <StackItem>
-            <TextContent>
-              <Text style={styles.cardDescription}>{intl.formatMessage(messages.markupOrDiscountModalDesc)}</Text>
-            </TextContent>
-          </StackItem>
-          <StackItem>
-            <TextContent>
-              <Title headingLevel="h2" size={TitleSizes.md}>
-                {intl.formatMessage(messages.markupOrDiscount)}
-              </Title>
-            </TextContent>
-            <Flex style={styles.markupRadioContainer}>
-              <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
-                <FlexItem>
-                  <Radio
-                    isChecked={!isDiscount}
-                    name="discount"
-                    label={intl.formatMessage(messages.markupPlus)}
-                    aria-label={intl.formatMessage(messages.markupPlus)}
-                    id="markup"
-                    value="false" // "+"
-                    onChange={this.handleSignChange}
-                    style={styles.markupRadio}
-                  />
-                  <Radio
-                    isChecked={isDiscount}
-                    name="discount"
-                    label={intl.formatMessage(messages.discountMinus)}
-                    aria-label={intl.formatMessage(messages.discountMinus)}
-                    id="discount"
-                    value="true" // '-'
-                    onChange={this.handleSignChange}
-                  />
-                </FlexItem>
-              </Flex>
-              <Flex direction={{ default: 'column' }} alignSelf={{ default: 'alignSelfCenter' }}>
-                <FlexItem>
-                  <Form>
-                    <FormGroup fieldId="markup-input-box" style={styles.rateContainer}>
-                      <InputGroup>
-                        <InputGroupText style={styles.sign}>
-                          {isDiscount
-                            ? intl.formatMessage(messages.discountMinus)
-                            : intl.formatMessage(messages.markupPlus)}
-                        </InputGroupText>
-                        <InputGroupItem isFill>
-                          <TextInput
-                            aria-label={intl.formatMessage(messages.rate)}
-                            id="markup-input-box"
-                            isRequired
-                            onKeyDown={this.handleOnKeyDown}
-                            onChange={this.handleMarkupDiscountChange}
-                            placeholder={'0'}
-                            style={styles.inputField}
-                            type="text"
-                            validated={validated}
-                            value={this.state.markup}
-                          />
-                        </InputGroupItem>
-                        <InputGroupText style={styles.percent}>
-                          {intl.formatMessage(messages.percentSymbol)}
-                        </InputGroupText>
-                      </InputGroup>
-                      {validated === 'error' && (
-                        <HelperText>
-                          <HelperTextItem variant="error">{intl.formatMessage(helpText)}</HelperTextItem>
-                        </HelperText>
-                      )}
-                    </FormGroup>
-                  </Form>
-                </FlexItem>
-              </Flex>
-            </Flex>
-          </StackItem>
-          <StackItem />
-          <StackItem>
-            <TextContent>
-              <Title headingLevel="h3" size={TitleSizes.md}>
-                {intl.formatMessage(messages.examplesTitle)}
-              </Title>
-            </TextContent>
-            <List>
-              <ListItem>{intl.formatMessage(messages.costModelsExamplesNoAdjust)}</ListItem>
-              <ListItem>{intl.formatMessage(messages.costModelsExamplesDoubleMarkup)}</ListItem>
-              <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceZero)}</ListItem>
-              <ListItem>{intl.formatMessage(messages.costModelsExamplesReduceSeventyfive)}</ListItem>
-            </List>
-          </StackItem>
-        </Stack>
+          </Button>
+        </ModalFooter>
       </Modal>
     );
   }

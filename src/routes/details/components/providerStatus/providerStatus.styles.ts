@@ -1,21 +1,21 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
-import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
+import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
+import t_global_font_size_body_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_body_sm';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import type React from 'react';
 
 export const styles = {
   backButton: {
-    paddingBottom: global_FontSize_sm.var,
+    paddingBottom: t_global_spacer_sm.var,
     paddingLeft: 0,
     paddingTop: 0,
   },
   dataDetailsButton: {
-    fontSize: global_FontSize_xs.var,
+    fontSize: t_global_font_size_body_sm.var,
   },
   loading: {
-    backgroundColor: global_BackgroundColor_light_100.var,
+    backgroundColor: t_global_background_color_100.var,
   },
   statusLabel: {
-    marginRight: global_FontSize_xs.var,
+    marginRight: t_global_font_size_body_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

@@ -1,8 +1,8 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 .alert {
-  background-color: var(--pf-v5-global--BackgroundColor--light-100);
-  padding-left: var(--pf-v5-global--spacer--lg);
-  padding-right: var(--pf-v5-global--spacer--lg);
-  padding-top: var(--pf-v5-global--spacer--lg);
+  background-color: var(--pf-t--global--background--color--primary--default);
+  padding-left: var(--pf-t--global--spacer--lg);
+  padding-right: var(--pf-t--global--spacer--lg);
+  padding-top: var(--pf-t--global--spacer--lg);
 }

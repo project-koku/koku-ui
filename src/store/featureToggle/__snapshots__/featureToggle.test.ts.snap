@@ -2,18 +2,10 @@
 
 exports[`default state 1`] = `
 {
-  "hasFeatureToggle": false,
-  "isAccountInfoDetailsToggleEnabled": false,
-  "isAccountInfoEmptyStateToggleEnabled": false,
-  "isAwsEc2InstancesToggleEnabled": false,
-  "isChartSkeletonToggleEnabled": false,
+  "isCostBreakdownChartToggleEnabled": false,
   "isDebugToggleEnabled": false,
-  "isDetailsDateRangeToggleEnabled": false,
   "isExportsToggleEnabled": false,
   "isFinsightsToggleEnabled": false,
   "isIbmToggleEnabled": false,
-  "isOcpCloudGroupBysToggleEnabled": false,
-  "isProviderEmptyStateToggleEnabled": false,
-  "isVirtualizationToggleEnabled": false,
 }
 `;

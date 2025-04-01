@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import {
   Button,
   Divider,
@@ -23,7 +23,7 @@ interface ResourceInputOwnProps {
   isDisabled?: boolean;
   onChange?: (evt: FormEvent, value: string) => void;
   onClear?: () => void;
-  options?: ToolbarChipGroup[];
+  options?: ToolbarLabelGroup[];
   onSelect?: (value: string) => void;
   placeholder?: string;
   search?: string;
@@ -69,12 +69,11 @@ const ResourceInput: React.FC<ResourceInputProps> = ({
           {search && search.length && (
             <TextInputGroupUtilities>
               <Button
+                icon={<TimesIcon />}
                 variant="plain"
                 onClick={handleOnClear}
                 aria-label={intl.formatMessage(messages.typeaheadAriaClear)}
-              >
-                <TimesIcon />
-              </Button>
+              ></Button>
             </TextInputGroupUtilities>
           )}
         </TextInputGroup>

@@ -182,8 +182,8 @@ describe('add-a-new-rate', () => {
     expect(screen.queryByText(regExp(messages.priceListNumberRate))).toBeNull();
 
     // making sure button is enabled
-    const createButton = screen.getByText(regExp(messages.createRate));
-    expect(createButton.getAttribute('aria-disabled')).toBe('false');
+    const createButton = screen.getByRole('button', { name: regExp(messages.createRate)} );
+    expect(createButton).not.toBeDisabled;
     await user.click(createButton);
     expect(submit).toHaveBeenCalled();
   }, 10000);
@@ -240,23 +240,23 @@ describe('add-a-new-rate', () => {
     expect(screen.getByText(regExp(messages.priceListPosNumberRate))).not.toBeNull();
 
     // setting a valid rate - now form is valid and can be submitted
-    const createButton = screen.getByText(regExp(messages.createRate));
-    expect(createButton.getAttribute('aria-disabled')).toBe('true');
+    const createButton = screen.getByRole('button', { name: regExp(messages.createRate)} );
+    expect(createButton).toBeDisabled();
     await user.clear(tagRateInput);
 
     await user.type(tagRateInput, '0.23');
     await user.type(screen.getByPlaceholderText('Enter a tag description'), 'default worker');
-    expect(createButton.getAttribute('aria-disabled')).toBe('false');
+    expect(createButton).not.toBeDisabled;
 
     // set tag to default
     await user.click(screen.getByLabelText('Default'));
 
     // add a new rate disables the submit button
     await user.click(screen.getByText(/add more tag values/i));
-    expect(createButton.getAttribute('aria-disabled')).toBe('true');
+    expect(createButton).toBeDisabled();
 
     await user.click(screen.getAllByRole('button', { name: /remove tag value/i })[1]);
-    expect(createButton.getAttribute('aria-disabled')).toBe('false');
+    expect(createButton).not.toBeDisabled;
     await user.click(createButton);
     expect(submit).toHaveBeenCalled();
   }, 15000);

@@ -1,35 +1,25 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import type React from 'react';
 
 export const styles = {
+  addSourceStep: {
+    paddingTop: t_global_spacer_lg.value,
+  },
   headerDescription: {
     width: '97%',
     wordWrap: 'break-word',
   },
-  content: {
-    paddingTop: global_spacer_lg.value,
-    height: '182vh',
-  },
-  costCalculation: {
-    marginLeft: global_spacer_lg.value,
-    marginRight: global_spacer_lg.value,
-  },
-  costmodelsContainer: {
-    marginLeft: global_spacer_lg.value,
-    marginRight: global_spacer_lg.value,
-    backgroundColor: global_BackgroundColor_light_100.value,
-    paddingBottom: global_spacer_md.value,
-    paddingTop: global_spacer_md.value,
-  },
   headerCostModel: {
-    padding: global_spacer_lg.var,
+    padding: t_global_spacer_lg.var,
     paddingBottom: 0,
-    backgroundColor: global_BackgroundColor_light_100.value,
+    backgroundColor: t_global_background_color_100.value,
+  },
+  pagination: {
+    paddingTop: t_global_spacer_sm.value,
   },
   title: {
-    paddingBottom: global_spacer_sm.var,
+    paddingBottom: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

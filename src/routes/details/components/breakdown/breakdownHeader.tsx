@@ -3,10 +3,10 @@ import './breakdownHeader.scss';
 import {
   Button,
   ButtonVariant,
-  Chip,
-  ChipGroup,
   Flex,
   FlexItem,
+  Label,
+  LabelGroup,
   Popover,
   Title,
   TitleSizes,
@@ -125,13 +125,13 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
         const chips: any[] = getChips(filters[key]);
         return (
           <span key={key} style={styles.filterChip}>
-            <ChipGroup categoryName={getLabel(key)}>
+            <LabelGroup categoryName={getLabel(key)}>
               {chips.map((chip, index) => (
-                <Chip key={`${key}-${index}`} isReadOnly>
+                <Label variant="outline" key={`${key}-${index}`}>
                   {chip.node}
-                </Chip>
+                </Label>
               ))}
-            </ChipGroup>
+            </LabelGroup>
           </span>
         );
       } else {
@@ -139,13 +139,13 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
           const chips: any[] = getChips(filters[key][key2]);
           return (
             <span key={key2} style={styles.filterChip}>
-              <ChipGroup categoryName={getLabel(key2)}>
+              <LabelGroup categoryName={getLabel(key2)}>
                 {chips.map((chip, index) => (
-                  <Chip key={`${key2}-${index}`} isReadOnly>
+                  <Label variant="outline" key={`${key2}-${index}`}>
                     {chip.node}
-                  </Chip>
+                  </Label>
                 ))}
-              </ChipGroup>
+              </LabelGroup>
             </span>
           );
         });
@@ -163,11 +163,10 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             bodyContent={<p>{intl.formatMessage(messages.filteredByWarning)}</p>}
           >
             <Button
+              icon={<OutlinedQuestionCircleIcon />}
               aria-label={intl.formatMessage(messages.overviewInfoButtonArialLabel)}
               variant={ButtonVariant.plain}
-            >
-              <OutlinedQuestionCircleIcon />
-            </Button>
+            ></Button>
           </Popover>
         </span>
         {filterChips}
@@ -235,16 +234,16 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             : groupBy;
 
     return (
-      <header style={styles.header}>
+      <header>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.headerContent}>
           <FlexItem>
             <nav
               aria-label={intl.formatMessage(messages.breakdownBackToDetailsAriaLabel)}
               className="breadcrumbOverride"
             >
-              <ol className="pf-v5-c-breadcrumb__list">
-                <li className="pf-v5-c-breadcrumb__item">
-                  <span className="pf-v5-c-breadcrumb__item-divider">
+              <ol className="pf-v6-c-breadcrumb__list">
+                <li className="pf-v6-c-breadcrumb__item">
+                  <span className="pf-v6-c-breadcrumb__item-divider">
                     <AngleLeftIcon />
                   </span>
                   {this.getBackToLink(groupByKey)}
@@ -302,7 +301,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
             </div>
           </FlexItem>
         </Flex>
-        <div className="pf-v5-c-tabs">
+        <div className="pf-v6-c-tabs">
           <div style={styles.tabs}>
             {tabs}
             <div style={styles.tag}>{showTags && <TagLink id="tags" tagPathsType={tagPathsType} />}</div>

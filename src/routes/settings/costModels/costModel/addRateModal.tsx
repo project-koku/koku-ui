@@ -1,4 +1,14 @@
-import { Alert, Button, ButtonVariant, Form, Modal } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  ButtonVariant,
+  Form,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalVariant,
+} from '@patternfly/react-core';
 import type { CostModelRequest } from 'api/costModels';
 import type { CostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
@@ -59,13 +69,15 @@ export const AddRateModalBase: React.FC<AddRateModalProps> = ({
   }, [isOpen]);
 
   return (
-    <Modal
-      className="costManagement"
-      title={intl.formatMessage(messages.priceListAddRate)}
-      isOpen={isOpen}
-      onClose={onClose}
-      variant="large"
-      actions={[
+    <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.large}>
+      <ModalHeader title={intl.formatMessage(messages.priceListAddRate)} />
+      <ModalBody>
+        <Form>
+          {updateError && <Alert variant="danger" title={`${updateError}`} />}
+          <RateForm currencyUnits={costModel.currency} metricsHash={metricsHash} rateFormData={rateFormData} />
+        </Form>
+      </ModalBody>
+      <ModalFooter>
         <Button
           key="add-rate"
           variant={ButtonVariant.primary}
@@ -73,16 +85,11 @@ export const AddRateModalBase: React.FC<AddRateModalProps> = ({
           onClick={onProceed}
         >
           {intl.formatMessage(messages.priceListAddRate)}
-        </Button>,
+        </Button>
         <Button key="cancel" variant={ButtonVariant.link} isDisabled={isProcessing} onClick={onClose}>
           {intl.formatMessage(messages.cancel)}
-        </Button>,
-      ]}
-    >
-      <Form>
-        {updateError && <Alert variant="danger" title={`${updateError}`} />}
-        <RateForm currencyUnits={costModel.currency} metricsHash={metricsHash} rateFormData={rateFormData} />
-      </Form>
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };

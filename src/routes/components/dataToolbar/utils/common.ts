@@ -1,4 +1,4 @@
-import type { ToolbarChipGroup } from '@patternfly/react-core';
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -10,12 +10,12 @@ export interface Filters {
   [key: string]: Filter[] | { [key: string]: Filter[] };
 }
 
-export interface ToolbarChipGroupExt extends ToolbarChipGroup {
+export interface ToolbarChipGroupExt extends ToolbarLabelGroup {
   ariaLabelKey?: string;
   placeholderKey?: string;
   resourceKey?: string;
   selectClassName?: string; // A selector from routes/components/dataToolbar/dataToolbar.scss
-  selectOptions?: ToolbarChipGroup[];
+  selectOptions?: ToolbarLabelGroup[];
 }
 
 export const defaultFilters = {
@@ -91,7 +91,7 @@ export const getChips = (filters: Filter[]): string[] => {
   return chips;
 };
 
-export const getDefaultCategory = (categoryOptions: ToolbarChipGroup[], groupBy: string, query: Query) => {
+export const getDefaultCategory = (categoryOptions: ToolbarLabelGroup[], groupBy: string, query: Query) => {
   if (!categoryOptions) {
     return 'name';
   }

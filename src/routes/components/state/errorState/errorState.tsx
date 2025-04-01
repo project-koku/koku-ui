@@ -1,10 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  EmptyStateVariant,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateVariant } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
 import { LockIcon } from '@patternfly/react-icons/dist/esm/icons/lock-icon';
 import type { AxiosError } from 'axios';
@@ -29,8 +23,13 @@ const ErrorStateBase: React.FC<ErrorStateProps> = ({ error, icon = ErrorCircleOI
   }
 
   return (
-    <EmptyState variant={EmptyStateVariant.lg} className="pf-m-redhat-font">
-      <EmptyStateHeader titleText={title} icon={<EmptyStateIcon icon={icon} />} headingLevel="h5" />
+    <EmptyState
+      headingLevel="h5"
+      icon={icon}
+      titleText={title}
+      variant={EmptyStateVariant.lg}
+      className="pf-m-redhat-font"
+    >
       <EmptyStateBody>{subTitle}</EmptyStateBody>
     </EmptyState>
   );

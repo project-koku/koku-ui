@@ -1,30 +1,30 @@
-import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
-import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
-import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
+import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import type React from 'react';
 
 export const styles = {
   content: {
-    paddingBottom: global_spacer_lg.value,
-    paddingTop: global_spacer_lg.value,
+    paddingBottom: t_global_spacer_lg.value,
+    paddingTop: t_global_spacer_lg.value,
   },
   exportsIcon: {
-    marginLeft: global_spacer_md.value,
-    marginRight: global_spacer_sm.value,
+    marginLeft: t_global_spacer_md.value,
+    marginRight: t_global_spacer_sm.value,
   },
   exportsLink: {
     display: 'flex',
     alignItems: 'center',
   },
   pagination: {
-    backgroundColor: global_BackgroundColor_light_100.value,
-    paddingBottom: global_spacer_md.value,
-    paddingTop: global_spacer_md.value,
+    backgroundColor: t_global_background_color_100.value,
+    paddingBottom: t_global_spacer_md.value,
+    paddingTop: t_global_spacer_md.value,
   },
   toolbarContainer: {
-    backgroundColor: global_BackgroundColor_light_100.value,
-    paddingBottom: global_spacer_md.value,
-    paddingTop: global_spacer_md.value,
+    backgroundColor: t_global_background_color_100.value,
+    paddingBottom: t_global_spacer_md.value,
+    paddingTop: t_global_spacer_md.value,
   },
 } as { [className: string]: React.CSSProperties };

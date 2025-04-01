@@ -1,4 +1,4 @@
-import { PageSection } from '@patternfly/react-core';
+import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
@@ -6,13 +6,21 @@ import { NoDataState } from './noDataState';
 
 interface NoDataOwnProps {
   detailsComponent?: React.ReactNode;
+  isPageSection?: boolean;
   showReload?: boolean;
   title?: string;
 }
 
 type NoDataProps = NoDataOwnProps;
 
-const NoData = ({ detailsComponent, showReload, title }: NoDataProps) => {
+const NoData = ({ detailsComponent, isPageSection = true, showReload, title }: NoDataProps) => {
+  const content = (
+    <Card>
+      <CardBody>
+        <NoDataState detailsComponent={detailsComponent} showReload={showReload} />
+      </CardBody>
+    </Card>
+  );
   return (
     <>
       {title && (
@@ -20,9 +28,7 @@ const NoData = ({ detailsComponent, showReload, title }: NoDataProps) => {
           <PageHeaderTitle title={title} />
         </PageHeader>
       )}
-      <PageSection>
-        <NoDataState detailsComponent={detailsComponent} showReload={showReload} />
-      </PageSection>
+      {isPageSection ? <PageSection hasBodyWrapper={false}>{content}</PageSection> : content}
     </>
   );
 };

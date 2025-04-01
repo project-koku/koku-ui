@@ -1,17 +1,8 @@
 import 'routes/components/charts/common/chart.scss';
 import './pvc.scss';
 
-import { ChartBullet } from '@patternfly/react-charts';
-import {
-  Divider,
-  Skeleton,
-  TextContent,
-  TextList,
-  TextListItem,
-  TextListItemVariants,
-  TextListVariants,
-  Tooltip,
-} from '@patternfly/react-core';
+import { ChartBullet } from '@patternfly/react-charts/victory';
+import { Content, ContentVariants, Divider, Skeleton, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { parseQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
@@ -245,26 +236,22 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
 
     return (
       <div style={styles.description}>
-        <TextContent className="textContentOverride">
-          <TextList component={TextListVariants.dl}>
-            <TextListItem component={TextListItemVariants.dt}>
-              {intl.formatMessage(messages.names, { count: 1 })}
-            </TextListItem>
-            <TextListItem component={TextListItemVariants.dd}>{item.persistent_volume_claim}</TextListItem>
-            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.cluster)}</TextListItem>
-            <TextListItem component={TextListItemVariants.dd}>{this.getClusterName(item)}</TextListItem>
-          </TextList>
-        </TextContent>
-        <TextContent className="textContentOverride">
-          <TextList component={TextListVariants.dl}>
-            <TextListItem component={TextListItemVariants.dt}>&nbsp;</TextListItem>
-            <TextListItem component={TextListItemVariants.dd}>&nbsp;</TextListItem>
-            <TextListItem component={TextListItemVariants.dt}>{intl.formatMessage(messages.storageClass)}</TextListItem>
-            <TextListItem component={TextListItemVariants.dd}>
-              {item.storage_class ? item.storage_class[0] : null}
-            </TextListItem>
-          </TextList>
-        </TextContent>
+        <Content className="textContentOverride">
+          <Content component={ContentVariants.dl}>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.names, { count: 1 })}</Content>
+            <Content component={ContentVariants.dd}>{item.persistent_volume_claim}</Content>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.cluster)}</Content>
+            <Content component={ContentVariants.dd}>{this.getClusterName(item)}</Content>
+          </Content>
+        </Content>
+        <Content className="textContentOverride">
+          <Content component={ContentVariants.dl}>
+            <Content component={ContentVariants.dt}>&nbsp;</Content>
+            <Content component={ContentVariants.dd}>&nbsp;</Content>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.storageClass)}</Content>
+            <Content component={ContentVariants.dd}>{item.storage_class ? item.storage_class[0] : null}</Content>
+          </Content>
+        </Content>
       </div>
     );
   };

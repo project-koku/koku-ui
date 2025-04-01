@@ -1,4 +1,4 @@
-import { getInteractiveLegendItemStyles } from '@patternfly/react-charts';
+import { getInteractiveLegendItemStyles } from '@patternfly/react-charts/victory';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { FormatOptions, Formatter } from 'utils/format';
