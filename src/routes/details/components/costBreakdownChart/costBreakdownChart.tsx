@@ -433,7 +433,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
               option={{
                 series: [
                   {
-                    bottom: 0,
+                    bottom: 20,
                     data,
                     label: {
                       formatter: params => {
@@ -452,7 +452,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                     links,
                     left: 0,
                     nodeGap: 26,
-                    right: 70,
+                    right: 110,
                     top: 20,
                     type: 'sankey',
                   },
