@@ -8,6 +8,7 @@ import { azureCostOverviewReducer } from './azureCostOverviewReducer';
 import * as selectors from './azureCostOverviewSelectors';
 import {
   accountSummaryWidget,
+  costBreakdownWidget,
   costWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
@@ -27,6 +28,7 @@ test('default state', () => {
   const store = createAzureCostOverviewStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
+    costBreakdownWidget.id,
     costWidget.id,
     accountSummaryWidget.id,
     serviceSummaryWidget.id,

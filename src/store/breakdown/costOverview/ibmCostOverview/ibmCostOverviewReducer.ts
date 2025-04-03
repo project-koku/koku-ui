@@ -2,6 +2,7 @@ import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/cos
 
 import {
   accountSummaryWidget,
+  costBreakdownWidget,
   costWidget,
   projectSummaryWidget,
   regionSummaryWidget,
@@ -15,6 +16,7 @@ export type IbmCostOverviewState = Readonly<{
 
 export const defaultState: IbmCostOverviewState = {
   currentWidgets: [
+    costBreakdownWidget.id,
     costWidget.id,
     accountSummaryWidget.id,
     projectSummaryWidget.id,
@@ -22,6 +24,7 @@ export const defaultState: IbmCostOverviewState = {
     regionSummaryWidget.id,
   ],
   widgets: {
+    [costBreakdownWidget.id]: costBreakdownWidget,
     [costWidget.id]: costWidget,
     [accountSummaryWidget.id]: accountSummaryWidget,
     [projectSummaryWidget.id]: projectSummaryWidget,

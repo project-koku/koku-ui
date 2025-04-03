@@ -8,6 +8,7 @@ import { ibmCostOverviewReducer } from './ibmCostOverviewReducer';
 import * as selectors from './ibmCostOverviewSelectors';
 import {
   accountSummaryWidget,
+  costBreakdownWidget,
   costWidget,
   projectSummaryWidget,
   regionSummaryWidget,
@@ -28,6 +29,7 @@ test('default state', () => {
   const store = createIbmCostOverviewStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
+    costBreakdownWidget.id,
     costWidget.id,
     accountSummaryWidget.id,
     projectSummaryWidget.id,

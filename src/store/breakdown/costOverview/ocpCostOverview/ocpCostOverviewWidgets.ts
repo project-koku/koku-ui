@@ -17,14 +17,6 @@ export const clusterWidget: CostOverviewWidget = {
   type: CostOverviewWidgetType.cluster,
 };
 
-export const costWidget: CostOverviewWidget = {
-  chartName: 'ocpCostWidget',
-  id: getId(),
-  reportPathsType: ReportPathsType.ocp,
-  reportType: ReportType.cost,
-  type: CostOverviewWidgetType.cost,
-};
-
 export const costBreakdownWidget: CostOverviewWidget = {
   chartName: 'costBreakdownWidget',
   id: getId(),
@@ -39,6 +31,14 @@ export const costDistributionWidget: CostOverviewWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   type: CostOverviewWidgetType.costDistribution,
+};
+
+export const costWidget: CostOverviewWidget = {
+  chartName: 'ocpCostWidget',
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
+  type: CostOverviewWidgetType.cost,
 };
 
 export const cpuUsageWidget: CostOverviewWidget = {

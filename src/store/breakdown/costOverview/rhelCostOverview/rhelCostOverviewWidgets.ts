@@ -17,6 +17,14 @@ export const clusterWidget: CostOverviewWidget = {
   type: CostOverviewWidgetType.cluster,
 };
 
+export const costBreakdownWidget: CostOverviewWidget = {
+  chartName: 'costBreakdownWidget',
+  id: getId(),
+  reportPathsType: ReportPathsType.rhel,
+  reportType: ReportType.cost,
+  type: CostOverviewWidgetType.costBreakdown,
+};
+
 export const costWidget: CostOverviewWidget = {
   chartName: 'rhelCostWidget',
   id: getId(),
