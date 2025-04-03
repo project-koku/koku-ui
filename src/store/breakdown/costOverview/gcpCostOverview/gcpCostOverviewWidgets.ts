@@ -6,9 +6,17 @@ import { tagPrefix } from 'utils/props';
 let currrentId = 0;
 const getId = () => currrentId++;
 
+export const costBreakdownWidget: CostOverviewWidget = {
+  chartName: 'costBreakdownWidget',
+  id: getId(),
+  reportPathsType: ReportPathsType.gcp,
+  reportType: ReportType.cost,
+  type: CostOverviewWidgetType.costBreakdown,
+};
+
 export const costWidget: CostOverviewWidget = {
   id: getId(),
-  reportPathsType: ReportPathsType.ocp,
+  reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
   type: CostOverviewWidgetType.cost,
 };
