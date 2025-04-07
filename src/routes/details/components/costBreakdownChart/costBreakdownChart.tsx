@@ -116,10 +116,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             name: 'a3',
           },
           {
-            name: 'c1',
-          },
-          {
-            name: 'c2',
+            name: 'd1',
           },
         ];
 
@@ -234,7 +231,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       return;
     }
 
-    const hasCostTotal = report?.meta?.total?.cost?.[costDistribution];
     const hasMarkup = report?.meta?.total?.cost?.markup;
     const hasNetworkUnattributedDistributed =
       report?.meta?.total?.cost?.network_unattributed_distributed &&
@@ -288,7 +284,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const workerUnallocatedLabel = intl.formatMessage(messages.workerUnallocated);
     const workloadCostLabel = intl.formatMessage(messages.allOtherProjectCosts);
 
-    const units = hasCostTotal ? report.meta.total.cost[costDistribution].units : 'USD';
+    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const units = report.meta.total.cost?.[reportItemValue] ? report.meta.total.cost[reportItemValue].units : 'USD';
 
     const data = costDistribution
       ? [
@@ -332,9 +329,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           },
           {
             name: usageLabel,
-          },
-          {
-            name: workloadCostLabel,
           },
           {
             name: totalCostLabel,
@@ -392,23 +386,18 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       : [
           {
             source: rawLabel,
-            target: workloadCostLabel,
+            target: totalCostLabel,
             value: rawValue,
           },
           {
             source: markupLabel,
-            target: workloadCostLabel,
+            target: totalCostLabel,
             value: markupValue,
           },
           {
             source: usageLabel,
-            target: workloadCostLabel,
-            value: usageValue,
-          },
-          {
-            source: workloadCostLabel,
             target: totalCostLabel,
-            value: workloadCostValue,
+            value: usageValue,
           },
         ];
 

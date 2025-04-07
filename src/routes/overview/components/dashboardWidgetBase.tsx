@@ -524,10 +524,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     if (computedReportItem === ComputedReportItemType.usage) {
       return currentReport?.meta?.total?.usage ? currentReport.meta.total.usage.units : undefined;
     } else {
-      const hasCost =
-        currentReport?.meta?.total &&
-        currentReport.meta.total[computedReportItem] &&
-        currentReport.meta.total[computedReportItem][computedReportItemValue];
+      const hasCost = currentReport?.meta?.total?.[computedReportItem]?.[computedReportItemValue];
       return hasCost ? currentReport.meta.total[computedReportItem][computedReportItemValue].units : 'USD';
     }
   };
