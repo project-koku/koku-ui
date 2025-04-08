@@ -69,89 +69,127 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
   }
 
   private getSkeleton = () => {
-    const { id } = this.props;
+    const { costDistribution, id } = this.props;
     const { width } = this.state;
 
-    const data = [
-      {
-        name: 'a1',
-      },
-      {
-        name: 'a2',
-      },
-      {
-        name: 'a3',
-      },
-      {
-        name: 'b1',
-      },
-      {
-        name: 'b2',
-      },
-      {
-        name: 'b3',
-      },
-      {
-        name: 'b4',
-      },
-      {
-        name: 'c1',
-      },
-      {
-        name: 'c2',
-      },
-      {
-        name: 'd1',
-      },
-    ];
+    const data = costDistribution
+      ? [
+          {
+            name: 'a1',
+          },
+          {
+            name: 'a2',
+          },
+          {
+            name: 'a3',
+          },
+          {
+            name: 'b1',
+          },
+          {
+            name: 'b2',
+          },
+          {
+            name: 'b3',
+          },
+          {
+            name: 'b4',
+          },
+          {
+            name: 'c1',
+          },
+          {
+            name: 'c2',
+          },
+          {
+            name: 'd1',
+          },
+        ]
+      : [
+          {
+            name: 'a1',
+          },
+          {
+            name: 'a2',
+          },
+          {
+            name: 'a3',
+          },
+          {
+            name: 'd1',
+          },
+        ];
 
-    const links = [
-      {
-        source: 'a1',
-        target: 'c1',
-        value: 20,
-      },
-      {
-        source: 'a2',
-        target: 'c1',
-        value: 10,
-      },
-      {
-        source: 'a3',
-        target: 'c1',
-        value: 30,
-      },
-      {
-        source: 'b1',
-        target: 'c2',
-        value: 60,
-      },
-      {
-        source: 'b2',
-        target: 'c2',
-        value: 20,
-      },
-      {
-        source: 'b3',
-        target: 'c2',
-        value: 10,
-      },
-      {
-        source: 'b4',
-        target: 'c2',
-        value: 10,
-      },
-      {
-        source: 'c1',
-        target: 'd1',
-        value: 60,
-      },
-      {
-        source: 'c2',
-        target: 'd1',
-        value: 100,
-      },
-    ];
+    const links = costDistribution
+      ? [
+          {
+            source: 'a1',
+            target: 'c1',
+            value: 20,
+          },
+          {
+            source: 'a2',
+            target: 'c1',
+            value: 10,
+          },
+          {
+            source: 'a3',
+            target: 'c1',
+            value: 30,
+          },
+          {
+            source: 'b1',
+            target: 'c2',
+            value: 60,
+          },
+          {
+            source: 'b2',
+            target: 'c2',
+            value: 20,
+          },
+          {
+            source: 'b3',
+            target: 'c2',
+            value: 10,
+          },
+          {
+            source: 'b4',
+            target: 'c2',
+            value: 10,
+          },
+          {
+            source: 'c1',
+            target: 'd1',
+            value: 60,
+          },
+          {
+            source: 'c2',
+            target: 'd1',
+            value: 100,
+          },
+        ]
+      : [
+          {
+            source: 'a1',
+            target: 'c1',
+            value: 20,
+          },
+          {
+            source: 'a2',
+            target: 'c1',
+            value: 10,
+          },
+          {
+            source: 'a3',
+            target: 'c1',
+            value: 30,
+          },
+          {
+            source: 'c1',
+            target: 'd1',
+            value: 60,
+          },
+        ];
 
     return (
       <Charts
@@ -193,7 +231,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       return;
     }
 
-    const hasCostTotal = report?.meta?.total?.cost?.[costDistribution];
     const hasMarkup = report?.meta?.total?.cost?.markup;
     const hasNetworkUnattributedDistributed =
       report?.meta?.total?.cost?.network_unattributed_distributed &&
@@ -234,7 +271,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       platformDistributedValue +
       storageUnattributedDistributedValue +
       workerUnallocatedValue;
-    const workloadCostValue = markupValue + rawValue + usageValue;
+    const workloadCostValue = Math.abs(markupValue) + rawValue + usageValue;
+    const _workloadCostValue = markupValue + rawValue + usageValue;
 
     const markupLabel = intl.formatMessage(messages.markupTitle);
     const networkUnattributedDistributedLabel = intl.formatMessage(messages.networkUnattributedDistributed);
@@ -247,88 +285,136 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const workerUnallocatedLabel = intl.formatMessage(messages.workerUnallocated);
     const workloadCostLabel = intl.formatMessage(messages.allOtherProjectCosts);
 
-    const units = hasCostTotal ? report.meta.total.cost[costDistribution].units : 'USD';
+    const reportItemValue = costDistribution ? costDistribution : 'total';
+    const units = report.meta.total.cost?.[reportItemValue] ? report.meta.total.cost[reportItemValue].units : 'USD';
 
-    const data = [
-      {
-        name: rawLabel,
-      },
-      {
-        name: markupLabel,
-      },
-      {
-        name: usageLabel,
-      },
-      {
-        name: networkUnattributedDistributedLabel,
-      },
-      {
-        name: platformDistributedLabel,
-      },
-      {
-        name: storageUnattributedDistributedLabel,
-      },
-      {
-        name: workerUnallocatedLabel,
-      },
-      {
-        name: workloadCostLabel,
-      },
-      {
-        name: overheadCostLabel,
-      },
-      {
-        name: totalCostLabel,
-      },
-    ];
+    const data = costDistribution
+      ? [
+          {
+            name: rawLabel,
+          },
+          {
+            name: markupLabel,
+          },
+          {
+            name: usageLabel,
+          },
+          {
+            name: networkUnattributedDistributedLabel,
+          },
+          {
+            name: platformDistributedLabel,
+          },
+          {
+            name: storageUnattributedDistributedLabel,
+          },
+          {
+            name: workerUnallocatedLabel,
+          },
+          {
+            name: workloadCostLabel,
+          },
+          {
+            name: overheadCostLabel,
+          },
+          {
+            name: totalCostLabel,
+          },
+        ]
+      : [
+          {
+            name: rawLabel,
+          },
+          {
+            name: markupLabel,
+          },
+          {
+            name: usageLabel,
+          },
+          {
+            name: totalCostLabel,
+          },
+        ];
 
-    const links = [
-      {
-        source: rawLabel,
-        target: workloadCostLabel,
-        value: rawValue,
-      },
-      {
-        source: markupLabel,
-        target: workloadCostLabel,
-        value: markupValue,
-      },
-      {
-        source: usageLabel,
-        target: workloadCostLabel,
-        value: usageValue,
-      },
-      {
-        source: networkUnattributedDistributedLabel,
-        target: overheadCostLabel,
-        value: networkUnattributedDistributedValue,
-      },
-      {
-        source: platformDistributedLabel,
-        target: overheadCostLabel,
-        value: platformDistributedValue,
-      },
-      {
-        source: storageUnattributedDistributedLabel,
-        target: overheadCostLabel,
-        value: storageUnattributedDistributedValue,
-      },
-      {
-        source: workerUnallocatedLabel,
-        target: overheadCostLabel,
-        value: workerUnallocatedValue,
-      },
-      {
-        source: workloadCostLabel,
-        target: totalCostLabel,
-        value: workloadCostValue,
-      },
-      {
-        source: overheadCostLabel,
-        target: totalCostLabel,
-        value: overheadCostValue,
-      },
-    ];
+    const links = costDistribution
+      ? [
+          {
+            source: rawLabel,
+            target: workloadCostLabel,
+            value: rawValue,
+          },
+          {
+            source: markupLabel,
+            target: workloadCostLabel,
+            value: Math.abs(markupValue),
+            _value: markupValue,
+          },
+          {
+            source: usageLabel,
+            target: workloadCostLabel,
+            value: usageValue,
+          },
+          {
+            source: networkUnattributedDistributedLabel,
+            target: overheadCostLabel,
+            value: networkUnattributedDistributedValue,
+          },
+          {
+            source: platformDistributedLabel,
+            target: overheadCostLabel,
+            value: platformDistributedValue,
+          },
+          {
+            source: storageUnattributedDistributedLabel,
+            target: overheadCostLabel,
+            value: storageUnattributedDistributedValue,
+          },
+          {
+            source: workerUnallocatedLabel,
+            target: overheadCostLabel,
+            value: workerUnallocatedValue,
+          },
+          {
+            source: workloadCostLabel,
+            target: totalCostLabel,
+            value: workloadCostValue,
+            _value: _workloadCostValue,
+          },
+          {
+            source: overheadCostLabel,
+            target: totalCostLabel,
+            value: overheadCostValue,
+          },
+          {
+            source: totalCostLabel,
+            value: overheadCostValue + workloadCostValue,
+            _value: overheadCostValue + _workloadCostValue,
+          },
+        ]
+      : [
+          {
+            source: rawLabel,
+            target: totalCostLabel,
+            value: rawValue,
+          },
+          {
+            source: markupLabel,
+            target: totalCostLabel,
+            value: Math.abs(markupValue),
+            _value: markupValue,
+          },
+          {
+            source: usageLabel,
+            target: totalCostLabel,
+            value: usageValue,
+          },
+          {
+            source: totalCostLabel,
+            value: workloadCostValue,
+            _value: _workloadCostValue,
+          },
+        ];
+
     this.setState({ data, links, units });
   };
 
@@ -336,7 +422,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const { id, intl } = this.props;
     const { data, links, units, width } = this.state;
 
-    const isSkeleton = !(data && links);
+    const isSkeleton = !(data && links) || !links.find(link => link.value !== 0);
 
     return (
       <div className="chartOverride" ref={this.containerRef}>
@@ -350,12 +436,14 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
               option={{
                 series: [
                   {
-                    bottom: 0,
+                    bottom: 20,
                     data,
                     label: {
                       formatter: params => {
-                        const value = formatCurrency(params.value as number, units);
-                        return `{a|${value}}\n${params.name}`;
+                        const value =
+                          links[params.dataIndex]?._value !== undefined ? links[params.dataIndex]._value : params.value;
+                        const formattedValue = formatCurrency(value, units);
+                        return `{a|${formattedValue}}\n${params.name}`;
                       },
                       lineHeight: 12,
                       rich: {
@@ -365,11 +453,11 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                         },
                       },
                     },
-                    // layoutIterations: 0,
+                    layoutIterations: 0,
                     links,
                     left: 0,
                     nodeGap: 26,
-                    right: 70,
+                    right: 110,
                     top: 20,
                     type: 'sankey',
                   },
@@ -378,7 +466,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   destinationLabel: intl.formatMessage(messages.chartDestination),
                   sourceLabel: intl.formatMessage(messages.chartSource),
                   valueFormatter: (value: number) => {
-                    return `&nbsp;${formatCurrency(value, units)}`;
+                    const link = links.find(val => val.value === value);
+                    return `&nbsp;${formatCurrency(link?._value !== undefined ? link._value : value, units)}`;
                   },
                 },
               }}

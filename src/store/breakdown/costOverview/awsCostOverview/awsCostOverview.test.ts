@@ -6,7 +6,13 @@ import { reportActions } from 'store/reports';
 import { awsCostOverviewStateKey } from './awsCostOverviewCommon';
 import { awsCostOverviewReducer } from './awsCostOverviewReducer';
 import * as selectors from './awsCostOverviewSelectors';
-import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './awsCostOverviewWidgets';
+import {
+  accountSummaryWidget,
+  costBreakdownWidget,
+  costWidget,
+  regionSummaryWidget,
+  serviceSummaryWidget,
+} from './awsCostOverviewWidgets';
 
 const createAwsCostOverviewStore = createMockStoreCreator({
   [awsCostOverviewStateKey]: awsCostOverviewReducer,
@@ -22,6 +28,7 @@ test('default state', () => {
   const store = createAwsCostOverviewStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
+    costBreakdownWidget.id,
     costWidget.id,
     accountSummaryWidget.id,
     serviceSummaryWidget.id,

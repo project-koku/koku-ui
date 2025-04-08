@@ -185,7 +185,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                 onChange={() => setCalculation('Supplementary')}
               />
             </FormGroup>
-            {metric !== 'Cluster' ? (
+            {metric !== 'Cluster' && metric !== 'Virtual Machine' ? (
               <Switch
                 aria-label={intl.formatMessage(messages.costModelsEnterTagRate)}
                 label={intl.formatMessage(messages.costModelsEnterTagRate)}
