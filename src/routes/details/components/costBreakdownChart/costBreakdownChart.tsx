@@ -271,7 +271,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       platformDistributedValue +
       storageUnattributedDistributedValue +
       workerUnallocatedValue;
-    const workloadCostValue = markupValue + rawValue + usageValue;
+    const workloadCostValue = Math.abs(markupValue) + rawValue + usageValue;
+    const _workloadCostValue = markupValue + rawValue + usageValue;
 
     const markupLabel = intl.formatMessage(messages.markupTitle);
     const networkUnattributedDistributedLabel = intl.formatMessage(messages.networkUnattributedDistributed);
@@ -345,7 +346,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: markupLabel,
             target: workloadCostLabel,
-            value: markupValue,
+            value: Math.abs(markupValue),
+            _value: markupValue,
           },
           {
             source: usageLabel,
@@ -376,11 +378,17 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             source: workloadCostLabel,
             target: totalCostLabel,
             value: workloadCostValue,
+            _value: _workloadCostValue,
           },
           {
             source: overheadCostLabel,
             target: totalCostLabel,
             value: overheadCostValue,
+          },
+          {
+            source: totalCostLabel,
+            value: overheadCostValue + workloadCostValue,
+            _value: overheadCostValue + _workloadCostValue,
           },
         ]
       : [
@@ -392,12 +400,18 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: markupLabel,
             target: totalCostLabel,
-            value: markupValue,
+            value: Math.abs(markupValue),
+            _value: markupValue,
           },
           {
             source: usageLabel,
             target: totalCostLabel,
             value: usageValue,
+          },
+          {
+            source: totalCostLabel,
+            value: workloadCostValue,
+            _value: _workloadCostValue,
           },
         ];
 
@@ -408,7 +422,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const { id, intl } = this.props;
     const { data, links, units, width } = this.state;
 
-    const isSkeleton = !(data && links);
+    const isSkeleton = !(data && links) || !links.find(link => link.value !== 0);
 
     return (
       <div className="chartOverride" ref={this.containerRef}>
@@ -426,8 +440,10 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                     data,
                     label: {
                       formatter: params => {
-                        const value = formatCurrency(params.value as number, units);
-                        return `{a|${value}}\n${params.name}`;
+                        const value =
+                          links[params.dataIndex]?._value !== undefined ? links[params.dataIndex]._value : params.value;
+                        const formattedValue = formatCurrency(value, units);
+                        return `{a|${formattedValue}}\n${params.name}`;
                       },
                       lineHeight: 12,
                       rich: {
@@ -437,7 +453,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                         },
                       },
                     },
-                    // layoutIterations: 0,
+                    layoutIterations: 0,
                     links,
                     left: 0,
                     nodeGap: 26,
@@ -450,7 +466,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   destinationLabel: intl.formatMessage(messages.chartDestination),
                   sourceLabel: intl.formatMessage(messages.chartSource),
                   valueFormatter: (value: number) => {
-                    return `&nbsp;${formatCurrency(value, units)}`;
+                    const link = links.find(val => val.value === value);
+                    return `&nbsp;${formatCurrency(link?._value !== undefined ? link._value : value, units)}`;
                   },
                 },
               }}
