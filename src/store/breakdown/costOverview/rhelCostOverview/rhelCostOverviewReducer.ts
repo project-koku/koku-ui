@@ -2,6 +2,7 @@ import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/cos
 
 import {
   clusterWidget,
+  costBreakdownWidget,
   costWidget,
   cpuUsageWidget,
   memoryUsageWidget,
@@ -16,6 +17,7 @@ export type RhelCostOverviewState = Readonly<{
 
 export const defaultState: RhelCostOverviewState = {
   currentWidgets: [
+    costBreakdownWidget.id,
     costWidget.id,
     clusterWidget.id,
     projectSummaryWidget.id,
@@ -24,6 +26,7 @@ export const defaultState: RhelCostOverviewState = {
     volumeUsageWidget.id,
   ],
   widgets: {
+    [costBreakdownWidget.id]: costBreakdownWidget,
     [costWidget.id]: costWidget,
     [clusterWidget.id]: clusterWidget,
     [projectSummaryWidget.id]: projectSummaryWidget,

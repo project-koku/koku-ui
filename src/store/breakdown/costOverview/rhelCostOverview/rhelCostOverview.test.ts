@@ -8,6 +8,7 @@ import { rhelCostOverviewReducer } from './rhelCostOverviewReducer';
 import * as selectors from './rhelCostOverviewSelectors';
 import {
   clusterWidget,
+  costBreakdownWidget,
   costWidget,
   cpuUsageWidget,
   memoryUsageWidget,
@@ -29,6 +30,7 @@ test('default state', () => {
   const store = createRhelCostOverviewStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
+    costBreakdownWidget.id,
     costWidget.id,
     clusterWidget.id,
     projectSummaryWidget.id,
