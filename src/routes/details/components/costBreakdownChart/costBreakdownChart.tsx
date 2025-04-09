@@ -247,31 +247,35 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       costDistribution === ComputedReportItemValueType.distributed;
 
     const markupValue = hasMarkup ? report.meta.total.cost.markup.value : 0;
-    const networkUnattributedDistributedValue =
-      hasNetworkUnattributedDistributed && report.meta.total.cost.network_unattributed_distributed.value > 0
-        ? report.meta.total.cost.network_unattributed_distributed.value
-        : 0;
-    const platformDistributedValue =
-      hasPlatformDistributed && report.meta.total.cost.platform_distributed.value > 0
-        ? report.meta.total.cost.platform_distributed.value
-        : 0;
+    const networkUnattributedDistributedValue = hasNetworkUnattributedDistributed
+      ? report.meta.total.cost.network_unattributed_distributed.value
+      : 0;
+    const platformDistributedValue = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.value : 0;
     const rawValue = hasRaw ? report.meta.total.cost.raw.value : 0;
-    const storageUnattributedDistributedValue =
-      hasStorageUnattributedDistributed && report.meta.total.cost.storage_unattributed_distributed.value > 0
-        ? report.meta.total.cost.storage_unattributed_distributed.value
-        : 0;
-    const workerUnallocatedValue =
-      hasWorkerUnallocated && report.meta.total.cost.worker_unallocated_distributed.value > 0
-        ? report.meta.total.cost.worker_unallocated_distributed.value
-        : 0;
+    const storageUnattributedDistributedValue = hasStorageUnattributedDistributed
+      ? report.meta.total.cost.storage_unattributed_distributed.value
+      : 0;
+    const workerUnallocatedValue = hasWorkerUnallocated
+      ? report.meta.total.cost.worker_unallocated_distributed.value
+      : 0;
     const usageValue = hasUsage ? report.meta.total.cost.usage.value : 0;
 
+    // Only add positive values for Sankey node heights
     const overheadCostValue =
+      Math.abs(networkUnattributedDistributedValue) +
+      Math.abs(platformDistributedValue) +
+      Math.abs(storageUnattributedDistributedValue) +
+      Math.abs(workerUnallocatedValue);
+    // Actual value shown for labels and tooltips
+    const _overheadCostValue =
       networkUnattributedDistributedValue +
       platformDistributedValue +
       storageUnattributedDistributedValue +
       workerUnallocatedValue;
-    const workloadCostValue = Math.abs(markupValue) + rawValue + usageValue;
+
+    // Only add positive values for Sankey node heights
+    const workloadCostValue = Math.abs(markupValue) + Math.abs(rawValue) + Math.abs(usageValue);
+    // Actual value shown for labels and tooltips
     const _workloadCostValue = markupValue + rawValue + usageValue;
 
     const markupLabel = intl.formatMessage(messages.markupTitle);
@@ -341,7 +345,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: rawLabel,
             target: workloadCostLabel,
-            value: rawValue,
+            value: Math.abs(rawValue),
+            _value: rawValue,
           },
           {
             source: markupLabel,
@@ -352,27 +357,32 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: usageLabel,
             target: workloadCostLabel,
-            value: usageValue,
+            value: Math.abs(usageValue),
+            _value: usageValue,
           },
           {
             source: networkUnattributedDistributedLabel,
             target: overheadCostLabel,
-            value: networkUnattributedDistributedValue,
+            value: Math.abs(networkUnattributedDistributedValue),
+            _value: networkUnattributedDistributedValue,
           },
           {
             source: platformDistributedLabel,
             target: overheadCostLabel,
-            value: platformDistributedValue,
+            value: Math.abs(platformDistributedValue),
+            _value: platformDistributedValue,
           },
           {
             source: storageUnattributedDistributedLabel,
             target: overheadCostLabel,
-            value: storageUnattributedDistributedValue,
+            value: Math.abs(storageUnattributedDistributedValue),
+            _value: storageUnattributedDistributedValue,
           },
           {
             source: workerUnallocatedLabel,
             target: overheadCostLabel,
-            value: workerUnallocatedValue,
+            value: Math.abs(workerUnallocatedValue),
+            _value: workerUnallocatedValue,
           },
           {
             source: workloadCostLabel,
@@ -384,18 +394,20 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             source: overheadCostLabel,
             target: totalCostLabel,
             value: overheadCostValue,
+            _value: _overheadCostValue,
           },
           {
             source: totalCostLabel,
             value: overheadCostValue + workloadCostValue,
-            _value: overheadCostValue + _workloadCostValue,
+            _value: _overheadCostValue + _workloadCostValue,
           },
         ]
       : [
           {
             source: rawLabel,
             target: totalCostLabel,
-            value: rawValue,
+            value: Math.abs(rawValue),
+            _value: rawValue,
           },
           {
             source: markupLabel,
@@ -406,7 +418,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: usageLabel,
             target: totalCostLabel,
-            value: usageValue,
+            value: Math.abs(usageValue),
+            _value: usageValue,
           },
           {
             source: totalCostLabel,
@@ -440,10 +453,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                     data,
                     label: {
                       formatter: params => {
-                        const value =
-                          links[params.dataIndex]?._value !== undefined ? links[params.dataIndex]._value : params.value;
-                        const formattedValue = formatCurrency(value, units);
-                        return `{a|${formattedValue}}\n${params.name}`;
+                        const value = formatCurrency(links[params.dataIndex]._value, units);
+                        return `{a|${value}}\n${params.name}`;
                       },
                       lineHeight: 12,
                       rich: {
@@ -467,7 +478,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   sourceLabel: intl.formatMessage(messages.chartSource),
                   valueFormatter: (value: number) => {
                     const link = links.find(val => val.value === value);
-                    return `&nbsp;${formatCurrency(link?._value !== undefined ? link._value : value, units)}`;
+                    return `&nbsp;${formatCurrency(link ? link._value : value, units)}`;
                   },
                 },
               }}
