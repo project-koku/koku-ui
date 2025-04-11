@@ -198,6 +198,7 @@
   "createCostModelTitle": "Create a cost model",
   "createRate": "Create rate",
   "createTagMapping": "Create tag mapping",
+  "credit": "Credit",
   "currency": "Currency",
   "currencyAbbreviations": "{symbol, select, billion {{value} B} million {{value} M} quadrillion {{value} q} thousand {{value} K} trillion {{value} t} other {}}",
   "currencyCalcuationsTitle": "Currency and calculations",

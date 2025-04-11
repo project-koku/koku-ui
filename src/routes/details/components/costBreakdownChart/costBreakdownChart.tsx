@@ -231,34 +231,29 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       return;
     }
 
-    const hasMarkup = report?.meta?.total?.cost?.markup;
-    const hasNetworkUnattributedDistributed =
-      report?.meta?.total?.cost?.network_unattributed_distributed &&
-      costDistribution === ComputedReportItemValueType.distributed;
-    const hasPlatformDistributed =
-      report?.meta?.total?.cost?.platform_distributed && costDistribution === ComputedReportItemValueType.distributed;
-    const hasRaw = report?.meta?.total?.cost?.raw;
-    const hasStorageUnattributedDistributed =
-      report?.meta?.total?.cost?.storage_unattributed_distributed &&
-      costDistribution === ComputedReportItemValueType.distributed;
-    const hasUsage = report?.meta?.total?.cost?.usage;
-    const hasWorkerUnallocated =
-      report?.meta?.total?.cost?.worker_unallocated_distributed &&
-      costDistribution === ComputedReportItemValueType.distributed;
+    const isDistributed = costDistribution === ComputedReportItemValueType.distributed;
+    const hasCredit = report?.meta?.total?.cost?.credit !== undefined;
 
-    const markupValue = hasMarkup ? report.meta.total.cost.markup.value : 0;
-    const networkUnattributedDistributedValue = hasNetworkUnattributedDistributed
-      ? report.meta.total.cost.network_unattributed_distributed.value
-      : 0;
-    const platformDistributedValue = hasPlatformDistributed ? report.meta.total.cost.platform_distributed.value : 0;
-    const rawValue = hasRaw ? report.meta.total.cost.raw.value : 0;
-    const storageUnattributedDistributedValue = hasStorageUnattributedDistributed
-      ? report.meta.total.cost.storage_unattributed_distributed.value
-      : 0;
-    const workerUnallocatedValue = hasWorkerUnallocated
-      ? report.meta.total.cost.worker_unallocated_distributed.value
-      : 0;
-    const usageValue = hasUsage ? report.meta.total.cost.usage.value : 0;
+    const creditValue = hasCredit ? report.meta.total.cost.credit.value : 0;
+    const markupValue = report?.meta?.total?.cost?.markup ? report.meta.total.cost.markup.value : 0;
+    const networkUnattributedDistributedValue =
+      report?.meta?.total?.cost?.network_unattributed_distributed && isDistributed
+        ? report.meta.total.cost.network_unattributed_distributed.value
+        : 0;
+    const platformDistributedValue =
+      report?.meta?.total?.cost?.platform_distributed && isDistributed
+        ? report.meta.total.cost.platform_distributed.value
+        : 0;
+    const rawValue = report?.meta?.total?.cost?.raw ? report.meta.total.cost.raw.value : 0;
+    const storageUnattributedDistributedValue =
+      report?.meta?.total?.cost?.storage_unattributed_distributed && isDistributed
+        ? report.meta.total.cost.storage_unattributed_distributed.value
+        : 0;
+    const workerUnallocatedValue =
+      report?.meta?.total?.cost?.worker_unallocated_distributed && isDistributed
+        ? report.meta.total.cost.worker_unallocated_distributed.value
+        : 0;
+    const usageValue = report?.meta?.total?.cost?.usage ? report.meta.total.cost.usage.value : 0;
 
     // Only add positive values for Sankey node heights
     const overheadCostValue =
@@ -274,10 +269,11 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       workerUnallocatedValue;
 
     // Only add positive values for Sankey node heights
-    const workloadCostValue = Math.abs(markupValue) + Math.abs(rawValue) + Math.abs(usageValue);
+    const workloadCostValue = Math.abs(markupValue) + Math.abs(rawValue) + Math.abs(usageValue) + Math.abs(creditValue);
     // Actual value shown for labels and tooltips
-    const _workloadCostValue = markupValue + rawValue + usageValue;
+    const _workloadCostValue = markupValue + rawValue + usageValue + creditValue;
 
+    const creditLabel = intl.formatMessage(messages.credit);
     const markupLabel = intl.formatMessage(messages.markupTitle);
     const networkUnattributedDistributedLabel = intl.formatMessage(messages.networkUnattributedDistributed);
     const overheadCostLabel = intl.formatMessage(messages.costDistributionLabel);
@@ -325,20 +321,38 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             name: totalCostLabel,
           },
         ]
-      : [
-          {
-            name: rawLabel,
-          },
-          {
-            name: markupLabel,
-          },
-          {
-            name: usageLabel,
-          },
-          {
-            name: totalCostLabel,
-          },
-        ];
+      : hasCredit
+        ? [
+            {
+              name: creditLabel,
+            },
+            {
+              name: rawLabel,
+            },
+            {
+              name: markupLabel,
+            },
+            {
+              name: usageLabel,
+            },
+            {
+              name: totalCostLabel,
+            },
+          ]
+        : [
+            {
+              name: rawLabel,
+            },
+            {
+              name: markupLabel,
+            },
+            {
+              name: usageLabel,
+            },
+            {
+              name: totalCostLabel,
+            },
+          ];
 
     const links = costDistribution
       ? [
@@ -402,31 +416,63 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             _value: _overheadCostValue + _workloadCostValue,
           },
         ]
-      : [
-          {
-            source: rawLabel,
-            target: totalCostLabel,
-            value: Math.abs(rawValue),
-            _value: rawValue,
-          },
-          {
-            source: markupLabel,
-            target: totalCostLabel,
-            value: Math.abs(markupValue),
-            _value: markupValue,
-          },
-          {
-            source: usageLabel,
-            target: totalCostLabel,
-            value: Math.abs(usageValue),
-            _value: usageValue,
-          },
-          {
-            source: totalCostLabel,
-            value: workloadCostValue,
-            _value: _workloadCostValue,
-          },
-        ];
+      : hasCredit
+        ? [
+            {
+              source: creditLabel,
+              target: totalCostLabel,
+              value: Math.abs(creditValue),
+              _value: creditValue,
+            },
+            {
+              source: rawLabel,
+              target: totalCostLabel,
+              value: Math.abs(rawValue),
+              _value: rawValue,
+            },
+            {
+              source: markupLabel,
+              target: totalCostLabel,
+              value: Math.abs(markupValue),
+              _value: markupValue,
+            },
+            {
+              source: usageLabel,
+              target: totalCostLabel,
+              value: Math.abs(usageValue),
+              _value: usageValue,
+            },
+            {
+              source: totalCostLabel,
+              value: workloadCostValue,
+              _value: _workloadCostValue,
+            },
+          ]
+        : [
+            {
+              source: rawLabel,
+              target: totalCostLabel,
+              value: Math.abs(rawValue),
+              _value: rawValue,
+            },
+            {
+              source: markupLabel,
+              target: totalCostLabel,
+              value: Math.abs(markupValue),
+              _value: markupValue,
+            },
+            {
+              source: usageLabel,
+              target: totalCostLabel,
+              value: Math.abs(usageValue),
+              _value: usageValue,
+            },
+            {
+              source: totalCostLabel,
+              value: workloadCostValue,
+              _value: _workloadCostValue,
+            },
+          ];
 
     this.setState({ data, links, units });
   };
