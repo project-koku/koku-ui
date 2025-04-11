@@ -2071,6 +2071,12 @@
         "value": "Create tag mapping"
       }
     ],
+    "credit": [
+      {
+        "type": 0,
+        "value": "Credit"
+      }
+    ],
     "currency": [
       {
         "type": 0,

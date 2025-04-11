@@ -13,6 +13,7 @@ export interface ReportUsageValue extends ReportValue {
 }
 
 export interface ReportItemValue {
+  credit?: ReportValue;
   distributed?: ReportValue;
   markup?: ReportValue;
   network_unattributed_distributed?: ReportValue;

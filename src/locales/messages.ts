@@ -1078,6 +1078,11 @@ export default defineMessages({
     description: 'Create tag mapping',
     id: 'createTagMapping',
   },
+  credit: {
+    defaultMessage: 'Credit',
+    description: 'Credit',
+    id: 'credit',
+  },
   currency: {
     defaultMessage: 'Currency',
     description: 'Currency',
