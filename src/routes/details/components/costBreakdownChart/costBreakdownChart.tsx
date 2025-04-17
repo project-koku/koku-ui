@@ -474,6 +474,21 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             },
           ];
 
+    // Workaround for https://echarts.apache.org/en/option.html#series-sankey.tooltip.valueFormatter
+    const dataIndexWorkaround = (source: string) => {
+      const link = links.find(item => item.source === source);
+      if (link.value > 0) {
+        link.value = Number(link.value.toFixed(12));
+      }
+    };
+    if (costDistribution) {
+      dataIndexWorkaround(networkUnattributedDistributedLabel);
+      dataIndexWorkaround(platformDistributedLabel);
+      dataIndexWorkaround(storageUnattributedDistributedLabel);
+      dataIndexWorkaround(workerUnallocatedLabel);
+      dataIndexWorkaround(overheadCostLabel);
+    }
+
     this.setState({ data, links, units });
   };
 
@@ -523,6 +538,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   destinationLabel: intl.formatMessage(messages.chartDestination),
                   sourceLabel: intl.formatMessage(messages.chartSource),
                   valueFormatter: (value: number) => {
+                    // Workaround for missing dataIndex param -- see https://echarts.apache.org/en/option.html#series-sankey.tooltip.valueFormatter
                     const link = links.find(val => val.value === value);
                     return `&nbsp;${formatCurrency(link ? link._value : value, units)}`;
                   },
