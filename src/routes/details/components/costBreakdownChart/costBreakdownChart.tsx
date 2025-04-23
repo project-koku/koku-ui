@@ -478,7 +478,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const dataIndexWorkaround = (source: string) => {
       const link = links.find(item => item.source === source);
       if (link.value > 0) {
-        link.value = Number(link.value.toFixed(12));
+        link.value = Number(link.value.toFixed(4));
       }
     };
     if (costDistribution) {
