@@ -476,9 +476,20 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
     // Workaround for https://echarts.apache.org/en/option.html#series-sankey.tooltip.valueFormatter
     const dataIndexWorkaround = (source: string) => {
+      const countDecimals = (value: number) => {
+        if (value % 1 !== 0) {
+          return value.toString().split('.')[1].length;
+        }
+        return 0;
+      };
+
       const link = links.find(item => item.source === source);
       if (link.value > 0) {
-        link.value = Number(link.value.toFixed(4));
+        // Want most decimals here, so value is still unique
+        const count = countDecimals(link.value);
+        if (count > 0) {
+          link.value = Number(link.value.toFixed(count - 1));
+        }
       }
     };
     if (costDistribution) {
