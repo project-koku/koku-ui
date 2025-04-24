@@ -489,15 +489,30 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
         const count = countDecimals(link.value);
         if (count > 0) {
           link.value = Number(link.value.toFixed(count - 1));
+          return link.value;
         }
       }
+      return 0;
     };
     if (costDistribution) {
-      dataIndexWorkaround(networkUnattributedDistributedLabel);
-      dataIndexWorkaround(platformDistributedLabel);
-      dataIndexWorkaround(storageUnattributedDistributedLabel);
-      dataIndexWorkaround(workerUnallocatedLabel);
-      dataIndexWorkaround(overheadCostLabel);
+      const newNetworkUnattributedDistributedValue = dataIndexWorkaround(networkUnattributedDistributedLabel);
+      const newPlatformDistributedValue = dataIndexWorkaround(platformDistributedLabel);
+      const newStorageUnattributedDistributedValue = dataIndexWorkaround(storageUnattributedDistributedLabel);
+      const newWorkerUnallocatedValue = dataIndexWorkaround(workerUnallocatedLabel);
+
+      // Recalculate overhead cost
+      const newOverheadCostValue =
+        newNetworkUnattributedDistributedValue +
+        newPlatformDistributedValue +
+        newStorageUnattributedDistributedValue +
+        newWorkerUnallocatedValue;
+
+      const overheadCostLink = links.find(item => item.source === overheadCostLabel);
+      overheadCostLink.value = newOverheadCostValue;
+
+      // Recalculate total cost
+      const totalCostLink = links.find(item => item.source === totalCostLabel);
+      totalCostLink.value = newOverheadCostValue + workloadCostValue;
     }
 
     this.setState({ data, links, units });
