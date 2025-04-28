@@ -94,7 +94,7 @@
     "@redhat-cloud-services/frontend-components-config": "^6.5.5",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.24",
     "@swc/core": "^1.11.21",
-    "@swc/jest": "^0.2.37",
+    "@swc/jest": "^0.2.38",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
