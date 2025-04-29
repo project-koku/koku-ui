@@ -3,7 +3,6 @@ import type { CostOverviewStateProps } from 'routes/details/components/costOverv
 import { CostOverviewBase } from 'routes/details/components/costOverview';
 import { ociCostOverviewSelectors } from 'store/breakdown/costOverview/ociCostOverview';
 import { createMapStateToProps } from 'store/common';
-import { selectIsCostBreakdownChartToggleEnabled } from 'store/featureToggle/featureToggleSelectors';
 
 interface OciCostOverviewOwnProps {
   // TBD...
@@ -12,7 +11,6 @@ interface OciCostOverviewOwnProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OciCostOverviewOwnProps, CostOverviewStateProps>((state, props) => {
   return {
-    isCostBreakdownChartToggleEnabled: selectIsCostBreakdownChartToggleEnabled(state),
     selectWidgets: ociCostOverviewSelectors.selectWidgets(state),
     widgets: ociCostOverviewSelectors.selectCurrentWidgets(state),
   };

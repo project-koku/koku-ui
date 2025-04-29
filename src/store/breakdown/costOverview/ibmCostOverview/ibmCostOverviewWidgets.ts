@@ -14,14 +14,6 @@ export const costBreakdownWidget: CostOverviewWidget = {
   type: CostOverviewWidgetType.costBreakdown,
 };
 
-export const costWidget: CostOverviewWidget = {
-  chartName: 'ibmCostWidget',
-  id: getId(),
-  reportPathsType: ReportPathsType.ibm,
-  reportType: ReportType.cost,
-  type: CostOverviewWidgetType.cost,
-};
-
 export const accountSummaryWidget: CostOverviewWidget = {
   id: getId(),
   reportSummary: {

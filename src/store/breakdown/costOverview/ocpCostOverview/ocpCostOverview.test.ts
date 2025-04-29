@@ -9,8 +9,6 @@ import * as selectors from './ocpCostOverviewSelectors';
 import {
   clusterWidget,
   costBreakdownWidget,
-  costDistributionWidget,
-  costWidget,
   cpuUsageWidget,
   memoryUsageWidget,
   projectSummaryWidget,
@@ -34,8 +32,6 @@ test('default state', () => {
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costBreakdownWidget.id,
-    costWidget.id,
-    costDistributionWidget.id,
     projectSummaryWidget.id,
     volumeSummaryWidget.id,
     clusterWidget.id,
@@ -44,5 +40,5 @@ test('default state', () => {
     pvcWidget.id,
     volumeUsageWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
+  expect(selectors.selectWidget(state, costBreakdownWidget.id)).toEqual(costBreakdownWidget);
 });

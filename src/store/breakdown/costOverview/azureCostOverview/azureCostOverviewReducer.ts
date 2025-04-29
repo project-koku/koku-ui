@@ -3,7 +3,6 @@ import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/cos
 import {
   accountSummaryWidget,
   costBreakdownWidget,
-  costWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
 } from './azureCostOverviewWidgets';
@@ -14,16 +13,9 @@ export type AzureCostOverviewState = Readonly<{
 }>;
 
 export const defaultState: AzureCostOverviewState = {
-  currentWidgets: [
-    costBreakdownWidget.id,
-    costWidget.id,
-    accountSummaryWidget.id,
-    serviceSummaryWidget.id,
-    regionSummaryWidget.id,
-  ],
+  currentWidgets: [costBreakdownWidget.id, accountSummaryWidget.id, serviceSummaryWidget.id, regionSummaryWidget.id],
   widgets: {
     [costBreakdownWidget.id]: costBreakdownWidget,
-    [costWidget.id]: costWidget,
     [accountSummaryWidget.id]: accountSummaryWidget,
     [serviceSummaryWidget.id]: serviceSummaryWidget,
     [regionSummaryWidget.id]: regionSummaryWidget,

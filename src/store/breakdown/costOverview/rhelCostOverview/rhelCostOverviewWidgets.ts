@@ -25,14 +25,6 @@ export const costBreakdownWidget: CostOverviewWidget = {
   type: CostOverviewWidgetType.costBreakdown,
 };
 
-export const costWidget: CostOverviewWidget = {
-  chartName: 'rhelCostWidget',
-  id: getId(),
-  reportPathsType: ReportPathsType.rhel,
-  reportType: ReportType.cost,
-  type: CostOverviewWidgetType.cost,
-};
-
 export const cpuUsageWidget: CostOverviewWidget = {
   chartName: 'rhelCpuWidget',
   id: getId(),

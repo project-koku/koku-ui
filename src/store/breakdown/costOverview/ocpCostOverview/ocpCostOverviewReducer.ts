@@ -3,8 +3,6 @@ import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/cos
 import {
   clusterWidget,
   costBreakdownWidget,
-  costDistributionWidget,
-  costWidget,
   cpuUsageWidget,
   memoryUsageWidget,
   projectSummaryWidget,
@@ -21,8 +19,6 @@ export type OcpCostOverviewState = Readonly<{
 export const defaultState: OcpCostOverviewState = {
   currentWidgets: [
     costBreakdownWidget.id,
-    costWidget.id,
-    costDistributionWidget.id,
     projectSummaryWidget.id,
     volumeSummaryWidget.id,
     clusterWidget.id,
@@ -33,8 +29,6 @@ export const defaultState: OcpCostOverviewState = {
   ],
   widgets: {
     [costBreakdownWidget.id]: costBreakdownWidget,
-    [costWidget.id]: costWidget,
-    [costDistributionWidget.id]: costDistributionWidget,
     [projectSummaryWidget.id]: projectSummaryWidget,
     [volumeSummaryWidget.id]: volumeSummaryWidget,
     [clusterWidget.id]: clusterWidget,
