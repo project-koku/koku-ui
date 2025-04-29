@@ -64,7 +64,6 @@ import {
   isAzureAvailable,
   isGcpAvailable,
   isIbmAvailable,
-  isOciAvailable,
   isOcpAvailable,
   isRhelAvailable,
 } from 'utils/userAccess';
@@ -87,7 +86,6 @@ import {
 interface ExplorerStateProps {
   awsProviders: Providers;
   azureProviders: Providers;
-  ociProviders: Providers;
   costDistribution?: string;
   costType?: string;
   currency?: string;
@@ -205,9 +203,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       case PerspectiveType.ibm:
       case PerspectiveType.ibmOcp:
         providerType = ProviderType.ibm;
-        break;
-      case PerspectiveType.oci:
-        providerType = ProviderType.oci;
         break;
       case PerspectiveType.ocp:
       case PerspectiveType.ocpCloud:
@@ -450,11 +445,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     return isAzureAvailable(userAccess, azureProviders);
   };
 
-  private isOciAvailable = () => {
-    const { ociProviders, userAccess } = this.props;
-    return isOciAvailable(userAccess, ociProviders);
-  };
-
   private isGcpAvailable = () => {
     const { gcpProviders, userAccess } = this.props;
     return isGcpAvailable(userAccess, gcpProviders);
@@ -486,7 +476,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const {
       awsProviders,
       azureProviders,
-      ociProviders,
       costDistribution,
       costType,
       currency,
@@ -516,16 +505,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const noGcpProviders = !this.isGcpAvailable() && providersFetchStatus === FetchStatus.complete;
     const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noOciProviders = !this.isOciAvailable() && providersFetchStatus === FetchStatus.complete;
     const noRhelProviders = !this.isRhelAvailable() && providersFetchStatus === FetchStatus.complete;
     const noProviders =
-      noAwsProviders &&
-      noAzureProviders &&
-      noGcpProviders &&
-      noIbmProviders &&
-      noOciProviders &&
-      noOcpProviders &&
-      noRhelProviders;
+      noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders && noRhelProviders;
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
@@ -548,7 +530,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       !(
         hasData(awsProviders) ||
         hasData(azureProviders) ||
-        hasData(ociProviders) ||
         hasData(gcpProviders) ||
         hasData(ibmProviders) ||
         hasData(ocpProviders)
@@ -666,7 +647,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
   const awsProviders = filterProviders(providers, ProviderType.aws);
   const azureProviders = filterProviders(providers, ProviderType.azure);
-  const ociProviders = filterProviders(providers, ProviderType.oci);
   const gcpProviders = filterProviders(providers, ProviderType.gcp);
   const ibmProviders = filterProviders(providers, ProviderType.ibm);
   const ocpProviders = filterProviders(providers, ProviderType.ocp);
@@ -687,7 +667,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     azureProviders,
     gcpProviders,
     ibmProviders,
-    ociProviders,
     ocpProviders,
     queryFromRoute,
     rhelProviders,
@@ -707,7 +686,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const { isCurrentMonthData, isDataAvailable, isPreviousMonthData } = getIsDataAvailable({
     awsProviders,
     azureProviders,
-    ociProviders,
     gcpProviders,
     ibmProviders,
     ocpProviders,
@@ -766,7 +744,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     isDataAvailable,
     isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
     isPreviousMonthData,
-    ociProviders,
     ocpProviders,
     perspective,
     providers,

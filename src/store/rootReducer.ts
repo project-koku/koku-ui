@@ -5,7 +5,6 @@ import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/breakdown
 import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/breakdown/costOverview/azureCostOverview';
 import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/breakdown/costOverview/gcpCostOverview';
 import { ibmCostOverviewReducer, ibmCostOverviewStateKey } from 'store/breakdown/costOverview/ibmCostOverview';
-import { ociCostOverviewReducer, ociCostOverviewStateKey } from 'store/breakdown/costOverview/ociCostOverview';
 import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/breakdown/costOverview/ocpCostOverview';
 import { rhelCostOverviewReducer, rhelCostOverviewStateKey } from 'store/breakdown/costOverview/rhelCostOverview';
 import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/breakdown/historicalData/awsHistoricalData';
@@ -15,7 +14,6 @@ import {
 } from 'store/breakdown/historicalData/azureHistoricalData';
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/breakdown/historicalData/gcpHistoricalData';
 import { ibmHistoricalDataReducer, ibmHistoricalDataStateKey } from 'store/breakdown/historicalData/ibmHistoricalData';
-import { ociHistoricalDataReducer, ociHistoricalDataStateKey } from 'store/breakdown/historicalData/ociHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/breakdown/historicalData/ocpHistoricalData';
 import {
   rhelHistoricalDataReducer,
@@ -29,7 +27,6 @@ import { azureOcpDashboardReducer, azureOcpDashboardStateKey } from 'store/dashb
 import { gcpDashboardReducer, gcpDashboardStateKey } from 'store/dashboard/gcpDashboard';
 import { gcpOcpDashboardReducer, gcpOcpDashboardStateKey } from 'store/dashboard/gcpOcpDashboard';
 import { ibmDashboardReducer, ibmDashboardStateKey } from 'store/dashboard/ibmDashboard';
-import { ociDashboardReducer, ociDashboardStateKey } from 'store/dashboard/ociDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
 import { rhelDashboardReducer, rhelDashboardStateKey } from 'store/dashboard/rhelDashboard';
@@ -61,11 +58,8 @@ export const rootReducer = combineReducers({
   [awsHistoricalDataStateKey]: awsHistoricalDataReducer,
   [azureOcpDashboardStateKey]: azureOcpDashboardReducer,
   [azureCostOverviewStateKey]: azureCostOverviewReducer,
-  [ociCostOverviewStateKey]: ociCostOverviewReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
-  [ociDashboardStateKey]: ociDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
-  [ociHistoricalDataStateKey]: ociHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,
   [exportStateKey]: exportReducer,
   [FeatureToggleStateKey]: FeatureToggleReducer,

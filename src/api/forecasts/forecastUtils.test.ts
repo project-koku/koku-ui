@@ -40,11 +40,6 @@ test('runForecast API request for IBM', async () => {
   await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
-test('runForecast API request for OCI', async () => {
-  forecastUtils.runForecast(ForecastPathsType.oci, ForecastType.cost, '');
-  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
-});
-
 test('runForecast API request for all cloud filtered by OCP', async () => {
   forecastUtils.runForecast(ForecastPathsType.ocpCloud, ForecastType.cost, '');
   await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());

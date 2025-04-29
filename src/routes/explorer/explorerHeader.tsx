@@ -42,7 +42,6 @@ import {
   isAzureAvailable,
   isGcpAvailable,
   isIbmAvailable,
-  isOciAvailable,
   isOcpAvailable,
   isRhelAvailable,
 } from 'utils/userAccess';
@@ -91,7 +90,6 @@ interface ExplorerHeaderStateProps {
   isExportsToggleEnabled?: boolean;
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
-  ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
   providersError: AxiosError;
@@ -139,14 +137,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
-    const hasOci = this.isOciAvailable();
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
     const hasRhel = this.isRhelAvailable();
 
     // Note: No need to test "OCP on cloud" here, since that requires at least one of the providers below
-    if (!(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcp || hasRhel)) {
+    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp || hasRhel)) {
       return null;
     }
 
@@ -161,7 +158,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         hasGcpOcp={this.isGcpOcpAvailable()}
         hasIbm={hasIbm}
         hasIbmOcp={this.isIbmOcpAvailable()}
-        hasOci={hasOci}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
         hasRhel={hasRhel}
@@ -230,11 +226,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
   private isIbmOcpAvailable = () => {
     const { ibmProviders, ocpProviders, userAccess } = this.props;
     return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
-  };
-
-  private isOciAvailable = () => {
-    const { ociProviders, userAccess } = this.props;
-    return isOciAvailable(userAccess, ociProviders);
   };
 
   private isOcpAvailable = () => {
@@ -448,7 +439,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
       isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
       isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
-      ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,
       providersError,

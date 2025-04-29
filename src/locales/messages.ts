@@ -153,7 +153,6 @@ export default defineMessages({
       '{value, select, ' +
       'aws {Amazon Web Services} ' +
       'azure {Microsoft Azure} ' +
-      'oci {Oracle Cloud Infrastructure} ' +
       'gcp {Google Cloud Platform} ' +
       'ibm {IBM Cloud - Top 5 Costliest} ' +
       'ocp {OpenShift} ' +
@@ -904,7 +903,6 @@ export default defineMessages({
       '{value, select, ' +
       'aws {Select from the following Amazon Web Services integrations:} ' +
       'azure {Select from the following Microsoft Azure integrations:} ' +
-      'oci {Select from the following Oracle Cloud Infrastructure integrations:} ' +
       'gcp {Select from the following Google Cloud Platform integrations:} ' +
       'ocp {Select from the following Red Hat OpenShift integrations:} ' +
       'other {}}',
@@ -1641,12 +1639,6 @@ export default defineMessages({
     description: 'Integrating Google Cloud data into cost management',
     id: 'docsIntegrationsGcp',
   },
-  docsIntegrationsOci: {
-    defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_oracle_cloud_data_into_cost_management/index',
-    description: 'docsIntegrating Oracle Cloud data into cost management',
-    id: 'docsIntegrationsOci',
-  },
   docsKokuMetricsOperator: {
     defaultMessage: 'https://github.com/project-koku/koku-metrics-operator',
     description: 'Koku Metrics Operator',
@@ -1820,7 +1812,6 @@ export default defineMessages({
       'aws {Amazon Web Services - Top 5 Costliest} ' +
       'aws_ocp {Amazon Web Services filtered by OpenShift - Top 5 Costliest} ' +
       'azure {Microsoft Azure - Top 5 Costliest} ' +
-      'oci {Oracle Cloud Infrastructure - Top 5 Costliest} ' +
       'azure_ocp {Microsoft Azure filtered by OpenShift - Top 5 Costliest} ' +
       'gcp {Google Cloud Platform - Top 5 Costliest} ' +
       'gcp_ocp {Google Cloud Platform filtered by OpenShift - Top 5 Costliest} ' +
@@ -1942,22 +1933,20 @@ export default defineMessages({
   exportName: {
     defaultMessage:
       '{groupBy, select, ' +
-      'account {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} oci {Oracle Cloud Infrastructure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
-      'aws_category {{provider, select, aws {Amazon Web Services grouped by Cost category} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cost category} azure {Microsoft Azure grouped by Cost category} oci {Oracle Cloud Infrastructure grouped by Cost category} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cost category} gcp {Google Cloud Platform grouped by Cost category} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cost category} ibm {IBM Cloud grouped by Cost category} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cost category} ocp {OpenShift grouped by Cost category} ocp_cloud {All cloud filtered by OpenShift grouped by Cost category} other {}}} ' +
-      'cluster {{provider, select, aws {Amazon Web Services grouped by Cluster} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cluster} azure {Microsoft Azure grouped by Cluster} oci {Oracle Cloud Infrastructure grouped by Cluster} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cluster} gcp {Google Cloud Platform grouped by Cluster} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cluster} ibm {IBM Cloud grouped by Cluster} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cluster} ocp {OpenShift grouped by Cluster} ocp_cloud {All cloud filtered by OpenShift grouped by Cluster} other {}}} ' +
-      'gcp_project {{provider, select, aws {Amazon Web Services grouped by GCP Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by GCP Project} azure {Microsoft Azure grouped by GCP Project} oci {Oracle Cloud Infrastructure grouped by GCP Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by GCP Project} gcp {Google Cloud Platform grouped by GCP Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by GCP Project} ibm {IBM Cloud grouped by GCP Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by GCP Project} ocp {OpenShift grouped by GCP Project} ocp_cloud {All cloud filtered by OpenShift grouped by GCP Project} other {}}} ' +
-      'instance {{provider, select, aws {Amazon Web Services grouped by instance} aws_ocp {Amazon Web Services filtered by OpenShift grouped by instance} azure {Microsoft Azure grouped by instance} oci {Oracle Cloud Infrastructure grouped by instance} azure_ocp {Microsoft Azure filtered by OpenShift grouped by instance} gcp {Google Cloud Platform grouped by instance} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by instance} ibm {IBM Cloud grouped by instance} ibm_ocp {IBM Cloud filtered by OpenShift grouped by instance} ocp {OpenShift grouped by instance} ocp_cloud {All cloud filtered by OpenShift grouped by instance} other {}}} ' +
-      'node {{provider, select, aws {Amazon Web Services grouped by Node} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Node} azure {Microsoft Azure grouped by Node} oci {Oracle Cloud Infrastructure grouped by Node} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Node} gcp {Google Cloud Platform grouped by Node} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Node} ibm {IBM Cloud grouped by Node} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Node} ocp {OpenShift grouped by Node} ocp_cloud {All cloud filtered by OpenShift grouped by Node} other {}}} ' +
-      'org_unit_id {{provider, select, aws {Amazon Web Services grouped by Organizational unit} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Organizational unit} azure {Microsoft Azure grouped by Organizational unit} oci {Oracle Cloud Infrastructure grouped by Organizational unit} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Organizational unit} gcp {Google Cloud Platform grouped by Organizational unit} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Organizational unit} ibm {IBM Cloud grouped by Organizational unit} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Organizational unit} ocp {OpenShift grouped by Organizational unit} ocp_cloud {All cloud filtered by OpenShift grouped by Organizational unit} other {}}} ' +
-      'payer_tenant_id {{provider, select, oci {Oracle Cloud Infrastructure grouped by Account} other {}}}' +
-      'product_service {{provider, select, oci {Oracle Cloud Infrastructure grouped by Service} other {}}}' +
-      'project {{provider, select, aws {Amazon Web Services grouped by Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Project} azure {Microsoft Azure grouped by Project} oci {Oracle Cloud Infrastructure grouped by Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Project} gcp {Google Cloud Platform grouped by Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Project} ibm {IBM Cloud grouped by Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Project} ocp {OpenShift grouped by Project} ocp_cloud {All cloud filtered by OpenShift grouped by Project} other {}}} ' +
-      'region {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} oci {Oracle Cloud Infrastructure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
-      'resource_location {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} oci {Oracle Cloud Infrastructure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
-      'service {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} oci {Oracle Cloud Infrastructure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
-      'service_name {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} oci {Oracle Cloud Infrastructure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
-      'subscription_guid {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} oci {Oracle Cloud Infrastructure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
-      'tag {{provider, select, aws {Amazon Web Services grouped by Tag} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Tag} azure {Microsoft Azure grouped by Tag} oci {Oracle Cloud Infrastructure grouped by Tag} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Tag} gcp {Google Cloud Platform grouped by Tag} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Tag} ibm {IBM Cloud grouped by Tag} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Tag} ocp {OpenShift grouped by Tag} ocp_cloud {All cloud filtered by OpenShift grouped by Tag} other {}}} ' +
+      'account {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
+      'aws_category {{provider, select, aws {Amazon Web Services grouped by Cost category} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cost category} azure {Microsoft Azure grouped by Cost category} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cost category} gcp {Google Cloud Platform grouped by Cost category} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cost category} ibm {IBM Cloud grouped by Cost category} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cost category} ocp {OpenShift grouped by Cost category} ocp_cloud {All cloud filtered by OpenShift grouped by Cost category} other {}}} ' +
+      'cluster {{provider, select, aws {Amazon Web Services grouped by Cluster} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Cluster} azure {Microsoft Azure grouped by Cluster} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Cluster} gcp {Google Cloud Platform grouped by Cluster} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Cluster} ibm {IBM Cloud grouped by Cluster} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Cluster} ocp {OpenShift grouped by Cluster} ocp_cloud {All cloud filtered by OpenShift grouped by Cluster} other {}}} ' +
+      'gcp_project {{provider, select, aws {Amazon Web Services grouped by GCP Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by GCP Project} azure {Microsoft Azure grouped by GCP Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by GCP Project} gcp {Google Cloud Platform grouped by GCP Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by GCP Project} ibm {IBM Cloud grouped by GCP Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by GCP Project} ocp {OpenShift grouped by GCP Project} ocp_cloud {All cloud filtered by OpenShift grouped by GCP Project} other {}}} ' +
+      'instance {{provider, select, aws {Amazon Web Services grouped by instance} aws_ocp {Amazon Web Services filtered by OpenShift grouped by instance} azure {Microsoft Azure grouped by instance} azure_ocp {Microsoft Azure filtered by OpenShift grouped by instance} gcp {Google Cloud Platform grouped by instance} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by instance} ibm {IBM Cloud grouped by instance} ibm_ocp {IBM Cloud filtered by OpenShift grouped by instance} ocp {OpenShift grouped by instance} ocp_cloud {All cloud filtered by OpenShift grouped by instance} other {}}} ' +
+      'node {{provider, select, aws {Amazon Web Services grouped by Node} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Node} azure {Microsoft Azure grouped by Node} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Node} gcp {Google Cloud Platform grouped by Node} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Node} ibm {IBM Cloud grouped by Node} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Node} ocp {OpenShift grouped by Node} ocp_cloud {All cloud filtered by OpenShift grouped by Node} other {}}} ' +
+      'org_unit_id {{provider, select, aws {Amazon Web Services grouped by Organizational unit} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Organizational unit} azure {Microsoft Azure grouped by Organizational unit} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Organizational unit} gcp {Google Cloud Platform grouped by Organizational unit} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Organizational unit} ibm {IBM Cloud grouped by Organizational unit} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Organizational unit} ocp {OpenShift grouped by Organizational unit} ocp_cloud {All cloud filtered by OpenShift grouped by Organizational unit} other {}}} ' +
+      'project {{provider, select, aws {Amazon Web Services grouped by Project} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Project} azure {Microsoft Azure grouped by Project} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Project} gcp {Google Cloud Platform grouped by Project} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Project} ibm {IBM Cloud grouped by Project} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Project} ocp {OpenShift grouped by Project} ocp_cloud {All cloud filtered by OpenShift grouped by Project} other {}}} ' +
+      'region {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
+      'resource_location {{provider, select, aws {Amazon Web Services grouped by Region} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Region} azure {Microsoft Azure grouped by Region} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Region} gcp {Google Cloud Platform grouped by Region} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Region} ibm {IBM Cloud grouped by Region} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Region} ocp {OpenShift grouped by Region} ocp_cloud {All cloud filtered by OpenShift grouped by Region} other {}}} ' +
+      'service {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
+      'service_name {{provider, select, aws {Amazon Web Services grouped by Service} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Service} azure {Microsoft Azure grouped by Service} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Service} gcp {Google Cloud Platform grouped by Service} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Service} ibm {IBM Cloud grouped by Service} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Service} ocp {OpenShift grouped by Service} ocp_cloud {All cloud filtered by OpenShift grouped by Service} other {}}} ' +
+      'subscription_guid {{provider, select, aws {Amazon Web Services grouped by Account} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Account} azure {Microsoft Azure grouped by Account} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Account} gcp {Google Cloud Platform grouped by Account} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Account} ibm {IBM Cloud grouped by Account} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Account} ocp {OpenShift grouped by Account} ocp_cloud {All cloud filtered by OpenShift grouped by Account} other {}}} ' +
+      'tag {{provider, select, aws {Amazon Web Services grouped by Tag} aws_ocp {Amazon Web Services filtered by OpenShift grouped by Tag} azure {Microsoft Azure grouped by Tag} azure_ocp {Microsoft Azure filtered by OpenShift grouped by Tag} gcp {Google Cloud Platform grouped by Tag} gcp_ocp {Google Cloud Platform filtered by OpenShift grouped by Tag} ibm {IBM Cloud grouped by Tag} ibm_ocp {IBM Cloud filtered by OpenShift grouped by Tag} ocp {OpenShift grouped by Tag} ocp_cloud {All cloud filtered by OpenShift grouped by Tag} other {}}} ' +
       'other {}}',
     description: 'Export name',
     id: 'exportName',
@@ -2751,8 +2740,8 @@ export default defineMessages({
     id: 'noMappedTagsWarning',
   },
   noProvidersCloudCost: {
-    defaultMessage: 'Include cloud provider (AWS, GCP, Azure, OCI) cost',
-    description: 'Include cloud provider (AWS, GCP, Azure, OCI) cost',
+    defaultMessage: 'Include cloud provider (AWS, GCP, Azure) cost',
+    description: 'Include cloud provider (AWS, GCP, Azure) cost',
     id: 'noProvidersCloudCost',
   },
   noProvidersCloudCostDesc: {
@@ -2794,16 +2783,11 @@ export default defineMessages({
     description: 'Integrating Google Cloud data into cost management',
     id: 'noProvidersCloudIntegrationHelpGcp',
   },
-  noProvidersCloudIntegrationHelpOci: {
-    defaultMessage: 'Integrating Oracle Cloud Infrastructure data into cost management',
-    description: 'Integrating Oracle Cloud Infrastructure data into cost management',
-    id: 'noProvidersCloudIntegrationHelpOci',
-  },
   noProvidersDesc: {
     defaultMessage:
-      'Helps you simplify the management of your resources and costs of {ocp}, as well as public clouds like {aws}, {gcp}, {oci}, and {azure}.',
+      'Helps you simplify the management of your resources and costs of {ocp}, as well as public clouds like {aws}, {gcp}, and {azure}.',
     description:
-      'Helps you simplify the management of your resources and costs of {ocp}, as well as public clouds like {aws}, {gcp}, {oci}, and {azure}.',
+      'Helps you simplify the management of your resources and costs of {ocp}, as well as public clouds like {aws}, {gcp}, and {azure}.',
     id: 'noProvidersDesc',
   },
   noProvidersGetStarted: {
@@ -2977,11 +2961,6 @@ export default defineMessages({
     description: 'IBM Cloud in cost management',
     id: 'notAuthorizedStateIbm',
   },
-  notAuthorizedStateOci: {
-    defaultMessage: 'Oracle Cloud Infrastructure in cost management',
-    description: 'Oracle Cloud Infrastructure in cost management',
-    id: 'notAuthorizedStateOci',
-  },
   notAuthorizedStateOcp: {
     defaultMessage: 'OpenShift in cost management',
     description: 'OpenShift in cost management',
@@ -3001,41 +2980,6 @@ export default defineMessages({
     defaultMessage: 'Settings in cost management',
     description: 'Settings in cost management',
     id: 'notAuthorizedStateSettings',
-  },
-  oci: {
-    defaultMessage: 'Oracle Cloud Infrastructure',
-    description: 'Oracle Cloud Infrastructure',
-    id: 'oci',
-  },
-  ociComputeTitle: {
-    defaultMessage: 'Virtual machines usage',
-    description: 'Virtual machines usage',
-    id: 'ociComputeTitle',
-  },
-  ociCostTrendTitle: {
-    defaultMessage: 'Oracle Cloud Infrastructure cumulative cost comparison ({units})',
-    description: 'Oracle Cloud Infrastructure cumulative cost comparison ({units})',
-    id: 'ociCostTrendTitle',
-  },
-  ociDailyCostTrendTitle: {
-    defaultMessage: 'Oracle Cloud Infrastructure daily cost comparison ({units})',
-    description: 'Oracle Cloud Infrastructure daily cost comparison ({units})',
-    id: 'ociDailyCostTrendTitle',
-  },
-  ociDashboardCostTitle: {
-    defaultMessage: 'Oracle Cloud Infrastructure cost',
-    description: 'Oracle Cloud Infrastructure cost',
-    id: 'ociDashboardCostTitle',
-  },
-  ociDesc: {
-    defaultMessage: 'Raw cost from Oracle Cloud Infrastructure.',
-    description: 'Raw cost from Oracle Cloud Infrastructure.',
-    id: 'ociDesc',
-  },
-  ociDetailsTitle: {
-    defaultMessage: 'Oracle Cloud Infrastructure details',
-    description: 'Oracle Cloud Infrastructure details',
-    id: 'ociDetailsTitle',
   },
   ocp: {
     defaultMessage: 'OpenShift Container Platform',
@@ -3223,11 +3167,6 @@ export default defineMessages({
     description: 'IBM Cloud - Cost management | OpenShift',
     id: 'pageTitleIbm',
   },
-  pageTitleOci: {
-    defaultMessage: 'Oracle Cloud Infrastructure - Cost management | OpenShift',
-    description: 'Oracle Cloud Infrastructure - Cost management | OpenShift',
-    id: 'pageTitleOci',
-  },
   pageTitleOcp: {
     defaultMessage: 'OpenShift - Cost management | OpenShift',
     description: 'OpenShift - Cost management | OpenShift',
@@ -3298,7 +3237,6 @@ export default defineMessages({
       'gcp_ocp {Google Cloud Platform filtered by OpenShift} ' +
       'ibm {IBM Cloud} ' +
       'ibm_ocp {IBM filtered by OpenShift} ' +
-      'oci {Oracle Cloud Infrastructure} ' +
       'ocp {All OpenShift} ' +
       'ocp_cloud {All cloud filtered by OpenShift} ' +
       'rhel {All RHEL} ' +
@@ -3687,7 +3625,6 @@ export default defineMessages({
       '{value, select, ' +
       'aws {Amazon Web Services source:} ' +
       'azure {Microsoft Azure source:} ' +
-      'oci {Oracle Cloud Infrastructure source:} ' +
       'gcp {Google Cloud Platform source:} ' +
       'ocp {OpenShift source:} ' +
       'other {}}',
@@ -3704,7 +3641,6 @@ export default defineMessages({
       '{value, select, ' +
       'aws {Amazon Web Services} ' +
       'azure {Microsoft Azure} ' +
-      'oci {Oracle Cloud Infrastructure} ' +
       'gcp {Google Cloud Platform} ' +
       'ibm {IBM Cloud} ' +
       'ocp {OpenShift} ' +

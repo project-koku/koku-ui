@@ -5,7 +5,6 @@ import { runResource as runAzureResource } from './azureResource';
 import { runResource as runGcpOcpResource } from './gcpOcpResource';
 import { runResource as runGcpResource } from './gcpResource';
 import { runResource as runIbmResource } from './ibmResource';
-import { runResource as runOciResource } from './ociResource';
 import { runResource as runOcpResource } from './ocpResource';
 import { ResourcePathsType, ResourceType } from './resource';
 import { runResource as runRhelResource } from './rhelResource';
@@ -23,7 +22,6 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     resourcePathsType === ResourcePathsType.gcpOcp ||
     resourcePathsType === ResourcePathsType.ibm ||
     resourcePathsType === ResourcePathsType.ibmOcp ||
-    resourcePathsType === ResourcePathsType.oci ||
     resourcePathsType === ResourcePathsType.ocp ||
     resourcePathsType === ResourcePathsType.ocpCloud
     // Todo: add type-ahead support when API is available
@@ -76,9 +74,6 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       break;
     case ResourcePathsType.ibm:
       result = runIbmResource(resourceType, query);
-      break;
-    case ResourcePathsType.oci:
-      result = runOciResource(resourceType, query);
       break;
     case ResourcePathsType.ocp:
     case ResourcePathsType.ocpCloud:

@@ -71,12 +71,10 @@ import {
   isAzureAvailable,
   isGcpAvailable,
   isIbmAvailable,
-  isOciAvailable,
   isOcpAvailable,
   isRhelAvailable,
 } from 'utils/userAccess';
 
-import { OciDashboard } from './ociDashboard';
 import { styles } from './overview.styles';
 
 const enum InfrastructurePerspective {
@@ -88,7 +86,6 @@ const enum InfrastructurePerspective {
   gcpOcp = 'gcp_ocp', // GCP filtered by Ocp
   ibm = 'ibm',
   ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
-  oci = 'oci',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
 
@@ -132,7 +129,6 @@ interface OverviewStateProps {
   ibmProviders?: Providers;
   isFinsightsToggleEnabled?: boolean;
   isIbmToggleEnabled?: boolean;
-  ociProviders?: Providers;
   ocpProviders?: Providers;
   providers?: Providers;
   providersError?: AxiosError;
@@ -201,7 +197,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       this.isAzureAvailable() ||
       this.isGcpAvailable() ||
       this.isIbmAvailable() ||
-      this.isOciAvailable() ||
       this.isOcpCloudAvailable()
         ? [
             {
@@ -280,14 +275,13 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
-    const hasOci = this.isOciAvailable();
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
     const hasOcpCloud = this.isOcpCloudAvailable();
     const hasRhel = this.isRhelAvailable();
 
-    const hasInfrastructure = hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcpCloud;
+    const hasInfrastructure = hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud;
     const showInfrastructureOnly = hasInfrastructure && !hasOcp && !hasRhel;
     const showOcpOnly = hasOcp && !hasInfrastructure && !hasRhel;
     const showRhelOnly = hasRhel && !hasInfrastructure && !hasOcp;
@@ -326,7 +320,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       case InfrastructurePerspective.aws:
       case InfrastructurePerspective.awsOcp:
       case InfrastructurePerspective.azure:
-      case InfrastructurePerspective.oci:
       case InfrastructurePerspective.azureOcp:
       case InfrastructurePerspective.gcp:
       case InfrastructurePerspective.gcpOcp:
@@ -344,9 +337,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     }
     if (this.isAzureAvailable()) {
       return InfrastructurePerspective.azure;
-    }
-    if (this.isOciAvailable()) {
-      return InfrastructurePerspective.oci;
     }
     if (this.isGcpAvailable()) {
       return InfrastructurePerspective.gcp;
@@ -393,12 +383,11 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const hasAzure = this.isAzureAvailable();
     const hasGcp = this.isGcpAvailable();
     const hasIbm = this.isIbmAvailable();
-    const hasOci = this.isOciAvailable();
     const hasOcp = this.isOcpAvailable();
     const hasRhel = this.isRhelAvailable();
 
     // Note: No need to test "OCP on cloud" here, since that requires at least one of the providers below
-    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOci || hasOcp || hasRhel)) {
+    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp || hasRhel)) {
       return null;
     }
 
@@ -427,7 +416,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         hasGcpOcp={this.isGcpOcpAvailable()}
         hasIbm={hasIbm}
         hasIbmOcp={this.isIbmOcpAvailable()}
-        hasOci={hasOci}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
         hasRhel={hasRhel}
@@ -476,7 +464,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const {
       awsProviders,
       azureProviders,
-      ociProviders,
       costType,
       currency,
       gcpProviders,
@@ -528,9 +515,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
         const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
         return hasData ? <IbmDashboard currency={currency} /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.oci) {
-        const hasData = hasCurrentMonthData(ociProviders) || hasPreviousMonthData(ociProviders);
-        return hasData ? <OciDashboard currency={currency} /> : noData;
       } else {
         return noData;
       }
@@ -677,11 +661,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
   };
 
-  private isOciAvailable = () => {
-    const { ociProviders, userAccess } = this.props;
-    return isOciAvailable(userAccess, ociProviders);
-  };
-
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
     return isOcpAvailable(userAccess, ocpProviders);
@@ -712,7 +691,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       !this.isAzureAvailable() &&
       !this.isGcpAvailable() &&
       !this.isIbmAvailable() &&
-      !this.isOciAvailable() &&
       !this.isOcpAvailable() &&
       !this.isRhelAvailable();
 
@@ -769,9 +747,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
                           <p>{intl.formatMessage(messages.azureDesc)}</p>
-                          <br />
-                          <p style={styles.infoTitle}>{intl.formatMessage(messages.oci)}</p>
-                          <p>{intl.formatMessage(messages.ociDesc)}</p>
                         </>
                       }
                     >
@@ -845,7 +820,6 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ibmProviders: filterProviders(providers, ProviderType.ibm),
     isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
     isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
-    ociProviders: filterProviders(providers, ProviderType.oci),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     providers,
     providersError,

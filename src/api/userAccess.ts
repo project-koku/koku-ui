@@ -22,7 +22,6 @@ export const enum UserAccessType {
   explorer = 'explorer',
   gcp = 'gcp',
   ibm = 'ibm',
-  oci = 'oci',
   ocp = 'ocp',
   // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   rhel = 'ocp', // Todo: update to use RHEL when APIs are available

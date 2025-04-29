@@ -20,7 +20,6 @@ import {
   hasCostModelAccess,
   hasGcpAccess,
   hasIbmAccess,
-  hasOciAccess,
   hasOcpAccess,
   hasRhelAccess,
   hasRosAccess,
@@ -61,7 +60,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
     const ibm = isIbmToggleEnabled && hasIbmAccess(userAccess);
-    const oci = hasOciAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
     const rhel = isFinsightsToggleEnabled && hasRhelAccess(userAccess);
     const ros = hasRosAccess(userAccess);
@@ -70,7 +68,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     switch (pathname) {
       case formatPath(routes.explorer.path):
       case formatPath(routes.overview.path):
-        return aws || azure || gcp || ibm || ocp || oci;
+        return aws || azure || gcp || ibm || ocp;
       case formatPath(routes.awsBreakdown.path):
       case formatPath(routes.awsDetails.path):
         return aws;
@@ -82,9 +80,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.gcpBreakdown.path):
       case formatPath(routes.gcpDetails.path):
         return gcp;
-      case formatPath(routes.ociBreakdown.path):
-      case formatPath(routes.ociDetails.path):
-        return oci;
       case formatPath(routes.ibmBreakdown.path):
       case formatPath(routes.ibmDetails.path):
         return ibm;

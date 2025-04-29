@@ -40,11 +40,6 @@ test('runExport API request for IBM', async () => {
   await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
-test('runExport API request for OCI', async () => {
-  exportUtils.runExport(ReportPathsType.oci, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
-
 test('runExport API request for all cloud filtered by OCP', async () => {
   exportUtils.runExport(ReportPathsType.ocpCloud, ReportType.cost, '');
   await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());

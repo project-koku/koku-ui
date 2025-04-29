@@ -5,7 +5,6 @@ import { runReport as runAzureReport } from './azureReports';
 import { runReport as runGcpOcpReport } from './gcpOcpReports';
 import { runReport as runGcpReport } from './gcpReports';
 import { runReport as runIbmReport } from './ibmReports';
-import { runReport as runOciReport } from './ociReports';
 import { runReport as runOcpCloudReport } from './ocpCloudReports';
 import { runReport as runOcpReport } from './ocpReports';
 import type { ReportType } from './report';
@@ -35,9 +34,6 @@ export function runReport(reportPathsType: ReportPathsType, reportType: ReportTy
       break;
     case ReportPathsType.ibm:
       result = runIbmReport(reportType, query);
-      break;
-    case ReportPathsType.oci:
-      result = runOciReport(reportType, query);
       break;
     case ReportPathsType.ocp:
       result = runOcpReport(reportType, query);

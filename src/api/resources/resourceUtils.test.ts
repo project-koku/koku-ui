@@ -41,11 +41,6 @@ test('runResource API request for IBM', async () => {
   await waitFor(() => expect(resourceUtils.runResource).toHaveBeenCalled());
 });
 
-test('runResource API request for OCI', async () => {
-  resourceUtils.runResource(ResourcePathsType.oci, ResourceType.payerTenantId, '');
-  await waitFor(() => expect(resourceUtils.runResource).toHaveBeenCalled());
-});
-
 test('runResource API request for OCP', async () => {
   resourceUtils.runResource(ResourcePathsType.ocp, ResourceType.project, '');
   await waitFor(() => expect(resourceUtils.runResource).toHaveBeenCalled());
@@ -82,10 +77,6 @@ test('isResourceTypeValid for OCP on GCP', async () => {
 
 test('isResourceTypeValid for IBM', async () => {
   expect(resourceUtils.isResourceTypeValid(ResourcePathsType.ibm, ResourceType.project)).toEqual(true);
-});
-
-test('isResourceTypeValid for OCI', async () => {
-  expect(resourceUtils.isResourceTypeValid(ResourcePathsType.oci, ResourceType.payerTenantId)).toEqual(true);
 });
 
 test('isResourceTypeValid for OCP', async () => {
