@@ -24,11 +24,6 @@ export const ibmProvidersQuery: ProvidersQuery = {
   type: 'IBM',
 };
 
-export const ociProvidersQuery: ProvidersQuery = {
-  limit: 100,
-  type: 'OCI',
-};
-
 export const ocpProvidersQuery: ProvidersQuery = {
   limit: 100,
   type: 'OCP',

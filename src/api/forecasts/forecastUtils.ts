@@ -7,7 +7,6 @@ import { ForecastPathsType } from './forecast';
 import { runForecast as runGcpForecast } from './gcpForecast';
 import { runForecast as runGcpOcpForecast } from './gcpOcpForecast';
 import { runForecast as runIbmForecast } from './ibmForecast';
-import { runForecast as runOciForecast } from './ociForecast';
 import { runForecast as runOcpCloudForecast } from './ocpCloudForecast';
 import { runForecast as runOcpForecast } from './ocpForecast';
 import { runForecast as runRhelForecast } from './rhelForecast';
@@ -35,9 +34,6 @@ export function runForecast(forecastPathsType: ForecastPathsType, forecastType: 
       break;
     case ForecastPathsType.ibm:
       result = runIbmForecast(forecastType, query);
-      break;
-    case ForecastPathsType.oci:
-      result = runOciForecast(forecastType, query);
       break;
     case ForecastPathsType.ocp:
       result = runOcpForecast(forecastType, query);

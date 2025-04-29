@@ -14,8 +14,6 @@ const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'r
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/details/gcpDetails'));
 const IbmBreakdown = lazy(() => import(/* webpackChunkName: "ibmBreakdown" */ 'routes/details/ibmBreakdown'));
 const IbmDetails = lazy(() => import(/* webpackChunkName: "ibmDetails" */ 'routes/details/ibmDetails'));
-const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'routes/details/ociBreakdown'));
-const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/details/ociDetails'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/details/ocpDetails'));
 const OptimizationsBreakdown = lazy(
@@ -70,14 +68,6 @@ export const routes = {
   ibmDetails: {
     element: userAccess(IbmDetails),
     path: '/ibm',
-  },
-  ociBreakdown: {
-    element: userAccess(OciBreakdown),
-    path: '/oci/breakdown',
-  },
-  ociDetails: {
-    element: userAccess(OciDetails),
-    path: '/oci',
   },
   ocpBreakdown: {
     element: userAccess(OcpBreakdown),

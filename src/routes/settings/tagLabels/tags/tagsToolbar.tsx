@@ -122,10 +122,6 @@ const TagsToolbar: React.FC<TagsToolbarProps> = ({
           //   name: intl.formatMessage(messages.ibm), // Todo: enable when supported by API
           // },
           {
-            key: 'OCI',
-            name: intl.formatMessage(messages.oci),
-          },
-          {
             key: 'OCP',
             name: intl.formatMessage(messages.openShift),
           },

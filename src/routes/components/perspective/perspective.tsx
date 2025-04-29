@@ -11,9 +11,6 @@ const infrastructureAwsOcpOptions = [{ label: messages.perspectiveValues, value:
 // Infrastructure Azure options
 const infrastructureAzureOptions = [{ label: messages.perspectiveValues, value: 'azure' }];
 
-// Infrastructure Oci options
-const infrastructureOciOptions = [{ label: messages.perspectiveValues, value: 'oci' }];
-
 // Infrastructure Azure filtered by OpenShift options
 const infrastructureAzureOcpOptions = [{ label: messages.perspectiveValues, value: 'azure_ocp' }];
 
@@ -48,13 +45,11 @@ interface PerspectiveProps {
   hasGcpOcp?: boolean;
   hasIbm?: boolean;
   hasIbmOcp?: boolean;
-  hasOci?: boolean;
   hasOcp?: boolean;
   hasOcpCloud?: boolean;
   hasRhel?: boolean;
   isDisabled?: boolean;
   isIbmToggleEnabled?: boolean;
-  isOciToggleEnabled?: boolean;
   isInfrastructureTab?: boolean; // Used by the overview page
   isRhelTab?: boolean; // Used by the overview page,
   onSelect?: (value: string) => void;
@@ -69,7 +64,6 @@ const getInfrastructureOptions = ({
   hasGcpOcp,
   hasIbm,
   hasIbmOcp,
-  hasOci,
   isIbmToggleEnabled,
 }) => {
   const options = [];
@@ -98,9 +92,6 @@ const getInfrastructureOptions = ({
   if (hasAzureOcp) {
     options.push(...infrastructureAzureOcpOptions);
   }
-  if (hasOci) {
-    options.push(...infrastructureOciOptions);
-  }
   return options;
 };
 
@@ -114,7 +105,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
   hasGcpOcp,
   hasIbm,
   hasIbmOcp,
-  hasOci,
   hasOcp,
   hasOcpCloud,
   hasRhel,
@@ -143,7 +133,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
           hasGcpOcp,
           hasIbm,
           hasIbmOcp,
-          hasOci,
           isIbmToggleEnabled,
         })
       );
@@ -174,7 +163,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
         hasGcpOcp,
         hasIbm,
         hasIbmOcp,
-        hasOci,
         isIbmToggleEnabled,
       })
     );

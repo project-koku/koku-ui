@@ -40,11 +40,6 @@ test('runReport API request for IBM', async () => {
   await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
 });
 
-test('runReport API request for OCI', async () => {
-  reportUtils.runReport(ReportPathsType.oci, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
 test('runReport API request for all cloud filtered by OCP', async () => {
   reportUtils.runReport(ReportPathsType.ocpCloud, ReportType.cost, '');
   await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());

@@ -41,7 +41,6 @@ export const enum ForecastPathsType {
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
   ibm = 'ibm',
-  oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
   rhel = 'rhel',
