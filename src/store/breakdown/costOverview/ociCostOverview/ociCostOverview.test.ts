@@ -6,7 +6,7 @@ import { reportActions } from 'store/reports';
 import { ociCostOverviewStateKey } from './ociCostOverviewCommon';
 import { ociCostOverviewReducer } from './ociCostOverviewReducer';
 import * as selectors from './ociCostOverviewSelectors';
-import { accountSummaryWidget, costBreakdownWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './ociCostOverviewWidgets';
+import { accountSummaryWidget, costBreakdownWidget, regionSummaryWidget, serviceSummaryWidget } from './ociCostOverviewWidgets';
 
 const createOciCostOverviewStore = createMockStoreCreator({
   [ociCostOverviewStateKey]: ociCostOverviewReducer,
@@ -23,10 +23,9 @@ test('default state', () => {
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costBreakdownWidget.id,
-    costWidget.id,
     accountSummaryWidget.id,
     serviceSummaryWidget.id,
     regionSummaryWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
+  expect(selectors.selectWidget(state, costBreakdownWidget.id)).toEqual(costBreakdownWidget);
 });

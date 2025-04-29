@@ -9,7 +9,6 @@ import * as selectors from './rhelCostOverviewSelectors';
 import {
   clusterWidget,
   costBreakdownWidget,
-  costWidget,
   cpuUsageWidget,
   memoryUsageWidget,
   projectSummaryWidget,
@@ -31,12 +30,11 @@ test('default state', () => {
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costBreakdownWidget.id,
-    costWidget.id,
     clusterWidget.id,
     projectSummaryWidget.id,
     cpuUsageWidget.id,
     memoryUsageWidget.id,
     volumeUsageWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
+  expect(selectors.selectWidget(state, costBreakdownWidget.id)).toEqual(costBreakdownWidget);
 });
