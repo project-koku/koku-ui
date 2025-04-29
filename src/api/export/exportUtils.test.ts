@@ -35,11 +35,6 @@ test('runExport API request for OCP on GCP', async () => {
   await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });
 
-test('runExport API request for IBM', async () => {
-  exportUtils.runExport(ReportPathsType.ibm, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
-
 test('runExport API request for all cloud filtered by OCP', async () => {
   exportUtils.runExport(ReportPathsType.ocpCloud, ReportType.cost, '');
   await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
@@ -47,10 +42,5 @@ test('runExport API request for all cloud filtered by OCP', async () => {
 
 test('runExport API request for OCP', async () => {
   exportUtils.runExport(ReportPathsType.ocp, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
-
-test('runExport API request for RHEL', async () => {
-  exportUtils.runExport(ReportPathsType.rhel, ReportType.cost, '');
   await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
 });

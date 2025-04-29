@@ -464,14 +464,6 @@
               }
             ]
           },
-          "ibm": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM Cloud - Top 5 Costliest"
-              }
-            ]
-          },
           "ocp": {
             "value": [
               {
@@ -4228,22 +4220,6 @@
               }
             ]
           },
-          "ibm": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM Cloud - Top 5 Costliest"
-              }
-            ]
-          },
-          "ibm_ocp": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM Cloud filtered by OpenShift - Top 5 Costliest"
-              }
-            ]
-          },
           "ocp": {
             "value": [
               {
@@ -5660,22 +5636,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Account"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Account"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -5750,22 +5710,6 @@
                       {
                         "type": 0,
                         "value": "Google Cloud Platform filtered by OpenShift grouped by Cost category"
-                      }
-                    ]
-                  },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Cost category"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Cost category"
                       }
                     ]
                   },
@@ -5846,22 +5790,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Cluster"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Cluster"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -5936,22 +5864,6 @@
                       {
                         "type": 0,
                         "value": "Google Cloud Platform filtered by OpenShift grouped by GCP Project"
-                      }
-                    ]
-                  },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by GCP Project"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by GCP Project"
                       }
                     ]
                   },
@@ -6032,22 +5944,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by instance"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by instance"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -6125,22 +6021,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Node"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Node"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -6215,22 +6095,6 @@
                       {
                         "type": 0,
                         "value": "Google Cloud Platform filtered by OpenShift grouped by Organizational unit"
-                      }
-                    ]
-                  },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Organizational unit"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Organizational unit"
                       }
                     ]
                   },
@@ -6314,22 +6178,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Project"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Project"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -6404,22 +6252,6 @@
                       {
                         "type": 0,
                         "value": "Google Cloud Platform filtered by OpenShift grouped by Region"
-                      }
-                    ]
-                  },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Region"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Region"
                       }
                     ]
                   },
@@ -6500,22 +6332,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Region"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Region"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -6590,22 +6406,6 @@
                       {
                         "type": 0,
                         "value": "Google Cloud Platform filtered by OpenShift grouped by Service"
-                      }
-                    ]
-                  },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Service"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Service"
                       }
                     ]
                   },
@@ -6686,22 +6486,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Service"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Service"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -6779,22 +6563,6 @@
                       }
                     ]
                   },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Account"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Account"
-                      }
-                    ]
-                  },
                   "ocp": {
                     "value": [
                       {
@@ -6869,22 +6637,6 @@
                       {
                         "type": 0,
                         "value": "Google Cloud Platform filtered by OpenShift grouped by Tag"
-                      }
-                    ]
-                  },
-                  "ibm": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud grouped by Tag"
-                      }
-                    ]
-                  },
-                  "ibm_ocp": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "IBM Cloud filtered by OpenShift grouped by Tag"
                       }
                     ]
                   },
@@ -10126,64 +9878,6 @@
         "value": "value"
       }
     ],
-    "ibm": [
-      {
-        "type": 0,
-        "value": "IBM Cloud"
-      }
-    ],
-    "ibmComputeTitle": [
-      {
-        "type": 0,
-        "value": "Compute instances usage"
-      }
-    ],
-    "ibmCostTitle": [
-      {
-        "type": 0,
-        "value": "IBM Cloud services cost"
-      }
-    ],
-    "ibmCostTrendTitle": [
-      {
-        "type": 0,
-        "value": "IBM Cloud services cumulative cost comparison ("
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "ibmDailyCostTrendTitle": [
-      {
-        "type": 0,
-        "value": "IBM Cloud services daily cost comparison ("
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "ibmDesc": [
-      {
-        "type": 0,
-        "value": "Raw cost from IBM Cloud infrastructure."
-      }
-    ],
-    "ibmDetailsTitle": [
-      {
-        "type": 0,
-        "value": "IBM Cloud details"
-      }
-    ],
     "inactiveSourcesGoTo": [
       {
         "type": 0,
@@ -11056,18 +10750,6 @@
         "value": "Get started with Integrations"
       }
     ],
-    "noProvidersStateIbmDesc": [
-      {
-        "type": 0,
-        "value": "Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
-      }
-    ],
-    "noProvidersStateIbmTitle": [
-      {
-        "type": 0,
-        "value": "Track your IBM Cloud spending!"
-      }
-    ],
     "noProvidersStateOcpAddSources": [
       {
         "type": 0,
@@ -11146,12 +10828,6 @@
         "value": "Google Cloud Platform in cost management"
       }
     ],
-    "notAuthorizedStateIbm": [
-      {
-        "type": 0,
-        "value": "IBM Cloud in cost management"
-      }
-    ],
     "notAuthorizedStateOcp": [
       {
         "type": 0,
@@ -11162,12 +10838,6 @@
       {
         "type": 0,
         "value": "Optimizations in cost management"
-      }
-    ],
-    "notAuthorizedStateRhel": [
-      {
-        "type": 0,
-        "value": "RHEL in cost management"
       }
     ],
     "notAuthorizedStateSettings": [
@@ -11430,12 +11100,6 @@
         "value": "Google Cloud Platform - Cost management | OpenShift"
       }
     ],
-    "pageTitleIbm": [
-      {
-        "type": 0,
-        "value": "IBM Cloud - Cost management | OpenShift"
-      }
-    ],
     "pageTitleOcp": [
       {
         "type": 0,
@@ -11452,12 +11116,6 @@
       {
         "type": 0,
         "value": "Overview - Cost management | OpenShift"
-      }
-    ],
-    "pageTitleRhel": [
-      {
-        "type": 0,
-        "value": "RHEL - Cost management | OpenShift"
       }
     ],
     "pageTitleSettings": [
@@ -11619,22 +11277,6 @@
               }
             ]
           },
-          "ibm": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM Cloud"
-              }
-            ]
-          },
-          "ibm_ocp": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM filtered by OpenShift"
-              }
-            ]
-          },
           "ocp": {
             "value": [
               {
@@ -11653,14 +11295,6 @@
           },
           "other": {
             "value": []
-          },
-          "rhel": {
-            "value": [
-              {
-                "type": 0,
-                "value": "All RHEL"
-              }
-            ]
           }
         },
         "type": 5,
@@ -11921,102 +11555,6 @@
       {
         "type": 0,
         "value": "Requests"
-      }
-    ],
-    "rhel": [
-      {
-        "type": 0,
-        "value": "RHEL"
-      }
-    ],
-    "rhelCpuUsageAndRequests": [
-      {
-        "type": 0,
-        "value": "CPU usage and requests"
-      }
-    ],
-    "rhelDailyUsageAndRequestComparison": [
-      {
-        "type": 0,
-        "value": "Daily usage and requests comparison ("
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "rhelDashboardCostTitle": [
-      {
-        "type": 0,
-        "value": "All RHEL cost"
-      }
-    ],
-    "rhelDashboardCostTrendTitle": [
-      {
-        "type": 0,
-        "value": "All RHEL cumulative cost comparison ("
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "rhelDashboardDailyCostTitle": [
-      {
-        "type": 0,
-        "value": "All RHEL daily cost comparison ("
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ")"
-      }
-    ],
-    "rhelDesc": [
-      {
-        "type": 0,
-        "value": "Total cost for Red Hat Enterprise Linux, comprising the infrastructure cost and cost calculated from metrics."
-      }
-    ],
-    "rhelDetailsInfrastructureCost": [
-      {
-        "type": 0,
-        "value": "Infrastructure cost"
-      }
-    ],
-    "rhelDetailsSupplementaryCost": [
-      {
-        "type": 0,
-        "value": "Supplementary cost"
-      }
-    ],
-    "rhelDetailsTitle": [
-      {
-        "type": 0,
-        "value": "RHEL details"
-      }
-    ],
-    "rhelMemoryUsageAndRequests": [
-      {
-        "type": 0,
-        "value": "Memory usage and requests"
-      }
-    ],
-    "rhelVolumeUsageAndRequests": [
-      {
-        "type": 0,
-        "value": "Volume usage and requests"
       }
     ],
     "save": [
@@ -12589,14 +12127,6 @@
               {
                 "type": 0,
                 "value": "Google Cloud Platform"
-              }
-            ]
-          },
-          "ibm": {
-            "value": [
-              {
-                "type": 0,
-                "value": "IBM Cloud"
               }
             ]
           },

@@ -9,16 +9,12 @@ export type FeatureToggleAction = ActionType<typeof setFeatureToggle | typeof re
 export type FeatureToggleState = Readonly<{
   isDebugToggleEnabled: boolean;
   isExportsToggleEnabled: boolean;
-  isFinsightsToggleEnabled: boolean;
-  isIbmToggleEnabled: boolean;
   isSystemsToggleEnabled: boolean;
 }>;
 
 export const defaultState: FeatureToggleState = {
   isDebugToggleEnabled: false,
   isExportsToggleEnabled: false,
-  isFinsightsToggleEnabled: false,
-  isIbmToggleEnabled: false,
   isSystemsToggleEnabled: false,
 };
 
@@ -31,8 +27,6 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         ...state,
         isDebugToggleEnabled: action.payload.isDebugToggleEnabled,
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
-        isFinsightsToggleEnabled: action.payload.isFinsightsToggleEnabled,
-        isIbmToggleEnabled: action.payload.isIbmToggleEnabled,
         isSystemsToggleEnabled: action.payload.isSystemsToggleEnabled,
       };
 

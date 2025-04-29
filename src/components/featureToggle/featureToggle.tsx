@@ -7,8 +7,6 @@ import { FeatureToggleActions } from 'store/featureToggle';
 export const enum FeatureToggle {
   debug = 'cost-management.ui.debug',
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
-  finsights = 'cost-management.ui.finsights', // RHEL support for FINsights https://issues.redhat.com/browse/COST-3306
-  ibm = 'cost-management.ui.ibm', // IBM https://issues.redhat.com/browse/COST-935
   systems = 'cost-management.ui.systems', // Systems https://issues.redhat.com/browse/COST-5718
 }
 
@@ -25,14 +23,6 @@ export const useIsExportsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.exports);
 };
 
-export const useIsFinsightsToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.finsights);
-};
-
-export const useIsIbmToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.ibm);
-};
-
 export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.systems);
 };
@@ -44,8 +34,6 @@ export const useFeatureToggle = () => {
 
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
-  const isFinsightsToggleEnabled = useIsFinsightsToggleEnabled();
-  const isIbmToggleEnabled = useIsIbmToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
 
   const fetchUser = callback => {
@@ -60,8 +48,6 @@ export const useFeatureToggle = () => {
       FeatureToggleActions.setFeatureToggle({
         isDebugToggleEnabled,
         isExportsToggleEnabled,
-        isFinsightsToggleEnabled,
-        isIbmToggleEnabled,
         isSystemsToggleEnabled,
       })
     );
@@ -69,13 +55,7 @@ export const useFeatureToggle = () => {
       // eslint-disable-next-line no-console
       fetchUser(identity => console.log('User identity:', identity));
     }
-  }, [
-    isDebugToggleEnabled,
-    isExportsToggleEnabled,
-    isFinsightsToggleEnabled,
-    isIbmToggleEnabled,
-    isSystemsToggleEnabled,
-  ]);
+  }, [isDebugToggleEnabled, isExportsToggleEnabled, isSystemsToggleEnabled]);
 };
 
 export default useFeatureToggle;

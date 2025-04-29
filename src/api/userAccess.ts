@@ -21,12 +21,7 @@ export const enum UserAccessType {
   cost_model = 'cost_model',
   explorer = 'explorer',
   gcp = 'gcp',
-  ibm = 'ibm',
   ocp = 'ocp',
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
-  rhel = 'ocp', // Todo: update to use RHEL when APIs are available
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
-  ros = 'ocp',
   settings = 'settings',
 }
 

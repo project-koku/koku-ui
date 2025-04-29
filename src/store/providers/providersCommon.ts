@@ -19,11 +19,6 @@ export const gcpProvidersQuery: ProvidersQuery = {
   type: 'GCP',
 };
 
-export const ibmProvidersQuery: ProvidersQuery = {
-  limit: 100,
-  type: 'IBM',
-};
-
 export const ocpProvidersQuery: ProvidersQuery = {
   limit: 100,
   type: 'OCP',

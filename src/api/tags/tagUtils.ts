@@ -4,10 +4,8 @@ import { runTag as runAzureOcpTag } from './azureOcpTags';
 import { runTag as runAzureTag } from './azureTags';
 import { runTag as runGcpOcpTag } from './gcpOcpTags';
 import { runTag as runGcpTag } from './gcpTags';
-import { runTag as runIbmTag } from './ibmTags';
 import { runTag as runOcpCloudTag } from './ocpCloudTags';
 import { runTag as runOcpTag } from './ocpTags';
-import { runTag as runRhelTag } from './rhelTags';
 import type { TagType } from './tag';
 import { TagPathsType } from './tag';
 
@@ -32,17 +30,11 @@ export function runTag(tagPathsType: TagPathsType, tagType: TagType, query: stri
     case TagPathsType.gcpOcp:
       result = runGcpOcpTag(tagType, query);
       break;
-    case TagPathsType.ibm:
-      result = runIbmTag(tagType, query);
-      break;
     case TagPathsType.ocp:
       result = runOcpTag(tagType, query);
       break;
     case TagPathsType.ocpCloud:
       result = runOcpCloudTag(tagType, query);
-      break;
-    case TagPathsType.rhel:
-      result = runRhelTag(tagType, query);
       break;
   }
   return result;
