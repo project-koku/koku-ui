@@ -26,18 +26,6 @@ test('Exports feature is enabled', async () => {
   expect(FeatureToggleSelectors.selectIsExportsToggleEnabled(store.getState())).toBe(true);
 });
 
-test('FINsights feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureToggle({ isFinsightsToggleEnabled: true }));
-  expect(FeatureToggleSelectors.selectIsFinsightsToggleEnabled(store.getState())).toBe(true);
-});
-
-test('IBM feature is enabled', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.setFeatureToggle({ isIbmToggleEnabled: true }));
-  expect(FeatureToggleSelectors.selectIsIbmToggleEnabled(store.getState())).toBe(true);
-});
-
 test('Systems feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isSystemsToggleEnabled: true }));

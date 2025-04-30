@@ -41,10 +41,8 @@ import { AzureDashboard } from 'routes/overview/azureDashboard';
 import { AzureOcpDashboard } from 'routes/overview/azureOcpDashboard';
 import { GcpDashboard } from 'routes/overview/gcpDashboard';
 import { GcpOcpDashboard } from 'routes/overview/gcpOcpDashboard';
-import { IbmDashboard } from 'routes/overview/ibmDashboard';
 import { OcpCloudDashboard } from 'routes/overview/ocpCloudDashboard';
 import { OcpDashboard } from 'routes/overview/ocpDashboard';
-import { RhelDashboard } from 'routes/overview/rhelDashboard';
 import {
   filterProviders,
   hasCloudCurrentMonthData,
@@ -55,7 +53,6 @@ import {
   hasPreviousMonthData,
 } from 'routes/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dates';
@@ -66,13 +63,10 @@ import {
   hasAwsAccess,
   hasAzureAccess,
   hasGcpAccess,
-  hasIbmAccess,
   isAwsAvailable,
   isAzureAvailable,
   isGcpAvailable,
-  isIbmAvailable,
   isOcpAvailable,
-  isRhelAvailable,
 } from 'utils/userAccess';
 
 import { styles } from './overview.styles';
@@ -84,8 +78,6 @@ const enum InfrastructurePerspective {
   azureOcp = 'azure_ocp', // Azure filtered by Ocp
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp', // GCP filtered by Ocp
-  ibm = 'ibm',
-  ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
 }
 
@@ -96,11 +88,6 @@ const enum OcpPerspective {
 const enum OverviewTab {
   infrastructure = 'infrastructure',
   ocp = 'ocp',
-  rhel = 'rhel',
-}
-
-const enum RhelPerspective {
-  rhel = 'rhel',
 }
 
 export const getIdKeyForTab = (tab: OverviewTab) => {
@@ -109,8 +96,6 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
       return 'infrastructure';
     case OverviewTab.ocp:
       return 'ocp';
-    case OverviewTab.rhel:
-      return 'rhel';
   }
 };
 
@@ -126,15 +111,11 @@ interface OverviewStateProps {
   costType?: string;
   currency?: string;
   gcpProviders?: Providers;
-  ibmProviders?: Providers;
-  isFinsightsToggleEnabled?: boolean;
-  isIbmToggleEnabled?: boolean;
   ocpProviders?: Providers;
   providers?: Providers;
   providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
   perspective?: string;
-  rhelProviders?: Providers;
   query: OverviewQuery;
   tabKey?: number;
   userAccess?: UserAccess;
@@ -152,7 +133,6 @@ interface OverviewState {
   activeTabKey?: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
-  currentRhelPerspective?: string;
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps & OverviewDispatchProps;
@@ -170,7 +150,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       activeTabKey: tabKey,
       currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
       currentOcpPerspective: this.getDefaultOcpPerspective(),
-      currentRhelPerspective: this.getDefaultRhelPerspective(),
     });
   }
 
@@ -183,21 +162,15 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         activeTabKey: tabKey,
         currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
         currentOcpPerspective: this.getDefaultOcpPerspective(),
-        currentRhelPerspective: this.getDefaultRhelPerspective(),
       });
     }
   }
 
   private getAvailableTabs = () => {
-    const { isFinsightsToggleEnabled } = this.props;
     const availableTabs = [];
 
     const infrastructureTabs =
-      this.isAwsAvailable() ||
-      this.isAzureAvailable() ||
-      this.isGcpAvailable() ||
-      this.isIbmAvailable() ||
-      this.isOcpCloudAvailable()
+      this.isAwsAvailable() || this.isAzureAvailable() || this.isGcpAvailable() || this.isOcpCloudAvailable()
         ? [
             {
               contentRef: React.createRef(),
@@ -215,32 +188,11 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         ]
       : undefined;
 
-    const rhelTabs = this.isRhelAvailable()
-      ? [
-          {
-            contentRef: React.createRef(),
-            tab: OverviewTab.rhel,
-          },
-        ]
-      : undefined;
-
-    if (isFinsightsToggleEnabled) {
-      if (infrastructureTabs) {
-        availableTabs.push(...infrastructureTabs);
-      }
-      if (rhelTabs) {
-        availableTabs.push(...rhelTabs);
-      }
-      if (ocpTabs) {
-        availableTabs.push(...ocpTabs);
-      }
-    } else {
-      if (ocpTabs) {
-        availableTabs.push(...ocpTabs);
-      }
-      if (infrastructureTabs) {
-        availableTabs.push(...infrastructureTabs);
-      }
+    if (ocpTabs) {
+      availableTabs.push(...ocpTabs);
+    }
+    if (infrastructureTabs) {
+      availableTabs.push(...infrastructureTabs);
     }
 
     return availableTabs;
@@ -270,39 +222,23 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getCurrentTab = () => {
-    const { isFinsightsToggleEnabled } = this.props;
     const { activeTabKey } = this.state;
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
     const hasGcp = this.isGcpAvailable();
-    const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
     const hasOcpCloud = this.isOcpCloudAvailable();
-    const hasRhel = this.isRhelAvailable();
 
-    const hasInfrastructure = hasAws || hasAzure || hasGcp || hasIbm || hasOcpCloud;
-    const showInfrastructureOnly = hasInfrastructure && !hasOcp && !hasRhel;
-    const showOcpOnly = hasOcp && !hasInfrastructure && !hasRhel;
-    const showRhelOnly = hasRhel && !hasInfrastructure && !hasOcp;
+    const hasInfrastructure = hasAws || hasAzure || hasGcp || hasOcpCloud;
+    const showInfrastructureOnly = hasInfrastructure && !hasOcp;
+    const showOcpOnly = hasOcp && !hasInfrastructure;
 
     if (showOcpOnly) {
       return OverviewTab.ocp;
     } else if (showInfrastructureOnly) {
       return OverviewTab.infrastructure;
-    } else if (showRhelOnly) {
-      return OverviewTab.rhel;
     } else {
-      if (isFinsightsToggleEnabled) {
-        switch (activeTabKey) {
-          case 0:
-            return OverviewTab.infrastructure;
-          case 1:
-            return OverviewTab.rhel;
-          case 2:
-            return OverviewTab.ocp;
-        }
-      }
       switch (activeTabKey) {
         case 0:
           return OverviewTab.ocp;
@@ -323,8 +259,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       case InfrastructurePerspective.azureOcp:
       case InfrastructurePerspective.gcp:
       case InfrastructurePerspective.gcpOcp:
-      case InfrastructurePerspective.ibm:
-      case InfrastructurePerspective.ibmOcp:
       case InfrastructurePerspective.ocpCloud:
         return perspective;
     }
@@ -340,9 +274,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     }
     if (this.isGcpAvailable()) {
       return InfrastructurePerspective.gcp;
-    }
-    if (this.isIbmAvailable()) {
-      return InfrastructurePerspective.ibm;
     }
     return undefined;
   };
@@ -361,33 +292,16 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     return undefined;
   };
 
-  private getDefaultRhelPerspective = () => {
-    const { perspective, rhelProviders, userAccess } = this.props;
-
-    // Upon page refresh, perspective param takes precedence
-    switch (perspective) {
-      case RhelPerspective.rhel:
-        return perspective;
-    }
-    if (isRhelAvailable(userAccess, rhelProviders)) {
-      return RhelPerspective.rhel;
-    }
-    return undefined;
-  };
-
   private getPerspective = () => {
-    const { isIbmToggleEnabled } = this.props;
-    const { currentInfrastructurePerspective, currentOcpPerspective, currentRhelPerspective } = this.state;
+    const { currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
     const hasGcp = this.isGcpAvailable();
-    const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
-    const hasRhel = this.isRhelAvailable();
 
     // Note: No need to test "OCP on cloud" here, since that requires at least one of the providers below
-    if (!(hasAws || hasAzure || hasGcp || hasIbm || hasOcp || hasRhel)) {
+    if (!(hasAws || hasAzure || hasGcp || hasOcp)) {
       return null;
     }
 
@@ -400,9 +314,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       case OverviewTab.ocp:
         currentItem = currentOcpPerspective;
         break;
-      case OverviewTab.rhel:
-        currentItem = currentRhelPerspective;
-        break;
     }
 
     return (
@@ -414,14 +325,9 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         hasAzureOcp={this.isAzureOcpAvailable()}
         hasGcp={hasGcp}
         hasGcpOcp={this.isGcpOcpAvailable()}
-        hasIbm={hasIbm}
-        hasIbmOcp={this.isIbmOcpAvailable()}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
-        hasRhel={hasRhel}
-        isIbmToggleEnabled={isIbmToggleEnabled}
         isInfrastructureTab={OverviewTab.infrastructure === currentTab}
-        isRhelTab={OverviewTab.rhel === currentTab}
         onSelect={this.handleOnPerspectiveSelect}
       />
     );
@@ -461,18 +367,8 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const {
-      awsProviders,
-      azureProviders,
-      costType,
-      currency,
-      gcpProviders,
-      ibmProviders,
-      ocpProviders,
-      rhelProviders,
-    } = this.props;
-    const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective, currentRhelPerspective } =
-      this.state;
+    const { awsProviders, azureProviders, costType, currency, gcpProviders, ocpProviders } = this.props;
+    const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
 
     const emptyTab = <></>; // Lazily load tabs
     const noData = <NoData isPageSection={false} showReload={false} />;
@@ -487,8 +383,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         const hasData =
           hasCloudData(awsProviders, ocpProviders) ||
           hasCloudData(azureProviders, ocpProviders) ||
-          hasCloudData(gcpProviders, ocpProviders) ||
-          hasCloudData(ibmProviders, ocpProviders);
+          hasCloudData(gcpProviders, ocpProviders);
         return hasData ? <OcpCloudDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
@@ -512,9 +407,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         const hasData =
           hasCloudCurrentMonthData(gcpProviders, ocpProviders) || hasCloudPreviousMonthData(gcpProviders, ocpProviders);
         return hasData ? <GcpOcpDashboard currency={currency} /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
-        const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
-        return hasData ? <IbmDashboard currency={currency} /> : noData;
       } else {
         return noData;
       }
@@ -522,13 +414,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
       if (currentOcpPerspective === OcpPerspective.ocp) {
         return hasData ? <OcpDashboard currency={currency} /> : noData;
-      } else {
-        return noData;
-      }
-    } else if (currentTab === OverviewTab.rhel) {
-      const hasData = hasCurrentMonthData(rhelProviders) || hasPreviousMonthData(rhelProviders);
-      if (currentRhelPerspective === RhelPerspective.rhel) {
-        return hasData ? <RhelDashboard currency={currency} /> : noData;
       } else {
         return noData;
       }
@@ -548,17 +433,12 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   private getTabTitle = (tab: OverviewTab) => {
-    const { intl, isFinsightsToggleEnabled } = this.props;
+    const { intl } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
-      if (isFinsightsToggleEnabled) {
-        return intl.formatMessage(messages.summary);
-      }
       return intl.formatMessage(messages.infrastructure);
     } else if (tab === OverviewTab.ocp) {
       return intl.formatMessage(messages.openShift);
-    } else if (tab === OverviewTab.rhel) {
-      return intl.formatMessage(messages.rhel);
     }
   };
 
@@ -651,16 +531,6 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
   };
 
-  private isIbmAvailable = () => {
-    const { ibmProviders, userAccess } = this.props;
-    return isIbmAvailable(userAccess, ibmProviders);
-  };
-
-  private isIbmOcpAvailable = () => {
-    const { ibmProviders, ocpProviders, userAccess } = this.props;
-    return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
-  };
-
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
     return isOcpAvailable(userAccess, ocpProviders);
@@ -670,19 +540,12 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const hasAwsOcp = this.isAwsOcpAvailable();
     const hasAzureOcp = this.isAzureOcpAvailable();
     const hasGcpOcp = this.isGcpOcpAvailable();
-    const hasIbmOcp = this.isIbmOcpAvailable();
 
-    return hasAwsOcp || hasAzureOcp || hasGcpOcp || hasIbmOcp;
-  };
-
-  private isRhelAvailable = () => {
-    const { isFinsightsToggleEnabled, rhelProviders, userAccess } = this.props;
-    return isFinsightsToggleEnabled && isRhelAvailable(userAccess, rhelProviders);
+    return hasAwsOcp || hasAzureOcp || hasGcpOcp;
   };
 
   public render() {
-    const { providersFetchStatus, intl, isFinsightsToggleEnabled, isIbmToggleEnabled, userAccessFetchStatus } =
-      this.props;
+    const { providersFetchStatus, intl, userAccessFetchStatus } = this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noProviders =
@@ -690,9 +553,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       !this.isAwsAvailable() &&
       !this.isAzureAvailable() &&
       !this.isGcpAvailable() &&
-      !this.isIbmAvailable() &&
-      !this.isOcpAvailable() &&
-      !this.isRhelAvailable();
+      !this.isOcpAvailable();
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
@@ -725,25 +586,11 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.openShift)}</p>
                           <p>{intl.formatMessage(messages.openShiftDesc)}</p>
                           <br />
-                          {isFinsightsToggleEnabled && (
-                            <>
-                              <p style={styles.infoTitle}>{intl.formatMessage(messages.rhel)}</p>
-                              <p>{intl.formatMessage(messages.rhelDesc)}</p>
-                              <br />
-                            </>
-                          )}
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.aws)}</p>
                           <p>{intl.formatMessage(messages.awsDesc)}</p>
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.gcp)}</p>
                           <p>{intl.formatMessage(messages.gcpDesc)}</p>
-                          {isIbmToggleEnabled && (
-                            <>
-                              <br />
-                              <p style={styles.infoTitle}>{intl.formatMessage(messages.ibm)}</p>
-                              <p>{intl.formatMessage(messages.ibmDesc)}</p>
-                            </>
-                          )}
                           <br />
                           <p style={styles.infoTitle}>{intl.formatMessage(messages.azure)}</p>
                           <p>{intl.formatMessage(messages.azureDesc)}</p>
@@ -817,16 +664,12 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     costType,
     currency,
     gcpProviders: filterProviders(providers, ProviderType.gcp),
-    ibmProviders: filterProviders(providers, ProviderType.ibm),
-    isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
-    isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
     ocpProviders: filterProviders(providers, ProviderType.ocp),
     providers,
     providersError,
     providersFetchStatus,
     perspective,
     query,
-    rhelProviders: filterProviders(providers, ProviderType.rhel),
     tabKey,
     userAccess,
     userAccessError,

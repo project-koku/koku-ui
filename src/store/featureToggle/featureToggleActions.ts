@@ -3,8 +3,6 @@ import { createAction } from 'typesafe-actions';
 export interface FeatureToggleActionMeta {
   isDebugToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
-  isFinsightsToggleEnabled?: boolean;
-  isIbmToggleEnabled?: boolean;
   isSystemsToggleEnabled?: boolean;
 }
 

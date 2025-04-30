@@ -31,8 +31,6 @@ export const enum TagPathsType {
   azureOcp = 'azure_ocp',
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
-  ibm = 'ibm',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
-  rhel = 'rhel',
 }

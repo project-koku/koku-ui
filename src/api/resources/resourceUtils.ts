@@ -4,10 +4,8 @@ import { runResource as runAzureOcpResource } from './azureOcpResource';
 import { runResource as runAzureResource } from './azureResource';
 import { runResource as runGcpOcpResource } from './gcpOcpResource';
 import { runResource as runGcpResource } from './gcpResource';
-import { runResource as runIbmResource } from './ibmResource';
 import { runResource as runOcpResource } from './ocpResource';
 import { ResourcePathsType, ResourceType } from './resource';
-import { runResource as runRhelResource } from './rhelResource';
 
 // Temporary check until typeahead is implemented for all filters
 export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resourceType: ResourceType) {
@@ -20,12 +18,8 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     resourcePathsType === ResourcePathsType.azureOcp ||
     resourcePathsType === ResourcePathsType.gcp ||
     resourcePathsType === ResourcePathsType.gcpOcp ||
-    resourcePathsType === ResourcePathsType.ibm ||
-    resourcePathsType === ResourcePathsType.ibmOcp ||
     resourcePathsType === ResourcePathsType.ocp ||
     resourcePathsType === ResourcePathsType.ocpCloud
-    // Todo: add type-ahead support when API is available
-    // resourcePathsType === ResourcePathsType.rhel
   ) {
     switch (resourceType) {
       case ResourceType.account:
@@ -72,15 +66,9 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
     case ResourcePathsType.gcpOcp:
       result = runGcpOcpResource(resourceType, query);
       break;
-    case ResourcePathsType.ibm:
-      result = runIbmResource(resourceType, query);
-      break;
     case ResourcePathsType.ocp:
     case ResourcePathsType.ocpCloud:
       result = runOcpResource(resourceType, query);
-      break;
-    case ResourcePathsType.rhel:
-      result = runRhelResource(resourceType, query);
       break;
   }
   return result;

@@ -28,9 +28,6 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
       case formatPath(routes.gcpBreakdown.path):
       case formatPath(routes.gcpDetails.path):
         return messages.pageTitleGcp;
-      case formatPath(routes.ibmBreakdown.path):
-      case formatPath(routes.ibmDetails.path):
-        return messages.pageTitleIbm;
       case formatPath(routes.ocpBreakdown.path):
       case formatPath(routes.ocpDetails.path):
         return messages.pageTitleOcp;
@@ -39,9 +36,6 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
         return messages.pageTitleOptimizations;
       case formatPath(routes.overview.path):
         return messages.pageTitleOverview;
-      case formatPath(routes.rhelBreakdown.path):
-      case formatPath(routes.rhelDetails.path):
-        return messages.pageTitleRhel;
       case formatPath(routes.settings.path):
         return messages.pageTitleSettings;
       default:

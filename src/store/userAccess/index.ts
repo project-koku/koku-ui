@@ -3,7 +3,6 @@ import {
   azureUserAccessQuery,
   costModelUserAccessQuery,
   gcpUserAccessQuery,
-  ibmUserAccessQuery,
   ocpUserAccessQuery,
   userAccessQuery,
 } from 'store/userAccess/userAccessCommon';
@@ -20,7 +19,6 @@ export {
   azureUserAccessQuery,
   costModelUserAccessQuery,
   gcpUserAccessQuery,
-  ibmUserAccessQuery,
   ocpUserAccessQuery,
   userAccessActions,
   userAccessReducer,

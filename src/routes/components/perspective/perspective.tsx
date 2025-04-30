@@ -20,20 +20,11 @@ const infrastructureGcpOptions = [{ label: messages.perspectiveValues, value: 'g
 // Infrastructure GCP filtered by OCP options
 const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value: 'gcp_ocp' }];
 
-// Infrastructure IBM options
-const infrastructureIbmOptions = [{ label: messages.perspectiveValues, value: 'ibm' }];
-
-// Infrastructure IBM filtered by OCP options
-const infrastructureIbmOcpOptions = [{ label: messages.perspectiveValues, value: 'ibm_ocp' }];
-
 // Infrastructure Ocp cloud options
 const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
 
 // Ocp options
 const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
-
-// RHEL options
-const rhelOptions = [{ label: messages.perspectiveValues, value: 'rhel' }];
 
 interface PerspectiveProps {
   currentItem?: string;
@@ -43,29 +34,14 @@ interface PerspectiveProps {
   hasAzureOcp?: boolean;
   hasGcp?: boolean;
   hasGcpOcp?: boolean;
-  hasIbm?: boolean;
-  hasIbmOcp?: boolean;
   hasOcp?: boolean;
   hasOcpCloud?: boolean;
-  hasRhel?: boolean;
   isDisabled?: boolean;
-  isIbmToggleEnabled?: boolean;
   isInfrastructureTab?: boolean; // Used by the overview page
-  isRhelTab?: boolean; // Used by the overview page,
   onSelect?: (value: string) => void;
 }
 
-const getInfrastructureOptions = ({
-  hasAws,
-  hasAwsOcp,
-  hasAzure,
-  hasAzureOcp,
-  hasGcp,
-  hasGcpOcp,
-  hasIbm,
-  hasIbmOcp,
-  isIbmToggleEnabled,
-}) => {
+const getInfrastructureOptions = ({ hasAws, hasAwsOcp, hasAzure, hasAzureOcp, hasGcp, hasGcpOcp }) => {
   const options = [];
 
   if (hasAws) {
@@ -79,12 +55,6 @@ const getInfrastructureOptions = ({
   }
   if (hasGcpOcp) {
     options.push(...infrastructureGcpOcpOptions);
-  }
-  if (hasIbm) {
-    options.push(...infrastructureIbmOptions);
-  }
-  if (hasIbmOcp && isIbmToggleEnabled) {
-    options.push(...infrastructureIbmOcpOptions);
   }
   if (hasAzure) {
     options.push(...infrastructureAzureOptions);
@@ -103,22 +73,16 @@ const Perspective: React.FC<PerspectiveProps> = ({
   hasAzureOcp,
   hasGcp,
   hasGcpOcp,
-  hasIbm,
-  hasIbmOcp,
   hasOcp,
   hasOcpCloud,
-  hasRhel,
   isDisabled,
-  isIbmToggleEnabled,
   isInfrastructureTab,
-  isRhelTab,
   onSelect,
 }): any => {
   // Dynamically show options if providers are available
   const options = [];
 
-  // Note isInfrastructureTab and isRhelTab will be undefined for cost explorer
-  if (isInfrastructureTab !== undefined || isRhelTab !== undefined) {
+  if (isInfrastructureTab !== undefined) {
     if (isInfrastructureTab) {
       if (hasOcpCloud) {
         options.push(...infrastructureOcpCloudOptions);
@@ -131,15 +95,8 @@ const Perspective: React.FC<PerspectiveProps> = ({
           hasAzureOcp,
           hasGcp,
           hasGcpOcp,
-          hasIbm,
-          hasIbmOcp,
-          isIbmToggleEnabled,
         })
       );
-    } else if (isRhelTab) {
-      if (hasRhel) {
-        options.push(...rhelOptions);
-      }
     } else if (hasOcp) {
       options.push(...ocpOptions);
     }
@@ -150,9 +107,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
     if (hasOcpCloud) {
       options.push(...infrastructureOcpCloudOptions);
     }
-    if (hasRhel) {
-      options.push(...rhelOptions);
-    }
     options.push(
       ...getInfrastructureOptions({
         hasAws,
@@ -161,9 +115,6 @@ const Perspective: React.FC<PerspectiveProps> = ({
         hasAzureOcp,
         hasGcp,
         hasGcpOcp,
-        hasIbm,
-        hasIbmOcp,
-        isIbmToggleEnabled,
       })
     );
   }

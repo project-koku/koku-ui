@@ -4,8 +4,6 @@ exports[`default state 1`] = `
 {
   "isDebugToggleEnabled": false,
   "isExportsToggleEnabled": false,
-  "isFinsightsToggleEnabled": false,
-  "isIbmToggleEnabled": false,
   "isSystemsToggleEnabled": false,
 }
 `;
