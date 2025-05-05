@@ -182,12 +182,9 @@ export const enum ReportPathsType {
   aws = 'aws',
   awsOcp = 'aws_ocp',
   azure = 'azure',
-  oci = 'oci',
   azureOcp = 'azure_ocp',
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
-  ibm = 'ibm',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
-  rhel = 'rhel',
 }

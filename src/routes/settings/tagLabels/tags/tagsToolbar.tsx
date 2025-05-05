@@ -117,14 +117,6 @@ const TagsToolbar: React.FC<TagsToolbarProps> = ({
             key: 'GCP',
             name: intl.formatMessage(messages.gcp),
           },
-          // {
-          //   key: 'IBM',
-          //   name: intl.formatMessage(messages.ibm), // Todo: enable when supported by API
-          // },
-          {
-            key: 'OCI',
-            name: intl.formatMessage(messages.oci),
-          },
           {
             key: 'OCP',
             name: intl.formatMessage(messages.openShift),

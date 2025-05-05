@@ -79,11 +79,6 @@ const NoProviders = () => {
                     {intl.formatMessage(messages.noProvidersCloudIntegrationHelpAzure)}
                   </a>
                 </ListItem>
-                <ListItem>
-                  <a href={intl.formatMessage(messages.docsIntegrationsOci)} rel="noreferrer" target="_blank">
-                    {intl.formatMessage(messages.noProvidersCloudIntegrationHelpOci)}
-                  </a>
-                </ListItem>
               </List>
             </ExpandableSection>
           </div>
@@ -101,7 +96,6 @@ const NoProviders = () => {
             ocp: <b>{intl.formatMessage(messages.ocp)}</b>,
             aws: <b>{intl.formatMessage(messages.awsAlt)}</b>,
             gcp: <b>{intl.formatMessage(messages.gcp)}</b>,
-            oci: <b>{intl.formatMessage(messages.oci)}</b>,
             azure: <b>{intl.formatMessage(messages.azure)}</b>,
           })}
         </div>

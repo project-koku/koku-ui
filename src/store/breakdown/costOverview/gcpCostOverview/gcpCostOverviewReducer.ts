@@ -3,7 +3,6 @@ import type { CostOverviewWidget } from 'store/breakdown/costOverview/common/cos
 import {
   accountSummaryWidget,
   costBreakdownWidget,
-  costWidget,
   projectSummaryWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
@@ -17,7 +16,6 @@ export type GcpCostOverviewState = Readonly<{
 export const defaultState: GcpCostOverviewState = {
   currentWidgets: [
     costBreakdownWidget.id,
-    costWidget.id,
     accountSummaryWidget.id,
     projectSummaryWidget.id,
     serviceSummaryWidget.id,
@@ -25,7 +23,6 @@ export const defaultState: GcpCostOverviewState = {
   ],
   widgets: {
     [costBreakdownWidget.id]: costBreakdownWidget,
-    [costWidget.id]: costWidget,
     [accountSummaryWidget.id]: accountSummaryWidget,
     [projectSummaryWidget.id]: projectSummaryWidget,
     [serviceSummaryWidget.id]: serviceSummaryWidget,

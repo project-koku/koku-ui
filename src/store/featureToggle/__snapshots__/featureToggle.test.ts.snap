@@ -2,10 +2,8 @@
 
 exports[`default state 1`] = `
 {
-  "isCostBreakdownChartToggleEnabled": false,
   "isDebugToggleEnabled": false,
   "isExportsToggleEnabled": false,
-  "isFinsightsToggleEnabled": false,
-  "isIbmToggleEnabled": false,
+  "isSystemsToggleEnabled": false,
 }
 `;

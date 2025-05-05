@@ -35,16 +35,6 @@ test('runTag API request for OCP on GCP', async () => {
   await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
 });
 
-test('runTag API request for IBM', async () => {
-  tagUtils.runTag(TagPathsType.ibm, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
-
-test('runTag API request for OCI', async () => {
-  tagUtils.runTag(TagPathsType.oci, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
-
 test('runTag API request for all cloud filtered by OCP', async () => {
   tagUtils.runTag(TagPathsType.ocpCloud, TagType.tag, '');
   await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
@@ -52,10 +42,5 @@ test('runTag API request for all cloud filtered by OCP', async () => {
 
 test('runTag API request for OCP', async () => {
   tagUtils.runTag(TagPathsType.ocp, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
-
-test('runTag API request for RHEL', async () => {
-  tagUtils.runTag(TagPathsType.rhel, TagType.tag, '');
   await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
 });

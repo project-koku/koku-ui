@@ -44,7 +44,6 @@ interface CostOverviewOwnProps {
 }
 
 export interface CostOverviewStateProps {
-  isCostBreakdownChartToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   title?: string;
   widgets: number[];
@@ -408,17 +407,15 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
-    const { isCostBreakdownChartToggleEnabled } = this.props;
-
     switch (widget.type) {
       case CostOverviewWidgetType.cluster:
         return this.getClusterCard(widget);
       case CostOverviewWidgetType.cost:
-        return !isCostBreakdownChartToggleEnabled ? this.getCostChart(widget) : null;
+        return this.getCostChart(widget);
       case CostOverviewWidgetType.costBreakdown:
-        return isCostBreakdownChartToggleEnabled ? this.getCostBreakdownChart(widget) : null;
+        return this.getCostBreakdownChart(widget);
       case CostOverviewWidgetType.costDistribution:
-        return !isCostBreakdownChartToggleEnabled ? this.getCostOverheadChart(widget) : null;
+        return this.getCostOverheadChart(widget);
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:

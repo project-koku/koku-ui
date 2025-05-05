@@ -8,22 +8,16 @@ import type { UserAccess } from 'api/userAccess';
 import type { ComputedAwsReportItemsParams } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import type { ComputedAzureReportItemsParams } from 'routes/utils/computedReport/getComputedAzureReportItems';
 import type { ComputedGcpReportItemsParams } from 'routes/utils/computedReport/getComputedGcpReportItems';
-import type { ComputedIbmReportItemsParams } from 'routes/utils/computedReport/getComputedIbmReportItems';
-import type { ComputedOciReportItemsParams } from 'routes/utils/computedReport/getComputedOciReportItems';
 import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { hasCloudProvider, hasCurrentMonthData, hasData, hasPreviousMonthData } from 'routes/utils/providers';
 import {
   hasAwsAccess,
   hasAzureAccess,
   hasGcpAccess,
-  hasIbmAccess,
   isAwsAvailable,
   isAzureAvailable,
   isGcpAvailable,
-  isIbmAvailable,
-  isOciAvailable,
   isOcpAvailable,
-  isRhelAvailable,
 } from 'utils/userAccess';
 
 export const enum PerspectiveType {
@@ -35,7 +29,6 @@ export const enum PerspectiveType {
   gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
   ibm = 'ibm',
   ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
-  oci = 'oci',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
   rhel = 'rhel',
@@ -92,35 +85,7 @@ export const groupByGcpOcpOptions: {
   { label: 'region', value: 'region' },
 ];
 
-export const groupByIbmOptions: {
-  label: string;
-  value: ComputedIbmReportItemsParams['idKey'];
-}[] = [
-  { label: 'account', value: 'account' },
-  { label: 'project', value: 'project' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
-];
-
-export const groupByOciOptions: {
-  label: string;
-  value: ComputedOciReportItemsParams['idKey'];
-}[] = [
-  { label: 'payer_tenant_id', value: 'payer_tenant_id' },
-  { label: 'product_service', value: 'product_service' },
-  { label: 'region', value: 'region' },
-];
-
 export const groupByOcpOptions: {
-  label: string;
-  value: ComputedOcpReportItemsParams['idKey'];
-}[] = [
-  { label: 'cluster', value: 'cluster' },
-  { label: 'node', value: 'node' },
-  { label: 'project', value: 'project' },
-];
-
-export const groupByRhelOptions: {
   label: string;
   value: ComputedOcpReportItemsParams['idKey'];
 }[] = [
@@ -132,22 +97,16 @@ export const groupByRhelOptions: {
 export const getPerspectiveDefault = ({
   awsProviders,
   azureProviders,
-  ociProviders,
   gcpProviders,
-  ibmProviders,
   ocpProviders,
   queryFromRoute,
-  rhelProviders,
   userAccess,
 }: {
   awsProviders: Providers;
   azureProviders: Providers;
-  ociProviders: Providers;
   gcpProviders: Providers;
-  ibmProviders: Providers;
   ocpProviders: Providers;
   queryFromRoute: Query;
-  rhelProviders: Providers;
   userAccess: UserAccess;
 }) => {
   const perspective = queryFromRoute.perspective;
@@ -161,27 +120,19 @@ export const getPerspectiveDefault = ({
     case PerspectiveType.azureOcp:
     case PerspectiveType.gcp:
     case PerspectiveType.gcpOcp:
-    case PerspectiveType.ibm:
-    case PerspectiveType.ibmOcp:
-    case PerspectiveType.oci:
     case PerspectiveType.ocpCloud:
-    case PerspectiveType.rhel:
       return perspective;
   }
 
   if (isOcpAvailable(userAccess, ocpProviders)) {
     return PerspectiveType.ocp;
   }
-  if (isRhelAvailable(userAccess, rhelProviders)) {
-    return PerspectiveType.rhel;
-  }
 
   const hasAwsCloud = hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
   const hasAzureCloud = hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
   const hasGcpCloud = hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
-  const hasIbmCloud = hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
 
-  if (hasAwsCloud || hasAzureCloud || hasGcpCloud || hasIbmCloud) {
+  if (hasAwsCloud || hasAzureCloud || hasGcpCloud) {
     return PerspectiveType.ocpCloud;
   }
   if (isAwsAvailable(userAccess, awsProviders)) {
@@ -193,12 +144,6 @@ export const getPerspectiveDefault = ({
   if (isGcpAvailable(userAccess, gcpProviders)) {
     return PerspectiveType.gcp;
   }
-  if (isIbmAvailable(userAccess, ibmProviders)) {
-    return PerspectiveType.ibm;
-  }
-  if (isOciAvailable(userAccess, ociProviders)) {
-    return PerspectiveType.oci;
-  }
   return undefined;
 };
 
@@ -209,19 +154,14 @@ export const getGroupByDefault = (perspective: string) => {
     case PerspectiveType.awsOcp:
     case PerspectiveType.gcp:
     case PerspectiveType.gcpOcp:
-    case PerspectiveType.ibm:
       result = 'account';
       break;
     case PerspectiveType.azure:
     case PerspectiveType.azureOcp:
       result = 'subscription_guid';
       break;
-    case PerspectiveType.oci:
-      result = 'payer_tenant_id';
-      break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
-    case PerspectiveType.rhel:
       result = 'project';
       break;
     default:
@@ -252,18 +192,9 @@ export const getGroupByOptions = (perspective: string) => {
     case PerspectiveType.gcpOcp:
       result = [...groupByGcpOcpOptions, ...groupByOcpOptions];
       break;
-    case PerspectiveType.ibm:
-      result = groupByIbmOptions;
-      break;
-    case PerspectiveType.oci:
-      result = groupByOciOptions;
-      break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
       result = groupByOcpOptions;
-      break;
-    case PerspectiveType.rhel:
-      result = groupByRhelOptions;
       break;
     default:
       result = undefined;
@@ -275,21 +206,15 @@ export const getGroupByOptions = (perspective: string) => {
 export const getIsDataAvailable = ({
   awsProviders,
   azureProviders,
-  ociProviders,
   gcpProviders,
-  ibmProviders,
   ocpProviders,
   perspective,
-  rhelProviders,
 }: {
   awsProviders: Providers;
   azureProviders: Providers;
-  ociProviders: Providers;
   gcpProviders: Providers;
-  ibmProviders: Providers;
   ocpProviders: Providers;
   perspective: string;
-  rhelProviders: Providers;
 }) => {
   let isCurrentMonthData;
   let isDataAvailable;
@@ -314,27 +239,11 @@ export const getIsDataAvailable = ({
       isCurrentMonthData = hasCurrentMonthData(gcpProviders);
       isPreviousMonthData = hasPreviousMonthData(gcpProviders);
       break;
-    case PerspectiveType.ibm:
-    case PerspectiveType.ibmOcp:
-      isDataAvailable = hasData(ibmProviders);
-      isCurrentMonthData = hasCurrentMonthData(ibmProviders);
-      isPreviousMonthData = hasPreviousMonthData(ibmProviders);
-      break;
-    case PerspectiveType.oci:
-      isDataAvailable = hasData(ociProviders);
-      isCurrentMonthData = hasCurrentMonthData(ociProviders);
-      isPreviousMonthData = hasPreviousMonthData(ociProviders);
-      break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
       isDataAvailable = hasData(ocpProviders);
       isCurrentMonthData = hasCurrentMonthData(ocpProviders);
       isPreviousMonthData = hasPreviousMonthData(ocpProviders);
-      break;
-    case PerspectiveType.rhel:
-      isDataAvailable = hasData(rhelProviders);
-      isCurrentMonthData = hasCurrentMonthData(rhelProviders);
-      isPreviousMonthData = hasPreviousMonthData(rhelProviders);
       break;
   }
   return {
@@ -388,20 +297,11 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.gcpOcp:
       result = ReportPathsType.gcpOcp;
       break;
-    case PerspectiveType.ibm:
-      result = ReportPathsType.ibm;
-      break;
-    case PerspectiveType.oci:
-      result = ReportPathsType.oci;
-      break;
     case PerspectiveType.ocp:
       result = ReportPathsType.ocp;
       break;
     case PerspectiveType.ocpCloud:
       result = ReportPathsType.ocpCloud;
-      break;
-    case PerspectiveType.rhel:
-      result = ReportPathsType.rhel;
       break;
     default:
       result = undefined;
@@ -425,16 +325,10 @@ export const getResourcePathsType = (perspective: string) => {
       return ResourcePathsType.gcp;
     case PerspectiveType.gcpOcp:
       return ResourcePathsType.gcpOcp;
-    case PerspectiveType.ibm:
-      return ResourcePathsType.ibm;
-    case PerspectiveType.oci:
-      return ResourcePathsType.oci;
     case PerspectiveType.ocp:
       return ResourcePathsType.ocp;
     case PerspectiveType.ocpCloud:
       return ResourcePathsType.ocpCloud;
-    case PerspectiveType.rhel:
-      return ResourcePathsType.rhel;
     default:
       result = undefined;
       break;
@@ -457,16 +351,10 @@ export const getTagReportPathsType = (perspective: string) => {
       return TagPathsType.gcp;
     case PerspectiveType.gcpOcp:
       return TagPathsType.gcpOcp;
-    case PerspectiveType.ibm:
-      return TagPathsType.ibm;
-    case PerspectiveType.oci:
-      return TagPathsType.oci;
     case PerspectiveType.ocp:
       return TagPathsType.ocp;
     case PerspectiveType.ocpCloud:
       return TagPathsType.ocpCloud;
-    case PerspectiveType.rhel:
-      return TagPathsType.rhel;
     default:
       result = undefined;
       break;

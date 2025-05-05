@@ -2,7 +2,7 @@ import { parse, stringify } from 'qs';
 
 export interface UserAccessQuery {
   page_size?: number;
-  type?: '' | 'AWS' | 'Azure' | 'cost_model' | 'GCP' | 'IBM' | 'OCP';
+  type?: '' | 'AWS' | 'Azure' | 'cost_model' | 'GCP' | 'OCP';
   beta?: true;
 }
 

@@ -34,14 +34,6 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
       case formatPath(routes.gcpDetails.path):
         msg = messages.notAuthorizedStateGcp;
         break;
-      case formatPath(routes.ibmBreakdown.path):
-      case formatPath(routes.ibmDetails.path):
-        msg = messages.notAuthorizedStateIbm;
-        break;
-      case formatPath(routes.ociBreakdown.path):
-      case formatPath(routes.ociDetails.path):
-        msg = messages.notAuthorizedStateOci;
-        break;
       case formatPath(routes.ocpBreakdown.path):
       case formatPath(routes.ocpDetails.path):
         msg = messages.notAuthorizedStateOcp;
@@ -49,10 +41,6 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
       case formatPath(routes.optimizationsBreakdown.path):
       case formatPath(routes.optimizationsDetails.path):
         msg = messages.notAuthorizedStateOptimizations;
-        break;
-      case formatPath(routes.rhelBreakdown.path):
-      case formatPath(routes.rhelDetails.path):
-        msg = messages.notAuthorizedStateRhel;
         break;
       case formatPath(routes.settings.path):
         msg = messages.notAuthorizedStateSettings;
