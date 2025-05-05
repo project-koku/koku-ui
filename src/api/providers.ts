@@ -95,13 +95,9 @@ export const enum ProviderType {
   aws = 'aws',
   azure = 'azure',
   gcp = 'gcp',
-  ibm = 'ibm',
-  oci = 'oci',
   ocp = 'ocp',
   // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
-  rhel = 'ocp', // Todo: Update to use rhel when APIs are available
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
-  ros = 'ocp', // Todo: Update to use rhel when APIs are available
+  ros = 'ocp', // Todo: Update to use ROS when APIs are available
   uuid = 'uuid',
 }
 

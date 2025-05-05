@@ -23,11 +23,6 @@ export const gcpUserAccessQuery: UserAccessQuery = {
   type: 'GCP',
 };
 
-export const ibmUserAccessQuery: UserAccessQuery = {
-  type: 'IBM',
-  beta: true,
-};
-
 // Omitting the type param returns all user access
 export const userAccessQuery: UserAccessQuery = {};
 

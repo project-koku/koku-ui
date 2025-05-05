@@ -50,7 +50,6 @@ import {
   handleOnSort,
 } from 'routes/utils/queryNavigate';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
@@ -59,15 +58,7 @@ import { awsCategoryPrefix, noPrefix, orgUnitIdKey, tagPrefix } from 'utils/prop
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCostType, getCurrency } from 'utils/sessionStorage';
-import {
-  isAwsAvailable,
-  isAzureAvailable,
-  isGcpAvailable,
-  isIbmAvailable,
-  isOciAvailable,
-  isOcpAvailable,
-  isRhelAvailable,
-} from 'utils/userAccess';
+import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './explorer.styles';
 import { ExplorerChart } from './explorerChart';
@@ -87,14 +78,12 @@ import {
 interface ExplorerStateProps {
   awsProviders: Providers;
   azureProviders: Providers;
-  ociProviders: Providers;
   costDistribution?: string;
   costType?: string;
   currency?: string;
   dateRangeType: DateRangeType;
   endDate?: Date;
   gcpProviders: Providers;
-  ibmProviders: Providers;
   isCurrentMonthData?: boolean;
   isDataAvailable?: boolean;
   isFinsightsToggleEnabled?: boolean;
@@ -110,7 +99,6 @@ interface ExplorerStateProps {
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
-  rhelProviders: Providers;
   startDate?: Date;
   userAccess: UserAccess;
   userAccessError: AxiosError;
@@ -202,19 +190,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       case PerspectiveType.gcpOcp:
         providerType = ProviderType.gcp;
         break;
-      case PerspectiveType.ibm:
-      case PerspectiveType.ibmOcp:
-        providerType = ProviderType.ibm;
-        break;
-      case PerspectiveType.oci:
-        providerType = ProviderType.oci;
-        break;
       case PerspectiveType.ocp:
       case PerspectiveType.ocpCloud:
         providerType = ProviderType.ocp;
-        break;
-      case PerspectiveType.rhel:
-        providerType = ProviderType.rhel;
         break;
     }
 
@@ -450,29 +428,14 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     return isAzureAvailable(userAccess, azureProviders);
   };
 
-  private isOciAvailable = () => {
-    const { ociProviders, userAccess } = this.props;
-    return isOciAvailable(userAccess, ociProviders);
-  };
-
   private isGcpAvailable = () => {
     const { gcpProviders, userAccess } = this.props;
     return isGcpAvailable(userAccess, gcpProviders);
   };
 
-  private isIbmAvailable = () => {
-    const { ibmProviders, userAccess } = this.props;
-    return isIbmAvailable(userAccess, ibmProviders);
-  };
-
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
     return isOcpAvailable(userAccess, ocpProviders);
-  };
-
-  private isRhelAvailable = () => {
-    const { isFinsightsToggleEnabled, rhelProviders, userAccess } = this.props;
-    return isFinsightsToggleEnabled && isRhelAvailable(userAccess, rhelProviders);
   };
 
   private updateReport = () => {
@@ -486,14 +449,12 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const {
       awsProviders,
       azureProviders,
-      ociProviders,
       costDistribution,
       costType,
       currency,
       dateRangeType,
       endDate,
       gcpProviders,
-      ibmProviders,
       intl,
       isCurrentMonthData,
       isDataAvailable,
@@ -514,18 +475,8 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     const noAwsProviders = !this.isAwsAvailable() && providersFetchStatus === FetchStatus.complete;
     const noAzureProviders = !this.isAzureAvailable() && providersFetchStatus === FetchStatus.complete;
     const noGcpProviders = !this.isGcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noOciProviders = !this.isOciAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noRhelProviders = !this.isRhelAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noProviders =
-      noAwsProviders &&
-      noAzureProviders &&
-      noGcpProviders &&
-      noIbmProviders &&
-      noOciProviders &&
-      noOcpProviders &&
-      noRhelProviders;
+    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noOcpProviders;
 
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
@@ -544,16 +495,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       return <Loading title={title} />;
     } else if (noProviders) {
       return <NoProviders />;
-    } else if (
-      !(
-        hasData(awsProviders) ||
-        hasData(azureProviders) ||
-        hasData(ociProviders) ||
-        hasData(gcpProviders) ||
-        hasData(ibmProviders) ||
-        hasData(ocpProviders)
-      )
-    ) {
+    } else if (!(hasData(awsProviders) || hasData(azureProviders) || hasData(gcpProviders) || hasData(ocpProviders))) {
       return <NoData title={title} />;
     }
 
@@ -666,11 +608,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 
   const awsProviders = filterProviders(providers, ProviderType.aws);
   const azureProviders = filterProviders(providers, ProviderType.azure);
-  const ociProviders = filterProviders(providers, ProviderType.oci);
   const gcpProviders = filterProviders(providers, ProviderType.gcp);
-  const ibmProviders = filterProviders(providers, ProviderType.ibm);
   const ocpProviders = filterProviders(providers, ProviderType.ocp);
-  const rhelProviders = filterProviders(providers, ProviderType.rhel);
 
   const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
@@ -686,11 +625,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     awsProviders,
     azureProviders,
     gcpProviders,
-    ibmProviders,
-    ociProviders,
     ocpProviders,
     queryFromRoute,
-    rhelProviders,
     userAccess,
   });
 
@@ -707,12 +643,9 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const { isCurrentMonthData, isDataAvailable, isPreviousMonthData } = getIsDataAvailable({
     awsProviders,
     azureProviders,
-    ociProviders,
     gcpProviders,
-    ibmProviders,
     ocpProviders,
     perspective,
-    rhelProviders,
   });
 
   const { dateRangeType, end_date, start_date } = getDateRangeFromQuery(queryFromRoute, !isCurrentMonthData);
@@ -761,12 +694,9 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     dateRangeType,
     endDate: end_date,
     gcpProviders,
-    ibmProviders,
     isCurrentMonthData,
     isDataAvailable,
-    isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
     isPreviousMonthData,
-    ociProviders,
     ocpProviders,
     perspective,
     providers,
@@ -779,7 +709,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     reportError,
     reportFetchStatus,
     reportQueryString,
-    rhelProviders,
     userAccess,
     userAccessError,
     userAccessFetchStatus,

@@ -37,14 +37,10 @@ import {
   hasAwsAccess,
   hasAzureAccess,
   hasGcpAccess,
-  hasIbmAccess,
   isAwsAvailable,
   isAzureAvailable,
   isGcpAvailable,
-  isIbmAvailable,
-  isOciAvailable,
   isOcpAvailable,
-  isRhelAvailable,
 } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
@@ -86,19 +82,14 @@ interface ExplorerHeaderStateProps {
   awsProviders?: Providers;
   azureProviders?: Providers;
   gcpProviders?: Providers;
-  ibmProviders?: Providers;
   isDistributedOverhead?: boolean;
   isExportsToggleEnabled?: boolean;
-  isFinsightsToggleEnabled?: boolean;
-  isIbmToggleEnabled?: boolean;
-  ociProviders?: Providers;
   ocpProviders?: Providers;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   providersQueryString: string;
   query: Query;
-  rhelProviders?: Providers;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -134,19 +125,15 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
   }
 
   private getPerspective = (isDisabled: boolean) => {
-    const { isIbmToggleEnabled } = this.props;
     const { currentPerspective } = this.state;
 
     const hasAws = this.isAwsAvailable();
     const hasAzure = this.isAzureAvailable();
-    const hasOci = this.isOciAvailable();
     const hasGcp = this.isGcpAvailable();
-    const hasIbm = this.isIbmAvailable();
     const hasOcp = this.isOcpAvailable();
-    const hasRhel = this.isRhelAvailable();
 
     // Note: No need to test "OCP on cloud" here, since that requires at least one of the providers below
-    if (!(hasAws || hasAzure || hasOci || hasGcp || hasIbm || hasOcp || hasRhel)) {
+    if (!(hasAws || hasAzure || hasGcp || hasOcp)) {
       return null;
     }
 
@@ -159,14 +146,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         hasAzureOcp={this.isAzureOcpAvailable()}
         hasGcp={hasGcp}
         hasGcpOcp={this.isGcpOcpAvailable()}
-        hasIbm={hasIbm}
-        hasIbmOcp={this.isIbmOcpAvailable()}
-        hasOci={hasOci}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
-        hasRhel={hasRhel}
         isDisabled={isDisabled}
-        isIbmToggleEnabled={isIbmToggleEnabled}
         onSelect={this.handleOnPerspectiveSelect}
       />
     );
@@ -222,21 +204,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
   };
 
-  private isIbmAvailable = () => {
-    const { ibmProviders, userAccess } = this.props;
-    return isIbmAvailable(userAccess, ibmProviders);
-  };
-
-  private isIbmOcpAvailable = () => {
-    const { ibmProviders, ocpProviders, userAccess } = this.props;
-    return hasIbmAccess(userAccess) && hasCloudProvider(ibmProviders, ocpProviders);
-  };
-
-  private isOciAvailable = () => {
-    const { ociProviders, userAccess } = this.props;
-    return isOciAvailable(userAccess, ociProviders);
-  };
-
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
     return isOcpAvailable(userAccess, ocpProviders);
@@ -246,14 +213,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const hasAwsOcp = this.isAwsOcpAvailable();
     const hasAzureOcp = this.isAzureOcpAvailable();
     const hasGcpOcp = this.isGcpOcpAvailable();
-    const hasIbmOcp = this.isIbmOcpAvailable();
 
-    return hasAwsOcp || hasAzureOcp || hasGcpOcp || hasIbmOcp;
-  };
-
-  private isRhelAvailable = () => {
-    const { isFinsightsToggleEnabled, rhelProviders, userAccess } = this.props;
-    return isFinsightsToggleEnabled && isRhelAvailable(userAccess, rhelProviders);
+    return hasAwsOcp || hasAzureOcp || hasGcpOcp;
   };
 
   public render() {
@@ -289,11 +250,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const noAwsProviders = !this.isAwsAvailable() && providersFetchStatus === FetchStatus.complete;
     const noAzureProviders = !this.isAzureAvailable() && providersFetchStatus === FetchStatus.complete;
     const noGcpProviders = !this.isGcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noIbmProviders = !this.isIbmAvailable() && providersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noRhelProviders = !this.isRhelAvailable() && providersFetchStatus === FetchStatus.complete;
-    const noProviders =
-      noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders && noRhelProviders;
+    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noOcpProviders;
 
     const groupByOptions = getGroupByOptions(perspective);
     const orgPathsType = getOrgReportPathsType(perspective);
@@ -444,18 +402,13 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
       awsProviders: filterProviders(providers, ProviderType.aws),
       azureProviders: filterProviders(providers, ProviderType.azure),
       gcpProviders: filterProviders(providers, ProviderType.gcp),
-      ibmProviders: filterProviders(providers, ProviderType.ibm),
       isExportsToggleEnabled: FeatureToggleSelectors.selectIsExportsToggleEnabled(state),
-      isFinsightsToggleEnabled: FeatureToggleSelectors.selectIsFinsightsToggleEnabled(state),
-      isIbmToggleEnabled: FeatureToggleSelectors.selectIsIbmToggleEnabled(state),
-      ociProviders: filterProviders(providers, ProviderType.oci),
       ocpProviders: filterProviders(providers, ProviderType.ocp),
       providers,
       providersError,
       providersFetchStatus,
       providersQueryString,
       query,
-      rhelProviders: filterProviders(providers, ProviderType.rhel),
       userAccess,
       userAccessError,
       userAccessFetchStatus,

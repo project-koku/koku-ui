@@ -35,16 +35,6 @@ test('runForecast API request for OCP on GCP', async () => {
   await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });
 
-test('runForecast API request for IBM', async () => {
-  forecastUtils.runForecast(ForecastPathsType.ibm, ForecastType.cost, '');
-  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
-});
-
-test('runForecast API request for OCI', async () => {
-  forecastUtils.runForecast(ForecastPathsType.oci, ForecastType.cost, '');
-  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
-});
-
 test('runForecast API request for all cloud filtered by OCP', async () => {
   forecastUtils.runForecast(ForecastPathsType.ocpCloud, ForecastType.cost, '');
   await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
@@ -52,10 +42,5 @@ test('runForecast API request for all cloud filtered by OCP', async () => {
 
 test('runForecast API request for OCP', async () => {
   forecastUtils.runForecast(ForecastPathsType.ocp, ForecastType.cost, '');
-  await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
-});
-
-test('runForecast API request for RHEL', async () => {
-  forecastUtils.runForecast(ForecastPathsType.rhel, ForecastType.cost, '');
   await waitFor(() => expect(forecastUtils.runForecast).toHaveBeenCalled());
 });

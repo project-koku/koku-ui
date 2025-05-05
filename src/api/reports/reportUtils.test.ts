@@ -35,16 +35,6 @@ test('runReport API request for OCP on GCP', async () => {
   await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
 });
 
-test('runReport API request for IBM', async () => {
-  reportUtils.runReport(ReportPathsType.ibm, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
-test('runReport API request for OCI', async () => {
-  reportUtils.runReport(ReportPathsType.oci, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
 test('runReport API request for all cloud filtered by OCP', async () => {
   reportUtils.runReport(ReportPathsType.ocpCloud, ReportType.cost, '');
   await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
@@ -52,10 +42,5 @@ test('runReport API request for all cloud filtered by OCP', async () => {
 
 test('runReport API request for OCP', async () => {
   reportUtils.runReport(ReportPathsType.ocp, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
-test('runReport API request for RHEL', async () => {
-  reportUtils.runReport(ReportPathsType.rhel, ReportType.cost, '');
   await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
 });

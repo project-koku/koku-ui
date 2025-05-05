@@ -4,13 +4,10 @@ import { runReport as runAzureOcpReport } from './azureOcpReports';
 import { runReport as runAzureReport } from './azureReports';
 import { runReport as runGcpOcpReport } from './gcpOcpReports';
 import { runReport as runGcpReport } from './gcpReports';
-import { runReport as runIbmReport } from './ibmReports';
-import { runReport as runOciReport } from './ociReports';
 import { runReport as runOcpCloudReport } from './ocpCloudReports';
 import { runReport as runOcpReport } from './ocpReports';
 import type { ReportType } from './report';
 import { ReportPathsType } from './report';
-import { runReport as runRhelReport } from './rhelReports';
 
 export function runReport(reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
   let result;
@@ -33,20 +30,11 @@ export function runReport(reportPathsType: ReportPathsType, reportType: ReportTy
     case ReportPathsType.gcpOcp:
       result = runGcpOcpReport(reportType, query);
       break;
-    case ReportPathsType.ibm:
-      result = runIbmReport(reportType, query);
-      break;
-    case ReportPathsType.oci:
-      result = runOciReport(reportType, query);
-      break;
     case ReportPathsType.ocp:
       result = runOcpReport(reportType, query);
       break;
     case ReportPathsType.ocpCloud:
       result = runOcpCloudReport(reportType, query);
-      break;
-    case ReportPathsType.rhel:
-      result = runRhelReport(reportType, query);
       break;
   }
   return result;

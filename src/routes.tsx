@@ -12,10 +12,6 @@ const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/details/gcpDetails'));
-const IbmBreakdown = lazy(() => import(/* webpackChunkName: "ibmBreakdown" */ 'routes/details/ibmBreakdown'));
-const IbmDetails = lazy(() => import(/* webpackChunkName: "ibmDetails" */ 'routes/details/ibmDetails'));
-const OciBreakdown = lazy(() => import(/* webpackChunkName: "ociBreakdown" */ 'routes/details/ociBreakdown'));
-const OciDetails = lazy(() => import(/* webpackChunkName: "ociDetails" */ 'routes/details/ociDetails'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/details/ocpDetails'));
 const OptimizationsBreakdown = lazy(
@@ -25,8 +21,6 @@ const OptimizationsDetails = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsDetails')
 );
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
-const RhelDetails = lazy(() => import(/* webpackChunkName: "rhelDetails" */ 'routes/details/rhelDetails'));
-const RhelBreakdown = lazy(() => import(/* webpackChunkName: "rhelBreakdown" */ 'routes/details/rhelBreakdown'));
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
 export const routes = {
@@ -63,22 +57,6 @@ export const routes = {
     element: userAccess(GcpDetails),
     path: '/gcp',
   },
-  ibmBreakdown: {
-    element: userAccess(IbmBreakdown),
-    path: '/ibm/breakdown',
-  },
-  ibmDetails: {
-    element: userAccess(IbmDetails),
-    path: '/ibm',
-  },
-  ociBreakdown: {
-    element: userAccess(OciBreakdown),
-    path: '/oci/breakdown',
-  },
-  ociDetails: {
-    element: userAccess(OciDetails),
-    path: '/oci',
-  },
   ocpBreakdown: {
     element: userAccess(OcpBreakdown),
     path: '/ocp/breakdown',
@@ -102,14 +80,6 @@ export const routes = {
   overview: {
     element: userAccess(Overview),
     path: '/',
-  },
-  rhelBreakdown: {
-    element: userAccess(RhelBreakdown),
-    path: '/rhel/breakdown',
-  },
-  rhelDetails: {
-    element: userAccess(RhelDetails),
-    path: '/rhel',
   },
   settings: {
     element: userAccess(Settings),

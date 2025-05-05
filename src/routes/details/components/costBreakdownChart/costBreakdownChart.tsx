@@ -474,6 +474,47 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             },
           ];
 
+    // Workaround for https://echarts.apache.org/en/option.html#series-sankey.tooltip.valueFormatter
+    const dataIndexWorkaround = (source: string) => {
+      const countDecimals = (value: number) => {
+        if (value % 1 !== 0) {
+          return value.toString().split('.')[1].length;
+        }
+        return 0;
+      };
+
+      const link = links.find(item => item.source === source);
+      if (link.value > 0) {
+        // Want most decimals here, so value is still unique
+        const count = countDecimals(link.value);
+        if (count > 0) {
+          link.value = Number(link.value.toFixed(count - 1));
+          return link.value;
+        }
+      }
+      return 0;
+    };
+    if (costDistribution) {
+      const newNetworkUnattributedDistributedValue = dataIndexWorkaround(networkUnattributedDistributedLabel);
+      const newPlatformDistributedValue = dataIndexWorkaround(platformDistributedLabel);
+      const newStorageUnattributedDistributedValue = dataIndexWorkaround(storageUnattributedDistributedLabel);
+      const newWorkerUnallocatedValue = dataIndexWorkaround(workerUnallocatedLabel);
+
+      // Recalculate overhead cost
+      const newOverheadCostValue =
+        newNetworkUnattributedDistributedValue +
+        newPlatformDistributedValue +
+        newStorageUnattributedDistributedValue +
+        newWorkerUnallocatedValue;
+
+      const overheadCostLink = links.find(item => item.source === overheadCostLabel);
+      overheadCostLink.value = newOverheadCostValue;
+
+      // Recalculate total cost
+      const totalCostLink = links.find(item => item.source === totalCostLabel);
+      totalCostLink.value = newOverheadCostValue + workloadCostValue;
+    }
+
     this.setState({ data, links, units });
   };
 
@@ -523,6 +564,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   destinationLabel: intl.formatMessage(messages.chartDestination),
                   sourceLabel: intl.formatMessage(messages.chartSource),
                   valueFormatter: (value: number) => {
+                    // Workaround for missing dataIndex param -- see https://echarts.apache.org/en/option.html#series-sankey.tooltip.valueFormatter
                     const link = links.find(val => val.value === value);
                     return `&nbsp;${formatCurrency(link ? link._value : value, units)}`;
                   },
