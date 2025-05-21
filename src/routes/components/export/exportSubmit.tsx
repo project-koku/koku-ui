@@ -6,6 +6,7 @@ import { getQuery } from 'api/queries/query';
 import type { ReportPathsType } from 'api/reports/report';
 import type { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
+import { ExportsLink } from 'components/drawers';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import fileDownload from 'js-file-download';
 import messages from 'locales/messages';
@@ -19,11 +20,13 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { getToday } from 'utils/dates';
+import type { NotificationComponentProps } from 'utils/notification';
+import { withNotification } from 'utils/notification';
 import { orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-export interface ExportSubmitOwnProps extends RouterComponentProps, WrappedComponentProps {
+export interface ExportSubmitOwnProps extends NotificationComponentProps, RouterComponentProps, WrappedComponentProps {
   disabled?: boolean;
   formatType: 'csv' | 'json';
   groupBy?: string;
@@ -48,6 +51,7 @@ interface ExportSubmitStateProps {
   endDate: string;
   exportError: AxiosError;
   exportFetchStatus?: FetchStatus;
+  exportFetchNotification?: any;
   exportQueryString: string;
   exportReport: Export;
   isExportsToggleEnabled?: boolean;
@@ -71,14 +75,31 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   }
 
   public componentDidUpdate(prevProps: ExportSubmitProps) {
-    const { exportError, exportReport } = this.props;
+    const { exportError, exportFetchNotification, exportReport, exportFetchStatus, intl, notification } = this.props;
     const { fetchExportClicked } = this.state;
 
     if (prevProps.exportReport !== exportReport && fetchExportClicked) {
       this.getExport();
     }
-    if (exportError) {
+
+    if (prevProps.exportError !== exportError) {
       this.props.onError(exportError);
+    }
+
+    if (
+      exportFetchNotification &&
+      ((prevProps.exportFetchStatus !== exportFetchStatus && exportFetchStatus === FetchStatus.complete) ||
+        (exportError && prevProps.exportError !== exportError))
+    ) {
+      notification.addNotification({
+        ...exportFetchNotification,
+        ...(!exportError && {
+          description: intl.formatMessage(messages.exportsSuccessDesc, {
+            link: <ExportsLink isActionLink onClick={() => notification.clearNotifications()} />,
+            value: <b>{intl.formatMessage(messages.exportsTitle)}</b>,
+          }),
+        }),
+      } as any);
     }
   }
 
@@ -249,6 +270,12 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const exportQueryString = getQueryString();
   const exportReport = exportSelectors.selectExport(state, reportPathsType, reportType, exportQueryString);
   const exportError = exportSelectors.selectExportError(state, reportPathsType, reportType, exportQueryString);
+  const exportFetchNotification = exportSelectors.selectExportFetchNotification(
+    state,
+    reportPathsType,
+    reportType,
+    exportQueryString
+  );
   const exportFetchStatus = exportSelectors.selectExportFetchStatus(
     state,
     reportPathsType,
@@ -259,6 +286,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   return {
     endDate: end_date,
     exportError,
+    exportFetchNotification,
     exportFetchStatus,
     exportQueryString,
     exportReport,
@@ -272,7 +300,7 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
 };
 
 const ExportSubmitConnect = connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase);
-const ExportSubmit = injectIntl(withRouter(ExportSubmitConnect));
+const ExportSubmit = injectIntl(withNotification(withRouter(ExportSubmitConnect)));
 
 export { ExportSubmit };
 export type { ExportSubmitProps };

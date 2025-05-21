@@ -26,6 +26,11 @@ exports[`default state 1`] = `
       "updateMarkup": false,
       "updateRate": false,
     },
+    "redirect": {
+      "error": null,
+      "notification": null,
+      "status": 0,
+    },
     "status": 0,
     "update": {
       "current": null,

@@ -8,6 +8,8 @@ export const selectRbacStatus = (state: RootState) => selectRbacState(state).sta
 
 export const selectRbacError = (state: RootState) => selectRbacState(state).error;
 
+export const selectRbacNotification = (state: RootState) => selectRbacState(state).notification;
+
 export const isCostModelWritePermission = (state: RootState) => {
   const { isOrgAdmin, permissions } = selectRbacState(state);
   if (isOrgAdmin === true) {

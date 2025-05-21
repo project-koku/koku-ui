@@ -1,5 +1,4 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import type { CostModel, CostModelRequest, CostModels } from 'api/costModels';
 import {
   deleteCostModel as apiDeleteCostModel,
@@ -17,9 +16,19 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 import { formatPath } from 'utils/paths';
 import type { RouteComponentProps } from 'utils/router';
 
+interface DialogPayload {
+  isOpen: boolean;
+  name: string;
+  meta?: any;
+}
+
 interface FilterQuery {
   currentFilterType?: string;
   currentFilterValue?: string;
+}
+
+interface CostModelsActionMeta {
+  notification?: any;
 }
 
 export const updateFilterToolbar = createAction('fetch/costModels/filter')<FilterQuery>();
@@ -27,12 +36,6 @@ export const updateFilterToolbar = createAction('fetch/costModels/filter')<Filte
 export const selectCostModel = createAction('select/costModels')<CostModel>();
 
 export const resetCostModel = createAction('reset/costModels')<void>();
-
-interface DialogPayload {
-  isOpen: boolean;
-  name: string;
-  meta?: any;
-}
 
 export const setCostModelDialog = createAction('display/costModels/dialog')<DialogPayload>();
 
@@ -45,6 +48,10 @@ export const {
   AxiosResponse<CostModels>,
   AxiosError
 >();
+
+export const redirectRequest = createAction('redirect/costModels/request')<void>();
+export const redirectSuccess = createAction('redirect/costModels/success')<void>();
+export const redirectFailure = createAction('redirect/costModels/failure')<AxiosError, CostModelsActionMeta>();
 
 export const fetchCostModels = (queryString: string = ''): any => {
   return (dispatch: Dispatch) => {
@@ -122,18 +129,23 @@ export const deleteCostModel = (uuid: string, dialog: string = '', router: Route
 
 export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: RouteComponentProps): ThunkAction => {
   return (dispatch: Dispatch) => {
+    dispatch(redirectRequest());
+
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
         router.navigate(`${formatPath(routes.costModel.basePath)}/${uuid}`);
+        dispatch(redirectSuccess());
       })
-      .catch(() => {
+      .catch(err => {
         dispatch(
-          addNotification({
-            title: intl.formatMessage(messages.costModelsRouterErrorTitle),
-            description: intl.formatMessage(messages.costModelsRouterServerError),
-            variant: AlertVariant.danger,
-            dismissable: true,
+          redirectFailure(err, {
+            notification: {
+              description: intl.formatMessage(messages.costModelsRouterServerError),
+              dismissable: true,
+              title: intl.formatMessage(messages.costModelsRouterErrorTitle),
+              variant: AlertVariant.danger,
+            },
           })
         );
       });

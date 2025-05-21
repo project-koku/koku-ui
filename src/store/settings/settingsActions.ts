@@ -1,5 +1,4 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import type { Settings, SettingsPayload } from 'api/settings';
 import { fetchSettings as apiFetchSettings, SettingsType, updateSettings as apiUpdateSettings } from 'api/settings';
 import type { AxiosError } from 'axios';
@@ -15,6 +14,7 @@ import { selectSettingsError, selectSettingsStatus, selectSettingsUpdateStatus }
 
 interface SettingsActionMeta {
   fetchId: string;
+  notification?: any;
 }
 
 export const fetchSettingsRequest = createAction('settings/fetch/request')<SettingsActionMeta>();
@@ -59,6 +59,7 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
   return (dispatch, getState) => {
     const state = getState();
     const fetchStatus = selectSettingsUpdateStatus(state, settingsType);
+
     if (fetchStatus === FetchStatus.inProgress) {
       return;
     }
@@ -109,27 +110,27 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
 
     return apiUpdateSettings(settingsType, payload)
       .then(res => {
-        dispatch(updateSettingsSuccess(res, meta));
+        const count = payload.ids
+          ? payload.ids.length
+          : payload.children
+            ? payload.children.length
+            : payload.parent
+              ? payload.parent.length
+              : Object.keys(payload).length;
+
         dispatch(
-          addNotification({
-            title: intl.formatMessage(msg, {
-              count: payload.ids
-                ? payload.ids.length
-                : payload.children
-                  ? payload.children.length
-                  : payload.parent
-                    ? payload.parent.length
-                    : 0,
-              value: status,
-            }),
-            description: intl.formatMessage(messages.settingsSuccessChanges),
-            variant: AlertVariant.success,
-            dismissable: true,
+          updateSettingsSuccess(res, {
+            ...meta,
+            notification: {
+              description: intl.formatMessage(messages.settingsSuccessChanges),
+              dismissable: true,
+              title: intl.formatMessage(msg, { count, value: status }),
+              variant: AlertVariant.success,
+            },
           })
         );
       })
       .catch(err => {
-        dispatch(updateSettingsFailure(err, meta));
         let description = intl.formatMessage(messages.settingsErrorDesc);
         let title = intl.formatMessage(messages.settingsErrorTitle);
 
@@ -149,12 +150,16 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
           description = intl.formatMessage(messages.tagMappingAddErrorDesc);
           title = intl.formatMessage(messages.tagMappingAddErrorTitle);
         }
+
         dispatch(
-          addNotification({
-            description,
-            dismissable: true,
-            title,
-            variant: AlertVariant.danger,
+          updateSettingsFailure(err, {
+            ...meta,
+            notification: {
+              description,
+              dismissable: true,
+              title,
+              variant: AlertVariant.danger,
+            },
           })
         );
       });

@@ -11,12 +11,14 @@ import { fetchSettingsFailure, fetchSettingsRequest, fetchSettingsSuccess } from
 export type SettingsState = Readonly<{
   byId: Map<string, Settings>;
   errors?: Map<string, AxiosError>;
+  notification?: Map<string, any>;
   status?: Map<string, FetchStatus>;
 }>;
 
 export const defaultState: SettingsState = {
   byId: new Map(),
   errors: new Map(),
+  notification: new Map(),
   status: new Map(),
 };
 
@@ -67,8 +69,9 @@ export function settingsReducer(state = defaultState, action: SettingsAction): S
     case getType(updateSettingsFailure):
       return {
         ...state,
-        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
         errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
+        notification: new Map(state.notification).set(action.meta.fetchId, action.meta.notification),
+        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
       };
     case getType(updateSettingsRequest):
       return {
@@ -78,8 +81,9 @@ export function settingsReducer(state = defaultState, action: SettingsAction): S
     case getType(updateSettingsSuccess):
       return {
         ...state,
-        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
         errors: new Map(state.errors).set(action.meta.fetchId, null),
+        notification: new Map(state.notification).set(action.meta.fetchId, action.meta.notification),
+        status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
       };
     default:
       return state;
