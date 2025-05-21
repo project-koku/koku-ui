@@ -85,7 +85,7 @@
   "devDependencies": {
     "@eslint/compat": "^1.2.9",
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.27.0",
     "@formatjs/cli": "^6.7.1",
     "@formatjs/ecma402-abstract": "^2.3.4",
     "@formatjs/fast-memoize": "^2.2.7",
