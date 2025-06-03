@@ -28,6 +28,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
+import type { NotificationComponentProps } from 'utils/notification';
+import { withNotification } from 'utils/notification';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -38,17 +40,21 @@ interface CostModelInfoOwnProps {
   costModelStatus: FetchStatus;
   costModelError: AxiosError;
   distribution: { value: string };
-  fetchMetrics: typeof metricsActions.fetchMetrics;
-  markup: { value: string };
-  metricsStatus: FetchStatus;
-  metricsError: AxiosError;
-  fetchRbac: typeof rbacActions.fetchRbac;
-  rbacStatus: FetchStatus;
-  rbacError: Error;
   fetchCostModels: typeof costModelsActions.fetchCostModels;
+  fetchMetrics: typeof metricsActions.fetchMetrics;
+  fetchRbac: typeof rbacActions.fetchRbac;
+  markup: { value: string };
+  metricsError: AxiosError;
+  metricsStatus: FetchStatus;
+  rbacError: Error;
+  rbacNotification?: any;
+  rbacStatus: FetchStatus;
 }
 
-type CostModelInfoProps = CostModelInfoOwnProps & RouterComponentProps & WrappedComponentProps;
+type CostModelInfoProps = CostModelInfoOwnProps &
+  NotificationComponentProps &
+  RouterComponentProps &
+  WrappedComponentProps;
 
 interface CostModelInfoState {
   tabIndex: number;
@@ -65,6 +71,22 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
     this.props.fetchRbac();
     this.props.fetchMetrics();
     this.props.fetchCostModels(`uuid=${this.props.router.params.uuid}`);
+  }
+
+  public componentDidUpdate(prevProps: CostModelInfoProps) {
+    const { notification, rbacError, rbacNotification, rbacStatus } = this.props;
+
+    if (
+      rbacNotification &&
+      rbacNotification !== null &&
+      rbacError &&
+      rbacError !== null &&
+      rbacError !== prevProps.rbacError &&
+      rbacStatus !== prevProps.rbacStatus &&
+      rbacStatus === FetchStatus.complete
+    ) {
+      notification.addNotification(rbacNotification);
+    }
   }
 
   public render() {
@@ -167,27 +189,30 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
 }
 
 export default injectIntl(
-  withRouter(
-    connect(
-      createMapStateToProps(store => {
-        return {
-          costModels: costModelsSelectors.costModels(store),
-          costModelError: costModelsSelectors.error(store),
-          costModelStatus: costModelsSelectors.status(store),
-          metricsHash: metricsSelectors.metrics(store),
-          maxRate: metricsSelectors.maxRate(store),
-          costTypes: metricsSelectors.costTypes(store),
-          metricsError: metricsSelectors.metricsState(store).error,
-          metricsStatus: metricsSelectors.status(store),
-          rbacError: rbacSelectors.selectRbacState(store).error,
-          rbacStatus: rbacSelectors.selectRbacState(store).status,
-        };
-      }),
-      {
-        fetchMetrics: metricsActions.fetchMetrics,
-        fetchRbac: rbacActions.fetchRbac,
-        fetchCostModels: costModelsActions.fetchCostModels,
-      }
-    )(CostModelInfo)
+  withNotification(
+    withRouter(
+      connect(
+        createMapStateToProps(state => {
+          return {
+            costModels: costModelsSelectors.costModels(state),
+            costModelError: costModelsSelectors.error(state),
+            costModelStatus: costModelsSelectors.status(state),
+            costTypes: metricsSelectors.costTypes(state),
+            maxRate: metricsSelectors.maxRate(state),
+            metricsError: metricsSelectors.metricsState(state).error,
+            metricsHash: metricsSelectors.metrics(state),
+            metricsStatus: metricsSelectors.status(state),
+            rbacError: rbacSelectors.selectRbacState(state).error,
+            rbacNotification: rbacSelectors.selectRbacState(state).notification,
+            rbacStatus: rbacSelectors.selectRbacState(state).status,
+          };
+        }),
+        {
+          fetchMetrics: metricsActions.fetchMetrics,
+          fetchRbac: rbacActions.fetchRbac,
+          fetchCostModels: costModelsActions.fetchCostModels,
+        }
+      )(CostModelInfo)
+    )
   )
 );

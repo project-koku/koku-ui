@@ -1,4 +1,5 @@
 import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Settings } from 'api/settings';
@@ -17,6 +18,7 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
+import { resetStatus } from 'store/settings/settingsActions';
 import { useStateCallback } from 'utils/hooks';
 
 import { styles } from './costCategory.styles';
@@ -243,6 +245,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
 
 const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const addNotification = useAddNotification();
 
   const settingsQuery = {
     filter_by: query.filter_by,
@@ -261,8 +264,21 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
     settingsSelectors.selectSettingsError(state, SettingsType.costCategories, settingsQueryString)
   );
 
+  const settingsUpdateDisableError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateError(state, SettingsType.costCategoriesDisable)
+  );
+  const settingsUpdateDisableNotification = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateNotification(state, SettingsType.costCategoriesDisable)
+  );
   const settingsUpdateDisableStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.costCategoriesDisable)
+  );
+
+  const settingsUpdateEnableError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateError(state, SettingsType.costCategoriesEnable)
+  );
+  const settingsUpdateEnableNotification = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateNotification(state, SettingsType.costCategoriesEnable)
   );
   const settingsUpdateEnableStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.costCategoriesEnable)
@@ -278,6 +294,26 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
       dispatch(settingsActions.fetchSettings(SettingsType.costCategories, settingsQueryString));
     }
   }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+
+  useEffect(() => {
+    if (
+      settingsUpdateEnableNotification &&
+      (settingsUpdateEnableStatus === FetchStatus.complete || settingsUpdateDisableError)
+    ) {
+      addNotification(settingsUpdateEnableNotification);
+      dispatch(resetStatus());
+    }
+  }, [settingsUpdateEnableNotification, settingsUpdateEnableStatus, settingsUpdateDisableError]);
+
+  useEffect(() => {
+    if (
+      settingsUpdateDisableNotification &&
+      (settingsUpdateDisableStatus === FetchStatus.complete || settingsUpdateEnableError)
+    ) {
+      addNotification(settingsUpdateDisableNotification);
+      dispatch(resetStatus());
+    }
+  }, [settingsUpdateDisableNotification, settingsUpdateDisableStatus, settingsUpdateEnableError]);
 
   return {
     settings,

@@ -1,5 +1,6 @@
 import Unavailable from '@patternfly/react-component-groups/dist/esm/UnavailableContent';
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Settings, SettingsData } from 'api/settings';
@@ -16,6 +17,7 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
+import { resetStatus } from 'store/settings/settingsActions';
 import { useStateCallback } from 'utils/hooks';
 
 import { styles } from './tags.styles';
@@ -247,6 +249,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
 
 const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const addNotification = useAddNotification();
 
   const settingsQuery = {
     filter_by: query.filter_by,
@@ -265,8 +268,21 @@ const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
     settingsSelectors.selectSettingsError(state, SettingsType.tags, settingsQueryString)
   );
 
+  const settingsUpdateDisableError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsDisable)
+  );
   const settingsUpdateDisableStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsDisable)
+  );
+  const settingsUpdateDisableNotification = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateNotification(state, SettingsType.tagsDisable)
+  );
+
+  const settingsUpdateEnableError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsEnable)
+  );
+  const settingsUpdateEnableNotification = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsUpdateNotification(state, SettingsType.tagsEnable)
   );
   const settingsUpdateEnableStatus = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsEnable)
@@ -282,6 +298,26 @@ const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
       dispatch(settingsActions.fetchSettings(SettingsType.tags, settingsQueryString));
     }
   }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+
+  useEffect(() => {
+    if (
+      settingsUpdateEnableNotification &&
+      (settingsUpdateEnableStatus === FetchStatus.complete || settingsUpdateDisableError)
+    ) {
+      addNotification(settingsUpdateEnableNotification);
+      dispatch(resetStatus());
+    }
+  }, [settingsUpdateEnableNotification, settingsUpdateEnableStatus, settingsUpdateDisableError]);
+
+  useEffect(() => {
+    if (
+      settingsUpdateDisableNotification &&
+      (settingsUpdateDisableStatus === FetchStatus.complete || settingsUpdateEnableError)
+    ) {
+      addNotification(settingsUpdateDisableNotification);
+      dispatch(resetStatus());
+    }
+  }, [settingsUpdateDisableNotification, settingsUpdateDisableStatus, settingsUpdateEnableError]);
 
   return {
     settings,

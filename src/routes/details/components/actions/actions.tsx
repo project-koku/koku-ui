@@ -1,4 +1,5 @@
 import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -8,13 +9,16 @@ import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 import { ExportModal } from 'routes/components/export';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
-import { createMapStateToProps } from 'store/common';
-import { costModelsActions } from 'store/costModels';
+import { createMapStateToProps, FetchStatus } from 'store/common';
+import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { uiActions } from 'store/ui';
+import type { NotificationComponentProps } from 'utils/notification';
+import { withNotification } from 'utils/notification';
 import { tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
-interface DetailsActionsOwnProps extends WrappedComponentProps, RouterComponentProps {
+interface DetailsActionsOwnProps extends NotificationComponentProps, RouterComponentProps, WrappedComponentProps {
   groupBy?: string;
   isDisabled?: boolean;
   isTimeScoped?: boolean;
@@ -24,18 +28,23 @@ interface DetailsActionsOwnProps extends WrappedComponentProps, RouterComponentP
   reportType: ReportType;
   showAggregateType?: boolean;
   showPriceListOption?: boolean;
+  showRedirectNotification?: boolean; // Only one Action component should add notifications
   timeScopeValue?: number;
 }
 
 interface DetailsActionsStateProps {
-  // TBD...
+  redirectError: AxiosError;
+  redirectNotification?: any;
+  redirectStatus: FetchStatus;
 }
 
 interface DetailsActionsDispatchProps {
   redirectToCostModel: typeof costModelsActions.redirectToCostModelFromSourceUuid;
+  resetState: typeof uiActions.resetState;
 }
 
 interface DetailsActionsState {
+  currentNotification?: any;
   isExportModalOpen?: boolean;
 }
 
@@ -51,6 +60,23 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
     super(stateProps, dispatchProps);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
+  }
+
+  public componentDidUpdate(prevProps: DetailsActionsProps) {
+    const { notification, redirectError, redirectNotification, redirectStatus, showRedirectNotification } = this.props;
+
+    if (
+      showRedirectNotification &&
+      redirectNotification &&
+      redirectNotification !== null &&
+      redirectError &&
+      redirectError !== null &&
+      redirectError !== prevProps.redirectError &&
+      redirectStatus !== prevProps.redirectStatus &&
+      redirectStatus === FetchStatus.complete
+    ) {
+      notification.addNotification(redirectNotification);
+    }
   }
 
   private getExportModal = () => {
@@ -130,14 +156,19 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsActionsOwnProps, DetailsActionsStateProps>((state, props) => {
-  return {};
+  return {
+    redirectError: costModelsSelectors.redirectError(state),
+    redirectNotification: costModelsSelectors.redirectNotification(state),
+    redirectStatus: costModelsSelectors.redirectStatus(state),
+  };
 });
 
 const mapDispatchToProps: DetailsActionsDispatchProps = {
   redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
+  resetState: uiActions.resetState,
 };
 
 const DetailsActionsConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsActionsBase);
-const Actions = injectIntl(withRouter(DetailsActionsConnect));
+const Actions = injectIntl(withNotification(withRouter(DetailsActionsConnect)));
 
 export default Actions;
