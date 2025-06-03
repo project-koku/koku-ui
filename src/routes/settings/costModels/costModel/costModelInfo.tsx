@@ -28,7 +28,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
-import type { NotificationComponentProps } from 'utils/notification';
+import type { Notification, NotificationComponentProps } from 'utils/notification';
 import { withNotification } from 'utils/notification';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -46,8 +46,8 @@ interface CostModelInfoOwnProps {
   markup: { value: string };
   metricsError: AxiosError;
   metricsStatus: FetchStatus;
-  rbacError: Error;
-  rbacNotification?: any;
+  rbacError: AxiosError;
+  rbacNotification?: Notification;
   rbacStatus: FetchStatus;
 }
 
@@ -68,9 +68,11 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
   }
 
   public componentDidMount() {
-    this.props.fetchRbac();
-    this.props.fetchMetrics();
-    this.props.fetchCostModels(`uuid=${this.props.router.params.uuid}`);
+    const { fetchCostModels, fetchMetrics, fetchRbac } = this.props;
+
+    fetchRbac();
+    fetchMetrics();
+    fetchCostModels(`uuid=${this.props.router.params.uuid}`);
   }
 
   public componentDidUpdate(prevProps: CostModelInfoProps) {

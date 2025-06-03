@@ -1,3 +1,4 @@
+import type { AlertProps } from '@patternfly/react-core';
 import {
   useAddNotification,
   useClearNotifications,
@@ -5,6 +6,14 @@ import {
   useRemoveNotification,
 } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import React from 'react';
+
+export interface Notification {
+  description?: string;
+  dismissable?: boolean;
+  id?: string;
+  title: string;
+  variant: AlertProps['variant'];
+}
 
 export interface NotificationProps {
   addNotification: any;

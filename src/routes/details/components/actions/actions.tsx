@@ -12,7 +12,7 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { uiActions } from 'store/ui';
-import type { NotificationComponentProps } from 'utils/notification';
+import type { Notification, NotificationComponentProps } from 'utils/notification';
 import { withNotification } from 'utils/notification';
 import { tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -34,7 +34,7 @@ interface DetailsActionsOwnProps extends NotificationComponentProps, RouterCompo
 
 interface DetailsActionsStateProps {
   redirectError: AxiosError;
-  redirectNotification?: any;
+  redirectNotification?: Notification;
   redirectStatus: FetchStatus;
 }
 
@@ -44,7 +44,7 @@ interface DetailsActionsDispatchProps {
 }
 
 interface DetailsActionsState {
-  currentNotification?: any;
+  currentNotification?: Notification;
   isExportModalOpen?: boolean;
 }
 

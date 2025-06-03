@@ -1,5 +1,4 @@
 import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
-import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Settings } from 'api/settings';
@@ -14,11 +13,11 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { useSettingsUpdate } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
-import { resetStatus } from 'store/settings/settingsActions';
 import { useStateCallback } from 'utils/hooks';
 
 import { styles } from './platformProjects.styles';
@@ -250,7 +249,6 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
 
 const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-  const addNotification = useAddNotification();
 
   const settingsQuery = {
     filter_by: query.filter_by,
@@ -269,25 +267,13 @@ const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsSta
     settingsSelectors.selectSettingsError(state, SettingsType.platformProjects, settingsQueryString)
   );
 
-  const settingsUpdateDisableError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateError(state, SettingsType.platformProjectsAdd)
-  );
-  const settingsUpdateDisableNotification = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateNotification(state, SettingsType.platformProjectsAdd)
-  );
-  const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.platformProjectsAdd)
-  );
+  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
+    type: SettingsType.platformProjectsAdd,
+  });
 
-  const settingsUpdateEnableError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateError(state, SettingsType.platformProjectsRemove)
-  );
-  const settingsUpdateEnableNotification = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateNotification(state, SettingsType.platformProjectsRemove)
-  );
-  const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.platformProjectsRemove)
-  );
+  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
+    type: SettingsType.platformProjectsRemove,
+  });
 
   useEffect(() => {
     if (
@@ -299,26 +285,6 @@ const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsSta
       dispatch(settingsActions.fetchSettings(SettingsType.platformProjects, settingsQueryString));
     }
   }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
-
-  useEffect(() => {
-    if (
-      settingsUpdateEnableNotification &&
-      (settingsUpdateEnableStatus === FetchStatus.complete || settingsUpdateDisableError)
-    ) {
-      addNotification(settingsUpdateEnableNotification);
-      dispatch(resetStatus());
-    }
-  }, [settingsUpdateEnableNotification, settingsUpdateEnableStatus, settingsUpdateDisableError]);
-
-  useEffect(() => {
-    if (
-      settingsUpdateDisableNotification &&
-      (settingsUpdateDisableStatus === FetchStatus.complete || settingsUpdateEnableError)
-    ) {
-      addNotification(settingsUpdateDisableNotification);
-      dispatch(resetStatus());
-    }
-  }, [settingsUpdateDisableNotification, settingsUpdateDisableStatus, settingsUpdateEnableError]);
 
   return {
     settings,
