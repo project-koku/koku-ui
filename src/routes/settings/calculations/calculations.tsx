@@ -1,19 +1,16 @@
 import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
-import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { AccountSettingsType } from 'api/accountSettings';
-import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
+import { useAccountSettingsUpdate } from 'routes/settings/utils/hooks';
 import type { RootState } from 'store';
-import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
-import { FetchStatus } from 'store/common';
-import { resetStatus } from 'store/settings/settingsActions';
+import { accountSettingsActions } from 'store/accountSettings';
 import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
 
 import { styles } from './calculations.styles';
@@ -23,12 +20,7 @@ interface CalculationsPropsOwnProps {
 }
 
 export interface CalculationsStateProps {
-  costTypeAccountSettingsUpdateError: AxiosError;
-  costTypeAccountSettingsUpdateNotification?: any;
-  costTypeAccountSettingsUpdateStatus: FetchStatus;
-  currencyAccountSettingsUpdateError: AxiosError;
-  currencyAccountSettingsUpdateNotification?: any;
-  currencyAccountSettingsUpdateStatus: FetchStatus;
+  // TBD...
 }
 
 type CalculationsProps = CalculationsPropsOwnProps;
@@ -37,18 +29,10 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
   const [costType, setCostType] = useState(getAccountCostType());
   const [currency, setCurrency] = useState(getAccountCurrency());
 
-  const addNotification = useAddNotification();
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const {
-    costTypeAccountSettingsUpdateError,
-    costTypeAccountSettingsUpdateNotification,
-    costTypeAccountSettingsUpdateStatus,
-    currencyAccountSettingsUpdateError,
-    currencyAccountSettingsUpdateNotification,
-    currencyAccountSettingsUpdateStatus,
-  } = useMapToProps();
+  useMapToProps(setCostType, setCurrency);
 
   const getCostType = () => {
     return (
@@ -114,40 +98,6 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
     );
   };
 
-  useEffect(() => {
-    if (
-      costTypeAccountSettingsUpdateNotification &&
-      (costTypeAccountSettingsUpdateStatus === FetchStatus.complete || costTypeAccountSettingsUpdateError)
-    ) {
-      if (!costTypeAccountSettingsUpdateError) {
-        setCostType(getAccountCostType());
-      }
-      addNotification(costTypeAccountSettingsUpdateNotification);
-      dispatch(resetStatus());
-    }
-  }, [
-    costTypeAccountSettingsUpdateError,
-    costTypeAccountSettingsUpdateNotification,
-    costTypeAccountSettingsUpdateStatus,
-  ]);
-
-  useEffect(() => {
-    if (
-      currencyAccountSettingsUpdateNotification &&
-      (currencyAccountSettingsUpdateStatus === FetchStatus.complete || currencyAccountSettingsUpdateError)
-    ) {
-      if (!currencyAccountSettingsUpdateError) {
-        setCurrency(getAccountCurrency());
-      }
-      addNotification(currencyAccountSettingsUpdateNotification);
-      dispatch(resetStatus());
-    }
-  }, [
-    currencyAccountSettingsUpdateError,
-    currencyAccountSettingsUpdateNotification,
-    currencyAccountSettingsUpdateStatus,
-  ]);
-
   return (
     <Card>
       <CardBody>
@@ -158,34 +108,21 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
   );
 };
 
-const useMapToProps = (): CalculationsStateProps => {
-  const costTypeAccountSettingsUpdateError = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateError(state, AccountSettingsType.costType)
-  );
-  const costTypeAccountSettingsUpdateNotification = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateNotification(state, AccountSettingsType.costType)
-  );
-  const costTypeAccountSettingsUpdateStatus = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, AccountSettingsType.costType)
-  );
+const useMapToProps = (setCostType, setCurrency): CalculationsStateProps => {
+  useAccountSettingsUpdate({
+    getSessionValue: getAccountCostType,
+    type: AccountSettingsType.costType,
+    setState: setCostType,
+  });
 
-  const currencyAccountSettingsUpdateError = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateError(state, AccountSettingsType.currency)
-  );
-  const currencyAccountSettingsUpdateNotification = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateNotification(state, AccountSettingsType.currency)
-  );
-  const currencyAccountSettingsUpdateStatus = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, AccountSettingsType.currency)
-  );
+  useAccountSettingsUpdate({
+    getSessionValue: getAccountCurrency,
+    type: AccountSettingsType.currency,
+    setState: setCurrency,
+  });
 
   return {
-    costTypeAccountSettingsUpdateError,
-    costTypeAccountSettingsUpdateNotification,
-    costTypeAccountSettingsUpdateStatus,
-    currencyAccountSettingsUpdateError,
-    currencyAccountSettingsUpdateNotification,
-    currencyAccountSettingsUpdateStatus,
+    // TBD...
   };
 };
 

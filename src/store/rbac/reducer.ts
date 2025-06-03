@@ -1,4 +1,5 @@
 import type { RBAC } from 'api/rbac';
+import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
@@ -9,7 +10,7 @@ import { fetchRbacFailure, fetchRbacRequest, fetchRbacSuccess } from './actions'
 export const stateKey = 'RBAC';
 
 interface LoadingState {
-  error: Error;
+  error: AxiosError;
   notification?: any;
   status: FetchStatus;
 }

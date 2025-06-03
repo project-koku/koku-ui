@@ -20,7 +20,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { getToday } from 'utils/dates';
-import type { NotificationComponentProps } from 'utils/notification';
+import type { Notification, NotificationComponentProps } from 'utils/notification';
 import { withNotification } from 'utils/notification';
 import { orgUnitIdKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -51,7 +51,7 @@ interface ExportSubmitStateProps {
   endDate: string;
   exportError: AxiosError;
   exportFetchStatus?: FetchStatus;
-  exportFetchNotification?: any;
+  exportFetchNotification?: Notification;
   exportQueryString: string;
   exportReport: Export;
   isExportsToggleEnabled?: boolean;
