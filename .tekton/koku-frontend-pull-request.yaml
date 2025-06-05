@@ -20,6 +20,9 @@ metadata:
   name: koku-frontend-on-pull-request
   namespace: cost-mgmt-dev-tenant
 spec:
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-koku-frontend
+
   params:
   - name: git-url
     value: '{{source_url}}'
