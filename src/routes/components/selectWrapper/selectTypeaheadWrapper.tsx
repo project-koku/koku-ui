@@ -72,11 +72,6 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
     );
   };
 
-  const handleOnBlur = () => {
-    setInputValue(selection ? selection.toString() : '');
-    setFilterValue('');
-  };
-
   const handleOnClear = () => {
     setInputValue('');
     setFilterValue('');
@@ -85,8 +80,8 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
   };
 
   const handleOnToggleClick = () => {
+    // Don't clear filter value upon focus
     setIsOpen(!isOpen);
-    setFilterValue('');
   };
 
   const handleOnSelect = (_evt, value) => {
@@ -167,7 +162,6 @@ const SelectTypeaheadWrapper: React.FC<SelectTypeaheadWrapperProps> = ({
       <TextInputGroup isPlain>
         <TextInputGroupMain
           value={inputValue}
-          onBlur={handleOnBlur}
           onClick={handleOnToggleClick}
           onChange={handleOnTextInputChange}
           onKeyDown={handleOnInputKeyDown}
