@@ -1,6 +1,6 @@
 import { AwsDashboardTab } from 'store/dashboard/awsDashboard';
 
-import { getIdKeyForTab } from './awsDashboardWidget';
+import { getIdKeyForTab } from './awsDashboardWidget'
 
 test('id key for dashboard tab is the tab name in singular form', () => {
   [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions].forEach(value => {
