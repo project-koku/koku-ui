@@ -9,7 +9,6 @@ exports[`reports are formatted to datums 1`] = `
     data-ouia-component-id="OUIA-Generated-Title-1"
     data-ouia-component-type="PF6/Title"
     data-ouia-safe="true"
-    style="margin-left: -1.5rem;"
   >
     Usage Title
   </h2>

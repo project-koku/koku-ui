@@ -1,4 +1,4 @@
-const mockedReactIntl = jest.genMockFromModule('react-intl') as any;
+const reactIntl = jest.requireActual('react-intl');
 
 const intl = {
   formatDate: jest.fn(() => ''), // Dates won't match snapshots during PR builds
@@ -12,10 +12,10 @@ const intl = {
   formatNumber: jest.fn(v => v),
 };
 
-mockedReactIntl.createIntl = () => intl;
-mockedReactIntl.defineMessages = jest.fn(v => v);
-mockedReactIntl.injectIntl = jest.fn(v => v);
-// mockedReactIntl.injectIntl = Component => props => <Component {...props} intl={intl} />;
-mockedReactIntl.useIntl = () => intl;
-
-module.exports = mockedReactIntl;
+module.exports = {
+  ...reactIntl,
+  createIntl: () => intl,
+  defineMessages: jest.fn(v => v),
+  injectIntl: jest.fn(v => v),
+  useIntl: () => intl,
+};
