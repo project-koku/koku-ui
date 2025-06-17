@@ -65,7 +65,10 @@ export const computeWidget: DashboardWidget = {
     usageKey: messages.usage,
   },
   filter: {
-    service: 'AmazonEC2',
+    service:
+      'AmazonEC2,' + // AWS
+      'Virtual Machines,' + // Azure
+      'Compute Engine', // GCP
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
