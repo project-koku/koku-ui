@@ -59,8 +59,9 @@ export const groupByAwsOptions: {
 export const groupByAzureOptions: {
   label: string;
   value: ComputedAzureReportItemsParams['idKey'];
+  resourceKey?: string;
 }[] = [
-  { label: 'subscription_guid', value: 'subscription_guid' },
+  { label: 'subscription_guid', value: 'subscription_guid', resourceKey: 'account_alias' },
   { label: 'service_name', value: 'service_name' },
   { label: 'resource_location', value: 'resource_location' },
 ];
@@ -88,8 +89,9 @@ export const groupByGcpOcpOptions: {
 export const groupByOcpOptions: {
   label: string;
   value: ComputedOcpReportItemsParams['idKey'];
+  resourceKey?: string;
 }[] = [
-  { label: 'cluster', value: 'cluster' },
+  { label: 'cluster', value: 'cluster', resourceKey: 'cluster_alias' },
   { label: 'node', value: 'node' },
   { label: 'project', value: 'project' },
 ];
