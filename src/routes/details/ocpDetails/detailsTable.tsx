@@ -231,7 +231,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const desc = item?.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
       const isDisabled = label === `${noPrefix}${groupBy}` || label === `${noPrefix}${groupByTagKey}`;
       const isLinkDisabled = isDisabled || isUnallocatedProject || isUnattributedCosts;
-      const actions = this.getActions(item, isDisabled);
+      const actions = this.getActions(item, index, isDisabled);
 
       const name = isLinkDisabled ? (
         (label as any)
@@ -364,7 +364,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
     });
   };
 
-  private getActions = (item: ComputedReportItem, isDisabled) => {
+  private getActions = (item: ComputedReportItem, index: number, isDisabled: boolean) => {
     const { groupBy, reportQueryString, timeScopeValue } = this.props;
 
     return (
@@ -377,6 +377,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         reportQueryString={reportQueryString}
         reportType={ReportType.cost}
         showPriceListOption={groupBy === 'cluster'}
+        showRedirectNotification={index === 0}
         timeScopeValue={timeScopeValue}
       />
     );

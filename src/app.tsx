@@ -1,9 +1,8 @@
 import './app.scss';
 
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
-import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
-import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
-import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
+import NotificationsProvider from '@redhat-cloud-services/frontend-components-notifications/NotificationsProvider';
+import { createStore } from '@redhat-cloud-services/frontend-components-notifications/state';
 import React, { useEffect, useLayoutEffect } from 'react';
 import { invalidateSession } from 'utils/sessionStorage';
 
@@ -13,11 +12,9 @@ import { Routes } from './routes';
 
 const App = () => {
   const { updateDocumentTitle } = useChrome();
+  const store = createStore();
 
   useEffect(() => {
-    const registry = getRegistry();
-    registry.register({ notifications: notificationsReducer as any });
-
     // You can use directly the name of your app
     updateDocumentTitle(pkg.insights.appname);
   }, []);
@@ -37,8 +34,9 @@ const App = () => {
 
   return (
     <div>
-      <NotificationsPortal />
-      <Routes />
+      <NotificationsProvider store={store}>
+        <Routes />
+      </NotificationsProvider>
     </div>
   );
 };

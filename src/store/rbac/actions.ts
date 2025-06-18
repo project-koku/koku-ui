@@ -1,17 +1,19 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import type { RBAC } from 'api/rbac';
 import { getRBAC } from 'api/rbac';
+import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
-import { createAsyncAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
-export const {
-  request: fetchRbacRequest,
-  success: fetchRbacSuccess,
-  failure: fetchRbacFailure,
-} = createAsyncAction('fetch/RBAC/request', 'fetch/RBAC/success', 'fetch/RBAC/failure')<void, RBAC, Error>();
+interface RbacActionMeta {
+  notification?: any;
+}
+
+export const fetchRbacRequest = createAction('settings/RBAC/request')<void>();
+export const fetchRbacSuccess = createAction('settings/RBAC/success')<RBAC>();
+export const fetchRbacFailure = createAction('settings/RBAC/failure')<AxiosError, RbacActionMeta>();
 
 export const fetchRbac = (): any => {
   return (dispatch: Dispatch) => {
@@ -22,14 +24,15 @@ export const fetchRbac = (): any => {
       })
       .catch(err => {
         dispatch(
-          addNotification({
-            title: intl.formatMessage(messages.rbacErrorTitle),
-            description: intl.formatMessage(messages.rbacErrorDesc),
-            variant: AlertVariant.danger,
-            dismissable: true,
+          fetchRbacFailure(err, {
+            notification: {
+              description: intl.formatMessage(messages.rbacErrorDesc),
+              dismissable: true,
+              title: intl.formatMessage(messages.rbacErrorTitle),
+              variant: AlertVariant.danger,
+            },
           })
         );
-        dispatch(fetchRbacFailure(err));
       });
   };
 };

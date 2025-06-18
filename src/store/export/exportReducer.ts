@@ -13,14 +13,16 @@ export interface CachedExport extends Export {
 
 export type ExportState = Readonly<{
   byId: Map<string, CachedExport>;
-  fetchStatus: Map<string, FetchStatus>;
   errors: Map<string, AxiosError>;
+  fetchStatus: Map<string, FetchStatus>;
+  notification: Map<string, any>;
 }>;
 
 const defaultState: ExportState = {
   byId: new Map(),
-  fetchStatus: new Map(),
   errors: new Map(),
+  fetchStatus: new Map(),
+  notification: new Map(),
 };
 
 export type ExportAction = ActionType<
@@ -42,19 +44,21 @@ export function exportReducer(state = defaultState, action: ExportAction): Expor
     case getType(fetchExportSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
         byId: new Map(state.byId).set(action.meta.fetchId, {
           data: action.payload as any,
           timeRequested: Date.now(),
         }),
         errors: new Map(state.errors).set(action.meta.fetchId, null),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        notification: new Map(state.notification).set(action.meta.fetchId, action.meta.notification),
       };
 
     case getType(fetchExportFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
         errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
+        notification: new Map(state.notification).set(action.meta.fetchId, action.meta.notification),
       };
     default:
       return state;
