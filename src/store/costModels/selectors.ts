@@ -50,6 +50,10 @@ export const status = (state: RootState) => costModelsState(state).status;
 
 export const error = (state: RootState) => costModelsState(state).error;
 
+export const redirectError = (state: RootState) => costModelsState(state).redirect?.error;
+export const redirectNotification = (state: RootState) => costModelsState(state).redirect?.notification;
+export const redirectStatus = (state: RootState) => costModelsState(state).redirect?.status;
+
 export const stateName = (state: RootState) => {
   const costStatus = status(state);
   const costError = error(state);

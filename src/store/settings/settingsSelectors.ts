@@ -18,5 +18,8 @@ export const selectSettingsError = (state: RootState, settingsType: SettingsType
 export const selectSettingsUpdateStatus = (state: RootState, settingsType: SettingsType) =>
   selectSettingsState(state)?.status.get(getFetchId(settingsType));
 
+export const selectSettingsUpdateNotification = (state: RootState, settingsType: SettingsType) =>
+  selectSettingsState(state)?.notification?.get(getFetchId(settingsType));
+
 export const selectSettingsUpdateError = (state: RootState, settingsType: SettingsType) =>
   selectSettingsState(state)?.errors.get(getFetchId(settingsType));

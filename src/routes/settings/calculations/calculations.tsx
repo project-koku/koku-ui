@@ -1,16 +1,16 @@
 import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
+import { useAccountSettingsUpdate } from 'routes/settings/utils/hooks';
 import type { RootState } from 'store';
-import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
-import type { FetchStatus } from 'store/common';
+import { accountSettingsActions } from 'store/accountSettings';
 import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
 
 import { styles } from './calculations.styles';
@@ -20,20 +20,19 @@ interface CalculationsPropsOwnProps {
 }
 
 export interface CalculationsStateProps {
-  costTypeAccountSettingsUpdateStatus: FetchStatus;
-  currencyAccountSettingsUpdateStatus: FetchStatus;
+  // TBD...
 }
 
 type CalculationsProps = CalculationsPropsOwnProps;
 
 const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
   const [costType, setCostType] = useState(getAccountCostType());
-  const [currency, setCurrency] = useState(getAccountCostType());
+  const [currency, setCurrency] = useState(getAccountCurrency());
 
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { costTypeAccountSettingsUpdateStatus, currencyAccountSettingsUpdateStatus } = useMapToProps();
+  useMapToProps(setCostType, setCurrency);
 
   const getCostType = () => {
     return (
@@ -99,11 +98,6 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
     );
   };
 
-  useEffect(() => {
-    setCostType(getAccountCostType());
-    setCurrency(getAccountCurrency());
-  }, [costTypeAccountSettingsUpdateStatus, currencyAccountSettingsUpdateStatus]);
-
   return (
     <Card>
       <CardBody>
@@ -114,17 +108,21 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
   );
 };
 
-const useMapToProps = (): CalculationsStateProps => {
-  const costTypeAccountSettingsUpdateStatus = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, AccountSettingsType.costType)
-  );
-  const currencyAccountSettingsUpdateStatus = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, AccountSettingsType.currency)
-  );
+const useMapToProps = (setCostType, setCurrency): CalculationsStateProps => {
+  useAccountSettingsUpdate({
+    getSessionValue: getAccountCostType,
+    type: AccountSettingsType.costType,
+    setState: setCostType,
+  });
+
+  useAccountSettingsUpdate({
+    getSessionValue: getAccountCurrency,
+    type: AccountSettingsType.currency,
+    setState: setCurrency,
+  });
 
   return {
-    costTypeAccountSettingsUpdateStatus,
-    currencyAccountSettingsUpdateStatus,
+    // TBD...
   };
 };
 

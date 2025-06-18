@@ -1,13 +1,10 @@
 import { AlertVariant } from '@patternfly/react-core';
-import { addNotification, removeNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import type { Export } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
-import { ExportsLink } from 'components/drawers';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
-import React from 'react';
 import type { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { getFetchId } from 'store/export/exportCommon';
@@ -19,6 +16,7 @@ const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ExportActionMeta {
   fetchId: string;
+  notification?: any;
 }
 
 export const fetchExportRequest = createAction('report/request')<ExportActionMeta>();
@@ -45,38 +43,34 @@ export function fetchExport(
     dispatch(fetchExportRequest(meta));
     runExport(reportPathsType, reportType, reportQueryString)
       .then(res => {
-        dispatch(fetchExportSuccess(res.data, meta));
-
-        if (isExportsToggleEnabled) {
-          const description = intl.formatMessage(messages.exportsSuccessDesc, {
-            link: <ExportsLink isActionLink onClick={() => dispatch(removeNotification(exportSuccessID))} />,
-            value: <b>{intl.formatMessage(messages.exportsTitle)}</b>,
-          });
-
-          dispatch(
-            addNotification({
-              description,
-              dismissable: true,
-              id: exportSuccessID,
-              title: intl.formatMessage(messages.exportsSuccess),
-              variant: AlertVariant.success,
-            })
-          );
-        }
+        dispatch(
+          fetchExportSuccess(res.data, {
+            ...meta,
+            ...(isExportsToggleEnabled && {
+              notification: {
+                dismissable: true,
+                id: exportSuccessID,
+                title: intl.formatMessage(messages.exportsSuccess),
+                variant: AlertVariant.success,
+              },
+            }),
+          })
+        );
       })
       .catch(err => {
-        dispatch(fetchExportFailure(err, meta));
-
-        if (isExportsToggleEnabled) {
-          dispatch(
-            addNotification({
-              description: intl.formatMessage(messages.exportsFailedDesc),
-              dismissable: true,
-              title: intl.formatMessage(messages.exportsUnavailable),
-              variant: AlertVariant.danger,
-            })
-          );
-        }
+        dispatch(
+          fetchExportFailure(err, {
+            ...meta,
+            ...(isExportsToggleEnabled && {
+              notification: {
+                description: intl.formatMessage(messages.exportsFailedDesc),
+                dismissable: true,
+                title: intl.formatMessage(messages.exportsUnavailable),
+                variant: AlertVariant.danger,
+              },
+            }),
+          })
+        );
       });
   };
 }

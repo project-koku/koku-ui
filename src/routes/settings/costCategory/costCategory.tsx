@@ -13,6 +13,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { useSettingsUpdate } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -261,12 +262,13 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
     settingsSelectors.selectSettingsError(state, SettingsType.costCategories, settingsQueryString)
   );
 
-  const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.costCategoriesDisable)
-  );
-  const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.costCategoriesEnable)
-  );
+  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
+    type: SettingsType.costCategoriesDisable,
+  });
+
+  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
+    type: SettingsType.costCategoriesEnable,
+  });
 
   useEffect(() => {
     if (

@@ -1,4 +1,3 @@
-import { notificationsMiddleware } from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import { configureStore as createStore } from '@reduxjs/toolkit';
 import { axiosInstance } from 'api';
 
@@ -13,7 +12,7 @@ export const middleware = getDefaultMiddleware =>
       ignoreActions: true,
       ignoreState: true,
     },
-  }).concat(notificationsMiddleware());
+  });
 
 export function configureStore(initialState: Partial<RootState>) {
   const store = createStore({

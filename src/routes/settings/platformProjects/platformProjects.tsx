@@ -13,6 +13,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { useSettingsUpdate } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -266,12 +267,13 @@ const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsSta
     settingsSelectors.selectSettingsError(state, SettingsType.platformProjects, settingsQueryString)
   );
 
-  const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.platformProjectsAdd)
-  );
-  const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.platformProjectsRemove)
-  );
+  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
+    type: SettingsType.platformProjectsAdd,
+  });
+
+  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
+    type: SettingsType.platformProjectsRemove,
+  });
 
   useEffect(() => {
     if (

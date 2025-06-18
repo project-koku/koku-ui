@@ -11,6 +11,9 @@ import {
   fetchCostModelsFailure,
   fetchCostModelsRequest,
   fetchCostModelsSuccess,
+  redirectFailure,
+  redirectRequest,
+  redirectSuccess,
   resetCostModel,
   selectCostModel,
   setCostModelDialog,
@@ -52,6 +55,11 @@ export type CostModelsState = Readonly<{
     error: AxiosError;
     status: FetchStatus;
   };
+  redirect: {
+    error: AxiosError;
+    notification?: any;
+    status: FetchStatus;
+  };
 }>;
 
 export const defaultState: CostModelsState = {
@@ -84,6 +92,11 @@ export const defaultState: CostModelsState = {
     error: null,
     status: FetchStatus.none,
   },
+  redirect: {
+    error: null,
+    notification: null,
+    status: FetchStatus.none,
+  },
 };
 
 export type CostModelsAction = ActionType<
@@ -96,10 +109,13 @@ export type CostModelsAction = ActionType<
   | typeof fetchCostModelsFailure
   | typeof fetchCostModelsRequest
   | typeof fetchCostModelsSuccess
-  | typeof updateFilterToolbar
+  | typeof redirectFailure
+  | typeof redirectRequest
+  | typeof redirectSuccess
+  | typeof resetCostModel
   | typeof setCostModelDialog
   | typeof selectCostModel
-  | typeof resetCostModel
+  | typeof updateFilterToolbar
 >;
 
 export const reducer = (state: CostModelsState = defaultState, action: CostModelsAction): CostModelsState => {
@@ -162,8 +178,8 @@ export const reducer = (state: CostModelsState = defaultState, action: CostModel
     case getType(fetchCostModelsFailure):
       return {
         ...state,
-        status: FetchStatus.complete,
         error: action.payload,
+        status: FetchStatus.complete,
       };
     case getType(deleteCostModelsRequest):
       return {
@@ -203,6 +219,33 @@ export const reducer = (state: CostModelsState = defaultState, action: CostModel
           [action.payload.name]: action.payload.isOpen,
         },
         dialogData: action.payload.meta,
+      };
+    case getType(redirectFailure):
+      return {
+        ...state,
+        redirect: {
+          error: action.payload,
+          notification: action.meta.notification,
+          status: FetchStatus.complete,
+        },
+      };
+    case getType(redirectRequest):
+      return {
+        ...state,
+        redirect: {
+          error: null,
+          notification: null,
+          status: FetchStatus.inProgress,
+        },
+      };
+    case getType(redirectSuccess):
+      return {
+        ...state,
+        redirect: {
+          error: null,
+          notification: null,
+          status: FetchStatus.complete,
+        },
       };
     default:
       return state;

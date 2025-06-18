@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { useSettingsUpdate } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -265,12 +266,13 @@ const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
     settingsSelectors.selectSettingsError(state, SettingsType.tags, settingsQueryString)
   );
 
-  const settingsUpdateDisableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsDisable)
-  );
-  const settingsUpdateEnableStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsEnable)
-  );
+  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
+    type: SettingsType.tagsDisable,
+  });
+
+  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
+    type: SettingsType.tagsEnable,
+  });
 
   useEffect(() => {
     if (
