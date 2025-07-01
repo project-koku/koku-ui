@@ -96,6 +96,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'subscription_guid' }),
         key: 'subscription_guid',
+        resourceKey: 'account_alias',
       },
       { name: intl.formatMessage(messages.filterByValues, { value: 'service_name' }), key: 'service_name' },
       {
