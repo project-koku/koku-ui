@@ -63,7 +63,7 @@ const ResourceFetch: React.FC<ResourceFetchProps> = ({
     if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
       options = resource.data.map(item => {
         // The resource API typically returns just a value, but account_alias, cluster_alias, and instance_name may be preferred keys.
-        const value = item[resourceKey]?.includes(search) ? item[resourceKey] : item.value;
+        const value = item[resourceKey]?.toLowerCase().includes(search.toLowerCase()) ? item[resourceKey] : item.value;
         return {
           key: value,
           name: value,
