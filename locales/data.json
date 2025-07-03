@@ -2185,6 +2185,14 @@
               }
             ]
           },
+          "CZK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CZK (Kč) - Czech Koruna"
+              }
+            ]
+          },
           "DKK": {
             "value": [
               {
@@ -2329,6 +2337,14 @@
               {
                 "type": 0,
                 "value": "CN¥"
+              }
+            ]
+          },
+          "CZK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Kč"
               }
             ]
           },
