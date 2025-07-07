@@ -3382,6 +3382,18 @@
               }
             ]
           },
+          "storageclass": {
+            "value": [
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " storage types"
+              }
+            ]
+          },
           "subscription_guid": {
             "value": [
               {
