@@ -121,6 +121,7 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
           gridBreakPoint="grid-2xl"
+          isExpandable
           variant={TableVariant.compact}
         >
           <Thead>
@@ -155,13 +156,13 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
               return (
                 <React.Fragment key={`fragment-${rowIndex}`}>
                   <Tbody>
-                    <Tr key={`row-${rowIndex}`} style={isExpanded ? styles.expandableRowBorder : undefined}>
+                    <Tr isExpanded={isExpanded} key={`row-${rowIndex}`}>
                       {row.cells.map((item, cellIndex) =>
                         cellIndex === 0 ? (
                           <Td
                             expand={{
                               rowIndex,
-                              isExpanded: isAllExpanded || expandedRows.has(row?.item),
+                              isExpanded,
                               onToggle: () => this.handleOnToggle(row?.item),
                             }}
                             key={`cell-${cellIndex}-${rowIndex}`}
@@ -181,11 +182,7 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                     </Tr>
                     {isExpanded &&
                       row?.children?.map((child, childIndex) => (
-                        <Tr
-                          isExpanded={isExpanded}
-                          key={`row-children-${childIndex}-${rowIndex}`}
-                          style={childIndex !== row.children.length - 1 ? styles.expandableRowBorder : undefined}
-                        >
+                        <Tr isExpandable isExpanded={isExpanded} key={`row-children-${childIndex}-${rowIndex}`}>
                           {child.cells.map((item, cellIndex) =>
                             cellIndex === 0 ? (
                               <Td key={`child-cell-${cellIndex}-${rowIndex}`} noPadding />
