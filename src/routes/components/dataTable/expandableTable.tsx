@@ -111,6 +111,7 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
           gridBreakPoint="grid-2xl"
+          hasAnimations
           variant={TableVariant.compact}
         >
           <Thead>

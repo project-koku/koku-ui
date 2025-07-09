@@ -456,6 +456,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
           aria-label={intl.formatMessage(messages.explorerTableAriaLabel)}
           className="explorerTableOverride"
           gridBreakPoint=""
+          hasAnimations
           variant={TableVariant.compact}
         >
           <Thead>

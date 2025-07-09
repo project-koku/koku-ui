@@ -65,6 +65,7 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
                   <Table
                     aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
                     gridBreakPoint="grid-2xl"
+                    hasAnimations
                     variant={TableVariant.compact}
                   >
                     <Thead>
