@@ -83,6 +83,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
               ) : (
                 <Table
                   aria-label={intl.formatMessage(messages.costModelsWizardSourceTableAriaLabel)}
+                  hasAnimations
                   variant={TableVariant.compact}
                 >
                   <Thead>

@@ -187,6 +187,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
         {sources.length > 0 && (
           <Table
             aria-label={intl.formatMessage(messages.costModelsAssignSources, { count: 1 })}
+            hasAnimations
             variant={TableVariant.compact}
           >
             <Thead>

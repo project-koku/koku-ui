@@ -109,6 +109,7 @@ class CostModelsTableBase extends React.Component<CostModelsTableProps, CostMode
       <Table
         aria-label={intl.formatMessage(messages.costModelsTableAriaLabel)}
         gridBreakPoint={TableGridBreakpoint.grid2xl}
+        hasAnimations
         variant={TableVariant.compact}
       >
         <Thead>

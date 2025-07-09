@@ -30,6 +30,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
     <Table
       aria-label={intl.formatMessage(messages.costModelsSourceTableAriaLabel)}
       gridBreakPoint={TableGridBreakpoint.grid2xl}
+      hasAnimations
       variant={TableVariant.compact}
     >
       <Thead>

@@ -120,7 +120,11 @@ const RateTableBase: React.FC<RateTableProps> = ({
         });
 
   return (
-    <Table aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)} variant={TableVariant.compact}>
+    <Table
+      aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)}
+      hasAnimations
+      variant={TableVariant.compact}
+    >
       <Thead>
         <Tr>
           {columns.map((col: { title?: string; sortable?: boolean }, i) => (
@@ -167,7 +171,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
               <Tr>
                 <Td colSpan={6}>
                   <ExpandableRowContent>
-                    <Table borders={false} variant={TableVariant.compact}>
+                    <Table borders={false} hasAnimations variant={TableVariant.compact}>
                       <Thead>
                         <Tr>
                           {tagColumns.map((tag, tagIndex) => (
