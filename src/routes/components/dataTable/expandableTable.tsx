@@ -112,6 +112,7 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
           className="tableOverride"
           gridBreakPoint="grid-2xl"
           hasAnimations
+          isExpandable
           variant={TableVariant.compact}
         >
           <Thead>
@@ -144,13 +145,13 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                 const isExpanded = isAllExpanded || expandedRows.has(row?.item);
                 return (
                   <React.Fragment key={`fragment-${rowIndex}`}>
-                    <Tr key={`row-${rowIndex}`} style={isExpanded ? styles.expandableRowBorder : undefined}>
+                    <Tr isExpanded={isExpanded} key={`row-${rowIndex}`}>
                       {row.cells.map((item, cellIndex) =>
                         cellIndex === 0 ? (
                           <Td
                             expand={{
                               rowIndex,
-                              isExpanded: isAllExpanded || expandedRows.has(row?.item),
+                              isExpanded,
                               onToggle: () => this.handleOnToggle(row?.item),
                             }}
                             key={`cell-${cellIndex}-${rowIndex}`}
@@ -168,29 +169,26 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                         )
                       )}
                     </Tr>
-                    {row?.children?.map((child, childIndex) => (
-                      <Tr
-                        isExpanded={isExpanded}
-                        key={`row-children-${childIndex}-${rowIndex}`}
-                        style={childIndex !== row.children.length - 1 ? styles.expandableRowBorder : undefined}
-                      >
-                        {child.cells.map((item, cellIndex) =>
-                          cellIndex === 0 ? (
-                            <Td key={`child-cell-${cellIndex}-${rowIndex}`} />
-                          ) : (
-                            <Td
-                              dataLabel={columns[cellIndex].name}
-                              key={`child-cell-${rowIndex}-${cellIndex}`}
-                              modifier="nowrap"
-                              isActionCell={isActionsCell && cellIndex === child.cells.length - 1}
-                              style={item.style}
-                            >
-                              {item.value}
-                            </Td>
-                          )
-                        )}
-                      </Tr>
-                    ))}
+                    {isExpanded &&
+                      row?.children?.map((child, childIndex) => (
+                        <Tr isExpandable isExpanded={isExpanded} key={`row-children-${childIndex}-${rowIndex}`}>
+                          {child.cells.map((item, cellIndex) =>
+                            cellIndex === 0 ? (
+                              <Td key={`child-cell-${cellIndex}-${rowIndex}`} />
+                            ) : (
+                              <Td
+                                dataLabel={columns[cellIndex].name}
+                                key={`child-cell-${rowIndex}-${cellIndex}`}
+                                modifier="nowrap"
+                                isActionCell={isActionsCell && cellIndex === child.cells.length - 1}
+                                style={item.style}
+                              >
+                                {item.value}
+                              </Td>
+                            )
+                          )}
+                        </Tr>
+                      ))}
                   </React.Fragment>
                 );
               })
