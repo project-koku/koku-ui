@@ -127,8 +127,8 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
               ))}
             </Tr>
           </Thead>
-          <Tbody>
-            {isLoading ? (
+          {isLoading ? (
+            <Tbody>
               <Tr>
                 <Td colSpan={100}>
                   <Bullseye>
@@ -138,11 +138,13 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                   </Bullseye>
                 </Td>
               </Tr>
-            ) : (
-              rows.map((row, rowIndex) => {
-                const isExpanded = isAllExpanded || expandedRows.has(row?.item);
-                return (
-                  <React.Fragment key={`fragment-${rowIndex}`}>
+            </Tbody>
+          ) : (
+            rows.map((row, rowIndex) => {
+              const isExpanded = isAllExpanded || expandedRows.has(row?.item);
+              return (
+                <React.Fragment key={`fragment-${rowIndex}`}>
+                  <Tbody>
                     <Tr key={`row-${rowIndex}`} style={isExpanded ? styles.expandableRowBorder : undefined}>
                       {row.cells.map((item, cellIndex) =>
                         cellIndex === 0 ? (
@@ -190,11 +192,11 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                         )}
                       </Tr>
                     ))}
-                  </React.Fragment>
-                );
-              })
-            )}
-          </Tbody>
+                  </Tbody>
+                </React.Fragment>
+              );
+            })
+          )}
         </Table>
         {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </>
