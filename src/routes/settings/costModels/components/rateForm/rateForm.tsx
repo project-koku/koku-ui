@@ -78,10 +78,13 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
     return desc ? desc : o;
   };
   const metricOptions = React.useMemo(() => {
-    return Object.keys(metricsHash);
+    return Object.keys(metricsHash).map(m => ({
+      label: getMetricLabel(m),
+      value: m,
+    }));
   }, [metricsHash]);
   const measurementOptions = React.useMemo(() => {
-    if (!metricOptions.includes(metric)) {
+    if (!metricOptions.find(m => m.value === metric)) {
       return [];
     }
     return Object.keys(metricsHash[metric]);
@@ -114,15 +117,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
             placeholderText={intl.formatMessage(messages.select)}
             value={metric}
             onSelect={(_evt, value) => setMetric(value)}
-            options={[
-              ...metricOptions.map(opt => {
-                return {
-                  label: getMetricLabel(opt),
-                  value: opt,
-                  isDisabled: false,
-                };
-              }),
-            ]}
+            options={metricOptions}
           />
         </GridItem>
         {step === 'initial' ? null : (
