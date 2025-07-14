@@ -92,7 +92,7 @@
     "@formatjs/icu-messageformat-parser": "^2.11.2",
     "@formatjs/intl-localematcher": "^0.6.1",
     "@redhat-cloud-services/frontend-components-config": "^6.6.2",
-    "@redhat-cloud-services/tsc-transform-imports": "^1.0.24",
+    "@redhat-cloud-services/tsc-transform-imports": "^1.0.25",
     "@swc/core": "^1.12.9",
     "@swc/jest": "^0.2.38",
     "@testing-library/jest-dom": "^6.6.3",
