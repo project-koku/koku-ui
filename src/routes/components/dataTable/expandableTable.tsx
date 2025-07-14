@@ -155,7 +155,7 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
               const isExpanded = isAllExpanded || expandedRows.has(row?.item);
               return (
                 <React.Fragment key={`fragment-${rowIndex}`}>
-                  <Tbody>
+                  <Tbody isExpanded={isExpanded}>
                     <Tr isExpanded={isExpanded} key={`row-${rowIndex}`}>
                       {row.cells.map((item, cellIndex) =>
                         cellIndex === 0 ? (
