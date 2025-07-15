@@ -10366,6 +10366,14 @@
               }
             ]
           },
+          "namespace": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Namespace"
+              }
+            ]
+          },
           "node": {
             "value": [
               {
