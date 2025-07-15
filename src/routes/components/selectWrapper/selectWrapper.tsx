@@ -67,11 +67,12 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   };
 
   const getPlaceholder = () => {
-    let label = selection;
-    if (typeof selection === 'string') {
-      label = options?.find(option => option.value === selection);
-    }
-    return label ? label.toString() : placeholder;
+    const label = typeof selection === 'string' ? selection : selection?.toString();
+
+    // Find label from localized options, if available
+    const optionLabel = options?.find(option => option.value === label)?.toString();
+
+    return optionLabel || label || placeholder;
   };
 
   const handleOnSelect = (evt, value) => {
