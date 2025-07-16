@@ -3,7 +3,17 @@ import './dataTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
-import { SortByDirection, Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import {
+  ExpandableRowContent,
+  SortByDirection,
+  Table,
+  TableVariant,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -169,29 +179,31 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                         )
                       )}
                     </Tr>
-                    {row?.children?.map((child, childIndex) => (
-                      <Tr
-                        isExpanded={isExpanded}
-                        key={`row-children-${childIndex}-${rowIndex}`}
-                        style={childIndex !== row.children.length - 1 ? styles.expandableRowBorder : undefined}
-                      >
-                        {child.cells.map((item, cellIndex) =>
-                          cellIndex === 0 ? (
-                            <Td key={`child-cell-${cellIndex}-${rowIndex}`} />
-                          ) : (
-                            <Td
-                              dataLabel={columns[cellIndex].name}
-                              key={`child-cell-${rowIndex}-${cellIndex}`}
-                              modifier="nowrap"
-                              isActionCell={isActionsCell && cellIndex === child.cells.length - 1}
-                              style={item.style}
-                            >
-                              {item.value}
-                            </Td>
-                          )
-                        )}
-                      </Tr>
-                    ))}
+                    {isExpanded &&
+                      row?.children?.map((child, childIndex) => (
+                        <Tr
+                          isExpanded={isExpanded}
+                          key={`row-children-${childIndex}-${rowIndex}`}
+                          style={childIndex !== row.children.length - 1 ? styles.expandableRowBorder : undefined}
+                        >
+                          {child.cells.map((item, cellIndex) =>
+                            cellIndex === 0 ? (
+                              <Td key={`child-cell-${cellIndex}-${rowIndex}`} noPadding />
+                            ) : (
+                              <Td
+                                dataLabel={columns[cellIndex].name}
+                                key={`child-cell-${rowIndex}-${cellIndex}`}
+                                modifier="nowrap"
+                                noPadding
+                                isActionCell={isActionsCell && cellIndex === child.cells.length - 1}
+                                style={{ ...styles.expandableRowContent, ...item.style }}
+                              >
+                                <ExpandableRowContent>{item.value}</ExpandableRowContent>
+                              </Td>
+                            )
+                          )}
+                        </Tr>
+                      ))}
                   </Tbody>
                 </React.Fragment>
               );

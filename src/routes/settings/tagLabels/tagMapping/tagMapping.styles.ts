@@ -12,10 +12,10 @@ export const styles = {
     paddingRight: t_global_spacer_2xl.value,
   },
   childSourceTypeColumn: {
-    paddingRight: t_global_spacer_sm.value,
+    paddingLeft: t_global_spacer_md.value,
   },
   childTagKeyColumn: {
-    paddingLeft: t_global_spacer_lg.value,
+    paddingLeft: t_global_spacer_md.value,
   },
   emptyStateContainer: {
     paddingTop: t_global_spacer_md.value,
