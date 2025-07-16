@@ -2189,7 +2189,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "CZK (CZK) - Czech Koruna"
+                "value": "CZK (Kč) - Czech Koruna"
               }
             ]
           },
@@ -2344,7 +2344,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "CZK"
+                "value": "Kč"
               }
             ]
           },

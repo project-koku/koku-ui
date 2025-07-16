@@ -1116,7 +1116,7 @@ export default defineMessages({
       'CAD {CAD (CA$) - Canadian Dollar}' +
       'CHF {CHF (CHF) - Swiss Franc}' +
       'CNY {CNY (CN¥) - Chinese Yuan}' +
-      'CZK {CZK (CZK) - Czech Koruna}' +
+      'CZK {CZK (Kč) - Czech Koruna}' +
       'DKK {DKK (DKK) - Danish Krone}' +
       'EUR {EUR (€) - Euro}' +
       'GBP {GBP (£) - British Pound}' +
@@ -1142,7 +1142,7 @@ export default defineMessages({
       'CAD {CA$}' +
       'CHF {CHF}' +
       'CNY {CN¥}' +
-      'CZK {CZK}' +
+      'CZK {Kč}' +
       'DKK {DKK}' +
       'EUR {€}' +
       'GBP {£}' +
