@@ -2591,7 +2591,7 @@ export default defineMessages({
       'cpu {CPU} ' +
       'cluster {Cluster} ' +
       'memory {Memory} ' +
-      'namespace {Namespace} ' +
+      'project {Project} ' +
       'node {Node} ' +
       'persistent_volume_claims {Persistent volume claims} ' +
       'storage {Storage} ' +

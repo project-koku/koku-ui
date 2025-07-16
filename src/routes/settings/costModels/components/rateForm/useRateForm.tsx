@@ -308,7 +308,7 @@ export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tie
         value,
         defaultCalculation: getDefaultCalculation(metricsHash, value),
       });
-      if (value.toLowerCase() === 'namespace') {
+      if (value.toLowerCase() === 'project') {
         dispatch({ type: 'RESET_RATE_KIND_TAGGING' });
       }
     },
