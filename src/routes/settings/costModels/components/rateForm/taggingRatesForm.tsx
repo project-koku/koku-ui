@@ -34,7 +34,7 @@ const TaggingRatesFormBase: React.FC<TaggingRatesFormProps> = ({
   removeTag,
   updateTag,
 }) => {
-  const style = { width: '200px' };
+  const style = { minWidth: '200px', whiteSpace: 'nowrap' };
   const elementStyle = {
     height: '100%',
     position: 'relative',

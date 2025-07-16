@@ -180,11 +180,12 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                 onChange={() => setCalculation('Supplementary')}
               />
             </FormGroup>
-            {metric !== 'Cluster' ? (
+            {metric.toLowerCase() !== 'cluster' ? (
               <Switch
                 aria-label={intl.formatMessage(messages.costModelsEnterTagRate)}
                 label={intl.formatMessage(messages.costModelsEnterTagRate)}
                 isChecked={rateKind === 'tagging'}
+                isDisabled={metric.toLowerCase() === 'namespace'}
                 onChange={toggleTaggingRate}
               />
             ) : null}
