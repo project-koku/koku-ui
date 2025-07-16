@@ -30,7 +30,9 @@ export const countDecimals = (value: string, useLocale: boolean = true) => {
 // Note: Some currencies do not have decimals, such as JPY, and some have 3 decimals such as IQD.
 // See https://docs.adyen.com/development-resources/currency-codes
 export const formatCurrency: Formatter = (value: number, units: string, options: FormatOptions = {}) => {
+  const currency = units ? units.toUpperCase() : 'USD';
   let fValue = value;
+
   // Don't show negative zero -- https://issues.redhat.com/browse/COST-3087
   if (!value || Number(value).toFixed(2) === '-0.00') {
     fValue = 0;
@@ -38,7 +40,8 @@ export const formatCurrency: Formatter = (value: number, units: string, options:
   // Don't specify default fraction digits here, rely on react-intl instead
   const test = intl.formatNumber(fValue, {
     style: 'currency',
-    currency: units ? units.toUpperCase() : 'USD',
+    currency,
+    ...(currency === 'CZK' ? { currencyDisplay: 'narrowSymbol' } : {}),
     ...options,
   });
   return test;
