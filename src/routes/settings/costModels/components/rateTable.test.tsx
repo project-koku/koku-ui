@@ -67,7 +67,7 @@ describe('rate-table', () => {
     render(<RateTable tiers={tiers} />);
     expect(screen.getByText('rate 1')).toBeTruthy();
     expect(screen.getByText('rate 2')).toBeTruthy();
-    expect(screen.queryByText('grafana')).toBeNull();
+    // expect(screen.queryByText('grafana')).toBeNull(); // Note: Rows are no longer dynamically rendered to support animations
     await act(async () => user.click(screen.getByRole('button', { name: 'Various' })));
     expect(screen.getByText('grafana')).toBeTruthy();
   });
