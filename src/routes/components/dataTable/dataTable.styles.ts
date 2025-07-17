@@ -27,6 +27,10 @@ export const styles = {
   expandableRowBorder: {
     border: 0,
   },
+  expandableRowContent: {
+    paddingBottom: 4,
+    paddingTop: 4,
+  },
   infoArrow: {
     position: 'relative',
   },
