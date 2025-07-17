@@ -10366,14 +10366,6 @@
               }
             ]
           },
-          "namespace": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Namespace"
-              }
-            ]
-          },
           "node": {
             "value": [
               {
@@ -10390,6 +10382,14 @@
               {
                 "type": 0,
                 "value": "Persistent volume claims"
+              }
+            ]
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project"
               }
             ]
           },

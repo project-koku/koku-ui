@@ -185,7 +185,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                 aria-label={intl.formatMessage(messages.costModelsEnterTagRate)}
                 label={intl.formatMessage(messages.costModelsEnterTagRate)}
                 isChecked={rateKind === 'tagging'}
-                isDisabled={metric.toLowerCase() === 'namespace'}
+                isDisabled={metric.toLowerCase() === 'project'}
                 onChange={toggleTaggingRate}
               />
             ) : null}
