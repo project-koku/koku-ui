@@ -52,13 +52,13 @@
     "verify": "npm-run-all build lint test"
   },
   "dependencies": {
-    "@patternfly/patternfly": "6.2.0",
-    "@patternfly/react-charts": "8.2.0",
-    "@patternfly/react-component-groups": "6.2.0",
-    "@patternfly/react-core": "6.2.0",
-    "@patternfly/react-icons": "6.2.0",
-    "@patternfly/react-table": "6.2.0",
-    "@patternfly/react-tokens": "6.2.0",
+    "@patternfly/patternfly": "6.3.0-prerelease.40",
+    "@patternfly/react-charts": "8.3.0-prerelease.20",
+    "@patternfly/react-component-groups": "6.3.0-prerelease.3",
+    "@patternfly/react-core": "6.3.0-prerelease.32",
+    "@patternfly/react-icons": "6.3.0-prerelease.13",
+    "@patternfly/react-table": "6.3.0-prerelease.32",
+    "@patternfly/react-tokens": "6.3.0-prerelease.12",
     "@redhat-cloud-services/frontend-components": "^6.1.0",
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.0",
     "@redhat-cloud-services/frontend-components-translations": "^4.0.5",
@@ -135,7 +135,14 @@
   },
   "overrides": {
     "react-intl": "^7.1.11",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "@patternfly/patternfly": "6.3.0-prerelease.40",
+    "@patternfly/react-charts": "8.3.0-prerelease.20",
+    "@patternfly/react-component-groups": "6.3.0-prerelease.3",
+    "@patternfly/react-core": "6.3.0-prerelease.32",
+    "@patternfly/react-icons": "6.3.0-prerelease.13",
+    "@patternfly/react-table": "6.3.0-prerelease.32",
+    "@patternfly/react-tokens": "6.3.0-prerelease.12"
   },
   "insights": {
     "appname": "cost-management"

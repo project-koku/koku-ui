@@ -24,9 +24,6 @@ export const styles = {
     height: '35vh',
     width: '100%',
   },
-  expandableRowBorder: {
-    border: 0,
-  },
   expandableRowContent: {
     paddingBottom: 4,
     paddingTop: 4,
