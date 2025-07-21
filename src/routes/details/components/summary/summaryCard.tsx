@@ -265,6 +265,9 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by all accounts, regions, etc.
       },
+      order_by: {
+        cost: 'desc', // Volumes API uses implicit ordering on usage instead of cost -- see https://issues.redhat.com/browse/COST-6560
+      },
       ...(costDistribution === ComputedReportItemValueType.distributed && {
         order_by: {
           distributed_cost: 'desc',

@@ -3382,6 +3382,18 @@
               }
             ]
           },
+          "storageclass": {
+            "value": [
+              {
+                "type": 1,
+                "value": "name"
+              },
+              {
+                "type": 0,
+                "value": " storage types"
+              }
+            ]
+          },
           "subscription_guid": {
             "value": [
               {
@@ -10370,6 +10382,14 @@
               {
                 "type": 0,
                 "value": "Persistent volume claims"
+              }
+            ]
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project"
               }
             ]
           },

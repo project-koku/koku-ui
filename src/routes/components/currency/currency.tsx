@@ -43,6 +43,7 @@ export const currencyOptions: {
   { label: messages.currencyOptions, value: 'CAD' },
   { label: messages.currencyOptions, value: 'CHF' },
   { label: messages.currencyOptions, value: 'CNY' },
+  { label: messages.currencyOptions, value: 'CZK' },
   { label: messages.currencyOptions, value: 'DKK' },
   { label: messages.currencyOptions, value: 'EUR' },
   { label: messages.currencyOptions, value: 'GBP' },
