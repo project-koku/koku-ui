@@ -163,7 +163,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
                 </Td>
               )}
             </Tr>
-            {row.data.hasChildren && isExpanded && (
+            {isExpanded && row.data.hasChildren && (
               <Tr>
                 <Td colSpan={6}>
                   <ExpandableRowContent>

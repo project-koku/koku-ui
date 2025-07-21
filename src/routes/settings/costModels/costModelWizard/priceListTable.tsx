@@ -135,7 +135,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                   }}
                 >
                   {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
-                    const getMetric = value => intl.formatMessage(messages.metricValues, { value }) || value;
+                    const getMetric = value => getMetricLabel(value) || value;
                     const getMeasurement = (measurement, units) => {
                       units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
                       return intl.formatMessage(messages.measurementValues, {

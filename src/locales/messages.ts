@@ -1403,6 +1403,7 @@ export default defineMessages({
       'resource_location {{name} regions} ' +
       'service {{name} services} ' +
       'service_name {{name} services} ' +
+      'storageclass{{name} storage types} ' +
       'subscription_guid {{name} accounts} ' +
       'tag {{name} tags} ' +
       'other {}}',
@@ -2590,6 +2591,7 @@ export default defineMessages({
       'cpu {CPU} ' +
       'cluster {Cluster} ' +
       'memory {Memory} ' +
+      'project {Project} ' +
       'node {Node} ' +
       'persistent_volume_claims {Persistent volume claims} ' +
       'storage {Storage} ' +
