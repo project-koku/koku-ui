@@ -120,7 +120,12 @@ const RateTableBase: React.FC<RateTableProps> = ({
         });
 
   return (
-    <Table aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)} variant={TableVariant.compact}>
+    <Table
+      aria-label={intl.formatMessage(messages.costModelsWizardCreatePriceList)}
+      hasAnimations
+      isExpandable
+      variant={TableVariant.compact}
+    >
       <Thead>
         <Tr>
           {columns.map((col: { title?: string; sortable?: boolean }, i) => (
@@ -132,10 +137,11 @@ const RateTableBase: React.FC<RateTableProps> = ({
         </Tr>
       </Thead>
       {sortedRows.map((row, rowIndex) => {
+        const rowId = `row-${rowIndex}`;
         const isExpanded = row.data.hasChildren && expanded.includes(rowIndex);
         return (
-          <Tbody key={rowIndex} isExpanded={isExpanded}>
-            <Tr>
+          <Tbody isExpanded={isExpanded} key={rowId}>
+            <Tr isContentExpanded={isExpanded} isControlRow key={`${rowId}-${rowIndex}`}>
               {row.cells.map((cell, i) => (
                 <Td
                   key={i}
@@ -163,8 +169,8 @@ const RateTableBase: React.FC<RateTableProps> = ({
                 </Td>
               )}
             </Tr>
-            {isExpanded && row.data.hasChildren && (
-              <Tr>
+            {row.data.hasChildren && (
+              <Tr isExpanded={isExpanded}>
                 <Td colSpan={6}>
                   <ExpandableRowContent>
                     <Table borders={false} variant={TableVariant.compact}>
