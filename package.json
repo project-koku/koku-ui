@@ -95,7 +95,7 @@
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.25",
     "@swc/core": "^1.13.2",
     "@swc/jest": "^0.2.39",
-    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
@@ -129,7 +129,7 @@
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "swc_mut_cjs_exports": "^10.7.0",
-    "ts-jest": "^29.4.0",
+    "ts-jest": "^29.4.1",
     "ts-patch": "^3.3.0",
     "typescript": "^5.8.3"
   },
