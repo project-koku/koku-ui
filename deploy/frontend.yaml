@@ -10,7 +10,7 @@ objects:
     metadata:
       name: 'cost-management'
     spec:
-      feoConfigEnabled: false
+      feoConfigEnabled: true
       searchEntries:
         - id: 'cost-management'
           title: 'Cost Management'
@@ -23,37 +23,41 @@ objects:
           bundleId: 'openshift'
           position: 100
           navItems:
-            - id: 'cost-management.overview'
-              title: 'Overview'
-              href: '/openshift/cost-management'
-              product: 'Red Hat Cost Management'
-            - id: 'cost-management.systems'
-              title: 'Systems'
-              href: '/openshift/cost-management/systems'
-              permissions:
-                - method: 'featureFlag'
-                  args: ["cost-management.ui.systems", true]
-            - id: 'cost-management.optimizations'
-              title: 'Optimizations'
-              href: '/openshift/cost-management/optimizations'
-            - id: 'cost-management.ocp'
-              title: 'OpenShift'
-              href: '/openshift/cost-management/ocp'
-            - id: 'cost-management.aws'
-              title: 'Amazon Web Services'
-              href: '/openshift/cost-management/aws'
-            - id: 'cost-management.gcp'
-              title: 'Google Cloud Platform'
-              href: '/openshift/cost-management/gcp'
-            - id: 'cost-management.azure'
-              title: 'Microsoft Azure'
-              href: '/openshift/cost-management/azure'
-            - id: 'cost-management.explorer'
-              title: 'Cost Explorer'
-              href: '/openshift/cost-management/explorer'
-            - id: 'cost-management.settings'
-              title: 'Settings'
-              href: '/openshift/cost-management/settings'
+            - id: 'cost-management.nav'
+              title: 'Cost Management'
+              expandable: true
+              routes:
+                - id: 'cost-management.overview'
+                  title: 'Overview'
+                  href: '/openshift/cost-management'
+                  product: 'Red Hat Cost Management'
+                - id: 'cost-management.systems'
+                  title: 'Systems'
+                  href: '/openshift/cost-management/systems'
+                  permissions:
+                    - method: 'featureFlag'
+                      args: ["cost-management.ui.systems", true]
+                - id: 'cost-management.optimizations'
+                  title: 'Optimizations'
+                  href: '/openshift/cost-management/optimizations'
+                - id: 'cost-management.ocp'
+                  title: 'OpenShift'
+                  href: '/openshift/cost-management/ocp'
+                - id: 'cost-management.aws'
+                  title: 'Amazon Web Services'
+                  href: '/openshift/cost-management/aws'
+                - id: 'cost-management.gcp'
+                  title: 'Google Cloud Platform'
+                  href: '/openshift/cost-management/gcp'
+                - id: 'cost-management.azure'
+                  title: 'Microsoft Azure'
+                  href: '/openshift/cost-management/azure'
+                - id: 'cost-management.explorer'
+                  title: 'Cost Explorer'
+                  href: '/openshift/cost-management/explorer'
+                - id: 'cost-management.settings'
+                  title: 'Settings'
+                  href: '/openshift/cost-management/settings'
       API:
         versions:
           - v1
