@@ -28,7 +28,7 @@ objects:
               expandable: true
               routes:
                 - id: 'cost-management.overview'
-                  title: 'Overview'
+                  title: '0verview'
                   href: '/openshift/cost-management'
                   product: 'Red Hat Cost Management'
                 - id: 'cost-management.systems'
