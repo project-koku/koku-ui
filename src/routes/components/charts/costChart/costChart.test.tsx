@@ -9,7 +9,7 @@ jest.mock('routes/components/charts/chartTheme', () => ({ __esModule: true, defa
 
 jest.mock('@patternfly/react-charts/victory', () => ({
   __esModule: true,
-  Chart: ({ children }: any) => <div data-testid="chart">{children}</div>,
+  Chart: ({ children, height }: any) => <div data-testid="chart" style={{ height: height || 200 }}>{children}</div>,
   ChartArea: (props: any) => {
     captured.push({ comp: 'ChartArea', props });
     return null;
@@ -26,7 +26,10 @@ jest.mock('routes/components/charts/common/chartUtils', () => ({
   getChartNames: (s: any[]) => s?.map((x, i) => `${x.childName}-${i}`) || [],
   getDomain: () => ({}),
   getLegendData: () => [],
-  getResizeObserver: () => () => {},
+  getResizeObserver: () => (_: any, cb: any) => {
+    cb?.({ clientWidth: 400 });
+    return () => {};
+  },
   getTooltipLabel: () => 'label',
   initHiddenSeries: (_s: any, hidden: Set<number>, index: number) => {
     const next = new Set(hidden);
@@ -49,6 +52,7 @@ describe('CostChart', () => {
     forecastData: [],
     forecastConeData: [],
     showForecast: true,
+    baseHeight: 200,
   } as any;
 
   test('renders title when provided', () => {

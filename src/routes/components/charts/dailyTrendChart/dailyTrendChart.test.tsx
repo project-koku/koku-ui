@@ -8,7 +8,7 @@ jest.mock('routes/components/charts/chartTheme', () => ({ __esModule: true, defa
 
 jest.mock('@patternfly/react-charts/victory', () => ({
   __esModule: true,
-  Chart: ({ children }: any) => <div data-testid="chart">{children}</div>,
+  Chart: ({ children, height }: any) => <div data-testid="chart" style={{ height: height || 200 }}>{children}</div>,
   ChartAxis: () => null,
   ChartBar: (props: any) => {
     captured.push({ comp: 'ChartBar', props });
@@ -30,7 +30,10 @@ jest.mock('routes/components/charts/common/chartUtils', () => ({
   getChartNames: (s: any[]) => s?.map((x, i) => `${x.childName}-${i}`) || [],
   getDomain: () => ({}),
   getLegendData: () => [],
-  getResizeObserver: () => () => {},
+  getResizeObserver: () => (_: any, cb: any) => {
+    cb?.({ clientWidth: 400 });
+    return () => {};
+  },
   getTooltipLabel: () => 'label',
   initHiddenSeries: (_s: any, hidden: Set<number>, index: number) => {
     const next = new Set(hidden);
@@ -38,7 +41,6 @@ jest.mock('routes/components/charts/common/chartUtils', () => ({
     return next;
   },
   isDataAvailable: () => true,
-  isDataHidden: () => false,
   isSeriesHidden: (hidden: Set<number>, index: number) => hidden.has(index),
 }));
 
@@ -47,15 +49,14 @@ describe('DailyTrendChart', () => {
     captured.length = 0;
   });
 
-  const makeDatum = (childName: string) => [{ x: 1, y: 1, childName }];
-
   const baseProps = {
     intl: { formatMessage: () => '' } as any,
-    currentData: makeDatum('currentCost'),
-    previousData: makeDatum('previousCost'),
-    forecastData: makeDatum('forecast'),
-    forecastConeData: makeDatum('forecastCone'),
+    currentData: [{ x: 1, y: 1 }],
+    previousData: [{ x: 1, y: 1 }],
+    forecastData: [{ x: 1, y: 1 }],
+    forecastConeData: [{ x: 1, y: 1 }],
     showForecast: true,
+    baseHeight: 200,
     formatter: () => '',
   } as any;
 

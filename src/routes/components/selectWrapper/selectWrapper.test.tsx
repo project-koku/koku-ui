@@ -13,7 +13,7 @@ jest.mock('@patternfly/react-core', () => ({
   )),
   Select: ({ children, isOpen, onOpenChange, onSelect, toggle }: any) => (
     <div>
-      {toggle?.({})}
+      {toggle?.(React.createRef())}
       {isOpen && (
         <div data-testid="menu" onClick={() => onSelect?.(null, { value: 'b', toString: () => 'Bee' })}>
           {children}
