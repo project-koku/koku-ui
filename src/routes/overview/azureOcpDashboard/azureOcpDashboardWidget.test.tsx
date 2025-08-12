@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import { GcpDashboardWidget, getIdKeyForTab } from './gcpDashboardWidget';
-import { GcpDashboardTab } from 'store/dashboard/gcpDashboard';
+import { AzureOcpDashboardWidget, getIdKeyForTab } from './azureOcpDashboardWidget';
+import { AzureOcpDashboardTab } from 'store/dashboard/azureOcpDashboard';
 
 jest.mock('react-redux', () => ({
   __esModule: true,
@@ -13,14 +13,14 @@ jest.mock('react-redux', () => ({
 }));
 jest.mock('react-intl', () => ({ __esModule: true, injectIntl: (Comp: any) => (props: any) => <Comp {...props} intl={{ formatMessage: () => '' }} /> }));
 
-jest.mock('store/dashboard/gcpDashboard', () => ({
+jest.mock('store/dashboard/azureOcpDashboard', () => ({
   __esModule: true,
-  GcpDashboardTab: { gcpProjects: 'gcpProjects', regions: 'regions', services: 'services' },
-  gcpDashboardSelectors: {
+  AzureOcpDashboardTab: { service_names: 'service_names', subscription_guids: 'subscription_guids', resource_locations: 'resource_locations' },
+  azureOcpDashboardSelectors: {
     selectWidget: () => ({ widgetId: 1 }),
     selectWidgetQueries: () => ({ current: {}, previous: {}, tabs: {}, forecast: {} }),
   },
-  gcpDashboardActions: {
+  azureOcpDashboardActions: {
     changeWidgetTab: jest.fn(),
     fetchWidgetForecasts: jest.fn(),
     fetchWidgetReports: jest.fn(),
@@ -34,18 +34,18 @@ jest.mock('utils/sessionStorage', () => ({ __esModule: true, getCurrency: () => 
 
 jest.mock('routes/overview/components', () => ({ __esModule: true, DashboardWidgetBase: (props: any) => <div data-testid="widget" data-currency={props.currency} /> }));
 
-describe('gcpDashboardWidget connector', () => {
+describe('azureOcpDashboardWidget connector', () => {
   test.each([
-    [GcpDashboardTab.gcpProjects, 'gcp_project'],
-    [GcpDashboardTab.regions, 'region'],
-    [GcpDashboardTab.services, 'service'],
+    [AzureOcpDashboardTab.service_names, 'service_name'],
+    [AzureOcpDashboardTab.subscription_guids, 'subscription_guid'],
+    [AzureOcpDashboardTab.resource_locations, 'resource_location'],
   ])('getIdKeyForTab %#', (tab, expected) => {
     expect(getIdKeyForTab(tab as any)).toBe(expected);
   });
 
   test('maps currency into base widget', () => {
-    const { getByTestId } = render(<GcpDashboardWidget widgetId={1} /> as any);
+    const { getByTestId } = render(<AzureOcpDashboardWidget widgetId={1} /> as any);
     const el = getByTestId('widget');
     expect(el.getAttribute('data-currency')).toBe('USD');
   });
-});
+}); 
