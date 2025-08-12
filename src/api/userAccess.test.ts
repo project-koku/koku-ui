@@ -7,5 +7,5 @@ import { fetchUserAccess } from './userAccess';
 test('api get provider calls axiosInstance.get', () => {
   const query = getUserAccessQuery(awsUserAccessQuery);
   fetchUserAccess(query);
-  expect(axiosInstance.get).toBeCalledWith('user-access/?type=AWS');
+  expect(axiosInstance.get).toHaveBeenCalledWith('user-access/?type=AWS');
 });

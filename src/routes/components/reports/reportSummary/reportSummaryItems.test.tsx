@@ -27,7 +27,7 @@ test('renders the children if complete', () => {
 
 test('renders the children if complete', () => {
   render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
-  expect(utils.getComputedReportItems).toBeCalledWith({
+  expect(utils.getComputedReportItems).toHaveBeenCalledWith({
     report: props.report,
     idKey: props.idKey,
   });

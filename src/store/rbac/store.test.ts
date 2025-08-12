@@ -17,7 +17,7 @@ test('is org admin', async () => {
   fetchMock.mockReturnValueOnce(Promise.resolve({ isOrgAdmin: true, permissions: [] }));
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
   expect(selectors.isCostModelWritePermission(store.getState())).toBe(true);
 });
 
@@ -30,7 +30,7 @@ test('is not org admin and *:* permissions', async () => {
   );
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
   expect(selectors.isCostModelWritePermission(store.getState())).toBe(true);
 });
 
@@ -43,7 +43,7 @@ test('is not org admin and rate:write permissions', async () => {
   );
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
   expect(selectors.isCostModelWritePermission(store.getState())).toBe(true);
 });
 
@@ -56,7 +56,7 @@ test('is not org admin and rate:read permissions', async () => {
   );
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
   expect(selectors.isCostModelWritePermission(store.getState())).toBe(false);
 });
 
@@ -64,7 +64,7 @@ test('is not org admin and no permissions', async () => {
   fetchMock.mockReturnValueOnce(Promise.resolve({ isOrgAdmin: false, permissions: null }));
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
   expect(selectors.isCostModelWritePermission(store.getState())).toBe(false);
 });
 
@@ -72,7 +72,7 @@ test('is not org admin and no cost-management permissions', async () => {
   fetchMock.mockReturnValueOnce(Promise.resolve({ isOrgAdmin: false, permissions: [] }));
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
   expect(selectors.isCostModelWritePermission(store.getState())).toBe(false);
 });
 
@@ -80,6 +80,6 @@ test('failure processing request', async () => {
   fetchMock.mockReturnValueOnce(Promise.reject('Error!'));
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
   expect(store.getState().RBAC.error).toBe('Error!');
 });
