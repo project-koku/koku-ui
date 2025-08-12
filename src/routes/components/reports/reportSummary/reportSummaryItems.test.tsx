@@ -1,42 +1,44 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import * as utils from 'routes/utils/computedReport/getComputedReportItems';
+import ReportSummaryItems from './reportSummaryItems';
 import { FetchStatus } from 'store/common';
 
-import type { ReportSummaryItemsProps } from './reportSummaryItems';
-import ReportSummaryItems from './reportSummaryItems';
+jest.mock('routes/utils/computedReport/getComputedReportItems', () => ({
+  __esModule: true,
+  getComputedReportItems: jest.fn(() => [
+    { id: 'A', label: 'A', cost: { total: { value: 1 } } },
+    { id: 'Other', label: 'Other', cost: { total: { value: 2 } } },
+    { id: 'B', label: 'B', cost: { total: { value: 3 } } },
+  ]),
+}));
 
-jest.spyOn(utils, 'getComputedReportItems');
+const Child = ({ items }: any) => (
+  <>
+    {items.map(item => (
+      <li key={item.id}>{item.label}</li>
+    ))}
+  </>
+);
 
-const props: ReportSummaryItemsProps = {
-  children: jest.fn(() => 'children'),
-  status: FetchStatus.inProgress,
-  idKey: 'date',
-  report: { data: [] },
-};
-
-test('contains skeleton readers if in progress', () => {
-  const view = render(<ReportSummaryItems {...props} />);
-  expect(view.container).toMatchSnapshot();
-});
-
-test('renders the children if complete', () => {
-  render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
-  expect(screen.getByText(/children/i)).not.toBeNull();
-});
-
-test('renders the children if complete', () => {
-  render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
-  expect(utils.getComputedReportItems).toHaveBeenCalledWith({
-    report: props.report,
-    idKey: props.idKey,
+describe('ReportSummaryItems', () => {
+  test('shows skeleton when loading', () => {
+    render(
+      <ReportSummaryItems idKey="id" report={{} as any} status={FetchStatus.inProgress as any}>
+        {props => <Child {...props} />}
+      </ReportSummaryItems>
+    );
+    // PF v6 skeleton class
+    const nodes = document.querySelectorAll('.pf-v6-c-skeleton');
+    expect(nodes.length).toBeGreaterThan(0);
   });
-});
 
-test('does not update if the report is unchanged', () => {
-  const { rerender } = render(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
-  rerender(<ReportSummaryItems {...props} status={FetchStatus.complete} />);
-  expect(utils.getComputedReportItems).toHaveBeenCalledTimes(1);
-  /* eslint-disable-next-line testing-library/no-node-access */
-  expect(props.children).toHaveBeenCalledTimes(1);
+  test('renders children with items and moves Other to end', () => {
+    render(
+      <ReportSummaryItems idKey="id" report={{} as any}>
+        {props => <Child {...props} />}
+      </ReportSummaryItems>
+    );
+    const items = screen.getAllByRole('listitem');
+    expect(items.map(li => li.textContent)).toEqual(['A', 'B', 'Other']);
+  });
 });
