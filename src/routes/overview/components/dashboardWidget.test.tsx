@@ -50,7 +50,7 @@ const props: DashboardWidgetProps = {
 
 test('reports are fetched on mount', () => {
   render(<DashboardWidgetBase {...props} />);
-  expect(props.fetchReports).toBeCalledWith(props.widgetId);
+  expect(props.fetchReports).toHaveBeenCalledWith(props.widgetId);
 });
 
 test('title is translated', () => {

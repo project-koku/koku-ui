@@ -44,7 +44,7 @@ test('default state', () => {
 test('fetch forecast success', async () => {
   const store = createForecastsStore();
   store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
-  expect(runForecastMock).toBeCalled();
+  expect(runForecastMock).toHaveBeenCalled();
   expect(
     selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
   ).toBe(FetchStatus.inProgress);
@@ -61,7 +61,7 @@ test('fetch forecast failure', async () => {
   const error = Symbol('forecast error');
   runForecastMock.mockRejectedValueOnce(error);
   store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
-  expect(runForecast).toBeCalled();
+  expect(runForecast).toHaveBeenCalled();
   expect(
     selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
   ).toBe(FetchStatus.inProgress);

@@ -5,5 +5,5 @@ import { runForecast } from './ocpCloudForecast';
 
 test('runForecast API request for all cloud filtered by OCP', () => {
   runForecast(ForecastType.cost, '');
-  expect(axiosInstance.get).toBeCalledWith('forecasts/openshift/infrastructures/all/costs/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('forecasts/openshift/infrastructures/all/costs/?');
 });

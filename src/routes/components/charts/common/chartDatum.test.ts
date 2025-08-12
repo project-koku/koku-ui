@@ -30,11 +30,11 @@ describe('getTooltipContent', () => {
       { unit: 'gb-mo', withTranslation: messages.unitTooltips },
     ].forEach(tc => {
       labelFormatFunc(10, tc.unit);
-      expect(intl.formatMessage).toBeCalledWith(tc.withTranslation, { units: 'hrs', value: 10 });
+      expect(intl.formatMessage).toHaveBeenCalledWith(tc.withTranslation, { units: 'hrs', value: 10 });
     });
   });
   test('format unknown units', () => {
-    expect(intl.formatMessage).not.toBeCalled();
+    expect(intl.formatMessage).not.toHaveBeenCalled();
     expect(labelFormatFunc(10)).toBe(10);
   });
 });

@@ -4,10 +4,10 @@ import { AccountSettingsType, fetchAccountSettings, updateAccountSettings } from
 
 test('fetchSettings API request for account settings', () => {
   fetchAccountSettings(AccountSettingsType.settings);
-  expect(axiosInstance.get).toBeCalledWith('account-settings/');
+  expect(axiosInstance.get).toHaveBeenCalledWith('account-settings/');
 });
 
 test('updateAccountSettings API request to update currency', () => {
   updateAccountSettings(AccountSettingsType.currency, { currency: 'EUR' });
-  expect(axiosInstance.put).toBeCalledWith('account-settings/currency/', { currency: 'EUR' });
+  expect(axiosInstance.put).toHaveBeenCalledWith('account-settings/currency/', { currency: 'EUR' });
 });

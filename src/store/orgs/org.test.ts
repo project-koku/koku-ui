@@ -44,7 +44,7 @@ test('default state', () => {
 test('fetch org report success', async () => {
   const store = createOrgsStore();
   store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
-  expect(runOrgMock).toBeCalled();
+  expect(runOrgMock).toHaveBeenCalled();
   expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.inProgress
   );
@@ -61,7 +61,7 @@ test('fetch org report failure', async () => {
   const error = Symbol('org error');
   runOrgMock.mockRejectedValueOnce(error);
   store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
-  expect(runOrg).toBeCalled();
+  expect(runOrg).toHaveBeenCalled();
   expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.inProgress
   );

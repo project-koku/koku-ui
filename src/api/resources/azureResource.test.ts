@@ -5,5 +5,5 @@ import { ResourceType } from './resource';
 
 test('runExport API request for Azure', () => {
   runResource(ResourceType.subscriptionGuid, '');
-  expect(axiosInstance.get).toBeCalledWith('resource-types/azure-subscription-guids/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/azure-subscription-guids/?');
 });

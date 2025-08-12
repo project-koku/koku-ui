@@ -5,5 +5,5 @@ import { TagType } from './tag';
 
 test('runForecast API request for all cloud filtered by OCP', () => {
   runTag(TagType.tag, '');
-  expect(axiosInstance.get).toBeCalledWith('tags/openshift/infrastructures/all/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('tags/openshift/infrastructures/all/?');
 });
