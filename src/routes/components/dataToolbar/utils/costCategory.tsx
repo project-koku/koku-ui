@@ -5,11 +5,11 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep, uniq, uniqBy } from 'lodash';
 import React from 'react';
+import { CostCategoryValue } from 'routes/components/dataToolbar/costCategoryValue';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectTypeaheadWrapper } from 'routes/components/selectWrapper';
 import { awsCategoryKey, awsCategoryPrefix } from 'utils/props';
 
-import { CostCategoryValue } from '../costCategoryValue';
 import type { Filters } from './common';
 import { getChips, getFilter, hasFilters } from './common';
 import { ExcludeType } from './exclude';
