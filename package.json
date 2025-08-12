@@ -40,6 +40,7 @@
     "stats": "npm run build:prod --profile --json > stats.json",
     "test": "jest --no-cache",
     "test:clean": "jest --clearCache",
+    "test:coverage": "jest --coverage",
     "test:update": "npm run test:clean && jest --updateSnapshot",
     "translations": "npm-run-all translations:extract translations:compile translations:compile:ast translations:datafile",
     "translations:test": "npm-run-all translations:extract translations:compile translations:compile:ast 'translations:syncTranslations --locale fr' 'translations:syncTranslations --locale de' translations:datafile",
