@@ -30,7 +30,13 @@ const renderUI = (state: Partial<RootState>) => {
   );
   return render(
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <RouterProvider
+        future={{
+          v7_relativeSplatPath: true,
+          v7_startTransition: true,
+        } as any}
+        router={router}
+      />
     </Provider>
   );
 };
