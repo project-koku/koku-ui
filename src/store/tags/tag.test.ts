@@ -44,7 +44,7 @@ test('default state', () => {
 test('fetch tag report success', async () => {
   const store = createTagsStore();
   store.dispatch(actions.fetchTag(tagPathsType, tagType, tagQueryString));
-  expect(runTagMock).toBeCalled();
+  expect(runTagMock).toHaveBeenCalled();
   expect(selectors.selectTagFetchStatus(store.getState(), tagPathsType, tagType, tagQueryString)).toBe(
     FetchStatus.inProgress
   );
@@ -61,7 +61,7 @@ test('fetch tag report failure', async () => {
   const error = Symbol('tag error');
   runTagMock.mockRejectedValueOnce(error);
   store.dispatch(actions.fetchTag(tagPathsType, tagType, tagQueryString));
-  expect(runTag).toBeCalled();
+  expect(runTag).toHaveBeenCalled();
   expect(selectors.selectTagFetchStatus(store.getState(), tagPathsType, tagType, tagQueryString)).toBe(
     FetchStatus.inProgress
   );

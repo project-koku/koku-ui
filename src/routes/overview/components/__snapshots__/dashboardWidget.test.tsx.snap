@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`title is translated 1`] = `"test title"`;
+exports[`DashboardWidgetBase title and trend title translate 1`] = `"test title"`;
 
-exports[`trend title is translated 1`] = `"test trend title"`;
+exports[`DashboardWidgetBase title and trend title translate 2`] = `"test trend title"`;

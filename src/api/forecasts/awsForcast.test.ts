@@ -5,5 +5,5 @@ import { ForecastType } from './forecast';
 
 test('runForecast API request for AWS', () => {
   runForecast(ForecastType.cost, '');
-  expect(axiosInstance.get).toBeCalledWith('forecasts/aws/costs/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('forecasts/aws/costs/?');
 });

@@ -44,7 +44,7 @@ test('default state', () => {
 test('fetch resource success', async () => {
   const store = createResourcesStore();
   store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
-  expect(runResourceMock).toBeCalled();
+  expect(runResourceMock).toHaveBeenCalled();
   expect(
     selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
   ).toBe(FetchStatus.inProgress);
@@ -61,7 +61,7 @@ test('fetch resource failure', async () => {
   const error = Symbol('resource error');
   runResourceMock.mockRejectedValueOnce(error);
   store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
-  expect(runResource).toBeCalled();
+  expect(runResource).toHaveBeenCalled();
   expect(
     selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
   ).toBe(FetchStatus.inProgress);

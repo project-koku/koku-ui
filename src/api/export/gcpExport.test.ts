@@ -5,7 +5,7 @@ import { runExport } from './gcpExport';
 
 test('runExport API request for GCP', () => {
   runExport(ReportType.cost, '');
-  expect(axiosInstance.get).toBeCalledWith('reports/gcp/costs/?', {
+  expect(axiosInstance.get).toHaveBeenCalledWith('reports/gcp/costs/?', {
     headers: { Accept: 'text/csv' },
   });
 });

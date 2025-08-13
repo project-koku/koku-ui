@@ -5,5 +5,5 @@ import { ResourceType } from './resource';
 
 test('runExport API request for GCP', () => {
   runResource(ResourceType.account, '');
-  expect(axiosInstance.get).toBeCalledWith('resource-types/gcp-accounts/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/gcp-accounts/?');
 });

@@ -17,7 +17,7 @@ describe('formatUnits', () => {
   test('USD unit calls formatCurrency', () => {
     const units = 'USD';
     format.formatCurrency(value, units, formatOptions);
-    expect(format.formatCurrency).toBeCalledWith(value, units, formatOptions);
+    expect(format.formatCurrency).toHaveBeenCalledWith(value, units, formatOptions);
   });
 
   test('null unit returns value fixed to fraction digits', () => {

@@ -5,5 +5,5 @@ import { ForecastType } from './forecast';
 
 test('runForecast API request for OCP on Azure', () => {
   runForecast(ForecastType.cost, '');
-  expect(axiosInstance.get).toBeCalledWith('forecasts/openshift/infrastructures/azure/costs/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('forecasts/openshift/infrastructures/azure/costs/?');
 });

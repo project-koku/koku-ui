@@ -44,7 +44,7 @@ test('default state', () => {
 test('fetch export success', async () => {
   const store = createExportsStore();
   store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
-  expect(runExportMock).toBeCalled();
+  expect(runExportMock).toHaveBeenCalled();
   expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
@@ -61,7 +61,7 @@ test('fetch export failure', async () => {
   const error = Symbol('export error');
   runExportMock.mockRejectedValueOnce(error);
   store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
-  expect(runExport).toBeCalled();
+  expect(runExport).toHaveBeenCalled();
   expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
