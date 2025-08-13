@@ -44,7 +44,7 @@ test('default state', () => {
 test('fetch report success', async () => {
   const store = createReportsStore();
   store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
-  expect(runReportMock).toBeCalled();
+  expect(runReportMock).toHaveBeenCalled();
   expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
@@ -61,7 +61,7 @@ test('fetch report failure', async () => {
   const error = Symbol('report error');
   runReportMock.mockRejectedValueOnce(error);
   store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
-  expect(runReport).toBeCalled();
+  expect(runReport).toHaveBeenCalled();
   expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );

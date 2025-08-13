@@ -5,5 +5,5 @@ import { runForecast } from './gcpForecast';
 
 test('runForecast API request for GCP', () => {
   runForecast(ForecastType.cost, '');
-  expect(axiosInstance.get).toBeCalledWith('forecasts/gcp/costs/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('forecasts/gcp/costs/?');
 });

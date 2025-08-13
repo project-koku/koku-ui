@@ -40,7 +40,7 @@ test('default state', async () => {
 test('fetch account settings success', async () => {
   const store = createProdvidersStore();
   store.dispatch(actions.fetchAccountSettings(AccountSettingsType.settings));
-  expect(fetchAccountSettingsMock).toBeCalled();
+  expect(fetchAccountSettingsMock).toHaveBeenCalled();
   expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
     FetchStatus.inProgress
   );
@@ -54,7 +54,7 @@ test('fetch account settings failure', async () => {
   const error = Symbol('getAccountSettings error');
   fetchAccountSettingsMock.mockReturnValueOnce(Promise.reject(error));
   store.dispatch(actions.fetchAccountSettings(AccountSettingsType.settings));
-  expect(fetchAccountSettingsMock).toBeCalled();
+  expect(fetchAccountSettingsMock).toHaveBeenCalled();
   expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
     FetchStatus.inProgress
   );

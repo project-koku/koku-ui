@@ -64,7 +64,7 @@ test('fetch providers success', async () => {
   const query = getProvidersQuery(awsProvidersQuery);
   const store = createProdvidersStore();
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
-  expect(fetchProvidersMock).toBeCalled();
+  expect(fetchProvidersMock).toHaveBeenCalled();
   expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.selectProvidersFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();
@@ -77,7 +77,7 @@ test('fetch providers failure', async () => {
   const error = Symbol('getProviders error');
   fetchProvidersMock.mockReturnValueOnce(Promise.reject(error));
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
-  expect(fetchProvidersMock).toBeCalled();
+  expect(fetchProvidersMock).toHaveBeenCalled();
   expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.selectProvidersFetchStatus).toHaveBeenCalled());
   const finishedState = store.getState();

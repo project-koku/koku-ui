@@ -104,7 +104,7 @@ test('test fetch price list action', async () => {
   fetchMock.mockReturnValueOnce(Promise.resolve({ data: ratesMock }));
   const store = createStore();
   await store.dispatch(actions.fetchPriceList(pUuid));
-  expect(fetchMock).toBeCalled();
+  expect(fetchMock).toHaveBeenCalled();
 });
 
 test('default state', async () => {
