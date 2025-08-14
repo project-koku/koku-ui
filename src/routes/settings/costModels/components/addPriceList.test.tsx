@@ -126,15 +126,15 @@ describe('add-a-new-rate', () => {
 
     await user.type(screen.getByLabelText('Description'), 'regular rate test');
 
-    // select first option for metric
+    // select CPU metric explicitly by name
     await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
-    await user.click(options[0]);
+    await user.click(options.find(o => /"value":"cpu"/i.test(o.textContent)));
 
-    // select first option for measurement
+    // select measurement by name (avoid brittle index)
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[3]); // Previous select options are not being removed from page
+    await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
     // make sure the default cost type is selected
     expect(screen.getByLabelText(qr.infraradio)).toHaveProperty('checked', true);
@@ -144,7 +144,7 @@ describe('add-a-new-rate', () => {
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[1]);
+    await user.click(options.find(o => /"value":"request"/i.test(o.textContent)));
 
     expect(screen.getByLabelText(qr.supplradio)).toHaveProperty('checked', true);
 
@@ -153,13 +153,13 @@ describe('add-a-new-rate', () => {
 
     await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
-    await user.click(options[1]);
+    await user.click(options.find(o => /"value":"memory"/i.test(o.textContent)));
 
     expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[3]); // Previous select options are not being removed from page
+    await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
     expect(screen.getByLabelText(qr.supplradio)).toHaveProperty('checked', true);
     await user.click(screen.getByLabelText(qr.infraradio));
@@ -183,7 +183,7 @@ describe('add-a-new-rate', () => {
 
     // making sure button is enabled
     const createButton = screen.getByRole('button', { name: regExp(messages.createRate)} );
-    expect(createButton).not.toBeDisabled;
+    expect(createButton).not.toBeDisabled();
     await user.click(createButton);
     expect(submit).toHaveBeenCalled();
   }, 10000);
@@ -200,11 +200,11 @@ describe('add-a-new-rate', () => {
 
     await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
-    await user.click(options[0]);
+    await user.click(options.find(o => /"value":"cpu"/i.test(o.textContent)));
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[3]); // Previous select options are not being removed from page
+    await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
     await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
 
@@ -246,7 +246,7 @@ describe('add-a-new-rate', () => {
 
     await user.type(tagRateInput, '0.23');
     await user.type(screen.getByPlaceholderText('Enter a tag description'), 'default worker');
-    expect(createButton).not.toBeDisabled;
+    expect(createButton).not.toBeDisabled();
 
     // set tag to default
     await user.click(screen.getByLabelText('Default'));
@@ -271,11 +271,11 @@ describe('add-a-new-rate', () => {
 
     await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option');
-    await user.click(options[1]);
+    await user.click(options.find(o => /"value":"memory"/i.test(o.textContent)));
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[4]); // Previous select options are not being removed from page
+    await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
     await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
 
@@ -293,13 +293,13 @@ describe('add-a-new-rate', () => {
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[1]);
+    await user.click(options.find(o => /"value":"request"/i.test(o.textContent)));
 
     expect(screen.queryByText(regExp(messages.priceListDuplicate))).toBeNull();
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[4]);
+    await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });

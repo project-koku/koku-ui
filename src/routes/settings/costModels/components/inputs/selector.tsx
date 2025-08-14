@@ -76,7 +76,15 @@ const SelectorBase: React.FC<SelectorProps> = ({
         value: option.value,
       };
     });
-    return selectOptions;
+    return selectOptions.sort((a: any, b: any) => {
+      if (a.toString() < b.toString()) {
+        return -1;
+      }
+      if (a.toString() > b.toString()) {
+        return 1;
+      }
+      return 0;
+    });
   };
 
   const handleOnSelect = (_evt, sel: SelectWrapperOption) => {
