@@ -18,10 +18,8 @@ objects:
           description: 'Understand and track costs for your OpenShift clusters and workloads.'
           alt_title:
             - 'Cost Management'
-      bundleSegments:
+      navigationSegments:
         - segmentId: 'cost-management'
-          bundleId: 'openshift'
-          position: 100
           navItems:
             - id: 'cost-management.nav'
               title: 'Cost Management'
@@ -36,7 +34,7 @@ objects:
                   href: '/openshift/cost-management/systems'
                   permissions:
                     - method: 'featureFlag'
-                      args: ["cost-management.ui.systems", true]
+                      args: [ "cost-management.ui.systems", true ]
                 - id: 'cost-management.optimizations'
                   title: 'Optimizations'
                   href: '/openshift/cost-management/optimizations'
