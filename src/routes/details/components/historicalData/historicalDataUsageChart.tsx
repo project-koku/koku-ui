@@ -151,7 +151,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
-        ...(groupBy && !groupByOrgValue && { [groupBy]: groupByValue }),
+        ...(groupBy && !groupByOrgValue && { [groupBy]: '*' }),
       },
     };
 
@@ -166,7 +166,8 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
+        ...(groupBy && groupByValue !== '*' && groupByValue === 'Platform' && { [groupBy]: undefined }), // Required for the "Platform" project
       },
     };
 
@@ -190,7 +191,8 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
+        ...(groupBy && groupByValue !== '*' && groupByValue === 'Platform' && { [groupBy]: undefined }), // Used by the "Platform" project
       },
     };
 

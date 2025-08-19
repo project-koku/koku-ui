@@ -371,13 +371,13 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: timeScopeValue,
-      [groupBy]: groupByValue,
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       ...(query.filter_by && query.filter_by),
+      ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
     },
     exclude: {
       ...(queryState?.exclude && queryState.exclude),

@@ -483,13 +483,14 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         ...(queryState?.filter_by && queryState.filter_by),
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
+        ...(groupBy && groupByValue !== '*' && groupByValue === 'Platform' && { [groupBy]: undefined }), // Required for the "Platform" project
       },
       exclude: {
         ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
-        ...(groupBy && { [groupBy]: groupByValue }),
+        ...(groupBy && { [groupBy]: '*' }),
       },
     };
 
