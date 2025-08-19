@@ -22,11 +22,11 @@ objects:
         - segmentId: 'cost-management'
           navItems:
             - id: 'cost-management.nav'
-              title: 'Cost Management'
+              title: 'Cost Management TEST'
               expandable: true
               routes:
                 - id: 'cost-management.overview'
-                  title: '0verview'
+                  title: 'Overview TEST'
                   href: '/openshift/cost-management'
                   product: 'Red Hat Cost Management'
                 - id: 'cost-management.systems'
