@@ -250,14 +250,14 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(queryState?.filter_by && queryState.filter_by),
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
         // Workaround for https://issues.redhat.com/browse/COST-1189
         ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
+        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
       },
       exclude: {
         ...(queryState?.exclude && queryState.exclude),
