@@ -15,7 +15,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
@@ -178,6 +178,9 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+  const groupByTagKey = getGroupByTagKey(queryFromRoute);
+
+  const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery: Query = {
@@ -194,8 +197,11 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
-      ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Note: We're not inserting PVC information for the 'Platform' project
+      // Note: We're not inserting PVC information for the 'Platform' project
+      ...(isFilterByExact && {
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [`exact:${groupBy}`]: groupByValue,
+      }),
       ...query.filter_by,
     },
     exclude: {

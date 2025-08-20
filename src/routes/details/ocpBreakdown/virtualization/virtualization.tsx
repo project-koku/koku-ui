@@ -358,10 +358,13 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState('details');
-  const timeScopeValue = getTimeScopeValue(queryState);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+  const groupByTagKey = getGroupByTagKey(queryFromRoute);
+
+  const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery = {
     cost_type: costType,
@@ -371,13 +374,17 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: timeScopeValue,
+      ...(!isFilterByExact && { [groupBy]: groupByValue }), // Required for 'Platform' project
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       ...(query.filter_by && query.filter_by),
-      ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
+      ...(isFilterByExact && {
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [`exact:${groupBy}`]: groupByValue,
+      }),
     },
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
@@ -386,7 +393,6 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
     limit: query.limit,
     offset: query.offset,
     order_by: query.order_by || baseQuery.order_by,
-    // category: 'Platform',
   };
   const reportQueryString = getQuery(reportQuery);
   const report = useSelector((state: RootState) =>

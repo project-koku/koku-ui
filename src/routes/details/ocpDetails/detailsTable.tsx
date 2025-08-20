@@ -218,7 +218,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const isDefaultProject = item.classification === classificationDefault;
-      const isPlatformProject = item.classification === classificationPlatform;
+      const isPlatformCosts = item.classification === classificationPlatform;
       const isUnallocatedProject = item.classification === classificationUnallocated;
       const isUnattributedCosts = item.classification === classificationUnattributed;
       const isOverheadCosts =
@@ -241,7 +241,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             basePath,
             description: item.id,
             id: item.id,
-            isPlatformProject,
+            isPlatformCosts,
             groupBy,
             title: label.toString(), // Convert IDs if applicable
           })}
@@ -306,7 +306,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !isGroupByProject,
-            value: !isPlatformProject && !isDisabled && (
+            value: !isPlatformCosts && !isDisabled && (
               <AsyncComponent
                 scope="costManagementMfe"
                 appName="cost-management-mfe"
@@ -316,7 +316,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                   basePath,
                   description: item.id,
                   id: item.id,
-                  isPlatformProject,
+                  isPlatformCosts,
                   groupBy,
                   isOptimizationsTab: true,
                   title: label.toString(), // Convert IDs if applicable

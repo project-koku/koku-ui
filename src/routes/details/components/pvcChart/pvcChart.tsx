@@ -17,7 +17,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
 import { noop } from 'routes/utils/noop';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
@@ -369,6 +369,9 @@ const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStatePro
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
+    const groupByTagKey = getGroupByTagKey(queryFromRoute);
+
+    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
     const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };
@@ -384,7 +387,11 @@ const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStatePro
         ...(queryState?.filter_by && queryState.filter_by),
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Note: We're not inserting PVC information for the 'Platform' project
+        // Note: We're not inserting PVC information for the 'Platform' project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
       exclude: {
         ...(queryState?.exclude && queryState.exclude),
