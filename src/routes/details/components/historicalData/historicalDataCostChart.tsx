@@ -10,7 +10,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ComputedReportItemValueType, DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/components/charts/historicalCostChart';
-import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -154,6 +154,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
+    const groupByTagKey = getGroupByTagKey(queryFromRoute);
+
+    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
 
     const baseQuery: Query = {
       filter_by: {
@@ -171,7 +174,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
-        ...(groupBy && { [groupBy]: '*' }),
+        ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
       },
     };
 
@@ -188,8 +191,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
-        ...(groupBy && groupByValue !== '*' && groupByValue === 'Platform' && { [groupBy]: undefined }), // Required for the "Platform" project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
     };
 
@@ -215,8 +220,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
-        ...(groupBy && groupByValue !== '*' && groupByValue === 'Platform' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
     };
 

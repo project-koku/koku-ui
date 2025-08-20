@@ -25,7 +25,7 @@ import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/components/reports/reportSummary';
 import { SummaryModal } from 'routes/details/components/summary/modal/summaryModal';
 import { getComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
@@ -233,6 +233,9 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const groupByTagKey = getGroupByTagKey(queryFromRoute);
+
+    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
     const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };
@@ -257,7 +260,11 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
             [orgUnitIdKey]: undefined,
           }),
         // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
+        // Note: We're not inserting PVC information for the 'Platform' project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
       exclude: {
         ...(queryState?.exclude && queryState.exclude),

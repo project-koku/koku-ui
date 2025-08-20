@@ -14,7 +14,7 @@ import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { ProviderBreakdownModal } from 'routes/details/components/providerStatus';
 import { ClusterInfoModal } from 'routes/details/ocpBreakdown/clusterInfo';
-import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
@@ -50,9 +50,11 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+  const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
   const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
+  const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
@@ -68,14 +70,16 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && { [`exact:${groupBy}`]: groupByValue }), // Add exact: filter -- see https://issues.redhat.com/browse/COST-6659
-      ...(groupBy && groupByValue !== '*' && groupByValue === 'Platform' && { [groupBy]: undefined }), // Required for the "Platform" project
+      ...(isFilterByExact && {
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [`exact:${groupBy}`]: groupByValue,
+      }),
     },
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
-      ...(groupBy && { [groupBy]: '*' }),
+      ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
     },
   };
 
