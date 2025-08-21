@@ -3,6 +3,7 @@ import 'routes/components/dataTable/dataTable.scss';
 import type { Query } from 'api/queries/query';
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 import type { Report } from 'api/reports/report';
+import type { TagPathsType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -37,6 +38,7 @@ interface VirtualizationTableOwnProps {
   reportQueryString: string;
   reportType: string;
   selectedItems?: ComputedReportItem[];
+  tagPathsType: TagPathsType;
 }
 
 type VirtualizationTableProps = VirtualizationTableOwnProps;
@@ -64,6 +66,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
   reportQueryString,
   reportType,
   selectedItems,
+  tagPathsType,
 }) => {
   const intl = useIntl();
   const [columns, setColumns] = useState([]);
@@ -163,7 +166,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
             value: <StorageLink storageData={item.storage} virtualMachine={item.vm_name} />,
           },
           {
-            value: <TagLink tagData={item.tags} virtualMachine={item.vm_name} />,
+            value: <TagLink tagData={item.tags} tagPathsType={tagPathsType} virtualMachine={item.vm_name} />,
           },
           {
             id: VirtualizationTableColumnIds.cpu,
