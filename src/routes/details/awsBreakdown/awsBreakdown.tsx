@@ -52,7 +52,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+  const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
 
   const costType = getCostType();
   const currency = getCurrency();

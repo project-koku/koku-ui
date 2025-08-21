@@ -113,7 +113,7 @@ const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryCon
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
     const timeScopeValue = getTimeScopeValue(queryState);
 
     const reportQuery: Query = {

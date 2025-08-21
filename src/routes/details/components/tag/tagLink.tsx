@@ -7,7 +7,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { FetchStatus } from 'store/common';
@@ -123,7 +123,10 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+  const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
+  const groupByTagKey = getGroupByTagKey(queryFromRoute);
+
+  const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
   const timeScopeValue = getTimeScopeValue(queryState);
 
   // Prune unsupported tag params from filter_by, but don't reset queryState
@@ -153,7 +156,10 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
       ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && groupBy.indexOf(tagPrefix) === -1 && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+      ...(isFilterByExact && {
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [`exact:${groupBy}`]: groupByValue,
+      }),
     },
   };
 

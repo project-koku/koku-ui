@@ -159,7 +159,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
     const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
     const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;

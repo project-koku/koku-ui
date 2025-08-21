@@ -3,6 +3,7 @@ import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
@@ -86,6 +87,7 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
 
 const reportType = ReportType.virtualization;
 const reportPathsType = ReportPathsType.ocp;
+const tagPathsType = TagPathsType.ocp;
 
 const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costType, currency }) => {
   const intl = useIntl();
@@ -211,6 +213,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
         reportQueryString={reportQueryString}
         reportType={reportType}
         selectedItems={selectedItems}
+        tagPathsType={tagPathsType}
       />
     );
   };

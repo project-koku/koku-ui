@@ -176,7 +176,7 @@ const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStatePro
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
 
     // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
     const tagQueryString = getQuery({
