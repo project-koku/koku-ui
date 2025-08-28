@@ -117,7 +117,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
               label={reportItem.label ? reportItem.label.toString() : undefined}
               totalValue={report.meta.total.cost[reportItemValue].value}
               units={report.meta.total.cost[reportItemValue].units}
-              value={reportItem.cost[reportItemValue].value}
+              value={reportItem.cost[reportItemValue]?.value}
             />
           ))
         }
