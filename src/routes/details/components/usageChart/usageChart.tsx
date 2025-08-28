@@ -14,7 +14,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
-import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { noop } from 'routes/utils/noop';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
@@ -469,9 +469,8 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
-    const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+    const isFilterByExact = groupBy && groupByValue !== '*';
     const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };

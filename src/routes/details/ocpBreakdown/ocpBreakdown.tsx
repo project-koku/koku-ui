@@ -14,7 +14,7 @@ import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { ProviderBreakdownModal } from 'routes/details/components/providerStatus';
 import { ClusterInfoModal } from 'routes/details/ocpBreakdown/clusterInfo';
-import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
@@ -50,11 +50,10 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
   const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
-  const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+  const isFilterByExact = groupBy && groupByValue !== '*';
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
@@ -104,7 +103,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   const breadcrumbLabel = queryFromRoute[breadcrumbLabelKey] ? queryFromRoute[breadcrumbLabelKey] : undefined;
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
-  const test = {
+  return {
     breadcrumbLabel,
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
     dataDetailsComponent:
@@ -155,7 +154,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     title,
     virtualizationComponent: <Virtualization costDistribution={costDistribution} currency={currency} />,
   };
-  return test;
 });
 
 const mapDispatchToProps: OcpBreakdownDispatchProps = {

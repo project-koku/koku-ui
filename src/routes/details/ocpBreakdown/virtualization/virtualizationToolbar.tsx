@@ -13,7 +13,7 @@ import { DataToolbar } from 'routes/components/dataToolbar';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
-import { getGroupById, getGroupByOrgValue, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -206,9 +206,8 @@ const mapStateToProps = createMapStateToProps<VirtualizationToolbarOwnProps, Vir
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
-    const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+    const isFilterByExact = groupBy && groupByValue !== '*';
 
     // Prune unsupported tag params from filter_by, but don't reset queryState
     const filterByParams = {

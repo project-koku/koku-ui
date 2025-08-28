@@ -364,9 +364,8 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-  const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+  const isFilterByExact = groupBy && groupByValue !== '*';
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery = {

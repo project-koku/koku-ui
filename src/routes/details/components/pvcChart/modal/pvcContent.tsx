@@ -15,7 +15,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
@@ -178,9 +178,8 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-  const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+  const isFilterByExact = groupBy && groupByValue !== '*';
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery: Query = {

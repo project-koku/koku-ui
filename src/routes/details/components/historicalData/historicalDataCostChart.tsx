@@ -10,7 +10,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ComputedReportItemValueType, DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import { HistoricalCostChart } from 'routes/components/charts/historicalCostChart';
-import { getGroupById, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -154,9 +154,8 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
-    const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+    const isFilterByExact = groupBy && groupByValue !== '*';
 
     const baseQuery: Query = {
       filter_by: {
