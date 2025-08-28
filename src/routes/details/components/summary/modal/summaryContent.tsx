@@ -95,7 +95,7 @@ class SummaryContentBase extends React.Component<SummaryContentProps, any> {
                   label={_item.label ? _item.label.toString() : ''}
                   totalValue={report.meta.total.cost[reportItemValue].value}
                   units={report.meta.total.cost[reportItemValue].units}
-                  value={_item.cost[reportItemValue].value}
+                  value={_item.cost[reportItemValue]?.value}
                 />
               ))
             }

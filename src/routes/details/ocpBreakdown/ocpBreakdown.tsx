@@ -80,6 +80,12 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     group_by: {
       ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
     },
+    // Todo: Uncomment to omit group_by in breakdown page
+    // ...(!isFilterByExact && {
+    //   group_by: {
+    //     ...(groupBy && { [groupBy]: groupByValue }),
+    //   },
+    // }),
   };
 
   const reportQueryString = getQuery(reportQuery);
