@@ -25,7 +25,7 @@ import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { ReportSummaryItem, ReportSummaryItems } from 'routes/components/reports/reportSummary';
 import { SummaryModal } from 'routes/details/components/summary/modal/summaryModal';
 import { getComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
-import { getGroupById, getGroupByOrgValue, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
@@ -233,9 +233,8 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
-    const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+    const isFilterByExact = groupBy && groupByValue !== '*';
     const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };

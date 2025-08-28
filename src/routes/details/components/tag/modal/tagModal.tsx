@@ -8,7 +8,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { getGroupById, getGroupByOrgValue, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { FetchStatus } from 'store/common';
@@ -123,9 +123,8 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
     const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
-    const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+    const isFilterByExact = groupBy && groupByValue !== '*';
     const timeScopeValue = getTimeScopeValue(queryState);
 
     // Prune unsupported tag params from filter_by, but don't reset queryState

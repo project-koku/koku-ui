@@ -10,7 +10,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import { HistoricalUsageChart } from 'routes/components/charts/historicalUsageChart';
-import { getGroupById, getGroupByOrgValue, getGroupByTagKey, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
 import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -143,9 +143,8 @@ const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
-    const groupByTagKey = getGroupByTagKey(queryFromRoute);
 
-    const isFilterByExact = groupBy && groupByValue !== '*' && !groupByTagKey;
+    const isFilterByExact = groupBy && groupByValue !== '*';
 
     // instance-types and storage APIs must filter org units
     const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
