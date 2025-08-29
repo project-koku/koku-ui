@@ -78,6 +78,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
+      // Required because distributed costs are only included with group_by project
       ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
     },
     // Todo: Uncomment to omit group_by in breakdown page
