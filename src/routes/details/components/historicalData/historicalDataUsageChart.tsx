@@ -26,6 +26,8 @@ interface HistoricalDataUsageChartOwnProps extends RouterComponentProps, Wrapped
   chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  showLimit?: boolean;
+  showRequest?: boolean;
   timeScopeValue?: number;
 }
 
@@ -77,8 +79,16 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
   };
 
   public render() {
-    const { chartName, currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } =
-      this.props;
+    const {
+      chartName,
+      currentReport,
+      currentReportFetchStatus,
+      previousReport,
+      previousReportFetchStatus,
+      intl,
+      showLimit,
+      showRequest,
+    } = this.props;
 
     // Current data
     const currentLimitData = transformReport(currentReport, DatumType.rolling, 'date', 'limit', 'total');
@@ -110,6 +120,8 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
               previousLimitData={previousLimitData}
               previousRequestData={previousRequestData}
               previousUsageData={previousUsageData}
+              showLimit={showLimit}
+              showRequest={showRequest}
               xAxisLabel={intl.formatMessage(messages.historicalChartDayOfMonthLabel)}
               yAxisLabel={intl.formatMessage(messages.units, { units: unitsLookupKey(usageUnits) })}
             />

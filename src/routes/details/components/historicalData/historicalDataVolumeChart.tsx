@@ -26,6 +26,8 @@ interface HistoricalDataVolumeChartOwnProps extends RouterComponentProps, Wrappe
   chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  showLimit?: boolean;
+  showRequest?: boolean;
   timeScopeValue?: number;
 }
 
@@ -77,8 +79,16 @@ class HistoricalDataVolumeChartBase extends React.Component<HistoricalDataVolume
   };
 
   public render() {
-    const { chartName, currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } =
-      this.props;
+    const {
+      chartName,
+      currentReport,
+      currentReportFetchStatus,
+      previousReport,
+      previousReportFetchStatus,
+      intl,
+      showLimit,
+      showRequest,
+    } = this.props;
 
     // Current data
     const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'request', 'total');
@@ -106,7 +116,8 @@ class HistoricalDataVolumeChartBase extends React.Component<HistoricalDataVolume
               name={chartName}
               previousRequestData={previousRequestData}
               previousUsageData={previousUsageData}
-              showLimit={false}
+              showLimit={showLimit}
+              showRequest={showRequest}
               xAxisLabel={intl.formatMessage(messages.historicalChartDayOfMonthLabel)}
               yAxisLabel={intl.formatMessage(messages.units, { units: unitsLookupKey(usageUnits) })}
             />
