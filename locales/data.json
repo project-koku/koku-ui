@@ -7876,13 +7876,13 @@
     "gcpCostTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform services cost"
+        "value": "Google Cloud Platform cost"
       }
     ],
     "gcpCostTrendTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform services cumulative cost comparison ("
+        "value": "Google Cloud Platform cumulative cost comparison ("
       },
       {
         "type": 1,
@@ -7896,7 +7896,7 @@
     "gcpDailyCostTrendTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform services daily cost comparison ("
+        "value": "Google Cloud Platform daily cost comparison ("
       },
       {
         "type": 1,
