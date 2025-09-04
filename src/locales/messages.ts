@@ -2218,18 +2218,18 @@ export default defineMessages({
     id: 'gcpComputeTitle',
   },
   gcpCostTitle: {
-    defaultMessage: 'Google Cloud Platform services cost',
-    description: 'Google Cloud Platform services cost',
+    defaultMessage: 'Google Cloud Platform cost',
+    description: 'Google Cloud Platform cost',
     id: 'gcpCostTitle',
   },
   gcpCostTrendTitle: {
-    defaultMessage: 'Google Cloud Platform services cumulative cost comparison ({units})',
-    description: 'Google Cloud Platform services cumulative cost comparison ({units})',
+    defaultMessage: 'Google Cloud Platform cumulative cost comparison ({units})',
+    description: 'Google Cloud Platform cumulative cost comparison ({units})',
     id: 'gcpCostTrendTitle',
   },
   gcpDailyCostTrendTitle: {
-    defaultMessage: 'Google Cloud Platform services daily cost comparison ({units})',
-    description: 'Google Cloud Platform services daily cost comparison ({units})',
+    defaultMessage: 'Google Cloud Platform daily cost comparison ({units})',
+    description: 'Google Cloud Platform daily cost comparison ({units})',
     id: 'gcpDailyCostTrendTitle',
   },
   gcpDesc: {
