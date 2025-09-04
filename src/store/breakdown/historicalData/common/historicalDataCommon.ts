@@ -13,6 +13,8 @@ export interface HistoricalDataWidget {
   id: number;
   reportPathsType: ReportPathsType; // Report URL path
   reportType: ReportType; // Report type; cost, storage, etc.
+  showLimit?: boolean; // Show chart legend for limit data
+  showRequest?: boolean; // Show chart legend for request data
   showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
   type: HistoricalDataWidgetType;
 }

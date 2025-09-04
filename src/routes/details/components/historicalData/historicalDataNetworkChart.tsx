@@ -26,6 +26,8 @@ interface HistoricalDataNetworkChartOwnProps extends RouterComponentProps, Wrapp
   chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  showLimit?: boolean;
+  showRequest?: boolean;
   timeScopeValue?: number;
 }
 
@@ -77,8 +79,16 @@ class HistoricalDataNetworkChartBase extends React.Component<HistoricalDataNetwo
   };
 
   public render() {
-    const { chartName, currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } =
-      this.props;
+    const {
+      chartName,
+      currentReport,
+      currentReportFetchStatus,
+      previousReport,
+      previousReportFetchStatus,
+      intl,
+      showLimit,
+      showRequest,
+    } = this.props;
 
     // Current data
     const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'data_transfer_in', undefined);
@@ -121,7 +131,8 @@ class HistoricalDataNetworkChartBase extends React.Component<HistoricalDataNetwo
               requestLabelKey={messages.chartDataInLabel}
               requestLabelNoDataKey={messages.chartDataInLabelNoData}
               requestTooltipKey={messages.chartDataInTooltip}
-              showLimit={false}
+              showLimit={showLimit}
+              showRequest={showRequest}
               usageLabelKey={messages.chartDataOutLabel}
               usageLabelNoDataKey={messages.chartDataOutLabelNoData}
               usageTooltipKey={messages.chartDataOutTooltip}
