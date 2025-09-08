@@ -1,4 +1,5 @@
 export const awsCategoryPrefix = 'aws_category:'; // AWS category prefix for group_by
+export const exactPrefix = 'exact:'; // Exact filter prefix
 export const logicalOrPrefix = 'or:'; // logical OR prefix for group_by
 export const logicalAndPrefix = 'and:'; // logical AND prefix for group_by
 export const noPrefix = 'No-'; // no-project, no-region, no-<tag>

@@ -1783,6 +1783,11 @@ export default defineMessages({
     description: 'Oops!',
     id: 'errorStateUnexpectedTitle',
   },
+  exactLabel: {
+    defaultMessage: 'Exact: {value}',
+    description: 'Exact filter label',
+    id: 'exactLabel',
+  },
   examplesTitle: {
     defaultMessage: 'Examples',
     description: 'Examples',
@@ -1794,7 +1799,7 @@ export default defineMessages({
     id: 'excludeLabel',
   },
   excludeValues: {
-    defaultMessage: '{value, select, ' + 'excludes {excludes} ' + 'includes {includes} ' + 'other {}}',
+    defaultMessage: '{value, select, ' + 'exact {exact} ' + 'exclude {excludes} ' + 'include {includes} ' + 'other {}}',
     description: 'Exclude filter values',
     id: 'excludeValues',
   },

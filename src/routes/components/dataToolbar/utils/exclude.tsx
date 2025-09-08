@@ -9,6 +9,7 @@ import type { Filters } from './common';
 import { hasFilters } from './common';
 
 export const enum ExcludeType {
+  exact = 'exact',
   exclude = 'exclude',
   include = 'include',
 }
@@ -44,8 +45,9 @@ export const getExcludeSelect = ({
 
 export const getExcludeSelectOptions = (): SelectWrapperOption[] => {
   const excludeOptions = [
-    { name: intl.formatMessage(messages.excludeValues, { value: 'excludes' }), key: ExcludeType.exclude },
-    { name: intl.formatMessage(messages.excludeValues, { value: 'includes' }), key: ExcludeType.include },
+    { name: intl.formatMessage(messages.excludeValues, { value: 'exact' }), key: ExcludeType.exact },
+    { name: intl.formatMessage(messages.excludeValues, { value: 'exclude' }), key: ExcludeType.exclude },
+    { name: intl.formatMessage(messages.excludeValues, { value: 'include' }), key: ExcludeType.include },
   ];
 
   const options: SelectWrapperOption[] = [];

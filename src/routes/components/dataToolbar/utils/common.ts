@@ -4,7 +4,9 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import type { Filter } from 'routes/utils/filter';
-import { awsCategoryKey, awsCategoryPrefix, orgUnitIdKey, tagKey, tagPrefix } from 'utils/props';
+import { awsCategoryKey, awsCategoryPrefix, exactPrefix, orgUnitIdKey, tagKey, tagPrefix } from 'utils/props';
+
+import { ExcludeType } from './exclude';
 
 export interface Filters {
   [key: string]: Filter[] | { [key: string]: Filter[] };
@@ -31,42 +33,45 @@ export const cleanInput = (value: string) => {
 export const getActiveFilters = query => {
   const filters = cloneDeep(defaultFilters);
 
-  const parseFilters = (key, values, isExcludes = false) => {
+  const parseFilters = (key, values, excludeType) => {
     if (key.indexOf(tagPrefix) !== -1) {
       if (filters.tag[key.substring(tagPrefix.length)]) {
         filters.tag[key.substring(tagPrefix.length)] = [
           ...filters.tag[key.substring(tagPrefix.length)],
-          ...getFilters(key, values, isExcludes),
+          ...getFilters(key, values, excludeType),
         ];
       } else {
-        filters.tag[key.substring(tagPrefix.length)] = getFilters(key, values, isExcludes);
+        filters.tag[key.substring(tagPrefix.length)] = getFilters(key, values, excludeType);
       }
     } else if (key.indexOf(awsCategoryPrefix) !== -1) {
       if (filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)]) {
         filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)] = [
           ...filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)],
-          ...getFilters(key, values, isExcludes),
+          ...getFilters(key, values, excludeType),
         ];
       } else {
-        filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)] = getFilters(key, values, isExcludes);
+        filters[awsCategoryKey][key.substring(awsCategoryPrefix.length)] = getFilters(key, values, excludeType);
       }
     } else if (filters[key]) {
-      filters[key] = [...filters[key], ...getFilters(key, values, isExcludes)];
+      filters[key] = [...filters[key], ...getFilters(key, values, excludeType)];
     } else {
-      filters[key] = getFilters(key, values, isExcludes);
+      filters[key] = getFilters(key, values, excludeType);
     }
   };
 
   if (query?.filter_by) {
     Object.keys(query.filter_by).forEach(key => {
+      const excludeType = key.indexOf(exactPrefix) !== -1 ? ExcludeType.exact : undefined;
+
       const values = Array.isArray(query.filter_by[key]) ? [...query.filter_by[key]] : [query.filter_by[key]];
-      parseFilters(key, values);
+      const newKey = excludeType ? key.substring(excludeType.length + 1) : key;
+      parseFilters(newKey, values, excludeType);
     });
   }
   if (query?.exclude) {
     Object.keys(query.exclude).forEach(key => {
       const values = Array.isArray(query.exclude[key]) ? [...query.exclude[key]] : [query.exclude[key]];
-      parseFilters(key, values, true);
+      parseFilters(key, values, ExcludeType.exclude);
     });
   }
   return filters;
@@ -76,15 +81,17 @@ export const getChips = (filters: Filter[]): string[] => {
   const chips = [];
   if (filters instanceof Array) {
     filters.forEach(item => {
-      const label = item.toString ? item.toString() : undefined;
+      const value = item.toString ? item.toString() : undefined;
+      const msg =
+        item.excludeType === ExcludeType.exact
+          ? messages.exactLabel
+          : item.excludeType === ExcludeType.exclude
+            ? messages.excludeLabel
+            : undefined;
 
       chips.push({
         key: item.value,
-        node: label
-          ? label
-          : item.isExcludes
-            ? intl.formatMessage(messages.excludeLabel, { value: item.value })
-            : item.value,
+        node: value || msg ? intl.formatMessage(msg, { value: item.value }) : item.value,
       });
     });
   }
@@ -106,17 +113,12 @@ export const getDefaultCategory = (categoryOptions: ToolbarLabelGroup[], groupBy
   return categoryOptions[0].key;
 };
 
-export const getFilter = (
-  filterType: string,
-  filterValue: string,
-  isExcludes = false,
-  toString = undefined
-): Filter => {
-  return { type: filterType, value: filterValue, isExcludes, toString };
+export const getFilter = (filterType: string, filterValue: string, excludeType, toString = undefined): Filter => {
+  return { type: filterType, value: filterValue, excludeType, toString };
 };
 
-export const getFilters = (filterType: string, filterValues: string[], isExcludes = false): Filter[] => {
-  return filterValues.map(value => getFilter(filterType, value, isExcludes));
+export const getFilters = (filterType: string, filterValues: string[], excludeType: ExcludeType): Filter[] => {
+  return filterValues.map(value => getFilter(filterType, value, excludeType));
 };
 
 export const hasFilters = (filters: Filters) => {
@@ -150,12 +152,19 @@ export const onDelete = (type: any, chip: any, currentFilters) => {
   }
 
   if (_type) {
+    const exactPrefix = intl.formatMessage(messages.exactLabel, { value: '' });
     const excludePrefix = intl.formatMessage(messages.excludeLabel, { value: '' });
+
     let id = chip && chip.key ? chip.key : chip;
-    if (id && id.indexOf(excludePrefix) !== -1) {
-      const isExcludes = id ? id.indexOf(excludePrefix) !== -1 : false;
-      id = isExcludes ? id.slice(excludePrefix.length) : id;
+    if (id && id.indexOf(exactPrefix) !== -1) {
+      const isExact = id ? id.indexOf(exactPrefix) !== -1 : false;
+      id = isExact ? id.slice(exactPrefix.length) : id;
     }
+    if (id && id.indexOf(excludePrefix) !== -1) {
+      const isExclude = id ? id.indexOf(excludePrefix) !== -1 : false;
+      id = isExclude ? id.slice(excludePrefix.length) : id;
+    }
+
     if (currentFilters.tag[_type]) {
       filter = currentFilters.tag[_type].find(item => item.value === id);
     } else if (currentFilters[awsCategoryKey][_type]) {

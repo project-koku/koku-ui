@@ -15,7 +15,6 @@ import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
 import { cleanInput, getChips, getFilter, hasFilters } from './common';
-import { ExcludeType } from './exclude';
 
 // Category input
 
@@ -108,8 +107,7 @@ export const onCategoryInput = ({
     return {}; // For destructure
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(currentCategory, val, isExcludes);
+  const filter = getFilter(currentCategory, val, currentExclude);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
   return {
@@ -144,8 +142,7 @@ export const onCategoryInputSelect = ({
     return;
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(currentCategory, val, isExcludes);
+  const filter = getFilter(currentCategory, val, currentExclude);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
   return {

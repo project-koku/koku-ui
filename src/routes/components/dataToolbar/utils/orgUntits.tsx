@@ -43,12 +43,18 @@ export const getOrgUnitSelect = ({
     (filters[orgUnitIdKey] as any).map(filter => {
       const selection = selectOptions.find(option => option.value === filter.value);
       if (selection) {
+        const value = selection.toString();
+        const msg =
+          filter.excludeType === ExcludeType.exact
+            ? messages.exactLabel
+            : filter.excludeType === ExcludeType.exclude
+              ? messages.excludeLabel
+              : undefined;
+
         selections.push(selection);
         chips.push({
           key: selection.value,
-          node: filter.isExcludes
-            ? intl.formatMessage(messages.excludeLabel, { value: selection.toString() })
-            : selection.toString(),
+          node: msg ? intl.formatMessage(msg, { value }) : value,
         });
       }
     });
@@ -133,8 +139,7 @@ export const onOrgUnitSelect = ({
   let filter;
 
   if (checked) {
-    const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(orgUnitIdKey, selection.value, isExcludes);
+    filter = getFilter(orgUnitIdKey, selection.value, currentExclude);
   } else if (currentFilters[orgUnitIdKey]) {
     filter = (currentFilters[orgUnitIdKey] as Filter[]).find(item => item.value === selection.value);
   }

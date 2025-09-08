@@ -12,7 +12,6 @@ import { awsCategoryKey, awsCategoryPrefix } from 'utils/props';
 
 import type { Filters } from './common';
 import { getChips, getFilter, hasFilters } from './common';
-import { ExcludeType } from './exclude';
 
 // Cost category key select
 
@@ -181,8 +180,7 @@ export const onCostCategoryValueInput = ({
     return;
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, costCategoryKeyValueInput, isExcludes);
+  const filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, costCategoryKeyValueInput, currentExclude);
   const newFilters: any = cloneDeep(
     currentFilters[awsCategoryKey][currentCostCategoryKey] ? currentFilters[awsCategoryKey][currentCostCategoryKey] : []
   );
@@ -226,8 +224,7 @@ export const onCostCategoryValueSelect = ({
   const checked = event.target.checked;
   let filter;
   if (checked) {
-    const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection.value, isExcludes);
+    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection.value, currentExclude);
   } else if (currentFilters[awsCategoryKey][currentCostCategoryKey]) {
     filter = currentFilters[awsCategoryKey][currentCostCategoryKey].find(item => item.value === selection.value);
   }
