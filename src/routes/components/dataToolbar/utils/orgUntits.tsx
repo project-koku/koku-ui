@@ -12,7 +12,7 @@ import { orgUnitIdKey, orgUnitNameKey } from 'utils/props';
 
 import type { Filters } from './common';
 import { getFilter, hasFilters } from './common';
-import { ExcludeType } from './exclude';
+import { CriteriaType } from './criteria';
 
 export const getOrgUnitSelect = ({
   currentCategory,
@@ -45,9 +45,9 @@ export const getOrgUnitSelect = ({
       if (selection) {
         const value = selection.toString();
         const msg =
-          filter.excludeType === ExcludeType.exact
+          filter.excludeType === CriteriaType.exact
             ? messages.exactLabel
-            : filter.excludeType === ExcludeType.exclude
+            : filter.excludeType === CriteriaType.exclude
               ? messages.excludeLabel
               : undefined;
 
@@ -125,12 +125,12 @@ export const getOrgUnitOptions = (orgReport: Org): ToolbarLabelGroup[] => {
 };
 
 export const onOrgUnitSelect = ({
-  currentExclude,
+  currentCriteria,
   currentFilters,
   event,
   selection,
 }: {
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   event?: any;
   selection?: SelectWrapperOption;
@@ -139,7 +139,7 @@ export const onOrgUnitSelect = ({
   let filter;
 
   if (checked) {
-    filter = getFilter(orgUnitIdKey, selection.value, currentExclude);
+    filter = getFilter(orgUnitIdKey, selection.value, currentCriteria);
   } else if (currentFilters[orgUnitIdKey]) {
     filter = (currentFilters[orgUnitIdKey] as Filter[]).find(item => item.value === selection.value);
   }

@@ -274,7 +274,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
         resourcePathsType={resourcePathsType}
         startDate={startDate}
         style={styles.toolbarContainer}
-        showExcludes
+        showCriteria
         showFilter
         tagReport={tagReport}
         tagPathsType={tagPathsType}

@@ -1,8 +1,8 @@
 import type { Query } from 'api/queries/query';
-import { ExcludeType } from 'routes/components/dataToolbar/utils/exclude';
+import { CriteriaType } from 'routes/components/dataToolbar/utils/criteria';
 
 export interface Filter {
-  excludeType?: ExcludeType;
+  excludeType?: CriteriaType;
   toString?: () => string;
   type?: string;
   value?: string;
@@ -16,9 +16,9 @@ enum QueryFilterType {
 export const addFilterToQuery = (query: Query, filter: Filter) => {
   return addQueryFilter(
     query,
-    filter?.excludeType === ExcludeType.exact ? `exact:${filter?.type}` : filter?.type,
+    filter?.excludeType === CriteriaType.exact ? `exact:${filter?.type}` : filter?.type,
     filter?.value,
-    filter?.excludeType === ExcludeType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
+    filter?.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
   );
 };
 
@@ -67,14 +67,14 @@ export const addQueryFilter = (
 export const removeFilterFromQuery = (query: Query, filter: Filter) => {
   // Clear all
   if (filter === null) {
-    const excludeQuery = removeQueryFilter(query, null, null, QueryFilterType.exclude);
-    return removeQueryFilter(excludeQuery, null, null, QueryFilterType.filter);
+    const newQuery = removeQueryFilter(query, null, null, QueryFilterType.exclude);
+    return removeQueryFilter(newQuery, null, null, QueryFilterType.filter);
   } else {
     return removeQueryFilter(
       query,
-      filter?.excludeType === ExcludeType.exact ? `exact:${filter?.type}` : filter?.type,
+      filter?.excludeType === CriteriaType.exact ? `exact:${filter?.type}` : filter?.type,
       filter?.value,
-      filter.excludeType === ExcludeType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
+      filter.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
     );
   }
 };

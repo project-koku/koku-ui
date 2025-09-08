@@ -233,13 +233,13 @@ export const getTagValueSelect = ({
 };
 
 export const onTagValueInput = ({
-  currentExclude,
+  currentCriteria,
   currentFilters,
   currentTagKey,
   event,
   tagKeyValueInput,
 }: {
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   currentTagKey?: string;
   event?: any;
@@ -249,7 +249,7 @@ export const onTagValueInput = ({
     return {};
   }
 
-  const filter = getFilter(`${tagPrefix}${currentTagKey}`, tagKeyValueInput, currentExclude);
+  const filter = getFilter(`${tagPrefix}${currentTagKey}`, tagKeyValueInput, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[orgUnitIdKey] ? currentFilters[orgUnitIdKey] : []);
 
   for (const item of newFilters) {
@@ -275,13 +275,13 @@ export const onTagValueInput = ({
 };
 
 export const onTagValueSelect = ({
-  currentExclude,
+  currentCriteria,
   currentFilters,
   currentTagKey,
   event,
   selection,
 }: {
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   currentTagKey?: string;
   event?: any;
@@ -290,7 +290,7 @@ export const onTagValueSelect = ({
   const checked = event.target.checked;
   let filter;
   if (checked) {
-    filter = getFilter(`${tagPrefix}${currentTagKey}`, selection.value, currentExclude);
+    filter = getFilter(`${tagPrefix}${currentTagKey}`, selection.value, currentCriteria);
   } else if (currentFilters.tag[currentTagKey]) {
     filter = currentFilters.tag[currentTagKey].find(item => item.value === selection.value);
   }

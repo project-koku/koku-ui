@@ -10,6 +10,7 @@ export const awsCategoryKey = 'aws_category'; // AWS category for group_by
 export const breadcrumbLabelKey = 'breadcrumb_label'; // Used to display a breadcrumb in the breakdown header
 export const breakdownDescKey = 'breakdown_desc'; // Used to display a description in the breakdown header
 export const breakdownTitleKey = 'breakdown_title'; // Used to display a title in the breakdown header
+export const excludeKey = 'exclude'; // Exclude key for exclude query
 export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
 export const orgUnitNameKey = 'org_unit_name'; // Org unit name for group_by
 export const platformCategoryKey = 'Platform'; // Used to display platform costs

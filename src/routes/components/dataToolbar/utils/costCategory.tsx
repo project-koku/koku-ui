@@ -167,20 +167,20 @@ export const onCostCategoryValueInput = ({
   costCategoryKeyValueInput,
   currentCostCategoryKey,
   currentFilters,
-  currentExclude,
+  currentCriteria,
   event,
 }: {
   costCategoryKeyValueInput?: string;
   currentCostCategoryKey?: string;
   currentFilters?: Filters;
-  currentExclude?: string;
+  currentCriteria?: string;
   event?: any;
 }) => {
   if ((event.key && event.key !== 'Enter') || costCategoryKeyValueInput.trim() === '') {
     return;
   }
 
-  const filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, costCategoryKeyValueInput, currentExclude);
+  const filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, costCategoryKeyValueInput, currentCriteria);
   const newFilters: any = cloneDeep(
     currentFilters[awsCategoryKey][currentCostCategoryKey] ? currentFilters[awsCategoryKey][currentCostCategoryKey] : []
   );
@@ -210,21 +210,21 @@ export const onCostCategoryValueInput = ({
 export const onCostCategoryValueSelect = ({
   currentCostCategoryKey,
   currentFilters,
-  currentExclude,
+  currentCriteria,
   event,
   selection,
 }: {
   costCategoryKeyValueInput?: string;
   currentCostCategoryKey?: string;
   currentFilters?: Filters;
-  currentExclude?: string;
+  currentCriteria?: string;
   event?: any;
   selection?: SelectWrapperOption;
 }) => {
   const checked = event.target.checked;
   let filter;
   if (checked) {
-    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection.value, currentExclude);
+    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection.value, currentCriteria);
   } else if (currentFilters[awsCategoryKey][currentCostCategoryKey]) {
     filter = currentFilters[awsCategoryKey][currentCostCategoryKey].find(item => item.value === selection.value);
   }

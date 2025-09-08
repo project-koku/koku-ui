@@ -86,14 +86,14 @@ export const getDefaultCategoryOptions = (): ToolbarLabelGroup[] => {
 export const onCategoryInput = ({
   categoryInput,
   currentCategory,
-  currentExclude,
+  currentCriteria,
   currentFilters,
   event,
   key,
 }: {
   categoryInput?: string;
   currentCategory?: string;
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   event: any;
   key?: string;
@@ -107,7 +107,7 @@ export const onCategoryInput = ({
     return {}; // For destructure
   }
 
-  const filter = getFilter(currentCategory, val, currentExclude);
+  const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
   return {
@@ -126,13 +126,13 @@ export const onCategoryInput = ({
 
 export const onCategoryInputSelect = ({
   currentCategory,
-  currentExclude,
+  currentCriteria,
   currentFilters,
   key,
   value,
 }: {
   currentCategory?: string;
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   key?: string;
   value: string;
@@ -142,7 +142,7 @@ export const onCategoryInputSelect = ({
     return;
   }
 
-  const filter = getFilter(currentCategory, val, currentExclude);
+  const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
   return {

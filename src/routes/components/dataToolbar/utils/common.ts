@@ -4,9 +4,17 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import type { Filter } from 'routes/utils/filter';
-import { awsCategoryKey, awsCategoryPrefix, exactPrefix, orgUnitIdKey, tagKey, tagPrefix } from 'utils/props';
+import {
+  awsCategoryKey,
+  awsCategoryPrefix,
+  exactPrefix,
+  excludeKey,
+  orgUnitIdKey,
+  tagKey,
+  tagPrefix,
+} from 'utils/props';
 
-import { ExcludeType } from './exclude';
+import { CriteriaType } from './criteria';
 
 export interface Filters {
   [key: string]: Filter[] | { [key: string]: Filter[] };
@@ -61,7 +69,7 @@ export const getActiveFilters = query => {
 
   if (query?.filter_by) {
     Object.keys(query.filter_by).forEach(key => {
-      const excludeType = key.indexOf(exactPrefix) !== -1 ? ExcludeType.exact : undefined;
+      const excludeType = key.indexOf(exactPrefix) !== -1 ? CriteriaType.exact : undefined;
 
       const values = Array.isArray(query.filter_by[key]) ? [...query.filter_by[key]] : [query.filter_by[key]];
       const newKey = excludeType ? key.substring(excludeType.length + 1) : key;
@@ -71,7 +79,7 @@ export const getActiveFilters = query => {
   if (query?.exclude) {
     Object.keys(query.exclude).forEach(key => {
       const values = Array.isArray(query.exclude[key]) ? [...query.exclude[key]] : [query.exclude[key]];
-      parseFilters(key, values, ExcludeType.exclude);
+      parseFilters(key, values, CriteriaType.exclude);
     });
   }
   return filters;
@@ -83,9 +91,9 @@ export const getChips = (filters: Filter[]): string[] => {
     filters.forEach(item => {
       const value = item.toString ? item.toString() : undefined;
       const msg =
-        item.excludeType === ExcludeType.exact
+        item.excludeType === CriteriaType.exact
           ? messages.exactLabel
-          : item.excludeType === ExcludeType.exclude
+          : item.excludeType === CriteriaType.exclude
             ? messages.excludeLabel
             : undefined;
 
@@ -117,7 +125,7 @@ export const getFilter = (filterType: string, filterValue: string, excludeType, 
   return { type: filterType, value: filterValue, excludeType, toString };
 };
 
-export const getFilters = (filterType: string, filterValues: string[], excludeType: ExcludeType): Filter[] => {
+export const getFilters = (filterType: string, filterValues: string[], excludeType: CriteriaType): Filter[] => {
   return filterValues.map(value => getFilter(filterType, value, excludeType));
 };
 
@@ -152,17 +160,12 @@ export const onDelete = (type: any, chip: any, currentFilters) => {
   }
 
   if (_type) {
-    const exactPrefix = intl.formatMessage(messages.exactLabel, { value: '' });
-    const excludePrefix = intl.formatMessage(messages.excludeLabel, { value: '' });
-
     let id = chip && chip.key ? chip.key : chip;
-    if (id && id.indexOf(exactPrefix) !== -1) {
-      const isExact = id ? id.indexOf(exactPrefix) !== -1 : false;
-      id = isExact ? id.slice(exactPrefix.length) : id;
+    if (id?.indexOf(exactPrefix) !== -1) {
+      id = id.slice(exactPrefix.length);
     }
-    if (id && id.indexOf(excludePrefix) !== -1) {
-      const isExclude = id ? id.indexOf(excludePrefix) !== -1 : false;
-      id = isExclude ? id.slice(excludePrefix.length) : id;
+    if (id?.indexOf(excludeKey) !== -1) {
+      id = id.slice(excludeKey.length);
     }
 
     if (currentFilters.tag[_type]) {

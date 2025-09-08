@@ -8,34 +8,34 @@ import { SelectWrapper } from 'routes/components/selectWrapper';
 import type { Filters } from './common';
 import { hasFilters } from './common';
 
-export const enum ExcludeType {
+export const enum CriteriaType {
   exact = 'exact',
   exclude = 'exclude',
   include = 'include',
 }
 
-// Exclude select
+// Criteria select
 
-export const getExcludeSelect = ({
-  currentExclude,
+export const getCriteriaSelect = ({
+  currentCriteria,
   filters,
   isDisabled,
-  onExcludeSelect,
+  onCriteriaSelect,
 }: {
-  currentExclude?: string;
+  currentCriteria?: string;
   filters?: Filters;
   isDisabled?: boolean;
-  onExcludeSelect: (event, selection: SelectWrapperOption) => void;
+  onCriteriaSelect: (event, selection: SelectWrapperOption) => void;
 }) => {
-  const selectOptions = getExcludeSelectOptions();
-  const selection = selectOptions.find(option => option.value === currentExclude);
+  const selectOptions = getCriteriaSelectOptions();
+  const selection = selectOptions.find(option => option.value === currentCriteria);
 
   return (
     <ToolbarItem>
       <SelectWrapper
         id="exclude-select"
         isDisabled={isDisabled && !hasFilters(filters)}
-        onSelect={onExcludeSelect}
+        onSelect={onCriteriaSelect}
         options={selectOptions}
         selection={selection}
       />
@@ -43,11 +43,11 @@ export const getExcludeSelect = ({
   );
 };
 
-export const getExcludeSelectOptions = (): SelectWrapperOption[] => {
+export const getCriteriaSelectOptions = (): SelectWrapperOption[] => {
   const excludeOptions = [
-    { name: intl.formatMessage(messages.excludeValues, { value: 'exact' }), key: ExcludeType.exact },
-    { name: intl.formatMessage(messages.excludeValues, { value: 'exclude' }), key: ExcludeType.exclude },
-    { name: intl.formatMessage(messages.excludeValues, { value: 'include' }), key: ExcludeType.include },
+    { name: intl.formatMessage(messages.excludeValues, { value: 'exact' }), key: CriteriaType.exact },
+    { name: intl.formatMessage(messages.excludeValues, { value: 'exclude' }), key: CriteriaType.exclude },
+    { name: intl.formatMessage(messages.excludeValues, { value: 'include' }), key: CriteriaType.include },
   ];
 
   const options: SelectWrapperOption[] = [];
