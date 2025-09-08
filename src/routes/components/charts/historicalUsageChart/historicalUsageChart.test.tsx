@@ -33,7 +33,6 @@ test('reports are formatted to datums', () => {
   render(<HistoricalUsageChart {...props} />);
   /* eslint-disable-next-line testing-library/no-node-access */
   expect(screen.getByText(props.title).parentElement).toMatchSnapshot();
-  console.log(`***** ${screen.getAllByText(/no data/i).length}`);
   expect(screen.getAllByText(/no data/i).length).toBe(4);
 });
 
