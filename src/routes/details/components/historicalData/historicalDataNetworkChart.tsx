@@ -26,6 +26,8 @@ interface HistoricalDataNetworkChartOwnProps extends RouterComponentProps, Wrapp
   chartName?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  showLimit?: boolean;
+  showRequest?: boolean;
   timeScopeValue?: number;
 }
 
@@ -77,8 +79,16 @@ class HistoricalDataNetworkChartBase extends React.Component<HistoricalDataNetwo
   };
 
   public render() {
-    const { chartName, currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, intl } =
-      this.props;
+    const {
+      chartName,
+      currentReport,
+      currentReportFetchStatus,
+      previousReport,
+      previousReportFetchStatus,
+      intl,
+      showLimit,
+      showRequest,
+    } = this.props;
 
     // Current data
     const currentRequestData = transformReport(currentReport, DatumType.rolling, 'date', 'data_transfer_in', undefined);
@@ -121,7 +131,8 @@ class HistoricalDataNetworkChartBase extends React.Component<HistoricalDataNetwo
               requestLabelKey={messages.chartDataInLabel}
               requestLabelNoDataKey={messages.chartDataInLabelNoData}
               requestTooltipKey={messages.chartDataInTooltip}
-              showLimit={false}
+              showLimit={showLimit}
+              showRequest={showRequest}
               usageLabelKey={messages.chartDataOutLabel}
               usageLabelNoDataKey={messages.chartDataOutLabelNoData}
               usageTooltipKey={messages.chartDataOutTooltip}
@@ -143,6 +154,8 @@ const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
+
+    const isFilterByExact = groupBy && groupByValue !== '*';
 
     // instance-types and storage APIs must filter org units
     const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
@@ -167,7 +180,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps
       },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
-        ...(groupBy && !groupByOrgValue && { [groupBy]: groupByValue }),
+        ...(groupBy && !groupByOrgValue && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
       },
     };
 
@@ -182,7 +195,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
     };
 
@@ -206,7 +222,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
     };
 

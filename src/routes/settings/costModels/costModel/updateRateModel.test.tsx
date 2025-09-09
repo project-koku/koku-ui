@@ -295,19 +295,24 @@ describe('update-rate', () => {
     // Popper is setting the menu to aria-hidden after a selection is made the first time"
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option', { hidden: true});
-    await user.click(options[1]);
+    await user.click(options.find(o => /"value":"request"/i.test(o.textContent)));
 
     expect(saveButton).not.toBeDisabled();
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option', { hidden: true});
-    await user.click(options[0]);
+    await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
     expect(saveButton).toBeDisabled();
 
     await user.click(screen.getByLabelText('Select metric'));
     options = await screen.findAllByRole('option', { hidden: true});
-    await user.click(options[1]);
+    await user.click(options.find(o => /"value":"memory"/i.test(o.textContent)));
+
+    // After changing metric, measurement is reset and must be re-selected
+    await user.click(screen.getByLabelText('Select measurement'));
+    options = await screen.findAllByRole('option', { hidden: true});
+    await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
     expect(saveButton).not.toBeDisabled();
   }, 10000);
@@ -383,7 +388,7 @@ describe('update-rate', () => {
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
-    await user.click(options[1]);
+    await user.click(options.find(o => /"value":"request"/i.test(o.textContent)));
 
     await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
     await act(async () =>

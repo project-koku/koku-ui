@@ -53,6 +53,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const costDistribution = groupBy === 'project' ? getCostDistribution() : undefined;
   const currency = getCurrency();
+  const isFilterByExact = groupBy && groupByValue !== '*';
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
@@ -68,14 +69,24 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+      ...(isFilterByExact && {
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [`exact:${groupBy}`]: groupByValue,
+      }),
     },
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
-      ...(groupBy && { [groupBy]: groupByValue }),
+      // Required because distributed costs are only included with group_by project
+      ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
     },
+    // Todo: Uncomment to omit group_by in breakdown page
+    // ...(!isFilterByExact && {
+    //   group_by: {
+    //     ...(groupBy && { [groupBy]: groupByValue }),
+    //   },
+    // }),
   };
 
   const reportQueryString = getQuery(reportQuery);
@@ -99,7 +110,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   const breadcrumbLabel = queryFromRoute[breadcrumbLabelKey] ? queryFromRoute[breadcrumbLabelKey] : undefined;
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
-  const test = {
+  return {
     breadcrumbLabel,
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
     dataDetailsComponent:
@@ -150,7 +161,6 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     title,
     virtualizationComponent: <Virtualization costDistribution={costDistribution} currency={currency} />,
   };
-  return test;
 });
 
 const mapDispatchToProps: OcpBreakdownDispatchProps = {

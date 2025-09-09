@@ -55,7 +55,7 @@ npm test
 
 ## Running Koku UI against a hosted Koku API, using webpack proxy
 
-Note that this approach currently supports the Insights stage-beta, stage-stable, prod-beta, and prod-stable environments.
+Note that this approach currently supports the Insights stage and prod environments.
 
 1. Start development server
 ```
@@ -64,14 +64,14 @@ npm start
 
 Follow the prompts that follow.
 
-* Do you want to use local api? `no`
 * Which platform environment you want to use `stage`
-* Which Chrome environment you want to use? `beta`
 
 2. Open the following URL
 ```
-https://stage.foo.redhat.com:1337/beta/openshift/cost-management
+https://stage.foo.redhat.com:1337/openshift/cost-management
 ```
+
+Note: Must log in with a user that has Cost Management permissions
 
 ### Running Koku UI with local Cloud Services Backend
 
@@ -123,20 +123,20 @@ npm start:csb:mfe
 ## Running local instances of Koku UI and Koku API
 #### Koku UI
 
-1. Start development server (Answer `yes` to run against local APIs)
+Note that this approach currently supports the Insights stage and prod environments.
+
+1. Start development server
 ```
 npm start
 ```
 
 Follow the prompts that follow.
 
-* Do you want to use local api? `yes`
 * Which platform environment you want to use `stage`
-* Which Chrome environment you want to use? `beta`
 
 2. Open the following URL
 ```
-http://localhost:8002/beta/openshift/cost-management
+http://localhost:8002/openshift/cost-management
 ```
 
 #### Koku API
@@ -193,12 +193,12 @@ export KEYCLOAK_PORT=4020
 
 3. Start development server
 ```
-npm run start:standalone:beta
+npm start:static
 ```
 
 4. Open the following URL
 ```
-http://localhost:1337/beta/settings/applications/cost-management
+http://localhost:1337/settings/applications/cost-management
 ```
 
 ## Releasing Koku UI

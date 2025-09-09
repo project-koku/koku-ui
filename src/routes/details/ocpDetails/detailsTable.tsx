@@ -218,7 +218,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const supplementaryCost = this.getSupplementaryCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const isDefaultProject = item.classification === classificationDefault;
-      const isPlatformProject = item.classification === classificationPlatform;
+      const isPlatformCosts = item.classification === classificationPlatform;
       const isUnallocatedProject = item.classification === classificationUnallocated;
       const isUnattributedCosts = item.classification === classificationUnattributed;
       const isOverheadCosts =
@@ -241,7 +241,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             basePath,
             description: item.id,
             id: item.id,
-            isPlatformProject,
+            isPlatformCosts,
             groupBy,
             title: label.toString(), // Convert IDs if applicable
           })}
@@ -306,7 +306,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
           },
           {
             hidden: !isGroupByProject,
-            value: !isPlatformProject && !isDisabled && (
+            value: !isPlatformCosts && !isDisabled && (
               <AsyncComponent
                 scope="costManagementMfe"
                 appName="cost-management-mfe"
@@ -316,7 +316,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                   basePath,
                   description: item.id,
                   id: item.id,
-                  isPlatformProject,
+                  isPlatformCosts,
                   groupBy,
                   isOptimizationsTab: true,
                   title: label.toString(), // Convert IDs if applicable
@@ -391,10 +391,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       report?.meta?.total?.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
         : 0;
-    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.supplementary.total.value / cost) * 100).toFixed(2);
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.supplementary?.total?.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.supplementary.total.value, item.supplementary.total.units)}
+        {formatCurrency(item.supplementary?.total?.value, item.supplementary?.total?.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.percentOfCost, { value: percentValue })}
         </div>
@@ -410,10 +410,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       report?.meta?.total?.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
         : 0;
-    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.infrastructure.total.value / cost) * 100).toFixed(2);
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.infrastructure?.total?.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.infrastructure.total.value, item.infrastructure.total.units)}
+        {formatCurrency(item.infrastructure?.total?.value, item.infrastructure?.total?.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.percentOfCost, { value: percentValue })}
         </div>
@@ -426,8 +426,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
 
     const reportItemValue = costDistribution ? costDistribution : ComputedReportItemValueType.total;
     const value = formatCurrency(
-      Math.abs(item.cost[reportItemValue].value - item.delta_value),
-      item.cost[reportItemValue].units
+      Math.abs(item.cost[reportItemValue]?.value - item.delta_value),
+      item.cost[reportItemValue]?.units
     );
     const percentage = item.delta_percent !== null ? formatPercentage(Math.abs(item.delta_percent)) : 0;
 
@@ -488,10 +488,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       report?.meta?.total?.cost && report.meta.total.cost[reportItemValue]
         ? report.meta.total.cost[reportItemValue].value
         : 0;
-    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost[reportItemValue].value / cost) * 100).toFixed(2);
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost[reportItemValue]?.value / cost) * 100)?.toFixed(2);
     return (
       <>
-        {formatCurrency(item.cost[reportItemValue].value, item.cost[reportItemValue].units)}
+        {formatCurrency(item.cost[reportItemValue]?.value, item.cost[reportItemValue]?.units)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {intl.formatMessage(messages.percentOfCost, { value: percentValue })}
         </div>

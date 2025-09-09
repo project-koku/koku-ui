@@ -159,7 +159,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
+
+    const isFilterByExact = groupBy && groupByValue !== '*';
 
     const baseQuery: Query = {
       filter_by: {
@@ -178,7 +180,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         ...(queryState?.exclude && queryState.exclude),
       },
       group_by: {
-        ...(groupBy && { [groupBy]: groupByValue }),
+        ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
       },
     };
 
@@ -195,7 +197,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
     };
 
@@ -221,7 +226,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter_by: {
         ...baseQuery.filter_by,
         // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: undefined }), // Used by the "Platform" project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
     };
 

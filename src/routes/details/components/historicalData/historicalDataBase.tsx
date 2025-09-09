@@ -94,6 +94,8 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
               chartName={widget.chartName}
               reportPathsType={widget.reportPathsType}
               reportType={widget.reportType}
+              showLimit={widget.showLimit}
+              showRequest={widget.showRequest}
               timeScopeValue={timeScopeValue}
             />
           </CardBody>
@@ -131,6 +133,8 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
               chartName={widget.chartName}
               reportPathsType={widget.reportPathsType}
               reportType={widget.reportType}
+              showLimit={widget.showLimit}
+              showRequest={widget.showRequest}
               timeScopeValue={timeScopeValue}
             />
           </CardBody>
@@ -185,6 +189,8 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
             chartName={widget.chartName}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
+            showLimit={widget.showLimit}
+            showRequest={widget.showRequest}
             timeScopeValue={timeScopeValue}
           />
         </CardBody>

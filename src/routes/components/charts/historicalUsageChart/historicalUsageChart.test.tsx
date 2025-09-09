@@ -24,6 +24,8 @@ const props: HistoricalUsageChartProps = {
   name: 'exampleUsageChart',
   previousRequestData,
   previousUsageData,
+  showLimit: true,
+  showRequest: true,
   title: 'Usage Title',
 };
 

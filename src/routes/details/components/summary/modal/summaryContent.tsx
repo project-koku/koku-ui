@@ -95,7 +95,7 @@ class SummaryContentBase extends React.Component<SummaryContentProps, any> {
                   label={_item.label ? _item.label.toString() : ''}
                   totalValue={report.meta.total.cost[reportItemValue].value}
                   units={report.meta.total.cost[reportItemValue].units}
-                  value={_item.cost[reportItemValue].value}
+                  value={_item.cost[reportItemValue]?.value}
                 />
               ))
             }
@@ -113,7 +113,7 @@ const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryCon
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
     const timeScopeValue = getTimeScopeValue(queryState);
 
     const reportQuery: Query = {
