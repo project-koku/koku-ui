@@ -1,5 +1,5 @@
 import type { Query } from 'api/queries/query';
-import { awsCategoryPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
+import { awsCategoryPrefix, exactPrefix, orgUnitIdKey, tagPrefix } from 'utils/props';
 
 export const getGroupById = (query: Query) => {
   const groupBys = query?.group_by ? Object.keys(query.group_by) : [];
@@ -75,8 +75,13 @@ export const getFilterByTagKey = (query: Query) => {
 
   if (query?.filter_by) {
     for (const groupBy of Object.keys(query.filter_by)) {
+      const exactTagPrefix = `${exactPrefix}${tagPrefix}`;
+      const exactTagIndex = groupBy.indexOf(exactTagPrefix);
       const tagIndex = groupBy.indexOf(tagPrefix);
-      if (tagIndex !== -1) {
+      if (exactTagIndex !== -1) {
+        filterByTagKey = groupBy.substring(exactTagIndex + exactTagPrefix.length) as any;
+        break;
+      } else if (tagIndex !== -1) {
         filterByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }

@@ -4142,6 +4142,16 @@
         "value": "Oops!"
       }
     ],
+    "exactLabel": [
+      {
+        "type": 0,
+        "value": "Exact: "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "examplesTitle": [
       {
         "type": 0,
@@ -4161,7 +4171,15 @@
     "excludeValues": [
       {
         "options": {
-          "excludes": {
+          "exact": {
+            "value": [
+              {
+                "type": 0,
+                "value": "exact"
+              }
+            ]
+          },
+          "exclude": {
             "value": [
               {
                 "type": 0,
@@ -4169,7 +4187,7 @@
               }
             ]
           },
-          "includes": {
+          "include": {
             "value": [
               {
                 "type": 0,
