@@ -262,6 +262,9 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
   isDateMap = false,
   isGroupBy = true,
   report,
+
+  // Todo: Uncomment to omit group_by in breakdown page
+  // isGroupBy = report?.data?.find(data => data.hasOwnProperty(`values`)) === undefined,
 }: ComputedReportItemsParams<R, T>) {
   if (!report) {
     return [];

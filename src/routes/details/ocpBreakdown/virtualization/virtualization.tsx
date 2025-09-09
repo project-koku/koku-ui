@@ -3,6 +3,7 @@ import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
@@ -86,6 +87,7 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
 
 const reportType = ReportType.virtualization;
 const reportPathsType = ReportPathsType.ocp;
+const tagPathsType = TagPathsType.ocp;
 
 const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costType, currency }) => {
   const intl = useIntl();
@@ -211,6 +213,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
         reportQueryString={reportQueryString}
         reportType={reportType}
         selectedItems={selectedItems}
+        tagPathsType={tagPathsType}
       />
     );
   };
@@ -358,10 +361,12 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState('details');
-  const timeScopeValue = getTimeScopeValue(queryState);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+
+  const isFilterByExact = groupBy && groupByValue !== '*';
+  const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery = {
     cost_type: costType,
@@ -371,13 +376,17 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: timeScopeValue,
-      [groupBy]: groupByValue,
+      ...(!isFilterByExact && { [groupBy]: groupByValue }), // Required for 'Platform' project
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       ...(query.filter_by && query.filter_by),
+      ...(isFilterByExact && {
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [`exact:${groupBy}`]: groupByValue,
+      }),
     },
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
@@ -386,7 +395,6 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
     limit: query.limit,
     offset: query.offset,
     order_by: query.order_by || baseQuery.order_by,
-    // category: 'Platform',
   };
   const reportQueryString = getQuery(reportQuery);
   const report = useSelector((state: RootState) =>

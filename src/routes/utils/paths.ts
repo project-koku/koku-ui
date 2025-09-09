@@ -6,7 +6,7 @@ export const getBreakdownPath = ({
   description,
   groupBy,
   id,
-  isPlatformProject,
+  isPlatformCosts,
   isOptimizationsPath,
   isOptimizationsTab,
   title,
@@ -15,7 +15,7 @@ export const getBreakdownPath = ({
   description?: string; // Used to display a description in the breakdown header
   groupBy: string | number;
   id: string | number; // group_by[account]=<id> param in the breakdown page
-  isPlatformProject?: boolean;
+  isPlatformCosts?: boolean;
   isOptimizationsPath?: boolean;
   isOptimizationsTab?: boolean;
   title: string | number; // Used to display a title in the breakdown header
@@ -27,11 +27,11 @@ export const getBreakdownPath = ({
     optimizationsTab: isOptimizationsTab ? true : undefined, // Clear query params
     ...(groupBy && {
       group_by: {
-        [groupBy]: isPlatformProject ? '*' : id, // Use ID here -- see https://github.com/project-koku/koku-ui/pull/2821
+        [groupBy]: isPlatformCosts ? '*' : id, // Use ID here -- see https://github.com/project-koku/koku-ui/pull/2821
       },
     }),
     id,
-    isPlatformCosts: isPlatformProject ? true : undefined,
+    isPlatformCosts: isPlatformCosts ? true : undefined,
   };
   return `${basePath}?${getQueryRoute(newQuery)}`;
 };

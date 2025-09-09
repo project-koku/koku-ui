@@ -117,7 +117,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
               label={reportItem.label ? reportItem.label.toString() : undefined}
               totalValue={report.meta.total.cost[reportItemValue].value}
               units={report.meta.total.cost[reportItemValue].units}
-              value={reportItem.cost[reportItemValue].value}
+              value={reportItem.cost[reportItemValue]?.value}
             />
           ))
         }
@@ -232,7 +232,9 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
+
+    const isFilterByExact = groupBy && groupByValue !== '*';
     const timeScopeValue = getTimeScopeValue(queryState);
 
     const query = { ...queryFromRoute };
@@ -250,14 +252,18 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(queryState?.filter_by && queryState.filter_by),
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-        ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
         // Workaround for https://issues.redhat.com/browse/COST-1189
         ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
+        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        // Note: We're not inserting PVC information for the 'Platform' project
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
       },
       exclude: {
         ...(queryState?.exclude && queryState.exclude),

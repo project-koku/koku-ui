@@ -1,6 +1,6 @@
 import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { AwsQuery } from 'api/queries/awsQuery';
-import { getQuery } from 'api/queries/query';
+import { getQuery, parseQuery, type Query } from 'api/queries/query';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { Tag } from 'api/tags/tag';
 import { TagPathsType, TagType } from 'api/tags/tag';
@@ -13,12 +13,16 @@ import { DataToolbar } from 'routes/components/dataToolbar';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
-import { tagKey } from 'utils/props';
+import { logicalAndPrefix, orgUnitIdKey, platformCategoryKey, tagKey, tagPrefix } from 'utils/props';
+import type { RouterComponentProps } from 'utils/router';
+import { withRouter } from 'utils/router';
 
-interface VirtualizationToolbarOwnProps {
+interface VirtualizationToolbarOwnProps extends RouterComponentProps {
   hideCluster?: boolean;
   hideNode?: boolean;
   hideProject?: boolean;
@@ -195,17 +199,55 @@ export class VirtualizationToolbarBase extends React.Component<VirtualizationToo
 }
 
 const mapStateToProps = createMapStateToProps<VirtualizationToolbarOwnProps, VirtualizationToolbarStateProps>(
-  (state, { timeScopeValue = -1 }) => {
-    // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
-    // however, for better server-side performance, we chose to use key_only here.
-    const tagQueryString = getQuery({
+  (state, { router, timeScopeValue = -1 }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
+    const queryState = getQueryState(router.location, 'details');
+
+    const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
+
+    const isFilterByExact = groupBy && groupByValue !== '*';
+
+    // Prune unsupported tag params from filter_by, but don't reset queryState
+    const filterByParams = {
+      ...(queryState?.filter_by ? queryState.filter_by : {}),
+    };
+    for (const key of Object.keys(filterByParams)) {
+      // Omit unsupported query params
+      if (
+        key.indexOf('node') !== -1 ||
+        key.indexOf('region') !== -1 ||
+        key.indexOf('resource_location') !== -1 ||
+        key.indexOf('service') !== -1 ||
+        key.indexOf(tagPrefix) !== -1
+      ) {
+        delete filterByParams[key];
+      }
+    }
+
+    const tagQuery = {
       filter: {
         time_scope_value: timeScopeValue,
       },
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...filterByParams,
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
+      },
+      // Note: Omitting key_only would help to share a single, cached request. Only the toolbar requires key values;
+      // however, for better server-side performance, we chose to use key_only here.
       key_only: true,
       limit: 1000,
-    });
+    };
 
+    const tagQueryString = getQuery(tagQuery);
     const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
 
@@ -221,7 +263,9 @@ const mapDispatchToProps: VirtualizationToolbarDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const VirtualizationToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(VirtualizationToolbarBase);
+const VirtualizationToolbarConnect = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(VirtualizationToolbarBase)
+);
 const VirtualizationToolbar = injectIntl(VirtualizationToolbarConnect);
 
 export { VirtualizationToolbar };

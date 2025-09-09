@@ -54,6 +54,7 @@ interface HistoricalUsageChartOwnProps {
   requestLabelNoDataKey?: MessageDescriptor;
   requestTooltipKey?: MessageDescriptor;
   showLimit?: boolean;
+  showRequest?: boolean;
   title?: string;
   usageLabelKey?: MessageDescriptor;
   usageLabelNoDataKey?: MessageDescriptor;
@@ -123,7 +124,8 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
       previousLimitData,
       previousRequestData,
       previousUsageData,
-      showLimit = true,
+      showLimit,
+      showRequest,
     } = this.props;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
@@ -165,43 +167,47 @@ class HistoricalUsageChartBase extends React.Component<HistoricalUsageChartProps
           },
         },
       },
-      {
-        childName: 'previousRequest',
-        data: previousRequestData,
-        legendItem: {
-          name: getUsageRangeString(previousRequestData, requestLabelKey, true, true, 1, requestLabelNoDataKey),
-          symbol: {
-            fill: chartStyles.previousColorScale[1],
-            type: 'dash',
-          },
-          tooltip: getUsageRangeTooltip(previousRequestData, requestTooltipKey, false, false, 1),
-        },
-        style: {
-          data: {
-            ...chartStyles.previousRequestData,
-            stroke: chartStyles.previousColorScale[1],
-          },
-        },
-      },
-      {
-        childName: 'currentRequest',
-        data: currentRequestData,
-        legendItem: {
-          name: getUsageRangeString(currentRequestData, requestLabelKey, true, false, 0, requestLabelNoDataKey),
-          symbol: {
-            fill: chartStyles.currentColorScale[1],
-            type: 'dash',
-          },
-          tooltip: getUsageRangeTooltip(currentRequestData, requestTooltipKey, false, false),
-        },
-        style: {
-          data: {
-            ...chartStyles.currentRequestData,
-            stroke: chartStyles.currentColorScale[1],
-          },
-        },
-      },
     ];
+    if (showRequest) {
+      series.push(
+        {
+          childName: 'previousRequest',
+          data: previousRequestData,
+          legendItem: {
+            name: getUsageRangeString(previousRequestData, requestLabelKey, true, true, 1, requestLabelNoDataKey),
+            symbol: {
+              fill: chartStyles.previousColorScale[1],
+              type: 'dash',
+            },
+            tooltip: getUsageRangeTooltip(previousRequestData, requestTooltipKey, false, false, 1),
+          },
+          style: {
+            data: {
+              ...chartStyles.previousRequestData,
+              stroke: chartStyles.previousColorScale[1],
+            },
+          },
+        },
+        {
+          childName: 'currentRequest',
+          data: currentRequestData,
+          legendItem: {
+            name: getUsageRangeString(currentRequestData, requestLabelKey, true, false, 0, requestLabelNoDataKey),
+            symbol: {
+              fill: chartStyles.currentColorScale[1],
+              type: 'dash',
+            },
+            tooltip: getUsageRangeTooltip(currentRequestData, requestTooltipKey, false, false),
+          },
+          style: {
+            data: {
+              ...chartStyles.currentRequestData,
+              stroke: chartStyles.currentColorScale[1],
+            },
+          },
+        }
+      );
+    }
     if (showLimit) {
       series.push(
         {

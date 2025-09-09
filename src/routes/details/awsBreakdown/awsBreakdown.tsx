@@ -52,10 +52,11 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(queryFromRoute);
+  const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
 
   const costType = getCostType();
   const currency = getCurrency();
+  const isFilterByExact = groupBy && groupByValue !== '*' && groupBy !== orgUnitIdKey;
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const query = { ...queryFromRoute };
@@ -72,7 +73,10 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
-      ...(groupBy && groupBy !== orgUnitIdKey && groupByValue !== '*' && { [groupBy]: undefined }),
+      ...(isFilterByExact && {
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [`exact:${groupBy}`]: groupByValue,
+      }),
       // Workaround for https://issues.redhat.com/browse/COST-1189
       ...(queryState?.filter_by &&
         queryState.filter_by[orgUnitIdKey] && {
@@ -84,7 +88,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
       ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
-      ...(groupBy && { [groupBy]: groupByValue }),
+      ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
     },
   };
 
