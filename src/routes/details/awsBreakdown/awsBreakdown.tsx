@@ -17,6 +17,7 @@ import { filterProviders } from 'routes/utils/providers';
 import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
@@ -112,6 +113,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   );
 
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
+  const isAwsEc2InstancesToggleEnabled = FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(state);
 
   return {
     breadcrumbPath: formatPath(routes.awsDetails.path),
@@ -126,10 +128,11 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     groupBy,
     groupByValue,
     historicalDataComponent: <HistoricalData costType={costType} currency={currency} timeScopeValue={timeScopeValue} />,
-    instancesComponent:
-      groupBy === serviceKey && groupByValue === 'AmazonEC2' ? (
-        <Instances costType={costType} currency={currency} />
-      ) : undefined,
+    ...(isAwsEc2InstancesToggleEnabled &&
+      groupBy === serviceKey &&
+      groupByValue === 'AmazonEC2' && {
+        instancesComponent: <Instances costType={costType} currency={currency} />,
+      }),
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,

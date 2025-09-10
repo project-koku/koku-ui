@@ -2,6 +2,7 @@
 
 exports[`default state 1`] = `
 {
+  "isAwsEc2InstancesToggleEnabled": false,
   "isDebugToggleEnabled": false,
   "isExportsToggleEnabled": false,
   "isSystemsToggleEnabled": false,
