@@ -7,13 +7,17 @@ import { setFeatureToggle } from './featureToggleActions';
 export type FeatureToggleAction = ActionType<typeof setFeatureToggle | typeof resetState>;
 
 export type FeatureToggleState = Readonly<{
+  isAwsEc2InstancesToggleEnabled: boolean;
   isDebugToggleEnabled: boolean;
+  isExactFilterToggleEnabled: boolean;
   isExportsToggleEnabled: boolean;
   isSystemsToggleEnabled: boolean;
 }>;
 
 export const defaultState: FeatureToggleState = {
+  isAwsEc2InstancesToggleEnabled: false,
   isDebugToggleEnabled: false,
+  isExactFilterToggleEnabled: false,
   isExportsToggleEnabled: false,
   isSystemsToggleEnabled: false,
 };
@@ -25,7 +29,9 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
     case getType(setFeatureToggle):
       return {
         ...state,
+        isAwsEc2InstancesToggleEnabled: action.payload.isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled: action.payload.isDebugToggleEnabled,
+        isExactFilterToggleEnabled: action.payload.isExactFilterToggleEnabled,
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
         isSystemsToggleEnabled: action.payload.isSystemsToggleEnabled,
       };

@@ -37,7 +37,7 @@ class NoInstancesStateBase extends React.Component<NoInstancesStateProps, any> {
                 isReadOnly
                 variant="inline-compact"
               >
-                com_redhat_insights_cost_management
+                com_redhat_cost_management_compute
               </ClipboardCopy>
             </div>
             <div style={styles.tagValue}>

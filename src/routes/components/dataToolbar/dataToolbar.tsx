@@ -14,6 +14,7 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { awsCategoryKey, orgUnitIdKey, platformCategoryKey, tagKey } from 'utils/props';
 
 import { getColumnManagement, getExportButton, getKebab, getPlatformCosts } from './utils/actions';
@@ -34,8 +35,8 @@ import {
   onCostCategoryValueInput,
   onCostCategoryValueSelect,
 } from './utils/costCategory';
+import { CriteriaType, getCriteriaSelect } from './utils/criteria';
 import { getCustomSelect, onCustomSelect } from './utils/custom';
-import { ExcludeType, getExcludeSelect } from './utils/exclude';
 import { getOrgUnitSelect, onOrgUnitSelect } from './utils/orgUntits';
 import { getTagKeyOptions, getTagKeySelect, getTagValueSelect, onTagValueInput, onTagValueSelect } from './utils/tags';
 
@@ -66,7 +67,7 @@ interface DataToolbarOwnProps {
   selectedItems?: ComputedReportItem[];
   showBulkSelect?: boolean; // Show bulk select
   showColumnManagement?: boolean; // Show column management
-  showExcludes?: boolean; // Show negative filtering
+  showCriteria?: boolean; // Show negative filtering
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   showPlatformCosts?: boolean; // Show platform costs switch
@@ -81,13 +82,13 @@ interface DataToolbarState {
   categoryInput?: string;
   costCategoryKeyValueInput?: string;
   currentCategory?: string;
-  currentExclude?: string;
+  currentCriteria?: string;
   currentCostCategoryKey?: string;
   currentTagKey?: string;
   filters?: Filters;
   isBulkSelectOpen?: boolean;
   isCostCategoryValueSelectExpanded?: boolean;
-  isExcludeSelectOpen?: boolean;
+  isCriteriaSelectOpen?: boolean;
   isPlatformCostsChecked?: boolean;
   isTagKeySelectExpanded?: boolean;
   isTagValueSelectExpanded?: boolean;
@@ -95,7 +96,7 @@ interface DataToolbarState {
 }
 
 interface DataToolbarStateProps {
-  // TBD...
+  isExactFilterToggleEnabled?: boolean;
 }
 
 type DataToolbarProps = DataToolbarOwnProps & DataToolbarStateProps & WrappedComponentProps;
@@ -106,7 +107,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     filters: cloneDeep(defaultFilters),
     isBulkSelectOpen: false,
     isCostCategoryValueSelectExpanded: false,
-    isExcludeSelectOpen: false,
+    isCriteriaSelectOpen: false,
     isPlatformCostsChecked: this.props.query ? this.props.query.category === platformCategoryKey : false,
     isTagValueSelectExpanded: false,
     tagKeyValueInput: '',
@@ -118,7 +119,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
     this.setState({
       currentCategory: getDefaultCategory(categoryOptions, groupBy, query),
-      currentExclude: ExcludeType.include,
+      currentCriteria: CriteriaType.include,
     });
   }
 
@@ -264,12 +265,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnCategoryInput = (event: React.FormEvent<HTMLInputElement>, key) => {
     const { onFilterAdded } = this.props;
-    const { categoryInput, currentCategory, currentExclude, filters: currentFilters } = this.state;
+    const { categoryInput, currentCategory, currentCriteria, filters: currentFilters } = this.state;
 
     const { filter, filters } = onCategoryInput({
       categoryInput,
       currentCategory,
-      currentExclude,
+      currentCriteria,
       currentFilters,
       event,
       key,
@@ -293,11 +294,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnCategoryInputSelect = (value, key) => {
     const { onFilterAdded } = this.props;
-    const { currentCategory, currentExclude, filters: currentFilters } = this.state;
+    const { currentCategory, currentCriteria, filters: currentFilters } = this.state;
 
     const { filter, filters } = onCategoryInputSelect({
       currentCategory,
-      currentExclude,
+      currentCriteria,
       currentFilters,
       key,
       value,
@@ -371,13 +372,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnCostCategoryValueInput = event => {
     const { onFilterAdded } = this.props;
-    const { currentExclude, currentCostCategoryKey, costCategoryKeyValueInput, filters: currentFilters } = this.state;
+    const { currentCriteria, currentCostCategoryKey, costCategoryKeyValueInput, filters: currentFilters } = this.state;
 
     const { filter, filters } = onCostCategoryValueInput({
       costCategoryKeyValueInput,
       currentCostCategoryKey,
       currentFilters,
-      currentExclude,
+      currentCriteria,
       event,
     });
 
@@ -396,12 +397,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnCostCategoryValueSelect = (event, selection) => {
     const { onFilterAdded, onFilterRemoved } = this.props;
-    const { currentExclude, currentCostCategoryKey, filters: currentFilters } = this.state;
+    const { currentCriteria, currentCostCategoryKey, filters: currentFilters } = this.state;
 
     const { filter, filters } = onCostCategoryValueSelect({
       currentCostCategoryKey,
       currentFilters,
-      currentExclude,
+      currentCriteria,
       event,
       selection,
     });
@@ -475,24 +476,25 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     );
   };
 
-  // Exclude select
+  // Criteria select
 
-  public getExcludeSelectComponent() {
-    const { isDisabled } = this.props;
-    const { currentExclude, filters } = this.state;
+  public getCriteriaSelectComponent() {
+    const { isDisabled, isExactFilterToggleEnabled } = this.props;
+    const { currentCriteria, filters } = this.state;
 
-    return getExcludeSelect({
-      currentExclude,
+    return getCriteriaSelect({
+      currentCriteria,
       filters,
       isDisabled,
-      onExcludeSelect: this.handleOnExcludeSelect,
+      onCriteriaSelect: this.handleOnCriteriaSelect,
+      showExact: isExactFilterToggleEnabled,
     });
   }
 
-  private handleOnExcludeSelect = (_evt, selection: SelectWrapperOption) => {
+  private handleOnCriteriaSelect = (_evt, selection: SelectWrapperOption) => {
     this.setState({
-      currentExclude: selection.value,
-      isExcludeSelectOpen: !this.state.isExcludeSelectOpen,
+      currentCriteria: selection.value,
+      isCriteriaSelectOpen: !this.state.isCriteriaSelectOpen,
     });
   };
 
@@ -513,10 +515,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnOrgUnitSelect = (event, selection) => {
     const { onFilterAdded, onFilterRemoved } = this.props;
-    const { currentExclude, filters: currentFilters } = this.state;
+    const { currentCriteria, filters: currentFilters } = this.state;
 
     const { filter, filters } = onOrgUnitSelect({
-      currentExclude,
+      currentCriteria,
       currentFilters,
       event,
       selection,
@@ -599,10 +601,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnTagValueInput = event => {
     const { onFilterAdded } = this.props;
-    const { currentExclude, currentTagKey, filters: currentFilters, tagKeyValueInput } = this.state;
+    const { currentCriteria, currentTagKey, filters: currentFilters, tagKeyValueInput } = this.state;
 
     const { filter, filters } = onTagValueInput({
-      currentExclude,
+      currentCriteria,
       currentFilters,
       currentTagKey,
       event,
@@ -626,10 +628,10 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnTagValueSelect = (event, selection) => {
     const { onFilterAdded, onFilterRemoved } = this.props;
-    const { currentExclude, currentTagKey, filters: currentFilters } = this.state;
+    const { currentCriteria, currentTagKey, filters: currentFilters } = this.state;
 
     const { filter, filters } = onTagValueSelect({
-      currentExclude,
+      currentCriteria,
       currentFilters,
       currentTagKey,
       event,
@@ -739,7 +741,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       resourceReport,
       showBulkSelect,
       showColumnManagement,
-      showExcludes,
+      showCriteria,
       showExport,
       showFilter,
       showPlatformCosts,
@@ -763,7 +765,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelectComponent()}
-                  {showExcludes && this.getExcludeSelectComponent()}
+                  {showCriteria && this.getCriteriaSelectComponent()}
                   {this.getCostCategoryKeySelectComponent()}
                   {getCostCategoryKeyOptions(resourceReport).map(option =>
                     this.getCostCategoryValueSelectComponent(option)
@@ -802,9 +804,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   }
 }
 
-const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(() => {
+const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
   return {
-    // TBD...
+    isExactFilterToggleEnabled: FeatureToggleSelectors.selectIsExactFilterToggleEnabled(state),
   };
 });
 

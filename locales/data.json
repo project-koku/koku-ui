@@ -2053,6 +2053,41 @@
         "value": "Credit"
       }
     ],
+    "criteriaValues": [
+      {
+        "options": {
+          "exact": {
+            "value": [
+              {
+                "type": 0,
+                "value": "exact"
+              }
+            ]
+          },
+          "exclude": {
+            "value": [
+              {
+                "type": 0,
+                "value": "excludes"
+              }
+            ]
+          },
+          "include": {
+            "value": [
+              {
+                "type": 0,
+                "value": "includes"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "currency": [
       {
         "type": 0,
@@ -4142,6 +4177,16 @@
         "value": "Oops!"
       }
     ],
+    "exactLabel": [
+      {
+        "type": 0,
+        "value": "Exact: "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "examplesTitle": [
       {
         "type": 0,
@@ -4155,33 +4200,6 @@
       },
       {
         "type": 1,
-        "value": "value"
-      }
-    ],
-    "excludeValues": [
-      {
-        "options": {
-          "excludes": {
-            "value": [
-              {
-                "type": 0,
-                "value": "excludes"
-              }
-            ]
-          },
-          "includes": {
-            "value": [
-              {
-                "type": 0,
-                "value": "includes"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
         "value": "value"
       }
     ],

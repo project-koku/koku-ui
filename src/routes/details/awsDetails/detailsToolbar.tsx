@@ -200,7 +200,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         resourceReport={resourceReport}
         selectedItems={selectedItems}
         showBulkSelect
-        showExcludes
+        showCriteria
         showExport
         showFilter
         tagPathsType={tagPathsType}
