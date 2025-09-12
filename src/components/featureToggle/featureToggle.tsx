@@ -5,7 +5,9 @@ import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
-  debug = 'cost-management.ui.debug',
+  awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
+  debug = 'cost-management.ui.debug', // Logs user data (e.g., account ID) in browser console
+  exactFilter = 'cost-management.ui.exact-filter', // Exact filter https://issues.redhat.com/browse/COST-6744
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   systems = 'cost-management.ui.systems', // Systems https://issues.redhat.com/browse/COST-5718
 }
@@ -15,8 +17,16 @@ const useIsToggleEnabled = (toggle: FeatureToggle) => {
   return client.isEnabled(toggle);
 };
 
+export const useIsAwsEc2InstancesToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.awsEc2Instances);
+};
+
 export const useIsDebugToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.debug);
+};
+
+export const useIsExactFilterToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.exactFilter);
 };
 
 export const useIsExportsToggleEnabled = () => {
@@ -32,7 +42,9 @@ export const useFeatureToggle = () => {
   const dispatch = useDispatch();
   const { auth } = useChrome();
 
+  const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
+  const isExactFilterToggleEnabled = useIsExactFilterToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
 
@@ -46,7 +58,9 @@ export const useFeatureToggle = () => {
     // Workaround for code that doesn't use hooks
     dispatch(
       FeatureToggleActions.setFeatureToggle({
+        isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled,
+        isExactFilterToggleEnabled,
         isExportsToggleEnabled,
         isSystemsToggleEnabled,
       })
@@ -55,7 +69,7 @@ export const useFeatureToggle = () => {
       // eslint-disable-next-line no-console
       fetchUser(identity => console.log('User identity:', identity));
     }
-  }, [isDebugToggleEnabled, isExportsToggleEnabled, isSystemsToggleEnabled]);
+  }, [isAwsEc2InstancesToggleEnabled, isDebugToggleEnabled, isExportsToggleEnabled, isSystemsToggleEnabled]);
 };
 
 export default useFeatureToggle;

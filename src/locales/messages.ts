@@ -1080,6 +1080,11 @@ export default defineMessages({
     description: 'Credit',
     id: 'credit',
   },
+  criteriaValues: {
+    defaultMessage: '{value, select, ' + 'exact {exact} ' + 'exclude {excludes} ' + 'include {includes} ' + 'other {}}',
+    description: 'Exclude filter values',
+    id: 'criteriaValues',
+  },
   currency: {
     defaultMessage: 'Currency',
     description: 'Currency',
@@ -1783,6 +1788,11 @@ export default defineMessages({
     description: 'Oops!',
     id: 'errorStateUnexpectedTitle',
   },
+  exactLabel: {
+    defaultMessage: 'Exact: {value}',
+    description: 'Exact filter label',
+    id: 'exactLabel',
+  },
   examplesTitle: {
     defaultMessage: 'Examples',
     description: 'Examples',
@@ -1792,11 +1802,6 @@ export default defineMessages({
     defaultMessage: 'Excludes: {value}',
     description: 'Excludes filter label',
     id: 'excludeLabel',
-  },
-  excludeValues: {
-    defaultMessage: '{value, select, ' + 'excludes {excludes} ' + 'includes {includes} ' + 'other {}}',
-    description: 'Exclude filter values',
-    id: 'excludeValues',
   },
   expiresOn: {
     defaultMessage: 'Expires on',

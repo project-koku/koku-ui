@@ -15,7 +15,6 @@ import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
 import { cleanInput, getChips, getFilter, hasFilters } from './common';
-import { ExcludeType } from './exclude';
 
 // Category input
 
@@ -87,14 +86,14 @@ export const getDefaultCategoryOptions = (): ToolbarLabelGroup[] => {
 export const onCategoryInput = ({
   categoryInput,
   currentCategory,
-  currentExclude,
+  currentCriteria,
   currentFilters,
   event,
   key,
 }: {
   categoryInput?: string;
   currentCategory?: string;
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   event: any;
   key?: string;
@@ -108,8 +107,7 @@ export const onCategoryInput = ({
     return {}; // For destructure
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(currentCategory, val, isExcludes);
+  const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
   return {
@@ -128,13 +126,13 @@ export const onCategoryInput = ({
 
 export const onCategoryInputSelect = ({
   currentCategory,
-  currentExclude,
+  currentCriteria,
   currentFilters,
   key,
   value,
 }: {
   currentCategory?: string;
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   key?: string;
   value: string;
@@ -144,8 +142,7 @@ export const onCategoryInputSelect = ({
     return;
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(currentCategory, val, isExcludes);
+  const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
   return {

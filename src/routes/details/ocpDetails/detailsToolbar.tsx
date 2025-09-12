@@ -160,7 +160,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         selectedItems={selectedItems}
         showBulkSelect
         showColumnManagement
-        showExcludes
+        showCriteria
         showExport
         showFilter
         showPlatformCosts={groupBy === 'project'}

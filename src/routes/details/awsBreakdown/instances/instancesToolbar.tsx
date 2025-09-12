@@ -176,7 +176,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
         selectedItems={selectedItems}
         showBulkSelect
         showColumnManagement
-        showExcludes
+        showCriteria
         showExport
         showFilter
         tagPathsType={tagPathsType}

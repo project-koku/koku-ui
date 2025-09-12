@@ -12,7 +12,7 @@ import { orgUnitIdKey, orgUnitNameKey } from 'utils/props';
 
 import type { Filters } from './common';
 import { getFilter, hasFilters } from './common';
-import { ExcludeType } from './exclude';
+import { CriteriaType } from './criteria';
 
 export const getOrgUnitSelect = ({
   currentCategory,
@@ -43,12 +43,18 @@ export const getOrgUnitSelect = ({
     (filters[orgUnitIdKey] as any).map(filter => {
       const selection = selectOptions.find(option => option.value === filter.value);
       if (selection) {
+        const value = selection.toString();
+        const msg =
+          filter.excludeType === CriteriaType.exact
+            ? messages.exactLabel
+            : filter.excludeType === CriteriaType.exclude
+              ? messages.excludeLabel
+              : undefined;
+
         selections.push(selection);
         chips.push({
           key: selection.value,
-          node: filter.isExcludes
-            ? intl.formatMessage(messages.excludeLabel, { value: selection.toString() })
-            : selection.toString(),
+          node: msg ? intl.formatMessage(msg, { value }) : value,
         });
       }
     });
@@ -119,12 +125,12 @@ export const getOrgUnitOptions = (orgReport: Org): ToolbarLabelGroup[] => {
 };
 
 export const onOrgUnitSelect = ({
-  currentExclude,
+  currentCriteria,
   currentFilters,
   event,
   selection,
 }: {
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   event?: any;
   selection?: SelectWrapperOption;
@@ -133,8 +139,7 @@ export const onOrgUnitSelect = ({
   let filter;
 
   if (checked) {
-    const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(orgUnitIdKey, selection.value, isExcludes);
+    filter = getFilter(orgUnitIdKey, selection.value, currentCriteria);
   } else if (currentFilters[orgUnitIdKey]) {
     filter = (currentFilters[orgUnitIdKey] as Filter[]).find(item => item.value === selection.value);
   }
