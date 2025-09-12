@@ -21,13 +21,15 @@ export const getCriteriaSelect = ({
   filters,
   isDisabled,
   onCriteriaSelect,
+  showExact,
 }: {
   currentCriteria?: string;
   filters?: Filters;
   isDisabled?: boolean;
   onCriteriaSelect: (event, selection: SelectWrapperOption) => void;
+  showExact: boolean;
 }) => {
-  const selectOptions = getCriteriaSelectOptions();
+  const selectOptions = getCriteriaSelectOptions(showExact);
   const selection = selectOptions.find(option => option.value === currentCriteria);
 
   return (
@@ -43,12 +45,18 @@ export const getCriteriaSelect = ({
   );
 };
 
-export const getCriteriaSelectOptions = (): SelectWrapperOption[] => {
+export const getCriteriaSelectOptions = (showExact): SelectWrapperOption[] => {
   const excludeOptions = [
-    { name: intl.formatMessage(messages.excludeValues, { value: 'exact' }), key: CriteriaType.exact },
-    { name: intl.formatMessage(messages.excludeValues, { value: 'exclude' }), key: CriteriaType.exclude },
-    { name: intl.formatMessage(messages.excludeValues, { value: 'include' }), key: CriteriaType.include },
+    { name: intl.formatMessage(messages.criteriaValues, { value: 'exclude' }), key: CriteriaType.exclude },
+    { name: intl.formatMessage(messages.criteriaValues, { value: 'include' }), key: CriteriaType.include },
   ];
+
+  if (showExact) {
+    excludeOptions.unshift({
+      name: intl.formatMessage(messages.criteriaValues, { value: 'exact' }),
+      key: CriteriaType.exact,
+    });
+  }
 
   const options: SelectWrapperOption[] = [];
   excludeOptions.map(option => {
