@@ -154,7 +154,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
         resourcePathsType={ResourcePathsType.azure}
         selectedItems={selectedItems}
         showBulkSelect
-        showExcludes
+        showCriteria
         showExport
         showFilter
         tagReport={tagReport}

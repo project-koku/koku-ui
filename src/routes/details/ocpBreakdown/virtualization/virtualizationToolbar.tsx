@@ -188,7 +188,7 @@ export class VirtualizationToolbarBase extends React.Component<VirtualizationToo
         selectedItems={selectedItems}
         showBulkSelect
         showColumnManagement
-        showExcludes
+        showCriteria
         showExport
         showFilter
         tagPathsType={tagPathsType}

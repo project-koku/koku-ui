@@ -12,7 +12,6 @@ import { awsCategoryKey, awsCategoryPrefix } from 'utils/props';
 
 import type { Filters } from './common';
 import { getChips, getFilter, hasFilters } from './common';
-import { ExcludeType } from './exclude';
 
 // Cost category key select
 
@@ -168,21 +167,20 @@ export const onCostCategoryValueInput = ({
   costCategoryKeyValueInput,
   currentCostCategoryKey,
   currentFilters,
-  currentExclude,
+  currentCriteria,
   event,
 }: {
   costCategoryKeyValueInput?: string;
   currentCostCategoryKey?: string;
   currentFilters?: Filters;
-  currentExclude?: string;
+  currentCriteria?: string;
   event?: any;
 }) => {
   if ((event.key && event.key !== 'Enter') || costCategoryKeyValueInput.trim() === '') {
     return;
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, costCategoryKeyValueInput, isExcludes);
+  const filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, costCategoryKeyValueInput, currentCriteria);
   const newFilters: any = cloneDeep(
     currentFilters[awsCategoryKey][currentCostCategoryKey] ? currentFilters[awsCategoryKey][currentCostCategoryKey] : []
   );
@@ -212,22 +210,21 @@ export const onCostCategoryValueInput = ({
 export const onCostCategoryValueSelect = ({
   currentCostCategoryKey,
   currentFilters,
-  currentExclude,
+  currentCriteria,
   event,
   selection,
 }: {
   costCategoryKeyValueInput?: string;
   currentCostCategoryKey?: string;
   currentFilters?: Filters;
-  currentExclude?: string;
+  currentCriteria?: string;
   event?: any;
   selection?: SelectWrapperOption;
 }) => {
   const checked = event.target.checked;
   let filter;
   if (checked) {
-    const isExcludes = currentExclude === ExcludeType.exclude;
-    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection.value, isExcludes);
+    filter = getFilter(`${awsCategoryPrefix}${currentCostCategoryKey}`, selection.value, currentCriteria);
   } else if (currentFilters[awsCategoryKey][currentCostCategoryKey]) {
     filter = currentFilters[awsCategoryKey][currentCostCategoryKey].find(item => item.value === selection.value);
   }
