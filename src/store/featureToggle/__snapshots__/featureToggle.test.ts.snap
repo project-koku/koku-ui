@@ -4,6 +4,7 @@ exports[`default state 1`] = `
 {
   "isAwsEc2InstancesToggleEnabled": false,
   "isDebugToggleEnabled": false,
+  "isExactFilterToggleEnabled": false,
   "isExportsToggleEnabled": false,
   "isSystemsToggleEnabled": false,
 }
