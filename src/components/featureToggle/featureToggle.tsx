@@ -7,6 +7,7 @@ import { FeatureToggleActions } from 'store/featureToggle';
 export const enum FeatureToggle {
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
   debug = 'cost-management.ui.debug', // Logs user data (e.g., account ID) in browser console
+  exactFilter = 'cost-management.ui.exact-filter', // Exact filter https://issues.redhat.com/browse/COST-6744
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   systems = 'cost-management.ui.systems', // Systems https://issues.redhat.com/browse/COST-5718
 }
@@ -24,6 +25,10 @@ export const useIsDebugToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.debug);
 };
 
+export const useIsExactFilterToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.exactFilter);
+};
+
 export const useIsExportsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.exports);
 };
@@ -39,6 +44,7 @@ export const useFeatureToggle = () => {
 
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
+  const isExactFilterToggleEnabled = useIsExactFilterToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
 
@@ -54,6 +60,7 @@ export const useFeatureToggle = () => {
       FeatureToggleActions.setFeatureToggle({
         isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled,
+        isExactFilterToggleEnabled,
         isExportsToggleEnabled,
         isSystemsToggleEnabled,
       })
