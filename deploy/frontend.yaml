@@ -11,6 +11,14 @@ objects:
       name: 'cost-management'
     spec:
       feoConfigEnabled: true
+      serviceTiles:
+        - id: 'cost-management'
+          section: 'subscriptions'
+          group: 'openshift'
+          title: 'Cost Management'
+          href: '/openshift/cost-management'
+          description: 'View your data in Cost Management.'
+          icon: OpenShiftIcon
       searchEntries:
         - id: 'cost-management'
           title: 'Cost Management'
