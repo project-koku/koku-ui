@@ -17,7 +17,7 @@ objects:
           group: 'openshift'
           title: 'Cost Management'
           href: '/openshift/cost-management'
-          description: 'View your data in Cost Management.'
+          description: 'View your data in cost management.'
           icon: OpenShiftIcon
       searchEntries:
         - id: 'cost-management'
