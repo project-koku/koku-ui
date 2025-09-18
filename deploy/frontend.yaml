@@ -11,13 +11,45 @@ objects:
       name: 'cost-management'
     spec:
       feoConfigEnabled: true
+      serviceTiles:
+        - id: 'cost-management'
+          section: 'subscriptions'
+          group: 'openshift'
+          title: 'Cost Management'
+          href: '/openshift/cost-management'
+          description: 'View your data in cost management.'
+          icon: OpenShiftIcon
       searchEntries:
         - id: 'cost-management'
           title: 'Cost Management'
           href: '/openshift/cost-management'
           description: 'Understand and track costs for your OpenShift clusters and workloads.'
           alt_title:
-            - 'Cost Management'
+            - 'cost management'
+            - 'overview'
+            - 'cost management overview'
+            - 'costmgmt'
+            - 'cost'
+            - 'finops'
+            - 'cost management for openshift'
+            - 'openshift cost'
+            - 'rhcm'
+            - 'finsights'
+            - 'finops'
+            - 'spend'
+            - 'distribute'
+            - 'cost model'
+            - 'money'
+            - 'bill'
+            - 'billing'
+            - 'financial'
+            - 'chargeback'
+            - 'showback'
+            - 'rate'
+            - 'save'
+            - 'savings'
+            - 'resource optimization'
+            - 'resources'
       navigationSegments:
         - segmentId: 'cost-management'
           navItems:
@@ -34,7 +66,7 @@ objects:
                   href: '/openshift/cost-management/systems'
                   permissions:
                     - method: 'featureFlag'
-                      args: [ "cost-management.ui.systems", true ]
+                      args: [ 'cost-management.ui.systems', true ]
                 - id: 'cost-management.optimizations'
                   title: 'Optimizations'
                   href: '/openshift/cost-management/optimizations'
