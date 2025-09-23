@@ -1,4 +1,4 @@
-import { Button, ButtonVariant } from '@patternfly/react-core';
+import { Button, ButtonVariant, Label, Tooltip } from '@patternfly/react-core';
 import type { Provider, ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -35,6 +35,9 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
         name: intl.formatMessage(messages.integration),
       },
       {
+        name: intl.formatMessage(messages.operatorVersion),
+      },
+      {
         name: intl.formatMessage(messages.lastUpdated),
       },
       {
@@ -47,10 +50,30 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
 
     providers?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
+      let operatorStatus = null;
+
+      // Don't assign if additional_context is missing
+      if (item.additional_context?.operator_update_available === true) {
+        operatorStatus = (
+          <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
+            <Label status="warning" variant="outline">
+              {intl.formatMessage(messages.newVersionAvailable)}
+            </Label>
+          </Tooltip>
+        );
+      }
+      if (item.additional_context?.operator_update_available === false) {
+        operatorStatus = (
+          <Label status="success" variant="outline">
+            {intl.formatMessage(messages.upToDate)}
+          </Label>
+        );
+      }
 
       newRows.push({
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
+          { value: operatorStatus },
           { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
           {
             value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,

@@ -1,7 +1,6 @@
 import './clusterInfoContent.scss';
 
-import { Content, ContentVariants, Icon } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { Content, ContentVariants, Label, Tooltip } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -73,12 +72,11 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
         <Content component="li">
           <span style={styles.spacingRight}>{clusterProvider?.additional_context?.operator_version}</span>
           {clusterProvider?.additional_context?.operator_update_available && (
-            <>
-              <Icon status="warning">
-                <ExclamationTriangleIcon />
-              </Icon>
-              <span style={styles.updateAvailable}>{intl.formatMessage(messages.updateAvailable)}</span>
-            </>
+            <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
+              <Label status="warning" variant="outline">
+                {intl.formatMessage(messages.newVersionAvailable)}
+              </Label>
+            </Tooltip>
           )}
         </Content>
       </Content>

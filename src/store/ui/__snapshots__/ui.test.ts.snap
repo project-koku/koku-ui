@@ -4,6 +4,7 @@ exports[`default state 1`] = `
 {
   "isExportsDrawerOpen": false,
   "isOptimizationsDrawerOpen": false,
+  "isProvidersModalOpen": false,
   "payload": undefined,
 }
 `;
