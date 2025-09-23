@@ -2635,6 +2635,35 @@ export default defineMessages({
     description: 'Costs associated with ingress and egress network traffic for individual nodes.',
     id: 'networkUnattributedDistributedDesc',
   },
+  newOperatorAvailable: {
+    defaultMessage:
+      'New version of the Cost Management metrics operator is available. Update your operator version to work with the latest capabilities.',
+    description:
+      'New version of the Cost Management metrics operator is available. Update your operator version to work with the latest capabilities.',
+    id: 'newOperatorAvailable',
+  },
+  newOperatorVersionAvailable: {
+    defaultMessage: 'New version of the Cost Management operator available.',
+    description: 'New version of the Cost Management operator available.',
+    id: 'newOperatorVersionAvailable',
+  },
+  newOperatorVersionAvailableDesc: {
+    defaultMessage:
+      'Update now to unlock the latest features, performance improvements and important bug fixes. Get the best experience and most accurate data by running the newest version of Cost Management metrics operator.',
+    description:
+      'Update now to unlock the latest features, performance improvements and important bug fixes. Get the best experience and most accurate data by running the newest version of Cost Management metrics operator.',
+    id: 'newOperatorVersionAvailableDesc',
+  },
+  newOperatorVersionAvailableLink: {
+    defaultMessage: 'View integrations to update',
+    description: 'View integrations to update',
+    id: 'newOperatorVersionAvailableLink',
+  },
+  newVersionAvailable: {
+    defaultMessage: 'New version available',
+    description: 'New version available',
+    id: 'newVersionAvailable',
+  },
   next: {
     defaultMessage: 'next',
     description: 'next',
@@ -3050,6 +3079,11 @@ export default defineMessages({
     description:
       'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
     id: 'openShiftDesc',
+  },
+  operatorVersion: {
+    defaultMessage: 'Operator version',
+    description: 'Operator version',
+    id: 'operatorVersion',
   },
   optimizations: {
     defaultMessage: 'Optimizations',
@@ -3920,6 +3954,11 @@ export default defineMessages({
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'units',
+  },
+  upToDate: {
+    defaultMessage: 'Up to date',
+    description: 'Up to date',
+    id: 'upToDate',
   },
   updateAvailable: {
     defaultMessage: 'Update available',

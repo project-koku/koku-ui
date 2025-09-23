@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
-import SourcesTable from './table';
+import SourcesTable from './sourcesTable';
 import { CostModelContext, defaultCostModelContext } from './context';
 import { IntlProvider } from 'react-intl';
 
@@ -119,4 +119,4 @@ describe('costModelWizard/table SourcesTable (more)', () => {
     expect(checkboxes[0]).toBeChecked();
     expect(checkboxes[1]).toBeDisabled();
   });
-}); 
+});
