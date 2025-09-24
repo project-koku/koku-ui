@@ -7937,6 +7937,12 @@
         "value": "Google Cloud Platform details"
       }
     ],
+    "gcpOcpDashboardCostTitle": [
+      {
+        "type": 0,
+        "value": "Google Cloud Platform filtered by OpenShift cost"
+      }
+    ],
     "groupByAll": [
       {
         "options": {

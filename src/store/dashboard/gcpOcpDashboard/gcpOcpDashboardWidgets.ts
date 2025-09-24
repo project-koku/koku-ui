@@ -53,7 +53,7 @@ export const costSummaryWidget: DashboardWidget = {
   chartType: DashboardChartType.dailyTrend,
   currentTab: GcpOcpDashboardTab.services,
   id: getId(),
-  titleKey: messages.gcpCostTitle,
+  titleKey: messages.gcpOcpDashboardCostTitle,
   forecastPathsType: ForecastPathsType.gcpOcp,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.gcpOcp,

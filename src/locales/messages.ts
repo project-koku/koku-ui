@@ -2247,6 +2247,11 @@ export default defineMessages({
     description: 'Google Cloud Platform details',
     id: 'gcpDetailsTitle',
   },
+  gcpOcpDashboardCostTitle: {
+    defaultMessage: 'Google Cloud Platform filtered by OpenShift cost',
+    description: 'Google Cloud Platform filtered by OpenShift cost',
+    id: 'gcpOcpDashboardCostTitle',
+  },
   groupByAll: {
     defaultMessage:
       '{value, select, ' +
