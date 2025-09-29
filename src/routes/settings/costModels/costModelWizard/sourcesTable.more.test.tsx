@@ -58,6 +58,16 @@ jest.mock('@patternfly/react-table', () => ({
   TableVariant: { compact: 'compact' },
 }));
 
+// Mock only Truncate from PatternFly to avoid innerRef warnings in tests
+jest.mock('@patternfly/react-core', () => {
+  const actual = jest.requireActual('@patternfly/react-core');
+  return {
+    __esModule: true,
+    ...actual,
+    Truncate: ({ content }: any) => <span>{content}</span>,
+  };
+});
+
 const renderWithCtx = (ctx: any) =>
   render(
     <IntlProvider locale="en">
