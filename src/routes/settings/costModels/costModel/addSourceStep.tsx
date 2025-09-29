@@ -1,4 +1,4 @@
-import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
+import { Checkbox, Label, Pagination, Toolbar, ToolbarContent, ToolbarItem, Tooltip } from '@patternfly/react-core';
 import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import type { Provider } from 'api/providers';
@@ -11,7 +11,6 @@ import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { SourcesModalErrorState } from 'routes/settings/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/settings/costModels/components/filterLogic';
-import { WarningIcon } from 'routes/settings/costModels/components/warningIcon';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
@@ -100,22 +99,31 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
       const isAssigned =
         providerData.cost_models.length &&
         providerData.cost_models.find(cm => cm.name === costModel.name) === undefined;
-      // If assigned to another cost model, show warning
-      const warningIcon = isAssigned ? (
-        <WarningIcon
-          key={providerData.uuid}
-          text={intl.formatMessage(messages.costModelsWizardSourceWarning, { costModel: provCostModels })}
-        />
-      ) : null;
-      const cellName = (
-        <div key={providerData.uuid}>
-          {providerData.name} {warningIcon}
-        </div>
-      );
+      const cellName = <div key={providerData.uuid}>{providerData.name}</div>;
+
+      // Show blank if additional_context is undefined
+      let updateAvailable = null;
+      if (providerData.additional_context?.operator_update_available === true) {
+        updateAvailable = (
+          <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
+            <Label status="warning" variant="outline">
+              {intl.formatMessage(messages.newVersionAvailable)}
+            </Label>
+          </Tooltip>
+        );
+      }
+      if (providerData.additional_context?.operator_update_available === false) {
+        updateAvailable = (
+          <Label status="success" variant="outline">
+            {intl.formatMessage(messages.upToDate)}
+          </Label>
+        );
+      }
       return {
-        cells: [cellName, provCostModels || ''],
+        isAssigned,
+        cells: [cellName, updateAvailable, provCostModels || ''],
+        name: providerData.name,
         selected: isSelected,
-        disableSelection: isAssigned,
       };
     });
 
@@ -194,24 +202,43 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 <Th
                   select={{
                     onSelect: (_evt, isSelecting) => onSelect(isSelecting, -1),
-                    isSelected: sources.filter(s => s.disableSelection || s.selected).length === sources.length,
+                    isSelected: sources.filter(s => s.isAssigned || s.selected).length === sources.length,
                   }}
                 ></Th>
                 <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
-                <Th>{intl.formatMessage(messages.costModelsWizardSourceTableCostModel)}</Th>
+                <Th>{intl.formatMessage(messages.operatorVersion)}</Th>
+                <Th>{intl.formatMessage(messages.costModelsWizardSourceTableCostModel)} TEST</Th>
               </Tr>
             </Thead>
             <Tbody>
               {sources.map((s, rowIndex) => (
                 <Tr key={rowIndex}>
-                  <Td
-                    select={{
-                      isDisabled: s.disableSelection,
-                      onSelect: () => onSelect(!s.selected, rowIndex),
-                      isSelected: s.selected,
-                      rowIndex,
-                    }}
-                  ></Td>
+                  <Td>
+                    {s.isAssigned ? (
+                      <Tooltip
+                        content={intl.formatMessage(messages.costModelsWizardSourceWarning, {
+                          costModel: s.name,
+                        })}
+                      >
+                        <Checkbox
+                          id={s.name}
+                          key={s.name}
+                          aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                          isDisabled
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Checkbox
+                        onChange={(_evt, isChecked) => {
+                          onSelect(isChecked, rowIndex);
+                        }}
+                        id={s.name}
+                        key={s.name}
+                        aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                        isChecked={s.selected}
+                      />
+                    )}
+                  </Td>
                   {s.cells.map((c, cellIndex) => (
                     <Td key={cellIndex}>{c}</Td>
                   ))}
