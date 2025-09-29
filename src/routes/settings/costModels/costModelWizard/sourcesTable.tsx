@@ -8,6 +8,7 @@ import {
   Title,
   TitleSizes,
   Tooltip,
+  Truncate,
 } from '@patternfly/react-core';
 import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
@@ -135,7 +136,9 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                             />
                           )}
                         </Td>
-                        <Td>{row.name} </Td>
+                        <Td>
+                          <Truncate maxCharsDisplayed={35} content={row.name} />
+                        </Td>
                         <td>
                           {row.updateAvailable === true && (
                             <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
@@ -150,7 +153,9 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                             </Label>
                           )}
                         </td>
-                        <Td>{row.costmodel ? row.costmodel : ''}</Td>
+                        <Td>
+                          <Truncate maxCharsDisplayed={35} content={row.costmodel ? row.costmodel : ''} />
+                        </Td>
                       </Tr>
                     ))}
                   </Tbody>
