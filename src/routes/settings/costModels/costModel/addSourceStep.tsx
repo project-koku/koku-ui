@@ -101,27 +101,32 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
         providerData.cost_models.find(cm => cm.name === costModel.name) === undefined;
       const cellName = <div key={providerData.uuid}>{providerData.name}</div>;
 
-      // Show blank if additional_context is undefined
-      let updateAvailable = null;
+      let operatorLabel;
       if (providerData.additional_context?.operator_update_available === true) {
-        updateAvailable = (
+        operatorLabel = (
           <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
             <Label status="warning" variant="outline">
               {intl.formatMessage(messages.newVersionAvailable)}
             </Label>
           </Tooltip>
         );
-      }
-      if (providerData.additional_context?.operator_update_available === false) {
-        updateAvailable = (
+      } else if (providerData.additional_context?.operator_update_available === false) {
+        operatorLabel = (
           <Label status="success" variant="outline">
             {intl.formatMessage(messages.upToDate)}
           </Label>
         );
+      } else {
+        operatorLabel = (
+          <Label status="info" variant="outline">
+            {intl.formatMessage(messages.notAvailable)}
+          </Label>
+        );
       }
+
       return {
         isAssigned,
-        cells: [cellName, updateAvailable, provCostModels || ''],
+        cells: [cellName, operatorLabel, provCostModels || ''],
         name: providerData.name,
         selected: isSelected,
       };
@@ -207,7 +212,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 ></Th>
                 <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
                 <Th>{intl.formatMessage(messages.operatorVersion)}</Th>
-                <Th>{intl.formatMessage(messages.costModelsWizardSourceTableCostModel)} TEST</Th>
+                <Th>{intl.formatMessage(messages.costModelsWizardSourceTableCostModel)}</Th>
               </Tr>
             </Thead>
             <Tbody>

@@ -10936,6 +10936,12 @@
         "value": "Settings in cost management"
       }
     ],
+    "notAvailable": [
+      {
+        "type": 0,
+        "value": "Not available"
+      }
+    ],
     "ocp": [
       {
         "type": 0,

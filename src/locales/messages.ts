@@ -2964,6 +2964,11 @@ export default defineMessages({
     description: 'Settings in cost management',
     id: 'notAuthorizedStateSettings',
   },
+  notAvailable: {
+    defaultMessage: 'Not available',
+    description: 'Not available',
+    id: 'notAvailable',
+  },
   ocp: {
     defaultMessage: 'OpenShift Container Platform',
     description: 'OpenShift Container Platform',

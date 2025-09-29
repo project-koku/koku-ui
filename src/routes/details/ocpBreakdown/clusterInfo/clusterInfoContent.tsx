@@ -58,6 +58,29 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
 
   const release = getReleasePath();
 
+  let operatorLabel;
+  if (clusterProvider?.additional_context?.operator_update_available === true) {
+    operatorLabel = (
+      <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
+        <Label status="warning" variant="outline">
+          {intl.formatMessage(messages.newVersionAvailable)}
+        </Label>
+      </Tooltip>
+    );
+  } else if (clusterProvider?.additional_context?.operator_update_available === false) {
+    operatorLabel = (
+      <Label status="success" variant="outline">
+        {intl.formatMessage(messages.upToDate)}
+      </Label>
+    );
+  } else {
+    operatorLabel = (
+      <Label status="info" variant="outline">
+        {intl.formatMessage(messages.notAvailable)}
+      </Label>
+    );
+  }
+
   return (
     <Content className="textContentOverride">
       <Content component={ContentVariants.h3}>{intl.formatMessage(messages.clusterId)}</Content>
@@ -71,13 +94,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
       <Content component="ul" isPlainList>
         <Content component="li">
           <span style={styles.spacingRight}>{clusterProvider?.additional_context?.operator_version}</span>
-          {clusterProvider?.additional_context?.operator_update_available && (
-            <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
-              <Label status="warning" variant="outline">
-                {intl.formatMessage(messages.newVersionAvailable)}
-              </Label>
-            </Tooltip>
-          )}
+          {operatorLabel}
         </Content>
       </Content>
       {clusterProvider && (

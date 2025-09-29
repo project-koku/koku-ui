@@ -50,22 +50,26 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
 
     providers?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
-      let operatorStatus = null;
 
-      // Don't assign if additional_context is missing
+      let operatorLabel;
       if (item.additional_context?.operator_update_available === true) {
-        operatorStatus = (
+        operatorLabel = (
           <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
             <Label status="warning" variant="outline">
               {intl.formatMessage(messages.newVersionAvailable)}
             </Label>
           </Tooltip>
         );
-      }
-      if (item.additional_context?.operator_update_available === false) {
-        operatorStatus = (
+      } else if (item.additional_context?.operator_update_available === false) {
+        operatorLabel = (
           <Label status="success" variant="outline">
             {intl.formatMessage(messages.upToDate)}
+          </Label>
+        );
+      } else {
+        operatorLabel = (
+          <Label status="info" variant="outline">
+            {intl.formatMessage(messages.notAvailable)}
           </Label>
         );
       }
@@ -73,7 +77,7 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
       newRows.push({
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
-          { value: operatorStatus },
+          { value: operatorLabel },
           { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
           {
             value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,

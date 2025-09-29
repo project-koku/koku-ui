@@ -473,6 +473,7 @@
   "notAuthorizedStateOcp": "OpenShift in cost management",
   "notAuthorizedStateOptimizations": "Optimizations in cost management",
   "notAuthorizedStateSettings": "Settings in cost management",
+  "notAvailable": "Not available",
   "ocp": "OpenShift Container Platform",
   "ocpCli": "OpenShift CLI",
   "ocpCloudDashboardComputeTitle": "Compute services usage",
