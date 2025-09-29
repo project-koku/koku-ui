@@ -1,4 +1,4 @@
-import { Checkbox, Label, Pagination, Toolbar, ToolbarContent, ToolbarItem, Tooltip } from '@patternfly/react-core';
+import { Checkbox, Pagination, Toolbar, ToolbarContent, ToolbarItem, Tooltip } from '@patternfly/react-core';
 import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import type { Provider } from 'api/providers';
@@ -11,6 +11,7 @@ import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { SourcesModalErrorState } from 'routes/settings/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/settings/costModels/components/filterLogic';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
@@ -101,32 +102,13 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
         providerData.cost_models.find(cm => cm.name === costModel.name) === undefined;
       const cellName = <div key={providerData.uuid}>{providerData.name}</div>;
 
-      let operatorLabel;
-      if (providerData.additional_context?.operator_update_available === true) {
-        operatorLabel = (
-          <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
-            <Label status="warning" variant="outline">
-              {intl.formatMessage(messages.newVersionAvailable)}
-            </Label>
-          </Tooltip>
-        );
-      } else if (providerData.additional_context?.operator_update_available === false) {
-        operatorLabel = (
-          <Label status="success" variant="outline">
-            {intl.formatMessage(messages.upToDate)}
-          </Label>
-        );
-      } else {
-        operatorLabel = (
-          <Label status="info" variant="outline">
-            {intl.formatMessage(messages.notAvailable)}
-          </Label>
-        );
-      }
-
       return {
         isAssigned,
-        cells: [cellName, operatorLabel, provCostModels || ''],
+        cells: [
+          cellName,
+          getOperatorStatus(providerData.additional_context?.operator_update_available),
+          provCostModels || '',
+        ],
         name: providerData.name,
         selected: isSelected,
       };
@@ -149,9 +131,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 name: this.props.query.name ? this.props.query.name.split(',') : [],
               })(category, chip);
               this.props.fetch(
-                `source_type=${source_type}${newQuery.name ? `&name=${newQuery.name.join(',')}` : ''}&offset=0&limit=${
-                  this.props.pagination.perPage
-                }`
+                `source_type=${source_type}${newQuery.name ? `&name=${newQuery.name.join(',')}` : ''}&offset=0&limit=${this.props.pagination.perPage}`
               );
             },
             query: {

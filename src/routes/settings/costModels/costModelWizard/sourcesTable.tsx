@@ -2,7 +2,6 @@ import {
   Checkbox,
   Content,
   ContentVariants,
-  Label,
   Stack,
   StackItem,
   Title,
@@ -18,6 +17,7 @@ import { injectIntl } from 'react-intl';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/settings/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'routes/settings/costModels/components/paginationToolbarTemplate';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
@@ -108,67 +108,43 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {sources.map((row, rowIndex) => {
-                      let operatorLabel = null;
-                      if (row.updateAvailable === true) {
-                        operatorLabel = (
-                          <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
-                            <Label status="warning" variant="outline">
-                              {intl.formatMessage(messages.newVersionAvailable)}
-                            </Label>
-                          </Tooltip>
-                        );
-                      } else if (row.updateAvailable === false) {
-                        operatorLabel = (
-                          <Label status="success" variant="outline">
-                            {intl.formatMessage(messages.upToDate)}
-                          </Label>
-                        );
-                      } else {
-                        operatorLabel = (
-                          <Label status="info" variant="outline">
-                            {intl.formatMessage(messages.notAvailable)}
-                          </Label>
-                        );
-                      }
-                      return (
-                        <Tr key={rowIndex}>
-                          <Td>
-                            {row.costmodel ? (
-                              <Tooltip
-                                content={intl.formatMessage(messages.costModelsWizardSourceWarning, {
-                                  costModel: row.costmodel,
-                                })}
-                              >
-                                <Checkbox
-                                  id={row.name}
-                                  key={row.name}
-                                  aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
-                                  isDisabled
-                                />
-                              </Tooltip>
-                            ) : (
+                    {sources.map((row, rowIndex) => (
+                      <Tr key={rowIndex}>
+                        <Td>
+                          {row.costmodel ? (
+                            <Tooltip
+                              content={intl.formatMessage(messages.costModelsWizardSourceWarning, {
+                                costModel: row.costmodel,
+                              })}
+                            >
                               <Checkbox
-                                onChange={(_evt, isChecked) => {
-                                  onSourceSelect(rowIndex, isChecked);
-                                }}
                                 id={row.name}
                                 key={row.name}
                                 aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
-                                isChecked={checked[row.uuid] && checked[row.uuid].selected}
+                                isDisabled
                               />
-                            )}
-                          </Td>
-                          <Td>
-                            <Truncate maxCharsDisplayed={35} content={row.name} />
-                          </Td>
-                          <td>{operatorLabel}</td>
-                          <Td>
-                            <Truncate maxCharsDisplayed={35} content={row.costmodel ? row.costmodel : ''} />
-                          </Td>
-                        </Tr>
-                      );
-                    })}
+                            </Tooltip>
+                          ) : (
+                            <Checkbox
+                              onChange={(_evt, isChecked) => {
+                                onSourceSelect(rowIndex, isChecked);
+                              }}
+                              id={row.name}
+                              key={row.name}
+                              aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                              isChecked={checked[row.uuid] && checked[row.uuid].selected}
+                            />
+                          )}
+                        </Td>
+                        <Td>
+                          <Truncate maxCharsDisplayed={35} content={row.name} />
+                        </Td>
+                        <td>{getOperatorStatus(row.updateAvailable)}</td>
+                        <Td>
+                          <Truncate maxCharsDisplayed={35} content={row.costmodel ? row.costmodel : ''} />
+                        </Td>
+                      </Tr>
+                    ))}
                   </Tbody>
                 </Table>
               )}

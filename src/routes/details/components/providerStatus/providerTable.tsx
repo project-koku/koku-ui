@@ -1,9 +1,10 @@
-import { Button, ButtonVariant, Label, Tooltip } from '@patternfly/react-core';
+import { Button, ButtonVariant } from '@patternfly/react-core';
 import type { Provider, ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 
 import { OverallStatus } from './components/overallStatus';
 import { SourceLink } from './components/sourceLink';
@@ -51,33 +52,10 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
     providers?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
 
-      let operatorLabel;
-      if (item.additional_context?.operator_update_available === true) {
-        operatorLabel = (
-          <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
-            <Label status="warning" variant="outline">
-              {intl.formatMessage(messages.newVersionAvailable)}
-            </Label>
-          </Tooltip>
-        );
-      } else if (item.additional_context?.operator_update_available === false) {
-        operatorLabel = (
-          <Label status="success" variant="outline">
-            {intl.formatMessage(messages.upToDate)}
-          </Label>
-        );
-      } else {
-        operatorLabel = (
-          <Label status="info" variant="outline">
-            {intl.formatMessage(messages.notAvailable)}
-          </Label>
-        );
-      }
-
       newRows.push({
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
-          { value: operatorLabel },
+          { value: getOperatorStatus(item.additional_context?.operator_update_available) },
           { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
           {
             value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
