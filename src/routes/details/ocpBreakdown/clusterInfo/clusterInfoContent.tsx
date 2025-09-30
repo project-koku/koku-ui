@@ -1,6 +1,6 @@
 import './clusterInfoContent.scss';
 
-import { Content, ContentVariants, Label, Tooltip } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -13,6 +13,7 @@ import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { CloudIntegration } from 'routes/details/ocpBreakdown/clusterInfo/components/cloudIntegration';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -71,13 +72,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
       <Content component="ul" isPlainList>
         <Content component="li">
           <span style={styles.spacingRight}>{clusterProvider?.additional_context?.operator_version}</span>
-          {clusterProvider?.additional_context?.operator_update_available && (
-            <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
-              <Label status="warning" variant="outline">
-                {intl.formatMessage(messages.newVersionAvailable)}
-              </Label>
-            </Tooltip>
-          )}
+          {getOperatorStatus(clusterProvider?.additional_context?.operator_update_available)}
         </Content>
       </Content>
       {clusterProvider && (

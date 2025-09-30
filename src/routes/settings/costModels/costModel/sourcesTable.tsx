@@ -2,14 +2,18 @@ import { Button, ButtonVariant } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
 import type { IRow } from '@patternfly/react-table';
 import { Table, TableGridBreakpoint, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { type Providers, ProviderType } from 'api/providers';
+import { getProvidersQuery } from 'api/queries/providersQuery';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
+import { providersQuery, providersSelectors } from 'store/providers';
 import { rbacSelectors } from 'store/rbac';
 
 interface SourcesTableOwnProps {
@@ -19,11 +23,12 @@ interface SourcesTableOwnProps {
 interface SourcesTableStateProps {
   canWrite: boolean;
   costModels: any[];
+  providers: Providers;
 }
 
 type SourcesTableProps = SourcesTableOwnProps & SourcesTableStateProps & WrappedComponentProps;
 
-const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl, showDeleteDialog }) => {
+const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl, providers, showDeleteDialog }) => {
   const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources : [];
 
   return (
@@ -35,14 +40,19 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
       <Thead>
         <Tr>
           <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
+          <Th>{intl.formatMessage(messages.operatorVersion)}</Th>
           <Th>{intl.formatMessage(messages.lastProcessed)}</Th>
-          <Th></Th>
         </Tr>
       </Thead>
       <Tbody>
         {rows.map((row: any, rowIndex) => (
           <Tr key={rowIndex}>
             <Td>{row.name}</Td>
+            <Td>
+              {getOperatorStatus(
+                providers?.data?.find(p => p.uuid === row.uuid)?.additional_context?.operator_update_available
+              )}
+            </Td>
             <Td>
               {intl.formatDate(row.last_processed, {
                 day: 'numeric',
@@ -77,9 +87,12 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
 export default injectIntl(
   connect(
     createMapStateToProps<SourcesTableOwnProps, SourcesTableStateProps>(state => {
+      const providersQueryString = getProvidersQuery(providersQuery);
+      const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
       return {
         canWrite: rbacSelectors.isCostModelWritePermission(state),
         costModels: costModelsSelectors.costModels(state),
+        providers,
       };
     })
   )(SourcesTable)

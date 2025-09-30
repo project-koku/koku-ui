@@ -2,7 +2,6 @@ import {
   Checkbox,
   Content,
   ContentVariants,
-  Label,
   Stack,
   StackItem,
   Title,
@@ -18,6 +17,7 @@ import { injectIntl } from 'react-intl';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/settings/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'routes/settings/costModels/components/paginationToolbarTemplate';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
@@ -139,20 +139,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                         <Td>
                           <Truncate maxCharsDisplayed={35} content={row.name} />
                         </Td>
-                        <td>
-                          {row.updateAvailable === true && (
-                            <Tooltip content={intl.formatMessage(messages.newOperatorAvailable)}>
-                              <Label status="warning" variant="outline">
-                                {intl.formatMessage(messages.newVersionAvailable)}
-                              </Label>
-                            </Tooltip>
-                          )}
-                          {row.updateAvailable === false && (
-                            <Label status="success" variant="outline">
-                              {intl.formatMessage(messages.upToDate)}
-                            </Label>
-                          )}
-                        </td>
+                        <Td>{getOperatorStatus(row.updateAvailable)}</Td>
                         <Td>
                           <Truncate maxCharsDisplayed={35} content={row.costmodel ? row.costmodel : ''} />
                         </Td>
