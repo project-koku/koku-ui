@@ -947,8 +947,9 @@ export default defineMessages({
     id: 'costModelsWizardSourceTitle',
   },
   costModelsWizardSourceWarning: {
-    defaultMessage: 'This integration is assigned to {costModel} cost model. You will have to unassigned it first',
-    description: 'This integration is assigned to {costModel} cost model. You will have to unassigned it first',
+    defaultMessage:
+      'This integration is assigned to the "{costModel}" cost model. You will have to unassigned it first',
+    description: 'This integration is assigned to the "{costModel}" cost model. You will have to unassigned it first',
     id: 'costModelsWizardSourceWarning',
   },
   costModelsWizardStepsGenInfo: {

@@ -109,7 +109,6 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
           getOperatorStatus(providerData.additional_context?.operator_update_available),
           provCostModels || '',
         ],
-        name: providerData.name,
         selected: isSelected,
       };
     });
@@ -202,12 +201,12 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                     {s.isAssigned ? (
                       <Tooltip
                         content={intl.formatMessage(messages.costModelsWizardSourceWarning, {
-                          costModel: s.name,
+                          costModel: s.cells[2],
                         })}
                       >
                         <Checkbox
-                          id={s.name}
-                          key={s.name}
+                          id={`checkbox-${rowIndex}`}
+                          key={`checkbox-${rowIndex}`}
                           aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
                           isDisabled
                         />
@@ -217,8 +216,8 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                         onChange={(_evt, isChecked) => {
                           onSelect(isChecked, rowIndex);
                         }}
-                        id={s.name}
-                        key={s.name}
+                        id={`checkbox-${rowIndex}`}
+                        key={`checkbox-${rowIndex}`}
                         aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
                         isChecked={s.selected}
                       />

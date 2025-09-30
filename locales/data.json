@@ -1892,7 +1892,7 @@
     "costModelsWizardSourceWarning": [
       {
         "type": 0,
-        "value": "This integration is assigned to "
+        "value": "This integration is assigned to the \""
       },
       {
         "type": 1,
@@ -1900,7 +1900,7 @@
       },
       {
         "type": 0,
-        "value": " cost model. You will have to unassigned it first"
+        "value": "\" cost model. You will have to unassigned it first"
       }
     ],
     "costModelsWizardStepsGenInfo": [

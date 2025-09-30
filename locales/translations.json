@@ -173,7 +173,7 @@
   "costModelsWizardSourceTableCostModel": "Cost model assigned",
   "costModelsWizardSourceTableDefaultCostModel": "Default cost model",
   "costModelsWizardSourceTitle": "Assign integrations to the cost model (optional)",
-  "costModelsWizardSourceWarning": "This integration is assigned to {costModel} cost model. You will have to unassigned it first",
+  "costModelsWizardSourceWarning": "This integration is assigned to the \"{costModel}\" cost model. You will have to unassigned it first",
   "costModelsWizardStepsGenInfo": "Enter information",
   "costModelsWizardStepsReview": "Review details",
   "costModelsWizardStepsSources": "Assign an integration to the cost model",
