@@ -139,7 +139,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                         <Td>
                           <Truncate maxCharsDisplayed={35} content={row.name} />
                         </Td>
-                        <td>{getOperatorStatus(row.updateAvailable)}</td>
+                        <Td>{getOperatorStatus(row.updateAvailable)}</Td>
                         <Td>
                           <Truncate maxCharsDisplayed={35} content={row.costmodel ? row.costmodel : ''} />
                         </Td>
