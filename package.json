@@ -53,13 +53,13 @@
     "verify": "npm-run-all build lint test"
   },
   "dependencies": {
-    "@patternfly/patternfly": "6.3.0",
-    "@patternfly/react-charts": "8.3.0",
-    "@patternfly/react-component-groups": "6.3.0",
-    "@patternfly/react-core": "6.3.0",
-    "@patternfly/react-icons": "6.3.0",
-    "@patternfly/react-table": "6.3.0",
-    "@patternfly/react-tokens": "6.3.0",
+    "@patternfly/patternfly": "6.4.0-prerelease.2",
+    "@patternfly/react-charts": "8.4.0-prerelease.3",
+    "@patternfly/react-component-groups": "6.4.0-prerelease.1",
+    "@patternfly/react-core": "6.4.0-prerelease.2",
+    "@patternfly/react-icons": "6.4.0-prerelease.2",
+    "@patternfly/react-table": "6.4.0-prerelease.3",
+    "@patternfly/react-tokens": "6.4.0-prerelease.2",
     "@redhat-cloud-services/frontend-components": "^7.0.9",
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.11",
     "@redhat-cloud-services/frontend-components-translations": "^4.0.15",
@@ -69,7 +69,7 @@
     "@unleash/proxy-client-react": "^5.0.1",
     "axios": "^1.12.2",
     "date-fns": "^4.1.0",
-    "echarts": "^5.6.0",
+    "echarts": "^6.0.0",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
     "qs": "^6.14.0",
@@ -135,6 +135,13 @@
     "typescript": "^5.9.2"
   },
   "overrides": {
+    "@patternfly/patternfly": "6.4.0-prerelease.2",
+    "@patternfly/react-charts": "8.4.0-prerelease.3",
+    "@patternfly/react-component-groups": "6.4.0-prerelease.1",
+    "@patternfly/react-core": "6.4.0-prerelease.2",
+    "@patternfly/react-icons": "6.4.0-prerelease.2",
+    "@patternfly/react-table": "6.4.0-prerelease.3",
+    "@patternfly/react-tokens": "6.4.0-prerelease.2",
     "react-intl": "^7.1.11",
     "redux": "^5.0.1"
   },
