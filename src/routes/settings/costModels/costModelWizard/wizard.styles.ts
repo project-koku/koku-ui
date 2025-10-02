@@ -15,4 +15,7 @@ export const styles = {
     display: 'inline-block',
     marginRight: '1em',
   },
+  costModelAssigned: {
+    minWidth: '125px',
+  },
 } as { [className: string]: React.CSSProperties };

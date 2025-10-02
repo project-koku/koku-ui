@@ -1,5 +1,6 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import type { Provider, ProviderType } from 'api/providers';
+import type { Provider } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -36,6 +37,7 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
         name: intl.formatMessage(messages.integration),
       },
       {
+        hidden: providerType !== ProviderType.ocp,
         name: intl.formatMessage(messages.operatorVersion),
       },
       {
@@ -55,7 +57,10 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
       newRows.push({
         cells: [
           { value: <SourceLink provider={item} showLabel={false} /> },
-          { value: getOperatorStatus(item.additional_context?.operator_update_available) },
+          {
+            hidden: providerType !== ProviderType.ocp,
+            value: getOperatorStatus(item.additional_context?.operator_update_available),
+          },
           { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
           {
             value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
@@ -74,8 +79,14 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
       });
     });
 
-    setColumns(newColumns);
-    setRows(newRows);
+    const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
+    const filteredRows = newRows.map(({ ...row }) => {
+      row.cells = row.cells.filter(cell => !cell.hidden);
+      return row;
+    });
+
+    setColumns(filteredColumns);
+    setRows(filteredRows);
   };
 
   useEffect(() => {
