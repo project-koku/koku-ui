@@ -37,10 +37,6 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
         name: intl.formatMessage(messages.integration),
       },
       {
-        hidden: providerType !== ProviderType.ocp,
-        name: intl.formatMessage(messages.operatorVersion),
-      },
-      {
         name: intl.formatMessage(messages.lastUpdated),
       },
       {
@@ -50,43 +46,42 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
         name: '',
       },
     ];
+    if (providerType === ProviderType.ocp) {
+      newColumns.splice(1, 0, { name: intl.formatMessage(messages.operatorVersion) });
+    }
 
     providers?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
 
+      const cells = [
+        { value: <SourceLink provider={item} showLabel={false} /> },
+        { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
+        {
+          value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
+        },
+        {
+          value: onClick ? (
+            <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
+              {intl.formatMessage(messages.dataDetails)}
+            </Button>
+          ) : (
+            <ProviderBreakdownModal providerId={item.id} providerType={providerType} />
+          ),
+        },
+      ];
+      if (providerType === ProviderType.ocp) {
+        cells.splice(1, 0, {
+          value: getOperatorStatus(item.additional_context?.operator_update_available),
+        });
+      }
       newRows.push({
-        cells: [
-          { value: <SourceLink provider={item} showLabel={false} /> },
-          {
-            hidden: providerType !== ProviderType.ocp,
-            value: getOperatorStatus(item.additional_context?.operator_update_available),
-          },
-          { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
-          {
-            value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
-          },
-          {
-            value: onClick ? (
-              <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
-                {intl.formatMessage(messages.dataDetails)}
-              </Button>
-            ) : (
-              <ProviderBreakdownModal providerId={item.id} providerType={providerType} />
-            ),
-          },
-        ],
+        cells,
         item,
       });
     });
 
-    const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
-    const filteredRows = newRows.map(({ ...row }) => {
-      row.cells = row.cells.filter(cell => !cell.hidden);
-      return row;
-    });
-
-    setColumns(filteredColumns);
-    setRows(filteredRows);
+    setColumns(newColumns);
+    setRows(newRows);
   };
 
   useEffect(() => {

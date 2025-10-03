@@ -14,6 +14,7 @@ import { rbacSelectors } from 'store/rbac';
 
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
+import { getSourceType } from './utils/sourceType';
 
 interface TableBaseProps extends WrappedComponentProps {
   isWritePermission: boolean;
@@ -113,6 +114,7 @@ class TableBase extends React.Component<TableBaseProps, TableBaseState> {
             showDeleteDialog={(rowId: number) => {
               this.props.onDelete(res[rowId]);
             }}
+            showOperatorVersion={getSourceType(current.source_type) === 'OCP'}
           />
         )}
         {rows.length === 0 && (

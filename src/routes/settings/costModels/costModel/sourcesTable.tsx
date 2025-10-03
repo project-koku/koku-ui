@@ -18,6 +18,7 @@ import { rbacSelectors } from 'store/rbac';
 
 interface SourcesTableOwnProps {
   showDeleteDialog: (rowId: number) => void;
+  showOperatorVersion?: boolean;
 }
 
 interface SourcesTableStateProps {
@@ -28,7 +29,14 @@ interface SourcesTableStateProps {
 
 type SourcesTableProps = SourcesTableOwnProps & SourcesTableStateProps & WrappedComponentProps;
 
-const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl, providers, showDeleteDialog }) => {
+const SourcesTable: React.FC<SourcesTableProps> = ({
+  canWrite,
+  costModels,
+  intl,
+  providers,
+  showDeleteDialog,
+  showOperatorVersion,
+}) => {
   const rows: (IRow | string[])[] = costModels.length > 0 ? costModels[0].sources : [];
 
   return (
@@ -40,7 +48,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
       <Thead>
         <Tr>
           <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
-          <Th>{intl.formatMessage(messages.operatorVersion)}</Th>
+          {showOperatorVersion && <Th>{intl.formatMessage(messages.operatorVersion)}</Th>}
           <Th>{intl.formatMessage(messages.lastProcessed)}</Th>
         </Tr>
       </Thead>
@@ -48,11 +56,13 @@ const SourcesTable: React.FC<SourcesTableProps> = ({ canWrite, costModels, intl,
         {rows.map((row: any, rowIndex) => (
           <Tr key={rowIndex}>
             <Td>{row.name}</Td>
-            <Td>
-              {getOperatorStatus(
-                providers?.data?.find(p => p.uuid === row.uuid)?.additional_context?.operator_update_available
-              )}
-            </Td>
+            {showOperatorVersion && (
+              <Td>
+                {getOperatorStatus(
+                  providers?.data?.find(p => p.uuid === row.uuid)?.additional_context?.operator_update_available
+                )}
+              </Td>
+            )}
             <Td>
               {intl.formatDate(row.last_processed, {
                 day: 'numeric',
