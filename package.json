@@ -64,7 +64,7 @@
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.11",
     "@redhat-cloud-services/frontend-components-translations": "^4.0.15",
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.8",
-    "@redhat-cloud-services/rbac-client": "^4.2.0",
+    "@redhat-cloud-services/rbac-client": "^4.2.3",
     "@reduxjs/toolkit": "^2.9.0",
     "@unleash/proxy-client-react": "^5.0.1",
     "axios": "^1.12.2",
@@ -96,7 +96,7 @@
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.25",
     "@swc/core": "^1.13.5",
     "@swc/jest": "^0.2.39",
-    "@testing-library/jest-dom": "^6.9.0",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
@@ -110,9 +110,9 @@
     "copy-webpack-plugin": "^13.0.1",
     "eslint": "^9.36.0",
     "eslint-plugin-formatjs": "^5.4.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-hooks": "^6.1.0",
     "eslint-plugin-jest-dom": "^5.5.0",
-    "eslint-plugin-jsdoc": "^60.5.0",
+    "eslint-plugin-jsdoc": "^60.7.1",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
@@ -132,7 +132,7 @@
     "swc_mut_cjs_exports": "^10.7.0",
     "ts-jest": "^29.4.4",
     "ts-patch": "^3.3.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "overrides": {
     "react-intl": "^7.1.11",
