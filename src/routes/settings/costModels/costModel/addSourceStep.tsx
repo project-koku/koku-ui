@@ -17,6 +17,7 @@ import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 import { styles } from './costModelInfo.styles';
+import { getSourceType } from './utils/sourceType';
 
 interface AddSourcesStepOwnProps extends WrappedComponentProps {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
@@ -91,6 +92,8 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
       });
     };
 
+    const source_type = getSourceType(costModel.source_type) ?? '';
+
     const sources = this.props.providers.map(providerData => {
       const isSelected = this.props.checked[providerData.uuid] ? this.props.checked[providerData.uuid].selected : false;
       const provCostModels =
@@ -102,24 +105,18 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
         providerData.cost_models.find(cm => cm.name === costModel.name) === undefined;
       const cellName = <div key={providerData.uuid}>{providerData.name}</div>;
 
+      const cells = [cellName, provCostModels || ''];
+      if (source_type === 'OCP') {
+        cells.splice(1, 0, getOperatorStatus(providerData.additional_context?.operator_update_available));
+      }
+
       return {
         isAssigned,
-        cells: [
-          cellName,
-          getOperatorStatus(providerData.additional_context?.operator_update_available),
-          provCostModels || '',
-        ],
+        cells,
         selected: isSelected,
       };
     });
 
-    const sourceTypeMap = {
-      'OpenShift Container Platform': 'OCP',
-      'Microsoft Azure': 'Azure',
-      'Amazon Web Services': 'AWS',
-    };
-
-    const source_type = sourceTypeMap[costModel.source_type];
     return (
       <>
         <AssignSourcesToolbar
@@ -190,7 +187,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                   }}
                 ></Th>
                 <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
-                <Th>{intl.formatMessage(messages.operatorVersion)}</Th>
+                {source_type === 'OCP' && <Th>{intl.formatMessage(messages.operatorVersion)}</Th>}
                 <Th>{intl.formatMessage(messages.costModelsWizardSourceTableCostModel)}</Th>
               </Tr>
             </Thead>
