@@ -56,7 +56,7 @@
     "@patternfly/patternfly": "6.3.0",
     "@patternfly/react-charts": "8.3.0",
     "@patternfly/react-component-groups": "6.3.0",
-    "@patternfly/react-core": "6.3.0",
+    "@patternfly/react-core": "6.3.1",
     "@patternfly/react-icons": "6.3.0",
     "@patternfly/react-table": "6.3.0",
     "@patternfly/react-tokens": "6.3.0",
