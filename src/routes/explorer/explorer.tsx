@@ -538,17 +538,17 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
           ) : (
             <Grid hasGutter>
               <GridItem sm={12}>
+                {!isCurrentMonthData && !isDateRangeSelected && dateRangeType === DateRangeType.previousMonth && (
+                  <Alert
+                    isInline
+                    style={styles.alert}
+                    title={intl.formatMessage(messages.noCurrentData, {
+                      dateRange: getSinceDateRangeString(),
+                    })}
+                    variant="info"
+                  />
+                )}
                 <Card>
-                  {!isCurrentMonthData && !isDateRangeSelected && dateRangeType === DateRangeType.previousMonth && (
-                    <Alert
-                      isInline
-                      style={styles.alert}
-                      title={intl.formatMessage(messages.noCurrentData, {
-                        dateRange: getSinceDateRangeString(),
-                      })}
-                      variant="info"
-                    />
-                  )}
                   <CardBody>
                     <ExplorerChart
                       costDistribution={costDistribution}

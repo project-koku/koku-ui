@@ -1,4 +1,13 @@
-import { Alert, Card, CardBody, PageSection, Pagination, PaginationVariant } from '@patternfly/react-core';
+import {
+  Alert,
+  AlertActionCloseButton,
+  AlertActionLink,
+  Card,
+  CardBody,
+  PageSection,
+  Pagination,
+  PaginationVariant,
+} from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
@@ -44,12 +53,20 @@ import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
+import type { openProvidersModal } from 'store/ui/uiActions';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 import { noPrefix, platformCategoryKey, tagPrefix } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
-import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
+import {
+  deleteOperatorAvailable,
+  getCostDistribution,
+  getCurrency,
+  isOperatorAvailableValid,
+  setOperatorAvailable,
+} from 'utils/sessionStorage';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
@@ -63,6 +80,7 @@ export interface OcpDetailsStateProps {
   isCurrentMonthData?: boolean;
   isPreviousMonthData?: boolean;
   providers: Providers;
+  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
   report: OcpReport;
@@ -74,6 +92,7 @@ export interface OcpDetailsStateProps {
 
 interface OcpDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
+  openProvidersModal: typeof openProvidersModal;
 }
 
 interface OcpDetailsState {
@@ -378,6 +397,12 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     });
   };
 
+  private handleOnOperatorAvailableClose = () => {
+    // Set token to keep closed for current session
+    setOperatorAvailable('true');
+    this.forceUpdate();
+  };
+
   private handleOnPlatformCostsChanged = (checked: boolean) => {
     const { query, router } = this.props;
     const newQuery = {
@@ -405,6 +430,22 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
     this.setState({ isAllSelected: false, selectedItems: newItems });
   };
 
+  private isOperatorAlertOpen = () => {
+    const { providers, providersError, providersFetchStatus } = this.props;
+
+    const result = providers.data.find(provider => provider.additional_context?.operator_update_available === true);
+
+    if (!result) {
+      if (providers && providersFetchStatus === FetchStatus.complete && !providersError) {
+        deleteOperatorAvailable(); // Reset cookie for new alerts
+      }
+      return false;
+    }
+
+    // Keep closed if token is valid for current session
+    return !isOperatorAvailableValid();
+  };
+
   private updateReport = () => {
     const { fetchReport, reportQueryString } = this.props;
     fetchReport(reportPathsType, reportType, reportQueryString);
@@ -417,6 +458,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
       intl,
       isCurrentMonthData,
       isPreviousMonthData,
+      openProvidersModal,
       providers,
       providersFetchStatus,
       query,
@@ -469,17 +511,33 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
           />
         </PageSection>
         <PageSection>
+          {this.isOperatorAlertOpen() && (
+            <Alert
+              actionClose={<AlertActionCloseButton onClose={() => this.handleOnOperatorAvailableClose()} />}
+              actionLinks={
+                <AlertActionLink onClick={() => openProvidersModal()}>
+                  {intl.formatMessage(messages.newOperatorVersionAvailableLink)}
+                </AlertActionLink>
+              }
+              isInline
+              style={styles.alert}
+              title={intl.formatMessage(messages.newOperatorVersionAvailable)}
+              variant="warning"
+            >
+              {intl.formatMessage(messages.newOperatorVersionAvailableDesc)}
+            </Alert>
+          )}
+          {!isCurrentMonthData && (
+            <Alert
+              isInline
+              style={styles.alert}
+              title={intl.formatMessage(messages.noCurrentData, {
+                dateRange: getSinceDateRangeString(),
+              })}
+              variant="info"
+            />
+          )}
           <Card>
-            {!isCurrentMonthData && (
-              <Alert
-                isInline
-                style={styles.alert}
-                title={intl.formatMessage(messages.noCurrentData, {
-                  dateRange: getSinceDateRangeString(),
-                })}
-                variant="info"
-              />
-            )}
             <CardBody>
               {this.getToolbar(computedItems)}
               {this.getExportModal(computedItems)}
@@ -510,6 +568,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
   // Check for current and previous data first
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.all,
@@ -565,6 +624,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     isCurrentMonthData,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
     providers: filteredProviders,
+    providersError,
     providersFetchStatus,
     query,
     report,
@@ -577,6 +637,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
 
 const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
+  openProvidersModal: uiActions.openProvidersModal,
 };
 
 export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(OcpDetails)));

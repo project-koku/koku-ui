@@ -49,7 +49,7 @@ export default [{
     'eslint:recommended', // Extended by eslint-config-redhat-cloud-services
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended', // Extended by eslint-config-redhat-cloud-services
-    'plugin:react-hooks/recommended',
+    'plugin:react-hooks/recommended-legacy',
 )), {
     plugins: {
         '@typescript-eslint': fixupPluginRules(typescriptEslint),

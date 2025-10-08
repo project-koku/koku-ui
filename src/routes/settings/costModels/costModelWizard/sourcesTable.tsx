@@ -1,4 +1,14 @@
-import { Checkbox, Content, ContentVariants, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  Checkbox,
+  Content,
+  ContentVariants,
+  Stack,
+  StackItem,
+  Title,
+  TitleSizes,
+  Tooltip,
+  Truncate,
+} from '@patternfly/react-core';
 import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
@@ -7,10 +17,11 @@ import { injectIntl } from 'react-intl';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/settings/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'routes/settings/costModels/components/paginationToolbarTemplate';
-import { WarningIcon } from 'routes/settings/costModels/components/warningIcon';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
+import { styles } from './wizard.styles';
 
 const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
   return (
@@ -87,44 +98,50 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                 >
                   <Thead>
                     <Tr>
-                      {[
-                        '',
-                        intl.formatMessage(messages.names, { count: 1 }),
-                        intl.formatMessage(messages.costModelsWizardSourceTableCostModel),
-                      ].map((c, i) => (
-                        <Th key={i}>{c}</Th>
-                      ))}
+                      <Th />
+                      <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
+                      {sourceType === 'OCP' && <Th>{intl.formatMessage(messages.operatorVersion)}</Th>}
+                      <Th style={sourceType === 'OCP' ? styles.costModelAssigned : undefined}>
+                        {intl.formatMessage(messages.costModelsWizardSourceTableCostModel)}
+                      </Th>
                     </Tr>
                   </Thead>
                   <Tbody>
                     {sources.map((row, rowIndex) => (
                       <Tr key={rowIndex}>
                         <Td>
-                          <Checkbox
-                            onChange={(_evt, isChecked) => {
-                              onSourceSelect(rowIndex, isChecked);
-                            }}
-                            id={row.name}
-                            key={row.name}
-                            aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
-                            isChecked={checked[row.uuid] && checked[row.uuid].selected}
-                            isDisabled={Boolean(row.costmodel)}
-                          />
-                        </Td>
-                        <Td>
-                          {row.name}{' '}
-                          {row.costmodel && (
-                            <WarningIcon
-                              key={`wrng-${row.name}`}
-                              text={
-                                intl.formatMessage(messages.costModelsWizardSourceWarning, {
-                                  costModel: row.costmodel,
-                                }) as string
-                              }
+                          {row.costmodel ? (
+                            <Tooltip
+                              content={intl.formatMessage(messages.costModelsWizardSourceWarning, {
+                                costModel: row.costmodel,
+                              })}
+                            >
+                              <Checkbox
+                                id={row.name}
+                                key={row.name}
+                                aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                                isDisabled
+                              />
+                            </Tooltip>
+                          ) : (
+                            <Checkbox
+                              onChange={(_evt, isChecked) => {
+                                onSourceSelect(rowIndex, isChecked);
+                              }}
+                              id={row.name}
+                              key={row.name}
+                              aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                              isChecked={checked[row.uuid] && checked[row.uuid].selected}
                             />
                           )}
                         </Td>
-                        <Td>{row.costmodel ? row.costmodel : ''}</Td>
+                        <Td>
+                          <Truncate maxCharsDisplayed={35} content={row.name} />
+                        </Td>
+                        {sourceType === 'OCP' && <Td>{getOperatorStatus(row.updateAvailable)}</Td>}
+                        <Td>
+                          <Truncate maxCharsDisplayed={35} content={row.costmodel ? row.costmodel : ''} />
+                        </Td>
                       </Tr>
                     ))}
                   </Tbody>

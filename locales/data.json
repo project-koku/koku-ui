@@ -1892,7 +1892,7 @@
     "costModelsWizardSourceWarning": [
       {
         "type": 0,
-        "value": "This integration is assigned to "
+        "value": "This integration is assigned to the \""
       },
       {
         "type": 1,
@@ -1900,7 +1900,7 @@
       },
       {
         "type": 0,
-        "value": " cost model. You will have to unassigned it first"
+        "value": "\" cost model. You will have to unassigned it first"
       }
     ],
     "costModelsWizardStepsGenInfo": [
@@ -7937,6 +7937,12 @@
         "value": "Google Cloud Platform details"
       }
     ],
+    "gcpOcpDashboardCostTitle": [
+      {
+        "type": 0,
+        "value": "Google Cloud Platform filtered by OpenShift cost"
+      }
+    ],
     "groupByAll": [
       {
         "options": {
@@ -10488,6 +10494,36 @@
         "value": "Costs associated with ingress and egress network traffic for individual nodes."
       }
     ],
+    "newOperatorAvailable": [
+      {
+        "type": 0,
+        "value": "New version of the Cost Management metrics operator is available. Update your operator version to work with the latest capabilities."
+      }
+    ],
+    "newOperatorVersionAvailable": [
+      {
+        "type": 0,
+        "value": "New version of the Cost Management operator available."
+      }
+    ],
+    "newOperatorVersionAvailableDesc": [
+      {
+        "type": 0,
+        "value": "Update now to unlock the latest features, performance improvements and important bug fixes. Get the best experience and most accurate data by running the newest version of Cost Management metrics operator."
+      }
+    ],
+    "newOperatorVersionAvailableLink": [
+      {
+        "type": 0,
+        "value": "View integrations to update"
+      }
+    ],
+    "newVersionAvailable": [
+      {
+        "type": 0,
+        "value": "New version available"
+      }
+    ],
     "next": [
       {
         "type": 0,
@@ -10900,6 +10936,12 @@
         "value": "Settings in cost management"
       }
     ],
+    "notAvailable": [
+      {
+        "type": 0,
+        "value": "Not available"
+      }
+    ],
     "ocp": [
       {
         "type": 0,
@@ -11076,6 +11118,12 @@
       {
         "type": 0,
         "value": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics."
+      }
+    ],
+    "operatorVersion": [
+      {
+        "type": 0,
+        "value": "Operator version"
       }
     ],
     "optimizations": [
@@ -13137,6 +13185,12 @@
         },
         "type": 5,
         "value": "units"
+      }
+    ],
+    "upToDate": [
+      {
+        "type": 0,
+        "value": "Up to date"
       }
     ],
     "updateAvailable": [

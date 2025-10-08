@@ -1,9 +1,11 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import type { Provider, ProviderType } from 'api/providers';
+import type { Provider } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable } from 'routes/components/dataTable';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 
 import { OverallStatus } from './components/overallStatus';
 import { SourceLink } from './components/sourceLink';
@@ -44,27 +46,36 @@ const ProviderTable: React.FC<ProviderTableProps> = ({ onClick, providers, provi
         name: '',
       },
     ];
+    if (providerType === ProviderType.ocp) {
+      newColumns.splice(1, 0, { name: intl.formatMessage(messages.operatorVersion) });
+    }
 
     providers?.map(item => {
       // const clusterId = item?.authentication?.credentials?.cluster_id;
 
+      const cells = [
+        { value: <SourceLink provider={item} showLabel={false} /> },
+        { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
+        {
+          value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
+        },
+        {
+          value: onClick ? (
+            <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
+              {intl.formatMessage(messages.dataDetails)}
+            </Button>
+          ) : (
+            <ProviderBreakdownModal providerId={item.id} providerType={providerType} />
+          ),
+        },
+      ];
+      if (providerType === ProviderType.ocp) {
+        cells.splice(1, 0, {
+          value: getOperatorStatus(item.additional_context?.operator_update_available),
+        });
+      }
       newRows.push({
-        cells: [
-          { value: <SourceLink provider={item} showLabel={false} /> },
-          { value: <OverallStatus isLastUpdated providerId={item.id} providerType={providerType} /> },
-          {
-            value: <OverallStatus isStatusMsg providerId={item.id} providerType={providerType} />,
-          },
-          {
-            value: onClick ? (
-              <Button onClick={() => onClick(item.id)} style={styles.dataDetailsButton} variant={ButtonVariant.link}>
-                {intl.formatMessage(messages.dataDetails)}
-              </Button>
-            ) : (
-              <ProviderBreakdownModal providerId={item.id} providerType={providerType} />
-            ),
-          },
-        ],
+        cells,
         item,
       });
     });
