@@ -9,6 +9,7 @@ const costManagementID = 'cost_management';
 const costTypeID = 'cost_type';
 const currencyID = 'currency';
 const inactiveSourcesID = 'inactive_sources';
+const operatorAvailableID = 'operator_available';
 
 /**
  * Common
@@ -162,6 +163,30 @@ export const isInactiveSourcesValid = () => {
 // Set inactive sources
 export const setInactiveSources = (value: string) => {
   setItem(inactiveSourcesID, value);
+};
+
+/**
+ * Operator available
+ */
+
+// Deletes operator available
+export const deleteOperatorAvailable = () => {
+  removeItem(operatorAvailableID);
+};
+
+// Returns operator available
+export const getOperatorAvailable = () => {
+  return getItem(operatorAvailableID);
+};
+
+// Returns true if operator available is valid for the current session
+export const isOperatorAvailableValid = () => {
+  return getOperatorAvailable() && isSessionValid();
+};
+
+// Set operator available
+export const setOperatorAvailable = (value: string) => {
+  setItem(operatorAvailableID, value);
 };
 
 /**

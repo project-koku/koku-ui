@@ -3,7 +3,7 @@ import { LoadingState } from 'routes/components/state/loadingState';
 import { SourceStepErrorState } from 'routes/settings/costModels/components/errorState';
 
 import { CostModelContext } from './context';
-import SourcesTable from './table';
+import SourcesTable from './sourcesTable';
 
 class Sources extends React.Component<any, any> {
   fetchData: () => void = () => null;

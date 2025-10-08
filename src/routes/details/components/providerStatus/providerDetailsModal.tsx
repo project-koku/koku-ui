@@ -3,6 +3,11 @@ import type { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
+import type { RootState } from 'store';
+import { uiActions, uiSelectors } from 'store/ui';
 
 import { OverallStatus } from './components/overallStatus';
 import { ProviderDetailsContent } from './providerDetailsContent';
@@ -12,27 +17,37 @@ interface ProviderDetailsModalOwnProps {
   providerType: ProviderType;
 }
 
+interface ProviderDetailsModalStateProps {
+  isOpen?: boolean;
+}
+
 type ProviderDetailsModalProps = ProviderDetailsModalOwnProps;
 
 const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({ providerType }: ProviderDetailsModalProps) => {
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
   const intl = useIntl();
-  const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState(messages.integrationsStatus);
-  const [variant, setVariant] = useState(ModalVariant.medium);
+  const [variant, setVariant] = useState(ModalVariant.large);
+  const { isOpen } = useMapToProps();
+
+  const resetModal = () => {
+    setTitle(messages.integrationsStatus);
+    setVariant(ModalVariant.large);
+  };
 
   const handleOnClose = () => {
-    setIsOpen(false);
+    resetModal();
+    dispatch(uiActions.closeProvidersModal());
   };
 
   const handleOnClick = () => {
-    setTitle(messages.integrationsStatus);
-    setVariant(ModalVariant.medium);
-    setIsOpen(true);
+    resetModal();
+    dispatch(uiActions.openProvidersModal());
   };
 
   const handleOnBackClick = () => {
-    setTitle(messages.integrationsStatus);
-    setVariant(ModalVariant.medium);
+    resetModal();
   };
 
   const handleOnDetailsClick = () => {
@@ -62,6 +77,12 @@ const ProviderDetailsModal: React.FC<ProviderDetailsModalProps> = ({ providerTyp
       </Modal>
     </>
   );
+};
+
+const useMapToProps = (): ProviderDetailsModalStateProps => {
+  return {
+    isOpen: useSelector((state: RootState) => uiSelectors.selectIsProvidersModalOpen(state)),
+  };
 };
 
 export { ProviderDetailsModal };

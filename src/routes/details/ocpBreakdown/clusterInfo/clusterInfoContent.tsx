@@ -1,7 +1,6 @@
 import './clusterInfoContent.scss';
 
-import { Content, ContentVariants, Icon } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -14,6 +13,7 @@ import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { CloudIntegration } from 'routes/details/ocpBreakdown/clusterInfo/components/cloudIntegration';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 import { filterProviders } from 'routes/utils/providers';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -72,14 +72,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
       <Content component="ul" isPlainList>
         <Content component="li">
           <span style={styles.spacingRight}>{clusterProvider?.additional_context?.operator_version}</span>
-          {clusterProvider?.additional_context?.operator_update_available && (
-            <>
-              <Icon status="warning">
-                <ExclamationTriangleIcon />
-              </Icon>
-              <span style={styles.updateAvailable}>{intl.formatMessage(messages.updateAvailable)}</span>
-            </>
-          )}
+          {getOperatorStatus(clusterProvider?.additional_context?.operator_update_available)}
         </Content>
       </Content>
       {clusterProvider && (

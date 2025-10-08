@@ -390,17 +390,17 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
           />
         </PageSection>
         <PageSection>
+          {!isCurrentMonthData && (
+            <Alert
+              isInline
+              style={styles.alert}
+              title={intl.formatMessage(messages.noCurrentData, {
+                dateRange: getSinceDateRangeString(),
+              })}
+              variant="info"
+            />
+          )}
           <Card>
-            {!isCurrentMonthData && (
-              <Alert
-                isInline
-                style={styles.alert}
-                title={intl.formatMessage(messages.noCurrentData, {
-                  dateRange: getSinceDateRangeString(),
-                })}
-                variant="info"
-              />
-            )}
             <CardBody>
               {this.getToolbar(computedItems)}
               {this.getExportModal(computedItems)}
