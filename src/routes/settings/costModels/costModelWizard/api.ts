@@ -14,6 +14,7 @@ export const fetchSources = ({ type, page, perPage, query }) => {
       uuid: src.uuid,
       costmodel: src.cost_models.map(cm => cm.name).join(','),
       meta: payload.meta,
+      updateAvailable: src?.additional_context?.operator_update_available,
     }));
   });
 };

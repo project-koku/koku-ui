@@ -1892,7 +1892,7 @@
     "costModelsWizardSourceWarning": [
       {
         "type": 0,
-        "value": "This integration is assigned to "
+        "value": "This integration is assigned to the \""
       },
       {
         "type": 1,
@@ -1900,7 +1900,7 @@
       },
       {
         "type": 0,
-        "value": " cost model. You will have to unassigned it first"
+        "value": "\" cost model. You will have to unassigned it first"
       }
     ],
     "costModelsWizardStepsGenInfo": [
@@ -3941,12 +3941,6 @@
       {
         "type": 0,
         "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_cost_management/about-cost-management#what_can_you_accomplish_with_cost_management"
-      }
-    ],
-    "docsAddOcpSources": [
-      {
-        "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management"
       }
     ],
     "docsCostCategory": [
@@ -7937,6 +7931,12 @@
         "value": "Google Cloud Platform details"
       }
     ],
+    "gcpOcpDashboardCostTitle": [
+      {
+        "type": 0,
+        "value": "Google Cloud Platform filtered by OpenShift cost"
+      }
+    ],
     "groupByAll": [
       {
         "options": {
@@ -10488,6 +10488,36 @@
         "value": "Costs associated with ingress and egress network traffic for individual nodes."
       }
     ],
+    "newOperatorAvailable": [
+      {
+        "type": 0,
+        "value": "New version of the Cost Management metrics operator is available. Update your operator version to work with the latest capabilities."
+      }
+    ],
+    "newOperatorVersionAvailable": [
+      {
+        "type": 0,
+        "value": "New version of the Cost Management operator available."
+      }
+    ],
+    "newOperatorVersionAvailableDesc": [
+      {
+        "type": 0,
+        "value": "Update now to unlock the latest features, performance improvements and important bug fixes. Get the best experience and most accurate data by running the newest version of Cost Management metrics operator."
+      }
+    ],
+    "newOperatorVersionAvailableLink": [
+      {
+        "type": 0,
+        "value": "View integrations to update"
+      }
+    ],
+    "newVersionAvailable": [
+      {
+        "type": 0,
+        "value": "New version available"
+      }
+    ],
     "next": [
       {
         "type": 0,
@@ -10762,78 +10792,6 @@
         "value": "What can you accomplish with cost management?"
       }
     ],
-    "noProvidersStateAwsDesc": [
-      {
-        "type": 0,
-        "value": "Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags."
-      }
-    ],
-    "noProvidersStateAwsTitle": [
-      {
-        "type": 0,
-        "value": "Track your Amazon Web Services spending!"
-      }
-    ],
-    "noProvidersStateAzureDesc": [
-      {
-        "type": 0,
-        "value": "Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
-      }
-    ],
-    "noProvidersStateAzureTitle": [
-      {
-        "type": 0,
-        "value": "Track your Microsoft Azure spending!"
-      }
-    ],
-    "noProvidersStateGcpDesc": [
-      {
-        "type": 0,
-        "value": "Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags."
-      }
-    ],
-    "noProvidersStateGcpTitle": [
-      {
-        "type": 0,
-        "value": "Track your Google Cloud Platform spending!"
-      }
-    ],
-    "noProvidersStateGetStarted": [
-      {
-        "type": 0,
-        "value": "Get started with Integrations"
-      }
-    ],
-    "noProvidersStateOcpAddSources": [
-      {
-        "type": 0,
-        "value": "Add an OpenShift cluster to cost management"
-      }
-    ],
-    "noProvidersStateOcpDesc": [
-      {
-        "type": 0,
-        "value": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels."
-      }
-    ],
-    "noProvidersStateOcpTitle": [
-      {
-        "type": 0,
-        "value": "Track your OpenShift spending!"
-      }
-    ],
-    "noProvidersStateOverviewDesc": [
-      {
-        "type": 0,
-        "value": "Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage."
-      }
-    ],
-    "noProvidersStateOverviewTitle": [
-      {
-        "type": 0,
-        "value": "Track your spending!"
-      }
-    ],
     "noProvidersTroubleshooting": [
       {
         "type": 0,
@@ -10898,6 +10856,12 @@
       {
         "type": 0,
         "value": "Settings in cost management"
+      }
+    ],
+    "notAvailable": [
+      {
+        "type": 0,
+        "value": "Not available"
       }
     ],
     "ocp": [
@@ -11076,6 +11040,12 @@
       {
         "type": 0,
         "value": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics."
+      }
+    ],
+    "operatorVersion": [
+      {
+        "type": 0,
+        "value": "Operator version"
       }
     ],
     "optimizations": [
@@ -12374,12 +12344,6 @@
         "value": "Sum platform costs"
       }
     ],
-    "summary": [
-      {
-        "type": 0,
-        "value": "Summary"
-      }
-    ],
     "supplementary": [
       {
         "type": 0,
@@ -13139,10 +13103,10 @@
         "value": "units"
       }
     ],
-    "updateAvailable": [
+    "upToDate": [
       {
         "type": 0,
-        "value": "Update available"
+        "value": "Up to date"
       }
     ],
     "usage": [

@@ -947,8 +947,9 @@ export default defineMessages({
     id: 'costModelsWizardSourceTitle',
   },
   costModelsWizardSourceWarning: {
-    defaultMessage: 'This integration is assigned to {costModel} cost model. You will have to unassigned it first',
-    description: 'This integration is assigned to {costModel} cost model. You will have to unassigned it first',
+    defaultMessage:
+      'This integration is assigned to the "{costModel}" cost model. You will have to unassigned it first',
+    description: 'This integration is assigned to the "{costModel}" cost model. You will have to unassigned it first',
     id: 'costModelsWizardSourceWarning',
   },
   costModelsWizardStepsGenInfo: {
@@ -1574,12 +1575,6 @@ export default defineMessages({
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_cost_management/about-cost-management#what_can_you_accomplish_with_cost_management',
     description: 'What can you accomplish with cost management?',
     id: 'docsAccomplish',
-  },
-  docsAddOcpSources: {
-    defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management',
-    description: 'Integrating OpenShift Container Platform data into cost management',
-    id: 'docsAddOcpSources',
   },
   docsCostCategory: {
     defaultMessage:
@@ -2247,6 +2242,11 @@ export default defineMessages({
     description: 'Google Cloud Platform details',
     id: 'gcpDetailsTitle',
   },
+  gcpOcpDashboardCostTitle: {
+    defaultMessage: 'Google Cloud Platform filtered by OpenShift cost',
+    description: 'Google Cloud Platform filtered by OpenShift cost',
+    id: 'gcpOcpDashboardCostTitle',
+  },
   groupByAll: {
     defaultMessage:
       '{value, select, ' +
@@ -2635,6 +2635,35 @@ export default defineMessages({
     description: 'Costs associated with ingress and egress network traffic for individual nodes.',
     id: 'networkUnattributedDistributedDesc',
   },
+  newOperatorAvailable: {
+    defaultMessage:
+      'New version of the Cost Management metrics operator is available. Update your operator version to work with the latest capabilities.',
+    description:
+      'New version of the Cost Management metrics operator is available. Update your operator version to work with the latest capabilities.',
+    id: 'newOperatorAvailable',
+  },
+  newOperatorVersionAvailable: {
+    defaultMessage: 'New version of the Cost Management operator available.',
+    description: 'New version of the Cost Management operator available.',
+    id: 'newOperatorVersionAvailable',
+  },
+  newOperatorVersionAvailableDesc: {
+    defaultMessage:
+      'Update now to unlock the latest features, performance improvements and important bug fixes. Get the best experience and most accurate data by running the newest version of Cost Management metrics operator.',
+    description:
+      'Update now to unlock the latest features, performance improvements and important bug fixes. Get the best experience and most accurate data by running the newest version of Cost Management metrics operator.',
+    id: 'newOperatorVersionAvailableDesc',
+  },
+  newOperatorVersionAvailableLink: {
+    defaultMessage: 'View integrations to update',
+    description: 'View integrations to update',
+    id: 'newOperatorVersionAvailableLink',
+  },
+  newVersionAvailable: {
+    defaultMessage: 'New version available',
+    description: 'New version available',
+    id: 'newVersionAvailable',
+  },
   next: {
     defaultMessage: 'next',
     description: 'next',
@@ -2803,76 +2832,6 @@ export default defineMessages({
     description: 'What can you accomplish with cost management?',
     id: 'noProvidersRecommendedAccomplish',
   },
-  noProvidersStateAwsDesc: {
-    defaultMessage:
-      'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
-    description:
-      'Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.',
-    id: 'noProvidersStateAwsDesc',
-  },
-  noProvidersStateAwsTitle: {
-    defaultMessage: 'Track your Amazon Web Services spending!',
-    description: 'Track your Amazon Web Services spending!',
-    id: 'noProvidersStateAwsTitle',
-  },
-  noProvidersStateAzureDesc: {
-    defaultMessage:
-      'Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
-    description:
-      'Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
-    id: 'noProvidersStateAzureDesc',
-  },
-  noProvidersStateAzureTitle: {
-    defaultMessage: 'Track your Microsoft Azure spending!',
-    description: 'Track your Microsoft Azure spending!',
-    id: 'noProvidersStateAzureTitle',
-  },
-  noProvidersStateGcpDesc: {
-    defaultMessage:
-      'Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
-    description:
-      'Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.',
-    id: 'noProvidersStateGcpDesc',
-  },
-  noProvidersStateGcpTitle: {
-    defaultMessage: 'Track your Google Cloud Platform spending!',
-    description: 'Track your Google Cloud Platform spending!',
-    id: 'noProvidersStateGcpTitle',
-  },
-  noProvidersStateGetStarted: {
-    defaultMessage: 'Get started with Integrations',
-    description: 'Get started with Integrations',
-    id: 'noProvidersStateGetStarted',
-  },
-  noProvidersStateOcpAddSources: {
-    defaultMessage: 'Add an OpenShift cluster to cost management',
-    description: 'Add an OpenShift cluster to cost management',
-    id: 'noProvidersStateOcpAddSources',
-  },
-  noProvidersStateOcpDesc: {
-    defaultMessage:
-      'Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.',
-    description:
-      'Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.',
-    id: 'noProvidersStateOcpDesc',
-  },
-  noProvidersStateOcpTitle: {
-    defaultMessage: 'Track your OpenShift spending!',
-    description: 'Track your OpenShift spending!',
-    id: 'noProvidersStateOcpTitle',
-  },
-  noProvidersStateOverviewDesc: {
-    defaultMessage:
-      'Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
-    description:
-      'Add an integration, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.',
-    id: 'noProvidersStateOverviewDesc',
-  },
-  noProvidersStateOverviewTitle: {
-    defaultMessage: 'Track your spending!',
-    description: 'Track your spending!',
-    id: 'noProvidersStateOverviewTitle',
-  },
   noProvidersTroubleshooting: {
     defaultMessage: 'Having problem seeing data? See Troubleshooting part of the documentation',
     description: 'Having problem seeing data? See Troubleshooting part of the documentation',
@@ -2929,6 +2888,11 @@ export default defineMessages({
     defaultMessage: 'Settings in cost management',
     description: 'Settings in cost management',
     id: 'notAuthorizedStateSettings',
+  },
+  notAvailable: {
+    defaultMessage: 'Not available',
+    description: 'Not available',
+    id: 'notAvailable',
   },
   ocp: {
     defaultMessage: 'OpenShift Container Platform',
@@ -3050,6 +3014,11 @@ export default defineMessages({
     description:
       'Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.',
     id: 'openShiftDesc',
+  },
+  operatorVersion: {
+    defaultMessage: 'Operator version',
+    description: 'Operator version',
+    id: 'operatorVersion',
   },
   optimizations: {
     defaultMessage: 'Optimizations',
@@ -3601,11 +3570,6 @@ export default defineMessages({
     description: 'Sum platform costs',
     id: 'sumPlatformCosts',
   },
-  summary: {
-    defaultMessage: 'Summary',
-    description: 'Summary',
-    id: 'summary',
-  },
   supplementary: {
     defaultMessage: 'Supplementary',
     description: 'Supplementary',
@@ -3921,10 +3885,10 @@ export default defineMessages({
     description: 'return the proper unit label based on key: "units"',
     id: 'units',
   },
-  updateAvailable: {
-    defaultMessage: 'Update available',
-    description: 'Update available',
-    id: 'updateAvailable',
+  upToDate: {
+    defaultMessage: 'Up to date',
+    description: 'Up to date',
+    id: 'upToDate',
   },
   usage: {
     defaultMessage: 'Usage',

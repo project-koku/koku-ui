@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
-import SourcesTable from './table';
+import SourcesTable from './sourcesTable';
 import { CostModelContext, defaultCostModelContext } from './context';
 import { IntlProvider } from 'react-intl';
 
@@ -100,4 +100,4 @@ describe('costModelWizard/table SourcesTable', () => {
     fireEvent.click(screen.getByText('search'));
     expect(baseCtx.fetchSources).toHaveBeenCalled();
   });
-}); 
+});

@@ -6,7 +6,7 @@ import { CostModelContext } from './context';
 
 jest.mock('routes/components/state/loadingState', () => ({ __esModule: true, LoadingState: () => <div>loading</div> }));
 jest.mock('routes/settings/costModels/components/errorState', () => ({ __esModule: true, SourceStepErrorState: (props: any) => <button onClick={props.onRefresh}>error</button> }));
-jest.mock('./table', () => ({ __esModule: true, default: () => <div>table</div> }));
+jest.mock('./sourcesTable', () => ({ __esModule: true, default: () => <div>table</div> }));
 
 const renderWithIntl = (ui: React.ReactElement) => render(<IntlProvider locale="en">{ui}</IntlProvider>);
 
@@ -40,4 +40,4 @@ describe('Sources', () => {
     expect(screen.getByText('table')).toBeInTheDocument();
     expect(fetchSources).toHaveBeenCalledWith('Azure', {}, 1, 10);
   });
-}); 
+});

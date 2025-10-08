@@ -1,4 +1,4 @@
-import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
+import { Checkbox, Pagination, Toolbar, ToolbarContent, ToolbarItem, Tooltip } from '@patternfly/react-core';
 import { Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import type { CostModel } from 'api/costModels';
 import type { Provider } from 'api/providers';
@@ -11,12 +11,13 @@ import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { SourcesModalErrorState } from 'routes/settings/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/settings/costModels/components/filterLogic';
-import { WarningIcon } from 'routes/settings/costModels/components/warningIcon';
+import { getOperatorStatus } from 'routes/utils/operatorStatus';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 import { styles } from './costModelInfo.styles';
+import { getSourceType } from './utils/sourceType';
 
 interface AddSourcesStepOwnProps extends WrappedComponentProps {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
@@ -91,6 +92,8 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
       });
     };
 
+    const source_type = getSourceType(costModel.source_type) ?? '';
+
     const sources = this.props.providers.map(providerData => {
       const isSelected = this.props.checked[providerData.uuid] ? this.props.checked[providerData.uuid].selected : false;
       const provCostModels =
@@ -100,32 +103,20 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
       const isAssigned =
         providerData.cost_models.length &&
         providerData.cost_models.find(cm => cm.name === costModel.name) === undefined;
-      // If assigned to another cost model, show warning
-      const warningIcon = isAssigned ? (
-        <WarningIcon
-          key={providerData.uuid}
-          text={intl.formatMessage(messages.costModelsWizardSourceWarning, { costModel: provCostModels })}
-        />
-      ) : null;
-      const cellName = (
-        <div key={providerData.uuid}>
-          {providerData.name} {warningIcon}
-        </div>
-      );
+      const cellName = <div key={providerData.uuid}>{providerData.name}</div>;
+
+      const cells = [cellName, provCostModels || ''];
+      if (source_type === 'OCP') {
+        cells.splice(1, 0, getOperatorStatus(providerData.additional_context?.operator_update_available));
+      }
+
       return {
-        cells: [cellName, provCostModels || ''],
+        isAssigned,
+        cells,
         selected: isSelected,
-        disableSelection: isAssigned,
       };
     });
 
-    const sourceTypeMap = {
-      'OpenShift Container Platform': 'OCP',
-      'Microsoft Azure': 'Azure',
-      'Amazon Web Services': 'AWS',
-    };
-
-    const source_type = sourceTypeMap[costModel.source_type];
     return (
       <>
         <AssignSourcesToolbar
@@ -136,9 +127,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 name: this.props.query.name ? this.props.query.name.split(',') : [],
               })(category, chip);
               this.props.fetch(
-                `source_type=${source_type}${newQuery.name ? `&name=${newQuery.name.join(',')}` : ''}&offset=0&limit=${
-                  this.props.pagination.perPage
-                }`
+                `source_type=${source_type}${newQuery.name ? `&name=${newQuery.name.join(',')}` : ''}&offset=0&limit=${this.props.pagination.perPage}`
               );
             },
             query: {
@@ -194,24 +183,43 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
                 <Th
                   select={{
                     onSelect: (_evt, isSelecting) => onSelect(isSelecting, -1),
-                    isSelected: sources.filter(s => s.disableSelection || s.selected).length === sources.length,
+                    isSelected: sources.filter(s => s.isAssigned || s.selected).length === sources.length,
                   }}
                 ></Th>
                 <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
+                {source_type === 'OCP' && <Th>{intl.formatMessage(messages.operatorVersion)}</Th>}
                 <Th>{intl.formatMessage(messages.costModelsWizardSourceTableCostModel)}</Th>
               </Tr>
             </Thead>
             <Tbody>
               {sources.map((s, rowIndex) => (
                 <Tr key={rowIndex}>
-                  <Td
-                    select={{
-                      isDisabled: s.disableSelection,
-                      onSelect: () => onSelect(!s.selected, rowIndex),
-                      isSelected: s.selected,
-                      rowIndex,
-                    }}
-                  ></Td>
+                  <Td>
+                    {s.isAssigned ? (
+                      <Tooltip
+                        content={intl.formatMessage(messages.costModelsWizardSourceWarning, {
+                          costModel: s.cells[2],
+                        })}
+                      >
+                        <Checkbox
+                          id={`checkbox-${rowIndex}`}
+                          key={`checkbox-${rowIndex}`}
+                          aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                          isDisabled
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Checkbox
+                        onChange={(_evt, isChecked) => {
+                          onSelect(isChecked, rowIndex);
+                        }}
+                        id={`checkbox-${rowIndex}`}
+                        key={`checkbox-${rowIndex}`}
+                        aria-label={intl.formatMessage(messages.selectRow, { value: rowIndex })}
+                        isChecked={s.selected}
+                      />
+                    )}
+                  </Td>
                   {s.cells.map((c, cellIndex) => (
                     <Td key={cellIndex}>{c}</Td>
                   ))}

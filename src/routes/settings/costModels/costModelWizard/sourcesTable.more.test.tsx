@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
-import SourcesTable from './table';
+import SourcesTable from './sourcesTable';
 import { CostModelContext, defaultCostModelContext } from './context';
 import { IntlProvider } from 'react-intl';
 
@@ -57,6 +57,16 @@ jest.mock('@patternfly/react-table', () => ({
   Td: ({ children }: any) => <td>{children}</td>,
   TableVariant: { compact: 'compact' },
 }));
+
+// Mock only Truncate from PatternFly to avoid innerRef warnings in tests
+jest.mock('@patternfly/react-core', () => {
+  const actual = jest.requireActual('@patternfly/react-core');
+  return {
+    __esModule: true,
+    ...actual,
+    Truncate: ({ content }: any) => <span>{content}</span>,
+  };
+});
 
 const renderWithCtx = (ctx: any) =>
   render(
@@ -119,4 +129,4 @@ describe('costModelWizard/table SourcesTable (more)', () => {
     expect(checkboxes[0]).toBeChecked();
     expect(checkboxes[1]).toBeDisabled();
   });
-}); 
+});
