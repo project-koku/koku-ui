@@ -1,11 +1,14 @@
 {
-   "extends": [
-      "github>konflux-ci/mintmaker//config/renovate/renovate.json"
-   ],
-   "updateNotScheduled": false,
-   "timezone": "America/New_York",
-  "ignorePaths": [
-    "**/.archive/**",
-    "**/node_modules/**"
-  ]
+    "extends": [
+        "github>konflux-ci/mintmaker//config/renovate/renovate.json"
+    ],
+    "updateNotScheduled": false,
+    "schedule": [
+        "on Tuesday after 3am and before 10am"
+    ],
+    "timezone": "America/New_York",
+    "ignorePaths": [
+        "**/.archive/**",
+        "**/node_modules/**"
+    ]
 }
