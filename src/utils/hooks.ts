@@ -15,6 +15,7 @@ export const usePrevious = value => {
     ref.current = value;
   }, [value]); // Only re-run if value changes
   // Return previous value (happens before update in useEffect above)
+  // eslint-disable-next-line
   return ref.current;
 };
 
