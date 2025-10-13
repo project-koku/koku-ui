@@ -2276,6 +2276,14 @@
               }
             ]
           },
+          "NGN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NGN (₦) - Nigerian Naira"
+              }
+            ]
+          },
           "NOK": {
             "value": [
               {
@@ -2428,6 +2436,14 @@
               {
                 "type": 0,
                 "value": "¥"
+              }
+            ]
+          },
+          "NGN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "₦"
               }
             ]
           },
