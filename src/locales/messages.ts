@@ -1129,6 +1129,7 @@ export default defineMessages({
       'HKD {HKD (HK$) - Hong Kong Dollar}' +
       'INR {INR (₹) - Indian Rupee}' +
       'JPY {JPY (¥) - Japanese Yen}' +
+      'NGN {NGN (₦) - Nigerian Naira}' +
       'NOK {NOK (NOK) - Norwegian Krone}' +
       'NZD {NZD (NZ$) - New Zealand Dollar}' +
       'SEK {SEK (SEK) - Swedish Krona}' +
@@ -1155,6 +1156,7 @@ export default defineMessages({
       'HKD {HK$}' +
       'INR {₹}' +
       'JPY {¥}' +
+      'NGN {₦}' +
       'NOK {NOK}' +
       'NZD {NZ$}' +
       'SEK {SEK}' +
