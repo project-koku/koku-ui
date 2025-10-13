@@ -77,7 +77,7 @@ objects:
                   title: 'Amazon Web Services'
                   href: '/openshift/cost-management/aws'
                 - id: 'cost-management.gcp'
-                  title: 'Google Cloud Platform'
+                  title: 'Google Cloud'
                   href: '/openshift/cost-management/gcp'
                 - id: 'cost-management.azure'
                   title: 'Microsoft Azure'
