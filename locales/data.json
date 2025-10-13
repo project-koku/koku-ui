@@ -460,7 +460,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform"
+                "value": "Google Cloud"
               }
             ]
           },
@@ -1819,7 +1819,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Select from the following Google Cloud Platform integrations:"
+                "value": "Select from the following Google Cloud integrations:"
               }
             ]
           },
@@ -4248,7 +4248,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform - Top 5 Costliest"
+                "value": "Google Cloud - Top 5 Costliest"
               }
             ]
           },
@@ -4256,7 +4256,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform filtered by OpenShift - Top 5 Costliest"
+                "value": "Google Cloud filtered by OpenShift - Top 5 Costliest"
               }
             ]
           },
@@ -5664,7 +5664,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Account"
+                        "value": "Google Cloud grouped by Account"
                       }
                     ]
                   },
@@ -5672,7 +5672,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Account"
+                        "value": "Google Cloud filtered by OpenShift grouped by Account"
                       }
                     ]
                   },
@@ -5741,7 +5741,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Cost category"
+                        "value": "Google Cloud grouped by Cost category"
                       }
                     ]
                   },
@@ -5749,7 +5749,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Cost category"
+                        "value": "Google Cloud filtered by OpenShift grouped by Cost category"
                       }
                     ]
                   },
@@ -5818,7 +5818,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Cluster"
+                        "value": "Google Cloud grouped by Cluster"
                       }
                     ]
                   },
@@ -5826,7 +5826,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Cluster"
+                        "value": "Google Cloud filtered by OpenShift grouped by Cluster"
                       }
                     ]
                   },
@@ -5895,7 +5895,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by GCP Project"
+                        "value": "Google Cloud grouped by GCP Project"
                       }
                     ]
                   },
@@ -5903,7 +5903,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by GCP Project"
+                        "value": "Google Cloud filtered by OpenShift grouped by GCP Project"
                       }
                     ]
                   },
@@ -5972,7 +5972,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by instance"
+                        "value": "Google Cloud grouped by instance"
                       }
                     ]
                   },
@@ -5980,7 +5980,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by instance"
+                        "value": "Google Cloud filtered by OpenShift grouped by instance"
                       }
                     ]
                   },
@@ -6049,7 +6049,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Node"
+                        "value": "Google Cloud grouped by Node"
                       }
                     ]
                   },
@@ -6057,7 +6057,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Node"
+                        "value": "Google Cloud filtered by OpenShift grouped by Node"
                       }
                     ]
                   },
@@ -6126,7 +6126,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Organizational unit"
+                        "value": "Google Cloud grouped by Organizational unit"
                       }
                     ]
                   },
@@ -6134,7 +6134,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Organizational unit"
+                        "value": "Google Cloud filtered by OpenShift grouped by Organizational unit"
                       }
                     ]
                   },
@@ -6206,7 +6206,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Project"
+                        "value": "Google Cloud grouped by Project"
                       }
                     ]
                   },
@@ -6214,7 +6214,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Project"
+                        "value": "Google Cloud filtered by OpenShift grouped by Project"
                       }
                     ]
                   },
@@ -6283,7 +6283,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Region"
+                        "value": "Google Cloud grouped by Region"
                       }
                     ]
                   },
@@ -6291,7 +6291,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Region"
+                        "value": "Google Cloud filtered by OpenShift grouped by Region"
                       }
                     ]
                   },
@@ -6360,7 +6360,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Region"
+                        "value": "Google Cloud grouped by Region"
                       }
                     ]
                   },
@@ -6368,7 +6368,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Region"
+                        "value": "Google Cloud filtered by OpenShift grouped by Region"
                       }
                     ]
                   },
@@ -6437,7 +6437,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Service"
+                        "value": "Google Cloud grouped by Service"
                       }
                     ]
                   },
@@ -6445,7 +6445,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Service"
+                        "value": "Google Cloud filtered by OpenShift grouped by Service"
                       }
                     ]
                   },
@@ -6514,7 +6514,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Service"
+                        "value": "Google Cloud grouped by Service"
                       }
                     ]
                   },
@@ -6522,7 +6522,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Service"
+                        "value": "Google Cloud filtered by OpenShift grouped by Service"
                       }
                     ]
                   },
@@ -6591,7 +6591,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Account"
+                        "value": "Google Cloud grouped by Account"
                       }
                     ]
                   },
@@ -6599,7 +6599,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Account"
+                        "value": "Google Cloud filtered by OpenShift grouped by Account"
                       }
                     ]
                   },
@@ -6668,7 +6668,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform grouped by Tag"
+                        "value": "Google Cloud grouped by Tag"
                       }
                     ]
                   },
@@ -6676,7 +6676,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud Platform filtered by OpenShift grouped by Tag"
+                        "value": "Google Cloud filtered by OpenShift grouped by Tag"
                       }
                     ]
                   },
@@ -7876,7 +7876,7 @@
     "gcp": [
       {
         "type": 0,
-        "value": "Google Cloud Platform"
+        "value": "Google Cloud"
       }
     ],
     "gcpComputeTitle": [
@@ -7888,13 +7888,13 @@
     "gcpCostTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform cost"
+        "value": "Google Cloud cost"
       }
     ],
     "gcpCostTrendTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform cumulative cost comparison ("
+        "value": "Google Cloud cumulative cost comparison ("
       },
       {
         "type": 1,
@@ -7908,7 +7908,7 @@
     "gcpDailyCostTrendTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform daily cost comparison ("
+        "value": "Google Cloud daily cost comparison ("
       },
       {
         "type": 1,
@@ -7922,19 +7922,19 @@
     "gcpDesc": [
       {
         "type": 0,
-        "value": "Raw cost from Google Cloud Platform infrastructure."
+        "value": "Raw cost from Google Cloud infrastructure."
       }
     ],
     "gcpDetailsTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform details"
+        "value": "Google Cloud details"
       }
     ],
     "gcpOcpDashboardCostTitle": [
       {
         "type": 0,
-        "value": "Google Cloud Platform filtered by OpenShift cost"
+        "value": "Google Cloud filtered by OpenShift cost"
       }
     ],
     "groupByAll": [
@@ -10837,7 +10837,7 @@
     "notAuthorizedStateGcp": [
       {
         "type": 0,
-        "value": "Google Cloud Platform in cost management"
+        "value": "Google Cloud in cost management"
       }
     ],
     "notAuthorizedStateOcp": [
@@ -11121,7 +11121,7 @@
     "pageTitleGcp": [
       {
         "type": 0,
-        "value": "Google Cloud Platform - Cost management | OpenShift"
+        "value": "Google Cloud - Cost management | OpenShift"
       }
     ],
     "pageTitleOcp": [
@@ -11289,7 +11289,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform"
+                "value": "Google Cloud"
               }
             ]
           },
@@ -11297,7 +11297,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform filtered by OpenShift"
+                "value": "Google Cloud filtered by OpenShift"
               }
             ]
           },
@@ -12101,7 +12101,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform source:"
+                "value": "Google Cloud source:"
               }
             ]
           },
@@ -12150,7 +12150,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Google Cloud Platform"
+                "value": "Google Cloud"
               }
             ]
           },
