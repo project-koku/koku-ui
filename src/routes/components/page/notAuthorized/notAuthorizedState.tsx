@@ -50,12 +50,7 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
         msg = messages.costManagement;
         break;
     }
-    return (
-      <>
-        Test
-        <UnauthorizedAccess serviceName={intl.formatMessage(msg)} />
-      </>
-    );
+    return <UnauthorizedAccess serviceName={intl.formatMessage(msg)} />;
   }
 }
 
