@@ -30,6 +30,7 @@ import { withRouter } from 'utils/router';
 
 import AddSourceStep from './addSourceStep';
 import { styles } from './costModelInfo.styles';
+import { getSourceType } from './utils/sourceType';
 
 interface AddSourceWizardOwnProps extends RouterComponentProps {
   assigned?: Provider[];
@@ -62,12 +63,6 @@ type AddSourceWizardProps = AddSourceWizardOwnProps &
   AddSourceWizardDispatchProps &
   WrappedComponentProps;
 
-const sourceTypeMap = {
-  'OpenShift Container Platform': 'OCP',
-  'Microsoft Azure': 'Azure',
-  'Amazon Web Services': 'AWS',
-};
-
 class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourcesStepState> {
   protected defaultState: AddSourcesStepState = {
     checked: {},
@@ -81,7 +76,7 @@ class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourc
       costModel: { source_type },
       fetch,
     } = this.props;
-    const sourceType = sourceTypeMap[source_type];
+    const sourceType = getSourceType(source_type) ?? '';
     fetch(`type=${sourceType}&limit=10&offset=0`);
 
     const checked = {};
