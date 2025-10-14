@@ -37,14 +37,17 @@ export const formatCurrency: Formatter = (value: number, units: string, options:
   if (!value || Number(value).toFixed(2) === '-0.00') {
     fValue = 0;
   }
+
+  // Special case to show currency symbol for all browser locales
+  const isNarrowSymbol = currency === 'CZK' || currency === 'NGN';
+
   // Don't specify default fraction digits here, rely on react-intl instead
-  const test = intl.formatNumber(fValue, {
+  return intl.formatNumber(fValue, {
     style: 'currency',
     currency,
-    ...(currency === 'CZK' ? { currencyDisplay: 'narrowSymbol' } : {}),
+    ...(isNarrowSymbol ? { currencyDisplay: 'narrowSymbol' } : {}),
     ...options,
   });
-  return test;
 };
 
 export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
