@@ -227,7 +227,7 @@
               },
               {
                 "type": 0,
-                "value": " GCP project details"
+                "value": " Google Cloud project details"
               }
             ]
           },
@@ -523,7 +523,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Cost breakdown by GCP projects"
+                "value": "Cost breakdown by Google Cloud projects"
               }
             ]
           },
@@ -2770,7 +2770,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "GCP project "
+                "value": "Google Cloud project "
               },
               {
                 "type": 1,
@@ -3051,7 +3051,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "GCP project names"
+                "value": "Google Cloud project names"
               }
             ]
           },
@@ -3318,7 +3318,7 @@
               },
               {
                 "type": 0,
-                "value": " GCP projects"
+                "value": " Google Cloud projects"
               }
             ]
           },
@@ -3607,7 +3607,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "View all GCP projects"
+                "value": "View all Google Cloud projects"
               }
             ]
           },
@@ -5529,7 +5529,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Aggregates of the following GCP projects will be exported to a .csv file."
+                "value": "Aggregates of the following Google Cloud projects will be exported to a .csv file."
               }
             ]
           },
@@ -5879,7 +5879,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Amazon Web Services grouped by GCP Project"
+                        "value": "Amazon Web Services grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -5887,7 +5887,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Amazon Web Services filtered by OpenShift grouped by GCP Project"
+                        "value": "Amazon Web Services filtered by OpenShift grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -5895,7 +5895,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Microsoft Azure grouped by GCP Project"
+                        "value": "Microsoft Azure grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -5903,7 +5903,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Microsoft Azure filtered by OpenShift grouped by GCP Project"
+                        "value": "Microsoft Azure filtered by OpenShift grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -5911,7 +5911,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud grouped by GCP Project"
+                        "value": "Google Cloud grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -5919,7 +5919,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Google Cloud filtered by OpenShift grouped by GCP Project"
+                        "value": "Google Cloud filtered by OpenShift grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -5927,7 +5927,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "OpenShift grouped by GCP Project"
+                        "value": "OpenShift grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -5935,7 +5935,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "All cloud filtered by OpenShift grouped by GCP Project"
+                        "value": "All cloud filtered by OpenShift grouped by Google Cloud Project"
                       }
                     ]
                   },
@@ -6820,7 +6820,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Selected GCP projects ("
+                "value": "Selected Google Cloud projects ("
               },
               {
                 "type": 1,
@@ -7163,7 +7163,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Input for GCP project name"
+                "value": "Input for Google Cloud project name"
               }
             ]
           },
@@ -7362,7 +7362,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Filter by GCP project"
+                "value": "Filter by Google Cloud project"
               }
             ]
           },
@@ -7639,7 +7639,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "GCP project"
+                "value": "Google Cloud project"
               }
             ]
           },
@@ -8049,7 +8049,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "All GCP project"
+                        "value": "All Google Cloud project"
                       }
                     ]
                   },
@@ -8057,7 +8057,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "All GCP projects"
+                        "value": "All Google Cloud projects"
                       }
                     ]
                   }
@@ -8486,7 +8486,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Top GCP project"
+                        "value": "Top Google Cloud project"
                       }
                     ]
                   },
@@ -8494,7 +8494,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Top GCP projects"
+                        "value": "Top Google Cloud projects"
                       }
                     ]
                   }
@@ -8852,7 +8852,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "GCP project names"
+                "value": "Google Cloud project names"
               }
             ]
           },
@@ -9048,7 +9048,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "GCP project"
+                        "value": "Google Cloud project"
                       }
                     ]
                   },
@@ -9056,7 +9056,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "GCP projects"
+                        "value": "Google Cloud projects"
                       }
                     ]
                   }
@@ -9479,7 +9479,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "GCP project"
+                        "value": "Google Cloud project"
                       }
                     ]
                   },
@@ -9487,7 +9487,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "GCP projects"
+                        "value": "Google Cloud projects"
                       }
                     ]
                   }
@@ -10661,7 +10661,7 @@
     "noProvidersCloudCost": [
       {
         "type": 0,
-        "value": "Include cloud provider (AWS, GCP, Azure) cost"
+        "value": "Include cloud provider (AWS, Google Cloud, Azure) cost"
       }
     ],
     "noProvidersCloudCostDesc": [
