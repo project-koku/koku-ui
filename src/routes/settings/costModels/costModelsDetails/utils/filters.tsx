@@ -242,19 +242,9 @@ const sourceTypeFilterMapStateToProps = (state: RootState) => {
   return { filterType, query };
 };
 
-const sourceTypeFilterMergeProps = (
-  stateProps: ReturnType<typeof sourceTypeFilterMapStateToProps>,
-  _dispatchProps,
-  ownProps: WrappedComponentProps & RouterComponentProps
-) => {
-  const {
-    intl = defaultIntl, // Default required for testing
-    router,
-  } = ownProps;
-  const { filterType, query } = stateProps;
-
+const getSourceTypeMsg = (sourceType: string) => {
   let msg;
-  switch (query.source_type) {
+  switch (sourceType) {
     case 'aws':
       msg = messages.aws;
       break;
@@ -268,7 +258,21 @@ const sourceTypeFilterMergeProps = (
       msg = messages.openShift;
       break;
   }
+  return msg;
+};
 
+const sourceTypeFilterMergeProps = (
+  stateProps: ReturnType<typeof sourceTypeFilterMapStateToProps>,
+  _dispatchProps,
+  ownProps: WrappedComponentProps & RouterComponentProps
+) => {
+  const {
+    intl = defaultIntl, // Default required for testing
+    router,
+  } = ownProps;
+  const { filterType, query } = stateProps;
+
+  const msg = getSourceTypeMsg(query.source_type);
   const chips = query.source_type
     ? [
         {
@@ -308,19 +312,19 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
 
   const selectOptions: SelectWrapperOption[] = [
     {
-      toString: () => intl.formatMessage(messages.aws),
+      toString: () => intl.formatMessage(getSourceTypeMsg('aws')),
       value: 'aws',
     },
     {
-      toString: () => intl.formatMessage(messages.azure),
+      toString: () => intl.formatMessage(getSourceTypeMsg('azure')),
       value: 'azure',
     },
     {
-      toString: () => intl.formatMessage(messages.gcp),
+      toString: () => intl.formatMessage(getSourceTypeMsg('gcp')),
       value: 'gcp',
     },
     {
-      toString: () => intl.formatMessage(messages.openShift),
+      toString: () => intl.formatMessage(getSourceTypeMsg('ocp')),
       value: 'ocp',
     },
   ];
