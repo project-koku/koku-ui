@@ -253,7 +253,31 @@ const sourceTypeFilterMergeProps = (
   } = ownProps;
   const { filterType, query } = stateProps;
 
-  const chips = query.source_type ? [query.source_type] : [];
+  let msg;
+  switch (query.source_type) {
+    case 'aws':
+      msg = messages.aws;
+      break;
+    case 'azure':
+      msg = messages.azure;
+      break;
+    case 'gcp':
+      msg = messages.gcp;
+      break;
+    case 'ocp':
+      msg = messages.openShift;
+      break;
+  }
+
+  const chips = query.source_type
+    ? [
+        {
+          key: query.source_type,
+          node: msg ? intl.formatMessage(msg) : query.source_type,
+        },
+      ]
+    : [];
+
   return {
     chips,
     categoryName: intl.formatMessage(messages.sourceType),
@@ -290,6 +314,10 @@ const SourceTypeFilterBase: React.FC<SourceTypeFilterProps> = ({
     {
       toString: () => intl.formatMessage(messages.azure),
       value: 'azure',
+    },
+    {
+      toString: () => intl.formatMessage(messages.gcp),
+      value: 'gcp',
     },
     {
       toString: () => intl.formatMessage(messages.openShift),
