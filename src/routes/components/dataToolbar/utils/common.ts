@@ -89,7 +89,7 @@ export const getChips = (filters: Filter[]): string[] => {
   const chips = [];
   if (filters instanceof Array) {
     filters.forEach(item => {
-      const value = item.toString ? item.toString() : '';
+      const value = item.toString ? item.toString() : item.value;
       const msg =
         item.excludeType === CriteriaType.exact
           ? messages.exactLabel
