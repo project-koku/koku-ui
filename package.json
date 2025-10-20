@@ -86,7 +86,7 @@
   "devDependencies": {
     "@eslint/compat": "^1.4.0",
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.37.0",
+    "@eslint/js": "^9.38.0",
     "@formatjs/cli": "^6.7.4",
     "@formatjs/intl": "^3.1.8",
     "@formatjs/ecma402-abstract": "^2.3.6",
