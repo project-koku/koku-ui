@@ -50,6 +50,7 @@ export const currencyOptions: {
   { label: messages.currencyOptions, value: 'HKD' },
   { label: messages.currencyOptions, value: 'INR' },
   { label: messages.currencyOptions, value: 'JPY' },
+  { label: messages.currencyOptions, value: 'NGN' },
   { label: messages.currencyOptions, value: 'NOK' },
   { label: messages.currencyOptions, value: 'NZD' },
   { label: messages.currencyOptions, value: 'SEK' },

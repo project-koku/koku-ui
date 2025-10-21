@@ -252,7 +252,7 @@ const mapStateToProps = createMapStateToProps<ExportsContentOwnProps, ExportsCon
         status: 'failed',
       },
       {
-        name: 'Google Cloud Platform grouped by Service',
+        name: 'Google Cloud grouped by Service',
         created: '2022-01-14 09:05:23',
         expires: '2022-01-23',
         status: 'completed',

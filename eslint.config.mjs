@@ -49,7 +49,7 @@ export default [{
     'eslint:recommended', // Extended by eslint-config-redhat-cloud-services
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended', // Extended by eslint-config-redhat-cloud-services
-    'plugin:react-hooks/recommended-legacy',
+    'plugin:react-hooks/recommended',
 )), {
     plugins: {
         '@typescript-eslint': fixupPluginRules(typescriptEslint),
@@ -174,6 +174,8 @@ export default [{
         'prettier/prettier': 'error',
         radix: ['error', 'as-needed'],
         'react-hooks/exhaustive-deps': 0,
+        'react-hooks/preserve-manual-memoization': 0, // Temp workaround for 7.0.0
+        'react-hooks/set-state-in-effect': 0, // Temp workaround for 7.0.0
         'react/display-name': 0,
         'react/no-is-mounted': 0,
         'react/no-unescaped-entities': ['error', {

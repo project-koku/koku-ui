@@ -4,7 +4,7 @@ export const getSourceType = (sourceType: string) => {
     case 'Amazon Web Services':
       result = 'AWS';
       break;
-    case 'Google Cloud Platform':
+    case 'Google Cloud':
       result = 'GCP';
       break;
     case 'Microsoft Azure':
