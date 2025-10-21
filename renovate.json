@@ -1,11 +1,31 @@
 {
-   "extends": [
-      "github>konflux-ci/mintmaker//config/renovate/renovate.json"
-   ],
-   "updateNotScheduled": false,
-   "timezone": "America/New_York",
-  "ignorePaths": [
-    "**/.archive/**",
-    "**/node_modules/**"
-  ]
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "ignorePaths": [
+        "**/.archive/**",
+        "**/node_modules/**"
+    ],
+    "lockFileMaintenance": { "enabled": false },
+    "packageRules": [
+        {
+            "description": "Skip updates for react monorepo",
+            "matchPackageNames": ["@types/react", "@types/react-dom","react", "react-dom"],
+            "allowedVersions": "< 19.0.0"
+        },
+        {
+            "description": "Skip updates for react router",
+            "matchPackageNames": ["react-router-dom"],
+            "allowedVersions": "< 7.0.0"
+        },
+        {
+            "description": "Skip updates for node_modules and .archive",
+            "matchUpdateTypes": ["*"],
+            "matchFileNames": ["**/node_modules/**", "**/.archive/**", "package-lock.json"],
+            "enabled": false
+        }
+    ],
+    "updateNotScheduled": false,
+    "schedule": [
+        "on Tuesday after 3am and before 10am"
+    ],
+    "timezone": "America/New_York"
 }
