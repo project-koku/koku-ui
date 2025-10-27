@@ -81,7 +81,7 @@ spec:
       - description: Fully Qualified Output Image
         name: output-image
         type: string
-      - default: .
+      - default: /apps/koku-ui-saas
         description: Path to the source code of an application's component from where to build image.
         name: path-context
         type: string
@@ -230,6 +230,8 @@ spec:
               - $(params.build-args[*])
           - name: BUILD_ARGS_FILE
             value: $(params.build-args-file)
+          - name: OUTPUT_DIR
+            value: /apps/koku-ui-saas/dist
         runAfter:
           - prefetch-dependencies
         taskRef:
