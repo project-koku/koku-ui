@@ -17,7 +17,7 @@
     "lint": "npm exec --workspaces -- npm run lint",
     "build": "npm exec --workspaces -- npm run build",
     "test": "npm exec --workspaces -- npm run test --",
-    "start:saas": "npm run -w @koku-ui/koku-ui-saas start"
+    "start:hcm": "npm run -w @koku-ui/koku-ui-hcm start"
   },
   "devDependencies": {
     "@eslint/compat": "^1.4.0",
@@ -56,8 +56,5 @@
   "overrides": {
     "eslint": "^9.38.0",
     "typescript": "^5.9.3"
-  },
-  "insights": {
-    "appname": "cost-management"
   }
 }

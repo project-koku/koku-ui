@@ -13,10 +13,10 @@ metadata:
       )
   creationTimestamp:
   labels:
-    appstudio.openshift.io/application: koku-frontend
-    appstudio.openshift.io/component: koku-frontend
+    appstudio.openshift.io/application: koku-ui-hcm
+    appstudio.openshift.io/component: koku-ui-hcm
     pipelines.appstudio.openshift.io/type: build
-  name: koku-frontend-on-push
+  name: koku-ui-hcm-on-push
   namespace: cost-mgmt-dev-tenant
 spec:
   params:
@@ -113,7 +113,8 @@ spec:
         description: Add built image into an OCI image index
         name: build-image-index
         type: string
-      - default: []
+      - default:
+          - OUTPUT_DIR=apps/koku-ui-hcm/dist
         description: Array of --build-arg values ("arg=value" strings) for buildah
         name: build-args
         type: array
