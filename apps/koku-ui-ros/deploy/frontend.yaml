@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedHatInsights/frontend-components/refs/heads/master/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+---
+apiVersion: v1
+kind: Template
+metadata:
+  name: koku-ui-ros
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: 'cost-management-mfe'
+    spec:
+      feoConfigEnabled: true
+      bundleSegments:
+        - segmentId: 'cost-management-mfe'
+          bundleId: 'staging'
+          position: 100
+          navItems:
+            - id: 'cost-management-mfe.nav'
+              title: 'Cost Management MFE'
+              expandable: true
+              routes:
+                - id: 'cost-management-mfe.ros'
+                  title: 'ROS'
+                  expandable: true
+                  routes:
+                    - id: 'cost-management-mfe.ros.badge'
+                      title: 'Optimizations badge'
+                      href: '/staging/cost-management/ros/optimizations/badge'
+                    - id: 'cost-management-mfe.ros.link'
+                      title: 'Optimizations link'
+                      href: '/staging/cost-management/ros/optimizations/link'
+                    - id: 'cost-management-mfe.ros.summary'
+                      title: 'Optimizations summary'
+                      href: "/staging/cost-management/ros/optimizations/summary"
+                    - id: 'cost-management-mfe.ros.table'
+                      title: 'Optimizations table'
+                      href: '/staging/cost-management/ros/optimizations/table'
+                    - id: 'cost-management-mfe.ros.details'
+                      title: 'Optimizations details'
+                      href: '/staging/cost-management/ros/optimizations/details'
+                    - id: 'cost-management-mfe.ros.breakdown'
+                      title: 'Optimizations breakdown'
+                      href: '/staging/cost-management/ros/optimizations/breakdown'
+                - id: 'cost-management-mfe.ocm'
+                  title: 'OCM'
+                  expandable: true
+                  routes:
+                    - id: 'cost-management-mfe.ocm.overview'
+                      title: 'Overview card'
+                      href: "/staging/cost-management/ocm/overview"
+      API:
+        versions:
+          - v1
+      envName: ${ENV_NAME}
+      title: 'Cost Management microfrontend (MFE) with Module Federation'
+      deploymentRepo: https://github.com/project-koku/koku-ui
+      frontend:
+        paths:
+          - '/apps/cost-management-mfe'
+      image: ${IMAGE}:${IMAGE_TAG}
+      module:
+        manifestLocation: "/apps/cost-management-mfe/fed-mods.json"
+        modules:
+          - id: 'cost-management-mfe'
+            module: './RootApp'
+            routes:
+              - pathname: '/staging/cost-management'
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: quay.io/redhat-services-prod/cost-mgmt-dev-tenant/koku-ui-ros
