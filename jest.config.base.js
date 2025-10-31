@@ -17,8 +17,6 @@ module.exports = {
   },
   preset: 'ts-jest',
   roots: ['<rootDir>/src/'],
-  setupFiles: ['<rootDir>/test/testEnv.ts'],
-  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'],
   testEnvironment: 'jsdom',
   // testEnvironment: 'jest-environment-jsdom',
   transformIgnorePatterns,

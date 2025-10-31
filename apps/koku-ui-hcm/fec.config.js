@@ -48,6 +48,7 @@ module.exports = {
    *
   ...(process.env.HMR && { _unstableHotReload: process.env.HMR === 'true' }),
    */
+  nodeModulesDirectories: '../../node_modules',
   /**
    * Config for federated modules
    */
@@ -86,7 +87,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    modules: [srcDir, path.resolve(__dirname, './node_modules')],
+    modules: [srcDir, path.resolve(__dirname, '../../node_modules')],
   },
   routes: {
     /**

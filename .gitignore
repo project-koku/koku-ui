@@ -23,9 +23,6 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
-
 # Dependency directories
 node_modules/
 
@@ -52,9 +49,9 @@ dist/
 .DS_Store
 .cache
 .idea
-/build/
+build/
 report.*.json
-locales/*[en|de|fr].json
+**/locales/*[en|de|fr].json
 .vscode/
 .swc/
 .dccache
