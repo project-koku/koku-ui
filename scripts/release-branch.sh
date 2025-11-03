@@ -11,7 +11,12 @@ default()
   TMP_DIR="/tmp/$SCRIPT.$$"
 
   MAIN_BRANCH="main"
-  PROD_BRANCH="prod-stable"
+
+  STAGE_HCM_BRANCH="stage-hcm"
+  STAGE_ROS_BRANCH="stage-ros"
+
+  PROD_HCM_BRANCH="prod-hcm"
+  PROD_ROS_BRANCH="prod-ros"
 
   UI_DIR="$TMP_DIR/koku-ui"
   UI_REPO="git@github.com:project-koku/koku-ui.git"
@@ -25,11 +30,20 @@ cat <<- EEOOFF
 
     This script will merge the following branches and create a pull request (default) or push upstream
 
-    sh [-x] $SCRIPT [-h|u] -<b|p|s>
+    $STAGE_HCM_BRANCH is merged from $MAIN_BRANCH
+    $STAGE_ROS_BRANCH is merged from $MAIN_BRANCH
+
+    $PROD_HCM_BRANCH is merged from $STAGE_HCM_BRANCH
+    $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
+
+    sh [-x] $SCRIPT [-h|u] -<o|p|r|s>
 
     OPTIONS:
     h       Display this message
-    p       Merge $MAIN_BRANCH to $PROD_BRANCH
+    s       Merge $MAIN_BRANCH to $STAGE_HCM_BRANCH
+    r       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
+    p       Merge $STAGE_HCM_BRANCH to $PROD_HCM_BRANCH
+    o       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
     u       Push to upstream
 
 EEOOFF
@@ -98,9 +112,15 @@ push()
 {
   default
 
-  while getopts hbpsu c; do
+  while getopts hoprs c; do
     case $c in
-      p) BRANCH=$PROD_BRANCH
+      o) BRANCH=$PROD_ROS_BRANCH
+         REMOTE_BRANCH=$STAGE_ROS_BRANCH;;
+      p) BRANCH=$PROD_HCM_BRANCH
+         REMOTE_BRANCH=$STAGE_HCM_BRANCH;;
+      r) BRANCH=$STAGE_ROS_BRANCH
+         REMOTE_BRANCH=$MAIN_BRANCH;;
+      s) BRANCH=$STAGE_HCM_BRANCH
          REMOTE_BRANCH=$MAIN_BRANCH;;
       u) PUSH=true;;
       h) usage; exit 0;;

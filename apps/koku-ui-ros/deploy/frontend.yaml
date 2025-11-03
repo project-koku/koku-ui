@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedHatInsights/frontend-components/refs/heads/master/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+---
+apiVersion: v1
+kind: Template
+metadata:
+  name: koku-ui-ros
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: 'cost-management-ros'
+    spec:
+      feoConfigEnabled: true
+      bundleSegments:
+        - segmentId: 'cost-management-ros'
+          bundleId: 'staging'
+          position: 100
+          navItems:
+            - id: 'cost-management-ros.nav'
+              title: 'Cost Management ROS'
+              expandable: true
+              routes:
+                - id: 'cost-management-ros.overview'
+                  title: 'ROS'
+                  expandable: true
+                  routes:
+                    - id: 'cost-management-ros.badge'
+                      title: 'Optimizations badge'
+                      href: '/staging/cost-management/ros/optimizations/badge'
+                    - id: 'cost-management-ros.link'
+                      title: 'Optimizations link'
+                      href: '/staging/cost-management/ros/optimizations/link'
+                    - id: 'cost-management-ros.summary'
+                      title: 'Optimizations summary'
+                      href: "/staging/cost-management/ros/optimizations/summary"
+                    - id: 'cost-management-ros.table'
+                      title: 'Optimizations table'
+                      href: '/staging/cost-management/ros/optimizations/table'
+                    - id: 'cost-management-ros.details'
+                      title: 'Optimizations details'
+                      href: '/staging/cost-management/ros/optimizations/details'
+                    - id: 'cost-management-ros.breakdown'
+                      title: 'Optimizations breakdown'
+                      href: '/staging/cost-management/ros/optimizations/breakdown'
+      API:
+        versions:
+          - v1
+      envName: ${ENV_NAME}
+      title: 'Cost Management Resource Optimizations UI'
+      deploymentRepo: https://github.com/project-koku/koku-ui/koku-ui-ros
+      frontend:
+        paths:
+          - '/apps/cost-management-ros'
+      image: ${IMAGE}:${IMAGE_TAG}
+      module:
+        manifestLocation: "/apps/cost-management-ros/fed-mods.json"
+        modules:
+          - id: 'cost-management-ros'
+            module: './RootApp'
+            routes:
+              - pathname: '/staging/cost-management'
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: quay.io/redhat-services-prod/cost-mgmt-dev-tenant/koku-ui-ros

@@ -83,7 +83,7 @@ jobs:
         id: test_run
         run: npm test -- --collect-coverage --max-workers=4
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: ${{ steps.test_run.outcome == 'success' }}
         name: Save coverage report
         with:
@@ -101,7 +101,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Download coverage report
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: coverage_report
           path: coverage
