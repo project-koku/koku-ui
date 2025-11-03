@@ -46,8 +46,8 @@ objects:
         versions:
           - v1
       envName: ${ENV_NAME}
-      title: 'Cost Management microfrontend (MFE) with Module Federation'
-      deploymentRepo: https://github.com/project-koku/koku-ui
+      title: 'Cost Management Resource Optimizations UI'
+      deploymentRepo: https://github.com/project-koku/koku-ui/koku-ui-ros
       frontend:
         paths:
           - '/apps/cost-management-ros'
