@@ -112,7 +112,7 @@ push()
 {
   default
 
-  while getopts hoprs c; do
+  while getopts hoprsu c; do
     case $c in
       o) BRANCH=$PROD_ROS_BRANCH
          REMOTE_BRANCH=$STAGE_ROS_BRANCH;;
