@@ -93,7 +93,7 @@ objects:
           - v1
       envName: ${ENV_NAME}
       title: 'Cost Management'
-      deploymentRepo: https://github.com/project-koku/koku-ui
+      deploymentRepo: https://github.com/project-koku/koku-ui/apps/koku-ui-hcm
       frontend:
         paths:
           - '/apps/cost-management'
