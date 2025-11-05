@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`default state 1`] = `
+{
+  "hasFeatureToggle": false,
+  "isBoxPlotToggleEnabled": false,
+  "isDebugToggleEnabled": false,
+  "isProjectLinkToggleEnabled": false,
+}
+`;

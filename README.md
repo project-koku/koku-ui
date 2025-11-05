@@ -10,10 +10,11 @@ Submit issues in [Jira].
 
 For specific instructions look at app's README. Available apps:
 - [koku-ui-hcm]
-
+- [koku-ui-ros]
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
 [Jira]: https://issues.redhat.com/projects/COST/
 [koku-ui-hcm]: https://github.com/project-koku/koku-ui/apps/koku-ui-hcm
+[koku-ui-ros]: https://github.com/project-koku/koku-ui/apps/koku-ui-ros
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true

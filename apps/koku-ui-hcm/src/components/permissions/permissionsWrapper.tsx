@@ -90,6 +90,7 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps, an
             )}
           </Permissions>
         )}
+        TEST
       </PageTitle>
     );
   }
