@@ -1,0 +1,11 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.skeleton {
+  height: 125px;
+  margin-bottom: var(--pf-t--global--font--size--md);
+  margin-top: var(--pf-t--global--font--size--md);
+}
+
+.summary {
+  height: 100%;
+}
