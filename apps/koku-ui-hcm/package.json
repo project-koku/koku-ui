@@ -1,12 +1,16 @@
 {
   "name": "@koku-ui/koku-ui-hcm",
   "version": "0.0.1",
-  "description": "User Interface for Cost Management",
+  "description": "Cost Management UI",
   "main": "index.js",
   "repository": "https://github.com/project-koku/koku-ui.git",
   "author": "Red Hat",
   "license": "GNU AGPLv3",
-  "private": false,
+  "private": true,
+  "engines": {
+    "node": ">=20.15.0",
+    "npm": ">=10.8.0"
+  },
   "scripts": {
     "build": "npm run build:prod",
     "build:prod": "fec build",
@@ -15,16 +19,11 @@
     "check:messages": "sh scripts/unused-messages.sh",
     "clean": "rimraf dist .cache .swc",
     "codemods": "npx @patternfly/pf-codemods@latest src",
-    "deploy": "npm-run-all build lint test",
-    "install:pkgs": "npm install",
-    "install:pkgs:force": "npm install --force",
-    "install:pkgs:links": "npm run install:pkgs && npm install --install-links",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
     "lint:ts:fix": "eslint src --fix",
     "patch:hosts": "fec patch-etc-hosts",
     "postinstall": "ts-patch install && rm -rf .cache",
-    "release:prod": "sh scripts/release-branch.sh -p",
     "start": "fec dev",
     "start:csb": "CLOUD_SERVICES_BACKEND_PORT=8000 npm start",
     "start:csb:mfe": "FEC_STATIC_PORT=8003 npm run start:csb",
@@ -45,8 +44,7 @@
     "translations:compile": "npx formatjs compile build/messages/src/Messages.json --out-file locales/translations.json",
     "translations:compile:ast": "npx formatjs compile build/messages/src/Messages.json --out-file locales/en.json --ast",
     "translations:datafile": "node scripts/createDataJson.js",
-    "translations:syncTranslations": "node scripts/syncTranslations.js",
-    "verify": "npm-run-all build lint test"
+    "translations:syncTranslations": "node scripts/syncTranslations.js"
   },
   "dependencies": {
     "@patternfly/patternfly": "6.4.0",
@@ -100,7 +98,6 @@
     "copy-webpack-plugin": "^13.0.1",
     "globals": "^16.5.0",
     "identity-obj-proxy": "^3.0.0",
-    "rimraf": "^6.1.0",
     "ts-patch": "^3.3.0",
     "typescript": "^5.9.3"
   },

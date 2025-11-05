@@ -115,10 +115,10 @@ module.exports = {
      * https://console.stage.redhat.com/platform-docs/frontend-components/proxies/webpack-proxy#Inventoryexample
      */
     ...(process.env.FEC_STATIC_PORT && {
-      '/apps/cost-management-mfe': {
+      '/apps/cost-management-ros': {
         host: `http://localhost:${process.env.FEC_STATIC_PORT}`,
       },
-      '/beta/apps/cost-management-mfe': {
+      '/beta/apps/cost-management-ros': {
         host: `http://localhost:${process.env.FEC_STATIC_PORT}`,
       },
     }),

@@ -16,8 +16,18 @@
   "scripts": {
     "lint": "npm exec --workspaces -- npm run lint",
     "build": "npm exec --workspaces -- npm run build",
+    "check:dependencies": "npx npm-check-updates",
+    "check:dependencies:update": "npx npm-check-updates -u",
+    "clean": "npm exec --workspaces -- npm run clean",
+    "install:pkgs": "npm install",
+    "install:pkgs:force": "npm install --force",
+    "install:pkgs:links": "npm run install:pkgs && npm install --install-links",
     "test": "npm exec --workspaces -- npm run test --",
-    "start:hcm": "npm run -w @koku-ui/koku-ui-hcm start"
+    "release:stage:ros": "sh scripts/release-branch.sh -s",
+    "release:prod:hcm": "sh scripts/release-branch.sh -p",
+    "release:prod:ros": "sh scripts/release-branch.sh -r",
+    "start:hcm": "npm run -w @koku-ui/koku-ui-hcm start",
+    "start:ros": "npm run -w @koku-ui/koku-ui-ros start"
   },
   "devDependencies": {
     "@eslint/compat": "^1.4.1",
@@ -48,10 +58,9 @@
     "jest-transform-stub": "^2.0.0",
     "npm-run-all2": "^8.0.4",
     "prettier": "^3.6.2",
+    "rimraf": "^6.1.0",
     "swc_mut_cjs_exports": "^10.7.0",
-    "ts-jest": "^29.4.5",
-    "ts-patch": "^3.3.0",
-    "typescript": "^5.9.3"
+    "ts-jest": "^29.4.5"
   },
   "overrides": {
     "eslint": "^9.38.0",
