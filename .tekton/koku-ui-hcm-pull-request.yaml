@@ -95,7 +95,9 @@ spec:
         oci or docker.
       name: buildah-format
       type: string
-    - default: []
+    - default:
+        - PACKAGE_JSON_PATH=apps/koku-ui-hcm/package.json
+        - OUTPUT_DIR=apps/koku-ui-hcm/dist
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
       type: array
