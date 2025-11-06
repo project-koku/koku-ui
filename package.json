@@ -25,9 +25,9 @@
     "install:pkgs:links": "npm run install:pkgs && npm install --install-links",
     "test": "npm exec --workspaces -- npm run test --",
     "release:stage:ros": "sh scripts/release-branch.sh -s",
-    "release:prod:hcm": "sh scripts/release-branch.sh -p",
+    "release:prod:hccm": "sh scripts/release-branch.sh -p",
     "release:prod:ros": "sh scripts/release-branch.sh -r",
-    "start:hcm": "npm run -w @koku-ui/koku-ui-hcm start",
+    "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "npm run -w @koku-ui/koku-ui-onprem start"
   },

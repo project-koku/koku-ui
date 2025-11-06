@@ -1,5 +1,5 @@
 {
-  "name": "@koku-ui/koku-ui-hcm",
+  "name": "@koku-ui/koku-ui-hccm",
   "version": "0.0.1",
   "description": "Cost Management UI",
   "main": "index.js",

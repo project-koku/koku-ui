@@ -10,14 +10,14 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |-
       event == "push" && (
         target_branch == "main"
-        || target_branch == "prod-hcm"
+        || target_branch == "prod-hccm"
       )
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: koku-ui-hcm
-    appstudio.openshift.io/component: koku-ui-hcm
+    appstudio.openshift.io/application: koku-ui-hccm
+    appstudio.openshift.io/component: koku-ui-hccm
     pipelines.appstudio.openshift.io/type: build
-  name: koku-ui-hcm-on-push
+  name: koku-ui-hccm-on-push
   namespace: cost-mgmt-dev-tenant
 spec:
   params:
@@ -26,7 +26,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/cost-mgmt-dev-tenant/koku-ui-hcm:{{revision}}
+    value: quay.io/redhat-user-workloads/cost-mgmt-dev-tenant/koku-ui-hccm:{{revision}}
   - name: dockerfile
     value: build-tools/Dockerfile
   - name: path-context
@@ -93,8 +93,8 @@ spec:
       name: buildah-format
       type: string
     - default:
-        - PACKAGE_JSON_PATH=apps/koku-ui-hcm/package.json
-        - OUTPUT_DIR=apps/koku-ui-hcm/dist
+        - PACKAGE_JSON_PATH=apps/koku-ui-hccm/package.json
+        - OUTPUT_DIR=apps/koku-ui-hccm/dist
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
       type: array
@@ -589,7 +589,7 @@ spec:
     - name: netrc
       optional: true
   taskRunTemplate:
-    serviceAccountName: build-pipeline-koku-ui-hcm
+    serviceAccountName: build-pipeline-koku-ui-hccm
   workspaces:
   - name: workspace
     volumeClaimTemplate:
