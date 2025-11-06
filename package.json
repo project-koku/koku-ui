@@ -27,7 +27,8 @@
     "release:prod:hcm": "sh scripts/release-branch.sh -p",
     "release:prod:ros": "sh scripts/release-branch.sh -r",
     "start:hcm": "npm run -w @koku-ui/koku-ui-hcm start",
-    "start:ros": "npm run -w @koku-ui/koku-ui-ros start"
+    "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
+    "start:onprem": "npm run -w @koku-ui/koku-ui-onprem start"
   },
   "devDependencies": {
     "@eslint/compat": "^1.4.1",
