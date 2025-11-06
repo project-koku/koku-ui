@@ -8,7 +8,7 @@ objects:
   - apiVersion: cloud.redhat.com/v1alpha1
     kind: Frontend
     metadata:
-      name: 'cost-management-ros'
+      name: 'cost-management-mfe'
     spec:
       feoConfigEnabled: true
       bundleSegments:
@@ -50,12 +50,12 @@ objects:
       deploymentRepo: https://github.com/project-koku/koku-ui/apps/koku-ui-ros
       frontend:
         paths:
-          - '/apps/cost-management-ros'
+          - '/apps/cost-management-mfe'
       image: ${IMAGE}:${IMAGE_TAG}
       module:
-        manifestLocation: "/apps/cost-management-ros/fed-mods.json"
+        manifestLocation: "/apps/cost-management-mfe/fed-mods.json"
         modules:
-          - id: 'cost-management-ros'
+          - id: 'cost-management-mfe'
             module: './RootApp'
             routes:
               - pathname: '/staging/cost-management'

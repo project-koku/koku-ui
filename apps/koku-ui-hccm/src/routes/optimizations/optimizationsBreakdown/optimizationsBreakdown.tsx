@@ -8,7 +8,7 @@ interface OptimizationsBreakdownOwnProps {
 type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
 
 const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
-  return <AsyncComponent scope="costManagementRos" appName="cost-management-ros" module="./OptimizationsBreakdown" />;
+  return <AsyncComponent scope="costManagementMfe" appName="cost-management-mfe" module="./OptimizationsBreakdown" />;
 };
 
 export default OptimizationsBreakdown;

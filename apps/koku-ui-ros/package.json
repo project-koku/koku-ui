@@ -103,6 +103,6 @@
     "redux": "^5.0.1"
   },
   "insights": {
-    "appname": "cost-management-ros"
+    "appname": "cost-management-mfe"
   }
 }
