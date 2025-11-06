@@ -1,0 +1,11 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+// Workaround for missing "position" property
+.selectWrapper {
+  .pf-v6-c-menu-toggle {
+    max-width: unset;
+  }
+  .pf-v6-c-menu-toggle__text {
+    width: max-content;
+  }
+}

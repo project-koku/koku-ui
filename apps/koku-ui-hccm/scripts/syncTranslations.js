@@ -1,0 +1,1 @@
+../../../scripts/syncTranslations.js
