@@ -13,7 +13,7 @@ default()
   MAIN_BRANCH="main"
   STAGE_ROS_BRANCH="stage-ros"
 
-  PROD_HCM_BRANCH="prod-hcm"
+  PROD_HCM_BRANCH="prod-hccm"
   PROD_ROS_BRANCH="prod-ros"
 
   UI_DIR="$TMP_DIR/koku-ui"
