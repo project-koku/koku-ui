@@ -53,15 +53,41 @@ const config: Configuration & {
         // only process modules with this loader
         // if they live under a 'fonts' or 'pficon' directory
         include: [
+          // local node_modules (when not hoisted)
           path.resolve(__dirname, 'node_modules/patternfly/dist/fonts'),
-          path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
-          path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
+          path.resolve(
+            __dirname,
+            'node_modules/@patternfly/react-core/dist/styles/assets/fonts'
+          ),
+          path.resolve(
+            __dirname,
+            'node_modules/@patternfly/react-core/dist/styles/assets/pficon'
+          ),
           path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/fonts'),
           path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/pficon'),
+          // workspace root node_modules (hoisted deps)
+          path.resolve(__dirname, '../../node_modules/patternfly/dist/fonts'),
+          path.resolve(
+            __dirname,
+            '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'
+          ),
+          path.resolve(
+            __dirname,
+            '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'
+          ),
+          path.resolve(
+            __dirname,
+            '../../node_modules/@patternfly/patternfly/assets/fonts'
+          ),
+          path.resolve(
+            __dirname,
+            '../../node_modules/@patternfly/patternfly/assets/pficon'
+          ),
         ],
       },
       {
         test: /\.(jpg|jpeg|png|gif)$/i,
+        type: 'asset/resource',
         include: [
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'src/assets/images'),
@@ -80,6 +106,20 @@ const config: Configuration & {
           path.resolve(
             __dirname,
             'node_modules/@patternfly/react-inline-edit-extension/node_modules/@patternfly/react-styles/css/assets/images'
+          ),
+          // workspace root node_modules (hoisted deps)
+          path.resolve(__dirname, '../../node_modules/patternfly'),
+          path.resolve(
+            __dirname,
+            '../../node_modules/@patternfly/patternfly/assets/images'
+          ),
+          path.resolve(
+            __dirname,
+            '../../node_modules/@patternfly/react-styles/css/assets/images'
+          ),
+          path.resolve(
+            __dirname,
+            '../../node_modules/@patternfly/react-core/dist/styles/assets/images'
           ),
         ],
       },
@@ -101,6 +141,9 @@ const config: Configuration & {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
     symlinks: false,
     cacheWithContext: false,
+    alias: {
+      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
+    },
   },
   watchOptions: {
     followSymlinks: true,

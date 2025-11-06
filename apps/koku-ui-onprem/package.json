@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/project-koku/koku-ui.git",
   "author": "Red Hat",
-  "license": "GNU AGPLv3",
+  "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production npm run ts-node ../../node_modules/.bin/webpack --mode=production",
@@ -55,6 +55,7 @@
     "globals": "^16.5.0",
     "identity-obj-proxy": "^3.0.0",
     "rimraf": "^6.1.0",
+    "style-loader": "^3.3.3",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.2",
     "ts-patch": "^3.3.0",
