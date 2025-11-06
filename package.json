@@ -4,14 +4,15 @@
   "description": "Monorepo for user interfaces of Cost Management",
   "repository": "https://github.com/project-koku/koku-ui.git",
   "author": "Red Hat",
-  "license": "GNU AGPLv3",
+  "license": "Apache-2.0",
   "private": true,
   "engines": {
     "node": ">=20.15.0",
     "npm": ">=10.8.0"
   },
   "workspaces": [
-    "./apps/*"
+    "./apps/*",
+    "./libs/*"
   ],
   "scripts": {
     "lint": "npm exec --workspaces -- npm run lint",

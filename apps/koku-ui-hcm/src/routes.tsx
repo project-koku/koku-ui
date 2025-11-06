@@ -3,7 +3,7 @@ import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
-const NotFound = lazy(() => import(/* webpackChunkName: "notFound" */ 'routes/components/page/notFound'));
+const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ '@koku-ui/ui-lib/components/NotFound/NotFound'));
 const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'routes/details/awsBreakdown'));
 const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'routes/details/awsDetails'));
 const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" */ 'routes/details/azureBreakdown'));
