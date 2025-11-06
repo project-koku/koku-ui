@@ -308,8 +308,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             hidden: !isGroupByProject,
             value: !isPlatformCosts && !isDisabled && (
               <AsyncComponent
-                scope="costManagementRos"
-                appName="cost-management-ros"
+                scope="costManagementMfe"
+                appName="cost-management-mfe"
                 module="./OptimizationsLink"
                 cluster={query?.filter_by?.cluster ? query.filter_by.cluster : undefined}
                 linkPath={getBreakdownPath({
