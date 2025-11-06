@@ -216,5 +216,5 @@ This [RELEASE][release-doc] doc describes how to release Koku UI to each staging
 [patch-etc-hosts]: https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh
 [Patternfly]: https://www.patternfly.org/
 [podman]: https://podman.io/docs/installation
-[release-doc]: https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-hcm//RELEASE.md
+[release-doc]: https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-hccm//RELEASE.md
 [serving-files-locally]: https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/cloud-services-config.md#serving-files-locally

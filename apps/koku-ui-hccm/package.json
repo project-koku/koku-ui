@@ -1,11 +1,11 @@
 {
-  "name": "@koku-ui/koku-ui-hcm",
+  "name": "@koku-ui/koku-ui-hccm",
   "version": "0.0.1",
   "description": "Cost Management UI",
   "main": "index.js",
   "repository": "https://github.com/project-koku/koku-ui.git",
   "author": "Red Hat",
-  "license": "GNU AGPLv3",
+  "license": "Apache-2.0",
   "private": true,
   "engines": {
     "node": ">=20.15.0",
