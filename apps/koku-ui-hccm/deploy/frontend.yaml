@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: koku-ui-hcm
+  name: koku-ui-hccm
 objects:
   - apiVersion: cloud.redhat.com/v1alpha1
     kind: Frontend
@@ -93,7 +93,7 @@ objects:
           - v1
       envName: ${ENV_NAME}
       title: 'Cost Management'
-      deploymentRepo: https://github.com/project-koku/koku-ui/apps/koku-ui-hcm
+      deploymentRepo: https://github.com/project-koku/koku-ui/apps/koku-ui-hccm
       frontend:
         paths:
           - '/apps/cost-management'
@@ -111,4 +111,4 @@ parameters:
   - name: IMAGE_TAG
     required: true
   - name: IMAGE
-    value: quay.io/redhat-services-prod/cost-mgmt-dev-tenant/koku-ui-hcm
+    value: quay.io/redhat-services-prod/cost-mgmt-dev-tenant/koku-ui-hccm
