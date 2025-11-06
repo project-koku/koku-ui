@@ -1,0 +1,2091 @@
+{
+  "en": {
+    "actualUsage": [
+      {
+        "type": 0,
+        "value": "Actual usage ("
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "breakdownBackToOptimizations": [
+      {
+        "type": 0,
+        "value": "Back to optimizations"
+      }
+    ],
+    "breakdownBackToOptimizationsProject": [
+      {
+        "type": 0,
+        "value": "Back to optimizations for project "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
+    "breakdownTotalCostDate": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " total cost ("
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "chartCostForecastConeTooltip": [
+      {
+        "type": 1,
+        "value": "value0"
+      },
+      {
+        "type": 0,
+        "value": " - "
+      },
+      {
+        "type": 1,
+        "value": "value1"
+      }
+    ],
+    "chartNoData": [
+      {
+        "type": 0,
+        "value": "no data"
+      }
+    ],
+    "chartOthers": [
+      {
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " Other"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " Others"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
+    "chartUsageTooltip": [
+      {
+        "type": 0,
+        "value": "Min: "
+      },
+      {
+        "type": 1,
+        "value": "min"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ", Max: "
+      },
+      {
+        "type": 1,
+        "value": "max"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 1,
+        "value": "br"
+      },
+      {
+        "type": 0,
+        "value": "Median: "
+      },
+      {
+        "type": 1,
+        "value": "median"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 1,
+        "value": "br"
+      },
+      {
+        "type": 0,
+        "value": "Q1: "
+      },
+      {
+        "type": 1,
+        "value": "q1"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ", Q3: "
+      },
+      {
+        "type": 1,
+        "value": "q3"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      }
+    ],
+    "chooseValuePlaceholder": [
+      {
+        "type": 0,
+        "value": "Choose value"
+      }
+    ],
+    "copyToClipboard": [
+      {
+        "type": 0,
+        "value": "Copy to clipboard"
+      }
+    ],
+    "copyToClipboardSuccessfull": [
+      {
+        "type": 0,
+        "value": "Successfully copied to clipboard!"
+      }
+    ],
+    "costManagement": [
+      {
+        "type": 0,
+        "value": "Cost Management MFE"
+      }
+    ],
+    "cpu": [
+      {
+        "type": 0,
+        "value": "CPU"
+      }
+    ],
+    "cpuUtilization": [
+      {
+        "type": 0,
+        "value": "CPU utilization"
+      }
+    ],
+    "currencyAbbreviations": [
+      {
+        "options": {
+          "billion": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " B"
+              }
+            ]
+          },
+          "million": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " M"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "quadrillion": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " q"
+              }
+            ]
+          },
+          "thousand": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " K"
+              }
+            ]
+          },
+          "trillion": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " t"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "symbol"
+      }
+    ],
+    "currentConfiguration": [
+      {
+        "type": 0,
+        "value": "Current configuration"
+      }
+    ],
+    "dataTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Details table"
+      }
+    ],
+    "detailsEmptyState": [
+      {
+        "type": 0,
+        "value": "Processing data to generate a list of all services that sums to a total cost..."
+      }
+    ],
+    "docsOptimizations": [
+      {
+        "type": 0,
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_resource_optimization_for_openshift/optimizations-ros"
+      }
+    ],
+    "emptyFilterStateSubtitle": [
+      {
+        "type": 0,
+        "value": "Sorry, no data with the given filter was found."
+      }
+    ],
+    "emptyFilterStateTitle": [
+      {
+        "type": 0,
+        "value": "No match found"
+      }
+    ],
+    "errorStateNotAuthorizedDesc": [
+      {
+        "type": 0,
+        "value": "Contact the cost management administrator to provide access to this application"
+      }
+    ],
+    "errorStateNotAuthorizedTitle": [
+      {
+        "type": 0,
+        "value": "You don't have access to the Cost management application"
+      }
+    ],
+    "errorStateUnexpectedDesc": [
+      {
+        "type": 0,
+        "value": "We encountered an unexpected error. Contact your administrator."
+      }
+    ],
+    "errorStateUnexpectedTitle": [
+      {
+        "type": 0,
+        "value": "Oops!"
+      }
+    ],
+    "excludeLabel": [
+      {
+        "type": 0,
+        "value": "Excludes: "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
+    "excludeValues": [
+      {
+        "options": {
+          "excludes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "excludes"
+              }
+            ]
+          },
+          "includes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "includes"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "filterByInputAriaLabel": [
+      {
+        "options": {
+          "account": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for account name"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for cost category name"
+              }
+            ]
+          },
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for cluster name"
+              }
+            ]
+          },
+          "gcp_project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GCP project name"
+              }
+            ]
+          },
+          "name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for name"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for node name"
+              }
+            ]
+          },
+          "org_unit_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for organizational unit name"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for account name"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for service_name"
+              }
+            ]
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for project name"
+              }
+            ]
+          },
+          "region": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for region name"
+              }
+            ]
+          },
+          "resource_location": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for region name"
+              }
+            ]
+          },
+          "service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for service name"
+              }
+            ]
+          },
+          "service_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for service_name"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for status value"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for account name"
+              }
+            ]
+          },
+          "tag": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for tag name"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "filterByPlaceholder": [
+      {
+        "options": {
+          "account": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by account"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by cost category"
+              }
+            ]
+          },
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by cluster"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by container"
+              }
+            ]
+          },
+          "description": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by description"
+              }
+            ]
+          },
+          "gcp_project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GCP project"
+              }
+            ]
+          },
+          "group": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by group"
+              }
+            ]
+          },
+          "name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by name"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by node"
+              }
+            ]
+          },
+          "org_unit_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by organizational unit"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by account"
+              }
+            ]
+          },
+          "persistent_volume_claim": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by persistent volume claim"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by service"
+              }
+            ]
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by project"
+              }
+            ]
+          },
+          "region": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by region"
+              }
+            ]
+          },
+          "resource_location": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by region"
+              }
+            ]
+          },
+          "service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by service"
+              }
+            ]
+          },
+          "service_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by service"
+              }
+            ]
+          },
+          "source_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by source type"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by status"
+              }
+            ]
+          },
+          "storage_class": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by StorageClass"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by account"
+              }
+            ]
+          },
+          "tag": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by tag"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by workload name"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by workload type"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "filterByValues": [
+      {
+        "options": {
+          "account": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account"
+              }
+            ]
+          },
+          "aws_category": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost category"
+              }
+            ]
+          },
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container"
+              }
+            ]
+          },
+          "gcp_project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GCP project"
+              }
+            ]
+          },
+          "group": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Group"
+              }
+            ]
+          },
+          "name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Name"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Node"
+              }
+            ]
+          },
+          "org_unit_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Organizational unit"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "payer_tenant_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account"
+              }
+            ]
+          },
+          "persistent_volume_claim": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Persistent volume claim"
+              }
+            ]
+          },
+          "product_service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service"
+              }
+            ]
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project"
+              }
+            ]
+          },
+          "region": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Region"
+              }
+            ]
+          },
+          "resource_location": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Region"
+              }
+            ]
+          },
+          "service": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service"
+              }
+            ]
+          },
+          "service_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Service"
+              }
+            ]
+          },
+          "source_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Source type"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Status"
+              }
+            ]
+          },
+          "storage_class": {
+            "value": [
+              {
+                "type": 0,
+                "value": "StorageClass"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account"
+              }
+            ]
+          },
+          "tag": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tag"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload name"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload type"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "filterByValuesAriaLabel": [
+      {
+        "type": 0,
+        "value": "Values"
+      }
+    ],
+    "forDate": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " for "
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      }
+    ],
+    "kokuAppUrl": [
+      {
+        "type": 0,
+        "value": "https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros"
+      }
+    ],
+    "learnMore": [
+      {
+        "type": 0,
+        "value": "Learn more"
+      }
+    ],
+    "limit": [
+      {
+        "type": 0,
+        "value": "Limit"
+      }
+    ],
+    "loadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your sources. Do not refresh the browser"
+      }
+    ],
+    "loadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for sources..."
+      }
+    ],
+    "memory": [
+      {
+        "type": 0,
+        "value": "Memory"
+      }
+    ],
+    "memoryUtilization": [
+      {
+        "type": 0,
+        "value": "Memory utilization"
+      }
+    ],
+    "names": [
+      {
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Name"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Names"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
+    "noDataForDate": [
+      {
+        "type": 0,
+        "value": "No data available for "
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      }
+    ],
+    "noOptimizationsDesc": [
+      {
+        "type": 0,
+        "value": "Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right. Otherwise, there is not enough data available to generate an optimization."
+      }
+    ],
+    "noOptimizationsTitle": [
+      {
+        "type": 0,
+        "value": "No optimizations available"
+      }
+    ],
+    "noResultsFound": [
+      {
+        "type": 0,
+        "value": "No results found"
+      }
+    ],
+    "notConfiguredChanges": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected within 24 hours. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "notConfiguredCli": [
+      {
+        "type": 0,
+        "value": "In the CLI, run "
+      },
+      {
+        "type": 1,
+        "value": "clipboard"
+      }
+    ],
+    "notConfiguredDesc": [
+      {
+        "type": 0,
+        "value": "To receive resource optimization recommendations for your namespaces, you must first enable each namespace."
+      }
+    ],
+    "notConfiguredNamespace": [
+      {
+        "type": 0,
+        "value": "To enable a namespace, label it with "
+      },
+      {
+        "type": 1,
+        "value": "clipboard"
+      }
+    ],
+    "notConfiguredTitle": [
+      {
+        "type": 0,
+        "value": "Optimizations may not be configured"
+      }
+    ],
+    "notificationsAlertTitle": [
+      {
+        "type": 0,
+        "value": "Duration based notifications"
+      }
+    ],
+    "openShift": [
+      {
+        "type": 0,
+        "value": "OpenShift"
+      }
+    ],
+    "optimizations": [
+      {
+        "type": 0,
+        "value": "Optimizations"
+      }
+    ],
+    "optimizationsCost": [
+      {
+        "type": 0,
+        "value": "Cost optimizations"
+      }
+    ],
+    "optimizationsDetails": [
+      {
+        "offset": 0,
+        "options": {
+          "=0": {
+            "value": [
+              {
+                "type": 0,
+                "value": "No optimizations"
+              }
+            ]
+          },
+          "=1": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " optimization"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " optimizations"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
+    "optimizationsInfoArialLabel": [
+      {
+        "type": 0,
+        "value": "A description of optimizations"
+      }
+    ],
+    "optimizationsInfoButtonArialLabel": [
+      {
+        "type": 0,
+        "value": "A dialog with a description of optimizations"
+      }
+    ],
+    "optimizationsInfoDesc": [
+      {
+        "type": 0,
+        "value": "To receive these recommendations, you must first enable your namespaces. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
+    "optimizationsInfoTitle": [
+      {
+        "type": 0,
+        "value": "Assess and monitor usage from all of your clusters and provides optimization recommendations."
+      }
+    ],
+    "optimizationsLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your optimizations. Do not refresh the browser"
+      }
+    ],
+    "optimizationsLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for optimizations..."
+      }
+    ],
+    "optimizationsLongTerm": [
+      {
+        "type": 0,
+        "value": "Last 15 days"
+      }
+    ],
+    "optimizationsMediumTerm": [
+      {
+        "type": 0,
+        "value": "Last 7 days"
+      }
+    ],
+    "optimizationsNames": [
+      {
+        "options": {
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster names"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container names"
+              }
+            ]
+          },
+          "last_reported": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last reported"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project names"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload names"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload types"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "optimizationsPerformance": [
+      {
+        "type": 0,
+        "value": "Performance optimizations"
+      }
+    ],
+    "optimizationsPerspective": [
+      {
+        "type": 0,
+        "value": "View optimizations based on"
+      }
+    ],
+    "optimizationsShortTerm": [
+      {
+        "type": 0,
+        "value": "Last 24 hrs"
+      }
+    ],
+    "optimizationsValue": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 1,
+        "value": "units"
+      }
+    ],
+    "optimizationsValues": [
+      {
+        "options": {
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster name"
+              }
+            ]
+          },
+          "container": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Container name"
+              }
+            ]
+          },
+          "last_reported": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last reported"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project name"
+              }
+            ]
+          },
+          "workload": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload name"
+              }
+            ]
+          },
+          "workload_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Workload type"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "optimizationsViewAll": [
+      {
+        "type": 0,
+        "value": "View all optimizations for this project"
+      }
+    ],
+    "optimizationsViewAllDisabled": [
+      {
+        "type": 0,
+        "value": "This project has not reported data this month."
+      }
+    ],
+    "optimizedStateDesc": [
+      {
+        "type": 0,
+        "value": "Good job optimizing the current configuration."
+      }
+    ],
+    "optimizedStateTitle": [
+      {
+        "type": 0,
+        "value": "You have reached recommended state!"
+      }
+    ],
+    "pageTitleDefault": [
+      {
+        "type": 0,
+        "value": "Cost Management MFE | OpenShift"
+      }
+    ],
+    "pageTitleOptimizations": [
+      {
+        "type": 0,
+        "value": "Optimizations - Cost Management | OpenShift"
+      }
+    ],
+    "paginationTitle": [
+      {
+        "options": {
+          "bottom": {
+            "value": [
+              {
+                "type": 1,
+                "value": "title"
+              },
+              {
+                "type": 0,
+                "value": " bottom pagination"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "title"
+              },
+              {
+                "type": 0,
+                "value": " pagination"
+              }
+            ]
+          },
+          "top": {
+            "value": [
+              {
+                "type": 1,
+                "value": "title"
+              },
+              {
+                "type": 0,
+                "value": " top pagination"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "placement"
+      }
+    ],
+    "percentPlus": [
+      {
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "+"
+              },
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": "%"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": "%"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
+      }
+    ],
+    "perspective": [
+      {
+        "type": 0,
+        "value": "Perspective"
+      }
+    ],
+    "perspectiveValues": [
+      {
+        "options": {
+          "aws": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services"
+              }
+            ]
+          },
+          "aws_ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Amazon Web Services filtered by OpenShift"
+              }
+            ]
+          },
+          "azure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure"
+              }
+            ]
+          },
+          "azure_ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Microsoft Azure filtered by OpenShift"
+              }
+            ]
+          },
+          "gcp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform"
+              }
+            ]
+          },
+          "gcp_ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Google Cloud Platform filtered by OpenShift"
+              }
+            ]
+          },
+          "ibm": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IBM Cloud"
+              }
+            ]
+          },
+          "ibm_ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IBM filtered by OpenShift"
+              }
+            ]
+          },
+          "oci": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Oracle Cloud Infrastructure"
+              }
+            ]
+          },
+          "ocp": {
+            "value": [
+              {
+                "type": 0,
+                "value": "All OpenShift"
+              }
+            ]
+          },
+          "ocp_cloud": {
+            "value": [
+              {
+                "type": 0,
+                "value": "All cloud filtered by OpenShift"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "rhel": {
+            "value": [
+              {
+                "type": 0,
+                "value": "All RHEL"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "recommendedConfiguration": [
+      {
+        "type": 0,
+        "value": "Recommended configuration"
+      }
+    ],
+    "recommendedLimit": [
+      {
+        "type": 0,
+        "value": "Recommended limit ("
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "recommendedRequest": [
+      {
+        "type": 0,
+        "value": "Recommended request ("
+      },
+      {
+        "type": 1,
+        "value": "dateRange"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "request": [
+      {
+        "type": 0,
+        "value": "Request"
+      }
+    ],
+    "selectableTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Selectable table"
+      }
+    ],
+    "selectableTableHeaderAriaLabel": [
+      {
+        "type": 0,
+        "value": "Select to open the optimizations drawer"
+      }
+    ],
+    "selectableTableRowAriaLabel": [
+      {
+        "type": 0,
+        "value": "Selectable table row"
+      }
+    ],
+    "settingsErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to update settings"
+      }
+    ],
+    "settingsErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to save application settings"
+      }
+    ],
+    "settingsSuccessDesc": [
+      {
+        "type": 0,
+        "value": "Settings for Cost Management were replaced with new values"
+      }
+    ],
+    "settingsSuccessTitle": [
+      {
+        "type": 0,
+        "value": "Application settings saved"
+      }
+    ],
+    "sinceDate": [
+      {
+        "type": 1,
+        "value": "dateRange"
+      }
+    ],
+    "suggestions": [
+      {
+        "type": 0,
+        "value": "Suggestions"
+      }
+    ],
+    "typeaheadAriaClear": [
+      {
+        "type": 0,
+        "value": "Clear button and input"
+      }
+    ],
+    "unitTooltips": [
+      {
+        "options": {
+          "byte_ms": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " Byte-ms"
+              }
+            ]
+          },
+          "core_hours": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " core-hours"
+              }
+            ]
+          },
+          "gb": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GB"
+              }
+            ]
+          },
+          "gb_hours": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GB-hours"
+              }
+            ]
+          },
+          "gb_mo": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GB-month"
+              }
+            ]
+          },
+          "gb_ms": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GB-ms"
+              }
+            ]
+          },
+          "gibibyte_month": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " GiB-month"
+              }
+            ]
+          },
+          "hour": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " hours"
+              }
+            ]
+          },
+          "hrs": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " hours"
+              }
+            ]
+          },
+          "ms": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " milliseconds"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              }
+            ]
+          },
+          "vm_hours": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " VM-hours"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "units"
+      }
+    ],
+    "units": [
+      {
+        "options": {
+          "cores": {
+            "value": [
+              {
+                "type": 0,
+                "value": "cores"
+              }
+            ]
+          },
+          "ei": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Ei"
+              }
+            ]
+          },
+          "eib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "EiB"
+              }
+            ]
+          },
+          "gi": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Gi"
+              }
+            ]
+          },
+          "gib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GiB"
+              }
+            ]
+          },
+          "ki": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Ki"
+              }
+            ]
+          },
+          "kib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KiB"
+              }
+            ]
+          },
+          "m": {
+            "value": [
+              {
+                "type": 0,
+                "value": "m"
+              }
+            ]
+          },
+          "mi": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Mi"
+              }
+            ]
+          },
+          "mib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MiB"
+              }
+            ]
+          },
+          "millicores": {
+            "value": [
+              {
+                "type": 0,
+                "value": "millicores"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
+      }
+    ],
+    "unitsK8": [
+      {
+        "options": {
+          "cores": {
+            "value": []
+          },
+          "ei": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Ei"
+              }
+            ]
+          },
+          "eib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Ei"
+              }
+            ]
+          },
+          "gi": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Gi"
+              }
+            ]
+          },
+          "gib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Gi"
+              }
+            ]
+          },
+          "ki": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Ki"
+              }
+            ]
+          },
+          "kib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Ki"
+              }
+            ]
+          },
+          "m": {
+            "value": [
+              {
+                "type": 0,
+                "value": "m"
+              }
+            ]
+          },
+          "mi": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Mi"
+              }
+            ]
+          },
+          "mib": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Mi"
+              }
+            ]
+          },
+          "millicores": {
+            "value": [
+              {
+                "type": 0,
+                "value": "m"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "units"
+      }
+    ],
+    "usage": [
+      {
+        "type": 0,
+        "value": "Usage"
+      }
+    ],
+    "valueUnits": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      }
+    ],
+    "welcomeInfo": [
+      {
+        "type": 0,
+        "value": "For more information visit "
+      },
+      {
+        "type": 1,
+        "value": "url"
+      }
+    ],
+    "welcomeTitle": [
+      {
+        "type": 0,
+        "value": "Cost Management microfrontend (MFE) with Module Federation"
+      }
+    ]
+  }
+}
