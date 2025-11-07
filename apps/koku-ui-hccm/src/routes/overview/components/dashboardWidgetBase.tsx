@@ -412,8 +412,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
   private getOptimizationsSummary = () => {
     return (
       <AsyncComponent
-        scope="costManagementMfe"
-        appName="cost-management-mfe"
+        scope="costManagementRos"
+        appName="cost-management-ros"
         module="./OptimizationsSummary"
         linkPath={formatPath(routes.optimizationsDetails.path)}
       />

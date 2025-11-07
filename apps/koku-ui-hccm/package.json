@@ -30,7 +30,7 @@
     "start:ephemeral": "EPHEMERAL_PORT=8000 npm start",
     "start:hmr": "HMR=true npm start",
     "start:local:api": "LOCAL_API_PORT=8000 LOCAL_API_HOST=localhost KEYCLOAK_PORT=4020 npm start",
-    "start:mfe": "FEC_STATIC_PORT=8003 npm run start",
+    "start:ros": "FEC_STATIC_PORT=8003 npm run start",
     "start:static": "fec static --port=8004",
     "stats": "npm run build:prod --profile --json > stats.json",
     "test": "jest --no-cache",
