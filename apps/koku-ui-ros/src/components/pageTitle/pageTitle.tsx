@@ -22,7 +22,6 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
       case formatPath(routes.optimizationsSummary.path):
       case formatPath(routes.optimizationsTable.path):
         return messages.pageTitleOptimizations;
-      case formatPath(routes.ocmOverview.path):
       default:
         return messages.pageTitleDefault;
     }
