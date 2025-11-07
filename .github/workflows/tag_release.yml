@@ -1,8 +1,7 @@
 name: Tag Release
 on:
   push:
-    branches:
-      - prod-stable
+    branches: [ prod-hccm, prod-ros ]
 jobs:
   tag_release:
     runs-on: ubuntu-latest
