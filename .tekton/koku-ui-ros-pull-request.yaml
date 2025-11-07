@@ -8,8 +8,11 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
-      == "main"
+    pipelinesascode.tekton.dev/on-cel-expression: |-
+      event == "pull_request" && (
+        target_branch == "stage-ros"
+        || target_branch == "prod-ros"
+      )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: koku-ui-ros
@@ -29,6 +32,8 @@ spec:
     value: 5d
   - name: dockerfile
     value: build-tools/Dockerfile
+  - name: path-context
+    value: .
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while reducing network traffic.
@@ -90,6 +95,9 @@ spec:
         oci or docker.
       name: buildah-format
       type: string
+    - default:
+        - PACKAGE_JSON_PATH=apps/koku-ui-ros/package.json
+        - OUTPUT_DIR=apps/koku-ui-ros/dist
     - default: []
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
