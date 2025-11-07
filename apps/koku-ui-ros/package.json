@@ -29,7 +29,7 @@
     "start:ephemeral": "EPHEMERAL_PORT=8000 npm start",
     "start:hmr": "HMR=true npm start",
     "start:local:api": "LOCAL_API_PORT=8000 LOCAL_API_HOST=localhost KEYCLOAK_PORT=4020 npm start",
-    "start:static": "fec static",
+    "start:static": "fec static --port=8003 --config ../../node_modules/@redhat-cloud-services/frontend-components-config/bin/prod.webpack.config.js",
     "stats": "npm run build:prod --profile --json > stats.json",
     "test": "jest --no-cache",
     "test:clean": "jest --clearCache",
