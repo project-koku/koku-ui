@@ -3,43 +3,43 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: koku-ui-ros
+  name: 'cost-management-ros'
 objects:
   - apiVersion: cloud.redhat.com/v1alpha1
     kind: Frontend
     metadata:
-      name: 'cost-management-mfe'
+      name: 'cost-management-ros'
     spec:
       feoConfigEnabled: true
       bundleSegments:
-        - segmentId: 'cost-management-staging'
+        - segmentId: 'cost-management.staging'
           bundleId: 'staging'
           position: 100
           navItems:
-            - id: 'cost-management-staging.ros'
+            - id: 'cost-management.staging.ros'
               title: 'Cost Management'
               expandable: true
               routes:
-                - id: 'cost-management-staging.ros.overview'
+                - id: 'cost-management.staging.ros.overview'
                   title: 'ROS'
                   expandable: true
                   routes:
-                    - id: 'cost-management-staging.ros.badge'
+                    - id: 'cost-management.staging.ros.badge'
                       title: 'Optimizations badge'
                       href: '/staging/cost-management/ros/optimizations/badge'
-                    - id: 'cost-management-staging.ros.link'
+                    - id: 'cost-management.staging.ros.link'
                       title: 'Optimizations link'
                       href: '/staging/cost-management/ros/optimizations/link'
-                    - id: 'cost-management-staging.ros.summary'
+                    - id: 'cost-management.staging.ros.summary'
                       title: 'Optimizations summary'
                       href: "/staging/cost-management/ros/optimizations/summary"
-                    - id: 'cost-management-staging.ros.table'
+                    - id: 'cost-management.staging.ros.table'
                       title: 'Optimizations table'
                       href: '/staging/cost-management/ros/optimizations/table'
-                    - id: 'cost-management-staging.ros.details'
+                    - id: 'cost-management.staging.ros.details'
                       title: 'Optimizations details'
                       href: '/staging/cost-management/ros/optimizations/details'
-                    - id: 'cost-management-staging.ros.breakdown'
+                    - id: 'cost-management.staging.ros.breakdown'
                       title: 'Optimizations breakdown'
                       href: '/staging/cost-management/ros/optimizations/breakdown'
       API:
@@ -50,15 +50,18 @@ objects:
       deploymentRepo: https://github.com/project-koku/koku-ui/apps/koku-ui-ros
       frontend:
         paths:
-          - '/apps/cost-management-mfe'
+          - '/apps/cost-management-ros'
       image: ${IMAGE}:${IMAGE_TAG}
       module:
-        manifestLocation: "/apps/cost-management-mfe/fed-mods.json"
+        manifestLocation: "/apps/cost-management-ros/fed-mods.json"
         modules:
-          - id: 'cost-management-mfe'
+          - id: 'cost-management-ros'
             module: './RootApp'
             routes:
               - pathname: '/staging/cost-management'
+        moduleConfig:
+          ssoScopes:
+            - 'costManagementRos'
 parameters:
   - name: ENV_NAME
     required: true

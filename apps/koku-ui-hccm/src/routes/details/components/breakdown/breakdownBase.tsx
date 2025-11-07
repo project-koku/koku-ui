@@ -189,8 +189,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
             <TabTitleText>{this.getTabTitle(tab)}</TabTitleText>
             {showBadge && (
               <AsyncComponent
-                scope="costManagementMfe"
-                appName="cost-management-mfe"
+                scope="costManagementRos"
+                appName="cost-management-ros"
                 module="./OptimizationsBadge"
                 cluster={queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined}
                 project={groupBy === 'project' ? groupByValue : undefined}

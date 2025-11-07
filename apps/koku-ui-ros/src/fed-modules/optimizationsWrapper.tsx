@@ -21,7 +21,7 @@ const OptimizationsWrapper: React.FC<OptimizationsWrapperProps> = ({ children }:
   return (
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
       <Provider store={mfeStore as any}>
-        <div className="costManagementMfe">{children}</div>
+        <div className="costManagementRos">{children}</div>
       </Provider>
     </IntlProvider>
   );
