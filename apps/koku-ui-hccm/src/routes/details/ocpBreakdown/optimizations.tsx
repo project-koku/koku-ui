@@ -33,7 +33,6 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
       <CardBody>
         <AsyncComponent
           scope="costManagementRos"
-          appName="cost-management-ros"
           module="./OptimizationsTable"
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
           breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
