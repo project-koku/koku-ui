@@ -190,7 +190,6 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
             {showBadge && (
               <AsyncComponent
                 scope="costManagementRos"
-                appName="cost-management-ros"
                 module="./OptimizationsBadge"
                 cluster={queryState?.filter_by?.cluster ? queryState.filter_by.cluster : undefined}
                 project={groupBy === 'project' ? groupByValue : undefined}
