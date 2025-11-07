@@ -25,10 +25,6 @@ const OptimizationsTableStaging = lazy(
 const Welcome = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/components/page/welcome/welcome'));
 
 const routes = {
-  ocmOverview: {
-    element: userAccess(Welcome),
-    path: '/ocm/overview',
-  },
   optimizationsBadge: {
     element: userAccess(OptimizationsBadgeStaging),
     path: '/ros/optimizations/badge',
