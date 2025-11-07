@@ -43,8 +43,6 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ros = hasRosAccess(userAccess);
 
     switch (pathname) {
-      case formatPath(routes.ocmOverview.path):
-        return true;
       case formatPath(routes.optimizationsBadge.path):
       case formatPath(routes.optimizationsBreakdown.path):
       case formatPath(routes.optimizationsDetails.path):

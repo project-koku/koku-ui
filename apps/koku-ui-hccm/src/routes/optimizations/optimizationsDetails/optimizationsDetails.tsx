@@ -19,7 +19,6 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = () => {
   return (
     <AsyncComponent
       scope="costManagementRos"
-      appName="cost-management-ros"
       module="./OptimizationsDetails"
       breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
       breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
