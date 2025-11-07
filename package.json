@@ -15,7 +15,6 @@
     "./libs/*"
   ],
   "scripts": {
-    "lint": "npm exec --workspaces -- npm run lint",
     "build": "npm exec --workspaces -- npm run build",
     "check:dependencies": "npx npm-check-updates",
     "check:dependencies:update": "npx npm-check-updates -u",
@@ -23,6 +22,7 @@
     "install:pkgs": "npm install",
     "install:pkgs:force": "npm install --force",
     "install:pkgs:links": "npm run install:pkgs && npm install --install-links",
+    "lint": "npm exec --workspaces -- npm run lint",
     "test": "npm exec --workspaces -- npm run test --",
     "release:stage:ros": "sh scripts/release-branch.sh -s",
     "release:prod:hccm": "sh scripts/release-branch.sh -p",
@@ -42,11 +42,11 @@
     "@testing-library/user-event": "^14.6.1",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
-    "eslint": "^9.38.0",
+    "eslint": "^9.39.1",
     "eslint-plugin-formatjs": "^5.4.2",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-jest-dom": "^5.5.0",
-    "eslint-plugin-jsdoc": "^61.1.11",
+    "eslint-plugin-jsdoc": "^61.1.12",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
@@ -65,7 +65,7 @@
     "ts-jest": "^29.4.5"
   },
   "overrides": {
-    "eslint": "^9.38.0",
+    "eslint": "^9.39.1",
     "typescript": "^5.9.3"
   }
 }
