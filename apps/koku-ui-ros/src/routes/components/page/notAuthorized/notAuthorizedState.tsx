@@ -19,7 +19,6 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
     let msg;
 
     switch (pathname) {
-      case formatPath(routes.ocmOverview.path):
       case formatPath(routes.optimizationsBadge.path):
       case formatPath(routes.optimizationsBreakdown.path):
       case formatPath(routes.optimizationsDetails.path):
