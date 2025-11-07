@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: koku-ui-ros
+  name: 'cost-management-ros'
 objects:
   - apiVersion: cloud.redhat.com/v1alpha1
     kind: Frontend
@@ -12,36 +12,36 @@ objects:
     spec:
       feoConfigEnabled: true
       bundleSegments:
-        - segmentId: 'cost-management-staging'
+        - segmentId: 'cost-management.staging'
           bundleId: 'staging'
           position: 100
           navItems:
-            - id: 'cost-management-staging.ros'
+            - id: 'cost-management.staging.cost-management'
               title: 'Cost Management'
               expandable: true
               routes:
-                - id: 'cost-management-staging.ros.overview'
+                - id: 'cost-management.staging.ros'
                   title: 'ROS'
                   expandable: true
                   routes:
-                    - id: 'cost-management-staging.ros.badge'
+                    - id: 'cost-management.staging.ros.badge'
                       title: 'Optimizations badge'
-                      href: '/staging/cost-management/ros/optimizations/badge'
-                    - id: 'cost-management-staging.ros.link'
+                      href: '/staging/cost-management-ros/ros/optimizations/badge'
+                    - id: 'cost-management.staging.ros.link'
                       title: 'Optimizations link'
-                      href: '/staging/cost-management/ros/optimizations/link'
-                    - id: 'cost-management-staging.ros.summary'
+                      href: '/staging/cost-management-ros/ros/optimizations/link'
+                    - id: 'cost-management.staging.ros.summary'
                       title: 'Optimizations summary'
-                      href: "/staging/cost-management/ros/optimizations/summary"
-                    - id: 'cost-management-staging.ros.table'
+                      href: "/staging/cost-management-ros/ros/optimizations/summary"
+                    - id: 'cost-management.staging.ros.table'
                       title: 'Optimizations table'
-                      href: '/staging/cost-management/ros/optimizations/table'
-                    - id: 'cost-management-staging.ros.details'
+                      href: '/staging/cost-management-ros/ros/optimizations/table'
+                    - id: 'cost-management.staging.ros.details'
                       title: 'Optimizations details'
-                      href: '/staging/cost-management/ros/optimizations/details'
-                    - id: 'cost-management-staging.ros.breakdown'
+                      href: '/staging/cost-management-ros/ros/optimizations/details'
+                    - id: 'cost-management.staging.ros.breakdown'
                       title: 'Optimizations breakdown'
-                      href: '/staging/cost-management/ros/optimizations/breakdown'
+                      href: '/staging/cost-management-ros/ros/optimizations/breakdown'
       API:
         versions:
           - v1
@@ -58,7 +58,7 @@ objects:
           - id: 'cost-management-ros'
             module: './RootApp'
             routes:
-              - pathname: '/staging/cost-management'
+              - pathname: '/staging/cost-management-ros'
 parameters:
   - name: ENV_NAME
     required: true
