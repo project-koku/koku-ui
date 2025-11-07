@@ -59,9 +59,6 @@ objects:
             module: './RootApp'
             routes:
               - pathname: '/staging/cost-management'
-        moduleConfig:
-          ssoScopes:
-            - 'costManagementRos'
 parameters:
   - name: ENV_NAME
     required: true
