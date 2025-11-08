@@ -91,6 +91,7 @@ spec:
     - default:
         - PACKAGE_JSON_PATH=apps/koku-ui-hccm/package.json
         - OUTPUT_DIR=apps/koku-ui-hccm/dist
+        - APP_BUILD_DIR=apps/koku-ui-hccm/dist
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
       type: array
