@@ -6,11 +6,18 @@
 # name of app-sre "application" folder this component lives in; needs to match for quay
 export COMPONENT="hccm"
 # IMAGE should match the quay repo set by app.yaml in app-interface
-export IMAGE="quay.io/cloudservices/hccm-frontend"
+export IMAGE="quay.io/cloudservices/koku-ui-ros"
 export WORKSPACE=${WORKSPACE:-$APP_ROOT} # if running in jenkins, use the build's workspace
 export APP_ROOT=$(pwd)
 export NODE_BUILD_VERSION=20
 COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
+
+# --------------------------------------------
+# Options that must be configured by app owner
+# --------------------------------------------
+IQE_PLUGINS="hccm"
+IQE_MARKER_EXPRESSION="smoke"
+IQE_FILTER_EXPRESSION=""
 
 set -exv
 # source is preferred to | bash -s in this case to avoid a subshell
