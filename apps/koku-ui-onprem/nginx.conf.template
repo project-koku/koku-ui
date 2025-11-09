@@ -1,0 +1,8 @@
+location /api {
+    proxy_pass ${API_PROXY_URL};
+    proxy_set_header Host $host;
+}
+
+location / {
+    try_files $uri $uri/ /index.html;
+}

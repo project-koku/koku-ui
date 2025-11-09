@@ -1,4 +1,3 @@
-
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -15,8 +14,8 @@ RUN npm run build --workspace=@koku-ui/koku-ui-onprem
 
 FROM registry.redhat.io/rhel10/nginx-126
 
-COPY apps/koku-ui-onprem/nginx.conf "${NGINX_DEFAULT_CONF_PATH}"
+COPY apps/koku-ui-onprem/nginx.conf.template /tmp/nginx.conf.template
 COPY --from=builder /app/apps/koku-ui-onprem/dist .
 
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "envsubst '\\$API_PROXY_URL' < /tmp/nginx.conf.template > ${NGINX_DEFAULT_CONF_PATH}/nginx.conf && exec nginx -g 'daemon off;'"]
