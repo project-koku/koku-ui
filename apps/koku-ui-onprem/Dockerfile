@@ -18,4 +18,4 @@ COPY apps/koku-ui-onprem/nginx.conf.template /tmp/nginx.conf.template
 COPY --from=builder /app/apps/koku-ui-onprem/dist .
 
 EXPOSE 8080
-CMD ["/bin/sh", "-c", "envsubst '\\$API_PROXY_URL' < /tmp/nginx.conf.template > ${NGINX_DEFAULT_CONF_PATH}/nginx.conf && nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "envsubst '\\$API_PROXY_URL' < /tmp/nginx.conf.template > ${NGINX_DEFAULT_CONF_PATH}/nginx.conf && exec nginx -g 'daemon off;'"]
