@@ -16,7 +16,7 @@ RUN npm run build --workspace=@koku-ui/koku-ui-onprem
 
 USER 1001
 
-FROM registry.redhat.io/rhel10/nginx-126
+FROM registry.redhat.io/ubi10/nginx-126
 
 COPY apps/koku-ui-onprem/nginx.conf.template /tmp/nginx.conf.template
 COPY --from=builder /app/apps/koku-ui-onprem/dist .
