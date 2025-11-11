@@ -10,7 +10,7 @@ on:
 
 env:
   BRANCH: ${{ github.base_ref }}
-  NODEJS_VERSION: '20'
+  NODEJS_VERSION: '22'
 
 jobs:
   build:
