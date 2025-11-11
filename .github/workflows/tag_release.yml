@@ -2,14 +2,14 @@ name: Tag Release
 on:
   push:
     branches:
-      - prod-stable
+      - prod-hccm
 jobs:
   tag_release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: prod-stable
+          ref: prod-hccm
       - run: |
           git fetch --prune --unshallow
       - name: Tag this release
