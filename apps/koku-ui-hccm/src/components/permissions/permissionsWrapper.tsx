@@ -90,7 +90,6 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps, an
             )}
           </Permissions>
         )}
-        Konflux TEST
       </PageTitle>
     );
   }

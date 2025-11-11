@@ -8,8 +8,8 @@
   "license": "Apache-2.0",
   "private": true,
   "engines": {
-    "node": ">=20.15.0",
-    "npm": ">=10.8.0"
+    "node": ">=22.20.0",
+    "npm": ">=11.6.2"
   },
   "scripts": {
     "build": "npm run build:prod",
@@ -55,9 +55,9 @@
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.13",
     "@redhat-cloud-services/frontend-components-translations": "^4.0.16",
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.9",
-    "@reduxjs/toolkit": "^2.9.1",
+    "@reduxjs/toolkit": "^2.10.1",
     "@unleash/proxy-client-react": "^5.0.1",
-    "axios": "^1.12.2",
+    "axios": "^1.13.2",
     "date-fns": "^4.1.0",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
