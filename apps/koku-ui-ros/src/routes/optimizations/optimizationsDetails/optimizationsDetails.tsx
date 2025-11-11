@@ -39,7 +39,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
             />
           </CardBody>
         </Card>
-        Konflux TEST
+        ROS Konflux TEST 1
       </PageSection>
     </>
   );
