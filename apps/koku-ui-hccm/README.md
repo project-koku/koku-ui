@@ -43,12 +43,12 @@ sudo bash scripts/patch-etc-hosts.sh
 3. Clone the repository, and open a terminal in the base of this project.
 4. Run the command `npm install` to install all the dependencies.
 
-## Building koku-ui-hccm
+## Building apps/koku-ui-hccm
 ```
 npm build
 ```
 
-## Testing koku-ui-hccm
+## Testing apps/koku-ui-hccm
 ```
 npm test
 ```
@@ -209,7 +209,7 @@ This [RELEASE][release-doc] doc describes how to release Koku UI to each staging
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
 [Jira]: https://issues.redhat.com/projects/COST/
 [koku-readme]: https://github.com/project-koku/koku#readme
-[koku-ui-ros-readme]: https://github.com/project-koku/koku-ui/blob/prod-ros/apps/koku-ui-ros/README.md
+[koku-ui-ros-readme]: https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-ros/README.md
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true
 [nodejs]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
