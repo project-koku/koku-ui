@@ -2,13 +2,15 @@ name: CI
 
 on:
   pull_request:
-    branches: [ main, prod-beta, prod-stable, stage-beta, stage-stable ]
+    branches:
+      - main
   push:
-    branches: [ main, prod-beta, prod-stable, stage-beta, stage-stable ]
+    branches:
+      - main
 
 env:
   BRANCH: ${{ github.base_ref }}
-  NODEJS_VERSION: '20'
+  NODEJS_VERSION: '22'
 
 jobs:
   build:
