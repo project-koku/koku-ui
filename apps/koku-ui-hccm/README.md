@@ -43,12 +43,12 @@ sudo bash scripts/patch-etc-hosts.sh
 3. Clone the repository, and open a terminal in the base of this project.
 4. Run the command `npm install` to install all the dependencies.
 
-## Building
+## Building apps/koku-ui-hccm
 ```
 npm build
 ```
 
-## Testing
+## Testing apps/koku-ui-hccm
 ```
 npm test
 ```
@@ -57,7 +57,7 @@ npm test
 
 Note that this approach currently supports the Insights stage and prod environments.
 
-1. Start development server
+1. Start development server in apps/koku-ui-hccm
 ```
 npm start
 ```
@@ -82,42 +82,42 @@ Refer to the [serving files locally][serving-files-locally] section of cloud ser
 make dev-static-node
 ```
 
-2. Start development server in Koku UI repo
+2. Start development server for Koku UI in apps/koku-ui-hccm
 ```
 npm start:csb
 ```
 
-### Running Koku UI with local Koku microfrontend (MFE)
+### Running Koku UI with local ROS UI
 
-Refer to the [koku-ui-mfe README][koku-ui-mfe-readme] for more details
+Refer to the [koku-ui-ros README][koku-ui-ros-readme] for more details
 
-1. Start development server in Koku MFE repo
+1. Start development server in apps/koku-ui-ros
 ```
 npm start:static
 ```
 
-2. Start development server in Koku UI repo
+2. Start development server in apps/koku-ui-hccm
 ```
-npm start:mfe
+npm start:ros
 ```
 
-### Running Koku UI with local Koku microfrontend (MFE) and Cloud Services Backend
+### Running Koku UI with local ROS UI and Cloud Services Backend
 
-Refer to the [serving files locally][serving-files-locally] section of cloud services config and the [koku-ui-mfe README][koku-ui-mfe-readme] for more details
+Refer to the [serving files locally][serving-files-locally] section of cloud services config and the [koku-ui-ros README][koku-ui-ros-readme] for more details
 
 1. Serve files locally from Cloud Services Backend repo
 ```
 make dev-static-node
 ```
 
-2. Start development server in Koku MFE repo
+2. Start development server in apps/koku-ui-ros
 ```
 npm start:static
 ```
 
-3. Start development server in Koku UI repo
+3. Start development server in apps/koku-ui-hccm
 ```
-npm start:csb:mfe
+npm start:csb:ros
 ```
 
 ## Running local instances of Koku UI and Koku API
@@ -125,7 +125,7 @@ npm start:csb:mfe
 
 Note that this approach currently supports the Insights stage and prod environments.
 
-1. Start development server
+1. Start development server in apps/koku-ui-hccm
 ```
 npm start
 ```
@@ -209,7 +209,7 @@ This [RELEASE][release-doc] doc describes how to release Koku UI to each staging
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
 [Jira]: https://issues.redhat.com/projects/COST/
 [koku-readme]: https://github.com/project-koku/koku#readme
-[koku-ui-mfe-readme]: https://github.com/project-koku/koku-ui-mfe#readme
+[koku-ui-ros-readme]: https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-ros/README.md
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true
 [nodejs]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
