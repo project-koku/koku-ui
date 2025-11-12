@@ -1,0 +1,19 @@
+* @project-koku/koku-ui-hccm
+
+# shared libs
+/libs/ @project-koku/koku-ui-hccm @project-koku/koku-ui-ros @project-koku/koku-ui-onprem
+
+# On-prem apps
+/apps/koku-ui-onprem/ @project-koku/koku-ui-onprem
+
+# SaaS apps
+/apps/koku-ui-hccm/ @project-koku/koku-ui-hccm
+/apps/koku-ui-ros/ @project-koku/koku-ui-ros
+
+# tekton hccm
+/.tekton/koku-ui-hccm-pull-request.yaml @project-koku/koku-ui-hccm
+/.tekton/koku-ui-hccm-push.yaml @project-koku/koku-ui-hccm
+
+# tekton ros
+/.tekton/koku-ui-ros-pull-request.yaml @project-koku/koku-ui-ros
+/.tekton/koku-ui-ros-push.yaml @project-koku/koku-ui-ros
