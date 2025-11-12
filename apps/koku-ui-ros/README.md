@@ -1,10 +1,10 @@
-# Koku microfrontend (MFE) with Module Federation
+# ROS UI
 
 [![Apache 2.0][license-badge]](https://github.com/project-koku/koku-ui/blob/main/LICENSE)
 [![CI Status][build-badge]](https://github.com/project-koku/koku-ui/actions/workflows/ci.yml?query=branch%3Amain)
 [![codecov][codecov-badge]](https://codecov.io/gh/project-koku/koku-ui)
 
-React.js app for Cost Management.
+React.js app for Resource Optimization with Module Federation.
 
 User interface is based on [Patternfly].
 
@@ -43,21 +43,21 @@ sudo bash scripts/patch-etc-hosts.sh
 3. Clone the repository, and open a terminal in the base of this project.
 4. Run the command `npm install` to install all the dependencies.
 
-## Building
+## Building apps/koku-ui-ros
 ```
 npm build
 ```
 
-## Testing
+## Testing apps/koku-ui-ros
 ```
 npm test
 ```
 
-## Running Koku MFE against a hosted Koku API, using webpack proxy
+## Running ROS UI against a hosted Koku API, using webpack proxy
 
 Note that this approach currently supports only the Insights stage environment.
 
-1. Start development server
+1. Start development server in apps/koku-ui-ros
 ```
 npm start
 ```
@@ -73,7 +73,7 @@ https://stage.foo.redhat.com:1337/staging/cost-management
 
 Note: Must log in with a user that has Cost Management permissions
 
-### Running Koku MFE with local Cloud Services Backend
+### Running ROS UI with local Cloud Services Backend
 
 Refer to the [serving files locally][serving-files-locally] section of cloud services config for more details
 
@@ -82,26 +82,26 @@ Refer to the [serving files locally][serving-files-locally] section of cloud ser
 make dev-static-node
 ```
 
-2. Start development server in Koku MFE repo
+2. Start development server in apps/koku-ui-ros
 ```
 npm start:csb
 ```
 
-### Running Koku MFE with local Koku UI
+### Running ROS UI with local Koku UI
 
 Refer to the [koku-ui README][koku-ui-readme] for more details
 
-1. Start development server in Koku MFE repo
+1. Start development server in apps/koku-ui-ros
 ```
 npm start:static
 ```
 
-2. Start development server in Koku UI repo
+2. Start development server in apps/koku-ui-hccm
 ```
-npm start:mfe
+npm start:ros
 ```
 
-### Running Koku MFE with local Koku UI and Cloud Services Backend
+### Running ROS UI with local Koku UI and Cloud Services Backend
 
 Refer to the [serving files locally][serving-files-locally] section of cloud services config and the [koku-ui README][koku-ui-readme] for more details
 
@@ -110,19 +110,19 @@ Refer to the [serving files locally][serving-files-locally] section of cloud ser
 make dev-static-node
 ```
 
-2. Start development server in Koku MFE repo
+2. Start development server in apps/koku-ui-ros
 ```
 npm start:static
 ```
 
-3. Start development server in Koku UI repo
+3. Start development server in apps/koku-ui-ros
 ```
-npm start:csb:mfe
+npm start:csb:ros
 ```
 
-## Releasing Koku MFE
+## Releasing ROS UI
 
-This [RELEASE][release-doc] doc describes how to release Koku MFE to each staging environment.
+This [RELEASE][release-doc] doc describes how to release ROS UI to each staging environment.
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
