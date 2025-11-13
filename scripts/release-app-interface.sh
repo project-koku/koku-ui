@@ -158,7 +158,7 @@ mergeRequest()
 push()
 {
   echo ""
-  read -p "*** You are pushing to the $TARGET_BRANCH branch. Continue?" YN
+  read -p "*** You are pushing to the $SOURCE_BRANCH branch. Continue?" YN
 
   case $YN in
     [Yy]* ) echo "\n*** Pushing $SOURCE_BRANCH..."; git push -u origin $SOURCE_BRANCH;;
