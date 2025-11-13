@@ -17,7 +17,8 @@ default()
   PROD_HCCM_BRANCH="prod-hccm"
   PROD_ROS_BRANCH="prod-ros"
 
-  KOKU_UI_DIR="$TMP_DIR/koku-ui"
+  KOKU_UI=koku-ui
+  KOKU_UI_DIR="$TMP_DIR/$KOKU_UI"
   KOKU_UI_REPO="git@github.com:project-koku/koku-ui.git"
 
   BODY_FILE="$KOKU_UI_DIR/body"
@@ -27,7 +28,8 @@ usage()
 {
 cat <<- EEOOFF
 
-    This script will merge the following branches and either create a pull request (default) or push upstream
+    This script will merge the following branches with the koku-ui and either create a pull request (default)
+    or push to the origin without an PR. It's assumed SSH keys are in use.
 
     $STAGE_HCCM_BRANCH is merged from $MAIN_BRANCH
     $PROD_HCCM_BRANCH is merged from $STAGE_HCCM_BRANCH
@@ -132,7 +134,7 @@ push()
     exit 1
   fi
 
-  echo "\n*** Releasing $SOURCE_BRANCH to $TARGET_BRANCH...\n"
+  echo "\n*** Releasing $KOKU_UI $SOURCE_BRANCH to $TARGET_BRANCH...\n"
 
   clone
   merge
