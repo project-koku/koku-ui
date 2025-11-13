@@ -6,8 +6,6 @@ const { spawn } = require('child_process');
 function defaults() {
   process.env.APP_INTERFACE = 'false';
   process.env.DEBUG = 'false';
-  process.env.HCCM_ARGS = '';
-  process.env.ROS_ARGS = '';
 }
 
 async function setAppInterfaceConfig() {
@@ -91,7 +89,7 @@ async function run() {
   allArgs.push(...deploymentArgs);
 
   spawn('sh', allArgs, {
-    stdio: [process.stdout, process.stdout, process.stdout],
+    stdio: 'inherit',
     cwd: resolve(__dirname, '.'),
   });
 }
