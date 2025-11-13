@@ -99,11 +99,15 @@ pullRequest()
 
 push()
 {
+  NEW_BRANCH="release_${TARGET_BRANCH}.$$"
+
+  git branch -m $NEW_BRANCH
+
   echo ""
-  read -p "*** You are pushing to the $TARGET_BRANCH branch. Continue?" YN
+  read -p "*** You are pushing to the $NEW_BRANCH branch. Continue?" YN
 
   case $YN in
-    [Yy]* ) echo "\n*** Pushing $TARGET_BRANCH..."; git push -u origin $TARGET_BRANCH;;
+    [Yy]* ) echo "\n*** Pushing $NEW_BRANCH..."; git push -u origin $NEW_BRANCH;;
     [Nn]* ) exit 0;;
     * ) echo "Please answer yes or no."; push;;
   esac
