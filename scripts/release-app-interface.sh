@@ -35,6 +35,7 @@ default()
 
   DESC_FILE="$TMP_DIR/desc"
   DEPLOY_CLOWDER_FILE="$APP_INTERFACE_DIR/data/services/insights/hccm/deploy-clowder.yml"
+  DEPLOYMENTS_FILE="$TMP_DIR/deployments"
 }
 
 usage()
@@ -100,13 +101,33 @@ commit()
   git commit -m "$TITLE" $DEPLOY_CLOWDER_FILE
 }
 
-createPullRequestDesc()
+createDeploymentUpdates()
+{
+  if [ "$UPDATE_HCCM_STAGE" = 'true' ]; then
+    echo "${KOKU_UI_HCCM}: Stage deployment" >> $DEPLOYMENTS_FILE
+  fi
+  if [ "$UPDATE_HCCM_PROD" = 'true' ]; then
+    echo "${KOKU_UI_HCCM}: Prod deployment" >> $DEPLOYMENTS_FILE
+  fi
+  if [ "$UPDATE_ROS_STAGE" = 'true' ]; then
+    echo "${KOKU_UI_ROS}: Stage deployment" >> $DEPLOYMENTS_FILE
+  fi
+  if [ "$UPDATE_ROS_PROD" = 'true' ]; then
+    echo "${KOKU_UI_ROS}: Prod deployment" >> $DEPLOYMENTS_FILE
+  fi
+  DEPLOYMENTS=`cat $DEPLOYMENTS_FILE`
+}
+
+createMergeRequestDesc()
 {
 cat <<- EEOOFF > $DESC_FILE
 Update Cost Management UI deployments
 
 #### What:
 Update Cost Management UI deployments to latest commit
+
+Updated deployments:
+$DEPLOYMENTS
 
 #### Why:
 To promote new features, latest bug fixes, and dependency updates
@@ -307,7 +328,8 @@ updateDeploySHA()
     if [ -n "$PUSH" ]; then
       push
     else
-      createPullRequestDesc
+      createDeploymentUpdates
+      createMergeRequestDesc
       mergeRequest
     fi
   else
