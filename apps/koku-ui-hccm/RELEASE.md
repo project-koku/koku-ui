@@ -6,16 +6,23 @@ This doc describes how to release Koku UI to each staging environment. Note that
 
 The release script creates a PR with a unique SHA, used for a namespace \`ref\` in the app-interface repo. The script also ensures that code is always pulled from the correct branches. For example, we always:
 
-1. Pull from master when pushing to prod-hccm
+1. Pull from master when pushing to stage-hccm
+2. Pull from stage-hccm when pushing to prod-hccm
 
 Note: Pushing to master automatically deploys to the stage.
 
 Please allow the PR to build successfully and merge before running the script again.
 
+### Release to stage-hccm
+
+```
+sh ../../scripts/release-branch.sh -s
+```
+
 ### Release to prod-hccm
 
 ```
-sh scripts/release-branch.sh -p
+sh ../../scripts/release-branch.sh -p
 ```
 
 ## Deployment
@@ -27,7 +34,12 @@ Use the latest commit of each branch to update namespaces \`ref\` in the app-int
 ```
 - name: koku-ui-hccm
   ...
-    # Prod Stable Deployment
+    # Stage Deployment
+  - namespace:
+      $ref: /services/insights/frontend-operator/namespaces/stage-frontends.yml
+    ref: 68ce48592f5222029f27f6fb708698013d2f0a58 // Replace with latest SHA for stage-hccm branch
+    ...
+    # Prod Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/prod-frontends.yml
     ref: c7f6c75fd1e895afbc05a2a6d26835fa16a0edfa // Replace with latest SHA for prod-hccm branch
