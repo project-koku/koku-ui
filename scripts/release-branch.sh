@@ -11,34 +11,38 @@ default()
   TMP_DIR="/tmp/$SCRIPT.$$"
 
   MAIN_BRANCH="main"
+  STAGE_HCCM_BRANCH="stage-hccm"
   STAGE_ROS_BRANCH="stage-ros"
 
-  PROD_HCM_BRANCH="prod-hccm"
+  PROD_HCCM_BRANCH="prod-hccm"
   PROD_ROS_BRANCH="prod-ros"
 
-  UI_DIR="$TMP_DIR/koku-ui"
-  UI_REPO="git@github.com:project-koku/koku-ui.git"
+  KOKU_UI_DIR="$TMP_DIR/koku-ui"
+  KOKU_UI_REPO="git@github.com:project-koku/koku-ui.git"
 
-  BODY_FILE="$UI_DIR/body"
+  BODY_FILE="$KOKU_UI_DIR/body"
 }
 
 usage()
 {
 cat <<- EEOOFF
 
-    This script will merge the following branches and create a pull request (default) or push upstream
+    This script will merge the following branches and either create a pull request (default) or push upstream
+
+    $STAGE_HCCM_BRANCH is merged from $MAIN_BRANCH
+    $PROD_HCCM_BRANCH is merged from $STAGE_HCCM_BRANCH
 
     $STAGE_ROS_BRANCH is merged from $MAIN_BRANCH
-    $PROD_HCM_BRANCH is merged from $MAIN_BRANCH
     $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
 
-    sh [-x] $SCRIPT [-h|u] -<p|r|s>
+    sh [-x] $SCRIPT [-h|u] -<p|q|r|s>
 
     OPTIONS:
     h       Display this message
-    s       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
+    s       Merge $MAIN_BRANCH to $STAGE_HCCM_BRANCH
+    p       Merge $STAGE_HCCM_BRANCH to $PROD_HCCM_BRANCH
+    q       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
     r       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
-    p       Merge $MAIN_BRANCH to $PROD_HCM_BRANCH
     u       Push to upstream
 
 EEOOFF
@@ -49,13 +53,13 @@ clone()
   mkdir $TMP_DIR
   cd $TMP_DIR
 
-  git clone $UI_REPO
+  git clone $KOKU_UI_REPO
 }
 
 createPullRequestBody()
 {
 cat <<- EEOOFF > $BODY_FILE
-Merged $REMOTE_BRANCH branch to $BRANCH.
+Merged $SOURCE_BRANCH branch to $TARGET_BRANCH.
 
 Use latest commit to update namespace \`ref\` in app-interface repo. Don't use merge commit, SHAs must be unique when images are created for each branch.
 EEOOFF
@@ -63,41 +67,41 @@ EEOOFF
 
 merge()
 {
-  cd $UI_DIR
+  cd $KOKU_UI_DIR
 
-  echo "\n*** Checkout $BRANCH"
-  git checkout $BRANCH
+  echo "\n*** Checkout $TARGET_BRANCH"
+  git checkout $TARGET_BRANCH
 
-  echo "\n*** Fetch origin $REMOTE_BRANCH"
-  git fetch origin $REMOTE_BRANCH
+  echo "\n*** Fetch origin $SOURCE_BRANCH"
+  git fetch origin $SOURCE_BRANCH
 
-  echo "\n*** Merge origin/$REMOTE_BRANCH"
-  git merge origin/$REMOTE_BRANCH --commit --no-edit --no-ff
+  echo "\n*** Merge origin/$SOURCE_BRANCH"
+  git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff
 }
 
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 pullRequest()
 {
-  NEW_BRANCH="release_${BRANCH}.$$"
+  NEW_BRANCH="release_${TARGET_BRANCH}.$$"
 
   git branch -m $NEW_BRANCH
 
   echo "\n*** Pushing $NEW_BRANCH..."
   git push -u origin HEAD
 
-  TITLE="Deployment commit for $BRANCH"
+  TITLE="Deployment commit for $TARGET_BRANCH"
   BODY=`cat $BODY_FILE`
 
-  gh pr create -t "$TITLE" -b "$BODY" -B $BRANCH
+  gh pr create -t "$TITLE" -b "$BODY" -B $TARGET_BRANCH
 }
 
 push()
 {
   echo ""
-  read -p "*** You are pushing to the $BRANCH branch. Continue?" YN
+  read -p "*** You are pushing to the $TARGET_BRANCH branch. Continue?" YN
 
   case $YN in
-    [Yy]* ) echo "\n*** Pushing $BRANCH..."; git push -u origin $BRANCH;;
+    [Yy]* ) echo "\n*** Pushing $TARGET_BRANCH..."; git push -u origin $TARGET_BRANCH;;
     [Nn]* ) exit 0;;
     * ) echo "Please answer yes or no."; push;;
   esac
@@ -107,26 +111,28 @@ push()
 {
   default
 
-  while getopts hprsu c; do
+  while getopts hpqrsu c; do
     case $c in
-      s) BRANCH=$STAGE_ROS_BRANCH
-         REMOTE_BRANCH=$MAIN_BRANCH;;
-      r) BRANCH=$PROD_ROS_BRANCH
-         REMOTE_BRANCH=$STAGE_ROS_BRANCH;;
-      p) BRANCH=$PROD_HCM_BRANCH
-         REMOTE_BRANCH=$MAIN_BRANCH;;
+      s) TARGET_BRANCH=$STAGE_HCCM_BRANCH
+         SOURCE_BRANCH=$MAIN_BRANCH;;
+      p) TARGET_BRANCH=$PROD_HCCM_BRANCH
+         SOURCE_BRANCH=$STAGE_HCCM_BRANCH;;
+      q) TARGET_BRANCH=$STAGE_ROS_BRANCH
+         SOURCE_BRANCH=$MAIN_BRANCH;;
+      r) TARGET_BRANCH=$PROD_ROS_BRANCH
+         SOURCE_BRANCH=$STAGE_ROS_BRANCH;;
       u) PUSH=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
     esac
   done
 
-  if [ -z "$BRANCH" ]; then
+  if [ -z "$TARGET_BRANCH" ]; then
     usage
     exit 1
   fi
 
-  echo "\n*** Releasing $REMOTE_BRANCH to $BRANCH...\n"
+  echo "\n*** Releasing $SOURCE_BRANCH to $TARGET_BRANCH...\n"
 
   clone
   merge
