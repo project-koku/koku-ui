@@ -2,9 +2,9 @@
 
 This doc describes how to release Koku UI to each staging environment. Note that this should be done in order for testing purposes.
 
-## Release script
+## Release branches
 
-The release script creates a PR with a unique SHA, used for a namespace \`ref\` in the app-interface repo. The script also ensures that code is always pulled from the correct branches. For example, we always:
+The release script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
 
 1. Pull from master when pushing to stage-hccm
 2. Pull from stage-hccm when pushing to prod-hccm
@@ -25,9 +25,46 @@ sh ../../scripts/release-branch.sh -s
 sh ../../scripts/release-branch.sh -p
 ```
 
-## Deployment
+### Wrapper for all release and deployment functionality
 
-After all PRs have been merged, update the \`koku-ui-hccm\` resource in https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/hccm/deploy-clowder.yml
+```
+node ../../scripts/release-all.js
+```
+
+Follow the prompts below.
+
+* Which app do you want to release? `koku-ui-hccm`
+* Which Chrome environment you want to release? `stage`
+* Do you want to release to app-interface? `N`
+
+## Deployments for app-interface
+
+The release script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
+
+1. Pull from stage-hccm when updating the stage deployment in app-interface
+2. Pull from prod-hccm when updating the prod deployment in app-interface
+
+### Release to app-interface
+
+```
+sh ../../scripts/release-app-interface.sh -<p|s>
+```
+
+### Wrapper for all release and deployment functionality
+
+```
+node ../../scripts/release-all.js
+```
+
+Follow the prompts below.
+
+* Which app do you want to release? `koku-ui-hccm`
+* Which Chrome environment you want to release? `stage`
+* Do you want to release to app-interface? `Y`
+
+### Manual deployment
+
+After all koku-ui PRs have been merged, update the \`koku-ui-hccm\` resource in https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/hccm/deploy-clowder.yml
 
 Use the latest commit of each branch to update namespaces \`ref\` in the app-interface repo. Don't use a merge commit, SHAs must be unique when images are created for each branch.
 
