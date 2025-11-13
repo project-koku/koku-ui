@@ -4,13 +4,16 @@ on:
     branches:
       - prod-hccm
       - prod-ros
+env:
+  BRANCH: ${{ github.base_ref }}
+
 jobs:
   tag_release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ env.BRANCH }}
       - run: |
           git fetch --prune --unshallow
       - name: Tag this release
@@ -32,6 +35,6 @@ jobs:
           TAG="r.$DATE.$MINOR_VERSION"
           git config --local user.email "cost-mgmt@redhat.com"
           git config --local user.name "Cost Management Release Action"
-          git log $(git tag --list | tail -1)..prod-stable | git tag -a $TAG -F -
+          git log $(git tag --list | tail -1)..${{ env.BRANCH }} | git tag -a $TAG -F -
           git push origin $TAG
         shell: bash

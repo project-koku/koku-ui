@@ -14,13 +14,13 @@ Please allow the PR to build successfully and merge before running the script ag
 ### Release to stage-ros
 
 ```
-sh scripts/release-branch.sh -s
+sh ../../scripts/release-branch.sh -q
 ```
 
 ### Release to prod-ros
 
 ```
-sh scripts/release-branch.sh -r
+sh ../../scripts/release-branch.sh -r
 ```
 
 ## Deployment
@@ -32,12 +32,12 @@ Use the latest commit of each branch to update namespaces \`ref\` in the app-int
 ```
 - name: koku-ui-ros
   ...
-    # Stage Stable Deployment
+    # Stage Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/stage-frontends.yml
     ref: 68ce48592f5222029f27f6fb708698013d2f0a58 // Replace with latest SHA for stage-ros branch
     ...
-    # Prod Stable Deployment
+    # Prod Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/prod-frontends.yml
     ref: 77deb707f31b40414e8b13afe23d39e7091fd067 // Replace with latest SHA for prod-ros branch
