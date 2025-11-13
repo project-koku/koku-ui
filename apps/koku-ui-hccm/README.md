@@ -62,9 +62,9 @@ Note that this approach currently supports the Insights stage and prod environme
 npm start
 ```
 
-Follow the prompts that follow.
+Follow the prompts below.
 
-* Which platform environment you want to use `stage`
+* Which platform environment you want to use? `stage`
 
 2. Open the following URL
 ```
