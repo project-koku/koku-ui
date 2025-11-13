@@ -64,7 +64,7 @@ npm start
 
 Follow the prompts that follow.
 
-* Which platform environment you want to use `stage`
+* Which platform environment you want to use? `stage`
 
 2. Open the following URL
 ```

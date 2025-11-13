@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production npm run ts-node ../../node_modules/.bin/webpack --mode=production",
+    "clean": "rimraf dist",
     "start": "npm run ts-node ../../node_modules/.bin/webpack serve --mode=development --color --progress",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
