@@ -105,18 +105,21 @@ createDeploymentUpdates()
 {
   mkdir -p $TMP_DIR
 
-  if [ "$UPDATE_HCCM_STAGE" = 'true' ]; then
-    echo "${KOKU_UI_HCCM}: Stage deployment" >> $DEPLOYMENTS_FILE
-  fi
-  if [ "$UPDATE_HCCM_PROD" = 'true' ]; then
-    echo "${KOKU_UI_HCCM}: Prod deployment" >> $DEPLOYMENTS_FILE
-  fi
-  if [ "$UPDATE_ROS_STAGE" = 'true' ]; then
-    echo "${KOKU_UI_ROS}: Stage deployment" >> $DEPLOYMENTS_FILE
-  fi
-  if [ "$UPDATE_ROS_PROD" = 'true' ]; then
-    echo "${KOKU_UI_ROS}: Prod deployment" >> $DEPLOYMENTS_FILE
-  fi
+  {
+    if [ "$UPDATE_HCCM_STAGE" = "true" ]; then
+      echo "${KOKU_UI_HCCM}: Stage deployment"
+    fi
+    if [ "$UPDATE_HCCM_PROD" = "true" ]; then
+      echo "${KOKU_UI_HCCM}: Prod deployment"
+    fi
+    if [ "$UPDATE_ROS_STAGE" = "true" ]; then
+      echo "${KOKU_UI_ROS}: Stage deployment"
+    fi
+    if [ "$UPDATE_ROS_PROD" = "true" ]; then
+      echo "${KOKU_UI_ROS}: Prod deployment"
+    fi
+  } > "$DEPLOYMENTS_FILE"
+
   DEPLOYMENTS=`cat $DEPLOYMENTS_FILE`
 }
 
