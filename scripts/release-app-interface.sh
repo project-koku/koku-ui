@@ -10,7 +10,7 @@ default()
   SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
   TMP_DIR="/tmp/$SCRIPT.$$"
 
-  GITLAB_USER=`whoami`
+  GITLAB_USER=${GITLAB_USER:-`whoami`}
   MAIN_BRANCH="main"
   HCCM_STAGE_BRANCH="stage-hccm"
   HCCM_PROD_BRANCH="prod-hccm"
@@ -51,7 +51,7 @@ cat <<- EEOOFF
     $ROS_PROD_BRANCH
     $ROS_STAGE_BRANCH
 
-    sh [-x] $SCRIPT [-h|u] -<p|q|r|s>
+    sh [-x] $SCRIPT [-h|-p|-q|-r|-s|-u]
 
     OPTIONS:
     h       Display this message
@@ -126,8 +126,6 @@ createDeploymentUpdates()
 createMergeRequestDesc()
 {
 cat <<- EEOOFF > $DESC_FILE
-Update Cost Management UI deployments
-
 #### What:
 Update Cost Management UI deployments to latest commit
 
@@ -328,7 +326,7 @@ updateDeploySHA()
       mergeRequest
     fi
   else
-    echo "\n*** Cannot not push. No changes or check for conflicts"
+    echo "\n*** Cannot push. No changes or check for conflicts"
   fi
 
   rm -rf $TMP_DIR
