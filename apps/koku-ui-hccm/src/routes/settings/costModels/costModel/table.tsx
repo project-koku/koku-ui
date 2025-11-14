@@ -25,16 +25,10 @@ interface TableBaseProps extends WrappedComponentProps {
   current: CostModel;
 }
 
-interface PaginationQuery {
-  page: number;
-  perPage: number;
-}
-
 interface TableBaseState {
   query: { name: string[] };
   currentFilter: string;
   filter: string;
-  pagination: PaginationQuery;
 }
 
 class TableBase extends React.Component<TableBaseProps, TableBaseState> {
@@ -42,15 +36,10 @@ class TableBase extends React.Component<TableBaseProps, TableBaseState> {
     query: { name: [] },
     currentFilter: '',
     filter: '',
-    pagination: { page: 1, perPage: 10 },
   };
   public state: TableBaseState = { ...this.defaultState };
 
   public render() {
-    const {
-      pagination: { page, perPage },
-    } = this.state;
-
     const { current, intl, isWritePermission, onAdd, rows } = this.props;
 
     const filteredRows = rows
@@ -61,7 +50,6 @@ class TableBase extends React.Component<TableBaseProps, TableBaseState> {
         return this.state.query.name.every(fName => uuid.includes(fName));
       })
       .map(uuid => [uuid]);
-    const res = filteredRows.slice((page - 1) * perPage, page * perPage);
 
     // Note: Removed pagination props because the /cost-models/{cost_model_uuid}/ API does not support pagination
     // See https://issues.redhat.com/browse/COST-2097
@@ -79,12 +67,10 @@ class TableBase extends React.Component<TableBaseProps, TableBaseState> {
           filter={{
             onClearAll: () =>
               this.setState({
-                pagination: { ...this.state.pagination, page: 1 },
                 query: { name: [] },
               }),
             onRemove: (_category, chip) => {
               this.setState({
-                pagination: { ...this.state.pagination, page: 1 },
                 query: removeMultiValueQuery(this.state.query)('name', chip),
               });
             },
@@ -102,17 +88,16 @@ class TableBase extends React.Component<TableBaseProps, TableBaseState> {
                 query: addMultiValueQuery(this.state.query)('name', this.state.currentFilter),
                 currentFilter: '',
                 filter: this.state.currentFilter,
-                pagination: { ...this.state.pagination, page: 1 },
               });
             },
             value: this.state.currentFilter,
             placeholder: intl.formatMessage(messages.costModelsFilterPlaceholder),
           }}
         />
-        {res.length > 0 && (
+        {filteredRows.length > 0 && (
           <SourcesTable
             showDeleteDialog={(rowId: number) => {
-              this.props.onDelete(res[rowId]);
+              this.props.onDelete(filteredRows[rowId]);
             }}
             showOperatorVersion={getSourceType(current.source_type) === 'OCP'}
           />
