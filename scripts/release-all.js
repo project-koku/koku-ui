@@ -55,25 +55,22 @@ async function setConfig() {
       const { appEnv, clouddotEnv, debug } = answers;
       process.env.DEBUG = debug.toString();
 
-      if (appEnv === 'koku-ui-hccm' || appEnv === 'all') {
-        if (clouddotEnv === 'stage') {
-          process.env.HCCM_STAGE_ARG = '-s';
-        } else if (clouddotEnv === 'prod') {
-          process.env.HCCM_PROD_ARG = '-p';
-        } else if (clouddotEnv === 'all') {
-          process.env.HCCM_STAGE_ARG = '-s';
-          process.env.HCCM_PROD_ARG = '-p';
-        }
+      const isHccm = appEnv === 'koku-ui-hccm' || appEnv === 'all';
+      const isRos = appEnv === 'koku-ui-ros' || appEnv === 'all';
+      const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
+      const isProd = clouddotEnv === 'prod' || clouddotEnv === 'all';
+
+      if (isHccm && isStage) {
+        process.env.HCCM_STAGE_ARG = '-s';
       }
-      if (appEnv === 'koku-ui-ros' || appEnv === 'all') {
-        if (clouddotEnv === 'stage') {
-          process.env.ROS_STAGE_ARG = '-q';
-        } else if (clouddotEnv === 'prod') {
-          process.env.ROS_PROD_ARG = '-r';
-        } else if (clouddotEnv === 'all') {
-          process.env.ROS_STAGE_ARG = '-q';
-          process.env.ROS_PROD_ARG = '-r';
-        }
+      if (isHccm && isProd) {
+        process.env.HCCM_PROD_ARG = '-p';
+      }
+      if (isRos && isStage) {
+        process.env.ROS_STAGE_ARG = '-q';
+      }
+      if (isRos && isProd) {
+        process.env.ROS_PROD_ARG = '-r';
       }
     });
 }
