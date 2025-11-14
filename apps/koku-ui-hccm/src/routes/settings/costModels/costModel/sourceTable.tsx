@@ -86,7 +86,7 @@ class SourceTableBase extends React.Component<SourceTableProps, SourceTableState
         <Table
           onDeleteText={intl.formatMessage(messages.costModelsSourceDelete)}
           onDelete={item => {
-            this.setState({ dialogSource: item[0] });
+            this.setState({ dialogSource: item?.[0] });
             setDialogOpen({ name: 'deleteSource', isOpen: true });
           }}
           onAdd={() => setDialogOpen({ name: 'addSource', isOpen: true })}
