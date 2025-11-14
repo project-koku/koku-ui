@@ -126,19 +126,19 @@ createDeploymentUpdates()
 createMergeRequestDesc()
 {
 cat <<- EEOOFF > $DESC_FILE
-#### What:
+<b>What:</b>
 Update Cost Management UI deployments to latest commit
 
 Updated deployments:
 $DEPLOYMENTS
 
-#### Why:
+<b>Why:</b>
 To promote new features, latest bug fixes, and dependency updates
 
-#### Tickets:
+<b>Tickets:</b>
 N/A
 
-#### Validation:
+<b>Validation:</b>
 QE has verified all queued issues
 EEOOFF
 }
@@ -146,7 +146,7 @@ EEOOFF
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 mergeRequest()
 {
-  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/<br>/g' $DESC_FILE`
+  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|<br/>|g' $DESC_FILE`
 
   echo "\n*** Pushing $SOURCE_BRANCH..."
 
@@ -305,9 +305,9 @@ updateDeploySHA()
   fi
 
   echo "\n*** Releasing $APP_INTERFACE with SHA updates for...\n"
-
   createDeploymentUpdates
   cat $DEPLOYMENTS_FILE
+  echo
 
   cloneAppInterface
   cloneKokuUI
