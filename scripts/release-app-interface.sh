@@ -126,8 +126,6 @@ createDeploymentUpdates()
 createMergeRequestDesc()
 {
 cat <<- EEOOFF > $DESC_FILE
-Update Cost Management UI deployments
-
 #### What:
 Update Cost Management UI deployments to latest commit
 
