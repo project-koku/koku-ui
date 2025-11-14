@@ -45,7 +45,7 @@ The release script will update app-interface with the latest SHA refs from the k
 ### Release to app-interface
 
 ```
-sh ../../scripts/release-app-interface.sh -<q|r>
+sh ../../scripts/release-app-interface.sh [-q|-r]
 ```
 
 ### Wrapper for all release and deployment functionality
