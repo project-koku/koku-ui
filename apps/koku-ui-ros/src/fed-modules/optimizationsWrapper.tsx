@@ -3,7 +3,7 @@ import IntlProvider from '@redhat-cloud-services/frontend-components-translation
 import { getLocale } from 'components/i18n';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { mfeStore } from 'store';
+import { rosStore } from 'store';
 
 // eslint-disable-next-line no-restricted-imports
 import messages from '../../locales/data.json';
@@ -20,7 +20,7 @@ const OptimizationsWrapper: React.FC<OptimizationsWrapperProps> = ({ children }:
   // Note: className is a workaround for ConsoleDot outputting the app name instead of module name
   return (
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
-      <Provider store={mfeStore as any}>
+      <Provider store={rosStore as any}>
         <div className="costManagementRos">{children}</div>
       </Provider>
     </IntlProvider>
