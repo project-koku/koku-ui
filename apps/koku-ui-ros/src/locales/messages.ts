@@ -59,8 +59,8 @@ export default defineMessages({
     id: 'copyToClipboardSuccessfull',
   },
   costManagement: {
-    defaultMessage: 'Cost Management MFE',
-    description: 'Cost Management MFE',
+    defaultMessage: 'Cost Management ROS',
+    description: 'Cost Management ROS',
     id: 'costManagement',
   },
   cpu: {
@@ -464,8 +464,8 @@ export default defineMessages({
     id: 'optimizedStateTitle',
   },
   pageTitleDefault: {
-    defaultMessage: 'Cost Management MFE | OpenShift',
-    description: 'Cost Management MFE | OpenShift',
+    defaultMessage: 'Cost Management ROS | OpenShift',
+    description: 'Cost Management ROS | OpenShift',
     id: 'pageTitleDefault',
   },
   pageTitleOptimizations: {
@@ -651,8 +651,8 @@ export default defineMessages({
     id: 'welcomeInfo',
   },
   welcomeTitle: {
-    defaultMessage: 'Cost Management microfrontend (MFE) with Module Federation',
-    description: 'Cost Management microfrontend (MFE) with Module Federation',
+    defaultMessage: 'Cost Management ROS UI',
+    description: 'Cost Management ROS UI',
     id: 'welcomeTitle',
   },
 });
