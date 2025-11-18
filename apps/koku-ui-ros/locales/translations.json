@@ -10,7 +10,7 @@
   "chooseValuePlaceholder": "Choose value",
   "copyToClipboard": "Copy to clipboard",
   "copyToClipboardSuccessfull": "Successfully copied to clipboard!",
-  "costManagement": "Cost Management MFE",
+  "costManagement": "Cost Management ROS",
   "cpu": "CPU",
   "cpuUtilization": "CPU utilization",
   "currencyAbbreviations": "{symbol, select, billion {{value} B} million {{value} M} quadrillion {{value} q} thousand {{value} K} trillion {{value} t} other {}}",
@@ -71,7 +71,7 @@
   "optimizationsViewAllDisabled": "This project has not reported data this month.",
   "optimizedStateDesc": "Good job optimizing the current configuration.",
   "optimizedStateTitle": "You have reached recommended state!",
-  "pageTitleDefault": "Cost Management MFE | OpenShift",
+  "pageTitleDefault": "Cost Management ROS | OpenShift",
   "pageTitleOptimizations": "Optimizations - Cost Management | OpenShift",
   "paginationTitle": "{placement, select, top {{title} top pagination} bottom {{title} bottom pagination} other {{title} pagination}}",
   "percentPlus": "{count, plural, one {+{value}%} other {{value}%}}",
@@ -97,5 +97,5 @@
   "usage": "Usage",
   "valueUnits": "{value} {units}",
   "welcomeInfo": "For more information visit {url}",
-  "welcomeTitle": "Cost Management microfrontend (MFE) with Module Federation"
+  "welcomeTitle": "Cost Management ROS UI"
 }

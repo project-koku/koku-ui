@@ -45,7 +45,7 @@ The release script will update app-interface with the latest SHA refs from the k
 ### Release to app-interface
 
 ```
-sh ../../scripts/release-app-interface.sh -<q|r>
+sh ../../scripts/release-app-interface.sh [-q|-r]
 ```
 
 ### Wrapper for all release and deployment functionality
@@ -87,8 +87,8 @@ After releasing to each staging environment, open an incognito window and view o
 
 Please ensure expected changes have been updated before releasing to the next staging environment.
 
-1. For stage-ros, view https://console.stage.redhat.com/staging/cost-management/
-2. For prod-ros, view https://console.redhat.com/staging/cost-management/ (preview mode only)
+1. For stage-ros, view https://console.stage.redhat.com/staging/cost-management/ros
+2. For prod-ros, view https://console.redhat.com/staging/cost-management/ros (preview mode only)
 
 ## Release notes
 

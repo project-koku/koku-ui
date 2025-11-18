@@ -53,8 +53,6 @@ const providersMock: Providers = {
 
 fetchProvidersMock.mockReturnValue(Promise.resolve({ data: providersMock }));
 
-jest.spyOn(selectors, 'selectProvidersFetchStatus');
-
 test('default state', async () => {
   const store = createProdvidersStore();
   expect(selectors.selectProvidersState(store.getState())).toMatchSnapshot();
@@ -66,7 +64,9 @@ test('fetch providers success', async () => {
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
   expect(fetchProvidersMock).toHaveBeenCalled();
   expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectProvidersFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.complete)
+  );
   const finishedState = store.getState();
   expect(selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)).toBe(FetchStatus.complete);
 });
@@ -79,7 +79,9 @@ test('fetch providers failure', async () => {
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
   expect(fetchProvidersMock).toHaveBeenCalled();
   expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectProvidersFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.complete)
+  );
   const finishedState = store.getState();
   expect(selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)).toBe(FetchStatus.complete);
 });

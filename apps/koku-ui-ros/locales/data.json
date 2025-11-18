@@ -213,7 +213,7 @@
     "costManagement": [
       {
         "type": 0,
-        "value": "Cost Management MFE"
+        "value": "Cost Management ROS"
       }
     ],
     "cpu": [
@@ -1406,7 +1406,7 @@
     "pageTitleDefault": [
       {
         "type": 0,
-        "value": "Cost Management MFE | OpenShift"
+        "value": "Cost Management ROS | OpenShift"
       }
     ],
     "pageTitleOptimizations": [
@@ -2084,7 +2084,7 @@
     "welcomeTitle": [
       {
         "type": 0,
-        "value": "Cost Management microfrontend (MFE) with Module Federation"
+        "value": "Cost Management ROS UI"
       }
     ]
   }

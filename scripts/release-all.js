@@ -9,9 +9,13 @@ function defaults() {
 }
 
 function usage() {
-  console.log(`To release the koku-ui, use this script to first update koku-ui stage/prod branches.`);
-  console.log(`This script will then fetch the latest SHA refs from those branches and update app-interface.`);
-  console.log(`Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n`);
+  console.log(
+    [
+      'To release the koku-ui, use this script to first update koku-ui stage/prod branches.',
+      'This script will then fetch the latest SHA refs from those branches and update app-interface.',
+      'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
+    ].join('\n')
+  );
 }
 
 async function setAppInterfaceConfig() {

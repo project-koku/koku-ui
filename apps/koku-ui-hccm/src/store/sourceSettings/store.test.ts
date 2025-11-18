@@ -28,8 +28,7 @@ const createStore = createMockStoreCreator({
   [stateKey]: reducer,
 });
 
-jest.spyOn(actions, 'fetchSources');
-jest.spyOn(selectors, 'status');
+// Avoid spying on ESM exports; assert via selectors
 
 test('default state', async () => {
   const store = createStore();
@@ -43,7 +42,7 @@ test('fetching succeeded', async () => {
   expect(selectors.error(store.getState())).toEqual(null);
   store.dispatch(actions.fetchSources());
   expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.status).toHaveBeenCalled());
+  await waitFor(() => expect(selectors.status(store.getState())).toBe(FetchStatus.complete));
   expect(selectors.sources(store.getState())).toEqual(providers);
   expect(selectors.error(store.getState())).toEqual(null);
   expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
@@ -61,7 +60,7 @@ test('fetching failed', async () => {
   expect(selectors.error(store.getState())).toEqual(null);
   store.dispatch(actions.fetchSources());
   expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.status).toHaveBeenCalled());
+  await waitFor(() => expect(selectors.status(store.getState())).toBe(FetchStatus.complete));
   expect(selectors.sources(store.getState())).toEqual([]);
   expect(selectors.error(store.getState())).toEqual(error);
   expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
@@ -99,7 +98,7 @@ test('pagination - first page', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
+  await waitFor(() => expect(selectors.pagination(store.getState())).toEqual({ count: 20, page: 1, perPage: 10 }));
   expect(selectors.pagination(store.getState())).toEqual({
     count: 20,
     page: 1,
@@ -125,7 +124,7 @@ test('pagination - last page', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
+  await waitFor(() => expect(selectors.pagination(store.getState())).toEqual({ count: 20, page: 2, perPage: 10 }));
   expect(selectors.pagination(store.getState())).toEqual({
     count: 20,
     page: 2,
@@ -151,7 +150,9 @@ test('pagination - no response', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.query(store.getState())).toEqual({ name: 'my-provider', type: 'OCP', offset: '0', limit: '10' })
+  );
   expect(selectors.query(store.getState())).toEqual({
     name: 'my-provider',
     type: 'OCP',
@@ -167,7 +168,7 @@ test('query', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve(response));
   const store = createStore();
   store.dispatch(actions.fetchSources());
-  await waitFor(() => expect(actions.fetchSources).toHaveBeenCalled());
+  await waitFor(() => expect(selectors.pagination(store.getState())).toEqual({ count: 0, page: 1, perPage: 1 }));
   expect(selectors.pagination(store.getState())).toEqual({
     count: 0,
     page: 1,

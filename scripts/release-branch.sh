@@ -37,7 +37,7 @@ cat <<- EEOOFF
     $STAGE_ROS_BRANCH is merged from $MAIN_BRANCH
     $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
 
-    sh [-x] $SCRIPT [-h|u] -<p|q|r|s>
+    sh [-x] $SCRIPT [-h|-p|-q|-r|-s|-u]
 
     OPTIONS:
     h       Display this message
@@ -151,7 +151,7 @@ push()
       pullRequest
     fi
   else
-    echo "\n*** Cannot not push. No changes or check for conflicts"
+    echo "\n*** Cannot push. No changes or check for conflicts"
   fi
 
   rm -rf $TMP_DIR

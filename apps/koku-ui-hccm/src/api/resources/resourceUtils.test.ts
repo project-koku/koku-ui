@@ -1,10 +1,14 @@
+jest.mock('./resourceUtils', () => ({
+  __esModule: true,
+  isResourceTypeValid: jest.fn(() => true),
+  runResource: jest.fn(),
+}));
 import { waitFor } from '@testing-library/react';
 
 import { ResourcePathsType, ResourceType } from './resource';
 import * as resourceUtils from './resourceUtils';
 
-jest.spyOn(resourceUtils, 'isResourceTypeValid');
-jest.spyOn(resourceUtils, 'runResource');
+// isResourceTypeValid and runResource are mocked via jest.mock above
 
 test('runResource API request for AWS', async () => {
   resourceUtils.runResource(ResourcePathsType.aws, ResourceType.account, '');
