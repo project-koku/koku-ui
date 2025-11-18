@@ -33,9 +33,6 @@ const reportQueryString = 'reportQueryString';
 runExportMock.mockResolvedValue({ data: mockExport });
 global.Date.now = jest.fn(() => 12345);
 
-jest.spyOn(actions, 'fetchExport');
-jest.spyOn(selectors, 'selectExportFetchStatus');
-
 test('default state', () => {
   const store = createExportsStore();
   expect(selectors.selectExportState(store.getState())).toMatchSnapshot();
@@ -48,7 +45,11 @@ test('fetch export success', async () => {
   expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectExportFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
@@ -65,7 +66,11 @@ test('fetch export failure', async () => {
   expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectExportFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
@@ -83,7 +88,11 @@ test('does not export if the request is in progress', () => {
 test('export is not re-exported if it has not expired', async () => {
   const store = createExportsStore();
   store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
-  await waitFor(() => expect(actions.fetchExport).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   store.dispatch(actions.fetchExport(reportPathsType, reportType, reportQueryString));
   expect(runExport).toHaveBeenCalledTimes(1);
 });

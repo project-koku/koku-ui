@@ -68,7 +68,7 @@ Follow the prompts that follow.
 
 2. Open the following URL
 ```
-https://stage.foo.redhat.com:1337/staging/cost-management
+https://stage.foo.redhat.com:1337/staging/cost-management/ros
 ```
 
 Note: Must log in with a user that has Cost Management permissions

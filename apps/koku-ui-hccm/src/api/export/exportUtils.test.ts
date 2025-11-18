@@ -1,9 +1,13 @@
+jest.mock('./exportUtils', () => ({
+  __esModule: true,
+  runExport: jest.fn(),
+}));
 import { waitFor } from '@testing-library/react';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
 import * as exportUtils from './exportUtils';
 
-jest.spyOn(exportUtils, 'runExport');
+// runExport is a mocked function via jest.mock above
 
 test('runExport API request for AWS', async () => {
   exportUtils.runExport(ReportPathsType.aws, ReportType.cost, '');

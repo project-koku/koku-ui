@@ -10,7 +10,7 @@ default()
   SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
   TMP_DIR="/tmp/$SCRIPT.$$"
 
-  GITLAB_USER=`whoami`
+  GITLAB_USER=${GITLAB_USER:-`whoami`}
   MAIN_BRANCH="main"
   HCCM_STAGE_BRANCH="stage-hccm"
   HCCM_PROD_BRANCH="prod-hccm"
@@ -51,7 +51,7 @@ cat <<- EEOOFF
     $ROS_PROD_BRANCH
     $ROS_STAGE_BRANCH
 
-    sh [-x] $SCRIPT [-h|u] -<p|q|r|s>
+    sh [-x] $SCRIPT [-h|-p|-q|-r|-s|-u]
 
     OPTIONS:
     h       Display this message
@@ -126,21 +126,19 @@ createDeploymentUpdates()
 createMergeRequestDesc()
 {
 cat <<- EEOOFF > $DESC_FILE
-Update Cost Management UI deployments
-
-#### What:
+<b>What:</b>
 Update Cost Management UI deployments to latest commit
 
 Updated deployments:
 $DEPLOYMENTS
 
-#### Why:
+<b>Why:</b>
 To promote new features, latest bug fixes, and dependency updates
 
-#### Tickets:
+<b>Tickets:</b>
 N/A
 
-#### Validation:
+<b>Validation:</b>
 QE has verified all queued issues
 EEOOFF
 }
@@ -148,7 +146,7 @@ EEOOFF
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 mergeRequest()
 {
-  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/<br>/g' $DESC_FILE`
+  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|<br/>|g' $DESC_FILE`
 
   echo "\n*** Pushing $SOURCE_BRANCH..."
 
@@ -307,9 +305,9 @@ updateDeploySHA()
   fi
 
   echo "\n*** Releasing $APP_INTERFACE with SHA updates for...\n"
-
   createDeploymentUpdates
   cat $DEPLOYMENTS_FILE
+  echo
 
   cloneAppInterface
   cloneKokuUI
@@ -328,7 +326,7 @@ updateDeploySHA()
       mergeRequest
     fi
   else
-    echo "\n*** Cannot not push. No changes or check for conflicts"
+    echo "\n*** Cannot push. No changes or check for conflicts"
   fi
 
   rm -rf $TMP_DIR

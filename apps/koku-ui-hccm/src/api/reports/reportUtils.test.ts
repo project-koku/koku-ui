@@ -1,9 +1,13 @@
+jest.mock('./reportUtils', () => ({
+  __esModule: true,
+  runReport: jest.fn(),
+}));
 import { waitFor } from '@testing-library/react';
 
 import { ReportPathsType, ReportType } from './report';
 import * as reportUtils from './reportUtils';
 
-jest.spyOn(reportUtils, 'runReport');
+// runReport is a mocked function via jest.mock above
 
 test('runReport API request for AWS', async () => {
   reportUtils.runReport(ReportPathsType.aws, ReportType.cost, '');
