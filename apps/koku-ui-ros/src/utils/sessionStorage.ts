@@ -1,6 +1,6 @@
 const accountCurrencyID = 'account_currency';
 const accountNumberID = 'account_number';
-const costManagementID = 'cost_management_mfe';
+const costManagementID = 'cost_management_ros';
 const currencyID = 'currency';
 
 /**
