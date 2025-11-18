@@ -47,6 +47,19 @@
     "translations:datafile": "node scripts/createDataJson.js",
     "translations:syncTranslations": "node scripts/syncTranslations.js"
   },
+  "scripts-info": {
+    "release:stage": "Creates a PR to update the stage-ros branch",
+    "release:prod": "Creates a PR to update the prod-ros branch",
+    "release:app-interface:stage": "Creates an MR to update app-interface with latest SHA ref from stage-ros branch",
+    "release:app-interface:prod": "Creates an MR to update app-interface with latest SHA ref from prod-ros branch",
+    "start": "Run ROS UI",
+    "start:csb": "Run ROS UI with local Cloud Services Backend",
+    "start:ephemeral": "Run ROS UI with ephemeral env",
+    "start:hmr": "Run ROS UI with hot module replacement (experimental)",
+    "start:local:api": "Run ROS UI with a local API",
+    "start:static": "Run ROS UI statically with local Koku UI (for running Federated Modules in Koku UI)",
+    "translations": "Update localization files with latest messages"
+  },
   "dependencies": {
     "@patternfly/patternfly": "6.4.0",
     "@patternfly/react-charts": "8.4.0",
