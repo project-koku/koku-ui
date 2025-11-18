@@ -50,6 +50,21 @@
     "translations:datafile": "node scripts/createDataJson.js",
     "translations:syncTranslations": "node scripts/syncTranslations.js"
   },
+  "scripts-info": {
+    "release:stage": "Creates a PR to update the stage-hccm branch",
+    "release:prod": "Creates a PR to update the prod-hccm branch",
+    "release:app-interface:stage": "Creates an MR to update app-interface with latest SHA ref from stage-hccm branch",
+    "release:app-interface:prod": "Creates an MR to update app-interface with latest SHA ref from prod-hccm branch",
+    "start": "Run Koku UI",
+    "start:csb": "Run Koku UI with local Cloud Services Backend",
+    "start:csb:ros": "Run Koku UI with local Cloud Services Backend, while ROS runs statically (for running both UIs with CSB)",
+    "start:ephemeral": "Run Koku UI with ephemeral env",
+    "start:hmr": "Run Koku UI with hot module replacement (experimental)",
+    "start:local:api": "Run Koku UI with a local API",
+    "start:ros": "Run Koku UI while ROS runs statically (for running Federated Modules in Koku UI)",
+    "start:static": "Run Koku UI statically (experimental)",
+    "translations": "Update localization files with latest messages"
+  },
   "dependencies": {
     "@patternfly/patternfly": "6.4.0",
     "@patternfly/react-charts": "8.4.0",

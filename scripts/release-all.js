@@ -11,8 +11,8 @@ function defaults() {
 function usage() {
   console.log(
     [
-      'To release the koku-ui, use this script to first update koku-ui stage/prod branches.',
-      'This script will then fetch the latest SHA refs from those branches and update app-interface.',
+      'Use this script to create a PR, releasing koku-ui stage/prod branches first.',
+      'Run again to create an MR, updating app-interface with the latest SHA refs from the same branches.',
       'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
     ].join('\n')
   );
