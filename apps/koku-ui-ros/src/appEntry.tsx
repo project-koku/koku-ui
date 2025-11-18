@@ -13,14 +13,14 @@ import { Provider } from 'react-redux';
 // eslint-disable-next-line no-restricted-imports
 import messages from '../locales/data.json';
 import App from './app';
-import { mfeStore } from './store';
+import { rosStore } from './store';
 
 const AppEntry = () => {
   const locale = getLocale();
 
   return (
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
-      <Provider store={mfeStore as any}>
+      <Provider store={rosStore as any}>
         <NotificationsPortal />
         <App />
       </Provider>

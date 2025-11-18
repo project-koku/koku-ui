@@ -33,9 +33,6 @@ const resourceQueryString = 'resourceQueryString';
 runResourceMock.mockResolvedValue({ data: mockResource });
 global.Date.now = jest.fn(() => 12345);
 
-jest.spyOn(actions, 'fetchResource');
-jest.spyOn(selectors, 'selectResourceFetchStatus');
-
 test('default state', () => {
   const store = createResourcesStore();
   expect(selectors.selectResourceState(store.getState())).toMatchSnapshot();
@@ -48,7 +45,11 @@ test('fetch resource success', async () => {
   expect(
     selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
   ).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectResourceFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(
+      selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
+    ).toBe(FetchStatus.complete)
+  );
   const finishedState = store.getState();
   expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, resourceQueryString)).toBe(
     FetchStatus.complete
@@ -65,7 +66,11 @@ test('fetch resource failure', async () => {
   expect(
     selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
   ).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectResourceFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(
+      selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
+    ).toBe(FetchStatus.complete)
+  );
   const finishedState = store.getState();
   expect(selectors.selectResourceFetchStatus(finishedState, resourcePathsType, resourceType, resourceQueryString)).toBe(
     FetchStatus.complete
@@ -85,7 +90,11 @@ test('does not fetch resource if the request is in progress', () => {
 test('resource is not refetched if it has not expired', async () => {
   const store = createResourcesStore();
   store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
-  await waitFor(() => expect(actions.fetchResource).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(
+      selectors.selectResourceFetchStatus(store.getState(), resourcePathsType, resourceType, resourceQueryString)
+    ).toBe(FetchStatus.complete)
+  );
   store.dispatch(actions.fetchResource(resourcePathsType, resourceType, resourceQueryString));
   expect(runResource).toHaveBeenCalledTimes(1);
 });

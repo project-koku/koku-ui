@@ -33,9 +33,6 @@ const reportQueryString = 'reportQueryString';
 runReportMock.mockResolvedValue({ data: mockReport });
 global.Date.now = jest.fn(() => 12345);
 
-jest.spyOn(actions, 'fetchReport');
-jest.spyOn(selectors, 'selectReportFetchStatus');
-
 test('default state', () => {
   const store = createReportsStore();
   expect(selectors.selectReportState(store.getState())).toMatchSnapshot();
@@ -48,7 +45,11 @@ test('fetch report success', async () => {
   expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectReportFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
@@ -65,7 +66,11 @@ test('fetch report failure', async () => {
   expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectReportFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, reportQueryString)).toBe(
     FetchStatus.complete
@@ -83,7 +88,11 @@ test('does not fetch report if the request is in progress', () => {
 test('report is not refetched if it has not expired', async () => {
   const store = createReportsStore();
   store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
-  await waitFor(() => expect(actions.fetchReport).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, reportQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   store.dispatch(actions.fetchReport(reportPathsType, reportType, reportQueryString));
   expect(runReport).toHaveBeenCalledTimes(1);
 });
