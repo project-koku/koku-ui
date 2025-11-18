@@ -30,8 +30,6 @@ const accountSettingsMock: AccountSettings = {
 
 fetchAccountSettingsMock.mockReturnValue(Promise.resolve({ data: accountSettingsMock }));
 
-jest.spyOn(selectors, 'selectAccountSettingsStatus');
-
 test('default state', async () => {
   const store = createProdvidersStore();
   expect(selectors.selectAccountSettingsState(store.getState())).toMatchSnapshot();
@@ -44,7 +42,11 @@ test('fetch account settings success', async () => {
   expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectAccountSettingsStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectAccountSettingsStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
 });
@@ -58,7 +60,11 @@ test('fetch account settings failure', async () => {
   expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectAccountSettingsStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectAccountSettingsStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
 });

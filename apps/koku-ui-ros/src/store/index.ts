@@ -1,2 +1,2 @@
-export { configureStore, mfeStore } from './store';
+export { configureStore, rosStore } from './store';
 export type { RootState } from './rootReducer';

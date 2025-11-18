@@ -33,8 +33,7 @@ const reportQueryString = 'reportQueryString';
 runForecastMock.mockResolvedValue({ data: mockForecast });
 global.Date.now = jest.fn(() => 12345);
 
-jest.spyOn(actions, 'fetchForecast');
-jest.spyOn(selectors, 'selectForecastFetchStatus');
+// Avoid spying on ESM exports; assert state transitions directly
 
 test('default state', () => {
   const store = createForecastsStore();
@@ -48,7 +47,11 @@ test('fetch forecast success', async () => {
   expect(
     selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
   ).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectForecastFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(
+      selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
+    ).toBe(FetchStatus.complete)
+  );
   const finishedState = store.getState();
   expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, reportQueryString)).toBe(
     FetchStatus.complete
@@ -65,7 +68,11 @@ test('fetch forecast failure', async () => {
   expect(
     selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
   ).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.selectForecastFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(
+      selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
+    ).toBe(FetchStatus.complete)
+  );
   const finishedState = store.getState();
   expect(selectors.selectForecastFetchStatus(finishedState, forecastPathsType, forecastType, reportQueryString)).toBe(
     FetchStatus.complete
@@ -83,7 +90,11 @@ test('does not fetch forecast if the request is in progress', () => {
 test('forecast is not refetched if it has not expired', async () => {
   const store = createForecastsStore();
   store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
-  await waitFor(() => expect(actions.fetchForecast).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(
+      selectors.selectForecastFetchStatus(store.getState(), forecastPathsType, forecastType, reportQueryString)
+    ).toBe(FetchStatus.complete)
+  );
   store.dispatch(actions.fetchForecast(forecastPathsType, forecastType, reportQueryString));
   expect(runForecast).toHaveBeenCalledTimes(1);
 });

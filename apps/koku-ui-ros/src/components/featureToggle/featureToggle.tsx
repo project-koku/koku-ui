@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 import { featureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
-  boxPlot = 'cost-management.mfe.box-plot', // https://issues.redhat.com/browse/COST-4619
-  debug = 'cost-management.mfe.debug',
-  projectLink = 'cost-management.mfe.project-link', // https://issues.redhat.com/browse/COST-4527 '
+  boxPlot = 'cost-management.ros.box-plot', // https://issues.redhat.com/browse/COST-4619
+  debug = 'cost-management.ros.debug',
+  projectLink = 'cost-management.ros.project-link', // https://issues.redhat.com/browse/COST-4527 '
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
