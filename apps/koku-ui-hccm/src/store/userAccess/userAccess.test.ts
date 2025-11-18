@@ -29,8 +29,6 @@ const userAccessMock: UserAccess = {
 
 fetchUserAccessMock.mockReturnValue(Promise.resolve({ data: userAccessMock }));
 
-jest.spyOn(selectors, 'selectUserAccessFetchStatus');
-
 test('default state', async () => {
   const store = createProdvidersStore();
   expect(selectors.selectUserAccessState(store.getState())).toMatchSnapshot();
@@ -44,7 +42,11 @@ test('fetch userAccess success', async () => {
   expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, userAccessQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectUserAccessFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, userAccessQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectUserAccessFetchStatus(finishedState, UserAccessType.aws, userAccessQueryString)).toBe(
     FetchStatus.complete
@@ -61,7 +63,11 @@ test('fetch userAccess failure', async () => {
   expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, userAccessQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectUserAccessFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectUserAccessFetchStatus(store.getState(), UserAccessType.aws, userAccessQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectUserAccessFetchStatus(finishedState, UserAccessType.aws, userAccessQueryString)).toBe(
     FetchStatus.complete

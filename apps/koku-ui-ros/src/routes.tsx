@@ -27,27 +27,27 @@ const Welcome = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/c
 const routes = {
   optimizationsBadge: {
     element: userAccess(OptimizationsBadgeStaging),
-    path: '/ros/optimizations/badge',
+    path: '/optimizations/badge',
   },
   optimizationsBreakdown: {
     element: userAccess(OptimizationsBreakdownStaging),
-    path: '/ros/optimizations/breakdown',
+    path: '/optimizations/breakdown',
   },
   optimizationsDetails: {
     element: userAccess(OptimizationsDetailsStaging),
-    path: '/ros/optimizations/details',
+    path: '/optimizations/details',
   },
   optimizationsLink: {
     element: userAccess(OptimizationsLinkStaging),
-    path: '/ros/optimizations/link',
+    path: '/optimizations/link',
   },
   optimizationsSummary: {
     element: userAccess(OptimizationsSummaryStaging),
-    path: '/ros/optimizations/summary',
+    path: '/optimizations/summary',
   },
   optimizationsTable: {
     element: userAccess(OptimizationsTableStaging),
-    path: '/ros/optimizations/table',
+    path: '/optimizations/table',
   },
   welcome: {
     element: userAccess(Welcome),
