@@ -12,36 +12,36 @@ objects:
     spec:
       feoConfigEnabled: true
       bundleSegments:
-        - segmentId: 'cost-management-plugin'
+        - segmentId: 'cost-management-staging'
           bundleId: 'staging'
           position: 100
           navItems:
-            - id: 'cost-management-plugin.nav'
+            - id: 'cost-management-staging.nav'
               title: 'Cost Management'
               expandable: true
               routes:
-                - id: 'cost-management-plugin.ros'
+                - id: 'cost-management-staging.ros'
                   title: 'ROS'
                   expandable: true
 
                   # Must match apps/koku-ui-ros/src/utils/paths.ts base
                   routes:
-                    - id: 'cost-management-plugin.ros.badge'
+                    - id: 'cost-management-staging.ros.badge'
                       title: 'Optimizations badge'
                       href: '/staging/cost-management/ros/optimizations/badge'
-                    - id: 'cost-management-plugin.ros.link'
+                    - id: 'cost-management-staging.ros.link'
                       title: 'Optimizations link'
                       href: '/staging/cost-management/ros/optimizations/link'
-                    - id: 'cost-management-plugin.ros.summary'
+                    - id: 'cost-management-staging.ros.summary'
                       title: 'Optimizations summary'
-                      href: "/staging/cost-management/ros/optimizations/summary"
-                    - id: 'cost-management-plugin.ros.table'
+                      href: '/staging/cost-management/ros/optimizations/summary'
+                    - id: 'cost-management-staging.ros.table'
                       title: 'Optimizations table'
                       href: '/staging/cost-management/ros/optimizations/table'
-                    - id: 'cost-management-plugin.ros.details'
+                    - id: 'cost-management-staging.ros.details'
                       title: 'Optimizations details'
                       href: '/staging/cost-management/ros/optimizations/details'
-                    - id: 'cost-management-plugin.ros.breakdown'
+                    - id: 'cost-management-staging.ros.breakdown'
                       title: 'Optimizations breakdown'
                       href: '/staging/cost-management/ros/optimizations/breakdown'
       API:
