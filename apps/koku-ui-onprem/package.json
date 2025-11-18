@@ -9,6 +9,8 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production npm run ts-node ../../node_modules/.bin/webpack --mode=production",
+    "check:dependencies": "npx npm-check-updates",
+    "check:dependencies:update": "npx npm-check-updates -u",
     "clean": "rimraf dist",
     "start": "npm run ts-node ../../node_modules/.bin/webpack serve --mode=development --color --progress",
     "lint": "npm-run-all lint:*",
@@ -57,7 +59,7 @@
     "identity-obj-proxy": "^3.0.0",
     "rimraf": "^6.1.0",
     "style-loader": "^4.0.0",
-    "ts-loader": "^9.4.4",
+    "ts-loader": "^9.5.4",
     "ts-node": "^10.9.2",
     "ts-patch": "^3.3.0",
     "typescript": "^5.9.3",

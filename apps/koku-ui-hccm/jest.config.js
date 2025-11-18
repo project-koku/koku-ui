@@ -4,6 +4,20 @@ const baseConfig = require('../../jest.config.base');
 module.exports = {
   ...baseConfig,
   roots: ['<rootDir>/src'],
-  setupFiles: ['<rootDir>/test/testEnv.ts'],
+  setupFiles: ['<rootDir>/test/testEnv.js'],
   setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'],
+  // Ensure no experimental SWC plugins break setup files
+  transform: {
+    '^.+\\.svg$': 'jest-transform-stub',
+    '^.+\\.(ts|js)x?$': [
+      '@swc/jest',
+      {
+        $schema: 'http://json.schemastore.org/swcrc',
+        jsc: {
+          parser: { jsx: true, syntax: 'typescript', tsx: true },
+          transform: { react: { runtime: 'automatic' } },
+        },
+      },
+    ],
+  },
 };

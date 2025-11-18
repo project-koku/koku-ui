@@ -1,9 +1,13 @@
+jest.mock('./tagUtils', () => ({
+  __esModule: true,
+  runTag: jest.fn(),
+}));
 import { waitFor } from '@testing-library/react';
 
 import { TagPathsType, TagType } from './tag';
 import * as tagUtils from './tagUtils';
 
-jest.spyOn(tagUtils, 'runTag');
+// runTag is a mocked function via jest.mock above
 
 test('runTag API request for AWS', async () => {
   tagUtils.runTag(TagPathsType.aws, TagType.tag, '');
