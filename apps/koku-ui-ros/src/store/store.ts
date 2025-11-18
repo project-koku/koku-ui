@@ -28,4 +28,4 @@ export function configureStore(initialState: Partial<RootState>) {
   return store;
 }
 
-export const mfeStore = configureStore({});
+export const rosStore = configureStore({});

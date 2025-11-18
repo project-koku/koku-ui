@@ -33,9 +33,6 @@ const tagQueryString = 'tagQueryString';
 runTagMock.mockResolvedValue({ data: mockTagReport });
 global.Date.now = jest.fn(() => 12345);
 
-jest.spyOn(actions, 'fetchTag');
-jest.spyOn(selectors, 'selectTagFetchStatus');
-
 test('default state', () => {
   const store = createTagsStore();
   expect(selectors.selectTagState(store.getState())).toMatchSnapshot();
@@ -48,7 +45,11 @@ test('fetch tag report success', async () => {
   expect(selectors.selectTagFetchStatus(store.getState(), tagPathsType, tagType, tagQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectTagFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectTagFetchStatus(store.getState(), tagPathsType, tagType, tagQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectTagFetchStatus(finishedState, tagPathsType, tagType, tagQueryString)).toBe(
     FetchStatus.complete
@@ -65,7 +66,11 @@ test('fetch tag report failure', async () => {
   expect(selectors.selectTagFetchStatus(store.getState(), tagPathsType, tagType, tagQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectTagFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectTagFetchStatus(store.getState(), tagPathsType, tagType, tagQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectTagFetchStatus(finishedState, tagPathsType, tagType, tagQueryString)).toBe(
     FetchStatus.complete
@@ -83,7 +88,11 @@ test('does not fetch tag report if the request is in progress', () => {
 test('tag report is not refetched if it has not expired', async () => {
   const store = createTagsStore();
   store.dispatch(actions.fetchTag(tagPathsType, tagType, tagQueryString));
-  await waitFor(() => expect(actions.fetchTag).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectTagFetchStatus(store.getState(), tagPathsType, tagType, tagQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   store.dispatch(actions.fetchTag(tagPathsType, tagType, tagQueryString));
   expect(runTag).toHaveBeenCalledTimes(1);
 });
