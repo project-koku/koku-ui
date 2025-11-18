@@ -33,9 +33,6 @@ const orgQueryString = 'orgQueryString';
 runOrgMock.mockResolvedValue({ data: mockOrgReport });
 global.Date.now = jest.fn(() => 12345);
 
-jest.spyOn(actions, 'fetchOrg');
-jest.spyOn(selectors, 'selectOrgFetchStatus');
-
 test('default state', () => {
   const store = createOrgsStore();
   expect(selectors.selectOrgState(store.getState())).toMatchSnapshot();
@@ -48,7 +45,11 @@ test('fetch org report success', async () => {
   expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectOrgFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectOrgFetchStatus(finishedState, orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.complete
@@ -65,7 +66,11 @@ test('fetch org report failure', async () => {
   expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.inProgress
   );
-  await waitFor(() => expect(selectors.selectOrgFetchStatus).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   const finishedState = store.getState();
   expect(selectors.selectOrgFetchStatus(finishedState, orgPathsType, orgType, orgQueryString)).toBe(
     FetchStatus.complete
@@ -83,7 +88,11 @@ test('does not fetch org report if the request is in progress', () => {
 test('org report is not refetched if it has not expired', async () => {
   const store = createOrgsStore();
   store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
-  await waitFor(() => expect(actions.fetchOrg).toHaveBeenCalled());
+  await waitFor(() =>
+    expect(selectors.selectOrgFetchStatus(store.getState(), orgPathsType, orgType, orgQueryString)).toBe(
+      FetchStatus.complete
+    )
+  );
   store.dispatch(actions.fetchOrg(orgPathsType, orgType, orgQueryString));
   expect(runOrg).toHaveBeenCalledTimes(1);
 });

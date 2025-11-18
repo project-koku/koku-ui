@@ -1,7 +1,5 @@
 import * as format from './format';
 
-jest.spyOn(format, 'formatCurrency');
-
 describe('formatUnits', () => {
   const formatOptions: format.FormatOptions = {};
   const value = 100.11;
@@ -14,10 +12,11 @@ describe('formatUnits', () => {
     expect(formatted).toMatchSnapshot();
   });
 
-  test('USD unit calls formatCurrency', () => {
+  test('USD unit formats via formatCurrency behavior', () => {
     const units = 'USD';
-    format.formatCurrency(value, units, formatOptions);
-    expect(format.formatCurrency).toHaveBeenCalledWith(value, units, formatOptions);
+    const direct = format.formatCurrency(value, units, formatOptions);
+    const viaUnits = format.formatUnits(value, units, formatOptions);
+    expect(String(viaUnits)).toEqual(String(direct));
   });
 
   test('null unit returns value fixed to fraction digits', () => {
