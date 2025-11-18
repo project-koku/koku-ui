@@ -34,7 +34,7 @@ objects:
                       href: '/staging/cost-management/ros/optimizations/link'
                     - id: 'cost-management-staging.ros.summary'
                       title: 'Optimizations summary'
-                      href: "/staging/cost-management/ros/optimizations/summary"
+                      href: '/staging/cost-management/ros/optimizations/summary'
                     - id: 'cost-management-staging.ros.table'
                       title: 'Optimizations table'
                       href: '/staging/cost-management/ros/optimizations/table'

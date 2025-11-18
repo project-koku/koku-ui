@@ -31,7 +31,7 @@
     "start:onprem": "npm run -w @koku-ui/koku-ui-onprem start"
   },
   "scripts-info": {
-    "check:dependencies:all": "Checks for outdated dependencies in all workspaces by running the check:dependencies script in each workspace",
+    "check:dependencies:all": "Checks for outdated dependencies in each workspace",
     "release:all": "Used to release koku-ui stage/prod branches and update app-interface with the latest SHA refs from same branches",
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
