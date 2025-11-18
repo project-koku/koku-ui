@@ -1,9 +1,13 @@
+jest.mock('./forecastUtils', () => ({
+  __esModule: true,
+  runForecast: jest.fn(),
+}));
 import { waitFor } from '@testing-library/react';
 
 import { ForecastPathsType, ForecastType } from './forecast';
 import * as forecastUtils from './forecastUtils';
 
-jest.spyOn(forecastUtils, 'runForecast');
+// runForecast is a mocked function via jest.mock above
 
 test('runForecast API request for AWS', async () => {
   forecastUtils.runForecast(ForecastPathsType.aws, ForecastType.cost, '');

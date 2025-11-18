@@ -20,6 +20,9 @@
   "scripts": {
     "prebuild": "tsc --noEmit && rimraf dist",
     "build": "tsc --build && npm run copy:css",
+    "check:dependencies": "npx npm-check-updates",
+    "check:dependencies:update": "npx npm-check-updates -u",
+    "clean": "rimraf dist",
     "copy:css": "rsync -Rurv --include '*/' --include '*.css' --exclude '*' src  dist",
     "dev": "tsc -w",
     "lint": "npm-run-all lint:*",
