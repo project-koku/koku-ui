@@ -1,5 +1,6 @@
 import './app.scss';
 
+import UiVersion from '@koku-ui/ui-lib/components/page/uiVersion';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import NotificationsProvider from '@redhat-cloud-services/frontend-components-notifications/NotificationsProvider';
 import { createStore } from '@redhat-cloud-services/frontend-components-notifications/state';
@@ -37,6 +38,7 @@ const App = () => {
       <NotificationsProvider store={store}>
         <Routes />
       </NotificationsProvider>
+      <UiVersion />
     </div>
   );
 };

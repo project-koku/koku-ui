@@ -1,9 +1,10 @@
 // Based on https://github.com/RedHatInsights/frontend-components/blob/master/packages/config/src/bin/dev.webpack.config.ts
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
-const { dependencies, insights } = require('./package.json');
+const { dependencies, insights, name } = require('./package.json');
 
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 const srcDir = path.resolve(__dirname, './src');
@@ -14,6 +15,7 @@ const stats = {
   colors: true,
   modules: false,
 };
+const gitRevisionPlugin = new GitRevisionPlugin();
 
 // Show what files changed since last compilation
 class WatchRunPlugin {
@@ -84,6 +86,11 @@ module.exports = {
           to: path.join(distDir, 'locales'),
         },
       ],
+    }),
+    gitRevisionPlugin,
+    new webpack.DefinePlugin({
+      'process.env.KOKU_UI_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
+      'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
     }),
   ],
   resolve: {
