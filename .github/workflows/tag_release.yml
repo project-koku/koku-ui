@@ -23,6 +23,7 @@ jobs:
           DATE=$(date +"%Y.%m.%d")
           PREV_RELEASE=$(git tag --list | tail -1)
           MINOR_VERSION=0
+          APP_PREFIX=${{ env.BRANCH }} | cut -d'-' -f2
           case $PREV_RELEASE in
             *"$DATE"*)
               MINOR_VERSION="$PREV_RELEASE" | cut -d'.' -f5
@@ -32,7 +33,7 @@ jobs:
               MINOR_VERSION=0
               ;;
           esac
-          TAG="r.$DATE.$MINOR_VERSION"
+          TAG="r-$APP_PREFIX.$DATE.$MINOR_VERSION"
           git config --local user.email "cost-mgmt@redhat.com"
           git config --local user.name "Cost Management Release Action"
           git log $(git tag --list | tail -1)..${{ env.BRANCH }} | git tag -a $TAG -F -
