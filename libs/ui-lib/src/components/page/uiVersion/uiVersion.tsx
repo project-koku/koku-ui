@@ -1,14 +1,10 @@
 import React from 'react';
 
-interface UiVersionProps {
-  appName?: string;
-}
+const UiVersion = () => {
+  const pkgname = process.env.KOKU_UI_PKGNAME ?? 'unknown-pkgname';
+  const commithash = process.env.KOKU_UI_COMMITHASH ?? 'unknown-commithash';
 
-const UiVersion = ({ appName = '@koku-ui' }: UiVersionProps) => {
-  const branch = process.env.BRANCH ?? 'unknown-branch';
-  const commithash = process.env.COMMITHASH ?? 'unknown-commithash';
-
-  return <div id={`${appName}:${branch}:${commithash}`} hidden />;
+  return <div id={`${pkgname}_${commithash}`} hidden />;
 };
 
 export default UiVersion;
