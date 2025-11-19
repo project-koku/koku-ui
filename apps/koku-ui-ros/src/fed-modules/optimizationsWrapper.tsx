@@ -8,8 +8,6 @@ import { rosStore } from 'store';
 
 // eslint-disable-next-line no-restricted-imports
 import messages from '../../locales/data.json';
-// eslint-disable-next-line no-restricted-imports
-import pkg from '../../package.json';
 
 export interface OptimizationsWrapperOwnProps {
   children?: React.ReactNode;
@@ -25,7 +23,7 @@ const OptimizationsWrapper: React.FC<OptimizationsWrapperProps> = ({ children }:
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
       <Provider store={rosStore as any}>
         <div className="costManagementRos">{children}</div>
-        <UiVersion appName={pkg.name} />
+        <UiVersion />
       </Provider>
     </IntlProvider>
   );
