@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import UiVersion from '@koku-ui/ui-lib/components/page/uiVersion';
 import IntlProvider from '@redhat-cloud-services/frontend-components-translations/Provider';
 import { getLocale } from 'components/i18n';
 import React from 'react';
@@ -22,6 +23,7 @@ const OptimizationsWrapper: React.FC<OptimizationsWrapperProps> = ({ children }:
     <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
       <Provider store={rosStore as any}>
         <div className="costManagementRos">{children}</div>
+        <UiVersion />
       </Provider>
     </IntlProvider>
   );
