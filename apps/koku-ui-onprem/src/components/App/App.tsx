@@ -1,4 +1,4 @@
-import NotFound from '@koku-ui/ui-lib/components/NotFound/NotFound';
+import NotFound from '@koku-ui/ui-lib/components/page/notFound';
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
