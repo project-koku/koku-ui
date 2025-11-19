@@ -5,7 +5,7 @@ on:
       - prod-hccm
       - prod-ros
 env:
-  BRANCH: ${{ github.base_ref }}
+  BRANCH: ${{ github.ref }}
 
 jobs:
   tag_release:
@@ -25,16 +25,18 @@ jobs:
           MINOR_VERSION=0
           case $PREV_RELEASE in
             *"$DATE"*)
-              MINOR_VERSION="$PREV_RELEASE" | cut -d'.' -f5
+              MINOR_VERSION=$(echo "$PREV_RELEASE" | cut -d'.' -f5)
               MINOR_VERSION=$((MINOR_VERSION+1))
               ;;
             *)
               MINOR_VERSION=0
               ;;
           esac
-          TAG="r.$DATE.$MINOR_VERSION"
+          BRANCH_BASE=$( echo $BRANCH | cut -d'/' -f3)
+          APP_PREFIX=$(echo "$BRANCH_BASE" | cut -d'-' -f2)
+          TAG="r-$APP_PREFIX.$DATE.$MINOR_VERSION"
           git config --local user.email "cost-mgmt@redhat.com"
           git config --local user.name "Cost Management Release Action"
-          git log $(git tag --list | tail -1)..${{ env.BRANCH }} | git tag -a $TAG -F -
+          git log $(git tag --list | tail -1)..$BRANCH_BASE | git tag -a $TAG -F -
           git push origin $TAG
         shell: bash
