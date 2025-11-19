@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
-const { dependencies, insights } = require('./package.json');
+const { dependencies, insights, name } = require('./package.json');
 
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 const srcDir = path.resolve(__dirname, './src');
@@ -93,8 +93,8 @@ module.exports = {
     }),
     gitRevisionPlugin,
     new webpack.DefinePlugin({
-      'process.env.COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
-      'process.env.BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
+      'process.env.KOKU_UI_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
+      'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
     }),
   ],
   resolve: {

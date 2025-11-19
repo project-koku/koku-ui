@@ -38,7 +38,7 @@ const App = () => {
       <NotificationsProvider store={store}>
         <Routes />
       </NotificationsProvider>
-      <UiVersion appName={pkg.name} />
+      <UiVersion />
     </div>
   );
 };
