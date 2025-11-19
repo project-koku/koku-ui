@@ -4,8 +4,11 @@ interface UiVersionProps {
   appName?: string;
 }
 
-const UiVersion = ({ appName }: UiVersionProps) => {
-  return <div id={`${appName}:${process.env.BRANCH}:${process.env.COMMITHASH}`} hidden />;
+const UiVersion = ({ appName = '@koku-ui' }: UiVersionProps) => {
+  const branch = process.env.BRANCH ?? 'unknown-branch';
+  const commithash = process.env.COMMITHASH ?? 'unknown-commithash';
+
+  return <div id={`${appName}:${branch}:${commithash}`} hidden />;
 };
 
 export default UiVersion;
