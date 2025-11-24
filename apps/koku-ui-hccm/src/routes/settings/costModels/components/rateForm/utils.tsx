@@ -292,5 +292,8 @@ export const tagKeyValueErrors = (value: string) => {
   if (value.length > 100) {
     return textHelpers.tag_too_long;
   }
+  if (!/[a-zA-Z_][a-zA-Z0-9_]*/.test(value)) {
+    return textHelpers.unsupported_tag_chars;
+  }
   return null;
 };
