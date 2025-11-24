@@ -346,14 +346,14 @@ describe('update-rate', () => {
     render(<RenderFormDataUI index={1} />);
     const saveButton = screen.getByRole('button', { name: regExp(messages.save)} );
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    await user.type(screen.getByDisplayValue(/^container$/i), '1');
+    await user.type(screen.getByDisplayValue(/^container$/i), 'A');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/^container1$/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/^containerA$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.type(screen.getByDisplayValue(/any container$/i), '1');
+    await user.type(screen.getByDisplayValue(/any container$/i), 'A');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/any container1$/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/any containerA$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     await user.type(screen.getByDisplayValue(/^0.4$/i), '3');
