@@ -8,4 +8,5 @@ export const textHelpers = {
   rate_too_long: messages.costModelsRateTooLong,
   required: messages.costModelsRequiredField,
   tag_too_long: messages.costModelsInfoTooLong,
+  unsupported_tag_chars: messages.costModelsUnsupportedTagChars,
 };
