@@ -149,6 +149,7 @@
   "costModelsTagRateTableValue": "Tag value",
   "costModelsUUIDEmptyState": "Cost model can not be found",
   "costModelsUUIDEmptyStateDesc": "Cost model with uuid: {uuid} does not exist.",
+  "costModelsUnsupportedTagChars": "Match the regex [a-zA-Z_][a-zA-Z0-9_]*",
   "costModelsWizardCreateCostModel": "Create cost model",
   "costModelsWizardCreatePriceList": "Create a price list",
   "costModelsWizardCurrencyToggleLabel": "Select currency",
