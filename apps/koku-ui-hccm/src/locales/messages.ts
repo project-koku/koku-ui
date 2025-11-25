@@ -801,6 +801,11 @@ export default defineMessages({
     description: 'Tag value',
     id: 'costModelsTagRateTableValue',
   },
+  costModelsUnsupportedTagChars: {
+    defaultMessage: 'Match the regex [a-zA-Z_][a-zA-Z0-9_]*',
+    description: 'Match the regex [a-zA-Z_][a-zA-Z0-9_]*',
+    id: 'costModelsUnsupportedTagChars',
+  },
   costModelsUUIDEmptyState: {
     defaultMessage: 'Cost model can not be found',
     description: 'Cost model can not be found',
