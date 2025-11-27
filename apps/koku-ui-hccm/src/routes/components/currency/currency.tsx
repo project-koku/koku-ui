@@ -38,6 +38,7 @@ export const currencyOptions: {
   label: MessageDescriptor;
   value: string;
 }[] = [
+  { label: messages.currencyOptions, value: 'AED' },
   { label: messages.currencyOptions, value: 'AUD' },
   { label: messages.currencyOptions, value: 'BRL' },
   { label: messages.currencyOptions, value: 'CAD' },
@@ -53,8 +54,10 @@ export const currencyOptions: {
   { label: messages.currencyOptions, value: 'NGN' },
   { label: messages.currencyOptions, value: 'NOK' },
   { label: messages.currencyOptions, value: 'NZD' },
+  { label: messages.currencyOptions, value: 'SAR' },
   { label: messages.currencyOptions, value: 'SEK' },
   { label: messages.currencyOptions, value: 'SGD' },
+  { label: messages.currencyOptions, value: 'TWD' },
   { label: messages.currencyOptions, value: 'USD' },
   { label: messages.currencyOptions, value: 'ZAR' },
 ];
