@@ -1122,7 +1122,7 @@ export default defineMessages({
   currencyOptions: {
     defaultMessage:
       '{units, select, ' +
-      'AED {AED (د.إ) - Arab Emirates Dirham}' +
+      'AED {AED (د.إ) - United Arab Emirates Dirham}' +
       'AUD {AUD (A$) - Australian Dollar}' +
       'BRL {BRL (R$) - Brazilian Real}' +
       'CAD {CAD (CA$) - Canadian Dollar}' +
