@@ -65,7 +65,7 @@
     "jest-mock-axios": "^4.9.0",
     "jest-transform-stub": "^2.0.0",
     "npm-run-all2": "^8.0.4",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.3",
     "rimraf": "^6.1.2",
     "swc_mut_cjs_exports": "^10.7.0",
     "ts-jest": "^29.4.5"
