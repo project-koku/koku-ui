@@ -1138,7 +1138,7 @@ export default defineMessages({
       'NGN {NGN (₦) - Nigerian Naira}' +
       'NOK {NOK (NOK) - Norwegian Krone}' +
       'NZD {NZD (NZ$) - New Zealand Dollar}' +
-      'SAR {SAR (﷼) - Saudi Riyal}' +
+      'SAR {SAR (ر.س) - Saudi Riyal}' +
       'SEK {SEK (SEK) - Swedish Krona}' +
       'SGD {SGD (SGD) - Singapore Dollar}' +
       'TWD {TWD (NT$) - New Taiwan Dollar}' +
