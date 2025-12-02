@@ -2186,6 +2186,14 @@
     "currencyOptions": [
       {
         "options": {
+          "AED": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AED (د.إ) - Arab Emirates Dirham"
+              }
+            ]
+          },
           "AUD": {
             "value": [
               {
@@ -2306,6 +2314,14 @@
               }
             ]
           },
+          "SAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SAR (﷼) - Saudi Arabia Riyal"
+              }
+            ]
+          },
           "SEK": {
             "value": [
               {
@@ -2319,6 +2335,14 @@
               {
                 "type": 0,
                 "value": "SGD (SGD) - Singapore Dollar"
+              }
+            ]
+          },
+          "TWD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TWD (NT$) - New Taiwan Dollar"
               }
             ]
           },
@@ -2349,6 +2373,14 @@
     "currencyUnits": [
       {
         "options": {
+          "AED": {
+            "value": [
+              {
+                "type": 0,
+                "value": "د.إ"
+              }
+            ]
+          },
           "AUD": {
             "value": [
               {
@@ -2469,6 +2501,14 @@
               }
             ]
           },
+          "SAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "﷼"
+              }
+            ]
+          },
           "SEK": {
             "value": [
               {
@@ -2482,6 +2522,14 @@
               {
                 "type": 0,
                 "value": "SGD"
+              }
+            ]
+          },
+          "TWD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NT$"
               }
             ]
           },

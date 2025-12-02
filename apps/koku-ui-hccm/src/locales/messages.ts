@@ -1122,6 +1122,7 @@ export default defineMessages({
   currencyOptions: {
     defaultMessage:
       '{units, select, ' +
+      'AED {AED (د.إ) - United Arab Emirates Dirham}' +
       'AUD {AUD (A$) - Australian Dollar}' +
       'BRL {BRL (R$) - Brazilian Real}' +
       'CAD {CAD (CA$) - Canadian Dollar}' +
@@ -1137,8 +1138,10 @@ export default defineMessages({
       'NGN {NGN (₦) - Nigerian Naira}' +
       'NOK {NOK (NOK) - Norwegian Krone}' +
       'NZD {NZD (NZ$) - New Zealand Dollar}' +
+      'SAR {SAR (ر.س) - Saudi Riyal}' +
       'SEK {SEK (SEK) - Swedish Krona}' +
       'SGD {SGD (SGD) - Singapore Dollar}' +
+      'TWD {TWD (NT$) - New Taiwan Dollar}' +
       'USD {USD ($) - United States Dollar} ' +
       'ZAR {ZAR (ZAR) - South African Rand}' +
       'other {}}',
@@ -1149,6 +1152,7 @@ export default defineMessages({
   currencyUnits: {
     defaultMessage:
       '{units, select, ' +
+      'AED {د.إ}' +
       'AUD {A$}' +
       'BRL {R$}' +
       'CAD {CA$}' +
@@ -1164,8 +1168,10 @@ export default defineMessages({
       'NGN {₦}' +
       'NOK {NOK}' +
       'NZD {NZ$}' +
+      'SAR {﷼}' +
       'SEK {SEK}' +
       'SGD {SGD}' +
+      'TWD {NT$}' +
       'USD {$} ' +
       'ZAR {ZAR}' +
       'other {}}',
