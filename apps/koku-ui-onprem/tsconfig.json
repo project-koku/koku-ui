@@ -3,9 +3,6 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "outDir": "./dist/",
-    "paths": {
-      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"]
-    }
   },
   "include": [
     "./src/**/*.ts*",

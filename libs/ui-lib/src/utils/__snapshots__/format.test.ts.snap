@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`formatCurrency defaults fraction digits 1`] = `100.11`;
+
+exports[`formatCurrency uses specified fraction digits 1`] = `100.11`;
+
+exports[`formatUnits null unit returns value fixed to fraction digits 1`] = `"100.1"`;
+
+exports[`formatUnits unknown unit returns value fixed to fraction digits 1`] = `"100.11"`;

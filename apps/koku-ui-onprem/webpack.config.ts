@@ -55,34 +55,16 @@ const config: Configuration & {
         include: [
           // local node_modules (when not hoisted)
           path.resolve(__dirname, 'node_modules/patternfly/dist/fonts'),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-core/dist/styles/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-core/dist/styles/assets/pficon'
-          ),
+          path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
+          path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
           path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/fonts'),
           path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/pficon'),
           // workspace root node_modules (hoisted deps)
           path.resolve(__dirname, '../../node_modules/patternfly/dist/fonts'),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/pficon'
-          ),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/fonts'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/pficon'),
         ],
       },
       {
@@ -109,18 +91,9 @@ const config: Configuration & {
           ),
           // workspace root node_modules (hoisted deps)
           path.resolve(__dirname, '../../node_modules/patternfly'),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-styles/css/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/images'
-          ),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/images'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-styles/css/assets/images'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/images'),
         ],
       },
     ],
