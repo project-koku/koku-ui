@@ -2,10 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./src",
-    "outDir": "./dist/",
-    "paths": {
-      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"]
-    }
+    "outDir": "./dist/"
   },
   "include": [
     "./src/**/*.ts*",

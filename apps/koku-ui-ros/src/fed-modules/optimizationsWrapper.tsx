@@ -6,7 +6,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { rosStore } from 'store';
 
-// eslint-disable-next-line no-restricted-imports
 import messages from '../../locales/data.json';
 
 export interface OptimizationsWrapperOwnProps {

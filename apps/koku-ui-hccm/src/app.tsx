@@ -1,15 +1,15 @@
 import './app.scss';
 
-import UiVersion from '@koku-ui/ui-lib/components/page/uiVersion';
+import UiVersion from '@koku-ui/ui-lib/components/page/uiVersion/uiVersion';
+import { Routes } from '@koku-ui/ui-lib-hccm/routes';
+import { invalidateSession } from '@koku-ui/ui-lib-hccm/utils/sessionStorage';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import NotificationsProvider from '@redhat-cloud-services/frontend-components-notifications/NotificationsProvider';
 import { createStore } from '@redhat-cloud-services/frontend-components-notifications/state';
 import React, { useEffect, useLayoutEffect } from 'react';
-import { invalidateSession } from 'utils/sessionStorage';
 
 import pkg from '../package.json';
 import { useFeatureToggle } from './components/featureToggle';
-import { Routes } from './routes';
 
 const App = () => {
   const { updateDocumentTitle } = useChrome();

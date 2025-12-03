@@ -1,8 +1,8 @@
+import { FeatureToggleActions } from '@koku-ui/ui-lib-hccm/store/featureToggle';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { useUnleashClient } from '@unleash/proxy-client-react';
 import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { FeatureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
   awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855

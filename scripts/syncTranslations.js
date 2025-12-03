@@ -23,7 +23,7 @@ if (options.locale) {
 const getTranslations = () => {
   const filename = `${rootFolder}${LANG_DIR}en.json`;
   return readFileSync(filename, 'utf8');
-}
+};
 
 const getPrefixedTranslations = () => {
   const translations = JSON.parse(getTranslations());
@@ -33,7 +33,7 @@ const getPrefixedTranslations = () => {
     injectLocale(obj);
   }
   return JSON.stringify({ ...translations }, null, 2);
-}
+};
 
 const injectLocale = obj => {
   if (Array.isArray(obj)) {
@@ -50,6 +50,6 @@ const injectLocale = obj => {
       injectLocale(obj[key]);
     }
   }
-}
+};
 
 writeFileSync(`${rootFolder}${LANG_DIR}${LOCALE}.json`, getPrefixedTranslations());

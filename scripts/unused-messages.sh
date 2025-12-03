@@ -11,7 +11,7 @@ default()
 
   MSG_FILE=$SCRIPT_DIR/../src/locales/messages.ts
 
-  SRC_DIR=$SCRIPT_DIR/../src
+  SRC_DIRS=($SCRIPT_DIR/../../ui-lib $SCRIPT_DIR/../../api $SCRIPT_DIR/../../utils $SCRIPT_DIR/../../../apps)
   TMP_DIR="/tmp/$SCRIPT.$$"
 }
 
@@ -43,7 +43,7 @@ EEOOFF
   echo "The following MessageDescriptor IDs may be unused:"
   echo ""
 
-  FILES=`find $SRC_DIR -type f -name \*.ts -o -name \*.tsx`
+  FILES=`find "${SRC_DIRS[@]}" -type f -name \*.ts -o -name \*.tsx`
 
   for KEY in `grep "id: '" $MSG_FILE | awk -F: '{print $2}' | sed "s|[',]||g"`
   do

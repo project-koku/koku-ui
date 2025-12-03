@@ -14,6 +14,12 @@ module.exports = {
   moduleDirectories: ['node_modules', '<rootDir>/src'],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
+    '^@koku-ui/i18n/(.*)$': '<rootDir>/../../libs/i18n/src/$1',
+    '^@koku-ui/locales/(.*)$': '<rootDir>/../../libs/i18n/locales/$1',
+    '^@koku-ui/api/(.*)$': '<rootDir>/../../libs/api/src/$1',
+    '^@koku-ui/utils/(.*)$': '<rootDir>/../../libs/utils/src/$1',
+    '^@koku-ui/ui-lib/(.*)$': '<rootDir>/../../libs/ui-lib/src/$1',
+    '^@koku-ui/ui-lib-hccm/(.*)$': '<rootDir>/../../libs/ui-lib-hccm/src/$1',
   },
   preset: 'ts-jest',
   roots: ['<rootDir>/src/'],
@@ -27,9 +33,6 @@ module.exports = {
       {
         $schema: 'http://json.schemastore.org/swcrc',
         jsc: {
-          experimental: {
-            plugins: [['swc_mut_cjs_exports', {}]],
-          },
           parser: {
             jsx: true,
             syntax: 'typescript',

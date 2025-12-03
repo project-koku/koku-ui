@@ -10,7 +10,6 @@ import { getLocale } from 'components/i18n';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-// eslint-disable-next-line no-restricted-imports
 import messages from '../locales/data.json';
 import App from './app';
 import { rosStore } from './store';
