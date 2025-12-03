@@ -39,15 +39,17 @@ export const formatCurrency: Formatter = (value: number, units: string, options:
   }
 
   // Special case to show currency symbol for all browser locales
-  const isNarrowSymbol = currency === 'CZK' || currency === 'NGN';
+  const narrowCurrencies = ['CZK', 'DKK', 'NGN', 'NOK', 'SEK', 'SGD', 'ZAR'];
+  const isNarrowSymbol = narrowCurrencies.includes(currency);
 
   // Don't specify default fraction digits here, rely on react-intl instead
-  return intl.formatNumber(fValue, {
+  const formattedValue = intl.formatNumber(fValue, {
     style: 'currency',
     currency,
     ...(isNarrowSymbol ? { currencyDisplay: 'narrowSymbol' } : {}),
     ...options,
   });
+  return currency === 'SGD' ? formatSGD(formattedValue) : formattedValue;
 };
 
 export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
@@ -129,35 +131,6 @@ export const formatCurrencyRaw: Formatter = (value: number, units: string, optio
     .replace(/\xa0/g, ''); // Non-breaking space before currency
 };
 
-// Returns formatted units or currency with given currency-code
-export const formatUnits: Formatter = (value, units, options) => {
-  const lookup = unitsLookupKey(units);
-  const fValue = value || 0;
-
-  switch (lookup) {
-    case 'byte_ms':
-    case 'cluser_month':
-    case 'core':
-    case 'core_hours':
-    case 'gb':
-    case 'gb_hours':
-    case 'gb_month':
-    case 'gb_ms':
-    case 'gib':
-    case 'gib_hours':
-    case 'gib_month':
-    case 'gibibyte_month':
-    case 'hour':
-    case 'hrs':
-    case 'ms':
-    case 'pvc_month':
-    case 'tag_month':
-    case 'vm_hours':
-      return formatUsage(fValue, options);
-  }
-  return unknownTypeFormatter(fValue, options);
-};
-
 export const formatPercentage: PercentageFormatter = (
   value,
   options: FormatOptions = {
@@ -194,6 +167,54 @@ export const formatOptimization: PercentageFormatter = (
 ) => {
   const val = value.toLocaleString(getLocale(), options);
   return val;
+};
+
+// Workaround to show S$ currency symbol
+export const formatSGD = (value: string) => {
+  // If the value already contains "S$", return as-is
+  if (value.includes('S$')) {
+    return value;
+  }
+  // Insert "S" immediately before the dollar sign, preserving locale-specific spacing/signs
+  const dollarIndex = value.indexOf('$');
+  if (dollarIndex !== -1) {
+    return `${value.slice(0, dollarIndex)}S${value.slice(dollarIndex)}`;
+  }
+  // Fall back to replacing the currency code with "S$" while keeping the amount formatting
+  const codeIndex = value.indexOf('SGD');
+  if (codeIndex !== -1) {
+    return `${value.slice(0, codeIndex)}S$${value.slice(codeIndex + 3)}`;
+  }
+  return value;
+};
+
+// Returns formatted units or currency with given currency-code
+export const formatUnits: Formatter = (value, units, options) => {
+  const lookup = unitsLookupKey(units);
+  const fValue = value || 0;
+
+  switch (lookup) {
+    case 'byte_ms':
+    case 'cluser_month':
+    case 'core':
+    case 'core_hours':
+    case 'gb':
+    case 'gb_hours':
+    case 'gb_month':
+    case 'gb_ms':
+    case 'gib':
+    case 'gib_hours':
+    case 'gib_month':
+    case 'gibibyte_month':
+    case 'hour':
+    case 'hrs':
+    case 'ms':
+    case 'pvc_month':
+    case 'tag_month':
+    case 'vm_hours':
+      return formatUsage(fValue, options);
+  }
+  return unknownTypeFormatter(fValue, options);
 };
 
 export const formatUsage: UnitsFormatter = (

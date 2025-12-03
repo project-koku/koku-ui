@@ -1129,21 +1129,21 @@ export default defineMessages({
       'CHF {CHF (CHF) - Swiss Franc}' +
       'CNY {CNY (CN¥) - Chinese Yuan}' +
       'CZK {CZK (Kč) - Czech Koruna}' +
-      'DKK {DKK (DKK) - Danish Krone}' +
+      'DKK {DKK (kr) - Danish Krone}' +
       'EUR {EUR (€) - Euro}' +
       'GBP {GBP (£) - British Pound}' +
       'HKD {HKD (HK$) - Hong Kong Dollar}' +
       'INR {INR (₹) - Indian Rupee}' +
       'JPY {JPY (¥) - Japanese Yen}' +
       'NGN {NGN (₦) - Nigerian Naira}' +
-      'NOK {NOK (NOK) - Norwegian Krone}' +
+      'NOK {NOK (kr) - Norwegian Krone}' +
       'NZD {NZD (NZ$) - New Zealand Dollar}' +
       'SAR {SAR (ر.س) - Saudi Riyal}' +
-      'SEK {SEK (SEK) - Swedish Krona}' +
-      'SGD {SGD (SGD) - Singapore Dollar}' +
+      'SEK {SEK (kr) - Swedish Krona}' +
+      'SGD {SGD (S$) - Singapore Dollar}' +
       'TWD {TWD (NT$) - New Taiwan Dollar}' +
       'USD {USD ($) - United States Dollar} ' +
-      'ZAR {ZAR (ZAR) - South African Rand}' +
+      'ZAR {ZAR (R) - South African Rand}' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'currencyOptions',
@@ -1159,21 +1159,21 @@ export default defineMessages({
       'CHF {CHF}' +
       'CNY {CN¥}' +
       'CZK {Kč}' +
-      'DKK {DKK}' +
+      'DKK {kr}' +
       'EUR {€}' +
       'GBP {£}' +
       'HKD {HK$}' +
       'INR {₹}' +
       'JPY {¥}' +
       'NGN {₦}' +
-      'NOK {NOK}' +
+      'NOK {kr}' +
       'NZD {NZ$}' +
       'SAR {﷼}' +
-      'SEK {SEK}' +
-      'SGD {SGD}' +
+      'SEK {kr}' +
+      'SGD {S$}' +
       'TWD {NT$}' +
       'USD {$} ' +
-      'ZAR {ZAR}' +
+      'ZAR {R}' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'currencyUnits',

@@ -2190,7 +2190,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "AED (د.إ) - Arab Emirates Dirham"
+                "value": "AED (د.إ) - United Arab Emirates Dirham"
               }
             ]
           },
@@ -2246,7 +2246,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "DKK (DKK) - Danish Krone"
+                "value": "DKK (kr) - Danish Krone"
               }
             ]
           },
@@ -2302,7 +2302,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "NOK (NOK) - Norwegian Krone"
+                "value": "NOK (kr) - Norwegian Krone"
               }
             ]
           },
@@ -2318,7 +2318,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "SAR (﷼) - Saudi Arabia Riyal"
+                "value": "SAR (ر.س) - Saudi Riyal"
               }
             ]
           },
@@ -2326,7 +2326,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "SEK (SEK) - Swedish Krona"
+                "value": "SEK (kr) - Swedish Krona"
               }
             ]
           },
@@ -2334,7 +2334,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "SGD (SGD) - Singapore Dollar"
+                "value": "SGD (S$) - Singapore Dollar"
               }
             ]
           },
@@ -2358,7 +2358,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "ZAR (ZAR) - South African Rand"
+                "value": "ZAR (R) - South African Rand"
               }
             ]
           },
@@ -2433,7 +2433,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "DKK"
+                "value": "kr"
               }
             ]
           },
@@ -2489,7 +2489,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "NOK"
+                "value": "kr"
               }
             ]
           },
@@ -2513,7 +2513,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "SEK"
+                "value": "kr"
               }
             ]
           },
@@ -2521,7 +2521,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "SGD"
+                "value": "S$"
               }
             ]
           },
@@ -2545,7 +2545,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "ZAR"
+                "value": "R"
               }
             ]
           },
