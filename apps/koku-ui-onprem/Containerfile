@@ -7,6 +7,8 @@ COPY package.json ./
 COPY package-lock.json ./
 COPY tsconfig.json ./
 COPY apps/koku-ui-onprem/package.json ./apps/koku-ui-onprem/
+COPY apps/koku-ui-hccm/package.json ./apps/koku-ui-hccm/
+COPY apps/koku-ui-ros/package.json ./apps/koku-ui-ros/
 COPY libs ./libs
 
 RUN npm ci
@@ -14,12 +16,20 @@ RUN npm ci
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
 RUN npm run build --workspace=@koku-ui/koku-ui-onprem
 
+COPY apps/koku-ui-hccm ./apps/koku-ui-hccm/
+RUN npm run build:onprem --workspace=@koku-ui/koku-ui-hccm
+
+COPY apps/koku-ui-ros ./apps/koku-ui-ros/
+RUN npm run build:onprem --workspace=@koku-ui/koku-ui-ros
+
 USER 1001
 
 FROM registry.redhat.io/ubi10/nginx-126
 
 COPY apps/koku-ui-onprem/nginx.conf.template /tmp/nginx.conf.template
-COPY --from=builder /app/apps/koku-ui-onprem/dist .
+COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
+COPY --from=builder /app/apps/koku-ui-hccm/dist ./costManagement
+COPY --from=builder /app/apps/koku-ui-ros/dist ./costManagementRos
 
 EXPOSE 8080
 CMD ["/bin/sh", "-c", "envsubst '\\$API_PROXY_URL' < /tmp/nginx.conf.template > ${NGINX_DEFAULT_CONF_PATH}/nginx.conf && exec nginx -g 'daemon off;'"]

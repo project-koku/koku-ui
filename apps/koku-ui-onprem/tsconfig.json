@@ -4,7 +4,8 @@
     "baseUrl": "./src",
     "outDir": "./dist/",
     "paths": {
-      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"]
+      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"],
+      "@koku-ui/onprem-cloud-deps/*": ["../../../libs/onprem-cloud-deps/src/*"],
     }
   },
   "include": [
