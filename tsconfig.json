@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

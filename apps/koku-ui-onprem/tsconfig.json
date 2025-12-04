@@ -4,7 +4,19 @@
     "baseUrl": "./src",
     "outDir": "./dist/",
     "paths": {
-      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"]
+      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"],
+      "@koku-ui/koku-ui-hccm/*": ["../../koku-ui-hccm/src/*"],
+      "store/*": ["../../koku-ui-hccm/src/store/*"],
+      "store": ["../../koku-ui-hccm/src/store/index.ts"],
+      "api/*": ["../../koku-ui-hccm/src/api/*"],
+      "api": ["../../koku-ui-hccm/src/api/index.ts"],
+      "locales/*": ["../../koku-ui-hccm/src/locales/*"],
+      "locales": ["../../koku-ui-hccm/src/locales/index.ts"],
+      "components/*": ["../../koku-ui-hccm/src/components/*"],
+      "components": ["../../koku-ui-hccm/src/components/index.ts"],
+      "routes/*": ["../../koku-ui-hccm/src/routes/*"],
+      "routes": ["../../koku-ui-hccm/src/routes.tsx"],
+      "utils/*": ["../../koku-ui-hccm/src/utils/*"],
     }
   },
   "include": [

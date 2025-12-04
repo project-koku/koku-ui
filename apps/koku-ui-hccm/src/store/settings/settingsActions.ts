@@ -2,7 +2,7 @@ import { AlertVariant } from '@patternfly/react-core';
 import type { Settings, SettingsPayload } from 'api/settings';
 import { fetchSettings as apiFetchSettings, SettingsType, updateSettings as apiUpdateSettings } from 'api/settings';
 import type { AxiosError } from 'axios';
-import type { AxiosResponse } from 'axios/index';
+import type { AxiosResponse } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { ThunkAction } from 'store/common';

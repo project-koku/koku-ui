@@ -1,7 +1,7 @@
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import type { AxiosError } from 'axios/index';
+import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import type { MessageDescriptor } from 'react-intl';

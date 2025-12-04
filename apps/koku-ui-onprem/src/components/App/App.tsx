@@ -1,20 +1,40 @@
-import NotFound from '@koku-ui/ui-lib/components/page/notFound';
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-import AppLayout, { routes } from './AppLayout';
+import AppLayout from './AppLayout';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppLayout />,
-    errorElement: <NotFound />,
-    children: routes,
-  },
-]);
+window.insights = {
+  chrome: {
+    auth: {
+      getUser: async () => ({
+        identity: {
+          user: {
+            is_org_admin: true,
+            email: '',
+            first_name: '',
+            is_active: true,
+            is_internal: false,
+            last_name: '',
+            locale: 'en',
+            username: '',
+          },
+          org_id: '',
+          type: '',
+        },
+        entitlements: {},
+      }),
+    } as any,
+    getUserPermissions: async () => [],
+    on: () => {},
+  } as any,
+};
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
+  );
 };
 
 export default App;
