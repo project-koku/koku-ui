@@ -11,7 +11,24 @@ location /api {
 }
 
 location / {
+    root /opt/app-root/src/onprem;
     try_files $uri $uri/ /index.html;
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+    add_header Referrer-Policy "strict-origin-when-cross-origin";
+}
+
+location /costManagement/ {
+    alias /opt/app-root/src/costManagement/;
+    try_files $uri $uri/ /costManagement/index.html;
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+    add_header Referrer-Policy "strict-origin-when-cross-origin";
+}
+
+location /costManagementRos/ {
+    alias /opt/app-root/src/costManagementRos/;
+    try_files $uri $uri/ /costManagementRos/index.html;
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
     add_header Referrer-Policy "strict-origin-when-cross-origin";
