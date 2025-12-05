@@ -1,60 +1,27 @@
+import { DynamicRemotePlugin } from '@openshift/dynamic-plugin-sdk-webpack';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { GitRevisionPlugin } from 'git-revision-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin } from 'webpack';
-import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
+import { name } from './package.json';
+
+const gitRevisionPlugin = new GitRevisionPlugin();
+
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
+
+const srcDir = path.resolve(__dirname, './src');
 
 const config: Configuration & {
   devServer?: WebpackDevServerConfiguration;
 } = {
+  entry: './src/appEntry.tsx',
   mode: NODE_ENV,
-  devtool: 'eval-source-map',
-  devServer: {
-    host: 'localhost',
-    port: 9000,
-    historyApiFallback: true,
-    open: true,
-    static: [
-      {
-        directory: path.resolve(__dirname, 'dist'),
-      },
-      {
-        directory: path.resolve(__dirname, '../koku-ui-ros/dist'),
-        publicPath: '/costManagementRos/',
-        watch: true,
-      },
-      {
-        directory: path.resolve(__dirname, '../koku-ui-hccm/dist'),
-        publicPath: '/costManagement/',
-        watch: true,
-      },
-    ],
-    client: {
-      overlay: true,
-    },
-    devMiddleware: {
-      writeToDisk: true,
-      index: 'index.html',
-    },
-    proxy: [
-      {
-        context: ['/api/cost-management/v1'],
-        target: process.env.API_HOST,
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: { '^/api/cost-management/v1': '' },
-        headers: {
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
-        },
-      },
-    ],
-  },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -95,7 +62,7 @@ const config: Configuration & {
           path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
           path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/fonts'),
           path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/pficon'),
-          path.resolve(__dirname, '../koku-ui-hccm/src'),
+          path.resolve(__dirname, '../koku-ui-ros/src'),
         ],
       },
       {
@@ -125,7 +92,7 @@ const config: Configuration & {
           path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/images'),
           path.resolve(__dirname, '../../node_modules/@patternfly/react-styles/css/assets/images'),
           path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/images'),
-          path.resolve(__dirname, '../koku-ui-hccm/src'),
+          path.resolve(__dirname, '../koku-ui-ros/src'),
         ],
       },
     ],
@@ -133,13 +100,13 @@ const config: Configuration & {
   output: {
     filename: '[name].bundle-[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '/costManagementRos/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
-    new ModuleFederationPlugin({
-      name: 'onprem',
-      shared: {
+    new DynamicRemotePlugin({
+      extensions: [],
+      sharedModules: {
         react: {
           singleton: true,
           requiredVersion: '*',
@@ -152,32 +119,35 @@ const config: Configuration & {
           singleton: true,
           requiredVersion: '*',
         },
-        '@openshift/dynamic-plugin-sdk': {
-          singleton: true,
-          requiredVersion: '*',
-        },
-        '@scalprum/react-core': {
-          singleton: true,
-          requiredVersion: '*',
+        '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
+        '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
+      },
+      pluginMetadata: {
+        name: 'costManagementRos',
+        version: '1.0.0',
+        exposedModules: {
+          './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
+          './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
+          './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
+          './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
+          './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
+          './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
         },
       },
     }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src', 'index.html'),
-      filename: 'index.html',
-    }),
     new DefinePlugin({
-      'process.env.KOKU_UI_COMMITHASH': JSON.stringify('foo'),
-      'process.env.KOKU_UI_PKGNAME': JSON.stringify('foo'),
+      'process.env.KOKU_UI_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
+      'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
     }),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
     symlinks: false,
     cacheWithContext: false,
+    modules: [srcDir, path.resolve(__dirname, '../../node_modules')],
     alias: {
       '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
-      '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
+      '@redhat-cloud-services': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
     },
   },
   watchOptions: {
@@ -185,11 +155,6 @@ const config: Configuration & {
   },
   snapshot: {
     managedPaths: [],
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
   },
 };
 
