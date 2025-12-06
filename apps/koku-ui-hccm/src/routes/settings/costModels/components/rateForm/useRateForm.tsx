@@ -16,20 +16,19 @@ import { checkRateOnChange, genFormDataFromRate, getDefaultCalculation, initialR
 
 type Actions =
   | { type: 'ADD_TAG' }
-  | { type: 'RESET_RATE_KIND_TAGGING' }
   | { type: 'REMOVE_TAG'; index: number }
   | { type: 'RESET_FORM'; payload: RateFormData }
   | { type: 'TOGGLE_RATE_KIND' }
+  | { type: 'UPDATE_CALCULATION'; value: string }
+  | { type: 'UPDATE_DESCRIPTION'; value: string }
+  | { type: 'UPDATE_METRIC'; value: string; defaultCalculation: string }
+  | { type: 'UPDATE_MEASUREMENT'; value: string }
+  | { type: 'UPDATE_REGULAR'; value: string }
   | {
       type: 'UPDATE_TAG';
       index: number;
       payload: Partial<RateFormTagValue>;
     }
-  | { type: 'UPDATE_DESCRIPTION'; value: string }
-  | { type: 'UPDATE_METRIC'; value: string; defaultCalculation: string }
-  | { type: 'UPDATE_MEASUREMENT'; value: string }
-  | { type: 'UPDATE_CALCULATION'; value: string }
-  | { type: 'UPDATE_REGULAR'; value: string }
   | { type: 'UPDATE_TAG_KEY'; value: string }
   | { type: 'UPDATE_TAG_DEFAULT'; index: number };
 
@@ -87,12 +86,6 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
     case 'RESET_FORM': {
       return action.payload;
     }
-    case 'RESET_RATE_KIND_TAGGING': {
-      return {
-        ...state,
-        rateKind: 'tagging',
-      };
-    }
     case 'TOGGLE_RATE_KIND': {
       if (state.step !== 'set_rate') {
         return state;
@@ -100,6 +93,21 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       return {
         ...state,
         rateKind: state.rateKind === 'regular' ? 'tagging' : 'regular',
+      };
+    }
+    case 'UPDATE_CALCULATION': {
+      if (state.step !== 'set_rate') {
+        return state;
+      }
+      const newState = {
+        ...state,
+        calculation: action.value,
+      };
+      const cur = OtherTierFromRateForm(newState);
+      const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));
+      return {
+        ...newState,
+        errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : null },
       };
     }
     case 'UPDATE_DESCRIPTION':
@@ -123,6 +131,15 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       if (step === 'initial') {
         step = 'set_metric';
       }
+
+      // Set type based on selected metric
+      let rateKind = 'regular';
+      if (action.value.toLowerCase() === 'cluster') {
+        rateKind = 'regular';
+      } else if (action.value.toLowerCase() === 'gpu' || action.value.toLowerCase() === 'project') {
+        rateKind = 'tagging';
+      }
+
       const newState = {
         ...state,
         metric: action.value,
@@ -130,7 +147,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         errors,
         step,
         calculation: action.defaultCalculation,
-        rateKind: action.value === 'Cluster' ? 'regular' : state.rateKind,
+        rateKind,
       };
       const cur = OtherTierFromRateForm(newState);
       const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));
@@ -160,21 +177,6 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : null },
       };
     }
-    case 'UPDATE_CALCULATION': {
-      if (state.step !== 'set_rate') {
-        return state;
-      }
-      const newState = {
-        ...state,
-        calculation: action.value,
-      };
-      const cur = OtherTierFromRateForm(newState);
-      const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));
-      return {
-        ...newState,
-        errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : null },
-      };
-    }
     case 'UPDATE_REGULAR': {
       return {
         ...state,
@@ -187,6 +189,18 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         errors: {
           ...state.errors,
           tieredRates: checkRateOnChange(action.value),
+        },
+      };
+    }
+    case 'UPDATE_TAG_DEFAULT': {
+      if (state.step !== 'set_rate' && state.rateKind !== 'tagging') {
+        return state;
+      }
+      return {
+        ...state,
+        taggingRates: {
+          ...state.taggingRates,
+          defaultTag: state.taggingRates.defaultTag === action.index ? null : action.index,
         },
       };
     }
@@ -210,18 +224,6 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       return {
         ...newState,
         errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : newState.errors.tagKey },
-      };
-    }
-    case 'UPDATE_TAG_DEFAULT': {
-      if (state.step !== 'set_rate' && state.rateKind !== 'tagging') {
-        return state;
-      }
-      return {
-        ...state,
-        taggingRates: {
-          ...state.taggingRates,
-          defaultTag: state.taggingRates.defaultTag === action.index ? null : action.index,
-        },
       };
     }
     case 'UPDATE_TAG': {
@@ -300,31 +302,28 @@ export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tie
   const [state, dispatch] = React.useReducer(rateFormReducer, initial);
   return {
     ...state,
+    addTag: () => dispatch({ type: 'ADD_TAG' }),
+    removeTag: (index: number) => dispatch({ type: 'REMOVE_TAG', index }),
     reset: (payload: RateFormData) => dispatch({ type: 'RESET_FORM', payload }),
+    setCalculation: (value: string) => dispatch({ type: 'UPDATE_CALCULATION', value }),
     setDescription: (value: string) => dispatch({ type: 'UPDATE_DESCRIPTION', value }),
+    setMeasurement: (value: string) =>
+      dispatch({
+        type: 'UPDATE_MEASUREMENT',
+        value,
+      }),
     setMetric: (value: string) => {
       dispatch({
         type: 'UPDATE_METRIC',
         value,
         defaultCalculation: getDefaultCalculation(metricsHash, value),
       });
-      if (value.toLowerCase() === 'project') {
-        dispatch({ type: 'RESET_RATE_KIND_TAGGING' });
-      }
     },
-    setMeasurement: (value: string) =>
-      dispatch({
-        type: 'UPDATE_MEASUREMENT',
-        value,
-      }),
-    setCalculation: (value: string) => dispatch({ type: 'UPDATE_CALCULATION', value }),
     setRegular: (value: string) => dispatch({ type: 'UPDATE_REGULAR', value }),
-    toggleTaggingRate: () => dispatch({ type: 'TOGGLE_RATE_KIND' }),
     setTagKey: (value: string) => dispatch({ type: 'UPDATE_TAG_KEY', value }),
-    removeTag: (index: number) => dispatch({ type: 'REMOVE_TAG', index }),
-    addTag: () => dispatch({ type: 'ADD_TAG' }),
+    toggleTaggingRate: () => dispatch({ type: 'TOGGLE_RATE_KIND' }),
+    updateDefaultTag: (index: number) => dispatch({ type: 'UPDATE_TAG_DEFAULT', index }),
     updateTag: (payload: Partial<(typeof initialRateFormData)['taggingRates']['tagValues'][0]>, index: number) =>
       dispatch({ type: 'UPDATE_TAG', index, payload }),
-    updateDefaultTag: (index: number) => dispatch({ type: 'UPDATE_TAG_DEFAULT', index }),
   };
 }

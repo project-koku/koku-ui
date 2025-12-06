@@ -43,6 +43,7 @@ interface UpdateDistributionDialogDispatchProps {
 
 interface UpdateDistributionDialogState {
   distribution?: string;
+  distributeGpu?: boolean;
   distributeNetwork?: boolean;
   distributePlatformUnallocated?: boolean;
   distributeStorage?: boolean;
@@ -61,6 +62,7 @@ class UpdateDistributionDialogBase extends React.Component<
     super(props);
     this.state = {
       distribution: this.props.current.distribution_info.distribution_type,
+      distributeGpu: this.props.current.distribution_info.gpu_unallocated === true,
       distributeNetwork: this.props.current.distribution_info.network_unattributed === true,
       distributePlatformUnallocated: this.props.current.distribution_info.platform_cost === true,
       distributeStorage: this.props.current.distribution_info.storage_unattributed === true,
@@ -79,6 +81,10 @@ class UpdateDistributionDialogBase extends React.Component<
 
   private handleDistributeWorkerUnallocatedChange = (event, isChecked) => {
     this.setState({ distributeWorkerUnallocated: isChecked });
+  };
+
+  private handleDistributeGpuChange = (event, isChecked) => {
+    this.setState({ distributeGpu: isChecked });
   };
 
   private handleDistributeNetworkChange = (event, isChecked) => {
@@ -178,6 +184,13 @@ class UpdateDistributionDialogBase extends React.Component<
                     label={intl.formatMessage(messages.distributeStorage)}
                     onChange={this.handleDistributeStorageChange}
                   />
+                  <Checkbox
+                    aria-label={intl.formatMessage(messages.distributeGpu)}
+                    id="distribute-gpu"
+                    isChecked={this.state.distributeGpu}
+                    label={intl.formatMessage(messages.distributeGpu)}
+                    onChange={this.handleDistributeGpuChange}
+                  />
                 </FormGroup>
               </Form>
             </StackItem>
@@ -195,6 +208,7 @@ class UpdateDistributionDialogBase extends React.Component<
                 source_type: 'OCP',
                 distribution_info: {
                   distribution_type: this.state.distribution,
+                  gpu_unallocated: this.state.distributeGpu,
                   network_unattributed: this.state.distributeNetwork,
                   platform_cost: this.state.distributePlatformUnallocated,
                   storage_unattributed: this.state.distributeStorage,

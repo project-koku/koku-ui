@@ -28,11 +28,13 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
       <CostModelContext.Consumer>
         {({
           handleDistributionChange,
+          handleDistributeGpuChange,
           handleDistributeNetworkChange,
           handleDistributePlatformUnallocatedChange,
           handleDistributeStorageChange,
           handleDistributeWorkerUnallocatedChange,
           distribution,
+          distributeGpu,
           distributeNetwork,
           distributePlatformUnallocated,
           distributeStorage,
@@ -117,6 +119,13 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       isChecked={distributeStorage}
                       label={intl.formatMessage(messages.distributeStorage)}
                       onChange={handleDistributeStorageChange}
+                    />
+                    <Checkbox
+                      aria-label={intl.formatMessage(messages.distributeGpu)}
+                      id="distribute-storage"
+                      isChecked={distributeGpu}
+                      label={intl.formatMessage(messages.distributeGpu)}
+                      onChange={handleDistributeGpuChange}
                     />
                   </FormGroup>
                 </Form>

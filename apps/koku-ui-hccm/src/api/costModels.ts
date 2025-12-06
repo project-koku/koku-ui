@@ -15,6 +15,7 @@ export interface CostModel {
   description: string;
   distribution_info?: {
     distribution_type?: string;
+    gpu_unallocated?: boolean;
     network_unattributed?: boolean;
     platform_cost?: boolean;
     storage_unattributed?: boolean;
@@ -34,6 +35,7 @@ export interface CostModelRequest {
   description: string;
   distribution_info?: {
     distribution_type?: string;
+    gpu_unattributed?: boolean;
     network_unattributed?: boolean;
     platform_cost?: boolean;
     storage_unattributed?: boolean;
