@@ -16,7 +16,6 @@ interface GpuRatesFormOwnProps {
   currencyUnits?: string;
   errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
   removeTag: UseRateData['removeTag'];
-  tagKey: string;
   tagValues: RateFormTagValue[];
   updateTag: UseRateData['updateTag'];
 }
