@@ -70,6 +70,9 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
       return label ? label : m;
     };
     const getMeasurementLabel = m => {
+      if (!m) {
+        return '';
+      }
       // Match message descriptor or default to API string
       const label = intl.formatMessage(messages.measurementValues, {
         value: m.toLowerCase().replace('-', '_'),
@@ -82,15 +85,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
         toString: () => getMetricLabel(m),
         value: m,
       }))
-      .sort((a: any, b: any) => {
-        if (a.toString() < b.toString()) {
-          return -1;
-        }
-        if (a.toString() > b.toString()) {
-          return 1;
-        }
-        return 0;
-      });
+      .sort((a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? ''));
 
     const measurementOpts = uniqWith(
       metricOpts.reduce((acc, curr) => {
@@ -100,7 +95,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
         }));
         return [...acc, ...measures];
       }, []),
-      (a, b) => a?.toString() === b?.toString()
+      (a, b) => (a?.toString() ?? '') === (b?.toString() ?? '')
     );
 
     const NoTiersEmptyState = () => (
@@ -147,6 +142,9 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                   {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
                     const getMetric = value => getMetricLabel(value) || value;
                     const getMeasurement = (measurement, units) => {
+                      if (!measurement) {
+                        return '';
+                      }
                       units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
                       return intl.formatMessage(messages.measurementValues, {
                         value: measurement.toLowerCase().replace('-', '_'),
