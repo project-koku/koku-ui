@@ -82,7 +82,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
         toString: () => getMetricLabel(m),
         value: m,
       }))
-      .sort((a, b) => a.toString().localeCompare(b.toString()));
+      .sort((a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? ''));
 
     const measurementOpts = uniqWith(
       metricOpts.reduce((acc, curr) => {
@@ -92,7 +92,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
         }));
         return [...acc, ...measures];
       }, []),
-      (a, b) => a.toString().localeCompare(b.toString()) === 0
+      (a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? '') === 0
     );
 
     const NoTiersEmptyState = () => (
