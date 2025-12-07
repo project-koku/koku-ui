@@ -92,10 +92,20 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
       });
       return label ? label : m;
     };
-    const metricOpts = Object.keys(metricsHash).map(m => ({
-      toString: () => getMetricLabel(m), // metric
-      value: m,
-    }));
+    const metricOpts = Object.keys(metricsHash)
+      .map(m => ({
+        toString: () => getMetricLabel(m), // metric
+        value: m,
+      }))
+      .sort((a: any, b: any) => {
+        if (a.toString() < b.toString()) {
+          return -1;
+        }
+        if (a.toString() > b.toString()) {
+          return 1;
+        }
+        return 0;
+      });
 
     const measurementOpts = uniqWith(
       metricOpts.reduce((acc, curr) => {
@@ -187,6 +197,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                 return compareBy(r1, r2, this.state.sortBy.direction, projection);
               });
             const filtered = res.slice(from, to);
+
             return (
               <>
                 <PriceListToolbar

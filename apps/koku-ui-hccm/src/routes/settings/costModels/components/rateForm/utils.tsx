@@ -170,6 +170,7 @@ export const mergeToRequest = (
     description: costModel.description,
     distribution_info: {
       distribution_type: costModel.distribution_info ? costModel.distribution_info.distribution_type : undefined,
+      gpu_unallocated: costModel.distribution_info ? costModel.distribution_info.gpu_unallocated : undefined,
       network_unattributed: costModel.distribution_info ? costModel.distribution_info.network_unattributed : undefined,
       platform_cost: costModel.distribution_info ? costModel.distribution_info.platform_cost : undefined,
       storage_unattributed: costModel.distribution_info ? costModel.distribution_info.storage_unattributed : undefined,
