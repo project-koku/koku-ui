@@ -83,6 +83,11 @@ const DistributionCardBase: React.FC<Props> = ({
               type: 'storage',
             })}
           </div>
+          <div>
+            {intl.formatMessage(messages.distributeGpuCosts, {
+              value: current.distribution_info.gpu_unallocated || false,
+            })}
+          </div>
         </CardBody>
       </Card>
     </>

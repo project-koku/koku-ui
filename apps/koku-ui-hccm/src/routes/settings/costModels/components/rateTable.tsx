@@ -52,7 +52,13 @@ const RateTableBase: React.FC<RateTableProps> = ({
     return [
       ...acc,
       {
-        data: { index: ix, hasChildren: isTagRates, tag_rates: tier.tag_rates, stateIndex: tier.stateIndex },
+        data: {
+          index: ix,
+          hasChildren: isTagRates,
+          metric: tier.metric.label_metric,
+          tag_rates: tier.tag_rates,
+          stateIndex: tier.stateIndex,
+        },
         cells: [
           getMetric(tier.metric.label_metric),
           tier.description || '',
@@ -74,6 +80,13 @@ const RateTableBase: React.FC<RateTableProps> = ({
     { title: intl.formatMessage(messages.measurement), sortable: true, sortIndex: 2 },
     { title: intl.formatMessage(messages.calculationType) },
     { title: intl.formatMessage(messages.rate) },
+  ];
+  const gpuColumns = [
+    intl.formatMessage(messages.costModelsGpuVendor),
+    intl.formatMessage(messages.costModelsGpuModel),
+    intl.formatMessage(messages.rate),
+    intl.formatMessage(messages.description),
+    <span key="empty">&nbsp;</span>,
   ];
   const tagColumns = [
     intl.formatMessage(messages.costModelsTagRateTableKey),
@@ -139,6 +152,8 @@ const RateTableBase: React.FC<RateTableProps> = ({
       {sortedRows.map((row, rowIndex) => {
         const rowId = `row-${rowIndex}`;
         const isExpanded = row.data.hasChildren && expanded.includes(rowIndex);
+        const isGpu = row.data.metric.toLowerCase() === 'gpu';
+
         return (
           <Tbody isExpanded={isExpanded} key={rowId}>
             <Tr isContentExpanded={isExpanded} isControlRow key={`${rowId}-${rowIndex}`}>
@@ -176,19 +191,21 @@ const RateTableBase: React.FC<RateTableProps> = ({
                     <Table borders={false} variant={TableVariant.compact}>
                       <Thead>
                         <Tr>
-                          {tagColumns.map((tag, tagIndex) => (
-                            <Th key={tagIndex}>{tag}</Th>
-                          ))}
+                          {isGpu
+                            ? gpuColumns.map((tag, tagIndex) => <Th key={tagIndex}>{tag}</Th>)
+                            : tagColumns.map((tag, tagIndex) => <Th key={tagIndex}>{tag}</Th>)}
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {row.data.tag_rates.tag_values.map((v, index) => (
+                        {row.data.tag_rates?.tag_values?.map((v, index) => (
                           <Tr key={index}>
                             <Td>{index === 0 ? row.data.tag_rates.tag_key : ''}</Td>
                             <Td>{v.tag_value}</Td>
                             <Td>{formatCurrencyRate(v.value, v.unit)}</Td>
                             <Td>{v.description}</Td>
-                            <Td>{v.default ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+                            {!isGpu && (
+                              <Td>{v.default ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+                            )}
                           </Tr>
                         ))}
                       </Tbody>

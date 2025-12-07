@@ -1,4 +1,4 @@
-import { Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
+import { Alert, Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import type { MetricHash } from 'api/metrics';
 import { intl as defaultIntl } from 'components/i18n';
@@ -11,6 +11,7 @@ import { Selector } from 'routes/settings/costModels/components/inputs/selector'
 import { SimpleInput } from 'routes/settings/costModels/components/inputs/simpleInput';
 import { unitsLookupKey } from 'utils/format';
 
+import { GpuRatesForm } from './gpuRatesForm';
 import { TaggingRatesForm } from './taggingRatesForm';
 import type { UseRateData } from './useRateForm';
 
@@ -158,38 +159,38 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
       </Grid>
       {step === 'set_rate' ? (
         <>
-          <>
-            <FormGroup
-              isInline
-              style={style}
-              fieldId="calculation"
-              label={intl.formatMessage(messages.calculationType)}
-            >
-              <Radio
-                name="calculation"
-                id="calculation-infra"
-                label={intl.formatMessage(messages.infrastructure)}
-                isChecked={calculation === 'Infrastructure'}
-                onChange={() => setCalculation('Infrastructure')}
-              />
-              <Radio
-                name="calculation"
-                id="calculation-suppl"
-                label={intl.formatMessage(messages.supplementary)}
-                isChecked={calculation === 'Supplementary'}
-                onChange={() => setCalculation('Supplementary')}
-              />
-            </FormGroup>
-            {metric.toLowerCase() !== 'cluster' ? (
-              <Switch
-                aria-label={intl.formatMessage(messages.costModelsEnterTagRate)}
-                label={intl.formatMessage(messages.costModelsEnterTagRate)}
-                isChecked={rateKind === 'tagging'}
-                isDisabled={metric.toLowerCase() === 'project'}
-                onChange={toggleTaggingRate}
-              />
-            ) : null}
-          </>
+          {metric.toLowerCase() === 'gpu' && (
+            <Alert isInline isPlain title={intl.formatMessage(messages.costModelsGpuDesc)} variant="info">
+              <a href={intl.formatMessage(messages.docsCostModelsGpu)} rel="noreferrer" target="_blank">
+                {intl.formatMessage(messages.costModelsGpuLearnMore)}
+              </a>
+            </Alert>
+          )}
+          <FormGroup isInline style={style} fieldId="calculation" label={intl.formatMessage(messages.calculationType)}>
+            <Radio
+              name="calculation"
+              id="calculation-infra"
+              label={intl.formatMessage(messages.infrastructure)}
+              isChecked={calculation === 'Infrastructure'}
+              onChange={() => setCalculation('Infrastructure')}
+            />
+            <Radio
+              name="calculation"
+              id="calculation-suppl"
+              label={intl.formatMessage(messages.supplementary)}
+              isChecked={calculation === 'Supplementary'}
+              onChange={() => setCalculation('Supplementary')}
+            />
+          </FormGroup>
+          {metric.toLowerCase() !== 'cluster' && metric.toLowerCase() !== 'gpu' ? (
+            <Switch
+              aria-label={intl.formatMessage(messages.costModelsEnterTagRate)}
+              label={intl.formatMessage(messages.costModelsEnterTagRate)}
+              isChecked={rateKind === 'tagging'}
+              isDisabled={metric.toLowerCase() === 'project'}
+              onChange={toggleTaggingRate}
+            />
+          ) : null}
           {rateKind === 'regular' ? (
             <RateInput
               currencyUnits={currencyUnits}
@@ -202,32 +203,63 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
             />
           ) : (
             <>
-              <SimpleInput
-                isRequired
-                style={style}
-                value={tagKey}
-                onChange={(_evt, value) => setTagKey(value)}
-                id="tag-key"
-                label={messages.costModelsFilterTagKey}
-                placeholder={intl.formatMessage(messages.costModelsEnterTagKey)}
-                validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
-                helperTextInvalid={errors.tagKey}
-              />
-              <TaggingRatesForm
-                currencyUnits={currencyUnits}
-                defaultTag={defaultTag}
-                errors={{
-                  tagValues: errors.tagValues,
-                  tagValueValues: errors.tagValueValues,
-                  tagDescription: errors.tagDescription,
-                }}
-                removeTag={removeTag}
-                tagValues={tagValues}
-                updateDefaultTag={updateDefaultTag}
-                updateTag={updateTag}
-              />
+              {metric.toLowerCase() === 'gpu' ? (
+                <>
+                  <SimpleInput
+                    helperTextInvalid={errors.tagKey}
+                    id="tag-key"
+                    isRequired
+                    label={messages.costModelsGpuVendor}
+                    onChange={(_evt, value) => setTagKey(value)}
+                    placeholder={intl.formatMessage(messages.costModelsEnterGpuVendor)}
+                    style={style}
+                    validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
+                    value={tagKey}
+                  />
+                  <GpuRatesForm
+                    currencyUnits={currencyUnits}
+                    errors={{
+                      tagValues: errors.tagValues,
+                      tagValueValues: errors.tagValueValues,
+                      tagDescription: errors.tagDescription,
+                    }}
+                    removeTag={removeTag}
+                    tagValues={tagValues}
+                    updateTag={updateTag}
+                  />
+                </>
+              ) : (
+                <>
+                  <SimpleInput
+                    helperTextInvalid={errors.tagKey}
+                    isRequired
+                    id="tag-key"
+                    label={messages.costModelsFilterTagKey}
+                    onChange={(_evt, value) => setTagKey(value)}
+                    placeholder={intl.formatMessage(messages.costModelsEnterTagKey)}
+                    style={style}
+                    validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
+                    value={tagKey}
+                  />
+                  <TaggingRatesForm
+                    currencyUnits={currencyUnits}
+                    defaultTag={defaultTag}
+                    errors={{
+                      tagValues: errors.tagValues,
+                      tagValueValues: errors.tagValueValues,
+                      tagDescription: errors.tagDescription,
+                    }}
+                    removeTag={removeTag}
+                    tagValues={tagValues}
+                    updateDefaultTag={updateDefaultTag}
+                    updateTag={updateTag}
+                  />
+                </>
+              )}
               <Button icon={<PlusCircleIcon />} style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                {intl.formatMessage(messages.costModelsAddTagValues)}
+                {intl.formatMessage(
+                  metric.toLowerCase() === 'gpu' ? messages.costModelsAddGpu : messages.costModelsAddTagValues
+                )}
               </Button>
             </>
           )}
