@@ -224,7 +224,6 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                       tagDescription: errors.tagDescription,
                     }}
                     removeTag={removeTag}
-                    tagKey={tagKey}
                     tagValues={tagValues}
                     updateTag={updateTag}
                   />
