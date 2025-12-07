@@ -184,34 +184,36 @@ const RateTableBase: React.FC<RateTableProps> = ({
                 </Td>
               )}
             </Tr>
-            <Tr isExpanded={isExpanded}>
-              <Td colSpan={6}>
-                <ExpandableRowContent>
-                  <Table borders={false} variant={TableVariant.compact}>
-                    <Thead>
-                      <Tr>
-                        {isGpu
-                          ? gpuColumns.map((tag, tagIndex) => <Th key={tagIndex}>{tag}</Th>)
-                          : tagColumns.map((tag, tagIndex) => <Th key={tagIndex}>{tag}</Th>)}
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {row.data.tag_rates?.tag_values?.map((v, index) => (
-                        <Tr key={index}>
-                          <Td>{index === 0 ? row.data.tag_rates.tag_key : ''}</Td>
-                          <Td>{v.tag_value}</Td>
-                          <Td>{formatCurrencyRate(v.value, v.unit)}</Td>
-                          <Td>{v.description}</Td>
-                          {!isGpu && (
-                            <Td>{v.default ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
-                          )}
+            {row.data.hasChildren && (
+              <Tr isExpanded={isExpanded}>
+                <Td colSpan={6}>
+                  <ExpandableRowContent>
+                    <Table borders={false} variant={TableVariant.compact}>
+                      <Thead>
+                        <Tr>
+                          {isGpu
+                            ? gpuColumns.map((tag, tagIndex) => <Th key={tagIndex}>{tag}</Th>)
+                            : tagColumns.map((tag, tagIndex) => <Th key={tagIndex}>{tag}</Th>)}
                         </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </ExpandableRowContent>
-              </Td>
-            </Tr>
+                      </Thead>
+                      <Tbody>
+                        {row.data.tag_rates?.tag_values?.map((v, index) => (
+                          <Tr key={index}>
+                            <Td>{index === 0 ? row.data.tag_rates.tag_key : ''}</Td>
+                            <Td>{v.tag_value}</Td>
+                            <Td>{formatCurrencyRate(v.value, v.unit)}</Td>
+                            <Td>{v.description}</Td>
+                            {!isGpu && (
+                              <Td>{v.default ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+                            )}
+                          </Tr>
+                        ))}
+                      </Tbody>
+                    </Table>
+                  </ExpandableRowContent>
+                </Td>
+              </Tr>
+            )}
           </Tbody>
         );
       })}
