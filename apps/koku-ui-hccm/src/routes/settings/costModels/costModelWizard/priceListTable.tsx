@@ -92,7 +92,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
         }));
         return [...acc, ...measures];
       }, []),
-      (a, b) => a.toString().localeCompare(b.toString())
+      (a, b) => a.toString().localeCompare(b.toString()) === 0
     );
 
     const NoTiersEmptyState = () => (
