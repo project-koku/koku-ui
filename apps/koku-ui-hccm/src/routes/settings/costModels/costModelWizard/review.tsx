@@ -62,6 +62,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
       currencyUnits,
       description,
       distribution,
+      distributeGpu,
       distributeNetwork,
       distributePlatformUnallocated,
       distributeStorage,
@@ -150,6 +151,9 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
                           value: distributeStorage,
                           type: 'storage',
                         })}
+                      </Content>
+                      <Content component={ContentVariants.dd}>
+                        {intl.formatMessage(messages.distributeGpuCosts, { value: distributeGpu })}
                       </Content>
                     </>
                   )}

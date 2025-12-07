@@ -544,6 +544,11 @@ export default defineMessages({
     description: 'Cost models',
     id: 'costModelsActions',
   },
+  costModelsAddGpu: {
+    defaultMessage: 'Add more GPUs',
+    description: 'Add more GPUs',
+    id: 'costModelsAddGpu',
+  },
   costModelsAddTagValues: {
     defaultMessage: 'Add more tag values',
     description: 'Add more tag values',
@@ -651,6 +656,21 @@ export default defineMessages({
     description: 'Read about setting up a cost model',
     id: 'costModelsEmptyStateLearnMore',
   },
+  costModelsEnterGpuDesc: {
+    defaultMessage: 'Enter a description',
+    description: 'Enter a description',
+    id: 'costModelsEnterGpuDesc',
+  },
+  costModelsEnterGpuModel: {
+    defaultMessage: 'Enter a model',
+    description: 'Enter a model',
+    id: 'costModelsEnterGpuModel',
+  },
+  costModelsEnterGpuVendor: {
+    defaultMessage: 'Enter a vendor',
+    description: 'Enter a vendor',
+    id: 'costModelsEnterGpuVendor',
+  },
   costModelsEnterTagDesc: {
     defaultMessage: 'Enter a tag description',
     description: 'Enter a tag description',
@@ -704,6 +724,16 @@ export default defineMessages({
     description: 'Filter by tag key',
     id: 'costModelsFilterTagKey',
   },
+  costModelsGpuDesc: {
+    defaultMessage: 'Rate of GPU models will apply to all the same models in your cluster.',
+    description: 'Rate of GPU models will apply to all the same models in your cluster.',
+    id: 'costModelsGpuDesc',
+  },
+  costModelsGpuLearnMore: {
+    defaultMessage: 'Read more about GPUs by reviewing our documentation.',
+    description: 'Read more about GPUs by reviewing our documentation.',
+    id: 'costModelsGpuLearnMore',
+  },
   costModelsInfoTooLong: {
     defaultMessage: 'Should not exceed 100 characters',
     description: 'Should not exceed 100 characters',
@@ -714,6 +744,16 @@ export default defineMessages({
     description: 'Last updated',
     id: 'costModelsLastUpdated',
   },
+  costModelsGpuModel: {
+    defaultMessage: 'Model',
+    description: 'Model',
+    id: 'costModelsGpuModel',
+  },
+  costModelsGpuVendor: {
+    defaultMessage: 'Vendor',
+    description: 'Vendor',
+    id: 'costModelsGpuVendor',
+  },
   costModelsRateTooLong: {
     defaultMessage: 'Should not exceed 10 decimals',
     description: 'Should not exceed 10 decimals',
@@ -723,6 +763,11 @@ export default defineMessages({
     defaultMessage: 'Refresh this dialog',
     description: 'Refresh this dialog',
     id: 'costModelsRefreshDialog',
+  },
+  costModelsRemoveGpuLabel: {
+    defaultMessage: 'Remove GPU value',
+    description: 'Remove GPU value',
+    id: 'costModelsRemoveGpuLabel',
   },
   costModelsRemoveTagLabel: {
     defaultMessage: 'Remove tag value',
@@ -1515,39 +1560,53 @@ export default defineMessages({
   distributeCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute {type, select, network {network} storage {storage} other {}} costs}' +
-      'false {Do not distribute {type, select, network {network} storage {storage} other {}} costs}' +
+      'true {Distribute {type, select, network {network} storage {storage} other {}} unattributed costs}' +
+      'false {Do not distribute {type, select, network {network} storage {storage} other {}} unattributed costs}' +
       'other {}}',
     description: 'distribute costs',
     id: 'distributeCosts',
   },
+  distributeGpuCosts: {
+    defaultMessage:
+      '{value, select, ' +
+      'true {Distribute costs based on GPU usage}' +
+      'false {Do not distribute costs based on GPU usage}' +
+      'other {}}',
+    description: 'distribute costs',
+    id: 'distributeGpuCosts',
+  },
   distributeCostsToProjects: {
-    defaultMessage: 'Distribute these costs to projects, based on the above description type',
-    description: 'Distribute these costs to projects, based on the above description type',
+    defaultMessage: 'Distribute these costs to pods',
+    description: 'Distribute these costs to pods',
     id: 'distributeCostsToProjects',
   },
+  distributeGpu: {
+    defaultMessage: 'GPU unallocated (distribute based on GPU usage)',
+    description: 'GPU unallocated (distribute based on GPU usage)',
+    id: 'distributeGpu',
+  },
   distributeNetwork: {
-    defaultMessage: 'Network traffic',
-    description: 'Network traffic',
+    defaultMessage: 'Network unattributed',
+    description: 'Network unattributed',
     id: 'distributeNetwork',
   },
   distributePlatform: {
-    defaultMessage: 'Platform overhead (OpenShift services)',
-    description: 'Platform overhead (OpenShift services)',
+    defaultMessage: 'Platform overhead (OpenShift services and platform projects)',
+    description: 'Platform overhead (OpenShift services and platform projects)',
     id: 'distributePlatform',
   },
   distributePlatformCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute platform costs}' +
-      'false {Do not distribute platform costs}' +
+      'true {Distribute platform costs based on unallocated capacity}' +
+      'false {Do not distribute platform costs based on unallocated capacity}' +
       'other {}}',
     description: 'Distribute platform costs',
     id: 'distributePlatformCosts',
   },
   distributeStorage: {
-    defaultMessage: 'Storage',
-    description: 'Storage',
+    defaultMessage: 'Storage unattributed',
+    description: 'Storage unattributed',
     id: 'distributeStorage',
   },
   distributeUnallocatedCapacity: {
@@ -1617,6 +1676,12 @@ export default defineMessages({
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs',
     description: 'Distributing costs',
     id: 'docsCostModelsDistribution',
+  },
+  docsCostModelsGpu: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+    description: 'Read more about GPUs by reviewing our documentation',
+    id: 'docsCostModelsGpu',
   },
   docsCostModelsMarkup: {
     defaultMessage:

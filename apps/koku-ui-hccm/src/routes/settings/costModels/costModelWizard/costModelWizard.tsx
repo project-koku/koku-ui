@@ -103,6 +103,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
         currency,
         description,
         distribution,
+        distributeGpu,
         distributeNetwork,
         distributePlatformUnallocated,
         distributeStorage,
@@ -121,6 +122,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
         description,
         distribution_info: {
           distribution_type: distribution,
+          gpu_unallocated: distributeGpu,
           network_unattributed: distributeNetwork,
           platform_cost: distributePlatformUnallocated,
           storage_unattributed: distributeStorage,
@@ -203,6 +205,7 @@ interface CostModelWizardState {
   description?: string;
   dirtyName?: boolean;
   distribution?: string;
+  distributeGpu?: boolean;
   distributeNetwork?: boolean;
   distributePlatformUnallocated?: boolean;
   distributeStorage?: boolean;
@@ -246,6 +249,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
     dirtyName: false,
     description: '',
     distribution: 'cpu',
+    distributeGpu: true,
     distributeNetwork: true,
     distributePlatformUnallocated: true,
     distributeStorage: true,
@@ -424,6 +428,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             dataFetched: this.state.dataFetched,
             dirtyName: this.state.dirtyName,
             distribution: this.state.distribution,
+            distributeGpu: this.state.distributeGpu,
             distributeNetwork: this.state.distributeNetwork,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
             distributeStorage: this.state.distributeStorage,
@@ -464,6 +469,9 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             handleDistributionChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distribution: value });
+            },
+            handleDistributeGpuChange: (event, isChecked) => {
+              this.setState({ distributeGpu: isChecked });
             },
             handleDistributeNetworkChange: (event, isChecked) => {
               this.setState({ distributeNetwork: isChecked });
@@ -582,6 +590,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             currency: this.state.currencyUnits,
             description: this.state.description,
             distribution: this.state.distribution,
+            distributeGpu: this.state.distributeGpu,
             distributeNetwork: this.state.distributeNetwork,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
             distributeStorage: this.state.distributeStorage,
