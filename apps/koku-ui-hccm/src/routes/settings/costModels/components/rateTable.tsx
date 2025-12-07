@@ -38,6 +38,9 @@ const RateTableBase: React.FC<RateTableProps> = ({
 
   const getMetric = value => intl.formatMessage(messages.metricValues, { value }) || value;
   const getMeasurement = (measurement, units) => {
+    if (!measurement) {
+      return '';
+    }
     units = intl.formatMessage(messages.units, { units: unitsLookupKey(units) }) || units;
     return intl.formatMessage(messages.measurementValues, {
       value: measurement.toLowerCase().replace('-', '_'),
