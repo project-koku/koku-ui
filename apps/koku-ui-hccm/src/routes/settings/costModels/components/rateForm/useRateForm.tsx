@@ -133,7 +133,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       }
 
       // Set type based on selected metric
-      let rateKind = 'regular';
+      let rateKind = state.rateKind;
       if (action.value.toLowerCase() === 'cluster') {
         rateKind = 'regular';
       } else if (action.value.toLowerCase() === 'gpu' || action.value.toLowerCase() === 'project') {
