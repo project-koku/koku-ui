@@ -656,6 +656,11 @@ export default defineMessages({
     description: 'Read about setting up a cost model',
     id: 'costModelsEmptyStateLearnMore',
   },
+  costModelsEnterGpuDesc: {
+    defaultMessage: 'Enter a description',
+    description: 'Enter a description',
+    id: 'costModelsEnterGpuDesc',
+  },
   costModelsEnterGpuModel: {
     defaultMessage: 'Enter a model',
     description: 'Enter a model',
@@ -665,11 +670,6 @@ export default defineMessages({
     defaultMessage: 'Enter a vendor',
     description: 'Enter a vendor',
     id: 'costModelsEnterGpuVendor',
-  },
-  costModelsEnterGpuDesc: {
-    defaultMessage: 'Enter a description',
-    description: 'Enter a description',
-    id: 'costModelsEnterGpuDesc',
   },
   costModelsEnterTagDesc: {
     defaultMessage: 'Enter a tag description',
