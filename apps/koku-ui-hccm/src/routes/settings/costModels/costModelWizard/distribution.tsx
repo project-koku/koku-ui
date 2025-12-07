@@ -122,7 +122,7 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                     />
                     <Checkbox
                       aria-label={intl.formatMessage(messages.distributeGpu)}
-                      id="distribute-storage"
+                      id="distribute-gpu"
                       isChecked={distributeGpu}
                       label={intl.formatMessage(messages.distributeGpu)}
                       onChange={handleDistributeGpuChange}
