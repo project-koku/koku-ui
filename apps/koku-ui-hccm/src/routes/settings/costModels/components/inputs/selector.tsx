@@ -76,7 +76,7 @@ const SelectorBase: React.FC<SelectorProps> = ({
         value: option.value,
       };
     });
-    return selectOptions.sort((a, b) => a.toString().localeCompare(b.toString()));
+    return selectOptions.sort((a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? ''));
   };
 
   const handleOnSelect = (_evt, sel: SelectWrapperOption) => {

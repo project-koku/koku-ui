@@ -70,6 +70,9 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
       return label ? label : m;
     };
     const getMeasurementLabel = m => {
+      if (!m) {
+        return '';
+      }
       // Match message descriptor or default to API string
       const label = intl.formatMessage(messages.measurementValues, {
         value: m.toLowerCase().replace('-', '_'),
@@ -92,7 +95,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
         }));
         return [...acc, ...measures];
       }, []),
-      (a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? '') === 0
+      (a, b) => (a?.toString() ?? '') === (b?.toString() ?? '')
     );
 
     const NoTiersEmptyState = () => (
