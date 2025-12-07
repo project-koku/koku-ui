@@ -258,7 +258,9 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                 </>
               )}
               <Button icon={<PlusCircleIcon />} style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                {intl.formatMessage(messages.costModelsAddTagValues)}
+                {intl.formatMessage(
+                  metric.toLowerCase() === 'gpu' ? messages.costModelsAddGpu : messages.costModelsAddTagValues
+                )}
               </Button>
             </>
           )}
