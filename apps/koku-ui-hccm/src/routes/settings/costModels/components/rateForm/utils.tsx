@@ -170,6 +170,7 @@ export const mergeToRequest = (
     description: costModel.description,
     distribution_info: {
       distribution_type: costModel.distribution_info ? costModel.distribution_info.distribution_type : undefined,
+      gpu_unallocated: costModel.distribution_info ? costModel.distribution_info.gpu_unallocated : undefined,
       network_unattributed: costModel.distribution_info ? costModel.distribution_info.network_unattributed : undefined,
       platform_cost: costModel.distribution_info ? costModel.distribution_info.platform_cost : undefined,
       storage_unattributed: costModel.distribution_info ? costModel.distribution_info.storage_unattributed : undefined,
@@ -208,18 +209,20 @@ export const transformFormDataToRequest = (
             usage: { unit: currencyUnits },
           };
         });
-  const metricData = metricsHash[rateFormData.metric][rateFormData.measurement.value];
+  const metricData = metricsHash[rateFormData.metric]?.[rateFormData.measurement.value];
   return {
     description: rateFormData.description,
-    metric: {
-      metric: metricData.metric,
-      name: metricData.metric,
-      label_metric: metricData.label_metric,
-      label_measurement: metricData.label_measurement,
-      label_measurement_unit: metricData.label_measurement_unit,
-      source_type: 'OpenShift Cluster Platform',
-      default_cost_type: metricData.default_cost_type,
-    },
+    ...(metricData && {
+      metric: {
+        metric: metricData.metric,
+        name: metricData.metric,
+        label_metric: metricData.label_metric,
+        label_measurement: metricData.label_measurement,
+        label_measurement_unit: metricData.label_measurement_unit,
+        source_type: 'OpenShift Cluster Platform',
+        default_cost_type: metricData.default_cost_type,
+      },
+    }),
     cost_type: rateFormData.calculation,
     [ratesKey]: ratesBody,
   };
@@ -291,6 +294,11 @@ export const tagKeyValueErrors = (value: string) => {
   }
   if (value.length > 100) {
     return textHelpers.tag_too_long;
+  }
+
+  const pattern = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+  if (!pattern.test(value)) {
+    return textHelpers.unsupported_tag_chars;
   }
   return null;
 };

@@ -1,0 +1,72 @@
+name: Koku UI OnPrem - Push to stage/tag
+
+on:
+  push:
+    branches:
+      - stage-onprem
+    tags:
+      - 'onprem-*'
+env:
+  QUAY_ORG: quay.io/insights-onprem
+  QUAY_UI_REPO: koku-ui-onprem
+
+jobs:
+  generate-tags:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tags: ${{ steps.get-tags.outputs.image_tags }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Generate image tags
+        id: get-tags
+        run: |
+          if ${{ github.ref_type == 'tag' }}; then
+            # The images tags will match the Release tag
+            image_tags=( ${{ github.ref_name }} )
+            image_tags=${image_tags#v} # remove the leading v prefix for version
+
+            echo "image_tags=${image_tags[@]}" >> $GITHUB_OUTPUT
+            echo "image_tags=${image_tags[@]}"
+
+          else
+            image_tags=( latest-${GITHUB_SHA} latest ${version} )
+            echo "image_tags=${image_tags[@]}" >> $GITHUB_OUTPUT
+            echo "image_tags=${image_tags[@]}"
+          fi
+
+  publish-onprem-ui:
+    runs-on: ubuntu-latest
+    needs: [generate-tags]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        id: build
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.QUAY_UI_REPO }}
+          tags: ${{ needs.generate-tags.outputs.image_tags }}
+          labels: |
+            org.insights-onprem.koku-ui-onprem.github.repository=${{ github.repository }}
+            org.insights-onprem.koku-ui-onprem.github.actor=${{ github.actor }}
+            org.insights-onprem.koku-ui-onprem.github.run_id=${{ github.run_id }}
+            org.insights-onprem.koku-ui-onprem.github.sha=${{ github.sha }}
+            org.insights-onprem.koku-ui-onprem.github.ref_name=${{ github.ref_name }}
+          extra-args: |
+            --ulimit nofile=10000:10000
+          containerfiles: apps/koku-ui-onprem/Containerfile
+          context: .
+
+      - name: Push to Quay.io
+        id: push
+        uses: redhat-actions/push-to-registry@v2.7
+        with:
+          image: ${{ steps.build.outputs.image }}
+          tags: ${{ needs.generate-tags.outputs.image_tags }}
+          registry: ${{ env.QUAY_ORG }}
+          username: ${{ secrets.QUAY_INSIGHTS_ONPREM_ROBOT_USERNAME }}
+          password: ${{ secrets.QUAY_INSIGHTS_ONPREM_ROBOT_PASSWORD }}

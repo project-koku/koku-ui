@@ -14,9 +14,14 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
 
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
-  const openshiftParam = resourceType === ResourceType.subscriptionGuid ? 'openshift=true' : '';
-  let queryString;
+  const openshiftResourceTypes = [
+    ResourceType.resourceLocation,
+    ResourceType.serviceName,
+    ResourceType.subscriptionGuid,
+  ];
+  const openshiftParam = openshiftResourceTypes.includes(resourceType) ? 'openshift=true' : '';
 
+  let queryString;
   if (openshiftParam && query) {
     queryString = `?${openshiftParam}&${query}`;
   } else if (openshiftParam) {

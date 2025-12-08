@@ -7,23 +7,26 @@ import { connect } from 'react-redux';
 import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { rbacSelectors } from 'store/rbac';
 
 import { styles } from './costCalc.styles';
 import UpdateDistributionDialog from './updateDistributionDialog';
 
 interface Props {
-  isWritePermission: boolean;
-  isUpdateDialogOpen: boolean;
   current: CostModel;
+  isGpuToggleEnabled?: boolean;
+  isUpdateDialogOpen: boolean;
+  isWritePermission: boolean;
   setCostModelDialog: typeof costModelsActions.setCostModelDialog;
 }
 
 const DistributionCardBase: React.FC<Props> = ({
+  current,
+  isGpuToggleEnabled,
+  isUpdateDialogOpen,
   isWritePermission,
   setCostModelDialog,
-  current,
-  isUpdateDialogOpen,
 }) => {
   const intl = useIntl();
 
@@ -83,6 +86,13 @@ const DistributionCardBase: React.FC<Props> = ({
               type: 'storage',
             })}
           </div>
+          {isGpuToggleEnabled && (
+            <div>
+              {intl.formatMessage(messages.distributeGpuCosts, {
+                value: current.distribution_info.gpu_unallocated || false,
+              })}
+            </div>
+          )}
         </CardBody>
       </Card>
     </>
@@ -93,8 +103,9 @@ export default connect(
   createMapStateToProps(state => {
     const { updateDistribution } = costModelsSelectors.isDialogOpen(state)('distribution');
     return {
-      isUpdateDialogOpen: updateDistribution,
       costModelDialog: costModelsSelectors.isDialogOpen(state)('distribution'),
+      isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
+      isUpdateDialogOpen: updateDistribution,
       isWritePermission: rbacSelectors.isCostModelWritePermission(state),
     };
   }),
