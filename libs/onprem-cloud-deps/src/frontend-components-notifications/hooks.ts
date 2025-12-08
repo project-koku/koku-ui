@@ -1,4 +1,5 @@
-export const useAddNotification = () => () => {};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useAddNotification = () => (args: any) => {};
 
 export const useClearNotifications = () => () => {};
 

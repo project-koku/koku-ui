@@ -1,6 +1,7 @@
 export const useChrome = () => {
   return {
-    updateDocumentTitle: () => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    updateDocumentTitle: (title: string) => {},
     auth: {
       getUser: async () => {
         return {

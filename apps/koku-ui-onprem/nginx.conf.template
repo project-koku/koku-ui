@@ -1,4 +1,4 @@
-location /api {
+location /api/cost-management/v1 {
     proxy_pass ${API_PROXY_URL};
 
     proxy_set_header Authorization "Bearer $http_x_forwarded_access_token";

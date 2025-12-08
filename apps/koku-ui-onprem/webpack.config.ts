@@ -18,7 +18,7 @@ const config: Configuration & {
     host: 'localhost',
     port: 9000,
     historyApiFallback: true,
-    open: true,
+    open: NODE_ENV !== 'production',
     static: [
       {
         directory: path.resolve(__dirname, 'dist'),

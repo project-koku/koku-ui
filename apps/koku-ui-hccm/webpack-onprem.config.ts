@@ -13,7 +13,7 @@ const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
 const config: Configuration = {
-  entry: './src/appEntry.tsx',
+  entry: './src/bootstrap.tsx',
   mode: NODE_ENV,
   devtool: 'source-map',
   module: {
@@ -25,6 +25,7 @@ const config: Configuration = {
           {
             loader: 'ts-loader',
             options: {
+              configFile: 'tsconfig-onprem.json',
               allowTsInNodeModules: true,
             },
           },
@@ -65,8 +66,8 @@ const config: Configuration = {
   },
   output: {
     filename: '[name].bundle-[contenthash].js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/costManagementRos/',
+    path: distDir,
+    publicPath: '/costManagement/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
@@ -89,15 +90,10 @@ const config: Configuration = {
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
       },
       pluginMetadata: {
-        name: 'costManagementRos',
+        name: 'costManagement',
         version: '1.0.0',
         exposedModules: {
-          './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
-          './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
-          './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
-          './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
-          './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
-          './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
+          './RootApp': './src/appEntry.tsx',
         },
       },
     }),

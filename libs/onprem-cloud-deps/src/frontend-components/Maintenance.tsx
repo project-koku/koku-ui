@@ -1,3 +1,8 @@
 import React from 'react';
 
-export const Maintenance = () => <div />;
+interface MaintenanceProps {
+  description: React.ReactNode;
+  titleText: React.ReactNode;
+}
+
+export const Maintenance: React.FC<MaintenanceProps> = () => <div />;

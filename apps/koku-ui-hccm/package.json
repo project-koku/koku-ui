@@ -49,8 +49,8 @@
     "translations:compile:ast": "npx formatjs compile build/messages/src/Messages.json --out-file locales/en.json --ast",
     "translations:datafile": "node scripts/createDataJson.js",
     "translations:syncTranslations": "node scripts/syncTranslations.js",
-    "start:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --watch --mode=development --color --progress",
-    "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --mode=production  --color --progress",
+    "start:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack-onprem.config.ts --watch --mode=development --color --progress",
+    "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack-onprem.config.ts --mode=production  --color --progress",
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "scripts-info": {
