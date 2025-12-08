@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"],
+      "@redhat-cloud-services/*": ["../../../libs/onprem-cloud-deps/src/*"]
+    }
+  },
+}

@@ -16,7 +16,7 @@ Submit issues in [Jira].
 ## Getting Started
 
 1. Install requirements listed above.
-2. Run `npm ci` to isntall all the dependencies.
+2. Run `npm ci` to install all the dependencies.
 
 ## Building apps/koku-ui-onprem
 ```

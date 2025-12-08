@@ -1,4 +1,5 @@
 import {
+  Bullseye,
   Masthead,
   MastheadBrand,
   MastheadLogo,
@@ -12,6 +13,7 @@ import {
   PageSidebar,
   PageSidebarBody,
   PageToggleButton,
+  Spinner,
 } from '@patternfly/react-core';
 import { ScalprumComponent } from '@scalprum/react-core';
 import React from 'react';
@@ -114,7 +116,17 @@ const AppLayout = () => {
           <Route path="/" element={<Navigate to="/openshift/cost-management" replace />} />
           <Route
             path="/openshift/cost-management/*"
-            element={<ScalprumComponent scope="costManagement" module="./RootApp" />}
+            element={
+              <ScalprumComponent
+                scope="costManagement"
+                module="./RootApp"
+                fallback={
+                  <Bullseye>
+                    <Spinner size="lg" />
+                  </Bullseye>
+                }
+              />
+            }
           />
         </Routes>
       </PageSection>

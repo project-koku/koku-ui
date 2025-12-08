@@ -25,6 +25,7 @@ const config: Configuration = {
           {
             loader: 'ts-loader',
             options: {
+              configFile: 'tsconfig-onprem.json',
               allowTsInNodeModules: true,
             },
           },
@@ -65,8 +66,8 @@ const config: Configuration = {
   },
   output: {
     filename: '[name].bundle-[contenthash].js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/costManagement/',
+    path: distDir,
+    publicPath: '/costManagementRos/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
@@ -89,10 +90,15 @@ const config: Configuration = {
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
       },
       pluginMetadata: {
-        name: 'costManagement',
+        name: 'costManagementRos',
         version: '1.0.0',
         exposedModules: {
-          './RootApp': './src/appEntry.tsx',
+          './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
+          './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
+          './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
+          './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
+          './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
+          './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
         },
       },
     }),

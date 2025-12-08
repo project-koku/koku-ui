@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "npm exec --workspaces -- npm run build",
+    "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
     "check:dependencies": "npx npm-check-updates",
     "check:dependencies:all": "npm exec --workspaces -- npm run check:dependencies",
     "check:dependencies:update": "npx npm-check-updates -u",
