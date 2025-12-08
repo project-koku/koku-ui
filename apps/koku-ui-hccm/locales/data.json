@@ -1282,6 +1282,12 @@
         "value": "Cost model actions"
       }
     ],
+    "costModelsAddGpu": [
+      {
+        "type": 0,
+        "value": "Add more GPUs"
+      }
+    ],
     "costModelsAddTagValues": [
       {
         "type": 0,
@@ -1458,6 +1464,24 @@
         "value": "Read about setting up a cost model"
       }
     ],
+    "costModelsEnterGpuDesc": [
+      {
+        "type": 0,
+        "value": "Enter a description"
+      }
+    ],
+    "costModelsEnterGpuModel": [
+      {
+        "type": 0,
+        "value": "Enter a model"
+      }
+    ],
+    "costModelsEnterGpuVendor": [
+      {
+        "type": 0,
+        "value": "Enter a vendor"
+      }
+    ],
     "costModelsEnterTagDesc": [
       {
         "type": 0,
@@ -1518,6 +1542,30 @@
         "value": "Filter by tag key"
       }
     ],
+    "costModelsGpuDesc": [
+      {
+        "type": 0,
+        "value": "Rate of GPU models will apply to all the same models in your cluster."
+      }
+    ],
+    "costModelsGpuLearnMore": [
+      {
+        "type": 0,
+        "value": "Read more about GPUs by reviewing our documentation."
+      }
+    ],
+    "costModelsGpuModel": [
+      {
+        "type": 0,
+        "value": "Model"
+      }
+    ],
+    "costModelsGpuVendor": [
+      {
+        "type": 0,
+        "value": "Vendor"
+      }
+    ],
     "costModelsInfoTooLong": [
       {
         "type": 0,
@@ -1540,6 +1588,12 @@
       {
         "type": 0,
         "value": "Refresh this dialog"
+      }
+    ],
+    "costModelsRemoveGpuLabel": [
+      {
+        "type": 0,
+        "value": "Remove GPU value"
       }
     ],
     "costModelsRemoveTagLabel": [
@@ -1666,6 +1720,12 @@
       {
         "type": 0,
         "value": " does not exist."
+      }
+    ],
+    "costModelsUnsupportedTagChars": [
+      {
+        "type": 0,
+        "value": "Match the regex [a-zA-Z_][a-zA-Z0-9_]*"
       }
     ],
     "costModelsWizardCreateCostModel": [
@@ -2180,6 +2240,14 @@
     "currencyOptions": [
       {
         "options": {
+          "AED": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AED (د.إ) - United Arab Emirates Dirham"
+              }
+            ]
+          },
           "AUD": {
             "value": [
               {
@@ -2232,7 +2300,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "DKK (DKK) - Danish Krone"
+                "value": "DKK (kr) - Danish Krone"
               }
             ]
           },
@@ -2288,7 +2356,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "NOK (NOK) - Norwegian Krone"
+                "value": "NOK (kr) - Norwegian Krone"
               }
             ]
           },
@@ -2300,11 +2368,19 @@
               }
             ]
           },
+          "SAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SAR (ر.س) - Saudi Riyal"
+              }
+            ]
+          },
           "SEK": {
             "value": [
               {
                 "type": 0,
-                "value": "SEK (SEK) - Swedish Krona"
+                "value": "SEK (kr) - Swedish Krona"
               }
             ]
           },
@@ -2312,7 +2388,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "SGD (SGD) - Singapore Dollar"
+                "value": "SGD (S$) - Singapore Dollar"
+              }
+            ]
+          },
+          "TWD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TWD (NT$) - New Taiwan Dollar"
               }
             ]
           },
@@ -2328,7 +2412,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "ZAR (ZAR) - South African Rand"
+                "value": "ZAR (R) - South African Rand"
               }
             ]
           },
@@ -2343,6 +2427,14 @@
     "currencyUnits": [
       {
         "options": {
+          "AED": {
+            "value": [
+              {
+                "type": 0,
+                "value": "د.إ"
+              }
+            ]
+          },
           "AUD": {
             "value": [
               {
@@ -2395,7 +2487,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "DKK"
+                "value": "kr"
               }
             ]
           },
@@ -2451,7 +2543,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "NOK"
+                "value": "kr"
               }
             ]
           },
@@ -2463,11 +2555,19 @@
               }
             ]
           },
+          "SAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "﷼"
+              }
+            ]
+          },
           "SEK": {
             "value": [
               {
                 "type": 0,
-                "value": "SEK"
+                "value": "kr"
               }
             ]
           },
@@ -2475,7 +2575,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "SGD"
+                "value": "S$"
+              }
+            ]
+          },
+          "TWD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NT$"
               }
             ]
           },
@@ -2491,7 +2599,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "ZAR"
+                "value": "R"
               }
             ]
           },
@@ -3781,7 +3889,7 @@
               },
               {
                 "type": 0,
-                "value": " costs"
+                "value": " unattributed costs"
               }
             ]
           },
@@ -3821,7 +3929,7 @@
               },
               {
                 "type": 0,
-                "value": " costs"
+                "value": " unattributed costs"
               }
             ]
           }
@@ -3833,29 +3941,23 @@
     "distributeCostsToProjects": [
       {
         "type": 0,
-        "value": "Distribute these costs to projects, based on the above description type"
+        "value": "Distribute these costs to pods"
       }
     ],
-    "distributeNetwork": [
+    "distributeGpu": [
       {
         "type": 0,
-        "value": "Network traffic"
+        "value": "GPU unallocated (distribute based on GPU usage)"
       }
     ],
-    "distributePlatform": [
-      {
-        "type": 0,
-        "value": "Platform overhead (OpenShift services)"
-      }
-    ],
-    "distributePlatformCosts": [
+    "distributeGpuCosts": [
       {
         "options": {
           "false": {
             "value": [
               {
                 "type": 0,
-                "value": "Do not distribute platform costs"
+                "value": "Do not distribute costs based on GPU usage"
               }
             ]
           },
@@ -3866,7 +3968,46 @@
             "value": [
               {
                 "type": 0,
-                "value": "Distribute platform costs"
+                "value": "Distribute costs based on GPU usage"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "distributeNetwork": [
+      {
+        "type": 0,
+        "value": "Network unattributed"
+      }
+    ],
+    "distributePlatform": [
+      {
+        "type": 0,
+        "value": "Platform overhead (OpenShift services and platform projects)"
+      }
+    ],
+    "distributePlatformCosts": [
+      {
+        "options": {
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Do not distribute platform costs based on unallocated capacity"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute platform costs based on unallocated capacity"
               }
             ]
           }
@@ -3878,7 +4019,7 @@
     "distributeStorage": [
       {
         "type": 0,
-        "value": "Storage"
+        "value": "Storage unattributed"
       }
     ],
     "distributeUnallocatedCapacity": [
@@ -3987,6 +4128,12 @@
       {
         "type": 0,
         "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs"
+      }
+    ],
+    "docsCostModelsGpu": [
+      {
+        "type": 0,
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
       }
     ],
     "docsCostModelsMarkup": [

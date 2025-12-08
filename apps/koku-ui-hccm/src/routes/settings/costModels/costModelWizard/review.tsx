@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { RateTable } from 'routes/settings/costModels/components/rateTable';
 import { WarningIcon } from 'routes/settings/costModels/components/warningIcon';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { CostModelContext } from './context';
 
@@ -49,12 +50,12 @@ interface ReviewDetailsOwnProps extends WrappedComponentProps {
 }
 
 interface ReviewDetailsStateProps {
-  // TBD...
+  isGpuToggleEnabled?: boolean;
 }
 
 type ReviewDetailsProps = ReviewDetailsOwnProps & ReviewDetailsStateProps;
 
-const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
+const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isGpuToggleEnabled }) => (
   <CostModelContext.Consumer>
     {({
       checked,
@@ -62,6 +63,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
       currencyUnits,
       description,
       distribution,
+      distributeGpu,
       distributeNetwork,
       distributePlatformUnallocated,
       distributeStorage,
@@ -75,6 +77,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
       const selectedSources = Object.keys(checked)
         .filter(key => checked[key].selected)
         .map(key => checked[key].meta);
+
       return (
         <>
           {createError && <Alert variant="danger" title={`${createError}`} />}
@@ -151,6 +154,11 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
                           type: 'storage',
                         })}
                       </Content>
+                      {isGpuToggleEnabled && (
+                        <Content component={ContentVariants.dd}>
+                          {intl.formatMessage(messages.distributeGpuCosts, { value: distributeGpu })}
+                        </Content>
+                      )}
                     </>
                   )}
                   <Content component={ContentVariants.dt}>
@@ -170,9 +178,9 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
   </CostModelContext.Consumer>
 );
 
-const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(() => {
+const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(state => {
   return {
-    // TBD...
+    isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
   };
 });
 
