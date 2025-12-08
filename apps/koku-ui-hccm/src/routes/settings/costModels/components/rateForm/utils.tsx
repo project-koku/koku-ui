@@ -209,18 +209,20 @@ export const transformFormDataToRequest = (
             usage: { unit: currencyUnits },
           };
         });
-  const metricData = metricsHash[rateFormData.metric][rateFormData.measurement.value];
+  const metricData = metricsHash[rateFormData.metric]?.[rateFormData.measurement.value];
   return {
     description: rateFormData.description,
-    metric: {
-      metric: metricData.metric,
-      name: metricData.metric,
-      label_metric: metricData.label_metric,
-      label_measurement: metricData.label_measurement,
-      label_measurement_unit: metricData.label_measurement_unit,
-      source_type: 'OpenShift Cluster Platform',
-      default_cost_type: metricData.default_cost_type,
-    },
+    ...(metricData && {
+      metric: {
+        metric: metricData.metric,
+        name: metricData.metric,
+        label_metric: metricData.label_metric,
+        label_measurement: metricData.label_measurement,
+        label_measurement_unit: metricData.label_measurement_unit,
+        source_type: 'OpenShift Cluster Platform',
+        default_cost_type: metricData.default_cost_type,
+      },
+    }),
     cost_type: rateFormData.calculation,
     [ratesKey]: ratesBody,
   };

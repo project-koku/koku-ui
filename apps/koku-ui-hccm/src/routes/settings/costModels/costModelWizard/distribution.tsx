@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Form } from 'routes/settings/costModels/components/forms/form';
 import { createMapStateToProps } from 'store/common';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
@@ -15,14 +16,14 @@ interface DistributionOwnProps extends WrappedComponentProps {
 }
 
 interface DistributionStateProps {
-  // TBD...
+  isGpuToggleEnabled?: boolean;
 }
 
 type DistributionProps = DistributionOwnProps & DistributionStateProps;
 
 class DistributionBase extends React.Component<DistributionProps, DistributionStateProps> {
   public render() {
-    const { intl } = this.props;
+    const { intl, isGpuToggleEnabled } = this.props;
 
     return (
       <CostModelContext.Consumer>
@@ -120,13 +121,15 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       label={intl.formatMessage(messages.distributeStorage)}
                       onChange={handleDistributeStorageChange}
                     />
-                    <Checkbox
-                      aria-label={intl.formatMessage(messages.distributeGpu)}
-                      id="distribute-gpu"
-                      isChecked={distributeGpu}
-                      label={intl.formatMessage(messages.distributeGpu)}
-                      onChange={handleDistributeGpuChange}
-                    />
+                    {isGpuToggleEnabled && (
+                      <Checkbox
+                        aria-label={intl.formatMessage(messages.distributeGpu)}
+                        id="distribute-gpu"
+                        isChecked={distributeGpu}
+                        label={intl.formatMessage(messages.distributeGpu)}
+                        onChange={handleDistributeGpuChange}
+                      />
+                    )}
                   </FormGroup>
                 </Form>
               </StackItem>
@@ -138,9 +141,9 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
   }
 }
 
-const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(() => {
+const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(state => {
   return {
-    // TBD...
+    isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
   };
 });
 

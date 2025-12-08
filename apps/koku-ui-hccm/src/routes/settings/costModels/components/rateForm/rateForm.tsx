@@ -132,11 +132,11 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
               label={intl.formatMessage(messages.measurement)}
               toggleAriaLabel={intl.formatMessage(messages.costModelsSelectMeasurement)}
               value={
-                !metricsHash[metric][measurement]
+                !metricsHash[metric]?.[measurement]
                   ? measurement
                   : getMeasurementLabel(
-                      metricsHash[metric][measurement].label_measurement,
-                      metricsHash[metric][measurement].label_measurement_unit
+                      metricsHash[metric]?.[measurement].label_measurement,
+                      metricsHash[metric]?.[measurement].label_measurement_unit
                     )
               }
               onSelect={(_evt, value) => setMeasurement(value)}
