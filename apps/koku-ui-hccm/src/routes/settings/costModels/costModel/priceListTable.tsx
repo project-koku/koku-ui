@@ -22,6 +22,7 @@ import { RateTable } from 'routes/settings/costModels/components/rateTable';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
 import { unitsLookupKey } from 'utils/format';
@@ -37,11 +38,12 @@ interface PriceListTableProps extends WrappedComponentProps {
   current: CostModel;
   costTypes: string[];
   error: string;
-  isDialogOpen: { deleteRate: boolean; updateRate: boolean; addRate: boolean };
-  isLoading: boolean;
-  isWritePermission: boolean;
   fetchError: AxiosError;
   fetchStatus: FetchStatus;
+  isDialogOpen: { deleteRate: boolean; updateRate: boolean; addRate: boolean };
+  isGpuToggleEnabled?: boolean;
+  isLoading: boolean;
+  isWritePermission: boolean;
   metricsHash: MetricHash;
   updateCostModel: typeof costModelsActions.updateCostModel;
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
@@ -76,7 +78,8 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
   public state: PriceListTableState = { ...this.defaultState };
 
   public render() {
-    const { fetchStatus, fetchError, intl, isDialogOpen, isWritePermission, metricsHash } = this.props;
+    const { fetchStatus, fetchError, intl, isDialogOpen, isGpuToggleEnabled, isWritePermission, metricsHash } =
+      this.props;
 
     const getMetricLabel = m => {
       // Match message descriptor or default to API string
@@ -177,7 +180,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
             const from = (this.state.pagination.page - 1) * this.state.pagination.perPage;
             const to = this.state.pagination.page * this.state.pagination.perPage;
 
-            const res = this.props.current.rates
+            let res = this.props.current.rates
               .map((r, i) => {
                 return { ...r, stateIndex: i };
               })
@@ -194,6 +197,10 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                       : () => '';
                 return compareBy(r1, r2, this.state.sortBy.direction, projection);
               });
+
+            if (!isGpuToggleEnabled) {
+              res = res.filter(item => item.metric.label_metric.toLowerCase() !== 'gpu');
+            }
             const filtered = res.slice(from, to);
 
             return (
@@ -395,14 +402,15 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
 export default injectIntl(
   connect(
     createMapStateToProps(state => ({
-      isLoading: costModelsSelectors.updateProcessing(state),
+      costTypes: metricsSelectors.costTypes(state),
       error: costModelsSelectors.updateError(state),
-      isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
       fetchError: costModelsSelectors.error(state),
       fetchStatus: costModelsSelectors.status(state),
-      metricsHash: metricsSelectors.metrics(state),
-      costTypes: metricsSelectors.costTypes(state),
+      isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
+      isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
+      isLoading: costModelsSelectors.updateProcessing(state),
       isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+      metricsHash: metricsSelectors.metrics(state),
     })),
     {
       updateCostModel: costModelsActions.updateCostModel,
