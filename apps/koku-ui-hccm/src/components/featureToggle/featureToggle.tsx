@@ -9,6 +9,7 @@ export const enum FeatureToggle {
   debug = 'cost-management.ui.debug', // Logs user data (e.g., account ID) in browser console
   exactFilter = 'cost-management.ui.exact-filter', // Exact filter https://issues.redhat.com/browse/COST-6744
   exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
+  gpu = 'cost-management.ui.gpu', // Cost model GPU metrics https://issues.redhat.com/browse/COST-5334
   systems = 'cost-management.ui.systems', // Systems https://issues.redhat.com/browse/COST-5718
 }
 
@@ -33,6 +34,10 @@ export const useIsExportsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.exports);
 };
 
+export const useIsGpuToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.gpu);
+};
+
 export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.systems);
 };
@@ -46,6 +51,7 @@ export const useFeatureToggle = () => {
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isExactFilterToggleEnabled = useIsExactFilterToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
+  const isGpuToggleEnabled = useIsGpuToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
 
   const fetchUser = callback => {
@@ -62,6 +68,7 @@ export const useFeatureToggle = () => {
         isDebugToggleEnabled,
         isExactFilterToggleEnabled,
         isExportsToggleEnabled,
+        isGpuToggleEnabled,
         isSystemsToggleEnabled,
       })
     );
@@ -69,7 +76,14 @@ export const useFeatureToggle = () => {
       // eslint-disable-next-line no-console
       fetchUser(identity => console.log('User identity:', identity));
     }
-  }, [isAwsEc2InstancesToggleEnabled, isDebugToggleEnabled, isExportsToggleEnabled, isSystemsToggleEnabled]);
+  }, [
+    isAwsEc2InstancesToggleEnabled,
+    isDebugToggleEnabled,
+    isExactFilterToggleEnabled,
+    isExportsToggleEnabled,
+    isGpuToggleEnabled,
+    isSystemsToggleEnabled,
+  ]);
 };
 
 export default useFeatureToggle;

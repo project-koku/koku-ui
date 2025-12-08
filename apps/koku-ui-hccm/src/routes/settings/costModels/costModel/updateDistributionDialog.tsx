@@ -24,6 +24,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { styles } from './costCalc.styles';
 
@@ -33,6 +34,7 @@ interface UpdateDistributionDialogOwnProps extends WrappedComponentProps {
 
 interface UpdateDistributionDialogStateProps {
   error?: string;
+  isGpuToggleEnabled?: boolean;
   isLoading?: boolean;
 }
 
@@ -96,7 +98,7 @@ class UpdateDistributionDialogBase extends React.Component<
   };
 
   public render() {
-    const { error, current, intl, isLoading, onClose, updateCostModel } = this.props;
+    const { error, current, intl, isGpuToggleEnabled, isLoading, onClose, updateCostModel } = this.props;
     return (
       <Modal
         isOpen
@@ -184,13 +186,15 @@ class UpdateDistributionDialogBase extends React.Component<
                     label={intl.formatMessage(messages.distributeStorage)}
                     onChange={this.handleDistributeStorageChange}
                   />
-                  <Checkbox
-                    aria-label={intl.formatMessage(messages.distributeGpu)}
-                    id="distribute-gpu"
-                    isChecked={this.state.distributeGpu}
-                    label={intl.formatMessage(messages.distributeGpu)}
-                    onChange={this.handleDistributeGpuChange}
-                  />
+                  {isGpuToggleEnabled && (
+                    <Checkbox
+                      aria-label={intl.formatMessage(messages.distributeGpu)}
+                      id="distribute-gpu"
+                      isChecked={this.state.distributeGpu}
+                      label={intl.formatMessage(messages.distributeGpu)}
+                      onChange={this.handleDistributeGpuChange}
+                    />
+                  )}
                 </FormGroup>
               </Form>
             </StackItem>
@@ -237,6 +241,7 @@ class UpdateDistributionDialogBase extends React.Component<
 const mapStateToProps = createMapStateToProps<UpdateDistributionDialogOwnProps, UpdateDistributionDialogStateProps>(
   state => {
     return {
+      isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
       isLoading: costModelsSelectors.updateProcessing(state),
       error: costModelsSelectors.updateError(state),
     };
