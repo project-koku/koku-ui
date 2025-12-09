@@ -156,6 +156,9 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
