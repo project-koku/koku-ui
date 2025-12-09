@@ -71,11 +71,18 @@ const NavItem: React.FC<NavItemProps> = ({ to, children }) => {
 };
 
 const AppLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
   const masthead = (
     <Masthead>
       <MastheadMain>
         <MastheadToggle>
-          <PageToggleButton isHamburger aria-label="Global navigation" />
+          <PageToggleButton
+            isHamburger
+            aria-label="Global navigation"
+            isSidebarOpen={isSidebarOpen}
+            isExpanded={isSidebarOpen}
+            onSidebarToggle={() => setIsSidebarOpen(prev => !prev)}
+          />
         </MastheadToggle>
         <MastheadBrand>
           <MastheadLogo component="a">Logo</MastheadLogo>
@@ -85,7 +92,7 @@ const AppLayout = () => {
   );
 
   const sidebar = (
-    <PageSidebar>
+    <PageSidebar isSidebarOpen={isSidebarOpen}>
       <PageSidebarBody>
         <Nav>
           <NavList>
@@ -103,7 +110,6 @@ const AppLayout = () => {
   return (
     <Page
       mainContainerId="primary-app-container"
-      isManagedSidebar
       masthead={masthead}
       sidebar={sidebar}
       isContentFilled

@@ -115,6 +115,7 @@ const config: Configuration = {
     alias: {
       '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
       '@redhat-cloud-services': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
+      '@unleash': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src/unleash'),
     },
   },
   watchOptions: {
