@@ -40,7 +40,7 @@ const config: Configuration & {
     proxy: [
       {
         context: ['/api/cost-management/v1'],
-        target: process.env.API_PROXY_HOST,
+        target: process.env.API_PROXY_URL,
         changeOrigin: true,
         secure: false,
         pathRewrite: { '^/api/cost-management/v1': '' },
