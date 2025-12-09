@@ -30,6 +30,16 @@ export API_PROXY_HOST=<backend_url>
 export API_TOKEN=<auth_token_for_backend>
 ```
 
+For example, you can point on-prem application to SaaS backend:
+
+Download [ocm CLI](https://console.redhat.com/openshift/downloads)
+
+```
+ocm login --use-auth-code
+export API_PROXY_HOST=https://console.redhat.com/api/cost-management/v1
+export API_TOKEN=$(ocm token)
+```
+
 From the root of the repo, run
 ```
 npm run start:onprem

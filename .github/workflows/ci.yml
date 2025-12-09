@@ -55,8 +55,8 @@ jobs:
         id: build-onprem
         uses: redhat-actions/buildah-build@v2
         with:
-          image: ${{ env.QUAY_UI_REPO }}
-          tags: ${{ needs.generate-tags.outputs.image_tags }}
+          image: localhost/koku-ui-onprem
+          tags: latest
           extra-args: |
             --ulimit nofile=10000:10000
           containerfiles: apps/koku-ui-onprem/Containerfile
@@ -130,7 +130,8 @@ jobs:
 
   cypress:
     name: Cypress E2E Tests
-    needs: [units]
+    needs: [build, units]
+    if: always()
     runs-on: ubuntu-latest
 
     steps:
@@ -149,7 +150,7 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os build}}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
