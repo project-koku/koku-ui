@@ -13299,6 +13299,22 @@
               }
             ]
           },
+          "gpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU"
+              }
+            ]
+          },
+          "gpus": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPUs"
+              }
+            ]
+          },
           "hour": {
             "value": [
               {
