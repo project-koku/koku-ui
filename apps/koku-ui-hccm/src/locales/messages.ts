@@ -2180,6 +2180,7 @@ export default defineMessages({
       'gcp_project {Filter by Google Cloud project} ' +
       'group {Filter by group} ' +
       'instance {Filter by instance} ' +
+      'model {Filter by GPU model} ' +
       'name {Filter by name} ' +
       'node {Filter by node} ' +
       'operating_system {Filter by operating system} ' +
@@ -2196,13 +2197,14 @@ export default defineMessages({
       'status {Filter by status} ' +
       'storage_class {Filter by StorageClass} ' +
       'subscription_guid {Filter by account} ' +
-      'workload {Filter by workload name} ' +
-      'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
       'tag_key {Filter by tag key} ' +
       'tag_key_child {Filter by child tag key} ' +
       'tag_key_parent {Filter by parent tag key} ' +
+      'vendor {Filter by GPU vendor} ' +
       'vm_name {Filter by virtual machine} ' +
+      'workload {Filter by workload name} ' +
+      'workload_type {Filter by workload type} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'filterByPlaceholder',
@@ -2233,6 +2235,7 @@ export default defineMessages({
       'gcp_project {Google Cloud project} ' +
       'group {Group} ' +
       'instance {Instance} ' +
+      'model {GPU model} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
@@ -2253,6 +2256,7 @@ export default defineMessages({
       'tag_key {Tag key} ' +
       'tag_key_child {Child tag Key} ' +
       'tag_key_parent {Parent tag Key} ' +
+      'vendor {GPU vendor}' +
       'vm_name {Virtual machine}' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
@@ -2324,6 +2328,11 @@ export default defineMessages({
     defaultMessage: 'Google Cloud filtered by OpenShift cost',
     description: 'Google Cloud filtered by OpenShift cost',
     id: 'gcpOcpDashboardCostTitle',
+  },
+  gpuTitle: {
+    defaultMessage: 'GPU',
+    description: 'GPU',
+    id: 'gpuTitle',
   },
   groupByAll: {
     defaultMessage:
@@ -2439,6 +2448,18 @@ export default defineMessages({
       'other {}}',
     description: 'Group by values',
     id: 'groupByValuesTitleCase',
+  },
+  gpuColumns: {
+    defaultMessage:
+      '{value, select, ' +
+      'count {Count} ' +
+      'memory {Memory} ' +
+      'model {Model} ' +
+      'node {Node} ' +
+      'vendor {Vendor} ' +
+      'other {}}',
+    description: 'GPU columns',
+    id: 'gpuColumns',
   },
   historicalChartCostLabel: {
     defaultMessage: 'Cost ({units})',

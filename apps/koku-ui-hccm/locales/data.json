@@ -7529,6 +7529,14 @@
               }
             ]
           },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU model"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7692,6 +7700,14 @@
               }
             ]
           },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU vendor"
+              }
+            ]
+          },
           "vm_name": {
             "value": [
               {
@@ -7803,6 +7819,14 @@
               {
                 "type": 0,
                 "value": "Instance"
+              }
+            ]
+          },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU model"
               }
             ]
           },
@@ -7969,6 +7993,14 @@
               }
             ]
           },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU vendor"
+              }
+            ]
+          },
           "vm_name": {
             "value": [
               {
@@ -8098,6 +8130,63 @@
       {
         "type": 0,
         "value": "Google Cloud filtered by OpenShift cost"
+      }
+    ],
+    "gpuColumns": [
+      {
+        "options": {
+          "count": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Count"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory"
+              }
+            ]
+          },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Model"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Node"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Vendor"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "gpuTitle": [
+      {
+        "type": 0,
+        "value": "GPU"
       }
     ],
     "groupByAll": [

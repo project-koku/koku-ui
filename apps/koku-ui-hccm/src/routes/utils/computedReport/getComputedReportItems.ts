@@ -28,6 +28,7 @@ export interface ComputedReportOcpItem extends ReportItem {
   capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
+  gpus?: string;
   limit?: ReportValue;
   persistent_volume_claim?: string;
   request?: ReportValue;
@@ -46,9 +47,11 @@ export interface ComputedReportItem extends ComputedReportOcpItem, ComputedRepor
   delta_value?: number;
   infrastructure?: ReportItemValue;
   label?: string; // helper for item label
+  model?: string;
   source_uuid?: string;
   supplementary?: ReportItemValue;
   type?: string; // 'account' or 'organizational_unit'
+  vendor?: string;
 }
 
 export interface ComputedReportItemsParams<R extends Report, T extends ReportItem> {
@@ -194,6 +197,24 @@ function getCostData(val, key, item?: any) {
   };
 }
 
+function getGpuData(val, item?: any) {
+  const defaultUnits = 'Core-Hours';
+  return {
+    ...(val.memory && {
+      usage: {
+        value: val.memory.value + (item?.memory ? item.memory.value : 0),
+        units: val.memory.units ? val.memory.units : defaultUnits,
+      },
+    }),
+    ...(val.gpu_count && {
+      usage: {
+        value: val.gpu_count.value + (item?.gpu_count ? item.gpu_count.value : 0),
+        units: val.gpu_count.units ? val.gpu_count.units : defaultUnits,
+      },
+    }),
+  };
+}
+
 function getUsageData(val, item?: any) {
   const defaultUnits = 'Core-Hours';
   return {
@@ -333,7 +354,10 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
   const cluster_alias = val.clusters && val.clusters.length > 0 ? val.clusters[0] : undefined;
   const cluster = cluster_alias || val.cluster;
   const date = val.date;
-  const default_project = val.default_project && val.default_project.toLowerCase() === 'true';
+  const default_project = val.default_project?.toLowerCase() === 'true';
+  const model = val.model;
+  const node = val.node;
+  const vendor = val.vendor;
 
   let label;
   if (report?.meta?.others && (id === 'Other' || id === 'Others')) {
@@ -365,6 +389,7 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
     const data = {
       ...val,
       ...getUsageData(val), // capacity, limit, request, & usage
+      ...getGpuData(val), // gpu_count and memory
       cluster,
       clusters: getClusters(val),
       cost: getCostData(val, 'cost'),
@@ -372,8 +397,11 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
       id,
       infrastructure: getCostData(val, 'infrastructure'),
       label,
+      model,
+      node,
       supplementary: getCostData(val, 'supplementary'),
       type,
+      vendor,
     };
     const item = itemMap.get(mapId);
     if (item) {
@@ -391,6 +419,7 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
       itemMap.set(mapId, {
         ...item,
         ...getUsageData(val, item), // capacity, limit, request, & usage
+        ...getGpuData(val), // gpu_count and memory
         cluster,
         clusters: getClusters(val, item),
         cost: getCostData(val, 'cost', item),
@@ -399,13 +428,17 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         id,
         infrastructure: getCostData(val, 'infrastructure', item),
         label,
+        model,
+        node,
         supplementary: getCostData(val, 'supplementary', item),
         type,
+        vendor,
       });
     } else {
       itemMap.set(mapId, {
         ...val,
         ...getUsageData(val), // capacity, limit, request, & usage
+        ...getGpuData(val), // gpu_count and memory
         cluster,
         clusters: getClusters(val),
         cost: getCostData(val, 'cost'),
@@ -414,8 +447,11 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         id,
         infrastructure: getCostData(val, 'infrastructure'),
         label,
+        model,
+        node,
         supplementary: getCostData(val, 'supplementary'),
         type,
+        vendor,
       });
     }
   }

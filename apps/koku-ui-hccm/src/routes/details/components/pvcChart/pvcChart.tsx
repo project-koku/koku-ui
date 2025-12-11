@@ -267,7 +267,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     const { isOpen } = this.state;
 
     const count = report?.meta ? report.meta.count : 0;
-    const remaining = count - baseQuery.filter.limit;
+    const remaining = Math.max(0, count - baseQuery.filter.limit);
 
     if (remaining > 0) {
       return (
