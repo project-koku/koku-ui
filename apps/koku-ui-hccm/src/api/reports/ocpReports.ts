@@ -21,7 +21,7 @@ export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
   service: string;
 }
 
-export type GroupByGpuData = Omit<OcpReportData, 'gpu'>;
+export type GroupByGpuData = Omit<OcpReportData, 'gpus'>;
 
 export interface GroupByNodeData extends Omit<OcpReportData, 'nodes'> {
   region: string;

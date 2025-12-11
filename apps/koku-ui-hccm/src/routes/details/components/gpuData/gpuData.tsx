@@ -76,6 +76,9 @@ const GpuData: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => 
     const count = report?.meta?.count ?? 0;
     const remaining = Math.max(0, count - baseQuery.filter.limit);
 
+    // const effectiveLimit = report?.meta?.limit ?? baseQuery.filter.limit;
+    // const remaining = Math.max(0, count - effectiveLimit);
+
     if (remaining > 0) {
       return (
         <div style={styles.linkContainer}>

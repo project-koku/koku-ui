@@ -2256,7 +2256,7 @@ export default defineMessages({
       'tag_key {Tag key} ' +
       'tag_key_child {Child tag Key} ' +
       'tag_key_parent {Parent tag Key} ' +
-      'vendor {GPU vendor}' +
+      'vendor {GPU vendor} ' +
       'vm_name {Virtual machine}' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
@@ -3974,6 +3974,8 @@ export default defineMessages({
       'gib_hours {GiB-hours} ' +
       'gib_month {GiB-month} ' +
       'gibibyte_month {GiB-month} ' +
+      'gpu {GPU} ' +
+      'gpus {GPUs} ' +
       'hour {hours} ' +
       'hrs {hours} ' +
       'ms {milliseconds} ' +

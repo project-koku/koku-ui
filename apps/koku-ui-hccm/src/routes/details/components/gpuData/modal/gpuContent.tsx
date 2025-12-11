@@ -63,7 +63,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
   const intl = useIntl();
   const location = useLocation();
 
-  const queryState = getQueryState(location, 'optimizations');
+  const queryState = getQueryState(location, 'gpu');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,

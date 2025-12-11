@@ -198,18 +198,17 @@ function getCostData(val, key, item?: any) {
 }
 
 function getGpuData(val, item?: any) {
-  const defaultUnits = 'Core-Hours';
   return {
     ...(val.memory && {
-      usage: {
+      memory: {
         value: val.memory.value + (item?.memory ? item.memory.value : 0),
-        units: val.memory.units ? val.memory.units : defaultUnits,
+        units: val.memory.units ? val.memory.units : 'GB',
       },
     }),
     ...(val.gpu_count && {
-      usage: {
+      gpu_count: {
         value: val.gpu_count.value + (item?.gpu_count ? item.gpu_count.value : 0),
-        units: val.gpu_count.units ? val.gpu_count.units : defaultUnits,
+        units: val.gpu_count.units ? val.gpu_count.units : 'GPUs',
       },
     }),
   };
@@ -419,7 +418,7 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
       itemMap.set(mapId, {
         ...item,
         ...getUsageData(val, item), // capacity, limit, request, & usage
-        ...getGpuData(val), // gpu_count and memory
+        ...getGpuData(val, item), // gpu_count and memory
         cluster,
         clusters: getClusters(val, item),
         cost: getCostData(val, 'cost', item),
