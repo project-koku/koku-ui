@@ -15,6 +15,7 @@ interface OcpGroupBys {
 interface OcpOrderBys {
   cost?: string;
   cluster?: string;
+  gpu_count?: string;
   node?: string;
   project?: string;
   persistentvolumeclaim?: string;
