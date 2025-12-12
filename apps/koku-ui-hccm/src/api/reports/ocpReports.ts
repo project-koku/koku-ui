@@ -21,7 +21,7 @@ export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
   service: string;
 }
 
-export type GroupByGpuData = Omit<OcpReportData, 'gpus'>;
+export type GroupByGpuData = Omit<OcpReportData, 'models'>;
 
 export interface GroupByNodeData extends Omit<OcpReportData, 'nodes'> {
   region: string;
@@ -38,7 +38,7 @@ export type GroupByVmNameData = Omit<OcpReportData, 'vm_name'>;
 export interface OcpReportData extends ReportData {
   cluster_alias?: string;
   clusters?: GroupByClusterData[];
-  gpus?: GroupByGpuData[];
+  models?: GroupByGpuData[];
   nodes?: GroupByNodeData[];
   persistentvolumeclaims?: GroupByPvcData[];
   projects?: GroupByProjectData[];

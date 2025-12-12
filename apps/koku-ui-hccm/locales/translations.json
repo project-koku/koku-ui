@@ -375,6 +375,8 @@
   "gcpDetailsTitle": "Google Cloud details",
   "gcpOcpDashboardCostTitle": "Google Cloud filtered by OpenShift cost",
   "gpuColumns": "{value, select, count {Count} memory {Memory} model {Model} node {Node} vendor {Vendor} other {}}",
+  "gpuLoadingStateDesc": "Searching for your GPUs. Do not refresh the browser",
+  "gpuLoadingStateTitle": "Looking for GPUs...",
   "gpuTitle": "GPU",
   "groupByAll": "{value, select, account {{count, plural, one {All account} other {All accounts}}} aws_category {{count, plural, one {All cost category} other {All cost categories}}} cluster {{count, plural, one {All cluster} other {All clusters}}} gcp_project {{count, plural, one {All Google Cloud project} other {All Google Cloud projects}}} node {{count, plural, one {All node} other {All nodes}}} org_unit_id {{count, plural, one {All organizational unit} other {All organizational units}}} payer_tenant_id {{count, plural, one {All account} other {All accounts}}} product_service {{count, plural, one {All service} other {All services}}} project {{count, plural, one {All project} other {All projects}}} region {{count, plural, one {All region} other {All regions}}} resource_location {{count, plural, one {All region} other {All regions}}} service {{count, plural, one {All service} other {All services}}} service_name {{count, plural, one {All service} other {All services}}} subscription_guid {{count, plural, one {All account} other {All accounts}}} tag {{count, plural, one {All tag} other {All tags}}} other {}}",
   "groupByLabel": "Group by",

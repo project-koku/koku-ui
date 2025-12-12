@@ -8183,6 +8183,18 @@
         "value": "value"
       }
     ],
+    "gpuLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your GPUs. Do not refresh the browser"
+      }
+    ],
+    "gpuLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for GPUs..."
+      }
+    ],
     "gpuTitle": [
       {
         "type": 0,

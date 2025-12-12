@@ -161,7 +161,10 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
         <div style={styles.loading}>
-          <LoadingState />
+          <LoadingState
+            body={intl.formatMessage(messages.gpuLoadingStateDesc)}
+            heading={intl.formatMessage(messages.gpuLoadingStateTitle)}
+          />
         </div>
       ) : (
         <>
@@ -207,7 +210,7 @@ const useMapToProps = ({ query, reportPathsType, reportType }: GpuContentMapProp
       ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
-      ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
+      model: '*',
     },
     order_by: query.order_by || baseQuery.order_by,
   };

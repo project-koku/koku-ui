@@ -28,8 +28,9 @@ export interface ComputedReportOcpItem extends ReportItem {
   capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
-  gpus?: string;
+  gpu_count?: ReportValue;
   limit?: ReportValue;
+  memory?: ReportValue;
   persistent_volume_claim?: string;
   request?: ReportValue;
   storage_class?: string;
