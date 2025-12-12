@@ -63,10 +63,8 @@ interface PvcChartState {
 type PvcChartProps = PvcChartOwnProps & PvcChartStateProps & PvcChartDispatchProps;
 
 const baseQuery: OcpQuery = {
-  filter: {
-    limit: 2, // Render 2 items max
-    offset: 0,
-  },
+  limit: 2, // Render 2 items max
+  offset: 0,
   order_by: {
     request: 'desc',
   },
@@ -267,7 +265,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
     const { isOpen } = this.state;
 
     const count = report?.meta ? report.meta.count : 0;
-    const remaining = Math.max(0, count - baseQuery.filter.limit);
+    const remaining = Math.max(0, count - baseQuery.limit);
 
     if (remaining > 0) {
       return (
@@ -298,7 +296,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
   private getPvcCharts = computedItems => {
     const { report } = this.props;
 
-    const items = computedItems.slice(0, baseQuery.filter.limit);
+    const items = computedItems.slice(0, baseQuery.limit);
     const count = report?.meta ? report.meta.count : 0;
 
     return items.map((item, index) => {
@@ -395,6 +393,8 @@ const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStatePro
       exclude: {
         ...(queryState?.exclude && queryState.exclude),
       },
+      limit: query.limit || baseQuery.limit,
+      offset: query.offset || baseQuery.offset,
       group_by: { persistentvolumeclaim: '*' },
     };
 

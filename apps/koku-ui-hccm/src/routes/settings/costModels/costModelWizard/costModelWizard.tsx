@@ -16,6 +16,7 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import { addCostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
@@ -25,6 +26,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
+import { resourceActions, resourceSelectors } from 'store/resources';
 import { unFormat } from 'utils/format';
 import { getAccountCurrency } from 'utils/sessionStorage';
 
@@ -40,19 +42,21 @@ import Sources from './sources';
 import { validatorsHash } from './steps';
 
 interface InternalWizardBaseProps extends WrappedComponentProps {
+  closeFnc: () => void;
+  context: any;
+  current: number;
+  gpuModels?: any;
+  gpuVendors?: any;
+  isOpen: boolean;
   isProcess: boolean;
   isSuccess: boolean;
-  closeFnc: () => void;
-  isOpen: boolean;
+  metricsHash: MetricHash;
   onMove: (id: number) => void;
-  validators: ((any) => boolean)[];
-  steps: any[];
-  current: number;
-  context: any;
   setError: (error: string) => void;
   setSuccess: () => void;
+  steps: any[];
   updateCostModel: () => void;
-  metricsHash: MetricHash;
+  validators: ((any) => boolean)[];
 }
 
 // Update tiers currency
@@ -76,19 +80,19 @@ export const updateTiersCurrency = (tiers, currencyUnits = 'USD') => {
 };
 
 const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
+  closeFnc,
+  context,
+  current = 0,
   intl,
+  isOpen,
   isProcess,
   isSuccess,
-  closeFnc,
-  isOpen,
   onMove,
-  validators,
   steps,
-  current = 0,
-  context,
   setError,
   setSuccess,
   updateCostModel,
+  validators,
 }) => {
   const EmptyFooter = () => null;
   const isAddingRate = context.type === 'OCP' && current === 1 && !validators[current](context);
@@ -187,11 +191,14 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
 const InternalWizard = injectIntl(InternalWizardBase);
 
 interface CostModelWizardProps extends WrappedComponentProps {
-  isOpen: boolean;
   closeWizard: () => void;
-  openWizard: () => void;
   fetch: typeof costModelsActions.fetchCostModels;
+  fetchResource: typeof resourceActions.fetchResource;
+  gpuModels?: any;
+  gpuVendors?: any;
+  isOpen: boolean;
   metricsHash: MetricHash;
+  openWizard: () => void;
 }
 
 interface CostModelWizardState {
@@ -283,7 +290,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
   public state: CostModelWizardState = { ...this.defaultState };
 
   public render() {
-    const { metricsHash, intl } = this.props;
+    const { gpuModels, gpuVendors, metricsHash, intl } = this.props;
     /*
      */
     const closeConfirmDialog = () => {
@@ -466,6 +473,8 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
                   justSaved: value ? value : false,
                 },
               }),
+            gpuModels,
+            gpuVendors,
             handleDistributionChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distribution: value });
@@ -563,6 +572,8 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
         }
       >
         <InternalWizard
+          gpuModels={gpuModels}
+          gpuVendors={gpuVendors}
           metricsHash={metricsHash}
           isProcess={this.state.createProcess}
           isSuccess={this.state.createSuccess}
@@ -583,7 +594,12 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           validators={validatorsHash[this.state.type]}
           setError={errorMessage => this.setState({ createError: errorMessage })}
           setSuccess={() => this.setState({ createError: null, createSuccess: true })}
-          updateCostModel={() => this.props.fetch()}
+          updateCostModel={() => {
+            const { fetch, fetchResource } = this.props;
+            fetch();
+            fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
+            fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
+          }}
           context={{
             name: this.state.name,
             type: this.state.type,
@@ -628,9 +644,14 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
 
 const CostModelWizard = connect(
   createMapStateToProps(state => ({
+    gpuModels: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.model, ''),
+    gpuVendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.vendor, ''),
     metricsHash: metricsSelectors.metrics(state),
   })),
-  { fetch: costModelsActions.fetchCostModels }
+  {
+    fetchResource: resourceActions.fetchResource,
+    fetch: costModelsActions.fetchCostModels,
+  }
 )(injectIntl(CostModelWizardBase));
 
 export default CostModelWizard;
