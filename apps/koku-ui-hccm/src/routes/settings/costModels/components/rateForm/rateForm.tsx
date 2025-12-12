@@ -1,6 +1,7 @@
 import { Alert, Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import type { MetricHash } from 'api/metrics';
+import type { Resource } from 'api/resources/resource';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -18,8 +19,8 @@ import type { UseRateData } from './useRateForm';
 
 interface RateFormOwnProps {
   currencyUnits?: string;
-  gpuModels?: any;
-  gpuVendors?: any;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   rateFormData: UseRateData;
   metricsHash: MetricHash;
 }
@@ -90,8 +91,7 @@ const RateFormBase: React.FC<RateFormProps> = ({
   };
   const metricOptions = React.useMemo(() => {
     return Object.keys(metricsHash).map(m => ({
-      isDisabled:
-        getMetricLabel(m).toLowerCase() === 'gpu' && (gpuVendors?.data?.length === 0 || gpuModels?.data?.length === 0),
+      isDisabled: m.toLowerCase() === 'gpu' && (gpuVendors?.data?.length === 0 || gpuModels?.data?.length === 0),
       label: getMetricLabel(m),
       value: m,
     }));

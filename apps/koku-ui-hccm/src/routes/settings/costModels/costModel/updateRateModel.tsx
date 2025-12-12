@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import type { CostModelRequest } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -38,8 +38,8 @@ interface UpdateRateModalOwnProps {
 
 interface UpdateRateModalStateProps {
   costModel?: any;
-  gpuModels?: any;
-  gpuVendors?: any;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   isOpen?: boolean;
   isProcessing?: boolean;
   metricsHash?: MetricHash;

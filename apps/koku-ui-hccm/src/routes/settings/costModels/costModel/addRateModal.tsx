@@ -12,7 +12,7 @@ import {
 import type { CostModelRequest } from 'api/costModels';
 import type { CostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -36,8 +36,8 @@ interface AddRateModalOwnProps extends WrappedComponentProps {
 
 interface AddRateModalStateProps {
   costModel?: CostModel;
-  gpuModels?: any;
-  gpuVendors?: any;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   isOpen?: boolean;
   isProcessing?: boolean;
   metricsHash?: MetricHash;

@@ -1,5 +1,6 @@
 import { Button, ButtonVariant, FormGroup, Split, SplitItem } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
+import type { Resource } from 'api/resources/resource';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -16,7 +17,7 @@ import type { RateFormErrors, RateFormTagValue } from './utils';
 interface GpuRatesFormOwnProps {
   currencyUnits?: string;
   errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
-  gpuModels: any;
+  gpuModels: Resource;
   removeTag: UseRateData['removeTag'];
   tagValues: RateFormTagValue[];
   updateTag: UseRateData['updateTag'];
@@ -27,7 +28,7 @@ type GpuRatesFormProps = GpuRatesFormOwnProps & WrappedComponentProps;
 const GpuRatesFormBase: React.FC<GpuRatesFormProps> = ({
   currencyUnits,
   errors,
-  intl = defaultIntl, // Default required for testinggpuModels,
+  intl = defaultIntl, // Default required for testing,
   gpuModels,
   tagValues,
   removeTag,

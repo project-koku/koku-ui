@@ -16,7 +16,7 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import { addCostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
@@ -45,8 +45,8 @@ interface InternalWizardBaseProps extends WrappedComponentProps {
   closeFnc: () => void;
   context: any;
   current: number;
-  gpuModels?: any;
-  gpuVendors?: any;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   isOpen: boolean;
   isProcess: boolean;
   isSuccess: boolean;
@@ -194,8 +194,8 @@ interface CostModelWizardProps extends WrappedComponentProps {
   closeWizard: () => void;
   fetch: typeof costModelsActions.fetchCostModels;
   fetchResource: typeof resourceActions.fetchResource;
-  gpuModels?: any;
-  gpuVendors?: any;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   isOpen: boolean;
   metricsHash: MetricHash;
   openWizard: () => void;

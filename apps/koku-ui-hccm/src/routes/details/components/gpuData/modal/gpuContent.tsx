@@ -70,7 +70,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
     const limit = report?.meta ? report.meta.limit : baseQuery.filter.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
+    const offset = report?.meta ? report.meta.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (

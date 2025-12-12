@@ -11,6 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { MetricHash } from 'api/metrics';
+import type { Resource } from 'api/resources/resource';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -23,8 +24,8 @@ import { CostModelContext } from 'routes/settings/costModels/costModelWizard/con
 interface AddPriceListOwnProps {
   cancel: () => void;
   currencyUnits?: string;
-  gpuModels?: any;
-  gpuVendors?: any;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   metricsHash: MetricHash;
   submitRate: (data: RateFormData) => void;
 }
