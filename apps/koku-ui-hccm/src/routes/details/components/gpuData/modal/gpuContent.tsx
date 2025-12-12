@@ -136,7 +136,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, false);
     setQuery(newQuery);
   };
 
