@@ -8,6 +8,6 @@ export const styles = {
   },
   loading: {
     backgroundColor: t_global_background_color_100.value,
-    minHeight: '520px',
+    minHeight: '200px',
   },
 } as { [className: string]: React.CSSProperties };

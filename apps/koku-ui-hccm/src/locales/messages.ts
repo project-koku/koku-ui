@@ -2461,6 +2461,16 @@ export default defineMessages({
     description: 'GPU columns',
     id: 'gpuColumns',
   },
+  gpuLoadingStateDesc: {
+    defaultMessage: 'Searching for your GPUs. Do not refresh the browser',
+    description: 'Searching for your GPUs. Do not refresh the browser',
+    id: 'gpuLoadingStateDesc',
+  },
+  gpuLoadingStateTitle: {
+    defaultMessage: 'Looking for GPUs...',
+    description: 'Looking for GPUs',
+    id: 'gpuLoadingStateTitle',
+  },
   historicalChartCostLabel: {
     defaultMessage: 'Cost ({units})',
     description: 'Cost ({units})',
