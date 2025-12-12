@@ -10,14 +10,12 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
-import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -47,8 +45,10 @@ export interface PvcContentMapProps {
 type PvcContentProps = PvcContentOwnProps;
 
 const baseQuery: OcpQuery = {
-  limit: 10,
-  offset: 0,
+  filter: {
+    limit: 10,
+    offset: 0,
+  },
   order_by: {},
 };
 
@@ -57,18 +57,16 @@ const reportPathsType = ReportPathsType.ocp;
 
 const PvcContent: React.FC<PvcContentProps> = () => {
   const intl = useIntl();
-  const location = useLocation();
 
-  const queryState = getQueryState(location, 'optimizations');
-  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const [query, setQuery] = useState({ ...baseQuery });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
   });
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
+    const limit = report?.meta ? report.meta.limit : baseQuery.filter.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -134,12 +132,12 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, false);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
+    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
     setQuery(newQuery);
   };
 
@@ -185,8 +183,6 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
   const reportQuery: Query = {
     filter: {
       ...query.filter,
-      limit: query.limit,
-      offset: query.offset,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: timeScopeValue,

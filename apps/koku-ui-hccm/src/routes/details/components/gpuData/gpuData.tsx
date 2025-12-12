@@ -9,14 +9,12 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
-import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -60,10 +58,8 @@ const baseQuery: OcpQuery = {
 
 const GpuData: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => {
   const intl = useIntl();
-  const location = useLocation();
 
-  const queryState = getQueryState(location, 'gpu');
-  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const [query, setQuery] = useState({ ...baseQuery });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
     reportPathsType,
@@ -75,9 +71,6 @@ const GpuData: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => 
   const getMoreLink = () => {
     const count = report?.meta?.count ?? 0;
     const remaining = Math.max(0, count - baseQuery.filter.limit);
-
-    // const effectiveLimit = report?.meta?.limit ?? baseQuery.filter.limit;
-    // const remaining = Math.max(0, count - effectiveLimit);
 
     if (remaining > 0) {
       return (
@@ -158,8 +151,6 @@ const useMapToProps = ({ query, reportPathsType, reportType }: GpuContentMapProp
   const reportQuery: Query = {
     filter: {
       ...query.filter,
-      limit: query.filter.limit,
-      offset: query.filter.offset,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: timeScopeValue,
