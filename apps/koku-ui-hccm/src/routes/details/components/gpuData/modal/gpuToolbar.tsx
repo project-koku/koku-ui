@@ -1,5 +1,6 @@
 import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -58,6 +59,7 @@ class GpuToolbarBase extends React.Component<GpuToolbarProps, GpuToolbarState> {
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.ocp}
         showFilter
         useActiveFilters
       />

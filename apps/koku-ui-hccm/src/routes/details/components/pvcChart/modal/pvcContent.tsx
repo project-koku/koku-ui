@@ -45,10 +45,8 @@ export interface PvcContentMapProps {
 type PvcContentProps = PvcContentOwnProps;
 
 const baseQuery: OcpQuery = {
-  filter: {
-    limit: 10,
-    offset: 0,
-  },
+  limit: 10,
+  offset: 0,
   order_by: {},
 };
 
@@ -65,8 +63,8 @@ const PvcContent: React.FC<PvcContentProps> = () => {
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : baseQuery.filter.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.filter.offset;
+    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -132,12 +130,12 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, false);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
+    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
   };
 

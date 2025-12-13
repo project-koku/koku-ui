@@ -661,16 +661,6 @@ export default defineMessages({
     description: 'Enter a description',
     id: 'costModelsEnterGpuDesc',
   },
-  costModelsEnterGpuModel: {
-    defaultMessage: 'Enter a model',
-    description: 'Enter a model',
-    id: 'costModelsEnterGpuModel',
-  },
-  costModelsEnterGpuVendor: {
-    defaultMessage: 'Enter a vendor',
-    description: 'Enter a vendor',
-    id: 'costModelsEnterGpuVendor',
-  },
   costModelsEnterTagDesc: {
     defaultMessage: 'Enter a tag description',
     description: 'Enter a tag description',
@@ -2139,6 +2129,7 @@ export default defineMessages({
       'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
       'gcp_project {Input for Google Cloud project name} ' +
+      'model {Input for GPU model} ' +
       'name {Input for name} ' +
       'node {Input for node name} ' +
       'org_unit_id {Input for organizational unit name} ' +
@@ -2155,6 +2146,7 @@ export default defineMessages({
       'tag_key {Input for tag key} ' +
       'tag_key_child {Input for child tag key} ' +
       'tag_key_parent {Input for parent tag key} ' +
+      'vendor {Input for GPU vendor} ' +
       'other {}}',
     description: 'Input for {value} name',
     id: 'filterByInputAriaLabel',

@@ -1470,18 +1470,6 @@
         "value": "Enter a description"
       }
     ],
-    "costModelsEnterGpuModel": [
-      {
-        "type": 0,
-        "value": "Enter a model"
-      }
-    ],
-    "costModelsEnterGpuVendor": [
-      {
-        "type": 0,
-        "value": "Enter a vendor"
-      }
-    ],
     "costModelsEnterTagDesc": [
       {
         "type": 0,
@@ -7314,6 +7302,14 @@
               }
             ]
           },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GPU model"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7442,6 +7438,14 @@
               {
                 "type": 0,
                 "value": "Input for parent tag key"
+              }
+            ]
+          },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GPU vendor"
               }
             ]
           }
