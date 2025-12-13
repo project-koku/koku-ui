@@ -13,13 +13,13 @@ interface OcpGroupBys {
 }
 
 interface OcpOrderBys {
-  cost?: string;
   cluster?: string;
+  cost?: string;
   gpu_count?: string;
   model_name?: string;
   node?: string;
-  project?: string;
   persistentvolumeclaim?: string;
+  project?: string;
   request?: string;
   usage?: string;
   vendor_name?: string;
