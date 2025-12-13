@@ -21,6 +21,8 @@ export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
   service: string;
 }
 
+export type GroupByGpuData = Omit<OcpReportData, 'models'>;
+
 export interface GroupByNodeData extends Omit<OcpReportData, 'nodes'> {
   region: string;
 }
@@ -36,6 +38,7 @@ export type GroupByVmNameData = Omit<OcpReportData, 'vm_name'>;
 export interface OcpReportData extends ReportData {
   cluster_alias?: string;
   clusters?: GroupByClusterData[];
+  models?: GroupByGpuData[];
   nodes?: GroupByNodeData[];
   persistentvolumeclaims?: GroupByPvcData[];
   projects?: GroupByProjectData[];
@@ -62,6 +65,7 @@ export interface OcpReport extends Report {
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/openshift/costs/',
   [ReportType.cpu]: 'reports/openshift/compute/',
+  [ReportType.gpu]: 'reports/openshift/gpu/',
   [ReportType.memory]: 'reports/openshift/memory/',
   [ReportType.network]: 'reports/openshift/network/',
   [ReportType.volume]: 'reports/openshift/volumes/',

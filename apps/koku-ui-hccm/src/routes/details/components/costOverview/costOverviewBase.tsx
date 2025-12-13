@@ -23,6 +23,7 @@ import { injectIntl } from 'react-intl';
 import { Cluster } from 'routes/components/cluster';
 import { CostBreakdownChart } from 'routes/details/components/costBreakdownChart';
 import { CostChart } from 'routes/details/components/costChart';
+import { GpuData } from 'routes/details/components/gpuData';
 import { OverheadCostChart } from 'routes/details/components/overheadCostChart';
 import { PvcChart } from 'routes/details/components/pvcChart';
 import { SummaryCard } from 'routes/details/components/summary';
@@ -44,6 +45,7 @@ interface CostOverviewOwnProps {
 }
 
 export interface CostOverviewStateProps {
+  isGpuToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   title?: string;
   widgets: number[];
@@ -242,6 +244,36 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
     );
   };
 
+  // Returns GPU data
+  private getGpuData = (widget: CostOverviewWidget) => {
+    const { groupBy, intl } = this.props;
+
+    let showWidget = false;
+    if (widget.showWidgetOnGroupBy) {
+      for (const groupById of widget.showWidgetOnGroupBy) {
+        if (groupById === groupBy) {
+          showWidget = true;
+          break;
+        }
+      }
+    }
+    if (showWidget) {
+      return (
+        <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
+          <CardTitle>
+            <Title headingLevel="h2" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.gpuTitle)}
+            </Title>
+          </CardTitle>
+          <CardBody>
+            <GpuData reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          </CardBody>
+        </Card>
+      );
+    }
+    return null;
+  };
+
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
     const { groupBy, intl } = this.props;
@@ -407,6 +439,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
+    const { isGpuToggleEnabled } = this.props;
+
     switch (widget.type) {
       case CostOverviewWidgetType.cluster:
         return this.getClusterCard(widget);
@@ -418,6 +452,8 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
         return this.getCostOverheadChart(widget);
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
+      case CostOverviewWidgetType.gpu:
+        return isGpuToggleEnabled ? this.getGpuData(widget) : null;
       case CostOverviewWidgetType.memoryUsage:
         return this.getMemoryUsageChart(widget);
       case CostOverviewWidgetType.pvc:
