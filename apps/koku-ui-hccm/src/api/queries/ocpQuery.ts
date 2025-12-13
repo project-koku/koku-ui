@@ -16,11 +16,13 @@ interface OcpOrderBys {
   cost?: string;
   cluster?: string;
   gpu_count?: string;
+  model_name?: string;
   node?: string;
   project?: string;
   persistentvolumeclaim?: string;
   request?: string;
   usage?: string;
+  vendor_name?: string;
 }
 
 export interface OcpQuery extends utils.Query {
