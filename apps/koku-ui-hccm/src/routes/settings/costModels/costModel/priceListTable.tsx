@@ -5,6 +5,7 @@ import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavaila
 import type { CostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import uniqWith from 'lodash/uniqWith';
@@ -25,6 +26,7 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
+import { resourceSelectors } from 'store/resources';
 import { unitsLookupKey } from 'utils/format';
 
 import AddRateModal from './addRateModal';
@@ -411,6 +413,8 @@ export default injectIntl(
       isLoading: costModelsSelectors.updateProcessing(state),
       isWritePermission: rbacSelectors.isCostModelWritePermission(state),
       metricsHash: metricsSelectors.metrics(state),
+      models: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.model, ''),
+      vendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.vendor, ''),
     })),
     {
       updateCostModel: costModelsActions.updateCostModel,

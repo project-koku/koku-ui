@@ -1,15 +1,16 @@
 import { Card, CardBody } from '@patternfly/react-core';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import { parse, stringify } from 'qs';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 import type { RootState } from 'store';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
+import { resourceActions } from 'store/resources';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -21,19 +22,24 @@ import CostModelsTable from './table';
 import CostModelsToolbar from './toolbar';
 
 interface CostModelsDetailsProps extends WrappedComponentProps {
-  search: string;
+  fetchResource: typeof resourceActions.fetchResource;
   getCostModelsData: (query: string) => Promise<void>;
-  getRbacData: () => Promise<void>;
   getMetricsData: () => Promise<void>;
+  getRbacData: () => Promise<void>;
+  search: string;
 }
 
 class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any> {
   componentDidMount() {
-    const { getCostModelsData, getMetricsData, getRbacData, search } = this.props;
+    const { fetchResource, getCostModelsData, getMetricsData, getRbacData, search } = this.props;
 
     getCostModelsData(search);
     getMetricsData();
     getRbacData();
+
+    // Fetch GPU data
+    fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
+    fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
   }
 
   componentDidUpdate(prevProps: CostModelsDetailsProps) {
@@ -72,12 +78,11 @@ class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any>
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    getCostModelsData: (query: string) => costModelsActions.fetchCostModels(query)(dispatch),
-    getRbacData: () => rbacActions.fetchRbac()(dispatch),
-    getMetricsData: () => metricsActions.fetchMetrics()(dispatch),
-  };
+const mapDispatchToProps = {
+  getCostModelsData: costModelsActions.fetchCostModels,
+  getMetricsData: metricsActions.fetchMetrics,
+  getRbacData: rbacActions.fetchRbac,
+  fetchResource: resourceActions.fetchResource,
 };
 
 const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {
