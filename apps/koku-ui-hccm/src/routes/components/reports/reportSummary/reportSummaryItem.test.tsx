@@ -19,7 +19,7 @@ test('formats value', () => {
   expect(screen.getByText(/label/i)).not.toBeNull();
   expect(
     screen.getByText(
-      '{value} {units} ({percent} %){"percent":"10","units":"{units, select, byte_ms {Byte-ms} cluster_month {cluster-month} core {core} core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_month {GB-month} gb_ms {GB-ms} gib {GiB} gib_hours {GiB-hours} gib_month {GiB-month} gibibyte_month {GiB-month} hour {hours} hrs {hours} ms {milliseconds} pvc_month {PVC-month} tag_month {tag-month} vm_hours {VM-hours} other {}}{}","value":100}'
+      '{value} {units} ({percent} %){"percent":"10","units":"{units, select, byte_ms {Byte-ms} cluster_month {cluster-month} core {core} core_hours {core-hours} gb {GB} gb_hours {GB-hours} gb_month {GB-month} gb_ms {GB-ms} gib {GiB} gib_hours {GiB-hours} gib_month {GiB-month} gibibyte_month {GiB-month} gpu {GPU} gpus {GPUs} hour {hours} hrs {hours} ms {milliseconds} pvc_month {PVC-month} tag_month {tag-month} vm_hours {VM-hours} other {}}{}","value":100}'
     )
   ).not.toBeNull();
   expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('10');

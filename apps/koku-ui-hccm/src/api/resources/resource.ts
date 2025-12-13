@@ -17,6 +17,7 @@ export const enum ResourceType {
   aws_ec2_os = 'operating_system',
   cluster = 'cluster',
   gcpProject = 'gcp_project',
+  model = 'model',
   node = 'node',
   payerTenantId = 'payer_tenant_id',
   productService = 'product_service',
@@ -26,6 +27,7 @@ export const enum ResourceType {
   service = 'service',
   serviceName = 'service_name',
   subscriptionGuid = 'subscription_guid',
+  vendor = 'vendor',
   virtualization = 'vm_name',
 }
 
