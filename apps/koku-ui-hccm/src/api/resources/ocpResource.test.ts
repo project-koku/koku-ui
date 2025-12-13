@@ -5,5 +5,5 @@ import { ResourceType } from './resource';
 
 test('runExport API request for OCP', () => {
   runResource(ResourceType.project, '');
-  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-projects/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-projects/');
 });
