@@ -199,13 +199,15 @@ function getCostData(val, key, item?: any) {
 }
 
 function getGpuData(val, item?: any) {
+  // Note that the ec2-compute API uses a string for memory -- see https://issues.redhat.com/browse/COST-7126
   return {
-    ...(val.memory && {
-      memory: {
-        value: val.memory.value + (item?.memory ? item.memory.value : 0),
-        units: val.memory.units ? val.memory.units : 'GB',
-      },
-    }),
+    ...(val.memory &&
+      typeof val.memory !== 'string' && {
+        memory: {
+          value: val.memory.value + (item?.memory ? item.memory.value : 0),
+          units: val.memory.units ? val.memory.units : 'GB',
+        },
+      }),
     ...(val.gpu_count && {
       gpu_count: {
         value: val.gpu_count.value + (item?.gpu_count ? item.gpu_count.value : 0),
