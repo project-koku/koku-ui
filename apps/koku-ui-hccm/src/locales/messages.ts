@@ -2463,6 +2463,16 @@ export default defineMessages({
     description: 'Looking for GPUs',
     id: 'gpuLoadingStateTitle',
   },
+  gpuModelDuplicate: {
+    defaultMessage: 'This GPU model is already in use',
+    description: 'This GPU model is already in use',
+    id: 'gpuModelDuplicate',
+  },
+  gpuVendorDuplicate: {
+    defaultMessage: 'This GPU vendor is already in use',
+    description: 'This GPU vendor is already in use',
+    id: 'gpuVendorDuplicate',
+  },
   historicalChartCostLabel: {
     defaultMessage: 'Cost ({units})',
     description: 'Cost ({units})',

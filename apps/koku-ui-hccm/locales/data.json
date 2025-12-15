@@ -8199,10 +8199,22 @@
         "value": "Looking for GPUs..."
       }
     ],
+    "gpuModelDuplicate": [
+      {
+        "type": 0,
+        "value": "This GPU model is already in use"
+      }
+    ],
     "gpuTitle": [
       {
         "type": 0,
         "value": "GPU"
+      }
+    ],
+    "gpuVendorDuplicate": [
+      {
+        "type": 0,
+        "value": "This GPU vendor is already in use"
       }
     ],
     "groupByAll": [
