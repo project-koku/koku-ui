@@ -53,9 +53,7 @@ const GpuRatesFormBase: React.FC<GpuRatesFormProps> = ({
                   onSelect={(_evt, selection: SelectWrapperOption) => updateTag({ tagValue: selection.value }, ix)}
                   options={gpuModels?.data?.map((option: any) => {
                     // Single model selection
-                    const duplicateTag = tagValues.find(
-                      val => val.tagValue !== tag.tagValue && val.tagValue === option.value
-                    );
+                    const duplicateTag = tagValues.find((val, valIx) => valIx !== ix && val.tagValue === option.value);
                     const isDisabled = duplicateTag !== undefined;
                     return {
                       ...(isDisabled && { description: intl.formatMessage(messages.gpuModelDuplicate) }),

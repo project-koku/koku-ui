@@ -134,13 +134,16 @@ export const reducer = (state: CostModelsState = defaultState, action: CostModel
       return {
         ...state,
         update: {
-          ...defaultState.update,
+          ...state.update,
+          error: null,
         },
         delete: {
-          ...defaultState.delete,
+          ...state.delete,
+          error: null,
         },
         redirect: {
-          ...defaultState.redirect,
+          ...state.redirect,
+          error: null,
         },
       };
     case getType(selectCostModel):

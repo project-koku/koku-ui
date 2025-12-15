@@ -11,7 +11,6 @@ import { SelectWrapper, type SelectWrapperOption } from 'routes/components/selec
 import { RateInput } from 'routes/settings/costModels/components/inputs/rateInput';
 import { Selector } from 'routes/settings/costModels/components/inputs/selector';
 import { SimpleInput } from 'routes/settings/costModels/components/inputs/simpleInput';
-import { CostModelContext } from 'routes/settings/costModels/costModelWizard/context';
 import { unitsLookupKey } from 'utils/format';
 
 import { GpuRatesForm } from './gpuRatesForm';
@@ -110,8 +109,6 @@ const RateFormBase: React.FC<RateFormProps> = ({
     paddingLeft: '0',
     textAlign: 'left',
   } as React.CSSProperties;
-
-  const { tiers } = React.useContext(CostModelContext);
 
   return (
     <>
@@ -233,7 +230,7 @@ const RateFormBase: React.FC<RateFormProps> = ({
                       onSelect={(_evt, selection: SelectWrapperOption) => setTagKey(selection.value)}
                       options={gpuVendors?.data?.map((option: any) => {
                         // Single vendor selection
-                        const duplicateTag = tiers.find(val =>
+                        const duplicateTag = rateFormData.otherTiers.find(val =>
                           isDuplicateTagRate(OtherTierFromRate(val), {
                             metric,
                             measurement,
