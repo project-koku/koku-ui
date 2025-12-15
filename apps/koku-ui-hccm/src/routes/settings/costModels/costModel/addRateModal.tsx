@@ -132,6 +132,7 @@ const mapDispatchToProps = (dispatch): AddRateModalDispatchProps => {
           isOpen: false,
         })
       );
+      dispatch(costModelsActions.resetCostModelErrors());
     },
     updateCostModel: (uuid: string, request: CostModelRequest) =>
       costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),

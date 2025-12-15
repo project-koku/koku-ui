@@ -16,6 +16,7 @@ import { unitsLookupKey } from 'utils/format';
 import { GpuRatesForm } from './gpuRatesForm';
 import { TaggingRatesForm } from './taggingRatesForm';
 import type { UseRateData } from './useRateForm';
+import { isDuplicateTagRate, OtherTierFromRate } from './utils';
 
 interface RateFormOwnProps {
   currencyUnits?: string;
@@ -64,6 +65,7 @@ const RateFormBase: React.FC<RateFormProps> = ({
     updateDefaultTag,
     updateTag,
   } = rateFormData;
+
   const getMetricLabel = m => {
     // Match message descriptor or default to API string
     const value = m.replace(/ /g, '_').toLowerCase();
@@ -226,10 +228,24 @@ const RateFormBase: React.FC<RateFormProps> = ({
                     <SelectWrapper
                       id="tag-key"
                       onSelect={(_evt, selection: SelectWrapperOption) => setTagKey(selection.value)}
-                      options={gpuVendors?.data?.map((option: any) => ({
-                        toString: () => option.value,
-                        value: option.value,
-                      }))}
+                      options={gpuVendors?.data?.map((option: any) => {
+                        // Single vendor selection
+                        const duplicateTag = rateFormData.otherTiers.find(val =>
+                          isDuplicateTagRate(OtherTierFromRate(val), {
+                            metric,
+                            measurement,
+                            tagKey: option.value,
+                            costType: calculation,
+                          })
+                        );
+                        const isDisabled = duplicateTag !== undefined;
+                        return {
+                          ...(isDisabled && { description: intl.formatMessage(messages.gpuVendorDuplicate) }),
+                          isDisabled,
+                          toString: () => option.value,
+                          value: option.value,
+                        };
+                      })}
                       selection={tagKey}
                     />
                   </FormGroup>
