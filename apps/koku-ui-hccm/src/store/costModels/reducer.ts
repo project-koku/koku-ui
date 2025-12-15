@@ -15,6 +15,7 @@ import {
   redirectRequest,
   redirectSuccess,
   resetCostModel,
+  resetCostModelErrors,
   selectCostModel,
   setCostModelDialog,
   updateCostModelsFailure,
@@ -113,6 +114,7 @@ export type CostModelsAction = ActionType<
   | typeof redirectRequest
   | typeof redirectSuccess
   | typeof resetCostModel
+  | typeof resetCostModelErrors
   | typeof setCostModelDialog
   | typeof selectCostModel
   | typeof updateFilterToolbar
@@ -126,6 +128,19 @@ export const reducer = (state: CostModelsState = defaultState, action: CostModel
         update: {
           ...state.update,
           current: null,
+        },
+      };
+    case getType(resetCostModelErrors):
+      return {
+        ...state,
+        update: {
+          ...defaultState.update,
+        },
+        delete: {
+          ...defaultState.delete,
+        },
+        redirect: {
+          ...defaultState.redirect,
         },
       };
     case getType(selectCostModel):
@@ -205,7 +220,6 @@ export const reducer = (state: CostModelsState = defaultState, action: CostModel
           error: action.payload,
         },
       };
-
     case getType(updateFilterToolbar):
       return {
         ...state,
