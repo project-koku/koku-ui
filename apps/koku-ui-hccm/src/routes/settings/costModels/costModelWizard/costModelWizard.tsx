@@ -16,7 +16,6 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import { addCostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
-import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
@@ -26,7 +25,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { resourceActions, resourceSelectors } from 'store/resources';
 import { unFormat } from 'utils/format';
 import { getAccountCurrency } from 'utils/sessionStorage';
 
@@ -45,8 +43,6 @@ interface InternalWizardBaseProps extends WrappedComponentProps {
   closeFnc: () => void;
   context: any;
   current: number;
-  gpuModels?: Resource;
-  gpuVendors?: Resource;
   isOpen: boolean;
   isProcess: boolean;
   isSuccess: boolean;
@@ -193,9 +189,6 @@ const InternalWizard = injectIntl(InternalWizardBase);
 interface CostModelWizardProps extends WrappedComponentProps {
   closeWizard: () => void;
   fetch: typeof costModelsActions.fetchCostModels;
-  fetchResource: typeof resourceActions.fetchResource;
-  gpuModels?: Resource;
-  gpuVendors?: Resource;
   isOpen: boolean;
   metricsHash: MetricHash;
   openWizard: () => void;
@@ -290,7 +283,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
   public state: CostModelWizardState = { ...this.defaultState };
 
   public render() {
-    const { gpuModels, gpuVendors, metricsHash, intl } = this.props;
+    const { metricsHash, intl } = this.props;
     /*
      */
     const closeConfirmDialog = () => {
@@ -473,8 +466,6 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
                   justSaved: value ? value : false,
                 },
               }),
-            gpuModels,
-            gpuVendors,
             handleDistributionChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distribution: value });
@@ -572,8 +563,6 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
         }
       >
         <InternalWizard
-          gpuModels={gpuModels}
-          gpuVendors={gpuVendors}
           metricsHash={metricsHash}
           isProcess={this.state.createProcess}
           isSuccess={this.state.createSuccess}
@@ -595,10 +584,10 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           setError={errorMessage => this.setState({ createError: errorMessage })}
           setSuccess={() => this.setState({ createError: null, createSuccess: true })}
           updateCostModel={() => {
-            const { fetch, fetchResource } = this.props;
+            const { fetch } = this.props;
             fetch();
-            fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
-            fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
+            // fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
+            // fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
           }}
           context={{
             name: this.state.name,
@@ -644,12 +633,9 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
 
 const CostModelWizard = connect(
   createMapStateToProps(state => ({
-    gpuModels: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.model, ''),
-    gpuVendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.vendor, ''),
     metricsHash: metricsSelectors.metrics(state),
   })),
   {
-    fetchResource: resourceActions.fetchResource,
     fetch: costModelsActions.fetchCostModels,
   }
 )(injectIntl(CostModelWizardBase));

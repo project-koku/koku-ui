@@ -2,15 +2,23 @@ import { Alert, Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch 
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import type { MetricHash } from 'api/metrics';
 import type { Resource } from 'api/resources/resource';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { AxiosError } from 'axios';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
 import { SelectWrapper, type SelectWrapperOption } from 'routes/components/selectWrapper';
 import { RateInput } from 'routes/settings/costModels/components/inputs/rateInput';
 import { Selector } from 'routes/settings/costModels/components/inputs/selector';
 import { SimpleInput } from 'routes/settings/costModels/components/inputs/simpleInput';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { resourceActions, resourceSelectors } from 'store/resources';
 import { unitsLookupKey } from 'utils/format';
 
 import { GpuRatesForm } from './gpuRatesForm';
@@ -20,23 +28,31 @@ import { isDuplicateTagRate, OtherTierFromRate } from './utils';
 
 interface RateFormOwnProps {
   currencyUnits?: string;
-  gpuModels?: Resource;
-  gpuVendors?: Resource;
   rateFormData: UseRateData;
   metricsHash: MetricHash;
+}
+
+export interface RateFormStateProps {
+  resource: Resource;
+  resourceError: AxiosError;
+  resourceFetchStatus: FetchStatus;
+}
+
+export interface RateFormMapProps {
+  resourcePathsType: ResourcePathsType;
+  resourceType: ResourceType;
 }
 
 type RateFormProps = RateFormOwnProps & WrappedComponentProps;
 
 // defaultIntl required for testing
-const RateFormBase: React.FC<RateFormProps> = ({
-  currencyUnits,
-  gpuModels,
-  gpuVendors,
-  intl = defaultIntl,
-  metricsHash,
-  rateFormData,
-}) => {
+const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIntl, metricsHash, rateFormData }) => {
+  // Fetch GPU vendors
+  const { resource, resourceFetchStatus } = useMapToProps({
+    resourcePathsType: ResourcePathsType.ocp,
+    resourceType: ResourceType.vendor,
+  });
+
   const {
     addTag,
     calculation,
@@ -92,8 +108,9 @@ const RateFormBase: React.FC<RateFormProps> = ({
     return desc ? desc : o;
   };
   const metricOptions = React.useMemo(() => {
+    const hasGpuVendor = resource?.data?.length > 0 && resourceFetchStatus === FetchStatus.complete;
     return Object.keys(metricsHash).map(m => ({
-      isDisabled: m.toLowerCase() === 'gpu' && (gpuVendors?.data?.length === 0 || gpuModels?.data?.length === 0),
+      isDisabled: m.toLowerCase() === 'gpu' && !hasGpuVendor,
       label: getMetricLabel(m),
       value: m,
     }));
@@ -228,7 +245,7 @@ const RateFormBase: React.FC<RateFormProps> = ({
                     <SelectWrapper
                       id="tag-key"
                       onSelect={(_evt, selection: SelectWrapperOption) => setTagKey(selection.value)}
-                      options={gpuVendors?.data?.map((option: any) => {
+                      options={resource?.data?.map((option: any) => {
                         // Single vendor selection
                         const duplicateTag = rateFormData.otherTiers.find(val =>
                           isDuplicateTagRate(OtherTierFromRate(val), {
@@ -256,8 +273,8 @@ const RateFormBase: React.FC<RateFormProps> = ({
                       tagValueValues: errors.tagValueValues,
                       tagDescription: errors.tagDescription,
                     }}
-                    gpuModels={gpuModels}
                     removeTag={removeTag}
+                    tagKey={tagKey}
                     tagValues={tagValues}
                     updateTag={updateTag}
                   />
@@ -301,6 +318,33 @@ const RateFormBase: React.FC<RateFormProps> = ({
       ) : null}
     </>
   );
+};
+
+const useMapToProps = ({ resourcePathsType, resourceType }: RateFormMapProps): RateFormStateProps => {
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
+  const queryString = '';
+  const resource = useSelector((state: RootState) =>
+    resourceSelectors.selectResource(state, resourcePathsType, resourceType, queryString)
+  );
+  const resourceFetchStatus = useSelector((state: RootState) =>
+    resourceSelectors.selectResourceFetchStatus(state, resourcePathsType, resourceType, queryString)
+  );
+  const resourceError = useSelector((state: RootState) =>
+    resourceSelectors.selectResourceError(state, resourcePathsType, resourceType, queryString)
+  );
+
+  useEffect(() => {
+    if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress) {
+      dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, queryString));
+    }
+  }, [queryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType]);
+
+  return {
+    resource,
+    resourceError,
+    resourceFetchStatus,
+  };
 };
 
 const RateForm = injectIntl(RateFormBase);

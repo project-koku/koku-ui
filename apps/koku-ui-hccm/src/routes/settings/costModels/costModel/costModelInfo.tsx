@@ -29,7 +29,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
-import { resourceActions, resourceSelectors } from 'store/resources';
+import { resourceSelectors } from 'store/resources';
 import type { Notification, NotificationComponentProps } from 'utils/notification';
 import { withNotification } from 'utils/notification';
 import type { RouterComponentProps } from 'utils/router';
@@ -45,7 +45,6 @@ interface CostModelInfoOwnProps {
   fetchCostModels: typeof costModelsActions.fetchCostModels;
   fetchMetrics: typeof metricsActions.fetchMetrics;
   fetchRbac: typeof rbacActions.fetchRbac;
-  fetchResource: typeof resourceActions.fetchResource;
   markup: { value: string };
   metricsError: AxiosError;
   metricsStatus: FetchStatus;
@@ -71,15 +70,11 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
   }
 
   public componentDidMount() {
-    const { fetchCostModels, fetchMetrics, fetchRbac, fetchResource } = this.props;
+    const { fetchCostModels, fetchMetrics, fetchRbac } = this.props;
 
     fetchRbac();
     fetchMetrics();
     fetchCostModels(`uuid=${this.props.router.params.uuid}`);
-
-    // Fetch GPU data
-    fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
-    fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
   }
 
   public componentDidUpdate(prevProps: CostModelInfoProps) {
@@ -222,7 +217,6 @@ export default injectIntl(
           fetchCostModels: costModelsActions.fetchCostModels,
           fetchMetrics: metricsActions.fetchMetrics,
           fetchRbac: rbacActions.fetchRbac,
-          fetchResource: resourceActions.fetchResource,
         }
       )(CostModelInfo)
     )

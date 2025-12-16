@@ -1,15 +1,22 @@
 import { Button, ButtonVariant, FormGroup, Split, SplitItem } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
-import type { Resource } from 'api/resources/resource';
+import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
+import type { AxiosError } from 'axios';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
 import { SelectWrapper, type SelectWrapperOption } from 'routes/components/selectWrapper';
 import { RateInput } from 'routes/settings/costModels/components/inputs/rateInput';
 import { SimpleInput } from 'routes/settings/costModels/components/inputs/simpleInput';
 import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { resourceActions, resourceSelectors } from 'store/resources';
 
 import type { UseRateData } from './useRateForm';
 import type { RateFormErrors, RateFormTagValue } from './utils';
@@ -17,10 +24,22 @@ import type { RateFormErrors, RateFormTagValue } from './utils';
 interface GpuRatesFormOwnProps {
   currencyUnits?: string;
   errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
-  gpuModels: Resource;
   removeTag: UseRateData['removeTag'];
   tagValues: RateFormTagValue[];
+  tagKey: string; // GPU vendor
   updateTag: UseRateData['updateTag'];
+}
+
+export interface GpuRatesFormStateProps {
+  resource: Resource;
+  resourceError: AxiosError;
+  resourceFetchStatus: FetchStatus;
+}
+
+export interface GpuRatesFormMapProps {
+  resourcePathsType: ResourcePathsType;
+  resourceType: ResourceType;
+  tagKey: string; // GPU vendor
 }
 
 type GpuRatesFormProps = GpuRatesFormOwnProps & WrappedComponentProps;
@@ -29,16 +48,25 @@ const GpuRatesFormBase: React.FC<GpuRatesFormProps> = ({
   currencyUnits,
   errors,
   intl = defaultIntl, // Default required for testing,
-  gpuModels,
-  tagValues,
   removeTag,
+  tagKey,
+  tagValues,
   updateTag,
 }) => {
   const style = { minWidth: '150px', whiteSpace: 'nowrap' };
 
+  // Fetch GPU models
+  const { resource, resourceFetchStatus } = useMapToProps({
+    resourcePathsType: ResourcePathsType.ocp,
+    resourceType: ResourceType.model,
+    tagKey,
+  });
+
   return (
     <>
       {tagValues.map((tag, ix: number) => {
+        const hasGpuModel = resource?.data?.length > 0 && resourceFetchStatus === FetchStatus.complete;
+
         return (
           <Split hasGutter key={ix}>
             <SplitItem>
@@ -50,8 +78,9 @@ const GpuRatesFormBase: React.FC<GpuRatesFormProps> = ({
               >
                 <SelectWrapper
                   id={`tag-value_${ix}`}
+                  isDisabled={!hasGpuModel}
                   onSelect={(_evt, selection: SelectWrapperOption) => updateTag({ tagValue: selection.value }, ix)}
-                  options={gpuModels?.data?.map((option: any) => {
+                  options={resource?.data?.map((option: any) => {
                     // Single model selection
                     const duplicateTag = tagValues.find((val, valIx) => valIx !== ix && val.tagValue === option.value);
                     const isDisabled = duplicateTag !== undefined;
@@ -107,6 +136,33 @@ const GpuRatesFormBase: React.FC<GpuRatesFormProps> = ({
       })}
     </>
   );
+};
+
+const useMapToProps = ({ resourcePathsType, resourceType, tagKey }: GpuRatesFormMapProps): GpuRatesFormStateProps => {
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
+  const queryString = `vendor_name=${tagKey}`;
+  const resource = useSelector((state: RootState) =>
+    resourceSelectors.selectResource(state, resourcePathsType, resourceType, queryString)
+  );
+  const resourceFetchStatus = useSelector((state: RootState) =>
+    resourceSelectors.selectResourceFetchStatus(state, resourcePathsType, resourceType, queryString)
+  );
+  const resourceError = useSelector((state: RootState) =>
+    resourceSelectors.selectResourceError(state, resourcePathsType, resourceType, queryString)
+  );
+
+  useEffect(() => {
+    if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress && tagKey?.length > 0) {
+      dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, queryString));
+    }
+  }, [queryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType, tagKey]);
+
+  return {
+    resource,
+    resourceError,
+    resourceFetchStatus,
+  };
 };
 
 const GpuRatesForm = injectIntl(GpuRatesFormBase);
