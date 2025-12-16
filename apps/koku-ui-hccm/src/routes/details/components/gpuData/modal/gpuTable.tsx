@@ -32,7 +32,7 @@ const GpuTable: React.FC<GpuTableProps> = ({ filterBy, isLoading, onSort, orderB
 
     const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
       report,
-      idKey: 'model' as any,
+      idKey: 'date',
     });
 
     const newRows = [];
