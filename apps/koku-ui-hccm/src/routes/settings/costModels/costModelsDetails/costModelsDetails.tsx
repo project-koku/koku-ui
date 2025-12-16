@@ -1,5 +1,4 @@
 import { Card, CardBody } from '@patternfly/react-core';
-import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import { parse, stringify } from 'qs';
 import React from 'react';
@@ -10,7 +9,6 @@ import type { RootState } from 'store';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
-import { resourceActions } from 'store/resources';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -22,7 +20,6 @@ import CostModelsTable from './table';
 import CostModelsToolbar from './toolbar';
 
 interface CostModelsDetailsProps extends WrappedComponentProps {
-  fetchResource: typeof resourceActions.fetchResource;
   getCostModelsData: (query: string) => Promise<void>;
   getMetricsData: () => Promise<void>;
   getRbacData: () => Promise<void>;
@@ -31,15 +28,11 @@ interface CostModelsDetailsProps extends WrappedComponentProps {
 
 class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any> {
   componentDidMount() {
-    const { fetchResource, getCostModelsData, getMetricsData, getRbacData, search } = this.props;
+    const { getCostModelsData, getMetricsData, getRbacData, search } = this.props;
 
     getCostModelsData(search);
     getMetricsData();
     getRbacData();
-
-    // Fetch GPU data
-    fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
-    fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
   }
 
   componentDidUpdate(prevProps: CostModelsDetailsProps) {
@@ -82,7 +75,6 @@ const mapDispatchToProps = {
   getCostModelsData: costModelsActions.fetchCostModels,
   getMetricsData: metricsActions.fetchMetrics,
   getRbacData: rbacActions.fetchRbac,
-  fetchResource: resourceActions.fetchResource,
 };
 
 const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {
