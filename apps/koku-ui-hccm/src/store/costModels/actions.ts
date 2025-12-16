@@ -36,6 +36,7 @@ export const updateFilterToolbar = createAction('fetch/costModels/filter')<Filte
 export const selectCostModel = createAction('select/costModels')<CostModel>();
 
 export const resetCostModel = createAction('reset/costModels')<void>();
+export const resetCostModelErrors = createAction('reset/costModels/errors')<void>();
 
 export const setCostModelDialog = createAction('display/costModels/dialog')<DialogPayload>();
 
