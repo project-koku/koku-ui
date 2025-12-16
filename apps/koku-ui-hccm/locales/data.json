@@ -1470,18 +1470,6 @@
         "value": "Enter a description"
       }
     ],
-    "costModelsEnterGpuModel": [
-      {
-        "type": 0,
-        "value": "Enter a model"
-      }
-    ],
-    "costModelsEnterGpuVendor": [
-      {
-        "type": 0,
-        "value": "Enter a vendor"
-      }
-    ],
     "costModelsEnterTagDesc": [
       {
         "type": 0,
@@ -7314,6 +7302,14 @@
               }
             ]
           },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GPU model"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7444,6 +7440,14 @@
                 "value": "Input for parent tag key"
               }
             ]
+          },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GPU vendor"
+              }
+            ]
           }
         },
         "type": 5,
@@ -7526,6 +7530,14 @@
               {
                 "type": 0,
                 "value": "Filter by instance"
+              }
+            ]
+          },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU model"
               }
             ]
           },
@@ -7692,6 +7704,14 @@
               }
             ]
           },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU vendor"
+              }
+            ]
+          },
           "vm_name": {
             "value": [
               {
@@ -7803,6 +7823,14 @@
               {
                 "type": 0,
                 "value": "Instance"
+              }
+            ]
+          },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU model"
               }
             ]
           },
@@ -7969,6 +7997,14 @@
               }
             ]
           },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU vendor"
+              }
+            ]
+          },
           "vm_name": {
             "value": [
               {
@@ -8098,6 +8134,87 @@
       {
         "type": 0,
         "value": "Google Cloud filtered by OpenShift cost"
+      }
+    ],
+    "gpuColumns": [
+      {
+        "options": {
+          "count": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Count"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory"
+              }
+            ]
+          },
+          "model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Model"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Node"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Vendor"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "gpuLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your GPUs. Do not refresh the browser"
+      }
+    ],
+    "gpuLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for GPUs..."
+      }
+    ],
+    "gpuModelDuplicate": [
+      {
+        "type": 0,
+        "value": "This GPU model is already in use"
+      }
+    ],
+    "gpuTitle": [
+      {
+        "type": 0,
+        "value": "GPU"
+      }
+    ],
+    "gpuVendorDuplicate": [
+      {
+        "type": 0,
+        "value": "This GPU vendor is already in use"
       }
     ],
     "groupByAll": [
@@ -13207,6 +13324,22 @@
               {
                 "type": 0,
                 "value": "GiB-month"
+              }
+            ]
+          },
+          "gpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU"
+              }
+            ]
+          },
+          "gpus": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPUs"
               }
             ]
           },

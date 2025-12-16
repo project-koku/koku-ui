@@ -11,6 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import type { MetricHash } from 'api/metrics';
+import type { Resource } from 'api/resources/resource';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -23,6 +24,8 @@ import { CostModelContext } from 'routes/settings/costModels/costModelWizard/con
 interface AddPriceListOwnProps {
   cancel: () => void;
   currencyUnits?: string;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   metricsHash: MetricHash;
   submitRate: (data: RateFormData) => void;
 }
@@ -32,6 +35,8 @@ type AddPriceListProps = AddPriceListOwnProps & WrappedComponentProps;
 const AddPriceList: React.FC<AddPriceListProps> = ({
   cancel,
   currencyUnits,
+  gpuModels,
+  gpuVendors,
   intl = defaultIntl, // Default required for testing
   metricsHash,
   submitRate,
@@ -55,7 +60,13 @@ const AddPriceList: React.FC<AddPriceListProps> = ({
       </StackItem>
       <StackItem>
         <Form>
-          <RateForm currencyUnits={currencyUnits} metricsHash={metricsHash} rateFormData={rateFormData} />
+          <RateForm
+            currencyUnits={currencyUnits}
+            gpuModels={gpuModels}
+            gpuVendors={gpuVendors}
+            metricsHash={metricsHash}
+            rateFormData={rateFormData}
+          />
         </Form>
       </StackItem>
       <StackItem>
