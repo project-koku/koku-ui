@@ -33,7 +33,7 @@
   },
   "scripts-info": {
     "check:dependencies:all": "Checks for outdated dependencies in each workspace",
-    "release:all": "Used to release koku-ui stage/prod branches and update app-interface with the latest SHA refs from same branches",
+    "release:all": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI"
@@ -41,13 +41,13 @@
   "devDependencies": {
     "@eslint/compat": "^2.0.0",
     "@eslint/eslintrc": "^3.3.3",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@swc/core": "^1.15.3",
     "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/eslint-plugin": "^8.49.0",
     "@typescript-eslint/parser": "^8.48.1",
     "eslint": "^9.39.1",
     "eslint-plugin-formatjs": "^5.4.2",

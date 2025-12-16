@@ -33,6 +33,15 @@ export const cpuUsageWidget: CostOverviewWidget = {
   type: CostOverviewWidgetType.cpuUsage,
 };
 
+export const gpuWidget: CostOverviewWidget = {
+  chartName: 'ocpGpuWidget',
+  id: getId(),
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.gpu,
+  showWidgetOnGroupBy: ['cluster', 'node', 'project'],
+  type: CostOverviewWidgetType.gpu,
+};
+
 export const memoryUsageWidget: CostOverviewWidget = {
   chartName: 'ocpMemoryWidget',
   id: getId(),

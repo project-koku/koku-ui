@@ -15,6 +15,7 @@ import {
   pvcWidget,
   volumeSummaryWidget,
   volumeUsageWidget,
+  gpuWidget,
 } from './ocpCostOverviewWidgets';
 
 const createOcpCostOverviewStore = createMockStoreCreator({
@@ -39,6 +40,7 @@ test('default state', () => {
     memoryUsageWidget.id,
     pvcWidget.id,
     volumeUsageWidget.id,
+    gpuWidget.id,
   ]);
   expect(selectors.selectWidget(state, costBreakdownWidget.id)).toEqual(costBreakdownWidget);
 });
