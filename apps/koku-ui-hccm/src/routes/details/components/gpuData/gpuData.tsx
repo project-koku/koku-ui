@@ -47,8 +47,10 @@ export interface GpuContentMapProps {
 type GpuContentProps = GpuContentOwnProps;
 
 const baseQuery: OcpQuery = {
-  limit: 3,
-  offset: 0,
+  filter: {
+    limit: 3,
+    offset: 0,
+  },
   order_by: {
     gpu_count: 'desc',
   },
@@ -68,7 +70,7 @@ const GpuData: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => 
 
   const getMoreLink = () => {
     const count = report?.meta?.count ?? 0;
-    const remaining = Math.max(0, count - baseQuery.limit);
+    const remaining = Math.max(0, count - baseQuery.filter.limit);
     const test = true;
 
     if (remaining > 0 || test) {
@@ -174,11 +176,9 @@ const useMapToProps = ({ query, reportPathsType, reportType }: GpuContentMapProp
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
     },
-    // group_by: {
-    //   model: '*',
-    // },
-    limit: query.limit,
-    offset: query.offset,
+    group_by: {
+      gpu_name: '*',
+    },
     order_by: query.order_by || baseQuery.order_by,
   };
 

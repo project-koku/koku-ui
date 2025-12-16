@@ -7302,11 +7302,19 @@
               }
             ]
           },
-          "model": {
+          "gpu_model": {
             "value": [
               {
                 "type": 0,
                 "value": "Input for GPU model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GPU vendor"
               }
             ]
           },
@@ -7440,14 +7448,6 @@
                 "value": "Input for parent tag key"
               }
             ]
-          },
-          "vendor": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Input for GPU vendor"
-              }
-            ]
           }
         },
         "type": 5,
@@ -7517,6 +7517,22 @@
               }
             ]
           },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU vendor"
+              }
+            ]
+          },
           "group": {
             "value": [
               {
@@ -7530,14 +7546,6 @@
               {
                 "type": 0,
                 "value": "Filter by instance"
-              }
-            ]
-          },
-          "model": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Filter by GPU model"
               }
             ]
           },
@@ -7704,14 +7712,6 @@
               }
             ]
           },
-          "vendor": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Filter by GPU vendor"
-              }
-            ]
-          },
           "vm_name": {
             "value": [
               {
@@ -7810,6 +7810,22 @@
               }
             ]
           },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU vendor"
+              }
+            ]
+          },
           "group": {
             "value": [
               {
@@ -7823,14 +7839,6 @@
               {
                 "type": 0,
                 "value": "Instance"
-              }
-            ]
-          },
-          "model": {
-            "value": [
-              {
-                "type": 0,
-                "value": "GPU model"
               }
             ]
           },
@@ -7997,14 +8005,6 @@
               }
             ]
           },
-          "vendor": {
-            "value": [
-              {
-                "type": 0,
-                "value": "GPU vendor"
-              }
-            ]
-          },
           "vm_name": {
             "value": [
               {
@@ -8147,19 +8147,27 @@
               }
             ]
           },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Vendor"
+              }
+            ]
+          },
           "memory": {
             "value": [
               {
                 "type": 0,
                 "value": "Memory"
-              }
-            ]
-          },
-          "model": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Model"
               }
             ]
           },
@@ -8173,14 +8181,6 @@
           },
           "other": {
             "value": []
-          },
-          "vendor": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Vendor"
-              }
-            ]
           }
         },
         "type": 5,

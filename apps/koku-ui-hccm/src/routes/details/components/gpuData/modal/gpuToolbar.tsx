@@ -38,8 +38,8 @@ class GpuToolbarBase extends React.Component<GpuToolbarProps, GpuToolbarState> {
     const { intl } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'model' }), key: 'model' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'vendor' }), key: 'vendor' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'gpu_model' }), key: 'gpu_model' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'gpu_vendor' }), key: 'gpu_vendor' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
     ];
     return options;

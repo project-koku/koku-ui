@@ -2129,7 +2129,8 @@ export default defineMessages({
       'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
       'gcp_project {Input for Google Cloud project name} ' +
-      'model {Input for GPU model} ' +
+      'gpu_model {Input for GPU model} ' +
+      'gpu_vendor {Input for GPU vendor} ' +
       'name {Input for name} ' +
       'node {Input for node name} ' +
       'org_unit_id {Input for organizational unit name} ' +
@@ -2146,7 +2147,6 @@ export default defineMessages({
       'tag_key {Input for tag key} ' +
       'tag_key_child {Input for child tag key} ' +
       'tag_key_parent {Input for parent tag key} ' +
-      'vendor {Input for GPU vendor} ' +
       'other {}}',
     description: 'Input for {value} name',
     id: 'filterByInputAriaLabel',
@@ -2170,9 +2170,10 @@ export default defineMessages({
       'container {Filter by container} ' +
       'description {Filter by description} ' +
       'gcp_project {Filter by Google Cloud project} ' +
+      'gpu_model {Filter by GPU model} ' +
+      'gpu_vendor {Filter by GPU vendor} ' +
       'group {Filter by group} ' +
       'instance {Filter by instance} ' +
-      'model {Filter by GPU model} ' +
       'name {Filter by name} ' +
       'node {Filter by node} ' +
       'operating_system {Filter by operating system} ' +
@@ -2193,7 +2194,6 @@ export default defineMessages({
       'tag_key {Filter by tag key} ' +
       'tag_key_child {Filter by child tag key} ' +
       'tag_key_parent {Filter by parent tag key} ' +
-      'vendor {Filter by GPU vendor} ' +
       'vm_name {Filter by virtual machine} ' +
       'workload {Filter by workload name} ' +
       'workload_type {Filter by workload type} ' +
@@ -2225,9 +2225,10 @@ export default defineMessages({
       'container {Container} ' +
       'default {Default} ' +
       'gcp_project {Google Cloud project} ' +
+      'gpu_model {GPU model} ' +
+      'gpu_vendor {GPU vendor} ' +
       'group {Group} ' +
       'instance {Instance} ' +
-      'model {GPU model} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
@@ -2248,7 +2249,6 @@ export default defineMessages({
       'tag_key {Tag key} ' +
       'tag_key_child {Child tag Key} ' +
       'tag_key_parent {Parent tag Key} ' +
-      'vendor {GPU vendor} ' +
       'vm_name {Virtual machine}' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
@@ -2445,10 +2445,10 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'count {Count} ' +
+      'gpu_model {Model} ' +
+      'gpu_vendor {Vendor} ' +
       'memory {Memory} ' +
-      'model {Model} ' +
       'node {Node} ' +
-      'vendor {Vendor} ' +
       'other {}}',
     description: 'GPU columns',
     id: 'gpuColumns',

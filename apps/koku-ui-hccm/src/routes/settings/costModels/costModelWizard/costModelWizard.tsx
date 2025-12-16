@@ -583,12 +583,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
           validators={validatorsHash[this.state.type]}
           setError={errorMessage => this.setState({ createError: errorMessage })}
           setSuccess={() => this.setState({ createError: null, createSuccess: true })}
-          updateCostModel={() => {
-            const { fetch } = this.props;
-            fetch();
-            // fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
-            // fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
-          }}
+          updateCostModel={() => this.props.fetch()}
           context={{
             name: this.state.name,
             type: this.state.type,

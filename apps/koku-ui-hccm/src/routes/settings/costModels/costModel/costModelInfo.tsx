@@ -204,11 +204,11 @@ export default injectIntl(
             metricsError: metricsSelectors.metricsState(state).error,
             metricsHash: metricsSelectors.metrics(state),
             metricsStatus: metricsSelectors.status(state),
-            models: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.model, ''),
+            models: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.gpuModel, ''),
             rbacError: rbacSelectors.selectRbacState(state).error,
             rbacNotification: rbacSelectors.selectRbacState(state).notification,
             rbacStatus: rbacSelectors.selectRbacState(state).status,
-            vendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.vendor, ''),
+            vendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.gpuVendor, ''),
           };
         }),
         {

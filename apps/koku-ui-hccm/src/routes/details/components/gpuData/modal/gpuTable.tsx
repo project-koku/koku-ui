@@ -32,18 +32,18 @@ const GpuTable: React.FC<GpuTableProps> = ({ filterBy, isLoading, onSort, orderB
 
     const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
       report,
-      idKey: 'date',
+      idKey: 'gpu_name',
     });
 
     const newRows = [];
     const newColumns = [
       {
-        name: intl.formatMessage(messages.gpuColumns, { value: 'vendor' }),
+        name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_vendor' }),
         orderBy: 'vendor_name',
         isSortable: true, // Disabled due to "order_by requires matching group_by" bug
       },
       {
-        name: intl.formatMessage(messages.gpuColumns, { value: 'model' }),
+        name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_model' }),
         orderBy: 'model_name',
         isSortable: true, // Disabled due to "order_by requires matching group_by" bug
       },
@@ -68,10 +68,10 @@ const GpuTable: React.FC<GpuTableProps> = ({ filterBy, isLoading, onSort, orderB
       newRows.push({
         cells: [
           {
-            value: item?.vendor ?? '',
+            value: item?.gpu_vendor ?? '',
           },
           {
-            value: item?.model ?? '',
+            value: item?.gpu_model ?? '',
           },
           {
             value: item?.node ?? '',
