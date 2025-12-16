@@ -6,7 +6,7 @@ This doc describes how to release Koku UI to each staging environment. Note that
 
 The merge-branch script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
 
-1. Pull from master when pushing to stage-hccm
+1. Pull from main when pushing to stage-hccm
 2. Pull from stage-hccm when pushing to prod-hccm
 
 Please allow the PR to build successfully and merge before running the script again.
