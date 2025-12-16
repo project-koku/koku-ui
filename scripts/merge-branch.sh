@@ -84,7 +84,7 @@ merge()
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 pullRequest()
 {
-  NEW_BRANCH="release_${TARGET_BRANCH}.$$"
+  NEW_BRANCH="merge_${TARGET_BRANCH}.$$"
 
   git branch -m $NEW_BRANCH
 
@@ -99,7 +99,7 @@ pullRequest()
 
 push()
 {
-  NEW_BRANCH="release_${TARGET_BRANCH}.$$"
+  NEW_BRANCH="merge_${TARGET_BRANCH}.$$"
 
   git branch -m $NEW_BRANCH
 

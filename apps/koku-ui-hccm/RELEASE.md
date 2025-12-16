@@ -2,30 +2,28 @@
 
 This doc describes how to release Koku UI to each staging environment. Note that this should be done in order for testing purposes.
 
-## Release branches
+## Merge branches
 
-The release script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
+The release-branch script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
 
 1. Pull from master when pushing to stage-hccm
 2. Pull from stage-hccm when pushing to prod-hccm
 
-Note: Pushing to master automatically deploys to the stage.
-
 Please allow the PR to build successfully and merge before running the script again.
 
-### Release to stage-hccm
+### Merge main to stage-hccm
 
 ```
-sh ../../scripts/release-branch.sh -s
+sh ../../scripts/merge-branch.sh -s
 ```
 
-### Release to prod-hccm
+### Merge stage-hccm to prod-hccm
 
 ```
-sh ../../scripts/release-branch.sh -p
+sh ../../scripts/merge-branch.sh -p
 ```
 
-### Wrapper for all release and deployment functionality
+### Wrapper for all merges
 
 ```
 node ../../scripts/release-all.js
@@ -39,18 +37,24 @@ Follow the prompts below.
 
 ## Deployments for app-interface
 
-The release script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
+The deploy-branch script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
 
 1. Pull from stage-hccm when updating the stage deployment in app-interface
 2. Pull from prod-hccm when updating the prod deployment in app-interface
 
-### Release to app-interface
+### Release stage-hccm to app-interface
 
 ```
-sh ../../scripts/release-app-interface.sh [-p|-s]
+sh ../../scripts/release-app-interface.sh -s
 ```
 
-### Wrapper for all release and deployment functionality
+### Release prod-hccm to app-interface
+
+```
+sh ../../scripts/release-app-interface.sh -p
+```
+
+### Wrapper for all deployments
 
 ```
 node ../../scripts/release-all.js

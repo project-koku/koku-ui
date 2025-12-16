@@ -11,8 +11,8 @@ function defaults() {
 function usage() {
   console.log(
     [
-      'Use this script to create a PR, releasing koku-ui stage/prod branches first.',
-      'Run again to create an MR, updating app-interface with the latest SHA refs from the same branches.',
+      'Use this script to create a PR, merging stage and prod branches first.',
+      'Run again to create an MR, deploying app-interface with the latest SHA refs from the same branches.',
       'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
     ].join('\n')
   );
@@ -22,7 +22,7 @@ async function setAppInterfaceConfig() {
   const { appInterfaceEnv } = await inquirer.prompt([
     {
       name: 'appInterfaceEnv',
-      message: 'Do you want to release to app-interface?',
+      message: 'Do you want to deploy to app-interface?',
       type: 'confirm',
       default: false,
     },
@@ -36,7 +36,7 @@ async function setConfig() {
       {
         type: 'list',
         name: 'appEnv',
-        message: 'Which app do you want to release?',
+        message: 'Which app do you want to deploy?',
         choices:
           process.env.APP_INTERFACE === 'true'
             ? ['koku-ui-hccm', 'koku-ui-ros', 'all']
@@ -45,7 +45,7 @@ async function setConfig() {
       {
         type: 'list',
         name: 'clouddotEnv',
-        message: 'Which Chrome environment you want to release?',
+        message: 'Which Chrome environment you want to deploy?',
         choices: process.env.APP_INTERFACE === 'true' ? ['stage', 'prod', 'all'] : ['stage', 'prod'],
       },
       {
@@ -91,7 +91,7 @@ async function run() {
     allArgs.push('-x');
   }
 
-  allArgs.push(process.env.APP_INTERFACE === 'true' ? 'release-app-interface.sh' : 'release-branch.sh');
+  allArgs.push(process.env.APP_INTERFACE === 'true' ? 'deploy-branch.sh' : 'merge-branch.sh');
 
   const argVars = ['HCCM_STAGE_ARG', 'HCCM_PROD_ARG', 'ROS_STAGE_ARG', 'ROS_PROD_ARG'];
   const deploymentArgs = argVars.map(v => process.env[v]).filter(Boolean);
