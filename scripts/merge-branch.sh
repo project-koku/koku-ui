@@ -138,7 +138,7 @@ push()
     exit 1
   fi
 
-  echo "\n*** Releasing $KOKU_UI $SOURCE_BRANCH to $TARGET_BRANCH...\n"
+  echo "\n*** Merging $KOKU_UI $SOURCE_BRANCH to $TARGET_BRANCH...\n"
 
   clone
   merge

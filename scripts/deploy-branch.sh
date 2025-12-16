@@ -101,21 +101,21 @@ commit()
   git commit -m "$TITLE" $DEPLOY_CLOWDER_FILE
 }
 
-createDeploymentDescription()
+createDeploymentDesc()
 {
   mkdir -p $TMP_DIR
 
   {
-    if [ "$UPDATE_HCCM_STAGE" = "true" ]; then
+    if [ "$DEPLOY_HCCM_STAGE" = "true" ]; then
       echo "${KOKU_UI_HCCM}: Stage deployment"
     fi
-    if [ "$UPDATE_HCCM_PROD" = "true" ]; then
+    if [ "$DEPLOY_HCCM_PROD" = "true" ]; then
       echo "${KOKU_UI_HCCM}: Prod deployment"
     fi
-    if [ "$UPDATE_ROS_STAGE" = "true" ]; then
+    if [ "$DEPLOY_ROS_STAGE" = "true" ]; then
       echo "${KOKU_UI_ROS}: Stage deployment"
     fi
-    if [ "$UPDATE_ROS_PROD" = "true" ]; then
+    if [ "$DEPLOY_ROS_PROD" = "true" ]; then
       echo "${KOKU_UI_ROS}: Prod deployment"
     fi
   } > "$DEPLOYMENTS_FILE"
@@ -304,8 +304,8 @@ updateDeploySHA()
     exit 1
   fi
 
-  echo "\n*** Releasing $APP_INTERFACE with SHA updates for...\n"
-  createDeploymentDescription
+  echo "\n*** Deploying $APP_INTERFACE with SHA updates for...\n"
+  createDeploymentDesc
   cat $DEPLOYMENTS_FILE
   echo
 

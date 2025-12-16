@@ -48,10 +48,10 @@
     "translations:syncTranslations": "node scripts/syncTranslations.js"
   },
   "scripts-info": {
-    "deploy:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-hccm branch",
-    "deploy:prod": "Creates an MR to deploy app-interface with latest SHA ref from prod-hccm branch",
-    "merge:stage": "Creates a PR to merge the stage-hccm branch",
-    "merge:prod": "Creates a PR to merge the prod-hccm branch",
+    "deploy:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-ros branch",
+    "deploy:prod": "Creates an MR to deploy app-interface with latest SHA ref from prod-ros branch",
+    "merge:stage": "Creates a PR to merge main to the stage-ros branch",
+    "merge:prod": "Creates a PR to merge stage-ros to the prod-ros branch",
     "start": "Run ROS UI",
     "start:csb": "Run ROS UI with local Cloud Services Backend",
     "start:ephemeral": "Run ROS UI with ephemeral env",

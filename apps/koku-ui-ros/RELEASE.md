@@ -31,9 +31,9 @@ node ../../scripts/release-all.js
 
 Follow the prompts below.
 
-* Which app do you want to deploy? `koku-ui-ros`
-* Which Chrome environment you want to deploy? `stage`
-* Do you want to release to app-interface? `N`
+* Which app do you want to release? `koku-ui-ros`
+* Which Chrome environment do you want to release? `stage`
+* Are you deploying to app-interface? `N`
 
 ## Deployments for app-interface
 
@@ -63,8 +63,8 @@ node ../../scripts/release-all.js
 Follow the prompts below.
 
 * Which app do you want to release? `koku-ui-ros`
-* Which Chrome environment you want to release? `stage`
-* Do you want to release to app-interface? `Y`
+* Which Chrome environment do you want to release? `stage`
+* Are you deploying to app-interface? `Y`
 
 ### Manual deployment
 

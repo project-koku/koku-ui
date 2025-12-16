@@ -22,7 +22,7 @@ async function setAppInterfaceConfig() {
   const { appInterfaceEnv } = await inquirer.prompt([
     {
       name: 'appInterfaceEnv',
-      message: 'Do you want to deploy to app-interface?',
+      message: 'Are you deploying to app-interface?',
       type: 'confirm',
       default: false,
     },
@@ -36,7 +36,7 @@ async function setConfig() {
       {
         type: 'list',
         name: 'appEnv',
-        message: 'Which app do you want to deploy?',
+        message: 'Which app do you want to release?',
         choices:
           process.env.APP_INTERFACE === 'true'
             ? ['koku-ui-hccm', 'koku-ui-ros', 'all']
@@ -45,7 +45,7 @@ async function setConfig() {
       {
         type: 'list',
         name: 'clouddotEnv',
-        message: 'Which Chrome environment you want to deploy?',
+        message: 'Which Chrome environment do you want to release?',
         choices: process.env.APP_INTERFACE === 'true' ? ['stage', 'prod', 'all'] : ['stage', 'prod'],
       },
       {

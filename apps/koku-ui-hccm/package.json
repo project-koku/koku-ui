@@ -53,8 +53,8 @@
   "scripts-info": {
     "deploy:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-hccm branch",
     "deploy:prod": "Creates an MR to deploy app-interface with latest SHA ref from prod-hccm branch",
-    "merge:stage": "Creates a PR to merge the stage-hccm branch",
-    "merge:prod": "Creates a PR to merge the prod-hccm branch",
+    "merge:stage": "Creates a PR to merge main to the stage-hccm branch",
+    "merge:prod": "Creates a PR to merge stage-hccm to the prod-hccm branch",
     "start": "Run Koku UI",
     "start:csb": "Run Koku UI with local Cloud Services Backend",
     "start:csb:ros": "Run Koku UI with local Cloud Services Backend, while ROS runs statically (for running both UIs with CSB)",
