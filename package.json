@@ -33,7 +33,7 @@
   },
   "scripts-info": {
     "check:dependencies:all": "Checks for outdated dependencies in each workspace",
-    "release:all": "Used to release koku-ui stage/prod branches and update app-interface with the latest SHA refs from same branches",
+    "release:all": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI"
