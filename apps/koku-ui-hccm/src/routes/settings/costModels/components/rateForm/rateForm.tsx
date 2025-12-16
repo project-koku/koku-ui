@@ -1,11 +1,13 @@
 import { Alert, Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import type { MetricHash } from 'api/metrics';
+import type { Resource } from 'api/resources/resource';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { SelectWrapper, type SelectWrapperOption } from 'routes/components/selectWrapper';
 import { RateInput } from 'routes/settings/costModels/components/inputs/rateInput';
 import { Selector } from 'routes/settings/costModels/components/inputs/selector';
 import { SimpleInput } from 'routes/settings/costModels/components/inputs/simpleInput';
@@ -14,9 +16,12 @@ import { unitsLookupKey } from 'utils/format';
 import { GpuRatesForm } from './gpuRatesForm';
 import { TaggingRatesForm } from './taggingRatesForm';
 import type { UseRateData } from './useRateForm';
+import { isDuplicateTagRate, OtherTierFromRate } from './utils';
 
 interface RateFormOwnProps {
   currencyUnits?: string;
+  gpuModels?: Resource;
+  gpuVendors?: Resource;
   rateFormData: UseRateData;
   metricsHash: MetricHash;
 }
@@ -24,7 +29,14 @@ interface RateFormOwnProps {
 type RateFormProps = RateFormOwnProps & WrappedComponentProps;
 
 // defaultIntl required for testing
-const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIntl, metricsHash, rateFormData }) => {
+const RateFormBase: React.FC<RateFormProps> = ({
+  currencyUnits,
+  gpuModels,
+  gpuVendors,
+  intl = defaultIntl,
+  metricsHash,
+  rateFormData,
+}) => {
   const {
     addTag,
     calculation,
@@ -53,6 +65,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
     updateDefaultTag,
     updateTag,
   } = rateFormData;
+
   const getMetricLabel = m => {
     // Match message descriptor or default to API string
     const value = m.replace(/ /g, '_').toLowerCase();
@@ -80,6 +93,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
   };
   const metricOptions = React.useMemo(() => {
     return Object.keys(metricsHash).map(m => ({
+      isDisabled: m.toLowerCase() === 'gpu' && (gpuVendors?.data?.length === 0 || gpuModels?.data?.length === 0),
       label: getMetricLabel(m),
       value: m,
     }));
@@ -205,17 +219,36 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
             <>
               {metric.toLowerCase() === 'gpu' ? (
                 <>
-                  <SimpleInput
-                    helperTextInvalid={errors.tagKey}
-                    id="tag-key"
+                  <FormGroup
                     isRequired
-                    label={messages.costModelsGpuVendor}
-                    onChange={(_evt, value) => setTagKey(value)}
-                    placeholder={intl.formatMessage(messages.costModelsEnterGpuVendor)}
                     style={style}
-                    validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
-                    value={tagKey}
-                  />
+                    fieldId="tag-key"
+                    label={intl.formatMessage(messages.costModelsGpuVendor)}
+                  >
+                    <SelectWrapper
+                      id="tag-key"
+                      onSelect={(_evt, selection: SelectWrapperOption) => setTagKey(selection.value)}
+                      options={gpuVendors?.data?.map((option: any) => {
+                        // Single vendor selection
+                        const duplicateTag = rateFormData.otherTiers.find(val =>
+                          isDuplicateTagRate(OtherTierFromRate(val), {
+                            metric,
+                            measurement,
+                            tagKey: option.value,
+                            costType: calculation,
+                          })
+                        );
+                        const isDisabled = duplicateTag !== undefined;
+                        return {
+                          ...(isDisabled && { description: intl.formatMessage(messages.gpuVendorDuplicate) }),
+                          isDisabled,
+                          toString: () => option.value,
+                          value: option.value,
+                        };
+                      })}
+                      selection={tagKey}
+                    />
+                  </FormGroup>
                   <GpuRatesForm
                     currencyUnits={currencyUnits}
                     errors={{
@@ -223,6 +256,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
                       tagValueValues: errors.tagValueValues,
                       tagDescription: errors.tagDescription,
                     }}
+                    gpuModels={gpuModels}
                     removeTag={removeTag}
                     tagValues={tagValues}
                     updateTag={updateTag}

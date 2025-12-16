@@ -169,6 +169,7 @@ export const enum ReportType {
   cpu = 'cpu',
   database = 'database',
   ec2Compute = 'ec2Compute',
+  gpu = 'gpu',
   instanceType = 'instance_type',
   memory = 'memory',
   network = 'network',

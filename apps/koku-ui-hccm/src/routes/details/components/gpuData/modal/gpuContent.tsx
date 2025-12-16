@@ -3,8 +3,8 @@ import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
-import { ReportPathsType } from 'api/reports/report';
-import { ReportType } from 'api/reports/report';
+import type { ReportPathsType } from 'api/reports/report';
+import type { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -23,48 +23,54 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
-import { styles } from './pvcContent.styles';
-import { PvcTable } from './pvcTable';
-import { PvcToolbar } from './pvcToolbar';
+import { styles } from './gpuContent.styles';
+import { GpuTable } from './gpuTable';
+import { GpuToolbar } from './gpuToolbar';
 
-interface PvcContentOwnProps {
-  // TBD...
+interface GpuContentOwnProps {
+  reportPathsType: ReportPathsType;
+  reportType: ReportType;
 }
 
-export interface PvcContentStateProps {
+export interface GpuContentStateProps {
   report: OcpReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
 }
 
-export interface PvcContentMapProps {
+export interface GpuContentMapProps {
   query?: OcpQuery;
+  reportPathsType: ReportPathsType;
+  reportType: ReportType;
 }
 
-type PvcContentProps = PvcContentOwnProps;
+type GpuContentProps = GpuContentOwnProps;
 
 const baseQuery: OcpQuery = {
-  limit: 10,
-  offset: 0,
-  order_by: {},
+  filter: {
+    limit: 10,
+    offset: 0,
+  },
+  order_by: {
+    gpu_count: 'desc',
+  },
 };
 
-const reportType = ReportType.volume;
-const reportPathsType = ReportPathsType.ocp;
-
-const PvcContent: React.FC<PvcContentProps> = () => {
+const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => {
   const intl = useIntl();
 
   const [query, setQuery] = useState({ ...baseQuery });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     query,
+    reportPathsType,
+    reportType,
   });
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
+    const limit = report?.meta ? report.meta.limit : baseQuery.filter.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -90,7 +96,7 @@ const PvcContent: React.FC<PvcContentProps> = () => {
 
   const getTable = () => {
     return (
-      <PvcTable
+      <GpuTable
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -107,7 +113,7 @@ const PvcContent: React.FC<PvcContentProps> = () => {
     const isDisabled = itemsTotal === 0;
 
     return (
-      <PvcToolbar
+      <GpuToolbar
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
@@ -130,12 +136,12 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, false);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
+    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
     setQuery(newQuery);
   };
 
@@ -155,7 +161,10 @@ const PvcContent: React.FC<PvcContentProps> = () => {
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
         <div style={styles.loading}>
-          <LoadingState />
+          <LoadingState
+            body={intl.formatMessage(messages.gpuLoadingStateDesc)}
+            heading={intl.formatMessage(messages.gpuLoadingStateTitle)}
+          />
         </div>
       ) : (
         <>
@@ -167,7 +176,7 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   );
 };
 
-const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
+const useMapToProps = ({ query, reportPathsType, reportType }: GpuContentMapProps): GpuContentStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState();
@@ -201,10 +210,9 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
       ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
-      persistentvolumeclaim: '*',
-      ...(query?.order_by?.cluster && { cluster: '*' }), // Sort by cluster requires group by cluster
+      model: '*',
     },
-    order_by: query.order_by,
+    order_by: query.order_by || baseQuery.order_by,
   };
 
   const reportQueryString = getQuery(reportQuery);
@@ -232,4 +240,4 @@ const useMapToProps = ({ query }: PvcContentMapProps): PvcContentStateProps => {
   };
 };
 
-export { PvcContent };
+export { GpuContent };
