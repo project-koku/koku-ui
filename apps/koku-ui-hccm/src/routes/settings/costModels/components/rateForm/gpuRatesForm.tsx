@@ -156,7 +156,7 @@ const useMapToProps = ({ resourcePathsType, resourceType, tagKey }: GpuRatesForm
     if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress && tagKey?.length > 0) {
       dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, queryString));
     }
-  }, [queryString, tagKey]);
+  }, [queryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType, tagKey]);
 
   return {
     resource,

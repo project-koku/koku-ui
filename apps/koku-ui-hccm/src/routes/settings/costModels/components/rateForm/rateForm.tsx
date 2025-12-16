@@ -338,7 +338,7 @@ const useMapToProps = ({ resourcePathsType, resourceType }: RateFormMapProps): R
     if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress) {
       dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, queryString));
     }
-  }, [queryString]);
+  }, [queryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType]);
 
   return {
     resource,
