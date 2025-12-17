@@ -39,12 +39,12 @@ const GpuTable: React.FC<GpuTableProps> = ({ filterBy, isLoading, onSort, orderB
     const newColumns = [
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_vendor' }),
-        orderBy: 'vendor_name',
+        orderBy: 'vendor',
         isSortable: true, // Disabled due to "order_by requires matching group_by" bug
       },
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_model' }),
-        orderBy: 'model_name',
+        orderBy: 'model',
         isSortable: true, // Disabled due to "order_by requires matching group_by" bug
       },
       {

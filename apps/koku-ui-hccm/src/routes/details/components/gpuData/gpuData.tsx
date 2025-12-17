@@ -71,9 +71,8 @@ const GpuData: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => 
   const getMoreLink = () => {
     const count = report?.meta?.count ?? 0;
     const remaining = Math.max(0, count - baseQuery.filter.limit);
-    const test = true;
 
-    if (remaining > 0 || test) {
+    if (remaining > 0) {
       return (
         <div style={styles.linkContainer}>
           <a data-testid="gpu-lnk" href="#/" onClick={handleOpen}>
