@@ -1,3 +1,4 @@
+import PageHeader from '@patternfly/react-component-groups/dist/esm/PageHeader';
 import {
   Card,
   CardBody,
@@ -9,7 +10,6 @@ import {
   TabContent,
 } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { CostModel } from 'api/costModels';
 import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
@@ -112,9 +112,7 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
         if (costModelErrMessage === 'detail: Invalid provider uuid') {
           return (
             <>
-              <PageHeader>
-                <PageHeaderTitle title={intl.formatMessage(messages.costModels)} />
-              </PageHeader>
+              <PageHeader title={intl.formatMessage(messages.costModels)} />
               <EmptyState
                 headingLevel="h2"
                 icon={ErrorCircleOIcon}

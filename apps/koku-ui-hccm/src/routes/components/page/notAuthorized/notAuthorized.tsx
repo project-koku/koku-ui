@@ -1,5 +1,5 @@
+import PageHeader from '@patternfly/react-component-groups/dist/esm/PageHeader';
 import { Card, CardBody, PageSection } from '@patternfly/react-core';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
 import { NotAuthorizedState } from './notAuthorizedState';
@@ -14,11 +14,7 @@ type NotAuthorizedProps = NotAuthorizedOwnProps;
 const NotAuthorized = ({ pathname, title }: NotAuthorizedProps) => {
   return (
     <>
-      {title && (
-        <PageHeader>
-          <PageHeaderTitle title={title} />
-        </PageHeader>
-      )}
+      {title && <PageHeader title={title} />}
       <PageSection hasBodyWrapper={false}>
         <Card>
           <CardBody>
