@@ -8,8 +8,7 @@ import { CostModelContext } from './context';
 import PriceListTable from './priceListTable';
 
 const PriceList = () => {
-  const { currencyUnits, goToAddPL, gpuModels, gpuVendors, metricsHash, tiers, submitTiers } =
-    React.useContext(CostModelContext);
+  const { currencyUnits, goToAddPL, metricsHash, tiers, submitTiers } = React.useContext(CostModelContext);
   const [state, setState] = React.useState('table');
 
   const submit = (rate: Rate) => {
@@ -44,8 +43,6 @@ const PriceList = () => {
           goToAddPL(true);
         }}
         currencyUnits={currencyUnits}
-        gpuModels={gpuModels}
-        gpuVendors={gpuVendors}
         metricsHash={metricsHash}
         submitRate={(rateFormData: RateFormData) => {
           const rate = transformFormDataToRequest(rateFormData, metricsHash, currencyUnits);

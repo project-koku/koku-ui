@@ -24,8 +24,6 @@ export const defaultCostModelContext = {
   fetchSources: (type: string, query: any, page: number, perPage: number) => null,
   filterName: '',
   goToAddPL: (value?: boolean) => null,
-  gpuModels: null,
-  gpuVendors: null,
   isDiscount: false,
   handleMarkupDiscountChange: (...args: any[]) => null,
   handleDistributionChange: (...args: any[]) => null,

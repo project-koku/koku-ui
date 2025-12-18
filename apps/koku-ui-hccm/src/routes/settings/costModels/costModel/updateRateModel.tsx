@@ -11,7 +11,6 @@ import {
 } from '@patternfly/react-core';
 import type { CostModelRequest } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
-import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import { intl as defaultIntl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
@@ -30,7 +29,6 @@ import {
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { resourceSelectors } from 'store/resources';
 
 interface UpdateRateModalOwnProps {
   index: number;
@@ -38,8 +36,6 @@ interface UpdateRateModalOwnProps {
 
 interface UpdateRateModalStateProps {
   costModel?: any;
-  gpuModels?: Resource;
-  gpuVendors?: Resource;
   isOpen?: boolean;
   isProcessing?: boolean;
   metricsHash?: MetricHash;
@@ -58,8 +54,6 @@ type UpdateRateModalProps = UpdateRateModalOwnProps &
 
 const UpdateRateModalBase: React.FC<UpdateRateModalProps> = ({
   costModel,
-  gpuModels,
-  gpuVendors,
   index,
   intl = defaultIntl, // Default required for testing
   isOpen,
@@ -134,13 +128,7 @@ const UpdateRateModalBase: React.FC<UpdateRateModalProps> = ({
           )}
           <StackItem>
             <Form>
-              <RateForm
-                currencyUnits={getCurrencyUnits(rate)}
-                gpuModels={gpuModels}
-                gpuVendors={gpuVendors}
-                metricsHash={metricsHash}
-                rateFormData={rateFormData}
-              />
+              <RateForm currencyUnits={getCurrencyUnits(rate)} metricsHash={metricsHash} rateFormData={rateFormData} />
             </Form>
           </StackItem>
         </Stack>
@@ -170,8 +158,6 @@ const mapStateToProps = createMapStateToProps<UpdateRateModalOwnProps, UpdateRat
   }
   return {
     costModel,
-    gpuModels: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.model, ''),
-    gpuVendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.vendor, ''),
     isOpen: (costModelsSelectors.isDialogOpen(state)('rate') as any).updateRate,
     isProcessing: costModelsSelectors.updateProcessing(state),
     metricsHash: metricsSelectors.metrics(state),
