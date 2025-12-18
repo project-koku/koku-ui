@@ -58,7 +58,7 @@ const GpuRatesFormBase: React.FC<GpuRatesFormProps> = ({
   // Fetch GPU models
   const { resource, resourceFetchStatus } = useMapToProps({
     resourcePathsType: ResourcePathsType.ocp,
-    resourceType: ResourceType.model,
+    resourceType: ResourceType.gpuModel,
     tagKey,
   });
 

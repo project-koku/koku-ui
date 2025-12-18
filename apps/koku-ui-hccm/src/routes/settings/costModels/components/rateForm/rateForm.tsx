@@ -50,7 +50,7 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
   // Fetch GPU vendors
   const { resource, resourceFetchStatus } = useMapToProps({
     resourcePathsType: ResourcePathsType.ocp,
-    resourceType: ResourceType.vendor,
+    resourceType: ResourceType.gpuVendor,
   });
 
   const {

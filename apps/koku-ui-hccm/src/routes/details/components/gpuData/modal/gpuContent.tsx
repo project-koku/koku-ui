@@ -48,8 +48,10 @@ export interface GpuContentMapProps {
 type GpuContentProps = GpuContentOwnProps;
 
 const baseQuery: OcpQuery = {
-  limit: 10,
-  offset: 0,
+  filter: {
+    limit: 10,
+    offset: 0,
+  },
   order_by: {
     gpu_count: 'desc',
   },
@@ -67,8 +69,8 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
+    const limit = report?.meta ? report.meta.limit : baseQuery.filter.limit;
+    const offset = report?.meta ? report.meta.offset : baseQuery.filter.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -134,12 +136,12 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, false);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
+    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
     setQuery(newQuery);
   };
 
@@ -207,11 +209,9 @@ const useMapToProps = ({ query, reportPathsType, reportType }: GpuContentMapProp
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
     },
-    // group_by: {
-    //   model: '*',
-    // },
-    limit: query.limit,
-    offset: query.offset,
+    group_by: {
+      gpu_name: '*',
+    },
     order_by: query.order_by || baseQuery.order_by,
   };
 
