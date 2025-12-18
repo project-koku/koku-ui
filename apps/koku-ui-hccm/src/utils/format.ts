@@ -17,6 +17,53 @@ export const countDecimals = (value: string, useLocale: boolean = true) => {
   return decimals[1] ? decimals[1].length : 0;
 };
 
+// Helper to test if narrow symbol should be shown for currencies
+const isNarrowSymbol = (currency: string) => {
+  // Special case to show currency symbol for all browser locales
+  const narrowCurrencies = ['CZK', 'DKK', 'NGN', 'NOK', 'SEK', 'SGD', 'ZAR'];
+  return narrowCurrencies.includes(currency);
+};
+
+// Returns currency symbols based on browser's preferred locale -- used with i18n messages
+// Examples:
+//
+// AED: د.إ
+// AUD: A$
+// BRL: R$
+// CAD: CA$
+// CHF: CHF
+// CNY: CN¥
+// CZK: Kč
+// DKK: kr
+// EUR: €
+// GBP: £
+// HKD: HK$
+// INR: ₹
+// JPY: ¥
+// NGN: ₦
+// NOK: kr
+// NZD: NZ$
+// SAR: ﷼
+// SEK: kr
+// SGD: S$
+// TWD: NT$
+// USD: $
+// ZAR: R
+export const getCurrencySymbol = (units: string, options: FormatOptions = {}) => {
+  const currency = units ? units.toUpperCase() : 'USD';
+  const fValue = 0;
+
+  const parts = intl.formatNumberToParts(fValue, {
+    style: 'currency',
+    currency,
+    ...(isNarrowSymbol(currency) ? { currencyDisplay: 'narrowSymbol' } : {}),
+    ...options,
+  });
+
+  const symbol = parts.find(part => part.type === 'currency')?.value || currency;
+  return currency === 'SGD' ? formatSGD(symbol) : symbol;
+};
+
 // Currencies are formatted differently, depending on the locale you're using. For example, the dollar
 // sign may appear on the left or the right of the currency symbol for French Vs German.
 //
@@ -38,15 +85,11 @@ export const formatCurrency: Formatter = (value: number, units: string, options:
     fValue = 0;
   }
 
-  // Special case to show currency symbol for all browser locales
-  const narrowCurrencies = ['CZK', 'DKK', 'NGN', 'NOK', 'SEK', 'SGD', 'ZAR'];
-  const isNarrowSymbol = narrowCurrencies.includes(currency);
-
   // Don't specify default fraction digits here, rely on react-intl instead
   const formattedValue = intl.formatNumber(fValue, {
     style: 'currency',
     currency,
-    ...(isNarrowSymbol ? { currencyDisplay: 'narrowSymbol' } : {}),
+    ...(isNarrowSymbol(currency) ? { currencyDisplay: 'narrowSymbol' } : {}),
     ...options,
   });
   return currency === 'SGD' ? formatSGD(formattedValue) : formattedValue;

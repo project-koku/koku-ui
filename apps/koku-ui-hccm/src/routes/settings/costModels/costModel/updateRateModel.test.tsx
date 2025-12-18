@@ -5,8 +5,7 @@ import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { rootReducer } from 'store/rootReducer';
+import { configureStore } from 'store/store';
 
 const mockupdater = updateCostModel as jest.Mock;
 mockupdater.mockReturnValue(Promise.resolve({ data: [] }));
@@ -238,7 +237,7 @@ const initial = {
 
 function RenderFormDataUI(props) {
   return (
-    <Provider store={createStore(rootReducer, initial)}>
+    <Provider store={configureStore(initial as any)}>
       <UpdateRateModal {...props} />;
     </Provider>
   );

@@ -1,7 +1,7 @@
+import Unavailable from '@patternfly/react-component-groups/dist/esm/UnavailableContent';
 import { Bullseye, Button, EmptyState, EmptyStateBody, List, ListItem, Pagination } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { SortByDirection } from '@patternfly/react-table';
-import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import type { CostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';

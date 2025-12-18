@@ -7,6 +7,7 @@ export interface OcpReportItem extends ReportItem {
   capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
+  gpu_name?: string;
   limit?: ReportValue;
   node?: string;
   persistent_volume_claim?: string;
@@ -21,7 +22,7 @@ export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
   service: string;
 }
 
-export type GroupByGpuData = Omit<OcpReportData, 'models'>;
+export type GroupByGpuData = Omit<OcpReportData, 'gpu_names'>;
 
 export interface GroupByNodeData extends Omit<OcpReportData, 'nodes'> {
   region: string;
@@ -38,7 +39,7 @@ export type GroupByVmNameData = Omit<OcpReportData, 'vm_name'>;
 export interface OcpReportData extends ReportData {
   cluster_alias?: string;
   clusters?: GroupByClusterData[];
-  models?: GroupByGpuData[];
+  gpu_names?: GroupByGpuData[];
   nodes?: GroupByNodeData[];
   persistentvolumeclaims?: GroupByPvcData[];
   projects?: GroupByProjectData[];
