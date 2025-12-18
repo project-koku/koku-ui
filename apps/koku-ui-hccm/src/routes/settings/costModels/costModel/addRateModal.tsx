@@ -12,7 +12,6 @@ import {
 import type { CostModelRequest } from 'api/costModels';
 import type { CostModel } from 'api/costModels';
 import type { MetricHash } from 'api/metrics';
-import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -28,7 +27,6 @@ import { initialRateFormData } from 'routes/settings/costModels/components/rateF
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { resourceSelectors } from 'store/resources';
 
 interface AddRateModalOwnProps extends WrappedComponentProps {
   // TBD...
@@ -36,8 +34,6 @@ interface AddRateModalOwnProps extends WrappedComponentProps {
 
 interface AddRateModalStateProps {
   costModel?: CostModel;
-  gpuModels?: Resource;
-  gpuVendors?: Resource;
   isOpen?: boolean;
   isProcessing?: boolean;
   metricsHash?: MetricHash;
@@ -53,8 +49,6 @@ type AddRateModalProps = AddRateModalOwnProps & AddRateModalStateProps & AddRate
 
 export const AddRateModalBase: React.FC<AddRateModalProps> = ({
   costModel,
-  gpuModels,
-  gpuVendors,
   intl,
   isOpen,
   isProcessing,
@@ -80,13 +74,7 @@ export const AddRateModalBase: React.FC<AddRateModalProps> = ({
       <ModalBody>
         <Form>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <RateForm
-            currencyUnits={costModel.currency}
-            gpuModels={gpuModels}
-            gpuVendors={gpuVendors}
-            metricsHash={metricsHash}
-            rateFormData={rateFormData}
-          />
+          <RateForm currencyUnits={costModel.currency} metricsHash={metricsHash} rateFormData={rateFormData} />
         </Form>
       </ModalBody>
       <ModalFooter>
@@ -114,8 +102,6 @@ const mapStateToProps = createMapStateToProps<AddRateModalOwnProps, AddRateModal
   }
   return {
     costModel,
-    gpuModels: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.model, ''),
-    gpuVendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.vendor, ''),
     isOpen: (costModelsSelectors.isDialogOpen(state)('rate') as any).addRate,
     isProcessing: costModelsSelectors.updateProcessing(state),
     metricsHash: metricsSelectors.metrics(state),

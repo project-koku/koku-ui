@@ -1,7 +1,7 @@
+import Unavailable from '@patternfly/react-component-groups/dist/esm/UnavailableContent';
 import { Bullseye } from '@patternfly/react-core';
 import type { IAction, ICell } from '@patternfly/react-table';
 import { SortByDirection } from '@patternfly/react-table';
-import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import type { CostModel } from 'api/costModels';
 import { intl } from 'components/i18n';
 import React from 'react';

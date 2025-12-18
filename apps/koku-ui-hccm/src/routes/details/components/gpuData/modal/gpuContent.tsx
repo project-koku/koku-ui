@@ -210,7 +210,7 @@ const useMapToProps = ({ query, reportPathsType, reportType }: GpuContentMapProp
       ...(queryState?.exclude && queryState.exclude),
     },
     group_by: {
-      model: '*',
+      gpu_name: '*',
     },
     order_by: query.order_by || baseQuery.order_by,
   };

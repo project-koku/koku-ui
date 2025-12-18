@@ -1,5 +1,5 @@
+import PageHeader from '@patternfly/react-component-groups/dist/esm/PageHeader';
 import { Card, CardBody, PageSection } from '@patternfly/react-core';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
 import { NoVirtualizationState } from './noVirtualizationState';
@@ -21,11 +21,7 @@ const NoVirtualization = ({ isPageSection = true, title }: NoVirtualizationProps
   );
   return (
     <>
-      {title && (
-        <PageHeader>
-          <PageHeaderTitle title={title} />
-        </PageHeader>
-      )}
+      {title && <PageHeader title={title} />}
       {isPageSection ? <PageSection hasBodyWrapper={true}>{content}</PageSection> : content}
     </>
   );

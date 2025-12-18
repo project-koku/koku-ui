@@ -1,3 +1,4 @@
+import PageHeader from '@patternfly/react-component-groups/dist/esm/PageHeader';
 import {
   Card,
   CardBody,
@@ -9,7 +10,6 @@ import {
   TabContent,
 } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { CostModel } from 'api/costModels';
 import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
@@ -29,7 +29,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
-import { resourceActions, resourceSelectors } from 'store/resources';
+import { resourceSelectors } from 'store/resources';
 import type { Notification, NotificationComponentProps } from 'utils/notification';
 import { withNotification } from 'utils/notification';
 import type { RouterComponentProps } from 'utils/router';
@@ -45,7 +45,6 @@ interface CostModelInfoOwnProps {
   fetchCostModels: typeof costModelsActions.fetchCostModels;
   fetchMetrics: typeof metricsActions.fetchMetrics;
   fetchRbac: typeof rbacActions.fetchRbac;
-  fetchResource: typeof resourceActions.fetchResource;
   markup: { value: string };
   metricsError: AxiosError;
   metricsStatus: FetchStatus;
@@ -71,15 +70,11 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
   }
 
   public componentDidMount() {
-    const { fetchCostModels, fetchMetrics, fetchRbac, fetchResource } = this.props;
+    const { fetchCostModels, fetchMetrics, fetchRbac } = this.props;
 
     fetchRbac();
     fetchMetrics();
     fetchCostModels(`uuid=${this.props.router.params.uuid}`);
-
-    // Fetch GPU data
-    fetchResource(ResourcePathsType.ocp, ResourceType.model, '');
-    fetchResource(ResourcePathsType.ocp, ResourceType.vendor, '');
   }
 
   public componentDidUpdate(prevProps: CostModelInfoProps) {
@@ -117,9 +112,7 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
         if (costModelErrMessage === 'detail: Invalid provider uuid') {
           return (
             <>
-              <PageHeader>
-                <PageHeaderTitle title={intl.formatMessage(messages.costModels)} />
-              </PageHeader>
+              <PageHeader title={intl.formatMessage(messages.costModels)} />
               <EmptyState
                 headingLevel="h2"
                 icon={ErrorCircleOIcon}
@@ -211,18 +204,17 @@ export default injectIntl(
             metricsError: metricsSelectors.metricsState(state).error,
             metricsHash: metricsSelectors.metrics(state),
             metricsStatus: metricsSelectors.status(state),
-            models: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.model, ''),
+            models: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.gpuModel, ''),
             rbacError: rbacSelectors.selectRbacState(state).error,
             rbacNotification: rbacSelectors.selectRbacState(state).notification,
             rbacStatus: rbacSelectors.selectRbacState(state).status,
-            vendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.vendor, ''),
+            vendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.gpuVendor, ''),
           };
         }),
         {
           fetchCostModels: costModelsActions.fetchCostModels,
           fetchMetrics: metricsActions.fetchMetrics,
           fetchRbac: rbacActions.fetchRbac,
-          fetchResource: resourceActions.fetchResource,
         }
       )(CostModelInfo)
     )
