@@ -18,6 +18,7 @@ import { currencyOptions } from 'routes/components/currency';
 import { Form } from 'routes/settings/costModels/components/forms/form';
 import { Selector } from 'routes/settings/costModels/components/inputs/selector';
 import { createMapStateToProps } from 'store/common';
+import { getCurrencySymbol } from 'utils/format';
 
 import { CostModelContext } from './context';
 import { descriptionErrors, nameErrors } from './steps';
@@ -150,10 +151,13 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   value={getValueLabel(currencyUnits, currencyOptions)}
                   onSelect={(_evt, value) => onCurrencyChange(value)}
                   id="currency-units-selector"
-                  options={currencyOptions.map(o => {
+                  options={currencyOptions.map(option => {
                     return {
-                      label: intl.formatMessage(o.label, { units: o.value }),
-                      value: o.value,
+                      label: intl.formatMessage(messages.currencyOptions, {
+                        [option.value]: getCurrencySymbol(option.value),
+                        units: option.value,
+                      }),
+                      value: option.value,
                     };
                   })}
                 />

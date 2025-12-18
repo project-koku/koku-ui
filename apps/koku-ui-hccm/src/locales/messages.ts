@@ -1157,61 +1157,31 @@ export default defineMessages({
   currencyOptions: {
     defaultMessage:
       '{units, select, ' +
-      'AED {AED (د.إ) - United Arab Emirates Dirham}' +
-      'AUD {AUD (A$) - Australian Dollar}' +
-      'BRL {BRL (R$) - Brazilian Real}' +
-      'CAD {CAD (CA$) - Canadian Dollar}' +
-      'CHF {CHF (CHF) - Swiss Franc}' +
-      'CNY {CNY (CN¥) - Chinese Yuan}' +
-      'CZK {CZK (Kč) - Czech Koruna}' +
-      'DKK {DKK (kr) - Danish Krone}' +
-      'EUR {EUR (€) - Euro}' +
-      'GBP {GBP (£) - British Pound}' +
-      'HKD {HKD (HK$) - Hong Kong Dollar}' +
-      'INR {INR (₹) - Indian Rupee}' +
-      'JPY {JPY (¥) - Japanese Yen}' +
-      'NGN {NGN (₦) - Nigerian Naira}' +
-      'NOK {NOK (kr) - Norwegian Krone}' +
-      'NZD {NZD (NZ$) - New Zealand Dollar}' +
-      'SAR {SAR (ر.س) - Saudi Riyal}' +
-      'SEK {SEK (kr) - Swedish Krona}' +
-      'SGD {SGD (S$) - Singapore Dollar}' +
-      'TWD {TWD (NT$) - New Taiwan Dollar}' +
-      'USD {USD ($) - United States Dollar} ' +
-      'ZAR {ZAR (R) - South African Rand}' +
+      'AED {AED ({AED}) - United Arab Emirates Dirham}' +
+      'AUD {AUD ({AUD}) - Australian Dollar}' +
+      'BRL {BRL ({BRL}) - Brazilian Real}' +
+      'CAD {CAD ({CAD}) - Canadian Dollar}' +
+      'CHF {CHF ({CHF}) - Swiss Franc}' +
+      'CNY {CNY ({CNY}) - Chinese Yuan}' +
+      'CZK {CZK ({CZK}) - Czech Koruna}' +
+      'DKK {DKK ({DKK}) - Danish Krone}' +
+      'EUR {EUR ({EUR}) - Euro}' +
+      'GBP {GBP ({GBP}) - British Pound}' +
+      'HKD {HKD ({HKD}) - Hong Kong Dollar}' +
+      'INR {INR ({INR}) - Indian Rupee}' +
+      'JPY {JPY ({JPY}) - Japanese Yen}' +
+      'NGN {NGN ({NGN}) - Nigerian Naira}' +
+      'NOK {NOK ({NOK}) - Norwegian Krone}' +
+      'NZD {NZD ({NZD}) - New Zealand Dollar}' +
+      'SAR {SAR ({SAR}) - Saudi Riyal}' +
+      'SEK {SEK ({SEK}) - Swedish Krona}' +
+      'SGD {SGD ({SGD}) - Singapore Dollar}' +
+      'TWD {TWD ({TWD}) - New Taiwan Dollar}' +
+      'USD {USD ({USD}) - United States Dollar} ' +
+      'ZAR {ZAR ({ZAR}) - South African Rand}' +
       'other {}}',
     description: 'return the proper unit label based on key: "units"',
     id: 'currencyOptions',
-  },
-  // See https://www.localeplanet.com/icu/currency.html
-  currencyUnits: {
-    defaultMessage:
-      '{units, select, ' +
-      'AED {د.إ}' +
-      'AUD {A$}' +
-      'BRL {R$}' +
-      'CAD {CA$}' +
-      'CHF {CHF}' +
-      'CNY {CN¥}' +
-      'CZK {Kč}' +
-      'DKK {kr}' +
-      'EUR {€}' +
-      'GBP {£}' +
-      'HKD {HK$}' +
-      'INR {₹}' +
-      'JPY {¥}' +
-      'NGN {₦}' +
-      'NOK {kr}' +
-      'NZD {NZ$}' +
-      'SAR {﷼}' +
-      'SEK {kr}' +
-      'SGD {S$}' +
-      'TWD {NT$}' +
-      'USD {$} ' +
-      'ZAR {R}' +
-      'other {}}',
-    description: 'return the proper unit label based on key: "units"',
-    id: 'currencyUnits',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',

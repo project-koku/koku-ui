@@ -2232,7 +2232,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "AED (د.إ) - United Arab Emirates Dirham"
+                "value": "AED ("
+              },
+              {
+                "type": 1,
+                "value": "AED"
+              },
+              {
+                "type": 0,
+                "value": ") - United Arab Emirates Dirham"
               }
             ]
           },
@@ -2240,7 +2248,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "AUD (A$) - Australian Dollar"
+                "value": "AUD ("
+              },
+              {
+                "type": 1,
+                "value": "AUD"
+              },
+              {
+                "type": 0,
+                "value": ") - Australian Dollar"
               }
             ]
           },
@@ -2248,7 +2264,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "BRL (R$) - Brazilian Real"
+                "value": "BRL ("
+              },
+              {
+                "type": 1,
+                "value": "BRL"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian Real"
               }
             ]
           },
@@ -2256,7 +2280,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "CAD (CA$) - Canadian Dollar"
+                "value": "CAD ("
+              },
+              {
+                "type": 1,
+                "value": "CAD"
+              },
+              {
+                "type": 0,
+                "value": ") - Canadian Dollar"
               }
             ]
           },
@@ -2264,194 +2296,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "CHF (CHF) - Swiss Franc"
-              }
-            ]
-          },
-          "CNY": {
-            "value": [
+                "value": "CHF ("
+              },
               {
-                "type": 0,
-                "value": "CNY (CN¥) - Chinese Yuan"
-              }
-            ]
-          },
-          "CZK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "CZK (Kč) - Czech Koruna"
-              }
-            ]
-          },
-          "DKK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DKK (kr) - Danish Krone"
-              }
-            ]
-          },
-          "EUR": {
-            "value": [
-              {
-                "type": 0,
-                "value": "EUR (€) - Euro"
-              }
-            ]
-          },
-          "GBP": {
-            "value": [
-              {
-                "type": 0,
-                "value": "GBP (£) - British Pound"
-              }
-            ]
-          },
-          "HKD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "HKD (HK$) - Hong Kong Dollar"
-              }
-            ]
-          },
-          "INR": {
-            "value": [
-              {
-                "type": 0,
-                "value": "INR (₹) - Indian Rupee"
-              }
-            ]
-          },
-          "JPY": {
-            "value": [
-              {
-                "type": 0,
-                "value": "JPY (¥) - Japanese Yen"
-              }
-            ]
-          },
-          "NGN": {
-            "value": [
-              {
-                "type": 0,
-                "value": "NGN (₦) - Nigerian Naira"
-              }
-            ]
-          },
-          "NOK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "NOK (kr) - Norwegian Krone"
-              }
-            ]
-          },
-          "NZD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "NZD (NZ$) - New Zealand Dollar"
-              }
-            ]
-          },
-          "SAR": {
-            "value": [
-              {
-                "type": 0,
-                "value": "SAR (ر.س) - Saudi Riyal"
-              }
-            ]
-          },
-          "SEK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "SEK (kr) - Swedish Krona"
-              }
-            ]
-          },
-          "SGD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "SGD (S$) - Singapore Dollar"
-              }
-            ]
-          },
-          "TWD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "TWD (NT$) - New Taiwan Dollar"
-              }
-            ]
-          },
-          "USD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "USD ($) - United States Dollar"
-              }
-            ]
-          },
-          "ZAR": {
-            "value": [
-              {
-                "type": 0,
-                "value": "ZAR (R) - South African Rand"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "units"
-      }
-    ],
-    "currencyUnits": [
-      {
-        "options": {
-          "AED": {
-            "value": [
-              {
-                "type": 0,
-                "value": "د.إ"
-              }
-            ]
-          },
-          "AUD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "A$"
-              }
-            ]
-          },
-          "BRL": {
-            "value": [
-              {
-                "type": 0,
-                "value": "R$"
-              }
-            ]
-          },
-          "CAD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "CA$"
-              }
-            ]
-          },
-          "CHF": {
-            "value": [
-              {
-                "type": 0,
+                "type": 1,
                 "value": "CHF"
+              },
+              {
+                "type": 0,
+                "value": ") - Swiss Franc"
               }
             ]
           },
@@ -2459,7 +2312,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "CN¥"
+                "value": "CNY ("
+              },
+              {
+                "type": 1,
+                "value": "CNY"
+              },
+              {
+                "type": 0,
+                "value": ") - Chinese Yuan"
               }
             ]
           },
@@ -2467,7 +2328,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "Kč"
+                "value": "CZK ("
+              },
+              {
+                "type": 1,
+                "value": "CZK"
+              },
+              {
+                "type": 0,
+                "value": ") - Czech Koruna"
               }
             ]
           },
@@ -2475,7 +2344,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "kr"
+                "value": "DKK ("
+              },
+              {
+                "type": 1,
+                "value": "DKK"
+              },
+              {
+                "type": 0,
+                "value": ") - Danish Krone"
               }
             ]
           },
@@ -2483,7 +2360,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "€"
+                "value": "EUR ("
+              },
+              {
+                "type": 1,
+                "value": "EUR"
+              },
+              {
+                "type": 0,
+                "value": ") - Euro"
               }
             ]
           },
@@ -2491,7 +2376,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "£"
+                "value": "GBP ("
+              },
+              {
+                "type": 1,
+                "value": "GBP"
+              },
+              {
+                "type": 0,
+                "value": ") - British Pound"
               }
             ]
           },
@@ -2499,7 +2392,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "HK$"
+                "value": "HKD ("
+              },
+              {
+                "type": 1,
+                "value": "HKD"
+              },
+              {
+                "type": 0,
+                "value": ") - Hong Kong Dollar"
               }
             ]
           },
@@ -2507,7 +2408,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "₹"
+                "value": "INR ("
+              },
+              {
+                "type": 1,
+                "value": "INR"
+              },
+              {
+                "type": 0,
+                "value": ") - Indian Rupee"
               }
             ]
           },
@@ -2515,7 +2424,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "¥"
+                "value": "JPY ("
+              },
+              {
+                "type": 1,
+                "value": "JPY"
+              },
+              {
+                "type": 0,
+                "value": ") - Japanese Yen"
               }
             ]
           },
@@ -2523,7 +2440,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "₦"
+                "value": "NGN ("
+              },
+              {
+                "type": 1,
+                "value": "NGN"
+              },
+              {
+                "type": 0,
+                "value": ") - Nigerian Naira"
               }
             ]
           },
@@ -2531,7 +2456,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "kr"
+                "value": "NOK ("
+              },
+              {
+                "type": 1,
+                "value": "NOK"
+              },
+              {
+                "type": 0,
+                "value": ") - Norwegian Krone"
               }
             ]
           },
@@ -2539,7 +2472,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "NZ$"
+                "value": "NZD ("
+              },
+              {
+                "type": 1,
+                "value": "NZD"
+              },
+              {
+                "type": 0,
+                "value": ") - New Zealand Dollar"
               }
             ]
           },
@@ -2547,7 +2488,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "﷼"
+                "value": "SAR ("
+              },
+              {
+                "type": 1,
+                "value": "SAR"
+              },
+              {
+                "type": 0,
+                "value": ") - Saudi Riyal"
               }
             ]
           },
@@ -2555,7 +2504,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "kr"
+                "value": "SEK ("
+              },
+              {
+                "type": 1,
+                "value": "SEK"
+              },
+              {
+                "type": 0,
+                "value": ") - Swedish Krona"
               }
             ]
           },
@@ -2563,7 +2520,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "S$"
+                "value": "SGD ("
+              },
+              {
+                "type": 1,
+                "value": "SGD"
+              },
+              {
+                "type": 0,
+                "value": ") - Singapore Dollar"
               }
             ]
           },
@@ -2571,7 +2536,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "NT$"
+                "value": "TWD ("
+              },
+              {
+                "type": 1,
+                "value": "TWD"
+              },
+              {
+                "type": 0,
+                "value": ") - New Taiwan Dollar"
               }
             ]
           },
@@ -2579,7 +2552,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "$"
+                "value": "USD ("
+              },
+              {
+                "type": 1,
+                "value": "USD"
+              },
+              {
+                "type": 0,
+                "value": ") - United States Dollar"
               }
             ]
           },
@@ -2587,7 +2568,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "R"
+                "value": "ZAR ("
+              },
+              {
+                "type": 1,
+                "value": "ZAR"
+              },
+              {
+                "type": 0,
+                "value": ") - South African Rand"
               }
             ]
           },
