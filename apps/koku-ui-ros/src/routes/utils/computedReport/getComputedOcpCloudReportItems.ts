@@ -3,8 +3,10 @@ import type { OcpCloudReport, OcpCloudReportItem } from 'api/reports/ocpCloudRep
 
 import type { ComputedReportItemsParams } from './getComputedReportItems';
 
-export interface ComputedOcpCloudReportItemsParams
-  extends ComputedReportItemsParams<OcpCloudReport, OcpCloudReportItem> {}
+export interface ComputedOcpCloudReportItemsParams extends ComputedReportItemsParams<
+  OcpCloudReport,
+  OcpCloudReportItem
+> {}
 
 export function getIdKeyForGroupBy(
   groupBy: OcpCloudQuery['group_by'] = {}

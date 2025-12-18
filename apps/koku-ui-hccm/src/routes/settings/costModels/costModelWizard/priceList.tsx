@@ -38,15 +38,15 @@ const PriceList = () => {
   if (state === 'form') {
     return (
       <AddPriceList
+        cancel={() => {
+          setState('table');
+          goToAddPL(true);
+        }}
         currencyUnits={currencyUnits}
         metricsHash={metricsHash}
         submitRate={(rateFormData: RateFormData) => {
           const rate = transformFormDataToRequest(rateFormData, metricsHash, currencyUnits);
           submit(rate);
-        }}
-        cancel={() => {
-          setState('table');
-          goToAddPL(true);
         }}
       />
     );
