@@ -45,6 +45,7 @@ export const getCategoryInput = ({
   const ariaLabelKey = categoryOption.ariaLabelKey || categoryOption.key;
   const placeholderKey = categoryOption.placeholderKey || categoryOption.key;
 
+  // Use categoryOption.resourceKey when API response properties are not the same as categoryOption.key
   return (
     <ToolbarFilter
       categoryName={categoryOption}

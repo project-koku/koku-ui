@@ -28,8 +28,11 @@ export interface ComputedReportOcpItem extends ReportItem {
   capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
-  gpu_count?: ReportValue;
   limit?: ReportValue;
+  gpu_count?: ReportValue;
+  gpu_memory?: ReportValue;
+  gpu_model?: string;
+  gpu_vendor?: string;
   memory?: ReportValue;
   persistent_volume_claim?: string;
   request?: ReportValue;
@@ -46,8 +49,6 @@ export interface ComputedReportItem extends ComputedReportOcpItem, ComputedRepor
   date?: string;
   delta_percent?: number;
   delta_value?: number;
-  gpu_model?: string;
-  gpu_vendor?: string;
   infrastructure?: ReportItemValue;
   label?: string; // helper for item label
   source_uuid?: string;
@@ -178,19 +179,17 @@ function getCostData(val, key, item?: any) {
 }
 
 function getGpuData(val, item?: any) {
-  // Note that the ec2-compute API uses a string for memory -- see https://issues.redhat.com/browse/COST-7126
   return {
-    ...(val?.memory &&
-      typeof val?.memory !== 'string' && {
-        memory: {
-          value: (val?.memory?.value || 0) + (item?.memory?.value || 0),
-          units: val?.memory?.units || 'GB',
-        },
-      }),
     ...(val?.gpu_count && {
       gpu_count: {
         value: (val?.gpu_count?.value || 0) + (item?.gpu_count?.value || 0),
         units: val?.gpu_count?.units || 'GPUs',
+      },
+    }),
+    ...(val?.gpu_memory && {
+      gpu_memory: {
+        value: (val?.gpu_memory?.value || 0) + (item?.gpu_memory?.value || 0),
+        units: val?.gpu_memory?.units || 'GB',
       },
     }),
   };
