@@ -39,12 +39,12 @@ const GpuTable: React.FC<GpuTableProps> = ({ filterBy, isLoading, onSort, orderB
     const newColumns = [
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_vendor' }),
-        orderBy: 'vendor',
+        orderBy: 'gpu_vendor',
         isSortable: true, // Disabled due to "order_by requires matching group_by" bug
       },
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_model' }),
-        orderBy: 'model',
+        orderBy: 'gpu_model',
         isSortable: true, // Disabled due to "order_by requires matching group_by" bug
       },
       {
@@ -59,7 +59,7 @@ const GpuTable: React.FC<GpuTableProps> = ({ filterBy, isLoading, onSort, orderB
       },
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'memory' }),
-        orderBy: 'memory',
+        orderBy: 'gpu_memory',
         isSortable: true,
       },
     ];
@@ -81,9 +81,10 @@ const GpuTable: React.FC<GpuTableProps> = ({ filterBy, isLoading, onSort, orderB
           },
           {
             value: intl.formatMessage(messages.valueUnits, {
-              value: item?.memory?.value !== undefined ? formatUnits(item.memory.value, item.memory.units) : '',
-              units: item?.memory?.units
-                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.memory.units) })
+              value:
+                item?.gpu_memory?.value !== undefined ? formatUnits(item.gpu_memory.value, item.gpu_memory.units) : '',
+              units: item?.gpu_memory?.units
+                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.gpu_memory.units) })
                 : null,
             }),
           },
