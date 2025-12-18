@@ -23,6 +23,7 @@ import { Selector } from 'routes/settings/costModels/components/inputs/selector'
 import { styles } from 'routes/settings/costModels/costModelWizard/wizard.styles';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getCurrencySymbol } from 'utils/format';
 
 interface UpdateCostModelOwnProps extends WrappedComponentProps {
   // TBD...
@@ -125,10 +126,13 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                 value={getValueLabel(this.state.currency, currencyOptions)}
                 onSelect={(_evt, value) => this.setState({ currency: value })}
                 id="currency-units-selector"
-                options={currencyOptions.map(o => {
+                options={currencyOptions.map(option => {
                   return {
-                    label: intl.formatMessage(o.label, { units: o.value }),
-                    value: o.value,
+                    label: intl.formatMessage(messages.currencyOptions, {
+                      [option.value]: getCurrencySymbol(option.value),
+                      units: option.value,
+                    }),
+                    value: option.value,
                   };
                 })}
               />

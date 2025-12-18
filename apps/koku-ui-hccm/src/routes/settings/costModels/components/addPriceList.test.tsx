@@ -3,7 +3,9 @@ import userEvent from '@testing-library/user-event';
 import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import React from 'react';
+import { Provider } from 'react-redux';
 import { CostModelContext, defaultCostModelContext } from 'routes/settings/costModels/costModelWizard/context';
+import { configureStore } from 'store/store';
 
 import AddPriceList from './addPriceList';
 
@@ -103,9 +105,11 @@ function RenderFormDataUI({ cancel, submit }) {
     cost_type: 'Supplementary',
   };
   return (
-    <CostModelContext.Provider value={{ ...defaultCostModelContext, tiers: [memoryRate] as Rate[] }}>
-      <AddPriceList metricsHash={metricsHash} submitRate={submit} cancel={cancel} />
-    </CostModelContext.Provider>
+    <Provider store={configureStore({} as any)}>
+      <CostModelContext.Provider value={{ ...defaultCostModelContext, tiers: [memoryRate] as Rate[] }}>
+        <AddPriceList metricsHash={metricsHash} submitRate={submit} cancel={cancel} />
+      </CostModelContext.Provider>
+    </Provider>
   );
 }
 
