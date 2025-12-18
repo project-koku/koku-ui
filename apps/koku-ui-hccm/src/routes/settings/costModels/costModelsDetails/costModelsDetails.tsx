@@ -5,7 +5,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 import type { RootState } from 'store';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
@@ -21,10 +20,10 @@ import CostModelsTable from './table';
 import CostModelsToolbar from './toolbar';
 
 interface CostModelsDetailsProps extends WrappedComponentProps {
-  search: string;
   getCostModelsData: (query: string) => Promise<void>;
-  getRbacData: () => Promise<void>;
   getMetricsData: () => Promise<void>;
+  getRbacData: () => Promise<void>;
+  search: string;
 }
 
 class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any> {
@@ -72,12 +71,10 @@ class CostModelsDetailsBase extends React.Component<CostModelsDetailsProps, any>
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    getCostModelsData: (query: string) => costModelsActions.fetchCostModels(query)(dispatch),
-    getRbacData: () => rbacActions.fetchRbac()(dispatch),
-    getMetricsData: () => metricsActions.fetchMetrics()(dispatch),
-  };
+const mapDispatchToProps = {
+  getCostModelsData: costModelsActions.fetchCostModels,
+  getMetricsData: metricsActions.fetchMetrics,
+  getRbacData: rbacActions.fetchRbac,
 };
 
 const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {

@@ -2,28 +2,28 @@
 
 This doc describes how to release ROS UI to each staging environment. Note that this should be done in order for testing purposes.
 
-## Release branches
+## Merge branches
 
-The release script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
+The merge-branch.sh script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
 
-1. Pull from master when pushing to stage-ros
+1. Pull from main when pushing to stage-ros
 2. Pull from stage-ros when pushing to prod-ros
 
 Please allow the PR to build successfully and merge before running the script again.
 
-### Release to stage-ros
+### Merge main to stage-ros
 
 ```
-sh ../../scripts/release-branch.sh -q
+sh ../../scripts/merge-branch.sh -q
 ```
 
-### Release to prod-ros
+### Merge stage-ros to prod-ros
 
 ```
-sh ../../scripts/release-branch.sh -r
+sh ../../scripts/merge-branch.sh -r
 ```
 
-### Wrapper for all release and deployment functionality
+### Wrapper for all merges
 
 ```
 node ../../scripts/release-all.js
@@ -31,24 +31,30 @@ node ../../scripts/release-all.js
 
 Follow the prompts below.
 
+* Are you deploying to app-interface? `N`
 * Which app do you want to release? `koku-ui-ros`
-* Which Chrome environment you want to release? `stage`
-* Do you want to release to app-interface? `N`
+* Which Chrome environment do you want to release? `stage`
 
 ## Deployments for app-interface
 
-The release script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
+The deploy-branch.sh script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
 
 1. Pull from stage-ros when updating the stage deployment in app-interface
 2. Pull from prod-ros when updating the prod deployment in app-interface
 
-### Release to app-interface
+### Deploy stage-ros to app-interface
 
 ```
-sh ../../scripts/release-app-interface.sh [-q|-r]
+sh ../../scripts/deploy-branch.sh -q
 ```
 
-### Wrapper for all release and deployment functionality
+### Deploy prod-ros to app-interface
+
+```
+sh ../../scripts/deploy-branch.sh -r
+```
+
+### Wrapper for all deployments
 
 ```
 node ../../scripts/release-all.js
@@ -56,9 +62,9 @@ node ../../scripts/release-all.js
 
 Follow the prompts below.
 
+* Are you deploying to app-interface? `Y`
 * Which app do you want to release? `koku-ui-ros`
-* Which Chrome environment you want to release? `stage`
-* Do you want to release to app-interface? `Y`
+* Which Chrome environment do you want to release? `stage`
 
 ### Manual deployment
 

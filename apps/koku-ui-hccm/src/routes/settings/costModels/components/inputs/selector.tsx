@@ -19,6 +19,7 @@ interface SelectorFormGroupOwnProps {
   direction?: 'up' | 'down';
   options: {
     description?: string;
+    isDisabled?: boolean;
     label: MessageDescriptor | string;
     value: any;
   }[];
@@ -72,19 +73,12 @@ const SelectorBase: React.FC<SelectorProps> = ({
     const selectOptions = options.map(option => {
       return {
         description: option.description,
+        isDisabled: option.isDisabled,
         toString: () => (typeof option.label === 'object' ? intl.formatMessage(option.label) : option.label),
         value: option.value,
       };
     });
-    return selectOptions.sort((a: any, b: any) => {
-      if (a.toString() < b.toString()) {
-        return -1;
-      }
-      if (a.toString() > b.toString()) {
-        return 1;
-      }
-      return 0;
-    });
+    return selectOptions.sort((a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? ''));
   };
 
   const handleOnSelect = (_evt, sel: SelectWrapperOption) => {

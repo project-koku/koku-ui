@@ -15,7 +15,7 @@ import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatUnits } from 'utils/format';
+import { formatUnits, getCurrencySymbol } from 'utils/format';
 import { logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -137,7 +137,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
               previousInfrastructureCostData={previousInfrastructureCostData}
               xAxisLabel={intl.formatMessage(messages.historicalChartDayOfMonthLabel)}
               yAxisLabel={intl.formatMessage(messages.historicalChartCostLabel, {
-                units: intl.formatMessage(messages.currencyUnits, { units: costUnits }) as string,
+                units: getCurrencySymbol(costUnits),
               })}
             />
           )}
