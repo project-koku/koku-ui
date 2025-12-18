@@ -1,3 +1,4 @@
+import PageHeader from '@patternfly/react-component-groups/dist/esm/PageHeader';
 import {
   Button,
   Card,
@@ -24,7 +25,6 @@ import {
 } from '@patternfly/react-core';
 import { AddCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/add-circle-o-icon';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -90,7 +90,6 @@ const NoProviders = () => {
   const getHeaderTitle = () => {
     return (
       <div>
-        <PageHeaderTitle title={intl.formatMessage(messages.costManagement)} />
         <div style={styles.headerDesc}>
           {intl.formatMessage(messages.noProvidersDesc, {
             ocp: <b>{intl.formatMessage(messages.ocp)}</b>,
@@ -266,7 +265,7 @@ const NoProviders = () => {
 
   return (
     <>
-      <PageHeader>
+      <PageHeader title={intl.formatMessage(messages.costManagement)}>
         <div style={styles.header}>
           <OpenShiftIcon />
           <Divider orientation={{ default: 'vertical' }} style={styles.divider} />

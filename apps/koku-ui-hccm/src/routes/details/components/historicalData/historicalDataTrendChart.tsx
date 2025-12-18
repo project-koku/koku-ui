@@ -15,7 +15,7 @@ import { getQueryState } from 'routes/utils/queryState';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { formatUnits, unitsLookupKey } from 'utils/format';
+import { formatUnits, getCurrencySymbol, unitsLookupKey } from 'utils/format';
 import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -118,7 +118,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 
     let yAxisLabel;
     if (isCostChart) {
-      const units = intl.formatMessage(messages.currencyUnits, { units: costUnits });
+      const units = getCurrencySymbol(costUnits);
       yAxisLabel = intl.formatMessage(messages.historicalChartCostLabel, { units });
     } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
       yAxisLabel = intl.formatMessage(messages.units, { units: unitsLookupKey(usageUnits) });

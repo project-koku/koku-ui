@@ -1,3 +1,4 @@
+import PageHeader from '@patternfly/react-component-groups/dist/esm/PageHeader';
 import {
   Card,
   CardBody,
@@ -9,8 +10,8 @@ import {
   TabContent,
 } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/esm/icons/error-circle-o-icon';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import type { CostModel } from 'api/costModels';
+import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
@@ -28,6 +29,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
+import { resourceSelectors } from 'store/resources';
 import type { Notification, NotificationComponentProps } from 'utils/notification';
 import { withNotification } from 'utils/notification';
 import type { RouterComponentProps } from 'utils/router';
@@ -110,9 +112,7 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
         if (costModelErrMessage === 'detail: Invalid provider uuid') {
           return (
             <>
-              <PageHeader>
-                <PageHeaderTitle title={intl.formatMessage(messages.costModels)} />
-              </PageHeader>
+              <PageHeader title={intl.formatMessage(messages.costModels)} />
               <EmptyState
                 headingLevel="h2"
                 icon={ErrorCircleOIcon}
@@ -204,15 +204,17 @@ export default injectIntl(
             metricsError: metricsSelectors.metricsState(state).error,
             metricsHash: metricsSelectors.metrics(state),
             metricsStatus: metricsSelectors.status(state),
+            models: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.gpuModel, ''),
             rbacError: rbacSelectors.selectRbacState(state).error,
             rbacNotification: rbacSelectors.selectRbacState(state).notification,
             rbacStatus: rbacSelectors.selectRbacState(state).status,
+            vendors: resourceSelectors.selectResource(state, ResourcePathsType.ocp, ResourceType.gpuVendor, ''),
           };
         }),
         {
+          fetchCostModels: costModelsActions.fetchCostModels,
           fetchMetrics: metricsActions.fetchMetrics,
           fetchRbac: rbacActions.fetchRbac,
-          fetchCostModels: costModelsActions.fetchCostModels,
         }
       )(CostModelInfo)
     )

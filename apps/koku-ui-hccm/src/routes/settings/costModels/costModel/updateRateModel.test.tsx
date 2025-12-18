@@ -5,8 +5,7 @@ import { updateCostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { rootReducer } from 'store/rootReducer';
+import { configureStore } from 'store/store';
 
 const mockupdater = updateCostModel as jest.Mock;
 mockupdater.mockReturnValue(Promise.resolve({ data: [] }));
@@ -62,7 +61,7 @@ const initial = {
               },
               description: 'openshift-containers',
               tag_rates: {
-                tag_key: 'openshift-region-1',
+                tag_key: 'openshift_region_1',
                 tag_values: [
                   {
                     unit: 'USD',
@@ -105,7 +104,7 @@ const initial = {
               },
               description: 'openshift-containers',
               tag_rates: {
-                tag_key: 'openshift-region-2',
+                tag_key: 'openshift_region_2',
                 tag_values: [
                   {
                     unit: 'USD',
@@ -238,7 +237,7 @@ const initial = {
 
 function RenderFormDataUI(props) {
   return (
-    <Provider store={createStore(rootReducer, initial)}>
+    <Provider store={configureStore(initial as any)}>
       <UpdateRateModal {...props} />;
     </Provider>
   );
@@ -346,14 +345,14 @@ describe('update-rate', () => {
     render(<RenderFormDataUI index={1} />);
     const saveButton = screen.getByRole('button', { name: regExp(messages.save)} );
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
-    await user.type(screen.getByDisplayValue(/^container$/i), '1');
+    await user.type(screen.getByDisplayValue(/^container$/i), 'A');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/^container1$/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/^containerA$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.type(screen.getByDisplayValue(/any container$/i), '1');
+    await user.type(screen.getByDisplayValue(/any container$/i), 'A');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/any container1$/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/any containerA$/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
     await user.type(screen.getByDisplayValue(/^0.4$/i), '3');
@@ -368,16 +367,16 @@ describe('update-rate', () => {
 
     await user.click(screen.getByText(/Add more tag values/i));
     await act(async () =>
-      user.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something random')
+      user.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something_random')
     );
     await user.type(screen.getAllByLabelText(regExp(messages.rate))[4], '1.01');
     expect(saveButton.getAttribute('disabled')).toBeNull();
     await user.click(screen.getAllByLabelText(regExp(messages.costModelsRemoveTagLabel))[4]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
 
-    await user.type(screen.getByDisplayValue(/openshift-region-1/i), '2');
+    await user.type(screen.getByDisplayValue(/openshift_region_1/i), '2');
     expect(saveButton.getAttribute('disabled')).toBeNull();
-    await user.type(screen.getByDisplayValue(/openshift-region-12/i), '{backspace}');
+    await user.type(screen.getByDisplayValue(/openshift_region_12/i), '{backspace}');
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
   });
 
@@ -392,7 +391,7 @@ describe('update-rate', () => {
 
     await user.click(screen.getByLabelText(regExp(messages.costModelsEnterTagRate)));
     await act(async () =>
-      user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift-region-1')
+      user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift_region_1')
     );
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
@@ -402,7 +401,7 @@ describe('update-rate', () => {
     render(<RenderFormDataUI index={2} />);
     const filterTagInput = screen.getByLabelText(regExp(messages.costModelsFilterTagKey));
     await user.clear(filterTagInput);
-    await user.type(filterTagInput, 'openshift-region-1');
+    await user.type(filterTagInput, 'openshift_region_1');
     expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
   });
 });

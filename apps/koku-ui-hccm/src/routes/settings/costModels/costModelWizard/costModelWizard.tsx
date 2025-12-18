@@ -40,19 +40,19 @@ import Sources from './sources';
 import { validatorsHash } from './steps';
 
 interface InternalWizardBaseProps extends WrappedComponentProps {
+  closeFnc: () => void;
+  context: any;
+  current: number;
+  isOpen: boolean;
   isProcess: boolean;
   isSuccess: boolean;
-  closeFnc: () => void;
-  isOpen: boolean;
+  metricsHash: MetricHash;
   onMove: (id: number) => void;
-  validators: ((any) => boolean)[];
-  steps: any[];
-  current: number;
-  context: any;
   setError: (error: string) => void;
   setSuccess: () => void;
+  steps: any[];
   updateCostModel: () => void;
-  metricsHash: MetricHash;
+  validators: ((any) => boolean)[];
 }
 
 // Update tiers currency
@@ -76,19 +76,19 @@ export const updateTiersCurrency = (tiers, currencyUnits = 'USD') => {
 };
 
 const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
+  closeFnc,
+  context,
+  current = 0,
   intl,
+  isOpen,
   isProcess,
   isSuccess,
-  closeFnc,
-  isOpen,
   onMove,
-  validators,
   steps,
-  current = 0,
-  context,
   setError,
   setSuccess,
   updateCostModel,
+  validators,
 }) => {
   const EmptyFooter = () => null;
   const isAddingRate = context.type === 'OCP' && current === 1 && !validators[current](context);
@@ -103,6 +103,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
         currency,
         description,
         distribution,
+        distributeGpu,
         distributeNetwork,
         distributePlatformUnallocated,
         distributeStorage,
@@ -121,6 +122,7 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
         description,
         distribution_info: {
           distribution_type: distribution,
+          gpu_unallocated: distributeGpu,
           network_unattributed: distributeNetwork,
           platform_cost: distributePlatformUnallocated,
           storage_unattributed: distributeStorage,
@@ -185,11 +187,11 @@ const InternalWizardBase: React.FC<InternalWizardBaseProps> = ({
 const InternalWizard = injectIntl(InternalWizardBase);
 
 interface CostModelWizardProps extends WrappedComponentProps {
-  isOpen: boolean;
   closeWizard: () => void;
-  openWizard: () => void;
   fetch: typeof costModelsActions.fetchCostModels;
+  isOpen: boolean;
   metricsHash: MetricHash;
+  openWizard: () => void;
 }
 
 interface CostModelWizardState {
@@ -203,6 +205,7 @@ interface CostModelWizardState {
   description?: string;
   dirtyName?: boolean;
   distribution?: string;
+  distributeGpu?: boolean;
   distributeNetwork?: boolean;
   distributePlatformUnallocated?: boolean;
   distributeStorage?: boolean;
@@ -246,6 +249,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
     dirtyName: false,
     description: '',
     distribution: 'cpu',
+    distributeGpu: true,
     distributeNetwork: true,
     distributePlatformUnallocated: true,
     distributeStorage: true,
@@ -424,6 +428,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             dataFetched: this.state.dataFetched,
             dirtyName: this.state.dirtyName,
             distribution: this.state.distribution,
+            distributeGpu: this.state.distributeGpu,
             distributeNetwork: this.state.distributeNetwork,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
             distributeStorage: this.state.distributeStorage,
@@ -464,6 +469,9 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             handleDistributionChange: event => {
               const { value } = event.currentTarget;
               this.setState({ distribution: value });
+            },
+            handleDistributeGpuChange: (event, isChecked) => {
+              this.setState({ distributeGpu: isChecked });
             },
             handleDistributeNetworkChange: (event, isChecked) => {
               this.setState({ distributeNetwork: isChecked });
@@ -582,6 +590,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
             currency: this.state.currencyUnits,
             description: this.state.description,
             distribution: this.state.distribution,
+            distributeGpu: this.state.distributeGpu,
             distributeNetwork: this.state.distributeNetwork,
             distributePlatformUnallocated: this.state.distributePlatformUnallocated,
             distributeStorage: this.state.distributeStorage,
@@ -621,7 +630,9 @@ const CostModelWizard = connect(
   createMapStateToProps(state => ({
     metricsHash: metricsSelectors.metrics(state),
   })),
-  { fetch: costModelsActions.fetchCostModels }
+  {
+    fetch: costModelsActions.fetchCostModels,
+  }
 )(injectIntl(CostModelWizardBase));
 
 export default CostModelWizard;

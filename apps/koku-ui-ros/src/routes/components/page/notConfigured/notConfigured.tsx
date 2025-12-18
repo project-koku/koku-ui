@@ -1,5 +1,5 @@
+import PageHeader from '@patternfly/react-component-groups/dist/esm/PageHeader';
 import { PageSection } from '@patternfly/react-core';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import React from 'react';
 
 import { NotConfiguredState } from './notConfiguredState';
@@ -13,11 +13,7 @@ type NotConfiguredProps = NotConfiguredOwnProps;
 const NotConfigured = ({ title }: NotConfiguredProps) => {
   return (
     <>
-      {title && (
-        <PageHeader>
-          <PageHeaderTitle title={title} />
-        </PageHeader>
-      )}
+      {title && <PageHeader title={title} />}
       <PageSection hasBodyWrapper={false}>
         <NotConfiguredState />
       </PageSection>

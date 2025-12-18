@@ -15,7 +15,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { formatCurrencyRaw } from 'utils/format';
+import { formatCurrencyRaw, getCurrencySymbol } from 'utils/format';
 
 import { styles } from './rateInput.styles';
 
@@ -55,9 +55,7 @@ const RateInputBase: React.FC<RateInputBaseProps> = ({
       label={label !== null && typeof label === 'object' ? intl.formatMessage(label) : (label as string)}
     >
       <InputGroup>
-        <InputGroupText style={styles.currency}>
-          {intl.formatMessage(messages.currencyUnits, { units: currencyUnits })}
-        </InputGroupText>
+        <InputGroupText style={styles.currency}>{getCurrencySymbol(currencyUnits)}</InputGroupText>
         <InputGroupItem isFill>
           <TextInput
             onBlur={onBlur}

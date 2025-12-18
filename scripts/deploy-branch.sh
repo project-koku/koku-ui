@@ -42,7 +42,7 @@ usage()
 {
 cat <<- EEOOFF
 
-    This script will update app-interface with the latest SHA refs from the koku-ui branches below. Then, it will
+    This script will deploy app-interface with the latest SHA refs from the koku-ui branches below. Then, it will
     either create an merge request (default) or push to the origin without an MR. It's assumed SSH keys are in use.
 
     $HCCM_STAGE_BRANCH
@@ -55,14 +55,14 @@ cat <<- EEOOFF
 
     OPTIONS:
     h       Display this message
-    s       Update SHA refs from $HCCM_STAGE_BRANCH to $TARGET_BRANCH
-    p       Update SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
-    q       Update SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
-    r       Update SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
+    s       Deploy SHA refs from $HCCM_STAGE_BRANCH to $TARGET_BRANCH
+    p       Deploy SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
+    q       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
+    r       Deploy SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
     u       Push to upstream
 
     Note: This script lacks permission to push directly upstream, so commits will be pushed to this fork:
-    $APP_INTERFACE_FORK
+    $APP_INTERFACE_FORK -- override user via the GITLAB_USER env var.
 
 EEOOFF
 }
@@ -89,7 +89,7 @@ cloneKokuUI()
 
 commit()
 {
-  SOURCE_BRANCH="cost-management_release.$$"
+  SOURCE_BRANCH="cost-management_deploy.$$"
   TITLE="Update Cost Management UI deployments"
 
   cd $APP_INTERFACE_DIR
@@ -101,21 +101,21 @@ commit()
   git commit -m "$TITLE" $DEPLOY_CLOWDER_FILE
 }
 
-createDeploymentUpdates()
+createDeploymentDesc()
 {
   mkdir -p $TMP_DIR
 
   {
-    if [ "$UPDATE_HCCM_STAGE" = "true" ]; then
+    if [ "$DEPLOY_HCCM_STAGE" = "true" ]; then
       echo "${KOKU_UI_HCCM}: Stage deployment"
     fi
-    if [ "$UPDATE_HCCM_PROD" = "true" ]; then
+    if [ "$DEPLOY_HCCM_PROD" = "true" ]; then
       echo "${KOKU_UI_HCCM}: Prod deployment"
     fi
-    if [ "$UPDATE_ROS_STAGE" = "true" ]; then
+    if [ "$DEPLOY_ROS_STAGE" = "true" ]; then
       echo "${KOKU_UI_ROS}: Stage deployment"
     fi
-    if [ "$UPDATE_ROS_PROD" = "true" ]; then
+    if [ "$DEPLOY_ROS_PROD" = "true" ]; then
       echo "${KOKU_UI_ROS}: Prod deployment"
     fi
   } > "$DEPLOYMENTS_FILE"
@@ -247,7 +247,7 @@ initKokuUISHA()
 updateDeploySHA()
 {
   # koku-ui-hccm stage deploy
-  if [ "$UPDATE_HCCM_STAGE" = true ]; then
+  if [ "$DEPLOY_HCCM_STAGE" = true ]; then
     if [ "$HCCM_STAGE_FRONTENDS_SHA" != "$MAIN_BRANCH" ]; then
       sed "s|$HCCM_STAGE_FRONTENDS_SHA|$HCCM_STAGE_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
       mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
@@ -259,13 +259,13 @@ updateDeploySHA()
   fi
 
   # koku-ui-hccm prod deploy
-  if [ "$UPDATE_HCCM_PROD" = true ]; then
+  if [ "$DEPLOY_HCCM_PROD" = true ]; then
       sed "s|$HCCM_PROD_FRONTENDS_SHA|$HCCM_PROD_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
       mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
   fi
 
   # koku-ui-ros stage deploy
-  if [ "$UPDATE_ROS_STAGE" = true ]; then
+  if [ "$DEPLOY_ROS_STAGE" = true ]; then
     if [ "$ROS_STAGE_FRONTENDS_SHA" != "$MAIN_BRANCH" ]; then
       sed "s|$ROS_STAGE_FRONTENDS_SHA|$ROS_STAGE_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
       mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
@@ -277,7 +277,7 @@ updateDeploySHA()
   fi
 
   # koku-ui-ros prod deploy
-  if [ "$UPDATE_ROS_PROD" = true ]; then
+  if [ "$DEPLOY_ROS_PROD" = true ]; then
       sed "s|$ROS_PROD_FRONTENDS_SHA|$ROS_PROD_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
       mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
   fi
@@ -289,23 +289,23 @@ updateDeploySHA()
 
   while getopts hpqrsu c; do
     case $c in
-      s) UPDATE_HCCM_STAGE=true;;
-      p) UPDATE_HCCM_PROD=true;;
-      q) UPDATE_ROS_STAGE=true;;
-      r) UPDATE_ROS_PROD=true;;
+      s) DEPLOY_HCCM_STAGE=true;;
+      p) DEPLOY_HCCM_PROD=true;;
+      q) DEPLOY_ROS_STAGE=true;;
+      r) DEPLOY_ROS_PROD=true;;
       u) PUSH=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
     esac
   done
 
-  if [ -z "$UPDATE_HCCM_STAGE" -a -z "$UPDATE_HCCM_PROD" -a -z "$UPDATE_ROS_STAGE" -a -z "$UPDATE_ROS_PROD" ]; then
+  if [ -z "$DEPLOY_HCCM_STAGE" -a -z "$DEPLOY_HCCM_PROD" -a -z "$DEPLOY_ROS_STAGE" -a -z "$DEPLOY_ROS_PROD" ]; then
     usage
     exit 1
   fi
 
-  echo "\n*** Releasing $APP_INTERFACE with SHA updates for...\n"
-  createDeploymentUpdates
+  echo "\n*** Deploying $APP_INTERFACE with SHA updates for...\n"
+  createDeploymentDesc
   cat $DEPLOYMENTS_FILE
   echo
 
