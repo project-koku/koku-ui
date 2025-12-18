@@ -31,7 +31,7 @@ import {
 import type { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { OcpDashboardTab } from 'store/dashboard/ocpDashboard';
-import { formatCurrency, formatUnits, unitsLookupKey } from 'utils/format';
+import { formatCurrency, formatUnits, getCurrencySymbol, unitsLookupKey } from 'utils/format';
 import { formatPath } from 'utils/paths';
 
 import { ChartComparison } from './chartComparison';
@@ -390,7 +390,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
     if (computedReportItem === ComputedReportItemType.usage) {
       return intl.formatMessage(messages.units, { units: unitsLookupKey(units) });
     }
-    return intl.formatMessage(messages.currencyUnits, { units }) as string;
+    return getCurrencySymbol(units);
   };
 
   private getHorizontalLayout = () => {

@@ -1,0 +1,1 @@
+export { GpuData } from './gpuData';

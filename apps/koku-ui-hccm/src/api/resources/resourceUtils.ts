@@ -28,6 +28,8 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
       case ResourceType.aws_ec2_os:
       case ResourceType.cluster:
       case ResourceType.gcpProject:
+      case ResourceType.gpuModel:
+      case ResourceType.gpuVendor:
       case ResourceType.node:
       case ResourceType.payerTenantId:
       case ResourceType.productService:

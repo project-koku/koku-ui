@@ -13,13 +13,16 @@ interface OcpGroupBys {
 }
 
 interface OcpOrderBys {
-  cost?: string;
   cluster?: string;
+  cost?: string;
+  gpu_count?: string;
+  model?: string; // GPU model
   node?: string;
-  project?: string;
   persistentvolumeclaim?: string;
+  project?: string;
   request?: string;
   usage?: string;
+  vendor?: string; // GPU vendor
 }
 
 export interface OcpQuery extends utils.Query {

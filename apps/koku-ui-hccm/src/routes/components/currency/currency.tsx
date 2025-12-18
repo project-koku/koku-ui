@@ -1,4 +1,3 @@
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
@@ -8,6 +7,7 @@ import { connect } from 'react-redux';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
 import { createMapStateToProps } from 'store/common';
+import { getCurrencySymbol } from 'utils/format';
 import { setCurrency } from 'utils/sessionStorage';
 
 import { styles } from './currency.styles';
@@ -35,28 +35,30 @@ interface CurrencyState {
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
 
 export const currencyOptions: {
-  label: MessageDescriptor;
   value: string;
 }[] = [
-  { label: messages.currencyOptions, value: 'AUD' },
-  { label: messages.currencyOptions, value: 'BRL' },
-  { label: messages.currencyOptions, value: 'CAD' },
-  { label: messages.currencyOptions, value: 'CHF' },
-  { label: messages.currencyOptions, value: 'CNY' },
-  { label: messages.currencyOptions, value: 'CZK' },
-  { label: messages.currencyOptions, value: 'DKK' },
-  { label: messages.currencyOptions, value: 'EUR' },
-  { label: messages.currencyOptions, value: 'GBP' },
-  { label: messages.currencyOptions, value: 'HKD' },
-  { label: messages.currencyOptions, value: 'INR' },
-  { label: messages.currencyOptions, value: 'JPY' },
-  { label: messages.currencyOptions, value: 'NGN' },
-  { label: messages.currencyOptions, value: 'NOK' },
-  { label: messages.currencyOptions, value: 'NZD' },
-  { label: messages.currencyOptions, value: 'SEK' },
-  { label: messages.currencyOptions, value: 'SGD' },
-  { label: messages.currencyOptions, value: 'USD' },
-  { label: messages.currencyOptions, value: 'ZAR' },
+  { value: 'AED' },
+  { value: 'AUD' },
+  { value: 'BRL' },
+  { value: 'CAD' },
+  { value: 'CHF' },
+  { value: 'CNY' },
+  { value: 'CZK' },
+  { value: 'DKK' },
+  { value: 'EUR' },
+  { value: 'GBP' },
+  { value: 'HKD' },
+  { value: 'INR' },
+  { value: 'JPY' },
+  { value: 'NGN' },
+  { value: 'NOK' },
+  { value: 'NZD' },
+  { value: 'SAR' },
+  { value: 'SEK' },
+  { value: 'SGD' },
+  { value: 'TWD' },
+  { value: 'USD' },
+  { value: 'ZAR' },
 ];
 
 class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
@@ -90,7 +92,11 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
 
     currencyOptions.map(option => {
       options.push({
-        toString: () => intl.formatMessage(option.label, { units: option.value }),
+        toString: () =>
+          intl.formatMessage(messages.currencyOptions, {
+            [option.value]: getCurrencySymbol(option.value),
+            units: option.value,
+          }),
         value: option.value,
       });
     });
