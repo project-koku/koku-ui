@@ -46,13 +46,13 @@ export interface ComputedReportItem extends ComputedReportOcpItem, ComputedRepor
   date?: string;
   delta_percent?: number;
   delta_value?: number;
+  gpu_model?: string;
+  gpu_vendor?: string;
   infrastructure?: ReportItemValue;
   label?: string; // helper for item label
-  model?: string;
   source_uuid?: string;
   supplementary?: ReportItemValue;
   type?: string; // 'account' or 'organizational_unit'
-  vendor?: string;
 }
 
 export interface ComputedReportItemsParams<R extends Report, T extends ReportItem> {
@@ -336,9 +336,9 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
   const cluster = cluster_alias || val?.cluster;
   const date = val?.date;
   const default_project = val?.default_project?.toLowerCase() === 'true';
-  const model = val?.model;
+  const gpu_model = val?.gpu_model;
+  const gpu_vendor = val?.gpu_vendor;
   const node = val?.node;
-  const vendor = val?.vendor;
 
   let label;
   if (report?.meta?.others && (id === 'Other' || id === 'Others')) {
@@ -375,14 +375,14 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
       clusters: getClusters(val),
       cost: getCostData(val, 'cost'),
       default_project,
+      gpu_model,
+      gpu_vendor,
       id,
       infrastructure: getCostData(val, 'infrastructure'),
       label,
-      model,
       node,
       supplementary: getCostData(val, 'supplementary'),
       type,
-      vendor,
     };
     const item = itemMap.get(mapId);
     if (item) {
@@ -406,14 +406,14 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         cost: getCostData(val, 'cost', item),
         date,
         default_project,
+        gpu_model,
+        gpu_vendor,
         id,
         infrastructure: getCostData(val, 'infrastructure', item),
         label,
-        model,
         node,
         supplementary: getCostData(val, 'supplementary', item),
         type,
-        vendor,
       });
     } else {
       itemMap.set(mapId, {
@@ -425,14 +425,14 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         cost: getCostData(val, 'cost'),
         date,
         default_project,
+        gpu_model,
+        gpu_vendor,
         id,
         infrastructure: getCostData(val, 'infrastructure'),
         label,
-        model,
         node,
         supplementary: getCostData(val, 'supplementary'),
         type,
-        vendor,
       });
     }
   }

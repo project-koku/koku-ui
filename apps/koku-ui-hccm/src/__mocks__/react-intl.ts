@@ -10,6 +10,27 @@ const intl = {
     return defaultMessage + JSON.stringify(params);
   }),
   formatNumber: jest.fn(v => v),
+  // Used by getCurrencySymbol; mimic Intl.NumberFormat(...).formatToParts
+  formatNumberToParts: jest.fn((value: number, options?: any) => {
+    try {
+      return new Intl.NumberFormat('en', options).formatToParts(value);
+    } catch {
+      // Fallback minimal shape if environment lacks formatToParts for given options
+      const currency = options?.currency || '';
+      // Basic symbol map for common currencies used in tests
+      const symbolMap: Record<string, string> = {
+        USD: '$',
+        EUR: '€',
+        GBP: '£',
+        JPY: '¥',
+        CAD: 'CA$',
+        AUD: 'A$',
+        SGD: 'S$',
+      };
+      const symbol = symbolMap[currency] || currency;
+      return [{ type: 'currency', value: symbol }];
+    }
+  }),
 };
 
 module.exports = {
