@@ -5,35 +5,33 @@ import { getCurrencySymbol } from 'utils/format';
 import type { SelectWrapperOption } from '../selectWrapper';
 
 // Supported currencies
-const currencies: {
-  value: string;
-}[] = [
-  { value: 'AED' },
-  { value: 'AUD' },
-  { value: 'BRL' },
-  { value: 'CAD' },
-  { value: 'CHF' },
-  { value: 'CNY' },
-  { value: 'CZK' },
-  { value: 'DKK' },
-  { value: 'EUR' },
-  { value: 'GBP' },
-  { value: 'HKD' },
-  { value: 'INR' },
-  { value: 'JPY' },
-  { value: 'NGN' },
-  { value: 'NOK' },
-  { value: 'NZD' },
-  { value: 'SAR' },
-  { value: 'SEK' },
-  { value: 'SGD' },
-  { value: 'TWD' },
-  { value: 'USD' },
-  { value: 'ZAR' },
+const currencies: string[] = [
+  'AED',
+  'AUD',
+  'BRL',
+  'CAD',
+  'CHF',
+  'CNY',
+  'CZK',
+  'DKK',
+  'EUR',
+  'GBP',
+  'HKD',
+  'INR',
+  'JPY',
+  'NGN',
+  'NOK',
+  'NZD',
+  'SAR',
+  'SEK',
+  'SGD',
+  'TWD',
+  'USD',
+  'ZAR',
 ];
 
-export const getCurrencyLabel = (units: string) => {
-  const currencyUnits = units || 'USD';
+export const getCurrencyLabel = (currency: string) => {
+  const currencyUnits = currency || 'USD';
   return intl.formatMessage(messages.currencyOptions, {
     [currencyUnits]: getCurrencySymbol(currencyUnits),
     units: currencyUnits,
@@ -43,14 +41,14 @@ export const getCurrencyLabel = (units: string) => {
 export const getCurrencyOptions = (): SelectWrapperOption[] => {
   const currencyOptions: SelectWrapperOption[] = [];
 
-  currencies.map(option => {
+  currencies.forEach(currency => {
     currencyOptions.push({
       toString: () =>
         intl.formatMessage(messages.currencyOptions, {
-          [option.value]: getCurrencySymbol(option.value),
-          units: option.value,
+          [currency]: getCurrencySymbol(currency),
+          units: currency,
         }),
-      value: option.value,
+      value: currency,
     });
   });
   return currencyOptions;
