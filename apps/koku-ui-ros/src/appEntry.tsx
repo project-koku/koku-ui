@@ -19,7 +19,7 @@ const AppEntry = () => {
   const locale = getLocale();
 
   return (
-    <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale]} onError={console.log}>
+    <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale] || messages.en} onError={console.log}>
       <Provider store={rosStore as any}>
         <NotificationsPortal />
         <App />
