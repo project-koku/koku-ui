@@ -44,6 +44,7 @@ interface Props extends RouterComponentProps, WrappedComponentProps {
   isWritePermission: boolean;
 }
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
+import { getCurrencySymbol } from 'utils/format';
 
 const Header: React.FC<Props> = ({
   current,
@@ -171,7 +172,10 @@ const Header: React.FC<Props> = ({
             <Content component={ContentVariants.dd}>{dateTime}</Content>
             <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
             <Content component={ContentVariants.dd}>
-              {intl.formatMessage(messages.currencyOptions, { units: current.currency || 'USD' })}
+              {intl.formatMessage(messages.currencyOptions, {
+                [current.currency]: getCurrencySymbol(current.currency),
+                units: current.currency,
+              })}
             </Content>
           </Content>
         </Content>
