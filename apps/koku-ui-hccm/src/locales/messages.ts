@@ -2543,22 +2543,6 @@ export default defineMessages({
     description: 'Looking for integrations',
     id: 'loadingStateTitle',
   },
-  maintenanceEmptyStateDesc: {
-    defaultMessage:
-      'Cost management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
-    description: 'Cost management is currently undergoing scheduled maintenance',
-    id: 'maintenanceEmptyStateDesc',
-  },
-  maintenanceEmptyStateInfo: {
-    defaultMessage: 'For more information visit {url}',
-    description: 'more information url',
-    id: 'maintenanceEmptyStateInfo',
-  },
-  maintenanceEmptyStateThanks: {
-    defaultMessage: 'We will be back soon. Thank you for your patience!',
-    description: 'thanks you for your patience',
-    id: 'maintenanceEmptyStateThanks',
-  },
   manageColumnsAriaLabel: {
     defaultMessage: 'Table column management',
     description: 'Table column management',
