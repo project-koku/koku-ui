@@ -12,8 +12,17 @@ const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
+const exposedModules = {
+  './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
+  './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
+  './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
+  './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
+  './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
+  './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
+};
+
 const config: Configuration = {
-  entry: './src/bootstrap.tsx',
+  entry: Object.values(exposedModules),
   mode: NODE_ENV,
   devtool: 'source-map',
   module: {
@@ -92,14 +101,7 @@ const config: Configuration = {
       pluginMetadata: {
         name: 'costManagementRos',
         version: '1.0.0',
-        exposedModules: {
-          './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
-          './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
-          './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
-          './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
-          './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
-          './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
-        },
+        exposedModules,
       },
     }),
     new DefinePlugin({

@@ -12,8 +12,12 @@ const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
+const exposedModules = {
+  './RootApp': './src/appEntry.tsx',
+};
+
 const config: Configuration = {
-  entry: './src/bootstrap.tsx',
+  entry: Object.values(exposedModules),
   mode: NODE_ENV,
   devtool: 'source-map',
   module: {
@@ -92,9 +96,7 @@ const config: Configuration = {
       pluginMetadata: {
         name: 'costManagement',
         version: '1.0.0',
-        exposedModules: {
-          './RootApp': './src/appEntry.tsx',
-        },
+        exposedModules,
       },
     }),
     new DefinePlugin({
