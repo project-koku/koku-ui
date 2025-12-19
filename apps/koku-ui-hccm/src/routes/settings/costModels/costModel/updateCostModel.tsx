@@ -62,9 +62,14 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
   public render() {
     const { costModel, intl, isProcessing, setDialogOpen, updateCostModel, updateError } = this.props;
     const current = costModel[0];
-    const getValueLabel = (valStr: string, options) => {
+    const getCurrencyLabel = (valStr: string, options) => {
       const val = options.find(o => o.value === valStr);
-      return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
+      return !val
+        ? valStr
+        : intl.formatMessage(messages.currencyOptions, {
+            [val.value]: getCurrencySymbol(val.value),
+            units: val.value,
+          });
     };
     // Workaround for https://issues.redhat.com/browse/COST-4355
     const updateRatesCurrency = rates => {
@@ -123,7 +128,7 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                 appendMenuTo="inline"
                 maxMenuHeight={styles.selector.maxHeight as string}
                 toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
-                value={getValueLabel(this.state.currency, currencyOptions)}
+                value={getCurrencyLabel(this.state.currency, currencyOptions)}
                 onSelect={(_evt, value) => this.setState({ currency: value })}
                 id="currency-units-selector"
                 options={currencyOptions.map(option => {
