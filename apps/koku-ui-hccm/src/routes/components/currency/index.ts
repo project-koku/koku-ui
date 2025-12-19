@@ -1,1 +1,2 @@
-export { default as Currency, currencyOptions } from './currency';
+export { default as Currency } from './currency';
+export * from './utils';
