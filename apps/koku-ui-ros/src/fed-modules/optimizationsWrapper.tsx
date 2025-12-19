@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import UiVersion from '@koku-ui/ui-lib/components/page/uiVersion';
 import { getLocale } from 'components/i18n';
+import { ignoreDefaultMessageError } from 'components/i18n/intl';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -20,7 +20,12 @@ const OptimizationsWrapper: React.FC<OptimizationsWrapperProps> = ({ children }:
 
   // Note: className is a workaround for ConsoleDot outputting the app name instead of module name
   return (
-    <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale] || messages.en} onError={console.log}>
+    <IntlProvider
+      defaultLocale="en"
+      locale={locale}
+      messages={messages[locale] || messages.en}
+      onError={ignoreDefaultMessageError}
+    >
       <Provider store={rosStore as any}>
         <div className="costManagementRos">{children}</div>
         <UiVersion />
