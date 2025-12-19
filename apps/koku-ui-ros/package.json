@@ -45,7 +45,10 @@
     "translations:compile": "npx formatjs compile build/messages/src/Messages.json --out-file locales/translations.json",
     "translations:compile:ast": "npx formatjs compile build/messages/src/Messages.json --out-file locales/en.json --ast",
     "translations:datafile": "node scripts/createDataJson.js",
-    "translations:syncTranslations": "node scripts/syncTranslations.js"
+    "translations:syncTranslations": "node scripts/syncTranslations.js",
+    "start:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack-onprem.config.ts --watch --mode=development --color --progress",
+    "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack-onprem.config.ts --mode=production --color --progress",
+    "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "scripts-info": {
     "deploy:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-ros branch",
@@ -70,7 +73,6 @@
     "@patternfly/react-tokens": "6.4.0",
     "@redhat-cloud-services/frontend-components": "^7.0.13",
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.14",
-    "@redhat-cloud-services/frontend-components-translations": "^4.0.16",
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.9",
     "@reduxjs/toolkit": "^2.11.2",
     "@unleash/proxy-client-react": "^5.0.1",
@@ -97,6 +99,7 @@
     "@formatjs/icu-messageformat-parser": "^2.11.4",
     "@formatjs/intl": "^3.1.8",
     "@formatjs/intl-localematcher": "^0.6.2",
+    "@openshift/dynamic-plugin-sdk-webpack": "4.1.0",
     "@redhat-cloud-services/frontend-components-config": "^6.7.4",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.26",
     "@testing-library/jest-dom": "^6.9.1",

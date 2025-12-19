@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "npm exec --workspaces -- npm run build",
+    "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
     "check:dependencies": "npx npm-check-updates",
     "check:dependencies:all": "npm exec --workspaces -- npm run check:dependencies",
     "check:dependencies:update": "npx npm-check-updates -u",
@@ -29,7 +30,7 @@
     "release:all": "node scripts/release-all.js",
     "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
-    "start:onprem": "npm run -w @koku-ui/koku-ui-onprem start"
+    "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS\" --prefix-colors \"yellow,cyan,magenta\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\""
   },
   "scripts-info": {
     "check:dependencies:all": "Checks for outdated dependencies in each workspace",
@@ -49,14 +50,15 @@
     "@testing-library/user-event": "^14.6.1",
     "@typescript-eslint/eslint-plugin": "^8.49.0",
     "@typescript-eslint/parser": "^8.48.1",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
     "eslint-plugin-formatjs": "^5.4.2",
-    "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-jest-dom": "^5.5.0",
     "eslint-plugin-jsdoc": "^61.5.0",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-testing-library": "^7.13.5",
