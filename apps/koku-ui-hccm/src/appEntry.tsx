@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Todo: Uncomment for use with non-shared PatternFly packages
 // import '@patternfly/patternfly/patternfly.css';
 import '@patternfly/patternfly/patternfly-addons.css';
@@ -6,6 +5,7 @@ import './styles/global.css';
 
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import { getLocale } from 'components/i18n';
+import { ignoreDefaulMessageError } from 'components/i18n/intl';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -25,7 +25,12 @@ const AppEntry = () => {
   const locale = getLocale();
 
   return (
-    <IntlProvider defaultLocale="en" locale={locale} messages={messages[locale] || messages.en} onError={console.log}>
+    <IntlProvider
+      defaultLocale="en"
+      locale={locale}
+      messages={messages[locale] || messages.en}
+      onError={ignoreDefaulMessageError}
+    >
       <Provider store={costStore as any}>
         <NotificationsPortal />
         <App />
