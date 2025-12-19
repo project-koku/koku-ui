@@ -10281,28 +10281,6 @@
         "value": "Looking for integrations..."
       }
     ],
-    "maintenanceEmptyStateDesc": [
-      {
-        "type": 0,
-        "value": "Cost management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT)."
-      }
-    ],
-    "maintenanceEmptyStateInfo": [
-      {
-        "type": 0,
-        "value": "For more information visit "
-      },
-      {
-        "type": 1,
-        "value": "url"
-      }
-    ],
-    "maintenanceEmptyStateThanks": [
-      {
-        "type": 0,
-        "value": "We will be back soon. Thank you for your patience!"
-      }
-    ],
     "manageColumnsAriaLabel": [
       {
         "type": 0,

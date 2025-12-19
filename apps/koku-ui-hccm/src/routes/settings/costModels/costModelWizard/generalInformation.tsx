@@ -43,11 +43,20 @@ type GeneralInformationProps = GeneralInformationOwnProps &
 
 class GeneralInformation extends React.Component<GeneralInformationProps, any> {
   public render() {
+    const { intl } = this.props;
     const getValueLabel = (valStr: string, options) => {
       const val = options.find(o => o.value === valStr);
       return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
     };
-    const { intl } = this.props;
+    const getCurrencyLabel = (valStr: string, options) => {
+      const val = options.find(o => o.value === valStr);
+      return !val
+        ? valStr
+        : intl.formatMessage(messages.currencyOptions, {
+            [val.value]: getCurrencySymbol(val.value),
+            units: val.value,
+          });
+    };
     const sourceTypeOptions = [
       {
         label: messages.awsAlt,
@@ -148,18 +157,16 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   appendMenuTo="inline"
                   maxMenuHeight={styles.selector.maxHeight as string}
                   toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
-                  value={getValueLabel(currencyUnits, currencyOptions)}
+                  value={getCurrencyLabel(currencyUnits, currencyOptions)}
                   onSelect={(_evt, value) => onCurrencyChange(value)}
                   id="currency-units-selector"
-                  options={currencyOptions.map(option => {
-                    return {
-                      label: intl.formatMessage(messages.currencyOptions, {
-                        [option.value]: getCurrencySymbol(option.value),
-                        units: option.value,
-                      }),
-                      value: option.value,
-                    };
-                  })}
+                  options={currencyOptions.map(option => ({
+                    label: intl.formatMessage(messages.currencyOptions, {
+                      [option.value]: getCurrencySymbol(option.value),
+                      units: option.value,
+                    }),
+                    value: option.value,
+                  }))}
                 />
               </Form>
             </StackItem>
