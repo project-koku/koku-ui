@@ -30,21 +30,17 @@ const currencies: string[] = [
   'ZAR',
 ];
 
-export const getCurrencyLabel = (currency: string) => {
-  const currencyUnits = currency || 'USD';
+export const getCurrencyLabel = (units: string) => {
+  const currency = units || 'USD';
   return intl.formatMessage(messages.currencyOptions, {
-    [currencyUnits]: getCurrencySymbol(currencyUnits),
-    units: currencyUnits,
+    currency,
+    symbol: getCurrencySymbol(currency),
   });
 };
 
 export const getCurrencyOptions = (): SelectWrapperOption[] => {
   return currencies.map(currency => ({
-    toString: () =>
-      intl.formatMessage(messages.currencyOptions, {
-        [currency]: getCurrencySymbol(currency),
-        units: currency,
-      }),
+    toString: () => getCurrencyLabel(currency),
     value: currency,
   }));
 };
