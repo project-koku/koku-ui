@@ -17,11 +17,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { getCurrencyLabel } from 'routes/components/currency';
 import { RateTable } from 'routes/settings/costModels/components/rateTable';
 import { WarningIcon } from 'routes/settings/costModels/components/warningIcon';
 import { createMapStateToProps } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
-import { getCurrencySymbol } from 'utils/format';
 
 import { CostModelContext } from './context';
 
@@ -106,12 +106,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isGpuToggleEnab
                   <Content component={ContentVariants.dt}>{intl.formatMessage(messages.description)}</Content>
                   <Content component={ContentVariants.dd}>{description}</Content>
                   <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
-                  <Content component={ContentVariants.dd}>
-                    {intl.formatMessage(messages.currencyOptions, {
-                      [currencyUnits]: getCurrencySymbol(currencyUnits),
-                      units: currencyUnits,
-                    })}
-                  </Content>
+                  <Content component={ContentVariants.dd}>{getCurrencyLabel(currencyUnits)}</Content>
                   {type === 'OCP' && (
                     <>
                       <Content component={ContentVariants.dt}>{intl.formatMessage(messages.priceList)}</Content>
