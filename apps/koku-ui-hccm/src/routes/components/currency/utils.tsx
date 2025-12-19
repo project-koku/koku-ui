@@ -39,17 +39,12 @@ export const getCurrencyLabel = (currency: string) => {
 };
 
 export const getCurrencyOptions = (): SelectWrapperOption[] => {
-  const currencyOptions: SelectWrapperOption[] = [];
-
-  currencies.forEach(currency => {
-    currencyOptions.push({
-      toString: () =>
-        intl.formatMessage(messages.currencyOptions, {
-          [currency]: getCurrencySymbol(currency),
-          units: currency,
-        }),
-      value: currency,
-    });
-  });
-  return currencyOptions;
+  return currencies.map(currency => ({
+    toString: () =>
+      intl.formatMessage(messages.currencyOptions, {
+        [currency]: getCurrencySymbol(currency),
+        units: currency,
+      }),
+    value: currency,
+  }));
 };
