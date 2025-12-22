@@ -1180,7 +1180,7 @@ export default defineMessages({
       'USD {USD ({symbol}) - United States Dollar} ' +
       'ZAR {ZAR ({symbol}) - South African Rand}' +
       'other {}}',
-    description: 'return the proper unit label based on key: "units"',
+    description: 'Return labels based on a currency symbol formatted using browser locale',
     id: 'currencyOptions',
   },
   dashboardCumulativeCostComparison: {
