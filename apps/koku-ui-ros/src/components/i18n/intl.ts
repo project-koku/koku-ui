@@ -9,7 +9,7 @@ export const getLocale = () => {
 };
 
 export const ignoreDefaultMessageError = error => {
-  if (error.code === 'MISSING_TRANSLATION') {
+  if (error?.code === 'MISSING_TRANSLATION') {
     return;
   }
   throw error;
@@ -22,7 +22,7 @@ const intl = createIntl(
     defaultLocale: 'en',
     locale,
     onError: ignoreDefaultMessageError,
-    messages: messages[locale],
+    messages: messages[locale] || messages.en,
   },
   cache
 );

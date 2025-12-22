@@ -4,6 +4,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
+import { container } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
@@ -17,17 +18,37 @@ const config: Configuration & {
     host: 'localhost',
     port: 9000,
     historyApiFallback: true,
-    open: true,
-    static: {
-      directory: path.resolve(__dirname, 'dist'),
-    },
+    open: NODE_ENV !== 'production',
+    static: [
+      {
+        directory: path.resolve(__dirname, 'dist'),
+      },
+      {
+        directory: path.resolve(__dirname, '../koku-ui-ros/dist'),
+        publicPath: '/costManagementRos/',
+        watch: true,
+      },
+      {
+        directory: path.resolve(__dirname, '../koku-ui-hccm/dist'),
+        publicPath: '/costManagement/',
+        watch: true,
+      },
+    ],
     client: {
       overlay: true,
     },
-    devMiddleware: {
-      writeToDisk: true,
-      index: 'index.html',
-    },
+    proxy: [
+      {
+        context: ['/api/cost-management/v1'],
+        target: process.env.API_PROXY_URL,
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: { '^/api/cost-management/v1': '' },
+        headers: {
+          Authorization: `Bearer ${process.env.API_TOKEN}`,
+        },
+      },
+    ],
   },
   module: {
     rules: [
@@ -48,79 +69,28 @@ const config: Configuration & {
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
         test: /\.(svg|ttf|eot|woff|woff2)$/,
         type: 'asset/resource',
-        // only process modules with this loader
-        // if they live under a 'fonts' or 'pficon' directory
         include: [
-          // local node_modules (when not hoisted)
-          path.resolve(__dirname, 'node_modules/patternfly/dist/fonts'),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-core/dist/styles/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-core/dist/styles/assets/pficon'
-          ),
-          path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/fonts'),
-          path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/pficon'),
-          // workspace root node_modules (hoisted deps)
           path.resolve(__dirname, '../../node_modules/patternfly/dist/fonts'),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/pficon'
-          ),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/fonts'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/pficon'),
         ],
       },
       {
         test: /\.(jpg|jpeg|png|gif)$/i,
         type: 'asset/resource',
         include: [
-          path.resolve(__dirname, 'src'),
-          path.resolve(__dirname, 'src/assets/images'),
-          path.resolve(__dirname, 'node_modules/patternfly'),
-          path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/images'),
-          path.resolve(__dirname, 'node_modules/@patternfly/react-styles/css/assets/images'),
-          path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/images'),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-core/node_modules/@patternfly/react-styles/css/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-table/node_modules/@patternfly/react-styles/css/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-inline-edit-extension/node_modules/@patternfly/react-styles/css/assets/images'
-          ),
-          // workspace root node_modules (hoisted deps)
           path.resolve(__dirname, '../../node_modules/patternfly'),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-styles/css/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/images'
-          ),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/images'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-styles/css/assets/images'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/images'),
         ],
       },
     ],
@@ -132,6 +102,17 @@ const config: Configuration & {
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
+    new container.ModuleFederationPlugin({
+      name: 'onprem',
+      shared: {
+        react: { singleton: true, requiredVersion: '*' },
+        'react-dom': { singleton: true, requiredVersion: '*' },
+        'react-redux': { singleton: true, requiredVersion: '*' },
+        'react-router-dom': { singleton: true, requiredVersion: '*' },
+        '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
+        '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
+      },
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
       filename: 'index.html',
@@ -143,13 +124,11 @@ const config: Configuration & {
     cacheWithContext: false,
     alias: {
       '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
+      '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
     },
   },
   watchOptions: {
     followSymlinks: true,
-  },
-  snapshot: {
-    managedPaths: [],
   },
   optimization: {
     splitChunks: {
