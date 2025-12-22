@@ -14,11 +14,10 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { currencyOptions } from 'routes/components/currency';
+import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
 import { Form } from 'routes/settings/costModels/components/forms/form';
 import { Selector } from 'routes/settings/costModels/components/inputs/selector';
 import { createMapStateToProps } from 'store/common';
-import { getCurrencySymbol } from 'utils/format';
 
 import { CostModelContext } from './context';
 import { descriptionErrors, nameErrors } from './steps';
@@ -47,15 +46,6 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
     const getValueLabel = (valStr: string, options) => {
       const val = options.find(o => o.value === valStr);
       return !val ? valStr : intl.formatMessage(val.label, { units: val.value });
-    };
-    const getCurrencyLabel = (valStr: string, options) => {
-      const val = options.find(o => o.value === valStr);
-      return !val
-        ? valStr
-        : intl.formatMessage(messages.currencyOptions, {
-            [val.value]: getCurrencySymbol(val.value),
-            units: val.value,
-          });
     };
     const sourceTypeOptions = [
       {
@@ -157,16 +147,10 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   appendMenuTo="inline"
                   maxMenuHeight={styles.selector.maxHeight as string}
                   toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
-                  value={getCurrencyLabel(currencyUnits, currencyOptions)}
+                  value={getCurrencyLabel(currencyUnits)}
                   onSelect={(_evt, value) => onCurrencyChange(value)}
                   id="currency-units-selector"
-                  options={currencyOptions.map(option => ({
-                    label: intl.formatMessage(messages.currencyOptions, {
-                      [option.value]: getCurrencySymbol(option.value),
-                      units: option.value,
-                    }),
-                    value: option.value,
-                  }))}
+                  options={getCurrencyOptions()}
                 />
               </Form>
             </StackItem>

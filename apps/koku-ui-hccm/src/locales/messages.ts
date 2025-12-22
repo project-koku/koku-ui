@@ -1156,31 +1156,31 @@ export default defineMessages({
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
     defaultMessage:
-      '{units, select, ' +
-      'AED {AED ({AED}) - United Arab Emirates Dirham}' +
-      'AUD {AUD ({AUD}) - Australian Dollar}' +
-      'BRL {BRL ({BRL}) - Brazilian Real}' +
-      'CAD {CAD ({CAD}) - Canadian Dollar}' +
-      'CHF {CHF ({CHF}) - Swiss Franc}' +
-      'CNY {CNY ({CNY}) - Chinese Yuan}' +
-      'CZK {CZK ({CZK}) - Czech Koruna}' +
-      'DKK {DKK ({DKK}) - Danish Krone}' +
-      'EUR {EUR ({EUR}) - Euro}' +
-      'GBP {GBP ({GBP}) - British Pound}' +
-      'HKD {HKD ({HKD}) - Hong Kong Dollar}' +
-      'INR {INR ({INR}) - Indian Rupee}' +
-      'JPY {JPY ({JPY}) - Japanese Yen}' +
-      'NGN {NGN ({NGN}) - Nigerian Naira}' +
-      'NOK {NOK ({NOK}) - Norwegian Krone}' +
-      'NZD {NZD ({NZD}) - New Zealand Dollar}' +
-      'SAR {SAR ({SAR}) - Saudi Riyal}' +
-      'SEK {SEK ({SEK}) - Swedish Krona}' +
-      'SGD {SGD ({SGD}) - Singapore Dollar}' +
-      'TWD {TWD ({TWD}) - New Taiwan Dollar}' +
-      'USD {USD ({USD}) - United States Dollar} ' +
-      'ZAR {ZAR ({ZAR}) - South African Rand}' +
+      '{currency, select, ' +
+      'AED {AED ({symbol}) - United Arab Emirates Dirham}' +
+      'AUD {AUD ({symbol}) - Australian Dollar}' +
+      'BRL {BRL ({symbol}) - Brazilian Real}' +
+      'CAD {CAD ({symbol}) - Canadian Dollar}' +
+      'CHF {CHF ({symbol}) - Swiss Franc}' +
+      'CNY {CNY ({symbol}) - Chinese Yuan}' +
+      'CZK {CZK ({symbol}) - Czech Koruna}' +
+      'DKK {DKK ({symbol}) - Danish Krone}' +
+      'EUR {EUR ({symbol}) - Euro}' +
+      'GBP {GBP ({symbol}) - British Pound}' +
+      'HKD {HKD ({symbol}) - Hong Kong Dollar}' +
+      'INR {INR ({symbol}) - Indian Rupee}' +
+      'JPY {JPY ({symbol}) - Japanese Yen}' +
+      'NGN {NGN ({symbol}) - Nigerian Naira}' +
+      'NOK {NOK ({symbol}) - Norwegian Krone}' +
+      'NZD {NZD ({symbol}) - New Zealand Dollar}' +
+      'SAR {SAR ({symbol}) - Saudi Riyal}' +
+      'SEK {SEK ({symbol}) - Swedish Krona}' +
+      'SGD {SGD ({symbol}) - Singapore Dollar}' +
+      'TWD {TWD ({symbol}) - New Taiwan Dollar}' +
+      'USD {USD ({symbol}) - United States Dollar} ' +
+      'ZAR {ZAR ({symbol}) - South African Rand}' +
       'other {}}',
-    description: 'return the proper unit label based on key: "units"',
+    description: 'Return labels based on a currency symbol formatted using browser locale',
     id: 'currencyOptions',
   },
   dashboardCumulativeCostComparison: {

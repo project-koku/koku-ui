@@ -18,12 +18,11 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { currencyOptions } from 'routes/components/currency';
+import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
 import { Selector } from 'routes/settings/costModels/components/inputs/selector';
 import { styles } from 'routes/settings/costModels/costModelWizard/wizard.styles';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import { getCurrencySymbol } from 'utils/format';
 
 interface UpdateCostModelOwnProps extends WrappedComponentProps {
   // TBD...
@@ -62,15 +61,7 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
   public render() {
     const { costModel, intl, isProcessing, setDialogOpen, updateCostModel, updateError } = this.props;
     const current = costModel[0];
-    const getCurrencyLabel = (valStr: string, options) => {
-      const val = options.find(o => o.value === valStr);
-      return !val
-        ? valStr
-        : intl.formatMessage(messages.currencyOptions, {
-            [val.value]: getCurrencySymbol(val.value),
-            units: val.value,
-          });
-    };
+
     // Workaround for https://issues.redhat.com/browse/COST-4355
     const updateRatesCurrency = rates => {
       if (!rates) {
@@ -128,18 +119,10 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
                 appendMenuTo="inline"
                 maxMenuHeight={styles.selector.maxHeight as string}
                 toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
-                value={getCurrencyLabel(this.state.currency, currencyOptions)}
+                value={getCurrencyLabel(this.state.currency)}
                 onSelect={(_evt, value) => this.setState({ currency: value })}
                 id="currency-units-selector"
-                options={currencyOptions.map(option => {
-                  return {
-                    label: intl.formatMessage(messages.currencyOptions, {
-                      [option.value]: getCurrencySymbol(option.value),
-                      units: option.value,
-                    }),
-                    value: option.value,
-                  };
-                })}
+                options={getCurrencyOptions()}
               />
             </FormGroup>
           </Form>
