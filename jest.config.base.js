@@ -1,5 +1,5 @@
 const transformIgnorePatterns = [
-  'node_modules/(?!(@patternfly/react-core/src|@patternfly/react-icons/dist/esm|@patternfly/react-component-groups/dist/esm|uuid/dist/esm-browser))',
+  'node_modules/(?!(@patternfly/react-core/src|@patternfly/react-icons/dist/esm|@patternfly/react-component-groups/dist/esm|uuid/dist/esm-browser|react-intl|intl-messageformat|@formatjs/.*))',
 ];
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
