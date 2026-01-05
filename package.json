@@ -27,14 +27,15 @@
     "lint": "npm exec --workspaces -- npm run lint",
     "lint:fix:all": "npm exec --workspaces -- npm run lint:ts:fix",
     "test": "npm exec --workspaces -- npm run test --",
-    "release:all": "node scripts/release-all.js",
+    "release": "node scripts/release.js",
     "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS\" --prefix-colors \"yellow,cyan,magenta\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\""
   },
   "scripts-info": {
+    "check:dependencies": "Checks for outdated dependencies",
     "check:dependencies:all": "Checks for outdated dependencies in each workspace",
-    "release:all": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
+    "release": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI"
