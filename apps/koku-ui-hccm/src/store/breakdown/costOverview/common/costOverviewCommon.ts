@@ -6,6 +6,7 @@ export const enum CostOverviewWidgetType {
   costBreakdown = 'costBreakdown', // This type displays a cost breakdown as a sankey chart
   costDistribution = 'costDistribution', // This type displays cost distribution as a pie chart
   cpuUsage = 'cpuUsage', // This type displays cpu usage as a bullet chart
+  gpu = 'gpu', // This type displays gpu data as a table
   memoryUsage = 'memoryUsage', // This type displays memory usage as a bullet chart
   pvc = 'pvc', // This type displays persistent volume claim as a bullet chart
   reportSummary = 'summary', // This type displays a cost report summary

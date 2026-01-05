@@ -544,6 +544,11 @@ export default defineMessages({
     description: 'Cost models',
     id: 'costModelsActions',
   },
+  costModelsAddGpu: {
+    defaultMessage: 'Add more GPUs',
+    description: 'Add more GPUs',
+    id: 'costModelsAddGpu',
+  },
   costModelsAddTagValues: {
     defaultMessage: 'Add more tag values',
     description: 'Add more tag values',
@@ -651,6 +656,11 @@ export default defineMessages({
     description: 'Read about setting up a cost model',
     id: 'costModelsEmptyStateLearnMore',
   },
+  costModelsEnterGpuDesc: {
+    defaultMessage: 'Enter a description',
+    description: 'Enter a description',
+    id: 'costModelsEnterGpuDesc',
+  },
   costModelsEnterTagDesc: {
     defaultMessage: 'Enter a tag description',
     description: 'Enter a tag description',
@@ -704,6 +714,16 @@ export default defineMessages({
     description: 'Filter by tag key',
     id: 'costModelsFilterTagKey',
   },
+  costModelsGpuDesc: {
+    defaultMessage: 'Rate of GPU models will apply to all the same models in your cluster.',
+    description: 'Rate of GPU models will apply to all the same models in your cluster.',
+    id: 'costModelsGpuDesc',
+  },
+  costModelsGpuLearnMore: {
+    defaultMessage: 'Read more about GPUs by reviewing our documentation.',
+    description: 'Read more about GPUs by reviewing our documentation.',
+    id: 'costModelsGpuLearnMore',
+  },
   costModelsInfoTooLong: {
     defaultMessage: 'Should not exceed 100 characters',
     description: 'Should not exceed 100 characters',
@@ -714,6 +734,16 @@ export default defineMessages({
     description: 'Last updated',
     id: 'costModelsLastUpdated',
   },
+  costModelsGpuModel: {
+    defaultMessage: 'Model',
+    description: 'Model',
+    id: 'costModelsGpuModel',
+  },
+  costModelsGpuVendor: {
+    defaultMessage: 'Vendor',
+    description: 'Vendor',
+    id: 'costModelsGpuVendor',
+  },
   costModelsRateTooLong: {
     defaultMessage: 'Should not exceed 10 decimals',
     description: 'Should not exceed 10 decimals',
@@ -723,6 +753,11 @@ export default defineMessages({
     defaultMessage: 'Refresh this dialog',
     description: 'Refresh this dialog',
     id: 'costModelsRefreshDialog',
+  },
+  costModelsRemoveGpuLabel: {
+    defaultMessage: 'Remove GPU value',
+    description: 'Remove GPU value',
+    id: 'costModelsRemoveGpuLabel',
   },
   costModelsRemoveTagLabel: {
     defaultMessage: 'Remove tag value',
@@ -800,6 +835,11 @@ export default defineMessages({
     defaultMessage: 'Tag value',
     description: 'Tag value',
     id: 'costModelsTagRateTableValue',
+  },
+  costModelsUnsupportedTagChars: {
+    defaultMessage: 'Match the regex [a-zA-Z_][a-zA-Z0-9_]*',
+    description: 'Match the regex [a-zA-Z_][a-zA-Z0-9_]*',
+    id: 'costModelsUnsupportedTagChars',
   },
   costModelsUUIDEmptyState: {
     defaultMessage: 'Cost model can not be found',
@@ -1116,56 +1156,32 @@ export default defineMessages({
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
     defaultMessage:
-      '{units, select, ' +
-      'AUD {AUD (A$) - Australian Dollar}' +
-      'BRL {BRL (R$) - Brazilian Real}' +
-      'CAD {CAD (CA$) - Canadian Dollar}' +
-      'CHF {CHF (CHF) - Swiss Franc}' +
-      'CNY {CNY (CN¥) - Chinese Yuan}' +
-      'CZK {CZK (Kč) - Czech Koruna}' +
-      'DKK {DKK (DKK) - Danish Krone}' +
-      'EUR {EUR (€) - Euro}' +
-      'GBP {GBP (£) - British Pound}' +
-      'HKD {HKD (HK$) - Hong Kong Dollar}' +
-      'INR {INR (₹) - Indian Rupee}' +
-      'JPY {JPY (¥) - Japanese Yen}' +
-      'NGN {NGN (₦) - Nigerian Naira}' +
-      'NOK {NOK (NOK) - Norwegian Krone}' +
-      'NZD {NZD (NZ$) - New Zealand Dollar}' +
-      'SEK {SEK (SEK) - Swedish Krona}' +
-      'SGD {SGD (SGD) - Singapore Dollar}' +
-      'USD {USD ($) - United States Dollar} ' +
-      'ZAR {ZAR (ZAR) - South African Rand}' +
+      '{currency, select, ' +
+      'AED {AED ({symbol}) - United Arab Emirates Dirham}' +
+      'AUD {AUD ({symbol}) - Australian Dollar}' +
+      'BRL {BRL ({symbol}) - Brazilian Real}' +
+      'CAD {CAD ({symbol}) - Canadian Dollar}' +
+      'CHF {CHF ({symbol}) - Swiss Franc}' +
+      'CNY {CNY ({symbol}) - Chinese Yuan}' +
+      'CZK {CZK ({symbol}) - Czech Koruna}' +
+      'DKK {DKK ({symbol}) - Danish Krone}' +
+      'EUR {EUR ({symbol}) - Euro}' +
+      'GBP {GBP ({symbol}) - British Pound}' +
+      'HKD {HKD ({symbol}) - Hong Kong Dollar}' +
+      'INR {INR ({symbol}) - Indian Rupee}' +
+      'JPY {JPY ({symbol}) - Japanese Yen}' +
+      'NGN {NGN ({symbol}) - Nigerian Naira}' +
+      'NOK {NOK ({symbol}) - Norwegian Krone}' +
+      'NZD {NZD ({symbol}) - New Zealand Dollar}' +
+      'SAR {SAR ({symbol}) - Saudi Riyal}' +
+      'SEK {SEK ({symbol}) - Swedish Krona}' +
+      'SGD {SGD ({symbol}) - Singapore Dollar}' +
+      'TWD {TWD ({symbol}) - New Taiwan Dollar}' +
+      'USD {USD ({symbol}) - United States Dollar} ' +
+      'ZAR {ZAR ({symbol}) - South African Rand}' +
       'other {}}',
-    description: 'return the proper unit label based on key: "units"',
+    description: 'Return labels based on a currency symbol formatted using browser locale',
     id: 'currencyOptions',
-  },
-  // See https://www.localeplanet.com/icu/currency.html
-  currencyUnits: {
-    defaultMessage:
-      '{units, select, ' +
-      'AUD {A$}' +
-      'BRL {R$}' +
-      'CAD {CA$}' +
-      'CHF {CHF}' +
-      'CNY {CN¥}' +
-      'CZK {Kč}' +
-      'DKK {DKK}' +
-      'EUR {€}' +
-      'GBP {£}' +
-      'HKD {HK$}' +
-      'INR {₹}' +
-      'JPY {¥}' +
-      'NGN {₦}' +
-      'NOK {NOK}' +
-      'NZD {NZ$}' +
-      'SEK {SEK}' +
-      'SGD {SGD}' +
-      'USD {$} ' +
-      'ZAR {ZAR}' +
-      'other {}}',
-    description: 'return the proper unit label based on key: "units"',
-    id: 'currencyUnits',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',
@@ -1504,39 +1520,53 @@ export default defineMessages({
   distributeCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute {type, select, network {network} storage {storage} other {}} costs}' +
-      'false {Do not distribute {type, select, network {network} storage {storage} other {}} costs}' +
+      'true {Distribute {type, select, network {network} storage {storage} other {}} unattributed costs}' +
+      'false {Do not distribute {type, select, network {network} storage {storage} other {}} unattributed costs}' +
       'other {}}',
     description: 'distribute costs',
     id: 'distributeCosts',
   },
+  distributeGpuCosts: {
+    defaultMessage:
+      '{value, select, ' +
+      'true {Distribute costs based on GPU usage}' +
+      'false {Do not distribute costs based on GPU usage}' +
+      'other {}}',
+    description: 'distribute costs',
+    id: 'distributeGpuCosts',
+  },
   distributeCostsToProjects: {
-    defaultMessage: 'Distribute these costs to projects, based on the above description type',
-    description: 'Distribute these costs to projects, based on the above description type',
+    defaultMessage: 'Distribute these costs to pods',
+    description: 'Distribute these costs to pods',
     id: 'distributeCostsToProjects',
   },
+  distributeGpu: {
+    defaultMessage: 'GPU unallocated (distribute based on GPU usage)',
+    description: 'GPU unallocated (distribute based on GPU usage)',
+    id: 'distributeGpu',
+  },
   distributeNetwork: {
-    defaultMessage: 'Network traffic',
-    description: 'Network traffic',
+    defaultMessage: 'Network unattributed',
+    description: 'Network unattributed',
     id: 'distributeNetwork',
   },
   distributePlatform: {
-    defaultMessage: 'Platform overhead (OpenShift services)',
-    description: 'Platform overhead (OpenShift services)',
+    defaultMessage: 'Platform overhead (OpenShift services and platform projects)',
+    description: 'Platform overhead (OpenShift services and platform projects)',
     id: 'distributePlatform',
   },
   distributePlatformCosts: {
     defaultMessage:
       '{value, select, ' +
-      'true {Distribute platform costs}' +
-      'false {Do not distribute platform costs}' +
+      'true {Distribute platform costs based on unallocated capacity}' +
+      'false {Do not distribute platform costs based on unallocated capacity}' +
       'other {}}',
     description: 'Distribute platform costs',
     id: 'distributePlatformCosts',
   },
   distributeStorage: {
-    defaultMessage: 'Storage',
-    description: 'Storage',
+    defaultMessage: 'Storage unattributed',
+    description: 'Storage unattributed',
     id: 'distributeStorage',
   },
   distributeUnallocatedCapacity: {
@@ -1606,6 +1636,12 @@ export default defineMessages({
       'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs',
     description: 'Distributing costs',
     id: 'docsCostModelsDistribution',
+  },
+  docsCostModelsGpu: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+    description: 'Read more about GPUs by reviewing our documentation',
+    id: 'docsCostModelsGpu',
   },
   docsCostModelsMarkup: {
     defaultMessage:
@@ -2063,6 +2099,8 @@ export default defineMessages({
       'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
       'gcp_project {Input for Google Cloud project name} ' +
+      'gpu_model {Input for GPU model} ' +
+      'gpu_vendor {Input for GPU vendor} ' +
       'name {Input for name} ' +
       'node {Input for node name} ' +
       'org_unit_id {Input for organizational unit name} ' +
@@ -2102,6 +2140,8 @@ export default defineMessages({
       'container {Filter by container} ' +
       'description {Filter by description} ' +
       'gcp_project {Filter by Google Cloud project} ' +
+      'gpu_model {Filter by GPU model} ' +
+      'gpu_vendor {Filter by GPU vendor} ' +
       'group {Filter by group} ' +
       'instance {Filter by instance} ' +
       'name {Filter by name} ' +
@@ -2120,13 +2160,13 @@ export default defineMessages({
       'status {Filter by status} ' +
       'storage_class {Filter by StorageClass} ' +
       'subscription_guid {Filter by account} ' +
-      'workload {Filter by workload name} ' +
-      'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
       'tag_key {Filter by tag key} ' +
       'tag_key_child {Filter by child tag key} ' +
       'tag_key_parent {Filter by parent tag key} ' +
       'vm_name {Filter by virtual machine} ' +
+      'workload {Filter by workload name} ' +
+      'workload_type {Filter by workload type} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'filterByPlaceholder',
@@ -2155,6 +2195,8 @@ export default defineMessages({
       'container {Container} ' +
       'default {Default} ' +
       'gcp_project {Google Cloud project} ' +
+      'gpu_model {GPU model} ' +
+      'gpu_vendor {GPU vendor} ' +
       'group {Group} ' +
       'instance {Instance} ' +
       'name {Name} ' +
@@ -2248,6 +2290,11 @@ export default defineMessages({
     defaultMessage: 'Google Cloud filtered by OpenShift cost',
     description: 'Google Cloud filtered by OpenShift cost',
     id: 'gcpOcpDashboardCostTitle',
+  },
+  gpuTitle: {
+    defaultMessage: 'GPU',
+    description: 'GPU',
+    id: 'gpuTitle',
   },
   groupByAll: {
     defaultMessage:
@@ -2364,6 +2411,38 @@ export default defineMessages({
     description: 'Group by values',
     id: 'groupByValuesTitleCase',
   },
+  gpuColumns: {
+    defaultMessage:
+      '{value, select, ' +
+      'count {Count} ' +
+      'gpu_model {Model} ' +
+      'gpu_vendor {Vendor} ' +
+      'memory {Memory} ' +
+      'node {Node} ' +
+      'other {}}',
+    description: 'GPU columns',
+    id: 'gpuColumns',
+  },
+  gpuLoadingStateDesc: {
+    defaultMessage: 'Searching for your GPUs. Do not refresh the browser',
+    description: 'Searching for your GPUs. Do not refresh the browser',
+    id: 'gpuLoadingStateDesc',
+  },
+  gpuLoadingStateTitle: {
+    defaultMessage: 'Looking for GPUs...',
+    description: 'Looking for GPUs',
+    id: 'gpuLoadingStateTitle',
+  },
+  gpuModelDuplicate: {
+    defaultMessage: 'This GPU model is already in use',
+    description: 'This GPU model is already in use',
+    id: 'gpuModelDuplicate',
+  },
+  gpuVendorDuplicate: {
+    defaultMessage: 'This GPU vendor is already in use',
+    description: 'This GPU vendor is already in use',
+    id: 'gpuVendorDuplicate',
+  },
   historicalChartCostLabel: {
     defaultMessage: 'Cost ({units})',
     description: 'Cost ({units})',
@@ -2463,22 +2542,6 @@ export default defineMessages({
     defaultMessage: 'Looking for integrations...',
     description: 'Looking for integrations',
     id: 'loadingStateTitle',
-  },
-  maintenanceEmptyStateDesc: {
-    defaultMessage:
-      'Cost management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).',
-    description: 'Cost management is currently undergoing scheduled maintenance',
-    id: 'maintenanceEmptyStateDesc',
-  },
-  maintenanceEmptyStateInfo: {
-    defaultMessage: 'For more information visit {url}',
-    description: 'more information url',
-    id: 'maintenanceEmptyStateInfo',
-  },
-  maintenanceEmptyStateThanks: {
-    defaultMessage: 'We will be back soon. Thank you for your patience!',
-    description: 'thanks you for your patience',
-    id: 'maintenanceEmptyStateThanks',
   },
   manageColumnsAriaLabel: {
     defaultMessage: 'Table column management',
@@ -3877,6 +3940,8 @@ export default defineMessages({
       'gib_hours {GiB-hours} ' +
       'gib_month {GiB-month} ' +
       'gibibyte_month {GiB-month} ' +
+      'gpu {GPU} ' +
+      'gpus {GPUs} ' +
       'hour {hours} ' +
       'hrs {hours} ' +
       'ms {milliseconds} ' +

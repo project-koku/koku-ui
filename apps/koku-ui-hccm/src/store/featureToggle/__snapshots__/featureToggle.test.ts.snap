@@ -6,6 +6,7 @@ exports[`default state 1`] = `
   "isDebugToggleEnabled": false,
   "isExactFilterToggleEnabled": false,
   "isExportsToggleEnabled": false,
+  "isGpuToggleEnabled": false,
   "isSystemsToggleEnabled": false,
 }
 `;

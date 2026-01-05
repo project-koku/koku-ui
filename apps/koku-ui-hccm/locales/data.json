@@ -1282,6 +1282,12 @@
         "value": "Cost model actions"
       }
     ],
+    "costModelsAddGpu": [
+      {
+        "type": 0,
+        "value": "Add more GPUs"
+      }
+    ],
     "costModelsAddTagValues": [
       {
         "type": 0,
@@ -1458,6 +1464,12 @@
         "value": "Read about setting up a cost model"
       }
     ],
+    "costModelsEnterGpuDesc": [
+      {
+        "type": 0,
+        "value": "Enter a description"
+      }
+    ],
     "costModelsEnterTagDesc": [
       {
         "type": 0,
@@ -1518,6 +1530,30 @@
         "value": "Filter by tag key"
       }
     ],
+    "costModelsGpuDesc": [
+      {
+        "type": 0,
+        "value": "Rate of GPU models will apply to all the same models in your cluster."
+      }
+    ],
+    "costModelsGpuLearnMore": [
+      {
+        "type": 0,
+        "value": "Read more about GPUs by reviewing our documentation."
+      }
+    ],
+    "costModelsGpuModel": [
+      {
+        "type": 0,
+        "value": "Model"
+      }
+    ],
+    "costModelsGpuVendor": [
+      {
+        "type": 0,
+        "value": "Vendor"
+      }
+    ],
     "costModelsInfoTooLong": [
       {
         "type": 0,
@@ -1540,6 +1576,12 @@
       {
         "type": 0,
         "value": "Refresh this dialog"
+      }
+    ],
+    "costModelsRemoveGpuLabel": [
+      {
+        "type": 0,
+        "value": "Remove GPU value"
       }
     ],
     "costModelsRemoveTagLabel": [
@@ -1666,6 +1708,12 @@
       {
         "type": 0,
         "value": " does not exist."
+      }
+    ],
+    "costModelsUnsupportedTagChars": [
+      {
+        "type": 0,
+        "value": "Match the regex [a-zA-Z_][a-zA-Z0-9_]*"
       }
     ],
     "costModelsWizardCreateCostModel": [
@@ -2180,11 +2228,35 @@
     "currencyOptions": [
       {
         "options": {
+          "AED": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AED ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - United Arab Emirates Dirham"
+              }
+            ]
+          },
           "AUD": {
             "value": [
               {
                 "type": 0,
-                "value": "AUD (A$) - Australian Dollar"
+                "value": "AUD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Australian Dollar"
               }
             ]
           },
@@ -2192,7 +2264,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "BRL (R$) - Brazilian Real"
+                "value": "BRL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian Real"
               }
             ]
           },
@@ -2200,7 +2280,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "CAD (CA$) - Canadian Dollar"
+                "value": "CAD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Canadian Dollar"
               }
             ]
           },
@@ -2208,7 +2296,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "CHF (CHF) - Swiss Franc"
+                "value": "CHF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Swiss Franc"
               }
             ]
           },
@@ -2216,7 +2312,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "CNY (CN¥) - Chinese Yuan"
+                "value": "CNY ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Chinese Yuan"
               }
             ]
           },
@@ -2224,7 +2328,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "CZK (Kč) - Czech Koruna"
+                "value": "CZK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Czech Koruna"
               }
             ]
           },
@@ -2232,7 +2344,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "DKK (DKK) - Danish Krone"
+                "value": "DKK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Danish Krone"
               }
             ]
           },
@@ -2240,7 +2360,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "EUR (€) - Euro"
+                "value": "EUR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Euro"
               }
             ]
           },
@@ -2248,7 +2376,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "GBP (£) - British Pound"
+                "value": "GBP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - British Pound"
               }
             ]
           },
@@ -2256,7 +2392,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "HKD (HK$) - Hong Kong Dollar"
+                "value": "HKD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Hong Kong Dollar"
               }
             ]
           },
@@ -2264,7 +2408,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "INR (₹) - Indian Rupee"
+                "value": "INR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Indian Rupee"
               }
             ]
           },
@@ -2272,7 +2424,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "JPY (¥) - Japanese Yen"
+                "value": "JPY ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Japanese Yen"
               }
             ]
           },
@@ -2280,7 +2440,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "NGN (₦) - Nigerian Naira"
+                "value": "NGN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Nigerian Naira"
               }
             ]
           },
@@ -2288,7 +2456,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "NOK (NOK) - Norwegian Krone"
+                "value": "NOK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Norwegian Krone"
               }
             ]
           },
@@ -2296,7 +2472,31 @@
             "value": [
               {
                 "type": 0,
-                "value": "NZD (NZ$) - New Zealand Dollar"
+                "value": "NZD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - New Zealand Dollar"
+              }
+            ]
+          },
+          "SAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SAR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Saudi Riyal"
               }
             ]
           },
@@ -2304,7 +2504,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "SEK (SEK) - Swedish Krona"
+                "value": "SEK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Swedish Krona"
               }
             ]
           },
@@ -2312,7 +2520,31 @@
             "value": [
               {
                 "type": 0,
-                "value": "SGD (SGD) - Singapore Dollar"
+                "value": "SGD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Singapore Dollar"
+              }
+            ]
+          },
+          "TWD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TWD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - New Taiwan Dollar"
               }
             ]
           },
@@ -2320,7 +2552,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "USD ($) - United States Dollar"
+                "value": "USD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - United States Dollar"
               }
             ]
           },
@@ -2328,7 +2568,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "ZAR (ZAR) - South African Rand"
+                "value": "ZAR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - South African Rand"
               }
             ]
           },
@@ -2337,170 +2585,7 @@
           }
         },
         "type": 5,
-        "value": "units"
-      }
-    ],
-    "currencyUnits": [
-      {
-        "options": {
-          "AUD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "A$"
-              }
-            ]
-          },
-          "BRL": {
-            "value": [
-              {
-                "type": 0,
-                "value": "R$"
-              }
-            ]
-          },
-          "CAD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "CA$"
-              }
-            ]
-          },
-          "CHF": {
-            "value": [
-              {
-                "type": 0,
-                "value": "CHF"
-              }
-            ]
-          },
-          "CNY": {
-            "value": [
-              {
-                "type": 0,
-                "value": "CN¥"
-              }
-            ]
-          },
-          "CZK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Kč"
-              }
-            ]
-          },
-          "DKK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "DKK"
-              }
-            ]
-          },
-          "EUR": {
-            "value": [
-              {
-                "type": 0,
-                "value": "€"
-              }
-            ]
-          },
-          "GBP": {
-            "value": [
-              {
-                "type": 0,
-                "value": "£"
-              }
-            ]
-          },
-          "HKD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "HK$"
-              }
-            ]
-          },
-          "INR": {
-            "value": [
-              {
-                "type": 0,
-                "value": "₹"
-              }
-            ]
-          },
-          "JPY": {
-            "value": [
-              {
-                "type": 0,
-                "value": "¥"
-              }
-            ]
-          },
-          "NGN": {
-            "value": [
-              {
-                "type": 0,
-                "value": "₦"
-              }
-            ]
-          },
-          "NOK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "NOK"
-              }
-            ]
-          },
-          "NZD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "NZ$"
-              }
-            ]
-          },
-          "SEK": {
-            "value": [
-              {
-                "type": 0,
-                "value": "SEK"
-              }
-            ]
-          },
-          "SGD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "SGD"
-              }
-            ]
-          },
-          "USD": {
-            "value": [
-              {
-                "type": 0,
-                "value": "$"
-              }
-            ]
-          },
-          "ZAR": {
-            "value": [
-              {
-                "type": 0,
-                "value": "ZAR"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        },
-        "type": 5,
-        "value": "units"
+        "value": "currency"
       }
     ],
     "dashboardCumulativeCostComparison": [
@@ -3781,7 +3866,7 @@
               },
               {
                 "type": 0,
-                "value": " costs"
+                "value": " unattributed costs"
               }
             ]
           },
@@ -3821,7 +3906,7 @@
               },
               {
                 "type": 0,
-                "value": " costs"
+                "value": " unattributed costs"
               }
             ]
           }
@@ -3833,29 +3918,23 @@
     "distributeCostsToProjects": [
       {
         "type": 0,
-        "value": "Distribute these costs to projects, based on the above description type"
+        "value": "Distribute these costs to pods"
       }
     ],
-    "distributeNetwork": [
+    "distributeGpu": [
       {
         "type": 0,
-        "value": "Network traffic"
+        "value": "GPU unallocated (distribute based on GPU usage)"
       }
     ],
-    "distributePlatform": [
-      {
-        "type": 0,
-        "value": "Platform overhead (OpenShift services)"
-      }
-    ],
-    "distributePlatformCosts": [
+    "distributeGpuCosts": [
       {
         "options": {
           "false": {
             "value": [
               {
                 "type": 0,
-                "value": "Do not distribute platform costs"
+                "value": "Do not distribute costs based on GPU usage"
               }
             ]
           },
@@ -3866,7 +3945,46 @@
             "value": [
               {
                 "type": 0,
-                "value": "Distribute platform costs"
+                "value": "Distribute costs based on GPU usage"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "distributeNetwork": [
+      {
+        "type": 0,
+        "value": "Network unattributed"
+      }
+    ],
+    "distributePlatform": [
+      {
+        "type": 0,
+        "value": "Platform overhead (OpenShift services and platform projects)"
+      }
+    ],
+    "distributePlatformCosts": [
+      {
+        "options": {
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Do not distribute platform costs based on unallocated capacity"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute platform costs based on unallocated capacity"
               }
             ]
           }
@@ -3878,7 +3996,7 @@
     "distributeStorage": [
       {
         "type": 0,
-        "value": "Storage"
+        "value": "Storage unattributed"
       }
     ],
     "distributeUnallocatedCapacity": [
@@ -3987,6 +4105,12 @@
       {
         "type": 0,
         "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs"
+      }
+    ],
+    "docsCostModelsGpu": [
+      {
+        "type": 0,
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
       }
     ],
     "docsCostModelsMarkup": [
@@ -7167,6 +7291,22 @@
               }
             ]
           },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GPU model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for GPU vendor"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7363,6 +7503,22 @@
               {
                 "type": 0,
                 "value": "Filter by Google Cloud project"
+              }
+            ]
+          },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by GPU vendor"
               }
             ]
           },
@@ -7640,6 +7796,22 @@
               {
                 "type": 0,
                 "value": "Google Cloud project"
+              }
+            ]
+          },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU vendor"
               }
             ]
           },
@@ -7951,6 +8123,87 @@
       {
         "type": 0,
         "value": "Google Cloud filtered by OpenShift cost"
+      }
+    ],
+    "gpuColumns": [
+      {
+        "options": {
+          "count": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Count"
+              }
+            ]
+          },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Model"
+              }
+            ]
+          },
+          "gpu_vendor": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Vendor"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Node"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "gpuLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your GPUs. Do not refresh the browser"
+      }
+    ],
+    "gpuLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for GPUs..."
+      }
+    ],
+    "gpuModelDuplicate": [
+      {
+        "type": 0,
+        "value": "This GPU model is already in use"
+      }
+    ],
+    "gpuTitle": [
+      {
+        "type": 0,
+        "value": "GPU"
+      }
+    ],
+    "gpuVendorDuplicate": [
+      {
+        "type": 0,
+        "value": "This GPU vendor is already in use"
       }
     ],
     "groupByAll": [
@@ -10026,28 +10279,6 @@
       {
         "type": 0,
         "value": "Looking for integrations..."
-      }
-    ],
-    "maintenanceEmptyStateDesc": [
-      {
-        "type": 0,
-        "value": "Cost management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT)."
-      }
-    ],
-    "maintenanceEmptyStateInfo": [
-      {
-        "type": 0,
-        "value": "For more information visit "
-      },
-      {
-        "type": 1,
-        "value": "url"
-      }
-    ],
-    "maintenanceEmptyStateThanks": [
-      {
-        "type": 0,
-        "value": "We will be back soon. Thank you for your patience!"
       }
     ],
     "manageColumnsAriaLabel": [
@@ -13060,6 +13291,22 @@
               {
                 "type": 0,
                 "value": "GiB-month"
+              }
+            ]
+          },
+          "gpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU"
+              }
+            ]
+          },
+          "gpus": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPUs"
               }
             ]
           },

@@ -1,4 +1,3 @@
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
@@ -11,6 +10,7 @@ import { createMapStateToProps } from 'store/common';
 import { setCurrency } from 'utils/sessionStorage';
 
 import { styles } from './currency.styles';
+import { getCurrencyOptions } from './utils';
 
 interface CurrencyOwnProps {
   currency?: string;
@@ -34,31 +34,6 @@ interface CurrencyState {
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
 
-export const currencyOptions: {
-  label: MessageDescriptor;
-  value: string;
-}[] = [
-  { label: messages.currencyOptions, value: 'AUD' },
-  { label: messages.currencyOptions, value: 'BRL' },
-  { label: messages.currencyOptions, value: 'CAD' },
-  { label: messages.currencyOptions, value: 'CHF' },
-  { label: messages.currencyOptions, value: 'CNY' },
-  { label: messages.currencyOptions, value: 'CZK' },
-  { label: messages.currencyOptions, value: 'DKK' },
-  { label: messages.currencyOptions, value: 'EUR' },
-  { label: messages.currencyOptions, value: 'GBP' },
-  { label: messages.currencyOptions, value: 'HKD' },
-  { label: messages.currencyOptions, value: 'INR' },
-  { label: messages.currencyOptions, value: 'JPY' },
-  { label: messages.currencyOptions, value: 'NGN' },
-  { label: messages.currencyOptions, value: 'NOK' },
-  { label: messages.currencyOptions, value: 'NZD' },
-  { label: messages.currencyOptions, value: 'SEK' },
-  { label: messages.currencyOptions, value: 'SGD' },
-  { label: messages.currencyOptions, value: 'USD' },
-  { label: messages.currencyOptions, value: 'ZAR' },
-];
-
 class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   protected defaultState: CurrencyState = {
     // TBD...
@@ -68,7 +43,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   private getSelect = () => {
     const { currency, isDisabled, showLabel = true } = this.props;
 
-    const selectOptions = this.getSelectOptions();
+    const selectOptions = getCurrencyOptions();
     const selection = selectOptions.find(option => option.value === currency);
 
     return (
@@ -81,20 +56,6 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
         selection={selection}
       />
     );
-  };
-
-  private getSelectOptions = (): SelectWrapperOption[] => {
-    const { intl } = this.props;
-
-    const options: SelectWrapperOption[] = [];
-
-    currencyOptions.map(option => {
-      options.push({
-        toString: () => intl.formatMessage(option.label, { units: option.value }),
-        value: option.value,
-      });
-    });
-    return options;
   };
 
   private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
