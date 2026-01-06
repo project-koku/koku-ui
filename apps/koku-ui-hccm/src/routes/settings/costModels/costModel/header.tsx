@@ -43,6 +43,7 @@ interface Props extends RouterComponentProps, WrappedComponentProps {
   deleteCostModel: typeof costModelsActions.deleteCostModel;
   isWritePermission: boolean;
 }
+import { getCurrencyLabel } from 'routes/components/currency';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 
 const Header: React.FC<Props> = ({
@@ -170,9 +171,7 @@ const Header: React.FC<Props> = ({
             <Content component={ContentVariants.dt}>{intl.formatMessage(messages.costModelsLastUpdated)}</Content>
             <Content component={ContentVariants.dd}>{dateTime}</Content>
             <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
-            <Content component={ContentVariants.dd}>
-              {intl.formatMessage(messages.currencyOptions, { units: current.currency || 'USD' })}
-            </Content>
+            <Content component={ContentVariants.dd}>{getCurrencyLabel(current.currency)}</Content>
           </Content>
         </Content>
         {current.source_type === 'OpenShift Container Platform' ? (

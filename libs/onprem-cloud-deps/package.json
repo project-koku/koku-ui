@@ -1,0 +1,44 @@
+{
+  "name": "@koku-ui/onprem-cloud-deps",
+  "version": "0.0.1",
+  "description": "Library of common components and utilities",
+  "repository": "https://github.com/project-koku/koku-ui.git",
+  "author": "Red Hat",
+  "license": "Apache-2.0",
+  "private": true,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prebuild": "tsc --noEmit && rimraf dist",
+    "build": "tsc --build && npm run copy:css",
+    "check:dependencies": "npx npm-check-updates",
+    "check:dependencies:update": "npx npm-check-updates -u",
+    "clean": "rimraf dist",
+    "copy:css": "rsync -Rurv --include '*/' --include '*.css' --exclude '*' src  dist",
+    "dev": "tsc -w",
+    "lint": "npm-run-all lint:*",
+    "lint:ts": "eslint src",
+    "lint:ts:fix": "eslint src --fix",
+    "test": ""
+  },
+  "dependencies": {
+    "@patternfly/patternfly": "6.4.0",
+    "@patternfly/react-core": "6.4.0",
+    "@scalprum/core": "0.9.0",
+    "@scalprum/react-core": "0.11.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

@@ -5,10 +5,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getQueryState } from 'routes/utils/queryState';
 
-export const usePrevious = value => {
+export const usePrevious = <T>(value: T): T | undefined => {
   // The ref object is a generic container whose current property is mutable ...
   // ... and can hold any value, similar to an instance property on a class
-  const ref = useRef();
+  const ref = useRef<T | undefined>(undefined);
 
   // Store current value in ref
   useEffect(() => {
