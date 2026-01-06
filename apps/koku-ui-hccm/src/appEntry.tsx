@@ -4,8 +4,7 @@ import '@patternfly/patternfly/patternfly-addons.css';
 import './styles/global.css';
 
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
-import { getLocale } from 'components/i18n';
-import { ignoreDefaultMessageError } from 'components/i18n/intl';
+import { getLocale, ignoreDefaultMessageError } from 'components/i18n';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
