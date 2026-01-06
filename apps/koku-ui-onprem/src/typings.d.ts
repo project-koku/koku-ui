@@ -13,3 +13,5 @@ declare module '*.m4a';
 declare module '*.rdf';
 declare module '*.ttl';
 declare module '*.pdf';
+
+declare const insights: any;

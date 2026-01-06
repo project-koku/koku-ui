@@ -2236,7 +2236,7 @@
               },
               {
                 "type": 1,
-                "value": "AED"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2252,7 +2252,7 @@
               },
               {
                 "type": 1,
-                "value": "AUD"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2268,7 +2268,7 @@
               },
               {
                 "type": 1,
-                "value": "BRL"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2284,7 +2284,7 @@
               },
               {
                 "type": 1,
-                "value": "CAD"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2300,7 +2300,7 @@
               },
               {
                 "type": 1,
-                "value": "CHF"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2316,7 +2316,7 @@
               },
               {
                 "type": 1,
-                "value": "CNY"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2332,7 +2332,7 @@
               },
               {
                 "type": 1,
-                "value": "CZK"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2348,7 +2348,7 @@
               },
               {
                 "type": 1,
-                "value": "DKK"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2364,7 +2364,7 @@
               },
               {
                 "type": 1,
-                "value": "EUR"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2380,7 +2380,7 @@
               },
               {
                 "type": 1,
-                "value": "GBP"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2396,7 +2396,7 @@
               },
               {
                 "type": 1,
-                "value": "HKD"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2412,7 +2412,7 @@
               },
               {
                 "type": 1,
-                "value": "INR"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2428,7 +2428,7 @@
               },
               {
                 "type": 1,
-                "value": "JPY"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2444,7 +2444,7 @@
               },
               {
                 "type": 1,
-                "value": "NGN"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2460,7 +2460,7 @@
               },
               {
                 "type": 1,
-                "value": "NOK"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2476,7 +2476,7 @@
               },
               {
                 "type": 1,
-                "value": "NZD"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2492,7 +2492,7 @@
               },
               {
                 "type": 1,
-                "value": "SAR"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2508,7 +2508,7 @@
               },
               {
                 "type": 1,
-                "value": "SEK"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2524,7 +2524,7 @@
               },
               {
                 "type": 1,
-                "value": "SGD"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2540,7 +2540,7 @@
               },
               {
                 "type": 1,
-                "value": "TWD"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2556,7 +2556,7 @@
               },
               {
                 "type": 1,
-                "value": "USD"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2572,7 +2572,7 @@
               },
               {
                 "type": 1,
-                "value": "ZAR"
+                "value": "symbol"
               },
               {
                 "type": 0,
@@ -2585,7 +2585,7 @@
           }
         },
         "type": 5,
-        "value": "units"
+        "value": "currency"
       }
     ],
     "dashboardCumulativeCostComparison": [
