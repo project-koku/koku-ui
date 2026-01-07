@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
 import { createMapStateToProps } from 'store/common';
-import { getCurrencySymbol } from 'utils/format';
 import { setCurrency } from 'utils/sessionStorage';
 
 import { styles } from './currency.styles';
+import { getCurrencyOptions } from './utils';
 
 interface CurrencyOwnProps {
   currency?: string;
@@ -34,33 +34,6 @@ interface CurrencyState {
 
 type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
 
-export const currencyOptions: {
-  value: string;
-}[] = [
-  { value: 'AED' },
-  { value: 'AUD' },
-  { value: 'BRL' },
-  { value: 'CAD' },
-  { value: 'CHF' },
-  { value: 'CNY' },
-  { value: 'CZK' },
-  { value: 'DKK' },
-  { value: 'EUR' },
-  { value: 'GBP' },
-  { value: 'HKD' },
-  { value: 'INR' },
-  { value: 'JPY' },
-  { value: 'NGN' },
-  { value: 'NOK' },
-  { value: 'NZD' },
-  { value: 'SAR' },
-  { value: 'SEK' },
-  { value: 'SGD' },
-  { value: 'TWD' },
-  { value: 'USD' },
-  { value: 'ZAR' },
-];
-
 class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   protected defaultState: CurrencyState = {
     // TBD...
@@ -70,7 +43,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   private getSelect = () => {
     const { currency, isDisabled, showLabel = true } = this.props;
 
-    const selectOptions = this.getSelectOptions();
+    const selectOptions = getCurrencyOptions();
     const selection = selectOptions.find(option => option.value === currency);
 
     return (
@@ -83,24 +56,6 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
         selection={selection}
       />
     );
-  };
-
-  private getSelectOptions = (): SelectWrapperOption[] => {
-    const { intl } = this.props;
-
-    const options: SelectWrapperOption[] = [];
-
-    currencyOptions.map(option => {
-      options.push({
-        toString: () =>
-          intl.formatMessage(messages.currencyOptions, {
-            [option.value]: getCurrencySymbol(option.value),
-            units: option.value,
-          }),
-        value: option.value,
-      });
-    });
-    return options;
   };
 
   private handleOnSelect = (_evt, selection: SelectWrapperOption) => {

@@ -51,7 +51,7 @@ cat <<- EEOOFF
     $ROS_PROD_BRANCH
     $ROS_STAGE_BRANCH
 
-    sh [-x] $SCRIPT [-h|-p|-q|-r|-s|-u]
+    sh [-x] $SCRIPT [-h|-p|-q|-r|-s]
 
     OPTIONS:
     h       Display this message
@@ -59,7 +59,6 @@ cat <<- EEOOFF
     p       Deploy SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
     q       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
     r       Deploy SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
-    u       Push to upstream
 
     Note: This script lacks permission to push directly upstream, so commits will be pushed to this fork:
     $APP_INTERFACE_FORK -- override user via the GITLAB_USER env var.
@@ -287,13 +286,12 @@ updateDeploySHA()
 {
   default
 
-  while getopts hpqrsu c; do
+  while getopts hpqrs c; do
     case $c in
       s) DEPLOY_HCCM_STAGE=true;;
       p) DEPLOY_HCCM_PROD=true;;
       q) DEPLOY_ROS_STAGE=true;;
       r) DEPLOY_ROS_PROD=true;;
-      u) PUSH=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
     esac
@@ -319,12 +317,8 @@ updateDeploySHA()
   commit
 
   if [ "$?" -eq 0 ]; then
-    if [ -n "$PUSH" ]; then
-      push
-    else
-      createMergeRequestDesc
-      mergeRequest
-    fi
+    createMergeRequestDesc
+    mergeRequest
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi

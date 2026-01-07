@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - stage-onprem
   push:
     branches:
       - main
@@ -43,13 +44,24 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
 
       - name: Lint
         run: npm run lint
+
+      - name: Build OnPrem
+        id: build-onprem
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: localhost/koku-ui-onprem
+          tags: latest
+          extra-args: |
+            --ulimit nofile=10000:10000
+          containerfiles: apps/koku-ui-onprem/Containerfile
+          context: .
 
   units:
     name: Units
@@ -79,7 +91,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Test
         id: test_run
@@ -116,3 +128,45 @@ jobs:
         with:
           directory: coverage
           plugin: pycoverage  # Only run one plugin so that all do not run. There is no way to disable plugins entirely.
+
+  cypress:
+    name: Cypress E2E Tests
+    needs: [build, units]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODEJS_VERSION }}
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          install-command: npm ci
+          build: npm run build:onprem
+          start: npm run -w @koku-ui/koku-ui-onprem start:prod
+          wait-on: http://localhost:9000
+          wait-on-timeout: 120
+          project: apps/koku-ui-onprem
+          config-file: cypress/cypress.config.ts
