@@ -27,7 +27,11 @@ jest.mock('routes/settings/costModels/components/inputs/selector', () => ({
   ),
 }));
 
-jest.mock('routes/components/currency', () => ({ __esModule: true, currencyOptions: [{ label: { id: 'x' }, value: 'USD' }] }));
+jest.mock('routes/components/currency', () => ({
+  __esModule: true,
+  getCurrencyLabel: jest.fn(() => 'USD'),
+  getCurrencyOptions: jest.fn(() => [{ label: { id: 'x' }, value: 'USD' }]),
+}));
 
 const renderWithIntl = (ui: React.ReactElement) => render(<IntlProvider locale="en">{ui}</IntlProvider>);
 

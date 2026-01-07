@@ -20,8 +20,9 @@ interface SelectorFormGroupOwnProps {
   options: {
     description?: string;
     isDisabled?: boolean;
-    label: MessageDescriptor | string;
-    value: any;
+    label?: MessageDescriptor | string;
+    toString?: () => string; // Localized option label
+    value?: any;
   }[];
 }
 
@@ -74,7 +75,9 @@ const SelectorBase: React.FC<SelectorProps> = ({
       return {
         description: option.description,
         isDisabled: option.isDisabled,
-        toString: () => (typeof option.label === 'object' ? intl.formatMessage(option.label) : option.label),
+        toString: option.label
+          ? () => (typeof option.label === 'object' ? intl.formatMessage(option.label) : option.label)
+          : option.toString,
         value: option.value,
       };
     });
