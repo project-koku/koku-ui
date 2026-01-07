@@ -18,8 +18,7 @@
     "branch:release": "node scripts/branch-release.js",
     "build": "npm exec --workspaces -- npm run build",
     "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:all": "npm run check:dependencies; npm exec --workspaces -- npm run check:dependencies",
+    "check:dependencies": "npx npm-check-updates; npm exec --workspaces -- npm run check:dependencies",
     "check:dependencies:update": "npx npm-check-updates -u",
     "clean": "npm exec --workspaces -- npm run clean",
     "install:pkgs": "npm install",
@@ -34,8 +33,7 @@
   },
   "scripts-info": {
     "branch:release": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
-    "check:dependencies": "Checks for outdated dependencies",
-    "check:dependencies:all": "Checks for outdated dependencies in each workspace",
+    "check:dependencies": "Checks for outdated dependencies in each workspace",
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI"
