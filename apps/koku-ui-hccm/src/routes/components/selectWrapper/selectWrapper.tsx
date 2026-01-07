@@ -7,7 +7,7 @@ export interface SelectWrapperOption {
   description?: string; // Option description
   compareTo?: (option: SelectWrapperOption) => boolean;
   isDisabled?: boolean;
-  toString?: () => string; // Option label
+  toString?: () => string; // Localized option label
   value?: string; // Option value
 }
 
