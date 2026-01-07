@@ -93,7 +93,7 @@
     "yaml": "^2.8.2"
   },
   "devDependencies": {
-    "@openshift/dynamic-plugin-sdk-webpack": "4.1.0",
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.0.0",
     "@redhat-cloud-services/frontend-components-config": "^6.7.19",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.35",
     "jws": "^4.0.1",
