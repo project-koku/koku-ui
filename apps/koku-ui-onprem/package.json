@@ -46,7 +46,7 @@
     "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^25.0.3",
+    "@types/node": "^25.0.6",
     "css-minimizer-webpack-plugin": "^7.0.4",
     "cypress": "^15.8.2",
     "sass": "^1.97.2",
