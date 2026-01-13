@@ -75,119 +75,127 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const data = costDistribution
       ? [
           {
-            name: 'a1',
+            name: 'a1', // rawLabel
           },
           {
-            name: 'a2',
+            name: 'a2', // markupLabel
           },
           {
-            name: 'a3',
+            name: 'a3', // usageLabel
           },
           {
-            name: 'b1',
+            name: 'b1', // gpuUnallocatedLabel
           },
           {
-            name: 'b2',
+            name: 'b2', // networkUnattributedDistributedLabel
           },
           {
-            name: 'b3',
+            name: 'b3', // platformDistributedLabel
           },
           {
-            name: 'b4',
+            name: 'b4', // storageUnattributedDistributedLabel
           },
           {
-            name: 'c1',
+            name: 'b5', // workerUnallocatedLabel
           },
           {
-            name: 'c2',
+            name: 'c1', // workloadCostLabel
           },
           {
-            name: 'd1',
+            name: 'c2', // overheadCostLabel
+          },
+          {
+            name: 'd1', // totalCostLabel
           },
         ]
       : [
           {
-            name: 'a1',
+            name: 'a1', // rawLabel
           },
           {
-            name: 'a2',
+            name: 'a2', // markupLabel
           },
           {
-            name: 'a3',
+            name: 'a3', // usageLabel
           },
           {
-            name: 'd1',
+            name: 'd1', // totalCostLabel
           },
         ];
 
     const links = costDistribution
       ? [
           {
-            source: 'a1',
-            target: 'c1',
-            value: 20,
+            source: 'a1', // rawLabel
+            target: 'c1', // workloadCostLabel
+            value: 20, // Skeleton only value
           },
           {
-            source: 'a2',
-            target: 'c1',
-            value: 10,
+            source: 'a2', // markupLabel
+            target: 'c1', // workloadCostLabel
+            value: 10, // Skeleton only value
           },
           {
-            source: 'a3',
-            target: 'c1',
-            value: 30,
+            source: 'a3', // usageLabel
+            target: 'c1', // workloadCostLabel
+            value: 30, // Skeleton only value
           },
           {
-            source: 'b1',
-            target: 'c2',
-            value: 60,
+            source: 'b1', // gpuUnallocatedLabel
+            target: 'c2', // overheadCostLabel
+            value: 60, // Skeleton only value
           },
           {
-            source: 'b2',
-            target: 'c2',
-            value: 20,
+            source: 'b2', // networkUnattributedDistributedLabel
+            target: 'c2', // overheadCostLabel
+            value: 20, // Skeleton only value
           },
           {
-            source: 'b3',
-            target: 'c2',
-            value: 10,
+            source: 'b3', // platformDistributedLabel
+            target: 'c2', // overheadCostLabel
+            value: 10, // Skeleton only value
           },
           {
-            source: 'b4',
-            target: 'c2',
-            value: 10,
+            source: 'b4', // storageUnattributedDistributedLabel
+            target: 'c2', // overheadCostLabel
+            value: 10, // Skeleton only value
           },
           {
-            source: 'c1',
-            target: 'd1',
-            value: 60,
+            source: 'b5', // workerUnallocatedLabel
+            target: 'c2', // overheadCostLabel
+            value: 10, // Skeleton only value
           },
           {
-            source: 'c2',
-            target: 'd1',
-            value: 100,
+            source: 'c1', // workloadCostLabel
+            target: 'd1', // totalCostLabel
+            value: 60, // Skeleton only value
+          },
+          {
+            source: 'c2', // overheadCostLabel
+            target: 'd1', // totalCostLabel
+            value: 110, // Skeleton only value
           },
         ]
       : [
           {
-            source: 'a1',
-            target: 'c1',
-            value: 20,
+            source: 'a1', // rawLabel
+            target: 'c1', // workloadCostLabel
+            value: 20, // Skeleton only value
           },
           {
-            source: 'a2',
-            target: 'c1',
-            value: 10,
+            source: 'a2', // markupLabel
+            target: 'c1', // workloadCostLabel
+            value: 10, // Skeleton only value
           },
           {
-            source: 'a3',
-            target: 'c1',
-            value: 30,
+            source: 'a3', // usageLabel
+            target: 'c1', // workloadCostLabel
+            value: 30, // Skeleton only value
           },
           {
-            source: 'c1',
-            target: 'd1',
-            value: 60,
+            source: 'c1', // workloadCostLabel
+            target: 'd1', // totalCostLabel
+            value: 60, // Skeleton only value
           },
         ];
 
@@ -235,6 +243,10 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const hasCredit = report?.meta?.total?.cost?.credit !== undefined;
 
     const creditValue = hasCredit ? report.meta.total.cost.credit.value : 0;
+    const gpuUnallocatedValue =
+      report?.meta?.total?.cost?.gpu_unallocated_distributed && isDistributed
+        ? report.meta.total.cost.gpu_unallocated_distributed.value
+        : 0;
     const markupValue = report?.meta?.total?.cost?.markup ? report.meta.total.cost.markup.value : 0;
     const networkUnattributedDistributedValue =
       report?.meta?.total?.cost?.network_unattributed_distributed && isDistributed
@@ -257,12 +269,14 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
     // Only add positive values for Sankey node heights
     const overheadCostValue =
+      Math.abs(gpuUnallocatedValue) +
       Math.abs(networkUnattributedDistributedValue) +
       Math.abs(platformDistributedValue) +
       Math.abs(storageUnattributedDistributedValue) +
       Math.abs(workerUnallocatedValue);
     // Actual value shown for labels and tooltips
     const _overheadCostValue =
+      gpuUnallocatedValue +
       networkUnattributedDistributedValue +
       platformDistributedValue +
       storageUnattributedDistributedValue +
@@ -274,6 +288,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const _workloadCostValue = markupValue + rawValue + usageValue + creditValue;
 
     const creditLabel = intl.formatMessage(messages.credit);
+    const gpuUnallocatedLabel = intl.formatMessage(messages.gpuUnallocated);
     const markupLabel = intl.formatMessage(messages.markupTitle);
     const networkUnattributedDistributedLabel = intl.formatMessage(messages.networkUnattributedDistributed);
     const overheadCostLabel = intl.formatMessage(messages.costDistributionLabel);
@@ -298,6 +313,9 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           },
           {
             name: usageLabel,
+          },
+          {
+            name: gpuUnallocatedLabel,
           },
           {
             name: networkUnattributedDistributedLabel,
@@ -373,6 +391,12 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             target: workloadCostLabel,
             value: Math.abs(usageValue),
             _value: usageValue,
+          },
+          {
+            source: gpuUnallocatedLabel,
+            target: overheadCostLabel,
+            value: Math.abs(gpuUnallocatedValue),
+            _value: gpuUnallocatedValue,
           },
           {
             source: networkUnattributedDistributedLabel,
@@ -495,6 +519,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       return 0;
     };
     if (costDistribution) {
+      const newGpuUnallocatedValue = dataIndexWorkaround(gpuUnallocatedLabel);
       const newNetworkUnattributedDistributedValue = dataIndexWorkaround(networkUnattributedDistributedLabel);
       const newPlatformDistributedValue = dataIndexWorkaround(platformDistributedLabel);
       const newStorageUnattributedDistributedValue = dataIndexWorkaround(storageUnattributedDistributedLabel);
@@ -502,17 +527,22 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
       // Recalculate overhead cost
       const newOverheadCostValue =
+        newGpuUnallocatedValue +
         newNetworkUnattributedDistributedValue +
         newPlatformDistributedValue +
         newStorageUnattributedDistributedValue +
         newWorkerUnallocatedValue;
 
       const overheadCostLink = links.find(item => item.source === overheadCostLabel);
-      overheadCostLink.value = newOverheadCostValue;
+      if (overheadCostLink) {
+        overheadCostLink.value = newOverheadCostValue;
+      }
 
       // Recalculate total cost
       const totalCostLink = links.find(item => item.source === totalCostLabel);
-      totalCostLink.value = newOverheadCostValue + workloadCostValue;
+      if (totalCostLink) {
+        totalCostLink.value = newOverheadCostValue + workloadCostValue;
+      }
     }
 
     this.setState({ data, links, units });
