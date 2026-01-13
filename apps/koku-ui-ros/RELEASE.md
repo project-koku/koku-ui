@@ -66,6 +66,8 @@ Follow the prompts below.
 * Which app do you want to release? `koku-ui-ros`
 * Which Chrome environment do you want to release? `stage`
 
+Please allow Konflux to generate images from the previous branch merge, first. Ensure a successful status by viewing [component activity][component-activity].
+
 ### Manual deployment
 
 After all koku-ui PRs have been merged, update the \`koku-ui-ros\` resource in https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/hccm/deploy-clowder.yml
@@ -111,3 +113,5 @@ For release examples, please see existing releases here https://github.com/proje
 If a staging environment has not updated as expected, it's best to ask questions in the forum-consoledot-ui or proj-fecontainer-migration channels of http://coreos.slack.com.
 
 Alternatively, open a Jira issue under the "ConsoleDot Platform (console.redhat.com) (RHCLOUD)" project category. For an example, see https://issues.redhat.com/browse/RHCLOUD-18259
+
+[component-activity]: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/cost-mgmt-dev-tenant/applications/koku-ui-ros/activity
