@@ -91,7 +91,7 @@ async function run() {
     allArgs.push('-x');
   }
 
-  allArgs.push(process.env.APP_INTERFACE === 'true' ? 'deploy-branch.sh' : 'merge-branch.sh');
+  allArgs.push(process.env.APP_INTERFACE === 'true' ? 'branch-deploy.sh' : 'branch-merge.sh');
 
   const argVars = ['HCCM_STAGE_ARG', 'HCCM_PROD_ARG', 'ROS_STAGE_ARG', 'ROS_PROD_ARG'];
   const deploymentArgs = argVars.map(v => process.env[v]).filter(Boolean);

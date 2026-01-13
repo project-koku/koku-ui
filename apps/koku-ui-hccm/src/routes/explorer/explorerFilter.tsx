@@ -102,7 +102,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   }
 
   public componentDidUpdate(prevProps: ExplorerFilterProps) {
-    const { dateRangeType, orgReport, query, tagQueryString, tagReport } = this.props;
+    const { dateRangeType, orgQueryString, orgReport, query, resourceQueryString, tagQueryString, tagReport } =
+      this.props;
 
     if (
       prevProps.dateRangeType !== dateRangeType ||
@@ -115,7 +116,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       });
     }
     if (
+      (orgQueryString && !isEqual(orgQueryString, prevProps.orgQueryString)) ||
       (query && !isEqual(query, prevProps.query)) ||
+      (resourceQueryString && !isEqual(resourceQueryString, prevProps.resourceQueryString)) ||
       (tagQueryString && !isEqual(tagQueryString, prevProps.tagQueryString))
     ) {
       this.updateReport();

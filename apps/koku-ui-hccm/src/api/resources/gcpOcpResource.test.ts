@@ -5,5 +5,5 @@ import { ResourceType } from './resource';
 
 test('runExport API request for OCP on GCP', () => {
   runResource(ResourceType.account, '');
-  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/gcp-accounts/?');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/gcp-accounts/?openshift=true');
 });
