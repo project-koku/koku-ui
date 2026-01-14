@@ -14,16 +14,24 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
 
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
-  const ocpResourceTypes = [ResourceType.resourceLocation, ResourceType.serviceName, ResourceType.subscriptionGuid];
-  const openshiftParam = ocpResourceTypes.includes(resourceType) ? 'openshift=true' : '';
 
-  let queryString = '';
-  if (openshiftParam && query) {
-    queryString = `?${openshiftParam}&${query}`;
-  } else if (openshiftParam) {
-    queryString = `?${openshiftParam}`;
-  } else if (query) {
-    queryString = `?${query}`;
+  let queryParams = '';
+  switch (resourceType) {
+    case ResourceType.resourceLocation:
+    case ResourceType.serviceName:
+    case ResourceType.subscriptionGuid:
+      queryParams = 'openshift=true';
+      break;
+    case ResourceType.cluster:
+    case ResourceType.node:
+    case ResourceType.project:
+      // Todo: Enable for https://issues.redhat.com/browse/COST-6957
+      // queryParams = 'azure=true';
+      break;
   }
+
+  const params = [queryParams, query].filter(Boolean);
+  const queryString = params.length ? `?${params.join('&')}` : '';
+
   return axiosInstance.get<Resource>(`${path}${queryString}`);
 }
