@@ -15,7 +15,7 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
 
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
-  const ocpResourceTypes = [ResourceType.account, ResourceType.aws_category, ResourceType.region];
+  const ocpResourceTypes = [ResourceType.account, ResourceType.aws_category, ResourceType.region, ResourceType.service];
   const openshiftParam = ocpResourceTypes.includes(resourceType) ? 'openshift=true' : '';
 
   let queryString = '';
