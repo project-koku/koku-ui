@@ -9,6 +9,7 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
   [ResourceType.project]: 'resource-types/openshift-projects/',
 };
 
+// Note that OCP cloud does not support GPU and virtualization resource paths
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
 
