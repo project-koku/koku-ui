@@ -27,8 +27,6 @@ export const enum PerspectiveType {
   azureOcp = 'azure_ocp', // Azure filtered by Ocp
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
-  ibm = 'ibm',
-  ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
   rhel = 'rhel',
