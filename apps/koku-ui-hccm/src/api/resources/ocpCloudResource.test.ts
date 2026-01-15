@@ -1,6 +1,6 @@
 import { axiosInstance } from 'api';
 
-import { runResource } from './ocpResource';
+import { runResource } from './ocpCloudResource';
 import { ResourceType } from './resource';
 
 test('runExport API request for OCP all cloud', () => {
