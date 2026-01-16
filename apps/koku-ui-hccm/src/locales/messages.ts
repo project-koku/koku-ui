@@ -2296,6 +2296,11 @@ export default defineMessages({
     description: 'GPU',
     id: 'gpuTitle',
   },
+  gpuUnallocated: {
+    defaultMessage: 'GPU unallocated',
+    description: 'GPU unallocated',
+    id: 'gpuUnallocated',
+  },
   groupByAll: {
     defaultMessage:
       '{value, select, ' +
