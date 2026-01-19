@@ -303,6 +303,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
       orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgPathsType, orgType, orgQueryString);
     }
 
+    // AWS cost categories
     const resourceQueryString = getQuery({
       key_only: true,
     });
