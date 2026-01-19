@@ -8200,6 +8200,12 @@
         "value": "GPU"
       }
     ],
+    "gpuUnallocated": [
+      {
+        "type": 0,
+        "value": "GPU unallocated"
+      }
+    ],
     "gpuVendorDuplicate": [
       {
         "type": 0,
