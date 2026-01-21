@@ -5,12 +5,12 @@ import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
-  awsEc2Instances = 'cost-management.ui.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
-  debug = 'cost-management.ui.debug', // Logs user data (e.g., account ID) in browser console
-  exactFilter = 'cost-management.ui.exact-filter', // Exact filter https://issues.redhat.com/browse/COST-6744
-  exports = 'cost-management.ui.exports', // Async exports https://issues.redhat.com/browse/COST-2223
-  gpu = 'cost-management.ui.gpu', // Cost model GPU metrics https://issues.redhat.com/browse/COST-5334
-  systems = 'cost-management.ui.systems', // Systems https://issues.redhat.com/browse/COST-5718
+  awsEc2Instances = 'cost-management.koku-ui-hccm.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
+  debug = 'cost-management.koku-ui-hccm.debug', // Logs user data (e.g., account ID) in browser console
+  exactFilter = 'cost-management.koku-ui-hccm.exact-filter', // Exact filter https://issues.redhat.com/browse/COST-6744
+  exports = 'cost-management.koku-ui-hccm.exports', // Async exports https://issues.redhat.com/browse/COST-2223
+  gpu = 'cost-management.koku-ui-hccm.gpu', // Cost model GPU metrics https://issues.redhat.com/browse/COST-5334
+  systems = 'cost-management.koku-ui-hccm.systems', // Systems https://issues.redhat.com/browse/COST-5718
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
