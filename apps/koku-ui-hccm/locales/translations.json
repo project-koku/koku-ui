@@ -281,7 +281,7 @@
   "docsCostModelTerminology": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology",
   "docsCostModels": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models",
   "docsCostModelsDistribution": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs",
-  "docsCostModelsGpu": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models",
+  "docsCostModelsGpu": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models",
   "docsCostModelsMarkup": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models",
   "docsCostModelsOcp": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models",
   "docsIntegrations": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/#Setting%20up%20integrations",
