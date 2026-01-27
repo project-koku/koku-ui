@@ -1639,7 +1639,7 @@ export default defineMessages({
   },
   docsCostModelsGpu: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models',
     description: 'Read more about GPUs by reviewing our documentation',
     id: 'docsCostModelsGpu',
   },
