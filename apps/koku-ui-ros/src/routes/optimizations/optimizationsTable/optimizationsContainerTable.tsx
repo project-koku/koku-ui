@@ -15,7 +15,7 @@ import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
-interface OptimizationsDataTableOwnProps {
+interface OptimizationsContainerOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   filterBy?: any;
@@ -33,9 +33,9 @@ interface OptimizationsDataTableOwnProps {
   reportQueryString: string;
 }
 
-type OptimizationsDataTableProps = OptimizationsDataTableOwnProps;
+type OptimizationsContainerProps = OptimizationsContainerOwnProps;
 
-const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
+const OptimizationsContainerTable: React.FC<OptimizationsContainerProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
@@ -213,4 +213,4 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
   );
 };
 
-export { OptimizationsDataTable };
+export { OptimizationsContainerTable };

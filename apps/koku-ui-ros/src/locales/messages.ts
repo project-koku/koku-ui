@@ -58,6 +58,11 @@ export default defineMessages({
     description: 'Successfully copied to clipboard!',
     id: 'copyToClipboardSuccessfull',
   },
+  cost: {
+    defaultMessage: 'Cost',
+    description: 'Cost',
+    id: 'cost',
+  },
   costManagement: {
     defaultMessage: 'Cost Management ROS',
     description: 'Cost Management ROS',
@@ -357,6 +362,11 @@ export default defineMessages({
     description: 'Optimization details',
     id: 'optimizationsDetails',
   },
+  optimizationsDesc: {
+    defaultMessage: 'Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.',
+    description: 'Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.',
+    id: 'optimizationsDesc',
+  },
   optimizationsInfoArialLabel: {
     defaultMessage: 'A description of optimizations',
     description: 'A description of optimizations',
@@ -415,15 +425,15 @@ export default defineMessages({
     description: 'Performance optimizations',
     id: 'optimizationsPerformance',
   },
-  optimizationsPerspective: {
-    defaultMessage: 'View optimizations based on',
-    description: 'View optimizations based on',
-    id: 'optimizationsPerspective',
-  },
   optimizationsShortTerm: {
     defaultMessage: 'Last 24 hrs',
     description: 'Last 24 hrs',
     id: 'optimizationsShortTerm',
+  },
+  optimizationsType: {
+    defaultMessage: 'View optimizations based on',
+    description: 'View optimizations based on',
+    id: 'optimizationsType',
   },
   optimizationsValue: {
     defaultMessage: '{value}{units}',
@@ -463,6 +473,11 @@ export default defineMessages({
     description: 'You have reached recommended state!',
     id: 'optimizedStateTitle',
   },
+  optimizeFor: {
+    defaultMessage: 'Optimize for',
+    description: 'Optimize for',
+    id: 'optimizeFor',
+  },
   pageTitleDefault: {
     defaultMessage: 'Cost Management ROS | OpenShift',
     description: 'Cost Management ROS | OpenShift',
@@ -486,6 +501,11 @@ export default defineMessages({
     defaultMessage: '{count, plural, one {+{value}%} other {{value}%}}',
     description: 'Percent value with plus symbol',
     id: 'percentPlus',
+  },
+  performance: {
+    defaultMessage: 'Performance',
+    description: 'Performance',
+    id: 'performance',
   },
   perspective: {
     defaultMessage: 'Perspective',

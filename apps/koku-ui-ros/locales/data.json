@@ -210,6 +210,12 @@
         "value": "Successfully copied to clipboard!"
       }
     ],
+    "cost": [
+      {
+        "type": 0,
+        "value": "Cost"
+      }
+    ],
     "costManagement": [
       {
         "type": 0,
@@ -1139,6 +1145,12 @@
         "value": "Cost optimizations"
       }
     ],
+    "optimizationsDesc": [
+      {
+        "type": 0,
+        "value": "Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance."
+      }
+    ],
     "optimizationsDetails": [
       {
         "offset": 0,
@@ -1298,16 +1310,16 @@
         "value": "Performance optimizations"
       }
     ],
-    "optimizationsPerspective": [
-      {
-        "type": 0,
-        "value": "View optimizations based on"
-      }
-    ],
     "optimizationsShortTerm": [
       {
         "type": 0,
         "value": "Last 24 hrs"
+      }
+    ],
+    "optimizationsType": [
+      {
+        "type": 0,
+        "value": "View optimizations based on"
       }
     ],
     "optimizationsValue": [
@@ -1389,6 +1401,12 @@
       {
         "type": 0,
         "value": "This project has not reported data this month."
+      }
+    ],
+    "optimizeFor": [
+      {
+        "type": 0,
+        "value": "Optimize for"
       }
     ],
     "optimizedStateDesc": [
@@ -1495,6 +1513,12 @@
         "pluralType": "cardinal",
         "type": 6,
         "value": "count"
+      }
+    ],
+    "performance": [
+      {
+        "type": 0,
+        "value": "Performance"
       }
     ],
     "perspective": [

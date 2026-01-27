@@ -1,6 +1,9 @@
 import { Card, CardBody, PageSection } from '@patternfly/react-core';
-import React from 'react';
+import { RosNamespace } from 'api/ros/ros';
+import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
+import React, { useState } from 'react';
 import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
+import { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
 
@@ -12,6 +15,10 @@ interface OptimizationsDetailsOwnProps {
   projectPath?: string; // Project path (i.e., OCP details breakdown path)
 }
 
+interface OptimizationsDetailsStateProps {
+  isNamespaceToggleEnabled?: boolean;
+}
+
 type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
 
 const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
@@ -21,10 +28,36 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   linkState,
   projectPath,
 }) => {
+  const { isNamespaceToggleEnabled } = useMapToProps();
+  const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
+  const [namespace, setNamespace] = useState(
+    isNamespaceToggleEnabled ? RosNamespace.projects : RosNamespace.containers
+  );
+  const [optimizationType, setOptimizationType] = useState(OptimizationType.performance);
+
+  const handleOnIntervalSelect = (value: Interval) => {
+    setCurrentInterval(value);
+  };
+
+  const handleOnNamespaceSelect = (value: RosNamespace) => {
+    setNamespace(value);
+  };
+
+  const handleOnOptimizationTypeSelect = (value: OptimizationType) => {
+    setOptimizationType(value);
+  };
+
   return (
     <>
       <PageSection>
-        <OptimizationsDetailsHeader />
+        <OptimizationsDetailsHeader
+          currentInterval={currentInterval}
+          namespace={namespace}
+          onIntervalSelect={handleOnIntervalSelect}
+          onNamespaceSelect={handleOnNamespaceSelect}
+          onOptimizationTypeSelect={handleOnOptimizationTypeSelect}
+          optimizationType={optimizationType}
+        />
       </PageSection>
       <PageSection>
         <Card>
@@ -35,6 +68,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
               isOptimizationsDetails
               linkPath={linkPath}
               linkState={linkState}
+              namespace={namespace}
               projectPath={projectPath}
             />
           </CardBody>
@@ -42,6 +76,12 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
       </PageSection>
     </>
   );
+};
+
+const useMapToProps = (): OptimizationsDetailsStateProps => {
+  return {
+    isNamespaceToggleEnabled: useIsNamespaceToggleEnabled(),
+  };
 };
 
 export default OptimizationsDetails;

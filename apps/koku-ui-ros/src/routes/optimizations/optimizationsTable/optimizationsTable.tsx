@@ -2,6 +2,7 @@ import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
+import { RosNamespace } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -22,7 +23,8 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 
-import { OptimizationsDataTable } from './optimizationsDataTable';
+import { OptimizationsContainerTable } from './optimizationsContainerTable';
+import { OptimizationsProjectTable } from './optimizationsProjectTable';
 import { OptimizationsToolbar } from './optimizationsToolbar';
 
 interface OptimizationsTableOwnProps {
@@ -34,6 +36,7 @@ interface OptimizationsTableOwnProps {
   isOptimizationsDetails?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
+  namespace?: RosNamespace;
   project?: string | string[];
   projectPath?: string; // Project path (i.e., OCP details breakdown path)
 }
@@ -47,8 +50,9 @@ export interface OptimizationsTableStateProps {
 
 export interface OptimizationsTableMapProps {
   cluster?: string | string[];
-  query?: RosQuery;
+  namespace?: RosNamespace;
   project?: string | string[];
+  query?: RosQuery;
 }
 
 type OptimizationsTableProps = OptimizationsTableOwnProps;
@@ -62,7 +66,6 @@ const baseQuery: RosQuery = {
 };
 
 const reportType = RosType.ros as any;
-const reportPathsType = RosPathsType.recommendations as any;
 
 const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   breadcrumbLabel,
@@ -73,6 +76,7 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   isOptimizationsDetails,
   linkPath,
   linkState,
+  namespace,
   project,
   projectPath,
 }) => {
@@ -83,6 +87,7 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     cluster,
+    namespace,
     project,
     query,
   });
@@ -120,8 +125,24 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   };
 
   const getTable = () => {
-    return (
-      <OptimizationsDataTable
+    return namespace === RosNamespace.projects ? (
+      <OptimizationsProjectTable
+        breadcrumbLabel={breadcrumbLabel}
+        breadcrumbPath={breadcrumbPath}
+        filterBy={query.filter_by}
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isOptimizationsDetails={isOptimizationsDetails}
+        onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        orderBy={query.order_by}
+        query={query}
+        report={report}
+        reportQueryString={reportQueryString}
+        linkPath={linkPath}
+        linkState={linkState}
+        projectPath={projectPath}
+      />
+    ) : (
+      <OptimizationsContainerTable
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
@@ -212,11 +233,17 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   );
 };
 
-const useMapToProps = ({ cluster, project, query }: OptimizationsTableMapProps): OptimizationsTableStateProps => {
+const useMapToProps = ({
+  cluster,
+  namespace,
+  project,
+  query,
+}: OptimizationsTableMapProps): OptimizationsTableStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
+  const reportPathsType = namespace === RosNamespace.projects ? RosPathsType.namespaces : RosPathsType.recommendations;
 
   const reportQuery = {
     ...(cluster && { cluster }), // Flattened cluster filter
