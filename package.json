@@ -42,13 +42,13 @@
     "@eslint/compat": "^2.0.2",
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.39.2",
-    "@formatjs/cli": "^6.12.1",
+    "@formatjs/cli": "^6.12.2",
     "@formatjs/ecma402-abstract": "^3.1.1",
     "@formatjs/fast-memoize": "^3.1.0",
     "@formatjs/icu-messageformat-parser": "^3.5.1",
     "@formatjs/intl": "^4.1.2",
-    "@formatjs/intl-localematcher": "^0.8.0",
-    "@swc/core": "^1.15.10",
+    "@formatjs/intl-localematcher": "^0.8.1",
+    "@swc/core": "^1.15.11",
     "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -86,11 +86,5 @@
     "rimraf": "^6.1.2",
     "swc_mut_cjs_exports": "^10.7.0",
     "ts-jest": "^29.4.6"
-  },
-  "overrides": {
-    "eslint": "^9.39.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.9.3"
   }
 }
