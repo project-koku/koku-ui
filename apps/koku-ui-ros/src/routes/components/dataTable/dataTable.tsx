@@ -22,6 +22,7 @@ interface DataTableOwnProps {
   isActionsCell?: boolean;
   isLoading?: boolean;
   isSelectable?: boolean;
+  nestedColumns?: any[];
   onSelect(items: any[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   orderBy: any;
@@ -111,7 +112,8 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isActionsCell = false, isLoading, isSelectable, rows } = this.props;
+    const { columns, intl, isActionsCell = false, isLoading, isSelectable, nestedColumns, rows } = this.props;
+    const hasNestedHeader = nestedColumns?.length > 0;
 
     return (
       <>
@@ -121,16 +123,36 @@ class DataTable extends React.Component<DataTableProps, any> {
           gridBreakPoint="grid-2xl"
           variant={TableVariant.compact}
         >
-          <Thead>
+          <Thead hasNestedHeader={hasNestedHeader}>
+            {hasNestedHeader && (
+              <Tr>
+                {nestedColumns.map((col, index) => (
+                  <Th
+                    colSpan={col.colSpan}
+                    hasRightBorder={col.hasRightBorder}
+                    key={`nested-col-${index}`}
+                    modifier={col.modifier || 'nowrap'}
+                    rowSpan={col.rowSpan}
+                    sort={col.isSortable ? this.getSortParams(index) : undefined}
+                    style={col.style}
+                  >
+                    {col.name}
+                  </Th>
+                ))}
+              </Tr>
+            )}
             <Tr>
               {columns.map((col, index) => (
                 <Th
+                  colSpan={col.colSpan}
+                  hasRightBorder={col.hasRightBorder}
                   key={`col-${index}-${col.value}`}
-                  modifier="nowrap"
+                  modifier={col.modifier || 'nowrap'}
+                  rowSpan={col.rowSpan}
                   sort={col.isSortable ? this.getSortParams(index) : undefined}
                   style={col.style}
                 >
-                  {col.name}
+                  {col.name || ''}
                 </Th>
               ))}
             </Tr>
@@ -152,7 +174,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                   {row.cells.map((item, cellIndex) =>
                     cellIndex === 0 && isSelectable ? (
                       <Td
-                        dataLabel={columns[cellIndex].name}
+                        dataLabel={columns[cellIndex]?.name}
                         key={`cell-${cellIndex}-${rowIndex}`}
                         modifier="nowrap"
                         select={{
@@ -165,7 +187,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                       />
                     ) : (
                       <Td
-                        dataLabel={columns[cellIndex].name}
+                        dataLabel={columns[cellIndex]?.name}
                         key={`cell-${rowIndex}-${cellIndex}`}
                         modifier="nowrap"
                         isActionCell={isActionsCell && cellIndex === row.cells.length - 1}

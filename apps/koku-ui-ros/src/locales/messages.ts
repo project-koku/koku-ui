@@ -411,13 +411,18 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'cluster {Cluster names} ' +
+      'change  {Change} ' +
       'container {Container names} ' +
+      'cpu  {CPU requests} ' +
+      'current  {Current} ' +
       'last_reported {Last reported} ' +
+      'memory  {Memory requests} ' +
       'project {Project names} ' +
+      'project_type {Project types} ' +
       'workload {Workload names} ' +
       'workload_type {Workload types} ' +
       'other {}}',
-    description: 'Selected items for export',
+    description: 'Optimization table column names',
     id: 'optimizationsNames',
   },
   optimizationsPerformance: {
@@ -436,7 +441,7 @@ export default defineMessages({
     id: 'optimizationsType',
   },
   optimizationsValue: {
-    defaultMessage: '{value}{units}',
+    defaultMessage: '{count, plural, =1 {{value} {units}} other {{value}{units}}}',
     description: '2 GiB',
     id: 'optimizationsValue',
   },
@@ -622,6 +627,7 @@ export default defineMessages({
   units: {
     defaultMessage:
       '{units, select, ' +
+      'bytes {bytes} ' +
       'cores {cores} ' +
       'ei {Ei} ' +
       'eib {EiB} ' +
@@ -640,6 +646,7 @@ export default defineMessages({
   unitsK8: {
     defaultMessage:
       '{units, select, ' +
+      'bytes {bytes} ' +
       'cores {} ' +
       'ei {Ei} ' +
       'eib {Ei} ' +
