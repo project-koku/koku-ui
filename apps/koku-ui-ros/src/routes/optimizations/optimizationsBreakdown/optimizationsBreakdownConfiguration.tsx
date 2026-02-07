@@ -58,6 +58,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
 
     return isFormatted
       ? intl.formatMessage(messages.optimizationsValue, {
+          count: 0,
           value: formatOptimization(value),
           units: formattedUnits,
         })
@@ -84,7 +85,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     const memConfigRequestsAmount = hasConfigRequestsMemory ? values.requests.memory.amount : undefined;
     const memConfigRequestsUnits = hasConfigRequestsMemory ? values.requests.memory.format : undefined;
 
-    const test = {
+    return {
       limits: {
         cpu: formatValue(cpuConfigLimitsAmount, cpuConfigLimitsUnits, isFormatted, isK8Units),
         memory: formatValue(memConfigLimitsAmount, memConfigLimitsUnits, isFormatted, isK8Units),
@@ -94,7 +95,6 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
         memory: formatValue(memConfigRequestsAmount, memConfigRequestsUnits, isFormatted, isK8Units),
       },
     };
-    return test;
   };
 
   const getCurrentConfig = (isFormatted = true) => {

@@ -1248,6 +1248,14 @@
     "optimizationsNames": [
       {
         "options": {
+          "change": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Change"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -1264,11 +1272,35 @@
               }
             ]
           },
+          "cpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CPU requests"
+              }
+            ]
+          },
+          "current": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Current"
+              }
+            ]
+          },
           "last_reported": {
             "value": [
               {
                 "type": 0,
                 "value": "Last reported"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory requests"
               }
             ]
           },
@@ -1280,6 +1312,14 @@
               {
                 "type": 0,
                 "value": "Project names"
+              }
+            ]
+          },
+          "project_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project types"
               }
             ]
           },
@@ -1324,12 +1364,40 @@
     ],
     "optimizationsValue": [
       {
-        "type": 1,
-        "value": "value"
-      },
-      {
-        "type": 1,
-        "value": "units"
+        "offset": 0,
+        "options": {
+          "=1": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " "
+              },
+              {
+                "type": 1,
+                "value": "units"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 1,
+                "value": "units"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "optimizationsValues": [
@@ -1885,6 +1953,14 @@
     "units": [
       {
         "options": {
+          "bytes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "bytes"
+              }
+            ]
+          },
           "cores": {
             "value": [
               {
@@ -1984,6 +2060,14 @@
     "unitsK8": [
       {
         "options": {
+          "bytes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "bytes"
+              }
+            ]
+          },
           "cores": {
             "value": []
           },

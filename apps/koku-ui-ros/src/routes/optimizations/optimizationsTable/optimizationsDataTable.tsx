@@ -15,10 +15,9 @@ import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
-import { getRequestProps } from './utils';
 import { getLinkState } from './utils';
 
-interface OptimizationsProjectTableOwnProps {
+interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   filterBy?: any;
@@ -36,9 +35,9 @@ interface OptimizationsProjectTableOwnProps {
   reportQueryString: string;
 }
 
-type OptimizationsProjectTableProps = OptimizationsProjectTableOwnProps;
+type OptimizationsDataTableProps = OptimizationsDataTableOwnProps;
 
-const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
+const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
@@ -56,7 +55,6 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
 }) => {
   const intl = useIntl();
   const [columns, setColumns] = useState([]);
-  const [nestedColumns, setNestedColumns] = useState([]);
   const [rows, setRows] = useState([]);
 
   const initDatum = () => {
@@ -65,85 +63,56 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
     }
     const hasData = report?.data && report.data.length > 0;
 
-    const newNestedColumns = [
-      {
-        colSpan: 2,
-        hasRightBorder: true,
-      },
-      {
-        colSpan: 2,
-        hasRightBorder: true,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'memory' }),
-      },
-      {
-        colSpan: 2,
-        hasRightBorder: true,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'cpu' }),
-      },
-      {
-        isSubheader: true,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
-        orderBy: 'last_reported',
-        rowSpan: 2,
-        style: styles.lastItemColumn,
-        ...(hasData && { isSortable: true }),
-      },
-    ];
-
     const newRows = [];
     const newColumns = [
       {
-        isSubheader: true,
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'container' }),
+        orderBy: 'container',
+        ...(hasData && { isSortable: true }),
+      },
+      {
+        hidden: hideProject,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'project' }),
         orderBy: 'project',
         ...(hasData && { isSortable: true }),
       },
       {
-        isSubheader: true,
-        hasRightBorder: true,
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'workload' }),
+        orderBy: 'workload',
+        ...(hasData && { isSortable: true }),
+      },
+      {
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'workload_type' }),
+        orderBy: 'workload_type',
+        ...(hasData && { isSortable: true }),
+      },
+      {
+        hidden: hideCluster,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
       },
       {
-        isSubheader: true,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'current' }),
-        orderBy: 'memory_current_request',
-        ...(hasData && { isSortable: true }),
-      },
-      {
-        isSubheader: true,
-        hasRightBorder: true,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'change' }),
-        orderBy: 'memory_variation',
-        ...(hasData && { isSortable: true }),
-      },
-      {
-        isSubheader: true,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'current' }),
-        orderBy: 'cpu_current_request',
-        ...(hasData && { isSortable: true }),
-      },
-      {
-        isSubheader: true,
-        hasRightBorder: true,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'change' }),
-        orderBy: 'cpu_variation',
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
+        orderBy: 'last_reported',
+        style: styles.lastItemColumn,
         ...(hasData && { isSortable: true }),
       },
     ];
+
     report?.data.map(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
       const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
       const project = item.project ?? '';
+      const workload = item.workload ?? '';
+      const workloadType = item.workload_type ?? '';
       const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
 
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
         breadcrumbLabel,
-        // id: item.id, Todo: for testing
-        id: '91b2a9dc-9143-4f67-9d2a-8fc3bd998183',
+        id: item.id,
         isOptimizationsDetails,
         title: container,
       });
@@ -157,20 +126,19 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
         query,
       });
 
-      const requestProps = getRequestProps(item);
-
       newRows.push({
         cells: [
           {
-            hidden: hideProject,
             value: (
               <Link to={optimizationsBreakdownPath} state={newLinkState}>
-                {project}
+                {container}
               </Link>
             ),
           },
+          { value: project, hidden: hideProject },
+          { value: workload },
+          { value: workloadType },
           {
-            hidden: hideCluster,
             value: (
               <>
                 {cluster}
@@ -183,11 +151,8 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
                 )}
               </>
             ),
+            hidden: hideCluster,
           },
-          { value: requestProps?.memoryRequestCurrent },
-          { value: requestProps?.memoryVariation },
-          { value: requestProps?.cpuRequestCurrent },
-          { value: requestProps?.cpuVariation },
           { value: lastReported, style: styles.lastItem },
         ],
         optimization: {
@@ -199,14 +164,12 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
     });
 
     const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
-    const filteredNestedColumns = (newNestedColumns as any[]).filter(column => !column.hidden);
     const filteredRows = newRows.map(({ ...row }) => {
       row.cells = row.cells.filter(cell => !cell.hidden);
       return row;
     });
 
     setColumns(filteredColumns);
-    setNestedColumns(filteredNestedColumns);
     setRows(filteredRows);
   };
 
@@ -226,7 +189,6 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
       emptyState={<NoOptimizationsState />}
       filterBy={filterBy}
       isLoading={isLoading}
-      nestedColumns={nestedColumns}
       onSort={handleOnSort}
       orderBy={orderBy}
       rows={rows}
@@ -234,4 +196,4 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
   );
 };
 
-export { OptimizationsProjectTable };
+export { OptimizationsDataTable };
