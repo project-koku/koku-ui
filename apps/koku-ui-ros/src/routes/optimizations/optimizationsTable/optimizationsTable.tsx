@@ -2,10 +2,8 @@ import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
-import { RosNamespace } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
-import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -24,9 +22,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 
-import { OptimizationsContainerTable } from './optimizationsContainerTable';
 import { OptimizationsDataTable } from './optimizationsDataTable';
-import { OptimizationsProjectTable } from './optimizationsProjectTable';
 import { OptimizationsToolbar } from './optimizationsToolbar';
 
 interface OptimizationsTableOwnProps {
@@ -38,13 +34,11 @@ interface OptimizationsTableOwnProps {
   isOptimizationsDetails?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
-  namespace?: RosNamespace;
   project?: string | string[];
   projectPath?: string; // Project path (i.e., OCP details breakdown path)
 }
 
 export interface OptimizationsTableStateProps {
-  isNamespaceToggleEnabled: boolean;
   report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -53,7 +47,6 @@ export interface OptimizationsTableStateProps {
 
 export interface OptimizationsTableMapProps {
   cluster?: string | string[];
-  namespace?: RosNamespace;
   project?: string | string[];
   query?: RosQuery;
 }
@@ -68,6 +61,7 @@ const baseQuery: RosQuery = {
   },
 };
 
+const reportPathsType = RosPathsType.recommendations;
 const reportType = RosType.ros as any;
 
 const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
@@ -79,7 +73,6 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   isOptimizationsDetails,
   linkPath,
   linkState,
-  namespace,
   project,
   projectPath,
 }) => {
@@ -88,9 +81,8 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
 
   const queryState = getQueryState(location, projectPath ? 'optimizations' : 'optimizationsBreakdown');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
-  const { isNamespaceToggleEnabled, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     cluster,
-    namespace,
     project,
     query,
   });
@@ -128,41 +120,6 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   };
 
   const getTable = () => {
-    if (isNamespaceToggleEnabled) {
-      return namespace === RosNamespace.projects ? (
-        <OptimizationsProjectTable
-          breadcrumbLabel={breadcrumbLabel}
-          breadcrumbPath={breadcrumbPath}
-          filterBy={query.filter_by}
-          isLoading={reportFetchStatus === FetchStatus.inProgress}
-          isOptimizationsDetails={isOptimizationsDetails}
-          onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
-          orderBy={query.order_by}
-          query={query}
-          report={report}
-          reportQueryString={reportQueryString}
-          linkPath={linkPath}
-          linkState={linkState}
-          projectPath={projectPath}
-        />
-      ) : (
-        <OptimizationsContainerTable
-          breadcrumbLabel={breadcrumbLabel}
-          breadcrumbPath={breadcrumbPath}
-          filterBy={query.filter_by}
-          isLoading={reportFetchStatus === FetchStatus.inProgress}
-          isOptimizationsDetails={isOptimizationsDetails}
-          onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
-          orderBy={query.order_by}
-          query={query}
-          report={report}
-          reportQueryString={reportQueryString}
-          linkPath={linkPath}
-          linkState={linkState}
-          projectPath={projectPath}
-        />
-      );
-    }
     return (
       <OptimizationsDataTable
         breadcrumbLabel={breadcrumbLabel}
@@ -255,17 +212,10 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   );
 };
 
-const useMapToProps = ({
-  cluster,
-  namespace,
-  project,
-  query,
-}: OptimizationsTableMapProps): OptimizationsTableStateProps => {
+const useMapToProps = ({ cluster, project, query }: OptimizationsTableMapProps): OptimizationsTableStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
-  const reportPathsType = namespace === RosNamespace.projects ? RosPathsType.namespaces : RosPathsType.recommendations;
 
   const reportQuery = {
     ...(cluster && { cluster }), // Flattened cluster filter
@@ -277,7 +227,7 @@ const useMapToProps = ({
     order_how, // Flattened order how
   };
   const reportQueryString = getQuery(reportQuery);
-  let report = useSelector((state: RootState) =>
+  const report = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
   );
   const reportFetchStatus = useSelector((state: RootState) =>
@@ -293,378 +243,7 @@ const useMapToProps = ({
     }
   }, [query]);
 
-  // Todo: Testing
-  if (namespace === RosNamespace.projects) {
-    report = {
-      data: [
-        {
-          id: 'a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d',
-          project: 'ros-prod',
-          cluster_alias: 'demolab',
-          cluster_uuid: 'd29c4b8b-f1a8-471c-ab95-b64e36bb51a9',
-          source_id: '0920ff0d-f1d6-4fe2-8bf3-18e6074bd27b',
-          last_reported: '2023-04-18T15:48:54.000Z',
-          cpu_request_current: {
-            value: 0.25,
-            format: 'cores',
-          },
-          cpu_variation: {
-            value: 12.5,
-            format: 'percent',
-          },
-          memory_request_current: {
-            value: 67108864,
-            format: 'bytes',
-          },
-          memory_variation: {
-            value: 12,
-            format: 'percent',
-          },
-          recommendations: {
-            current: {
-              limits: {
-                cpu: {
-                  amount: 2,
-                  format: 'cores',
-                },
-                memory: {
-                  amount: 32212255,
-                  format: 'bytes',
-                },
-              },
-              requests: {
-                cpu: {
-                  amount: 2,
-                  format: 'cores',
-                },
-                memory: {
-                  amount: 21382267,
-                  format: 'bytes',
-                },
-              },
-            },
-            monitoring_end_time: '2026-02-06T15:22:36.236Z',
-            recommendation_terms: {
-              long_term: {
-                duration_in_hours: 360,
-                monitoring_start_time: '2023-06-02T00:45:00Z',
-                recommendation_engines: {
-                  cost: {
-                    config: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    variation: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    notifications: {},
-                  },
-                  performance: {
-                    config: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    variation: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    notifications: {},
-                  },
-                },
-              },
-              medium_term: {
-                duration_in_hours: 168,
-                monitoring_start_time: '2023-06-02T00:45:00Z',
-                recommendation_engines: {
-                  cost: {
-                    config: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    variation: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    notifications: {},
-                  },
-                  performance: {
-                    config: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    variation: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    notifications: {},
-                  },
-                },
-              },
-              short_term: {
-                duration_in_hours: 24,
-                monitoring_start_time: '2024-09-24T09:46:20.000Z',
-                recommendation_engines: {
-                  cost: {
-                    config: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    variation: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    notifications: {},
-                  },
-                  performance: {
-                    config: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    variation: {
-                      limits: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                      requests: {
-                        cpu: {
-                          amount: 5.834,
-                          format: 'cores',
-                        },
-                        memory: {
-                          amount: 1442955264,
-                          format: 'bytes',
-                        },
-                      },
-                    },
-                    notifications: {},
-                  },
-                },
-              },
-            },
-          },
-        },
-      ],
-      meta: {
-        count: 1,
-        limit: 10,
-        offset: 0,
-      },
-      links: {
-        first: 'string',
-        previous: 'string',
-        next: 'string',
-        last: 'string',
-      },
-    } as any;
-  }
-
   return {
-    isNamespaceToggleEnabled: useIsNamespaceToggleEnabled(),
     report,
     reportError,
     reportFetchStatus,

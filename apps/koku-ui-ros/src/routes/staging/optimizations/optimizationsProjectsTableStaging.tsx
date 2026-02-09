@@ -6,22 +6,22 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
-import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
+import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsProjectsTable';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
 
-interface OptimizationsTableStagingOwnProps {
+interface OptimizationsProjectsTableStagingOwnProps {
   // TBD...
 }
 
-type OptimizationsTableStagingProps = OptimizationsTableStagingOwnProps;
+type OptimizationsProjectsTableStagingProps = OptimizationsProjectsTableStagingOwnProps;
 
 const useQueryFromRoute = () => {
   const location = useLocation();
   return parseQuery<Query>(location.search);
 };
 
-const OptimizationsTableStaging: React.FC<OptimizationsTableStagingProps> = () => {
+const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStagingProps> = () => {
   const intl = useIntl();
   const queryFromRoute = useQueryFromRoute();
 
@@ -35,7 +35,7 @@ const OptimizationsTableStaging: React.FC<OptimizationsTableStagingProps> = () =
 
   return (
     <PageSection>
-      <OptimizationsTable
+      <OptimizationsProjectsTable
         breadcrumbLabel={
           intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue }) as string
         }
@@ -50,4 +50,4 @@ const OptimizationsTableStaging: React.FC<OptimizationsTableStagingProps> = () =
   );
 };
 
-export default OptimizationsTableStaging;
+export default OptimizationsProjectsTableStaging;

@@ -38,7 +38,7 @@ interface OptimizationsProjectTableOwnProps {
 
 type OptimizationsProjectTableProps = OptimizationsProjectTableOwnProps;
 
-const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
+const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
@@ -234,4 +234,4 @@ const OptimizationsProjectTable: React.FC<OptimizationsProjectTableProps> = ({
   );
 };
 
-export { OptimizationsProjectTable };
+export { OptimizationsProjectsDataTable };

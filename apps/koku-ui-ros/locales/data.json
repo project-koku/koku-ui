@@ -1133,6 +1133,12 @@
         "value": "OpenShift"
       }
     ],
+    "optimizableContainers": [
+      {
+        "type": 0,
+        "value": "Optimizable containers on this project"
+      }
+    ],
     "optimizations": [
       {
         "type": 0,
@@ -1348,6 +1354,12 @@
       {
         "type": 0,
         "value": "Performance optimizations"
+      }
+    ],
+    "optimizationsProject": [
+      {
+        "type": 0,
+        "value": "Optimization for this project"
       }
     ],
     "optimizationsShortTerm": [

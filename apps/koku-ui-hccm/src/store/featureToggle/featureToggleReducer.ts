@@ -12,6 +12,7 @@ export type FeatureToggleState = Readonly<{
   isExactFilterToggleEnabled: boolean;
   isExportsToggleEnabled: boolean;
   isGpuToggleEnabled: boolean;
+  isNamespaceToggleEnabled: boolean;
   isSystemsToggleEnabled: boolean;
 }>;
 
@@ -21,6 +22,7 @@ export const defaultState: FeatureToggleState = {
   isExactFilterToggleEnabled: false,
   isExportsToggleEnabled: false,
   isGpuToggleEnabled: false,
+  isNamespaceToggleEnabled: false,
   isSystemsToggleEnabled: false,
 };
 
@@ -36,6 +38,7 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         isExactFilterToggleEnabled: action.payload.isExactFilterToggleEnabled,
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
         isGpuToggleEnabled: action.payload.isGpuToggleEnabled,
+        isNamespaceToggleEnabled: action.payload.isNamespaceToggleEnabled,
         isSystemsToggleEnabled: action.payload.isSystemsToggleEnabled,
       };
 

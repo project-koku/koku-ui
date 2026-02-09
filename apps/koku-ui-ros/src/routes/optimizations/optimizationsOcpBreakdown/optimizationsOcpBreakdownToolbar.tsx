@@ -1,39 +1,26 @@
-import { Flex, FlexItem, ToggleGroup, ToggleGroupItem } from '@patternfly/react-core';
+import { Flex, FlexItem } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
-import { RosNamespace } from 'api/ros/ros';
 import messages from 'locales/messages';
 import React from 'react';
 import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
-import { styles } from './optimizationsDetailsToolbar.styles';
-
-interface OptimizationsDetailsToolbarOwnProps {
+interface optimizationsOcpBreakdownToolbarOwnProps {
   currentInterval?: Interval;
-  namespace?: RosNamespace;
   onIntervalSelect?: (value: Interval) => void;
-  onNamespaceSelect?: (value: RosNamespace) => void;
   onOptimizationTypeSelect?: (value: OptimizationType) => void;
   query?: Query;
   optimizationType?: OptimizationType;
 }
 
-type OptimizationsDetailsToolbarProps = OptimizationsDetailsToolbarOwnProps;
+type optimizationsOcpBreakdownToolbarProps = optimizationsOcpBreakdownToolbarOwnProps;
 
-const OptimizationsDetailsToolbar: React.FC<OptimizationsDetailsToolbarProps> = ({
+const OptimizationsOcpBreakdownToolbar: React.FC<optimizationsOcpBreakdownToolbarProps> = ({
   currentInterval,
-  namespace,
   onIntervalSelect,
-  onNamespaceSelect,
   onOptimizationTypeSelect,
   optimizationType,
 }) => {
-  const handleOnNamespaceSelect = event => {
-    if (onNamespaceSelect) {
-      onNamespaceSelect(event.currentTarget.id);
-    }
-  };
-
   const getOptimizationTypeOptions = () => {
     return [
       {
@@ -68,23 +55,7 @@ const OptimizationsDetailsToolbar: React.FC<OptimizationsDetailsToolbarProps> = 
   const optimizationTypeOptions = getOptimizationTypeOptions();
 
   return (
-    <Flex style={styles.toolbarContainer}>
-      <FlexItem>
-        <ToggleGroup aria-label="Default with single selectable">
-          <ToggleGroupItem
-            text="Projects"
-            buttonId="projects"
-            isSelected={namespace === RosNamespace.projects}
-            onChange={event => handleOnNamespaceSelect(event)}
-          />
-          <ToggleGroupItem
-            text="Containers"
-            buttonId="containers"
-            isSelected={namespace === RosNamespace.containers}
-            onChange={event => handleOnNamespaceSelect(event)}
-          />
-        </ToggleGroup>
-      </FlexItem>
+    <Flex>
       <FlexItem>
         <PerspectiveSelect
           currentItem={optimizationType || optimizationTypeOptions[0].value}
@@ -105,4 +76,4 @@ const OptimizationsDetailsToolbar: React.FC<OptimizationsDetailsToolbarProps> = 
   );
 };
 
-export { OptimizationsDetailsToolbar };
+export { OptimizationsOcpBreakdownToolbar };

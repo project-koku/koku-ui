@@ -1,14 +1,14 @@
 import React from 'react';
 import { OptimizationsBreakdown } from 'routes/optimizations/optimizationsBreakdown';
 
-interface OptimizationsDetailsStagingOwnProps {
+interface OptimizationsBreakdownStagingOwnProps {
   // TBD...
 }
 
-type OptimizationsDetailsStagingProps = OptimizationsDetailsStagingOwnProps;
+type OptimizationsBreakdownStagingProps = OptimizationsBreakdownStagingOwnProps;
 
-const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = () => {
+const OptimizationsBreakdownStaging: React.FC<OptimizationsBreakdownStagingProps> = () => {
   return <OptimizationsBreakdown />;
 };
 
-export default OptimizationsDetailsStaging;
+export default OptimizationsBreakdownStaging;

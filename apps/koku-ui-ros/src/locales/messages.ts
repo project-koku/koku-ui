@@ -347,6 +347,11 @@ export default defineMessages({
     description: 'OpenShift',
     id: 'openShift',
   },
+  optimizableContainers: {
+    defaultMessage: 'Optimizable containers on this project',
+    description: 'Optimizable containers on this project',
+    id: 'optimizableContainers',
+  },
   optimizations: {
     defaultMessage: 'Optimizations',
     description: 'Optimizations',
@@ -434,6 +439,11 @@ export default defineMessages({
     defaultMessage: 'Last 24 hrs',
     description: 'Last 24 hrs',
     id: 'optimizationsShortTerm',
+  },
+  optimizationsProject: {
+    defaultMessage: 'Optimization for this project',
+    description: 'Optimization for this project',
+    id: 'optimizationsProject',
   },
   optimizationsType: {
     defaultMessage: 'View optimizations based on',
