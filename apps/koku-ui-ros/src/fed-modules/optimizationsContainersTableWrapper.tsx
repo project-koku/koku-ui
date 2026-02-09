@@ -1,9 +1,9 @@
 import React from 'react';
-import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
+import { OptimizationsContainersTable } from 'routes/optimizations/optimizationsContainersTable';
 
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
-export interface OptimizationsTableOwnProps {
+export interface OptimizationsContainersTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   cluster?: string[];
@@ -14,9 +14,9 @@ export interface OptimizationsTableOwnProps {
   project?: string[];
 }
 
-type OptimizationsTableProps = OptimizationsTableOwnProps;
+type OptimizationsContainersToolbarProps = OptimizationsContainersTableOwnProps;
 
-const OptimizationsTableWrapper: React.FC<OptimizationsTableProps> = ({
+const OptimizationsTableWrapper: React.FC<OptimizationsContainersToolbarProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   cluster,
@@ -25,10 +25,10 @@ const OptimizationsTableWrapper: React.FC<OptimizationsTableProps> = ({
   linkPath,
   linkState,
   project,
-}: OptimizationsTableOwnProps) => {
+}: OptimizationsContainersTableOwnProps) => {
   return (
     <OptimizationsWrapper>
-      <OptimizationsTable
+      <OptimizationsContainersTable
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
         cluster={cluster}

@@ -2,6 +2,8 @@ import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { RosNamespace } from 'api/ros/ros';
 import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import React, { useState } from 'react';
+import { OptimizationsContainersTable } from 'routes/optimizations/optimizationsContainersTable';
+import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsProjectsTable';
 import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
@@ -62,15 +64,36 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
       <PageSection>
         <Card>
           <CardBody>
-            <OptimizationsTable
-              breadcrumbLabel={breadcrumbLabel}
-              breadcrumbPath={breadcrumbPath}
-              isOptimizationsDetails
-              linkPath={linkPath}
-              linkState={linkState}
-              namespace={namespace}
-              projectPath={projectPath}
-            />
+            {isNamespaceToggleEnabled ? (
+              namespace === RosNamespace.containers ? (
+                <OptimizationsContainersTable
+                  breadcrumbLabel={breadcrumbLabel}
+                  breadcrumbPath={breadcrumbPath}
+                  isOptimizationsDetails
+                  linkPath={linkPath}
+                  linkState={linkState}
+                  projectPath={projectPath}
+                />
+              ) : (
+                <OptimizationsProjectsTable
+                  breadcrumbLabel={breadcrumbLabel}
+                  breadcrumbPath={breadcrumbPath}
+                  isOptimizationsDetails
+                  linkPath={linkPath}
+                  linkState={linkState}
+                  projectPath={projectPath}
+                />
+              )
+            ) : (
+              <OptimizationsTable
+                breadcrumbLabel={breadcrumbLabel}
+                breadcrumbPath={breadcrumbPath}
+                isOptimizationsDetails
+                linkPath={linkPath}
+                linkState={linkState}
+                projectPath={projectPath}
+              />
+            )}
           </CardBody>
         </Card>
       </PageSection>

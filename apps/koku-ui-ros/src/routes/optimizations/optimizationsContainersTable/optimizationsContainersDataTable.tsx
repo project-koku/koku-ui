@@ -17,7 +17,7 @@ import { hasNotificationsWarning } from 'utils/notifications';
 
 import { getLinkState, getRequestProps } from './utils';
 
-interface OptimizationsContainerTableOwnProps {
+interface OptimizationsContainersDataTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   filterBy?: any;
@@ -35,9 +35,9 @@ interface OptimizationsContainerTableOwnProps {
   reportQueryString: string;
 }
 
-type OptimizationsContainerTableProps = OptimizationsContainerTableOwnProps;
+type OptimizationsContainersDataTableProps = OptimizationsContainersDataTableOwnProps;
 
-const OptimizationsContainerTable: React.FC<OptimizationsContainerTableProps> = ({
+const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
@@ -150,10 +150,10 @@ const OptimizationsContainerTable: React.FC<OptimizationsContainerTableProps> = 
 
     report?.data.map(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
-      const container = item.container ?? '';
+      const container = (item as any).container_name ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
       const project = item.project ?? '';
-      const workload = item.workload ?? '';
+      const workload = (item as any).workload_name ?? '';
       const workloadType = item.workload_type ?? '';
       const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
 
@@ -253,4 +253,4 @@ const OptimizationsContainerTable: React.FC<OptimizationsContainerTableProps> = 
   );
 };
 
-export { OptimizationsContainerTable };
+export { OptimizationsContainersDataTable };
