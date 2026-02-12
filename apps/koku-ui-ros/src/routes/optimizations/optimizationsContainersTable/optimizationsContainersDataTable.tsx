@@ -21,10 +21,10 @@ interface OptimizationsContainersDataTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   filterBy?: any;
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
   isLoading?: boolean;
   isOptimizationsDetails?: boolean;
+  isProjectHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   onSort(value: string, isSortAscending: boolean);
@@ -41,10 +41,10 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
   isLoading,
   isOptimizationsDetails,
+  isProjectHidden,
   linkPath,
   linkState,
   onSort,
@@ -66,7 +66,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
 
     const newNestedColumns = [
       {
-        colSpan: 5,
+        colSpan: 3 + (isClusterHidden ? 0 : 1) + (isProjectHidden ? 0 : 1),
         hasRightBorder: true,
       },
       {
@@ -97,7 +97,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
         ...(hasData && { isSortable: true }),
       },
       {
-        hidden: hideProject,
+        hidden: isProjectHidden,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'project' }),
         orderBy: 'project',
         ...(hasData && { isSortable: true }),
@@ -115,7 +115,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
       {
         isSubheader: true,
         hasRightBorder: true,
-        hidden: hideCluster,
+        hidden: isClusterHidden,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
@@ -150,10 +150,10 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
 
     report?.data.map(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
-      const container = (item as any).container_name ?? '';
+      const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
       const project = item.project ?? '';
-      const workload = (item as any).workload_name ?? '';
+      const workload = item.workload ?? '';
       const workloadType = item.workload_type ?? '';
       const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
 
@@ -185,7 +185,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
               </Link>
             ),
           },
-          { value: project, hidden: hideProject },
+          { value: project, hidden: isProjectHidden },
           { value: workload },
           { value: workloadType },
           {
@@ -201,7 +201,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
                 )}
               </>
             ),
-            hidden: hideCluster,
+            hidden: isClusterHidden,
           },
           { value: requestProps?.memoryRequestCurrent },
           { value: requestProps?.memoryVariation },

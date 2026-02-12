@@ -21,10 +21,10 @@ interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   filterBy?: any;
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
   isLoading?: boolean;
   isOptimizationsDetails?: boolean;
+  isProjectHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   onSort(value: string, isSortAscending: boolean);
@@ -41,10 +41,10 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
   isLoading,
   isOptimizationsDetails,
+  isProjectHidden,
   linkPath,
   linkState,
   onSort,
@@ -71,7 +71,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         ...(hasData && { isSortable: true }),
       },
       {
-        hidden: hideProject,
+        hidden: isProjectHidden,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'project' }),
         orderBy: 'project',
         ...(hasData && { isSortable: true }),
@@ -87,7 +87,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         ...(hasData && { isSortable: true }),
       },
       {
-        hidden: hideCluster,
+        hidden: isClusterHidden,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
@@ -135,7 +135,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
               </Link>
             ),
           },
-          { value: project, hidden: hideProject },
+          { value: project, hidden: isProjectHidden },
           { value: workload },
           { value: workloadType },
           {
@@ -151,7 +151,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
                 )}
               </>
             ),
-            hidden: hideCluster,
+            hidden: isClusterHidden,
           },
           { value: lastReported, style: styles.lastItem },
         ],

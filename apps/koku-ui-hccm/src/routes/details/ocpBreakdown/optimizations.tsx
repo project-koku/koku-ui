@@ -42,8 +42,8 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
         breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
         cluster={clusterFilter}
-        hideCluster={clusterFilter !== undefined}
-        hideProject={groupBy === 'project'}
+        isClusterHidden={clusterFilter !== undefined}
+        isProjectHidden={groupBy === 'project'}
         isOptimizationsPath={isOptimizationsPath}
         linkPath={formatPath(routes.optimizationsBreakdown.path)}
         linkState={{
@@ -62,8 +62,8 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
           breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
           cluster={clusterFilter}
-          hideCluster={clusterFilter !== undefined}
-          hideProject={groupBy === 'project'}
+          isClusterHidden={clusterFilter !== undefined}
+          isProjectHidden={groupBy === 'project'}
           isOptimizationsPath={isOptimizationsPath}
           linkPath={formatPath(routes.optimizationsBreakdown.path)}
           linkState={{

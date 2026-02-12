@@ -198,12 +198,12 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
         costDistribution={costDistribution}
         exclude={query.exclude}
         filterBy={query.filter_by}
-        hideCluster={hasClusterFilter}
-        hideNode={hasNodeFilter}
-        hideProject={hasProjectFilter}
+        isClusterHidden={hasClusterFilter}
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isNodeHidden={hasNodeFilter}
+        isProjectHidden={hasProjectFilter}
         onSelect={handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -224,13 +224,13 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
 
     return (
       <VirtualizationToolbar
-        hideCluster={hasClusterFilter}
-        hideNode={hasNodeFilter}
-        hideProject={hasProjectFilter}
-        hideTag={hasTagFilter}
+        isTagHidden={hasTagFilter}
         isAllSelected={isAllSelected}
+        isClusterHidden={hasClusterFilter}
         isDisabled={isDisabled}
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
+        isNodeHidden={hasNodeFilter}
+        isProjectHidden={hasProjectFilter}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelect={handleOnBulkSelect}

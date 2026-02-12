@@ -22,8 +22,7 @@ interface OptimizationsProjectTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   filterBy?: any;
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
   isLoading?: boolean;
   isOptimizationsDetails?: boolean;
   linkPath?: string; // Optimizations breakdown link path
@@ -42,8 +41,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
   isLoading,
   isOptimizationsDetails,
   linkPath,
@@ -67,7 +65,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
 
     const newNestedColumns = [
       {
-        colSpan: 2,
+        colSpan: 1 + (isClusterHidden ? 0 : 1),
         hasRightBorder: true,
       },
       {
@@ -101,6 +99,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
       {
         isSubheader: true,
         hasRightBorder: true,
+        hidden: isClusterHidden,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
@@ -162,7 +161,6 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
       newRows.push({
         cells: [
           {
-            hidden: hideProject,
             value: (
               <Link to={optimizationsBreakdownPath} state={newLinkState}>
                 {project}
@@ -170,7 +168,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
             ),
           },
           {
-            hidden: hideCluster,
+            hidden: isClusterHidden,
             value: (
               <>
                 {cluster}

@@ -30,10 +30,10 @@ interface OptimizationsProjectsTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   cluster?: string | string[];
-  hideCluster?: boolean;
-  hideProject?: boolean;
-  isOcpBreakdown?: boolean;
+  isClusterHidden?: boolean;
   isOptimizationsDetails?: boolean;
+  isPaginationHidden?: boolean;
+  isToolbarHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   project?: string | string[];
@@ -70,10 +70,10 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   cluster,
-  hideCluster,
-  hideProject,
-  isOcpBreakdown,
+  isClusterHidden,
   isOptimizationsDetails,
+  isPaginationHidden,
+  isToolbarHidden,
   linkPath,
   linkState,
   project,
@@ -128,6 +128,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
+        isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isOptimizationsDetails={isOptimizationsDetails}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -149,8 +150,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
 
     return (
       <OptimizationsProjectsToolbar
-        hideCluster={hideCluster}
-        hideProject={hideProject}
+        isClusterHidden={isClusterHidden}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
@@ -199,7 +199,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   }
   return (
     <>
-      {!isOcpBreakdown && getToolbar()}
+      {!isToolbarHidden && getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
         <LoadingState
           body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
@@ -208,7 +208,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
       ) : (
         <>
           {getTable()}
-          {!isOcpBreakdown && <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>}
+          {!isPaginationHidden && <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>}
         </>
       )}
     </>
@@ -234,6 +234,7 @@ const useMapToProps = ({
     order_how, // Flattened order how
   };
   const reportQueryString = getQuery(reportQuery);
+  // eslint-disable-next-line no-useless-assignment
   let report = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
   );

@@ -41,8 +41,8 @@ const OptimizationsTableStaging: React.FC<OptimizationsTableStagingProps> = () =
         }
         breadcrumbPath={formatPath(`${routes.optimizationsTable.path}${location.search}`)}
         cluster={clusterFilter}
-        hideCluster={groupBy === 'cluster'}
-        hideProject={groupBy === 'project'}
+        isClusterHidden={groupBy === 'cluster'}
+        isProjectHidden={groupBy === 'project'}
         project={projectFilter}
         linkPath={formatPath(routes.optimizationsBreakdown.path)}
       />

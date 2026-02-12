@@ -29,9 +29,9 @@ interface OptimizationsTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   cluster?: string | string[];
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
   isOptimizationsDetails?: boolean;
+  isProjectHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   project?: string | string[];
@@ -68,9 +68,9 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   cluster,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
   isOptimizationsDetails,
+  isProjectHidden,
   linkPath,
   linkState,
   project,
@@ -125,8 +125,10 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
+        isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isOptimizationsDetails={isOptimizationsDetails}
+        isProjectHidden={isProjectHidden}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
@@ -146,9 +148,9 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
 
     return (
       <OptimizationsToolbar
-        hideCluster={hideCluster}
-        hideProject={hideProject}
+        isClusterHidden={isClusterHidden}
         isDisabled={isDisabled}
+        isProjectHidden={isProjectHidden}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}

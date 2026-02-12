@@ -12,8 +12,12 @@ import { OptimizationsOcpBreakdownToolbar } from './optimizationsOcpBreakdownToo
 interface OptimizationsOcpBreakdownOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  cluster?: string | string[];
+  isClusterHidden?: boolean;
+  isOptimizationsDetails?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
+  project?: string | string[];
   projectPath?: string; // Project path (i.e., OCP details breakdown path)
 }
 
@@ -22,8 +26,12 @@ type OptimizationsOcpBreakdownProps = OptimizationsOcpBreakdownOwnProps;
 const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
+  cluster,
+  isClusterHidden,
+  isOptimizationsDetails,
   linkPath,
   linkState,
+  project,
   projectPath,
 }) => {
   const intl = useIntl();
@@ -53,10 +61,14 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
           <OptimizationsProjectsTable
             breadcrumbLabel={breadcrumbLabel}
             breadcrumbPath={breadcrumbPath}
-            isOcpBreakdown={true}
+            cluster={cluster}
+            isClusterHidden={isClusterHidden}
             isOptimizationsDetails
+            isPaginationHidden
+            isToolbarHidden
             linkPath={linkPath}
             linkState={linkState}
+            project={project}
             projectPath={projectPath}
           />
         </CardBody>
@@ -68,10 +80,13 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
           <OptimizationsContainersTable
             breadcrumbLabel={breadcrumbLabel}
             breadcrumbPath={breadcrumbPath}
-            hideProject
-            isOptimizationsDetails
+            cluster={cluster}
+            isClusterHidden={isClusterHidden}
+            isOptimizationsDetails={isOptimizationsDetails}
+            isProjectHidden
             linkPath={linkPath}
             linkState={linkState}
+            project={project}
             projectPath={projectPath}
           />
         </CardBody>
