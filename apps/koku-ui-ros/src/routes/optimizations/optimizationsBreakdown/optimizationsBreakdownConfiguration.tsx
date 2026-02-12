@@ -174,10 +174,10 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
           textId="code-content"
           aria-label={intl.formatMessage(messages.copyToClipboard)}
           onClick={e => handleClipboardCopyOnClick(e, code)}
+          onTooltipHidden={() => setCopied(false)}
           exitDelay={copied ? 1500 : 600}
           maxWidth="110px"
           variant="plain"
-          onTooltipHidden={() => setCopied(false)}
         >
           {intl.formatMessage(copied ? messages.copyToClipboardSuccessfull : messages.copyToClipboard)}
         </ClipboardCopyButton>

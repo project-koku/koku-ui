@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsProjectsTable';
-import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
 
 interface OptimizationsProjectsTableStagingOwnProps {
@@ -26,7 +26,6 @@ const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStag
   const queryFromRoute = useQueryFromRoute();
 
   // The groupBy and groupByValue is the project, cluster, node, or tag name shown in the OCP Details breakdown page
-  const groupBy = queryFromRoute?.group_by ? getGroupById(queryFromRoute) : undefined;
   const groupByValue = queryFromRoute?.group_by ? getGroupByValue(queryFromRoute) : 'openshift-kube-apiserver';
 
   // Test filters
@@ -41,8 +40,6 @@ const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStag
         }
         breadcrumbPath={formatPath(`${routes.optimizationsTable.path}${location.search}`)}
         cluster={clusterFilter}
-        hideCluster={groupBy === 'cluster'}
-        hideProject={groupBy === 'project'}
         project={projectFilter}
         linkPath={formatPath(routes.optimizationsBreakdown.path)}
       />

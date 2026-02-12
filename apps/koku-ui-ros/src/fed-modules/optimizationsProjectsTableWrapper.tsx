@@ -7,8 +7,9 @@ export interface OptimizationsProjectsOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   cluster?: string[];
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
+  isPaginationHidden?: boolean;
+  isToolbarHidden?: boolean;
   linkPath?: string;
   linkState?: any;
   project?: string[];
@@ -20,8 +21,9 @@ const OptimizationsTableWrapper: React.FC<OptimizationsProjectsProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   cluster,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
+  isPaginationHidden,
+  isToolbarHidden,
   linkPath,
   linkState,
   project,
@@ -32,8 +34,9 @@ const OptimizationsTableWrapper: React.FC<OptimizationsProjectsProps> = ({
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
         cluster={cluster}
-        hideCluster={hideCluster}
-        hideProject={hideProject}
+        isClusterHidden={isClusterHidden}
+        isPaginationHidden={isPaginationHidden}
+        isToolbarHidden={isToolbarHidden}
         linkPath={linkPath}
         linkState={linkState}
         project={project}
