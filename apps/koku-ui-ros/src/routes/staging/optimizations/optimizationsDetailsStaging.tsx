@@ -19,7 +19,7 @@ const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = 
       breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
       breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
       linkPath={formatPath(routes.optimizationsBreakdown.path)}
-      projectPath={formatPath(`${routes.optimizationsTable.path}`)}
+      projectPath={formatPath(`${routes.optimizationsContainersTable.path}`)}
     />
   );
 };
