@@ -27,7 +27,7 @@ const OptimizationsLinkStaging: React.FC<OptimizationsLinkStagingProps> = () => 
   };
 
   const linkPath = getBreakdownPath({
-    basePath: formatPath(routes.optimizationsTable.path),
+    basePath: formatPath(routes.optimizationsContainersTable.path),
     groupBy: 'project',
     id: 'openshift', // groupByValue
   });

@@ -45,11 +45,12 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     switch (pathname) {
       case formatPath(routes.optimizationsBadge.path):
       case formatPath(routes.optimizationsBreakdown.path):
+      case formatPath(routes.optimizationsContainersTable.path):
       case formatPath(routes.optimizationsDetails.path):
       case formatPath(routes.optimizationsLink.path):
       case formatPath(routes.optimizationsOcpBreakdown.path):
+      case formatPath(routes.optimizationsProjectsTable.path):
       case formatPath(routes.optimizationsSummary.path):
-      case formatPath(routes.optimizationsTable.path):
       case formatPath(routes.welcome.path):
         return ros;
       default:

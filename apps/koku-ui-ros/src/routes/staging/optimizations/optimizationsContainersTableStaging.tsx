@@ -39,7 +39,7 @@ const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTable
         breadcrumbLabel={
           intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue }) as string
         }
-        breadcrumbPath={formatPath(`${routes.optimizationsTable.path}${location.search}`)}
+        breadcrumbPath={formatPath(`${routes.optimizationsContainersTable.path}${location.search}`)}
         cluster={clusterFilter}
         isClusterHidden={groupBy === 'cluster'}
         isProjectHidden={groupBy === 'project'}
