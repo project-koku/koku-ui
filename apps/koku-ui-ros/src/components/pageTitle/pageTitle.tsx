@@ -17,10 +17,11 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
     switch (pathname) {
       case formatPath(routes.optimizationsBadge.path):
       case formatPath(routes.optimizationsBreakdown.path):
+      case formatPath(routes.optimizationsContainersTable.path):
       case formatPath(routes.optimizationsDetails.path):
       case formatPath(routes.optimizationsLink.path):
+      case formatPath(routes.optimizationsProjectsTable.path):
       case formatPath(routes.optimizationsSummary.path):
-      case formatPath(routes.optimizationsTable.path):
         return messages.pageTitleOptimizations;
       default:
         return messages.pageTitleDefault;

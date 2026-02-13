@@ -31,9 +31,6 @@ const OptimizationsProjectsTableStaging = lazy(
 const OptimizationsSummaryStaging = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsSummaryStaging')
 );
-const OptimizationsTableStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsTableStaging')
-);
 
 const Welcome = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/components/page/welcome/welcome'));
 
@@ -69,10 +66,6 @@ const routes = {
   optimizationsSummary: {
     element: userAccess(OptimizationsSummaryStaging),
     path: '/optimizations/summary',
-  },
-  optimizationsTable: {
-    element: userAccess(OptimizationsTableStaging),
-    path: '/optimizations/table',
   },
   welcome: {
     element: userAccess(Welcome),
