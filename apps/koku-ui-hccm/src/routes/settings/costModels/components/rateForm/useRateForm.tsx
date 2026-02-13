@@ -242,7 +242,8 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         isDirty = true;
       }
       if (action.payload.tagValue !== undefined) {
-        tagValueError = tagKeyValueErrors(action.payload.tagValue);
+        // Skip validation for GPU metric -- see https://issues.redhat.com/browse/COST-7241
+        tagValueError = state.metric?.toLowerCase() === 'gpu' ? null : tagKeyValueErrors(action.payload.tagValue);
         isTagValueDirty = true;
       }
       if (action.payload.description !== undefined) {
