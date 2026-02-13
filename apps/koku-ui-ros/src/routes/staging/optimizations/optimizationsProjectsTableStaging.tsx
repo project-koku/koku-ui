@@ -38,7 +38,7 @@ const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStag
         breadcrumbLabel={
           intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue }) as string
         }
-        breadcrumbPath={formatPath(`${routes.optimizationsTable.path}${location.search}`)}
+        breadcrumbPath={formatPath(`${routes.optimizationsProjectsTable.path}${location.search}`)}
         cluster={clusterFilter}
         project={projectFilter}
         linkPath={formatPath(routes.optimizationsBreakdown.path)}

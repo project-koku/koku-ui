@@ -47,12 +47,12 @@ objects:
                     - id: 'cost-management-staging.ros.details'
                       title: 'Optimizations details'
                       href: '/staging/cost-management/ros/optimizations/details'
-                    - id: 'cost-management-staging.ros.breakdown'
-                      title: 'Optimizations breakdown'
-                      href: '/staging/cost-management/ros/optimizations/breakdown'
                     - id: 'cost-management-staging.ros.ocp-breakdown'
                       title: 'Optimizations OCP breakdown'
                       href: '/staging/cost-management/ros/optimizations/ocp/breakdown'
+                    - id: 'cost-management-staging.ros.breakdown'
+                      title: 'Optimizations breakdown'
+                      href: '/staging/cost-management/ros/optimizations/breakdown'
       API:
         versions:
           - v1
