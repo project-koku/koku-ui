@@ -29,9 +29,9 @@ interface OptimizationsTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   cluster?: string | string[];
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
   isOptimizationsDetails?: boolean;
+  isProjectHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   project?: string | string[];
@@ -47,8 +47,8 @@ export interface OptimizationsTableStateProps {
 
 export interface OptimizationsTableMapProps {
   cluster?: string | string[];
-  query?: RosQuery;
   project?: string | string[];
+  query?: RosQuery;
 }
 
 type OptimizationsTableProps = OptimizationsTableOwnProps;
@@ -61,16 +61,16 @@ const baseQuery: RosQuery = {
   },
 };
 
+const reportPathsType = RosPathsType.recommendations;
 const reportType = RosType.ros as any;
-const reportPathsType = RosPathsType.recommendations as any;
 
 const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   cluster,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
   isOptimizationsDetails,
+  isProjectHidden,
   linkPath,
   linkState,
   project,
@@ -125,8 +125,10 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
+        isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isOptimizationsDetails={isOptimizationsDetails}
+        isProjectHidden={isProjectHidden}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
@@ -146,9 +148,9 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
 
     return (
       <OptimizationsToolbar
-        hideCluster={hideCluster}
-        hideProject={hideProject}
+        isClusterHidden={isClusterHidden}
         isDisabled={isDisabled}
+        isProjectHidden={isProjectHidden}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
@@ -214,7 +216,6 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
 
 const useMapToProps = ({ cluster, project, query }: OptimizationsTableMapProps): OptimizationsTableStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
