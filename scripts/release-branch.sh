@@ -47,6 +47,8 @@ cat <<- EEOOFF
     r       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
     u       Push to upstream
 
+    Note: This script does not support on-prem.
+
 EEOOFF
 }
 

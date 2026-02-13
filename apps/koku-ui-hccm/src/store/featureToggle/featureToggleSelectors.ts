@@ -12,5 +12,7 @@ export const selectIsExactFilterToggleEnabled = (state: RootState) =>
 export const selectIsExportsToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isExportsToggleEnabled;
 export const selectIsGpuToggleEnabled = (state: RootState) => selectFeatureToggleState(state)?.isGpuToggleEnabled;
+export const selectIsNamespaceToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isNamespaceToggleEnabled;
 export const selectIsSystemsToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isSystemsToggleEnabled;

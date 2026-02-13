@@ -10,6 +10,7 @@ export const enum FeatureToggle {
   exactFilter = 'cost-management.koku-ui-hccm.exact-filter', // Exact filter https://issues.redhat.com/browse/COST-6744
   exports = 'cost-management.koku-ui-hccm.exports', // Async exports https://issues.redhat.com/browse/COST-2223
   gpu = 'cost-management.koku-ui-hccm.gpu', // Cost model GPU metrics https://issues.redhat.com/browse/COST-5334
+  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://issues.redhat.com/browse/COST-6267
   systems = 'cost-management.koku-ui-hccm.systems', // Systems https://issues.redhat.com/browse/COST-5718
 }
 
@@ -38,6 +39,10 @@ export const useIsGpuToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.gpu);
 };
 
+export const useIsNamespaceToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.namespace);
+};
+
 export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.systems);
 };
@@ -52,6 +57,7 @@ export const useFeatureToggle = () => {
   const isExactFilterToggleEnabled = useIsExactFilterToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isGpuToggleEnabled = useIsGpuToggleEnabled();
+  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
 
   const fetchUser = callback => {
@@ -69,6 +75,7 @@ export const useFeatureToggle = () => {
         isExactFilterToggleEnabled,
         isExportsToggleEnabled,
         isGpuToggleEnabled,
+        isNamespaceToggleEnabled,
         isSystemsToggleEnabled,
       })
     );
@@ -82,6 +89,7 @@ export const useFeatureToggle = () => {
     isExactFilterToggleEnabled,
     isExportsToggleEnabled,
     isGpuToggleEnabled,
+    isNamespaceToggleEnabled,
     isSystemsToggleEnabled,
   ]);
 };

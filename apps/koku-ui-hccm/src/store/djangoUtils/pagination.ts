@@ -17,9 +17,8 @@ export const getPagination = <T extends PageResults>(payload: T) => {
     };
   }
 
-  let urlParams = null;
   if (payload.links.next !== null) {
-    urlParams = new URLSearchParams(payload.links.next.split('?')[1]);
+    const urlParams = new URLSearchParams(payload.links.next.split('?')[1]);
     const limit = Number(urlParams.get('limit'));
     const offset = Number(urlParams.get('offset')) - limit;
     return {
@@ -30,7 +29,7 @@ export const getPagination = <T extends PageResults>(payload: T) => {
   }
 
   if (payload.links.previous !== null) {
-    urlParams = new URLSearchParams(payload.links.previous.split('?')[1]);
+    const urlParams = new URLSearchParams(payload.links.previous.split('?')[1]);
     const limit = Number(urlParams.get('limit'));
     const offset = Number(urlParams.get('offset')) + limit;
     return {
@@ -40,7 +39,7 @@ export const getPagination = <T extends PageResults>(payload: T) => {
     };
   }
 
-  urlParams = new URLSearchParams(payload.links.first.split('?')[1]);
+  const urlParams = new URLSearchParams(payload.links.first.split('?')[1]);
   return {
     page: 1,
     perPage: Number(urlParams.get('limit')),
