@@ -12,10 +12,6 @@
     "npm": ">=11.6.2"
   },
   "scripts": {
-    "branch:deploy:stage": "sh ../../scripts/branch-deploy.sh -s",
-    "branch:deploy:prod": "sh ../../scripts/branch-deploy.sh -p",
-    "branch:merge:stage": "sh ../../scripts/branch-merge.sh -s",
-    "branch:merge:prod": "sh ../../scripts/branch-merge.sh -p",
     "build": "npm run build:prod",
     "build:prod": "fec build",
     "check:dependencies": "npx npm-check-updates",
@@ -28,6 +24,10 @@
     "lint:ts:fix": "eslint src --fix",
     "patch:hosts": "fec patch-etc-hosts",
     "postinstall": "ts-patch install && rm -rf .cache",
+    "release:app-interface:stage": "sh ../../scripts/release-app-interface.sh -s",
+    "release:app-interface:prod": "sh ../../scripts/release-app-interface.sh -p",
+    "release:branch:stage": "sh ../../scripts/release-branch.sh -s",
+    "release:branch:prod": "sh ../../scripts/release-branch.sh -p",
     "start": "fec dev",
     "start:csb": "CLOUD_SERVICES_BACKEND_PORT=8000 npm start",
     "start:csb:ros": "FEC_STATIC_PORT=8003 npm run start:csb",
@@ -54,10 +54,10 @@
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "scripts-info": {
-    "branch:deploy:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-hccm branch",
-    "branch:deploy:prod": "Creates an MR to deploy app-interface with latest SHA ref from prod-hccm branch",
-    "branch:merge:stage": "Creates a PR to merge main to the stage-hccm branch",
-    "branch:merge:prod": "Creates a PR to merge stage-hccm to the prod-hccm branch",
+    "release:app-interface:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-hccm branch",
+    "release:app-interface:prod": "Creates an MR to deploy app-interface with latest SHA ref from prod-hccm branch",
+    "release:branch:stage": "Creates a PR to merge main to the stage-hccm branch",
+    "release:branch:prod": "Creates a PR to merge stage-hccm to the prod-hccm branch",
     "start": "Run Koku UI",
     "start:csb": "Run Koku UI with local Cloud Services Backend",
     "start:csb:ros": "Run Koku UI with local Cloud Services Backend, while ROS runs statically (for running both UIs with CSB)",
