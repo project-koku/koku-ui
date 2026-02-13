@@ -23,6 +23,7 @@ const useQueryFromRoute = () => {
 
 const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStagingProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
 
   // The groupBy and groupByValue is the project, cluster, node, or tag name shown in the OCP Details breakdown page
