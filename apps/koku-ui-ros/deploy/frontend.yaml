@@ -38,12 +38,21 @@ objects:
                     - id: 'cost-management-staging.ros.table'
                       title: 'Optimizations table'
                       href: '/staging/cost-management/ros/optimizations/table'
+                    - id: 'cost-management-staging.ros.containers-table'
+                      title: 'Optimizations containers table'
+                      href: '/staging/cost-management/ros/optimizations/table/containers'
+                    - id: 'cost-management-staging.ros.projects-table'
+                      title: 'Optimizations projects table'
+                      href: '/staging/cost-management/ros/optimizations/table/projects'
                     - id: 'cost-management-staging.ros.details'
                       title: 'Optimizations details'
                       href: '/staging/cost-management/ros/optimizations/details'
                     - id: 'cost-management-staging.ros.breakdown'
                       title: 'Optimizations breakdown'
                       href: '/staging/cost-management/ros/optimizations/breakdown'
+                    - id: 'cost-management-staging.ros.ocp-breakdown'
+                      title: 'Optimizations OCP breakdown'
+                      href: '/staging/cost-management/ros/optimizations/ocp/breakdown'
       API:
         versions:
           - v1
