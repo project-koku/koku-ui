@@ -12,10 +12,6 @@
     "npm": ">=11.6.2"
   },
   "scripts": {
-    "branch:deploy:stage": "sh ../../scripts/branch-deploy.sh -q",
-    "branch:deploy:prod": "sh ../../scripts/branch-deploy.sh -r",
-    "branch:merge:stage": "sh ../../scripts/branch-merge.sh -q",
-    "branch:merge:prod": "sh ../../scripts/branch-merge.sh -r",
     "build": "npm run build:prod",
     "build:prod": "fec build",
     "check:dependencies": "npx npm-check-updates",
@@ -28,6 +24,10 @@
     "lint:ts:fix": "eslint src --fix",
     "patch:hosts": "fec patch-etc-hosts",
     "postinstall": "ts-patch install && rm -rf .cache",
+    "release:app-interface:stage": "sh ../../scripts/release-app-interface.sh -q",
+    "release:app-interface:prod": "sh ../../scripts/release-app-interface.sh -r",
+    "release:branch:stage": "sh ../../scripts/release-branch.sh -q",
+    "release:branch:prod": "sh ../../scripts/release-branch.sh -r",
     "start": "fec dev",
     "start:csb": "CLOUD_SERVICES_BACKEND_PORT=8000 npm start",
     "start:ephemeral": "EPHEMERAL_PORT=8000 npm start",
@@ -51,10 +51,10 @@
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "scripts-info": {
-    "branch:deploy:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-ros branch",
-    "branch:deploy:prod": "Creates an MR to deploy app-interface with latest SHA ref from prod-ros branch",
-    "branch:merge:stage": "Creates a PR to merge main to the stage-ros branch",
-    "branch:merge:prod": "Creates a PR to merge stage-ros to the prod-ros branch",
+    "release:app-interface:stage": "Creates an MR to deploy app-interface with latest SHA ref from stage-ros branch",
+    "release:app-interface:prod": "Creates an MR to deploy app-interface with latest SHA ref from prod-ros branch",
+    "release:branch:stage": "Creates a PR to merge main to the stage-ros branch",
+    "release:branch:prod": "Creates a PR to merge stage-ros to the prod-ros branch",
     "start": "Run ROS UI",
     "start:csb": "Run ROS UI with local Cloud Services Backend",
     "start:ephemeral": "Run ROS UI with ephemeral env",

@@ -15,7 +15,6 @@
     "./libs/*"
   ],
   "scripts": {
-    "branch:release": "node scripts/branch-release.js",
     "build": "npm exec --workspaces -- npm run build",
     "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
     "check:dependencies": "npx npm-check-updates; npm exec --workspaces -- npm run check:dependencies",
@@ -27,6 +26,7 @@
     "lint": "npm exec --workspaces -- npm run lint",
     "lint:fix": "npm exec --workspaces -- npm run lint:ts:fix",
     "test": "npm exec --workspaces -- npm run test --",
+    "release-all": "node scripts/release-all.js",
     "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS\" --prefix-colors \"yellow,cyan,magenta\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\""
