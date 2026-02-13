@@ -60,7 +60,9 @@ cat <<- EEOOFF
     q       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
     r       Deploy SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
 
-    Note: This script lacks permission to push directly upstream, so commits will be pushed to this fork:
+    Note: This script does not support on-prem.
+
+    This script lacks permission to push directly upstream, so commits will be pushed to this fork:
     $APP_INTERFACE_FORK -- override user via the GITLAB_USER env var.
 
 EEOOFF

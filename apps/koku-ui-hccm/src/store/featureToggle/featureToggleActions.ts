@@ -6,6 +6,7 @@ export interface FeatureToggleActionMeta {
   isExactFilterToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   isGpuToggleEnabled?: boolean;
+  isNamespaceToggleEnabled?: boolean;
   isSystemsToggleEnabled?: boolean;
 }
 
