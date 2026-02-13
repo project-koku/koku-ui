@@ -10,18 +10,18 @@ import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
 
-interface OptimizationsDetailsStagingOwnProps {
+interface OptimizationsTableStagingOwnProps {
   // TBD...
 }
 
-type OptimizationsDetailsStagingProps = OptimizationsDetailsStagingOwnProps;
+type OptimizationsTableStagingProps = OptimizationsTableStagingOwnProps;
 
 const useQueryFromRoute = () => {
   const location = useLocation();
   return parseQuery<Query>(location.search);
 };
 
-const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = () => {
+const OptimizationsTableStaging: React.FC<OptimizationsTableStagingProps> = () => {
   const intl = useIntl();
   const queryFromRoute = useQueryFromRoute();
 
@@ -41,8 +41,8 @@ const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = 
         }
         breadcrumbPath={formatPath(`${routes.optimizationsTable.path}${location.search}`)}
         cluster={clusterFilter}
-        hideCluster={groupBy === 'cluster'}
-        hideProject={groupBy === 'project'}
+        isClusterHidden={groupBy === 'cluster'}
+        isProjectHidden={groupBy === 'project'}
         project={projectFilter}
         linkPath={formatPath(routes.optimizationsBreakdown.path)}
       />
@@ -50,4 +50,4 @@ const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = 
   );
 };
 
-export default OptimizationsDetailsStaging;
+export default OptimizationsTableStaging;

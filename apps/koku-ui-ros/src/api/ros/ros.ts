@@ -19,6 +19,11 @@ export interface RosMeta extends PagedMetaData {
   offset?: number;
 }
 
+export const enum RosNamespace {
+  projects = 'projects',
+  containers = 'containers',
+}
+
 export type RosReport = PagedResponse<RosData, RosMeta>;
 
 export const enum RosType {
@@ -26,6 +31,8 @@ export const enum RosType {
 }
 
 export const enum RosPathsType {
+  namespaces = 'recommendations', // Todo: Replace API when available
   recommendation = 'recommendation',
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   recommendations = 'recommendations',
 }

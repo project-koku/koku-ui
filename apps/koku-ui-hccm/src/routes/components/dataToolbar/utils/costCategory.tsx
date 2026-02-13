@@ -59,7 +59,6 @@ export const getCostCategoryKeyOptions = (
   resourceReport: Resource,
   isSelectWrapperOption = false
 ): ToolbarLabelGroup[] | SelectWrapperOption[] => {
-  let data = [];
   let options = [];
 
   if (!resourceReport?.data) {
@@ -76,14 +75,13 @@ export const getCostCategoryKeyOptions = (
   }
 
   // Workaround for https://github.com/project-koku/koku/issues/1797
+  let data = uniq(resourceReport.data);
   if (hasKeys) {
     const keepData = resourceReport.data.map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ({ type, ...keepProps }: any) => keepProps
     );
     data = uniqBy(keepData, 'key');
-  } else {
-    data = uniq(resourceReport.data);
   }
 
   if (data.length > 0) {

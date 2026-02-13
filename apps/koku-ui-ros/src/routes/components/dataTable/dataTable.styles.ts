@@ -36,12 +36,10 @@ export const styles = {
   },
   lastItem: {
     textAlign: 'right',
-    paddingRight: '3.8rem',
+    paddingRight: '2.0rem',
   },
   lastItemColumn: {
     textAlign: 'right',
-    display: 'flex',
-    justifyContent: 'flex-end',
   },
   managedColumn: {
     textAlign: 'right',

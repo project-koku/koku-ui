@@ -23,12 +23,12 @@ interface VirtualizationTableOwnProps {
   costDistribution?: string;
   exclude?: any;
   filterBy?: any;
-  hideCluster?: boolean;
-  hideNode?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
   hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
+  isNodeHidden?: boolean;
+  isProjectHidden?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
@@ -52,12 +52,12 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
   costDistribution,
   exclude,
   filterBy,
-  hideCluster,
-  hideNode,
-  hideProject,
+  isClusterHidden,
   hiddenColumns,
   isAllSelected,
   isLoading,
+  isNodeHidden,
+  isProjectHidden,
   onSelect,
   onSort,
   orderBy,
@@ -94,19 +94,19 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        hidden: hideProject,
+        hidden: isProjectHidden,
         orderBy: 'project',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'project' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        hidden: hideCluster,
+        hidden: isClusterHidden,
         orderBy: 'cluster',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'cluster' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        hidden: hideNode,
+        hidden: isNodeHidden,
         orderBy: 'node',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'node' }),
         ...(computedItems.length && { isSortable: true }),
@@ -151,15 +151,15 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
             value: item.vm_name ? item.vm_name : null,
           },
           {
-            hidden: hideProject,
+            hidden: isProjectHidden,
             value: item.project ? item.project : null,
           },
           {
-            hidden: hideCluster,
+            hidden: isClusterHidden,
             value: item.cluster ? item.cluster : null,
           },
           {
-            hidden: hideNode,
+            hidden: isNodeHidden,
             value: item.node ? item.node : null,
           },
           {
