@@ -11,7 +11,6 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
@@ -24,15 +23,14 @@ import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
 import { styles } from './gpuData.styles';
-import { GpuTable } from './gpuTable';
-import { GpuModal } from './modal/gpuModal';
+import { MigTable } from './migTable';
 
-interface GpuDataOwnProps {
+interface MigDataOwnProps {
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
 
-export interface GpuStateProps {
+export interface MigStateProps {
   isMigToggleEnabled?: boolean;
   report: OcpReport;
   reportError: AxiosError;
@@ -40,13 +38,13 @@ export interface GpuStateProps {
   reportQueryString: string;
 }
 
-export interface GpuMapProps {
+export interface MigMapProps {
   query?: OcpQuery;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
 
-type GpuDataProps = GpuDataOwnProps;
+type MigDataProps = MigDataOwnProps;
 
 const baseQuery: OcpQuery = {
   filter: {
@@ -58,90 +56,31 @@ const baseQuery: OcpQuery = {
   },
 };
 
-const GpuData: React.FC<GpuDataProps> = ({ reportPathsType, reportType }) => {
+const MigData: React.FC<MigDataProps> = ({ reportPathsType, reportType }) => {
   const intl = useIntl();
-  const [isOpen, setIsOpen] = useState(false);
+
   const [query, setQuery] = useState({ ...baseQuery });
-  const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
+  const { report, reportError, reportFetchStatus } = useMapToProps({
     query,
     reportPathsType,
     reportType,
   });
 
-  // eslint-disable-next-line
-  const [containerRef] = useState(React.createRef<HTMLDivElement>());
-  const [width, setWidth] = useState(0);
-
-  const getMoreLink = () => {
-    const count = report?.meta?.count ?? 0;
-    const remaining = Math.max(0, count - baseQuery.filter.limit);
-
-    if (remaining > 0) {
-      return (
-        <div style={styles.linkContainer}>
-          <a data-testid="gpu-lnk" href="#/" onClick={handleOnOpen}>
-            {intl.formatMessage(messages.detailsMore, { value: remaining })}
-          </a>
-          <GpuModal
-            isOpen={isOpen}
-            onClose={handleOnClose}
-            reportPathsType={reportPathsType}
-            reportType={reportType}
-            title={intl.formatMessage(messages.gpuTitle)}
-          />
-        </div>
-      );
-    }
-    return null;
-  };
-
   const getTable = () => {
     return (
-      <GpuTable
-        gridBreakPoint={width < 725 ? 'grid' : undefined}
+      <MigTable
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
-        reportPathsType={reportPathsType}
-        reportType={reportType}
       />
     );
-  };
-
-  const handleOnClose = (value: boolean) => {
-    setIsOpen(value);
-  };
-
-  const handleOnOpen = event => {
-    setIsOpen(true);
-    event.preventDefault();
-    return false;
-  };
-
-  const handleOnResize = () => {
-    const { clientWidth = 0 } = containerRef?.current || {};
-    if (clientWidth !== width) {
-      setWidth(clientWidth);
-    }
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
   };
-
-  useEffect(() => {
-    if (containerRef?.current) {
-      const unobserve = getResizeObserver(containerRef?.current, handleOnResize);
-      return () => {
-        if (unobserve) {
-          unobserve();
-        }
-      };
-    }
-  }, [containerRef, handleOnResize]);
 
   if (reportError) {
     return <NotAvailable />;
@@ -156,18 +95,13 @@ const GpuData: React.FC<GpuDataProps> = ({ reportPathsType, reportType }) => {
           />
         </div>
       ) : (
-        report?.meta?.count > 0 && (
-          <div ref={containerRef}>
-            {getTable()}
-            {getMoreLink()}
-          </div>
-        )
+        report?.meta?.count > 0 && getTable()
       )}
     </>
   );
 };
 
-export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProps): GpuStateProps => {
+export const useMapToProps = ({ query, reportPathsType, reportType }: MigMapProps): MigStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState();
@@ -241,10 +175,10 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
           'exact:project': ['Garner'],
         },
         group_by: {
-          gpu_name: ['*'],
+          mig_name: ['*'],
         },
         order_by: {
-          gpu_count: 'desc',
+          mig_count: 'desc',
         },
         exclude: {},
         total: {
@@ -306,30 +240,30 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
       },
       links: {
         first:
-          '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bgpu_name%5D=%2A&order_by%5Bgpu_count%5D=desc',
+          '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bmig_name%5D=%2A&order_by%5Bmig_count%5D=desc',
         next: null,
         previous: null,
-        last: '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bgpu_name%5D=%2A&order_by%5Bgpu_count%5D=desc',
+        last: '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bmig_name%5D=%2A&order_by%5Bmig_count%5D=desc',
       },
       data: [
         {
           date: '2026-02',
-          gpu_names: [
+          mig_names: [
             {
-              gpu_name: 'nvidia_A100_compute_1',
+              mig_name: 'nvidia_A100_compute_1',
               values: [
                 {
                   date: '2026-02',
-                  gpu_name: 'nvidia_A100_compute_1',
+                  mig_name: 'nvidia_A100_compute_1',
                   node: 'compute_7',
-                  gpu_model: 'A100',
-                  gpu_mode: 'MIG',
-                  gpu_vendor: 'nvidia',
-                  gpu_memory: {
+                  mig_uuid: 'A100',
+                  mig_mode: 'MIG',
+                  mig_compute: 'nvidia',
+                  mig_memory: {
                     value: 42.94967296,
                     units: 'GB',
                   },
-                  gpu_count: {
+                  mig_count: {
                     value: 6,
                     units: 'GPUs',
                   },
@@ -396,22 +330,22 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
         },
         {
           date: '2026-02',
-          gpu_names: [
+          mig_names: [
             {
-              gpu_name: 'nvidia_A100_compute_2',
+              mig_name: 'nvidia_A100_compute_2',
               values: [
                 {
                   date: '2026-02',
-                  gpu_name: 'nvidia_A100_compute_2',
+                  mig_name: 'nvidia_A100_compute_2',
                   node: 'compute_7',
-                  gpu_model: 'A100',
-                  gpu_mode: 'Dedicated',
-                  gpu_vendor: 'nvidia',
-                  gpu_memory: {
+                  mig_uuid: 'A100',
+                  mig_mode: 'Dedicated',
+                  mig_compute: 'nvidia',
+                  mig_memory: {
                     value: 42.94967296,
                     units: 'GB',
                   },
-                  gpu_count: {
+                  mig_count: {
                     value: 6,
                     units: 'GPUs',
                   },
@@ -478,22 +412,22 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
         },
         {
           date: '2026-02',
-          gpu_names: [
+          mig_names: [
             {
-              gpu_name: 'nvidia_A100_compute_3',
+              mig_name: 'nvidia_A100_compute_3',
               values: [
                 {
                   date: '2026-02',
-                  gpu_name: 'nvidia_A100_compute_3',
+                  mig_name: 'nvidia_A100_compute_3',
                   node: 'compute_7',
-                  gpu_model: 'A100',
-                  gpu_mode: 'MIG',
-                  gpu_vendor: 'nvidia',
-                  gpu_memory: {
+                  mig_uuid: 'A100',
+                  mig_mode: 'MIG',
+                  mig_compute: 'nvidia',
+                  mig_memory: {
                     value: 42.94967296,
                     units: 'GB',
                   },
-                  gpu_count: {
+                  mig_count: {
                     value: 6,
                     units: 'GPUs',
                   },
@@ -571,4 +505,4 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
   };
 };
 
-export { GpuData };
+export { MigData };
