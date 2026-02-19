@@ -8160,6 +8160,14 @@
               }
             ]
           },
+          "mode": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Mode"
+              }
+            ]
+          },
           "node": {
             "value": [
               {
@@ -10689,6 +10697,41 @@
       {
         "type": 0,
         "value": "Cost management operator version"
+      }
+    ],
+    "migColumns": [
+      {
+        "options": {
+          "compute": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Compute"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "uuid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UUID"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "monthOverMonthChange": [
