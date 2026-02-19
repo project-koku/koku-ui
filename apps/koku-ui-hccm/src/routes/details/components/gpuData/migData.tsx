@@ -5,11 +5,16 @@ import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import { useIsMigToggleEnabled } from 'components/featureToggle';
-import { useEffect } from 'react';
+import messages from 'locales/messages';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { NotAvailable } from 'routes/components/page/notAvailable';
+import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import * as queryUtils from 'routes/utils/query';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -17,7 +22,15 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
-export interface GpuStateProps {
+import { styles } from './gpuData.styles';
+import { MigTable } from './migTable';
+
+interface MigDataOwnProps {
+  reportPathsType: ReportPathsType;
+  reportType: ReportType;
+}
+
+export interface MigStateProps {
   isMigToggleEnabled?: boolean;
   report: OcpReport;
   reportError: AxiosError;
@@ -25,13 +38,70 @@ export interface GpuStateProps {
   reportQueryString: string;
 }
 
-export interface GpuMapProps {
+export interface MigMapProps {
   query?: OcpQuery;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
 
-export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProps): GpuStateProps => {
+type MigDataProps = MigDataOwnProps;
+
+const baseQuery: OcpQuery = {
+  filter: {
+    limit: 3,
+    offset: 0,
+  },
+  order_by: {
+    gpu_count: 'desc',
+  },
+};
+
+const MigData: React.FC<MigDataProps> = ({ reportPathsType, reportType }) => {
+  const intl = useIntl();
+
+  const [query, setQuery] = useState({ ...baseQuery });
+  const { report, reportError, reportFetchStatus } = useMapToProps({
+    query,
+    reportPathsType,
+    reportType,
+  });
+
+  const getTable = () => {
+    return (
+      <MigTable
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
+        onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        orderBy={query.order_by}
+        report={report}
+      />
+    );
+  };
+
+  const handleOnSort = (sortType, isSortAscending) => {
+    const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
+    setQuery(newQuery);
+  };
+
+  if (reportError) {
+    return <NotAvailable />;
+  }
+  return (
+    <>
+      {reportFetchStatus === FetchStatus.inProgress ? (
+        <div style={styles.loading}>
+          <LoadingState
+            body={intl.formatMessage(messages.gpuLoadingStateDesc)}
+            heading={intl.formatMessage(messages.gpuLoadingStateTitle)}
+          />
+        </div>
+      ) : (
+        report?.meta?.count > 0 && getTable()
+      )}
+    </>
+  );
+};
+
+export const useMapToProps = ({ query, reportPathsType, reportType }: MigMapProps): MigStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState();
@@ -105,10 +175,10 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
           'exact:project': ['Garner'],
         },
         group_by: {
-          gpu_name: ['*'],
+          mig_name: ['*'],
         },
         order_by: {
-          gpu_count: 'desc',
+          mig_count: 'desc',
         },
         exclude: {},
         total: {
@@ -170,30 +240,30 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
       },
       links: {
         first:
-          '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bgpu_name%5D=%2A&order_by%5Bgpu_count%5D=desc',
+          '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bmig_name%5D=%2A&order_by%5Bmig_count%5D=desc',
         next: null,
         previous: null,
-        last: '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bgpu_name%5D=%2A&order_by%5Bgpu_count%5D=desc',
+        last: '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bmig_name%5D=%2A&order_by%5Bmig_count%5D=desc',
       },
       data: [
         {
           date: '2026-02',
-          gpu_names: [
+          mig_names: [
             {
-              gpu_name: 'nvidia_A100_compute_1',
+              mig_name: 'nvidia_A100_compute_1',
               values: [
                 {
                   date: '2026-02',
-                  gpu_name: 'nvidia_A100_compute_1',
+                  mig_name: 'nvidia_A100_compute_1',
                   node: 'compute_7',
-                  gpu_model: 'A100',
-                  gpu_mode: 'MIG',
-                  gpu_vendor: 'nvidia',
-                  gpu_memory: {
+                  mig_uuid: 'A100',
+                  mig_mode: 'MIG',
+                  mig_compute: 'nvidia',
+                  mig_memory: {
                     value: 42.94967296,
                     units: 'GB',
                   },
-                  gpu_count: {
+                  mig_count: {
                     value: 6,
                     units: 'GPUs',
                   },
@@ -260,22 +330,22 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
         },
         {
           date: '2026-02',
-          gpu_names: [
+          mig_names: [
             {
-              gpu_name: 'nvidia_A100_compute_2',
+              mig_name: 'nvidia_A100_compute_2',
               values: [
                 {
                   date: '2026-02',
-                  gpu_name: 'nvidia_A100_compute_2',
+                  mig_name: 'nvidia_A100_compute_2',
                   node: 'compute_7',
-                  gpu_model: 'A100',
-                  gpu_mode: 'Dedicated',
-                  gpu_vendor: 'nvidia',
-                  gpu_memory: {
+                  mig_uuid: 'A100',
+                  mig_mode: 'Dedicated',
+                  mig_compute: 'nvidia',
+                  mig_memory: {
                     value: 42.94967296,
                     units: 'GB',
                   },
-                  gpu_count: {
+                  mig_count: {
                     value: 6,
                     units: 'GPUs',
                   },
@@ -342,22 +412,22 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
         },
         {
           date: '2026-02',
-          gpu_names: [
+          mig_names: [
             {
-              gpu_name: 'nvidia_A100_compute_3',
+              mig_name: 'nvidia_A100_compute_3',
               values: [
                 {
                   date: '2026-02',
-                  gpu_name: 'nvidia_A100_compute_3',
+                  mig_name: 'nvidia_A100_compute_3',
                   node: 'compute_7',
-                  gpu_model: 'A100',
-                  gpu_mode: 'MIG',
-                  gpu_vendor: 'nvidia',
-                  gpu_memory: {
+                  mig_uuid: 'A100',
+                  mig_mode: 'MIG',
+                  mig_compute: 'nvidia',
+                  mig_memory: {
                     value: 42.94967296,
                     units: 'GB',
                   },
-                  gpu_count: {
+                  mig_count: {
                     value: 6,
                     units: 'GPUs',
                   },
@@ -434,3 +504,5 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
     reportQueryString,
   };
 };
+
+export { MigData };
