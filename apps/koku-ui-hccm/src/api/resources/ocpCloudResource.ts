@@ -13,13 +13,12 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
 
-  const queryParams = '';
+  let queryParams = '';
   switch (resourceType) {
     case ResourceType.cluster:
     case ResourceType.node:
     case ResourceType.project:
-      // Todo: Enable for https://issues.redhat.com/browse/COST-6957
-      // queryParams = 'ocp_cloud=true';
+      queryParams = 'all_cloud=true';
       break;
   }
 
