@@ -124,6 +124,7 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
     <ExpandableTable
       columns={columns}
       filterBy={filterBy}
+      gridBreakPoint="grid-2xl"
       isActionsCell
       isAllExpanded={filterBy ? Object.keys(filterBy).find(key => key === 'child') : false}
       isLoading={isLoading}
