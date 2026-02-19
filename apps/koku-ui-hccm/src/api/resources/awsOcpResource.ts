@@ -27,8 +27,7 @@ export function runResource(resourceType: ResourceType, query: string) {
     case ResourceType.cluster:
     case ResourceType.node:
     case ResourceType.project:
-      // Todo: Enable for https://issues.redhat.com/browse/COST-6957
-      // queryParams = 'aws=true';
+      queryParams = 'aws=true';
       break;
   }
 
