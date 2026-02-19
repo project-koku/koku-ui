@@ -406,12 +406,14 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
   }, [limitData, requestData, usageData]);
 
   useEffect(() => {
-    const unobserve = getResizeObserver(containerRef?.current, handleOnResize);
-    return () => {
-      if (unobserve) {
-        unobserve();
-      }
-    };
+    if (containerRef?.current) {
+      const unobserve = getResizeObserver(containerRef?.current, handleOnResize);
+      return () => {
+        if (unobserve) {
+          unobserve();
+        }
+      };
+    }
   }, [containerRef]);
 
   const chartHeight = getHeight();

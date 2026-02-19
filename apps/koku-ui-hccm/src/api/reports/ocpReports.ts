@@ -9,6 +9,7 @@ export interface OcpReportItem extends ReportItem {
   clusters?: string[];
   gpu_name?: string;
   limit?: ReportValue;
+  mig_name?: string;
   node?: string;
   persistent_volume_claim?: string;
   project?: string;
