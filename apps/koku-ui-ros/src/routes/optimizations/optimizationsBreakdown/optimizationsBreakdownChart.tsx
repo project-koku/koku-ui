@@ -284,13 +284,12 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     setHiddenSeries(newHiddenSeries);
   };
 
-  const handleOnResize = () => {
+  const handleOnResize = React.useCallback(() => {
     const { clientWidth = 0 } = containerRef?.current || {};
-
     if (clientWidth !== width) {
       setWidth(clientWidth);
     }
-  };
+  }, [containerRef]);
 
   const initDatum = () => {
     // Show all legends, regardless of data size
@@ -414,7 +413,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
         }
       };
     }
-  }, [containerRef]);
+  }, [containerRef, handleOnResize]);
 
   const chartHeight = getHeight();
 
