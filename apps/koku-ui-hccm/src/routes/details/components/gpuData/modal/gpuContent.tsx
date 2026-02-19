@@ -7,12 +7,12 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { useMapToProps } from 'routes/details/components/gpuData/utils';
 import * as queryUtils from 'routes/utils/query';
 import { FetchStatus } from 'store/common';
 
-import { useMapToProps } from '../utils';
+import { GpuTable } from '../gpuTable';
 import { styles } from './gpuContent.styles';
-import { GpuTable } from './gpuTable';
 import { GpuToolbar } from './gpuToolbar';
 
 interface GpuContentOwnProps {
@@ -36,7 +36,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
   const intl = useIntl();
 
   const [query, setQuery] = useState({ ...baseQuery });
-  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
     query,
     reportPathsType,
     reportType,
@@ -74,10 +74,12 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
       <GpuTable
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
-        reportQueryString={reportQueryString}
+        reportPathsType={reportPathsType}
+        reportType={reportType}
       />
     );
   };
