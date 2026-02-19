@@ -120,12 +120,12 @@ const GpuData: React.FC<GpuDataProps> = ({ reportPathsType, reportType }) => {
     return false;
   };
 
-  const handleOnResize = React.useCallback(() => {
+  const handleOnResize = () => {
     const { clientWidth = 0 } = containerRef?.current || {};
     if (clientWidth !== width) {
       setWidth(clientWidth);
     }
-  }, [containerRef]);
+  };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
