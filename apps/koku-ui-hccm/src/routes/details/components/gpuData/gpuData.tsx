@@ -142,7 +142,7 @@ const GpuData: React.FC<GpuDataProps> = ({ reportPathsType, reportType }) => {
         }
       };
     }
-  }, [report]);
+  }, [containerRef, handleOnResize]);
 
   if (reportError) {
     return <NotAvailable />;

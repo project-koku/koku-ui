@@ -37,7 +37,7 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
     const newRows = [];
     const newColumns = [
       {
-        name: '',
+        name: '', // Empty for layout
         style: styles.header,
       },
       {
@@ -60,7 +60,7 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
     computedItems.map(item => {
       newRows.push({
         cells: [
-          {}, // Empty cell for expand toggle
+          {}, // Empty for layout
           {
             value: item?.mig_uuid ?? '',
           },
