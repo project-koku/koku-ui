@@ -2423,6 +2423,7 @@ export default defineMessages({
       'gpu_model {Model} ' +
       'gpu_vendor {Vendor} ' +
       'memory {Memory} ' +
+      'mode {Mode} ' +
       'node {Node} ' +
       'other {}}',
     description: 'GPU columns',
@@ -2679,6 +2680,11 @@ export default defineMessages({
     defaultMessage: 'Cost management operator version',
     description: 'Cost management operator version',
     id: 'metricsOperatorVersion',
+  },
+  migColumns: {
+    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'uuid {UUID} ' + 'other {}}',
+    description: 'MIG columns',
+    id: 'migColumns',
   },
   monthOverMonthChange: {
     defaultMessage: 'Month over month change',

@@ -5,20 +5,20 @@ import { ResourceType } from './resource';
 
 test('runResource API request for OCP cloud clusters', () => {
   runResource(ResourceType.cluster, '');
-  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-clusters/');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-clusters/?all_cloud=true');
 });
 
 test('runResource API request for OCP cloud nodes', () => {
   runResource(ResourceType.node, '');
-  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-nodes/');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-nodes/?all_cloud=true');
 });
 
 test('runResource API request for OCP cloud projects', () => {
   runResource(ResourceType.project, '');
-  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-projects/');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-projects/?all_cloud=true');
 });
 
 test('runResource API request for OCP cloud projects with a query', () => {
   runResource(ResourceType.project, 'limit=10');
-  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-projects/?limit=10');
+  expect(axiosInstance.get).toHaveBeenCalledWith('resource-types/openshift-projects/?all_cloud=true&limit=10');
 });
