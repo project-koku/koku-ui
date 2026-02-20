@@ -79,20 +79,19 @@ config()
 {
   cd $KOKU_UI_DIR
 
-  echo "\n*** Switching GitHub user: $GIT_USER"
-
-  if ! gh auth status | grep -q "$GIT_USER"; then
-    echo "*** Cannot switch GitHub user: $GIT_USER"
-    echo "*** You may need to create an SSH key and run 'gh auth login'"
-    return
-  fi
-
-  ACTIVE_GH_USER=`gh api user --jq .login`
-  gh auth switch --user $GIT_USER
-
-  echo "\n*** Configuring GIT user: $GIT_USER_EMAIL"
+  echo "\n*** Set local GIT config: $GIT_USER_EMAIL"
   git config --local user.email "$GIT_USER_EMAIL"
   git config --local user.name "$GIT_USER_NAME"
+
+  # Use preferred GitHub user to create PR, otherwise default GIT config will do
+  if ! gh auth status | grep -q "$GIT_USER"; then
+    echo "*** Preferred $GIT_USER user not available, run 'gh auth login'"
+  else
+    ACTIVE_GH_USER=`gh api user --jq .login`
+
+    echo "\n*** Switching GitHub user: $GIT_USER"
+    gh auth switch --user $GIT_USER
+  fi
 }
 
 createPullRequestBody()
