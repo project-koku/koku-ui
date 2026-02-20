@@ -22,6 +22,10 @@ default()
   KOKU_UI_REPO="git@github.com:project-koku/koku-ui.git"
 
   BODY_FILE="$KOKU_UI_DIR/body"
+
+  GIT_USER="koku-ui-bot"
+  GIT_USER_EMAIL="$GIT_USER@redhat.com"
+  GIT_USER_NAME="Koku UI bot"
 }
 
 usage()
@@ -52,12 +56,42 @@ cat <<- EEOOFF
 EEOOFF
 }
 
+cleanup()
+{
+  echo "\n*** Cleaning temp directory..."
+  rm -rf $TMP_DIR
+
+  if [ -n "$ACTIVE_GH_USER" ]; then
+    echo "\n*** Switching GitHub user: $ACTIVE_GH_USER"
+    gh auth switch --user $ACTIVE_GH_USER
+  fi
+}
+
 clone()
 {
   mkdir $TMP_DIR
   cd $TMP_DIR
 
   git clone $KOKU_UI_REPO
+}
+
+config()
+{
+  cd $KOKU_UI_DIR
+
+  echo "\n*** Set local GIT config: $GIT_USER_EMAIL"
+  git config --local user.email "$GIT_USER_EMAIL"
+  git config --local user.name "$GIT_USER_NAME"
+
+  # Use preferred GitHub user to create PR, otherwise default GIT config will do
+  if ! gh auth status | grep -q "$GIT_USER"; then
+    echo "*** Preferred $GIT_USER user not available, run 'gh auth login'"
+  else
+    ACTIVE_GH_USER=`gh api user --jq .login`
+
+    echo "\n*** Switching GitHub user: $GIT_USER"
+    gh auth switch --user $GIT_USER
+  fi
 }
 
 createPullRequestBody()
@@ -140,9 +174,12 @@ push()
     exit 1
   fi
 
+  trap cleanup SIGINT SIGTERM EXIT
+
   echo "\n*** Merging $KOKU_UI $SOURCE_BRANCH to $TARGET_BRANCH...\n"
 
   clone
+  config
   merge
 
   if [ "$?" -eq 0 ]; then
@@ -155,6 +192,4 @@ push()
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi
-
-  rm -rf $TMP_DIR
 }
