@@ -14,6 +14,7 @@ function usage() {
       'Use this script to create a PR, merging stage and prod branches first.',
       'Run again to create an MR, deploying app-interface with the latest SHA refs from the same branches.',
       'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
+      'Note: This script does not support on-prem.\n',
     ].join('\n')
   );
 }
@@ -91,7 +92,7 @@ async function run() {
     allArgs.push('-x');
   }
 
-  allArgs.push(process.env.APP_INTERFACE === 'true' ? 'deploy-branch.sh' : 'merge-branch.sh');
+  allArgs.push(process.env.APP_INTERFACE === 'true' ? 'release-app-interface.sh' : 'release-branch.sh');
 
   const argVars = ['HCCM_STAGE_ARG', 'HCCM_PROD_ARG', 'ROS_STAGE_ARG', 'ROS_PROD_ARG'];
   const deploymentArgs = argVars.map(v => process.env[v]).filter(Boolean);

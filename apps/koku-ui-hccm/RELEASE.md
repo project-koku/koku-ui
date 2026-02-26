@@ -4,7 +4,7 @@ This doc describes how to release Koku UI to each staging environment. Note that
 
 ## Merge branches
 
-The merge-branch.sh script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
+The release-branch.sh script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
 
 1. Pull from main when pushing to stage-hccm
 2. Pull from stage-hccm when pushing to prod-hccm
@@ -14,13 +14,13 @@ Please allow the PR to build successfully and merge before running the script ag
 ### Merge main to stage-hccm
 
 ```
-sh ../../scripts/merge-branch.sh -s
+sh ../../scripts/release-branch.sh -s
 ```
 
 ### Merge stage-hccm to prod-hccm
 
 ```
-sh ../../scripts/merge-branch.sh -p
+sh ../../scripts/release-branch.sh -p
 ```
 
 ### Wrapper for all merges
@@ -35,9 +35,9 @@ Follow the prompts below.
 * Which app do you want to release? `koku-ui-hccm`
 * Which Chrome environment do you want to release? `stage`
 
-## Deployments for app-interface
+## Deploy to app-interface
 
-The deploy-branch.sh script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
+The release-app-interface.sh script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
 
 1. Pull from stage-hccm when updating the stage deployment in app-interface
 2. Pull from prod-hccm when updating the prod deployment in app-interface
@@ -45,13 +45,13 @@ The deploy-branch.sh script will update app-interface with the latest SHA refs f
 ### Deploy stage-hccm to app-interface
 
 ```
-sh ../../scripts/deploy-branch.sh -s
+sh ../../scripts/release-app-interface.sh -s
 ```
 
 ### Deploy prod-hccm to app-interface
 
 ```
-sh ../../scripts/deploy-branch.sh -p
+sh ../../scripts/release-app-interface.sh -p
 ```
 
 ### Wrapper for all deployments
@@ -65,6 +65,8 @@ Follow the prompts below.
 * Are you deploying to app-interface? `Y`
 * Which app do you want to release? `koku-ui-hccm`
 * Which Chrome environment do you want to release? `stage`
+
+Please allow Konflux to generate images from the previous branch merge, first. Ensure a successful status by viewing [component activity][component-activity].
 
 ### Manual deployment
 
@@ -111,3 +113,5 @@ For release examples, please see existing releases here https://github.com/proje
 If a staging environment has not updated as expected, it's best to ask questions in the forum-consoledot-ui or proj-fecontainer-migration channels of http://coreos.slack.com.
 
 Alternatively, open a Jira issue under the "ConsoleDot Platform (console.redhat.com) (RHCLOUD)" project category. For an example, see https://issues.redhat.com/browse/RHCLOUD-18259
+
+[component-activity]: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/cost-mgmt-dev-tenant/applications/koku-ui-hccm/activity

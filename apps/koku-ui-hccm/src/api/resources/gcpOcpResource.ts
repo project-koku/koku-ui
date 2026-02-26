@@ -15,5 +15,24 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
 
 export function runResource(resourceType: ResourceType, query: string) {
   const path = ResourceTypePaths[resourceType];
-  return axiosInstance.get<Resource>(`${path}?${query}`);
+
+  let queryParams = '';
+  switch (resourceType) {
+    case ResourceType.account:
+    case ResourceType.gcpProject:
+    case ResourceType.region:
+    case ResourceType.service:
+      queryParams = 'openshift=true';
+      break;
+    case ResourceType.cluster:
+    case ResourceType.node:
+    case ResourceType.project:
+      queryParams = 'gcp=true';
+      break;
+  }
+
+  const params = [queryParams, query].filter(Boolean);
+  const queryString = params.length ? `?${params.join('&')}` : '';
+
+  return axiosInstance.get<Resource>(`${path}${queryString}`);
 }

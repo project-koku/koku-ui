@@ -1639,7 +1639,7 @@ export default defineMessages({
   },
   docsCostModelsGpu: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models',
     description: 'Read more about GPUs by reviewing our documentation',
     id: 'docsCostModelsGpu',
   },
@@ -2296,6 +2296,11 @@ export default defineMessages({
     description: 'GPU',
     id: 'gpuTitle',
   },
+  gpuUnallocated: {
+    defaultMessage: 'GPU unallocated',
+    description: 'GPU unallocated',
+    id: 'gpuUnallocated',
+  },
   groupByAll: {
     defaultMessage:
       '{value, select, ' +
@@ -2418,6 +2423,7 @@ export default defineMessages({
       'gpu_model {Model} ' +
       'gpu_vendor {Vendor} ' +
       'memory {Memory} ' +
+      'mode {Mode} ' +
       'node {Node} ' +
       'other {}}',
     description: 'GPU columns',
@@ -2674,6 +2680,11 @@ export default defineMessages({
     defaultMessage: 'Cost management operator version',
     description: 'Cost management operator version',
     id: 'metricsOperatorVersion',
+  },
+  migColumns: {
+    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'uuid {UUID} ' + 'other {}}',
+    description: 'MIG columns',
+    id: 'migColumns',
   },
   monthOverMonthChange: {
     defaultMessage: 'Month over month change',
