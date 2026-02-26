@@ -8,6 +8,9 @@ import {
   CodeBlock,
   CodeBlockAction,
   CodeBlockCode,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateVariant,
   Grid,
   GridItem,
   Icon,
@@ -371,7 +374,13 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
                   {intl.formatMessage(messages.recommendedConfiguration)}
                 </Title>
               </CardTitle>
-              <CardBody>{getRecommendedConfigCodeBlock()}</CardBody>
+              <CardBody>
+                {getRecommendedConfigCodeBlock() ?? (
+                  <EmptyState variant={EmptyStateVariant.xs}>
+                    <EmptyStateBody>{intl.formatMessage(messages.recommendedConfigurationNotAvailable)}</EmptyStateBody>
+                  </EmptyState>
+                )}
+              </CardBody>
             </>
           )}
         </Card>

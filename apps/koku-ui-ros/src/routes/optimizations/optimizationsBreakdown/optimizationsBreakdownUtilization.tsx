@@ -36,6 +36,10 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
     const term = getRecommendationTerm(recommendations, currentInterval);
     const values = term?.recommendation_engines?.[optimizationType]?.config?.[resourceType]?.[recommendationType];
 
+    if (!values) {
+      return [];
+    }
+
     const datum = [];
     usageDatum.forEach(data => {
       datum.push({

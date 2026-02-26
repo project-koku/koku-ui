@@ -551,6 +551,11 @@ export default defineMessages({
     description: 'Recommended configuration',
     id: 'recommendedConfiguration',
   },
+  recommendedConfigurationNotAvailable: {
+    defaultMessage: 'No recommendations available for the selected optimization type and interval.',
+    description: 'Shown when recommended configuration data is missing for the selected optimization type',
+    id: 'recommendedConfigurationNotAvailable',
+  },
   recommendedLimit: {
     defaultMessage: 'Recommended limit ({dateRange})',
     description: 'Recommended limit (Jan 1-31)',
