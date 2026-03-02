@@ -35,8 +35,8 @@ jobs:
           BRANCH_BASE=$( echo $BRANCH | cut -d'/' -f3)
           APP_PREFIX=$(echo "$BRANCH_BASE" | cut -d'-' -f2)
           TAG="r-$APP_PREFIX.$DATE.$MINOR_VERSION"
-          git config --local user.email "cost-mgmt@redhat.com"
-          git config --local user.name "Cost Management Release Action"
+          git config --local user.email "koku-ui-bot@redhat.com"
+          git config --local user.name "Koku UI Bot"
           git log $(git tag --list | tail -1)..$BRANCH_BASE | git tag -a $TAG -F -
           git push origin $TAG
         shell: bash

@@ -19,13 +19,13 @@ import { tagActions, tagSelectors } from 'store/tags';
 import { accountKey, regionKey, tagKey } from 'utils/props';
 
 interface InstancesToolbarOwnProps {
-  hideAccount?: boolean;
-  hideRegion?: boolean;
-  hideTag?: boolean;
+  isAccountHidden?: boolean;
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
   isDisabled?: boolean;
   isExportDisabled?: boolean;
+  isRegionHidden?: boolean;
+  isTagHidden?: boolean;
   items?: ComputedReportItem[];
   itemsPerPage?: number;
   itemsTotal?: number;
@@ -96,7 +96,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
   }
 
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
-    const { hideAccount, hideRegion, hideTag, intl, tagReport } = this.props;
+    const { intl, isAccountHidden, isRegionHidden, isTagHidden, tagReport } = this.props;
 
     const options = [
       {
@@ -115,7 +115,7 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
       },
       { name: intl.formatMessage(messages.filterByValues, { value: 'region' }), key: 'region' },
     ];
-    if (!hideTag && tagReport?.data?.length) {
+    if (!isTagHidden && tagReport?.data?.length) {
       options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
     }
     const sortedOptions = options.sort((a, b) => {
@@ -127,8 +127,8 @@ export class InstancesToolbarBase extends React.Component<InstancesToolbarProps,
       }
       return 0;
     });
-    const filteredOptions = hideRegion ? sortedOptions.filter(option => option.key !== regionKey) : sortedOptions;
-    return hideAccount ? filteredOptions.filter(option => option.key !== accountKey) : filteredOptions;
+    const filteredOptions = isRegionHidden ? sortedOptions.filter(option => option.key !== regionKey) : sortedOptions;
+    return isAccountHidden ? filteredOptions.filter(option => option.key !== accountKey) : filteredOptions;
   };
 
   private updateReport = () => {

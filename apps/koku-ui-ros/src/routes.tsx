@@ -10,18 +10,28 @@ const OptimizationsBadgeStaging = lazy(
 const OptimizationsBreakdownStaging = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsBreakdownStaging')
 );
+const OptimizationsContainersTableStaging = lazy(
+  () =>
+    import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsContainersTableStaging')
+);
 const OptimizationsDetailsStaging = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsDetailsStaging')
 );
 const OptimizationsLinkStaging = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsLinkStaging')
 );
+const OptimizationsOcpBreakdownStaging = lazy(
+  () =>
+    import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsOcpBreakdownStaging')
+);
+const OptimizationsProjectsTableStaging = lazy(
+  () =>
+    import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsProjectsTableStaging')
+);
 const OptimizationsSummaryStaging = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsSummaryStaging')
 );
-const OptimizationsTableStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsTableStaging')
-);
+
 const Welcome = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/components/page/welcome/welcome'));
 
 const routes = {
@@ -33,6 +43,10 @@ const routes = {
     element: userAccess(OptimizationsBreakdownStaging),
     path: '/optimizations/breakdown',
   },
+  optimizationsContainersTable: {
+    element: userAccess(OptimizationsContainersTableStaging),
+    path: '/optimizations/table/containers',
+  },
   optimizationsDetails: {
     element: userAccess(OptimizationsDetailsStaging),
     path: '/optimizations/details',
@@ -41,13 +55,17 @@ const routes = {
     element: userAccess(OptimizationsLinkStaging),
     path: '/optimizations/link',
   },
+  optimizationsOcpBreakdown: {
+    element: userAccess(OptimizationsOcpBreakdownStaging),
+    path: '/optimizations/ocp/breakdown',
+  },
+  optimizationsProjectsTable: {
+    element: userAccess(OptimizationsProjectsTableStaging),
+    path: '/optimizations/table/projects',
+  },
   optimizationsSummary: {
     element: userAccess(OptimizationsSummaryStaging),
     path: '/optimizations/summary',
-  },
-  optimizationsTable: {
-    element: userAccess(OptimizationsTableStaging),
-    path: '/optimizations/table',
   },
   welcome: {
     element: userAccess(Welcome),

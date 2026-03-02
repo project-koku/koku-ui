@@ -213,12 +213,12 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 
     return (
       <InstancesToolbar
-        hideAccount={hasAccountFilter}
-        hideRegion={hasRegionFilter}
-        hideTag={hasTagFilter}
+        isAccountHidden={hasAccountFilter}
         isAllSelected={isAllSelected}
         isDisabled={isDisabled}
         isExportDisabled={isDisabled || (!isAllSelected && selectedItems.length === 0)}
+        isRegionHidden={hasRegionFilter}
+        isTagHidden={hasTagFilter}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelect={handleOnBulkSelect}

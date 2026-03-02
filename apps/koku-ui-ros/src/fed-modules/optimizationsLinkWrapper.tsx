@@ -3,21 +3,21 @@ import { OptimizationsLink } from 'routes/optimizations/optimizationsLink';
 
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
-export interface OptimizationsBadgeOwnProps {
+export interface OptimizationsLinkOwnProps {
   cluster?: string | string[];
   linkPath?: string;
   linkState?: any;
   project?: string | string[];
 }
 
-type OptimizationsBadgeProps = OptimizationsBadgeOwnProps;
+type OptimizationsLinkProps = OptimizationsLinkOwnProps;
 
-const OptimizationsLinkWrapper: React.FC<OptimizationsBadgeProps> = ({
+const OptimizationsLinkWrapper: React.FC<OptimizationsLinkProps> = ({
   cluster,
   linkPath,
   linkState,
   project,
-}: OptimizationsBadgeOwnProps) => {
+}: OptimizationsLinkOwnProps) => {
   return (
     <OptimizationsWrapper>
       <OptimizationsLink cluster={cluster} project={project} linkState={linkState} linkPath={linkPath} />

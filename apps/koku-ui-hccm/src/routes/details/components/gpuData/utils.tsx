@@ -4,6 +4,7 @@ import { getQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
+import { useIsMigToggleEnabled } from 'components/featureToggle';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -17,6 +18,7 @@ import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
 export interface GpuStateProps {
+  isMigToggleEnabled?: boolean;
   report: OcpReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -69,7 +71,7 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
   };
 
   const reportQueryString = getQuery(reportQuery);
-  const report = useSelector((state: RootState) =>
+  let report = useSelector((state: RootState) =>
     reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString)
   );
   const reportFetchStatus = useSelector((state: RootState) =>
@@ -85,7 +87,347 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProp
     }
   }, [dispatch, reportError, reportFetchStatus, reportPathsType, reportQueryString, reportType]);
 
+  const isMigToggleEnabled = useIsMigToggleEnabled();
+  if (isMigToggleEnabled) {
+    report = {
+      meta: {
+        count: 4,
+        limit: 3,
+        offset: 0,
+        others: 0,
+        currency: 'USD',
+        filter: {
+          resolution: 'monthly',
+          time_scope_value: '-1',
+          time_scope_units: 'month',
+          limit: 3,
+          offset: 0,
+          'exact:project': ['Garner'],
+        },
+        group_by: {
+          gpu_name: ['*'],
+        },
+        order_by: {
+          gpu_count: 'desc',
+        },
+        exclude: {},
+        total: {
+          infrastructure: {
+            raw: {
+              value: 0.0,
+              units: 'USD',
+            },
+            markup: {
+              value: 0.0,
+              units: 'USD',
+            },
+            usage: {
+              value: 0.0,
+              units: 'USD',
+            },
+            total: {
+              value: 0.0,
+              units: 'USD',
+            },
+          },
+          supplementary: {
+            raw: {
+              value: 0.0,
+              units: 'USD',
+            },
+            markup: {
+              value: 0.0,
+              units: 'USD',
+            },
+            usage: {
+              value: 0.0,
+              units: 'USD',
+            },
+            total: {
+              value: 0.0,
+              units: 'USD',
+            },
+          },
+          cost: {
+            raw: {
+              value: 0.0,
+              units: 'USD',
+            },
+            markup: {
+              value: 0.0,
+              units: 'USD',
+            },
+            usage: {
+              value: 0.0,
+              units: 'USD',
+            },
+            total: {
+              value: 0.0,
+              units: 'USD',
+            },
+          },
+        },
+      },
+      links: {
+        first:
+          '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bgpu_name%5D=%2A&order_by%5Bgpu_count%5D=desc',
+        next: null,
+        previous: null,
+        last: '/api/cost-management/v1/reports/openshift/gpu/?filter%5Bexact%3Aproject%5D=Garner&filter%5Blimit%5D=3&filter%5Boffset%5D=0&filter%5Bresolution%5D=monthly&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bgpu_name%5D=%2A&order_by%5Bgpu_count%5D=desc',
+      },
+      data: [
+        {
+          date: '2026-02',
+          gpu_names: [
+            {
+              gpu_name: 'nvidia_A100_compute_1',
+              values: [
+                {
+                  date: '2026-02',
+                  gpu_name: 'nvidia_A100_compute_1',
+                  node: 'compute_7',
+                  gpu_model: 'A100',
+                  gpu_mode: 'MIG',
+                  gpu_vendor: 'nvidia',
+                  gpu_memory: {
+                    value: 42.94967296,
+                    units: 'GB',
+                  },
+                  gpu_count: {
+                    value: 6,
+                    units: 'GPUs',
+                  },
+                  source_uuid: ['021ca3a6-7c82-493f-bb27-8ca9a7a2e46c'],
+                  clusters: ['OCP on OpenStack - Nise populator'],
+                  infrastructure: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                  supplementary: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                  cost: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          date: '2026-02',
+          gpu_names: [
+            {
+              gpu_name: 'nvidia_A100_compute_2',
+              values: [
+                {
+                  date: '2026-02',
+                  gpu_name: 'nvidia_A100_compute_2',
+                  node: 'compute_7',
+                  gpu_model: 'A100',
+                  gpu_mode: 'Dedicated',
+                  gpu_vendor: 'nvidia',
+                  gpu_memory: {
+                    value: 42.94967296,
+                    units: 'GB',
+                  },
+                  gpu_count: {
+                    value: 6,
+                    units: 'GPUs',
+                  },
+                  source_uuid: ['021ca3a6-7c82-493f-bb27-8ca9a7a2e46c'],
+                  clusters: ['OCP on OpenStack - Nise populator'],
+                  infrastructure: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                  supplementary: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                  cost: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          date: '2026-02',
+          gpu_names: [
+            {
+              gpu_name: 'nvidia_A100_compute_3',
+              values: [
+                {
+                  date: '2026-02',
+                  gpu_name: 'nvidia_A100_compute_3',
+                  node: 'compute_7',
+                  gpu_model: 'A100',
+                  gpu_mode: 'MIG',
+                  gpu_vendor: 'nvidia',
+                  gpu_memory: {
+                    value: 42.94967296,
+                    units: 'GB',
+                  },
+                  gpu_count: {
+                    value: 6,
+                    units: 'GPUs',
+                  },
+                  source_uuid: ['021ca3a6-7c82-493f-bb27-8ca9a7a2e46c'],
+                  clusters: ['OCP on OpenStack - Nise populator'],
+                  infrastructure: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                  supplementary: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                  cost: {
+                    raw: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    markup: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    usage: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                    total: {
+                      value: 0.0,
+                      units: 'USD',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    } as any;
+  }
+
   return {
+    isMigToggleEnabled,
     report,
     reportError,
     reportFetchStatus,

@@ -1,24 +1,39 @@
-import 'routes/components/dataTable/dataTable.scss';
-
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { OcpReportItem } from 'api/reports/ocpReports';
+import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { DataTable } from 'routes/components/dataTable';
+import { DataTable, ExpandableTable } from 'routes/components/dataTable';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatUnits, unitsLookupKey } from 'utils/format';
 
+import { MigData } from './migData';
+
 interface GpuTableOwnProps {
+  filterBy?: any;
+  gridBreakPoint?: '' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl' | 'grid-2xl';
   isLoading?: boolean;
+  isMigToggleEnabled?: boolean;
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   report: OcpReport;
-  reportQueryString: string;
+  reportPathsType: ReportPathsType;
+  reportType: ReportType;
 }
 
 type GpuTableProps = GpuTableOwnProps;
-const GpuTable: React.FC<GpuTableProps> = ({ isLoading, onSort, orderBy, report }) => {
+const GpuTable: React.FC<GpuTableProps> = ({
+  filterBy,
+  gridBreakPoint,
+  isLoading,
+  isMigToggleEnabled,
+  onSort,
+  orderBy,
+  report,
+  reportPathsType,
+  reportType,
+}) => {
   const intl = useIntl();
 
   const [columns, setColumns] = useState([]);
@@ -37,19 +52,22 @@ const GpuTable: React.FC<GpuTableProps> = ({ isLoading, onSort, orderBy, report 
     const newRows = [];
     const newColumns = [
       {
+        name: '',
+      },
+      {
         name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_vendor' }),
         orderBy: 'gpu_vendor',
-        isSortable: true, // Disabled due to "order_by requires matching group_by" bug
+        isSortable: true,
       },
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'gpu_model' }),
         orderBy: 'gpu_model',
-        isSortable: true, // Disabled due to "order_by requires matching group_by" bug
+        isSortable: true,
       },
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'node' }),
         orderBy: 'node',
-        isSortable: true, // Disabled due to "order_by requires matching group_by" bug
+        isSortable: true,
       },
       {
         name: intl.formatMessage(messages.gpuColumns, { value: 'count' }),
@@ -61,11 +79,18 @@ const GpuTable: React.FC<GpuTableProps> = ({ isLoading, onSort, orderBy, report 
         orderBy: 'gpu_memory',
         isSortable: true,
       },
+      {
+        hidden: !isMigToggleEnabled,
+        name: intl.formatMessage(messages.gpuColumns, { value: 'mode' }),
+        orderBy: 'gpu_mode',
+        isSortable: true,
+      },
     ];
 
     computedItems.map(item => {
       newRows.push({
         cells: [
+          {}, // Empty cell for expand toggle
           {
             value: item?.gpu_vendor ?? '',
           },
@@ -76,7 +101,7 @@ const GpuTable: React.FC<GpuTableProps> = ({ isLoading, onSort, orderBy, report 
             value: item?.node ?? '',
           },
           {
-            value: item.gpu_count?.value ?? '',
+            value: item?.gpu_count?.value ?? '',
           },
           {
             value: intl.formatMessage(messages.valueUnits, {
@@ -87,11 +112,25 @@ const GpuTable: React.FC<GpuTableProps> = ({ isLoading, onSort, orderBy, report 
                 : null,
             }),
           },
+          {
+            hidden: !isMigToggleEnabled,
+            value: item?.gpu_mode ?? '',
+          },
         ],
+        children: item?.gpu_mode?.toLowerCase() === 'mig' && isMigToggleEnabled && (
+          <MigData reportPathsType={reportPathsType} reportType={reportType} />
+        ),
+        item,
       });
     });
-    setColumns(newColumns);
-    setRows(newRows);
+
+    const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
+    const filteredRows = newRows.map(({ ...row }) => {
+      row.cells = row.cells.filter(cell => !cell.hidden);
+      return row;
+    });
+    setColumns(filteredColumns);
+    setRows(filteredRows);
   };
 
   const handleOnSort = (sortType: string, isSortAscending: boolean) => {
@@ -104,7 +143,26 @@ const GpuTable: React.FC<GpuTableProps> = ({ isLoading, onSort, orderBy, report 
     initDatum();
   }, [report]);
 
-  return <DataTable columns={columns} isLoading={isLoading} onSort={handleOnSort} orderBy={orderBy} rows={rows} />;
+  return isMigToggleEnabled ? (
+    <ExpandableTable
+      columns={columns}
+      filterBy={filterBy}
+      gridBreakPoint={gridBreakPoint}
+      isLoading={isLoading}
+      onSort={handleOnSort}
+      orderBy={orderBy}
+      rows={rows}
+    />
+  ) : (
+    <DataTable
+      columns={columns}
+      filterBy={filterBy}
+      isLoading={isLoading}
+      onSort={handleOnSort}
+      orderBy={orderBy}
+      rows={rows}
+    />
+  );
 };
 
 export { GpuTable };

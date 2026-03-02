@@ -3,6 +3,7 @@ import { createAction } from 'typesafe-actions';
 export interface FeatureToggleActionMeta {
   isDebugToggleEnabled?: boolean;
   isBoxPlotToggleEnabled?: boolean;
+  isNamespaceToggleEnabled?: boolean;
   isProjectLinkToggleEnabled?: boolean;
 }
 

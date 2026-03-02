@@ -61,9 +61,13 @@ const ResourceFetch: React.FC<ResourceFetchProps> = ({
   const getOptions = (): ToolbarLabelGroup[] => {
     let options = [];
     if (resource?.data?.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
+      // The resource API typically returns just a value, but account_alias, cluster_alias, and instance_name may be preferred keys.
       options = resource.data.map(item => {
-        // The resource API typically returns just a value, but account_alias, cluster_alias, and instance_name may be preferred keys.
-        const value = item[resourceKey]?.length ? item[resourceKey] : item.value;
+        // Show aliases (resourceKey) only for matching search input, show ID (value) by default
+        let value = item.value;
+        if (item[resourceKey]?.toLowerCase().includes(search?.toLowerCase())) {
+          value = item[resourceKey];
+        }
         return {
           key: value,
           name: value,

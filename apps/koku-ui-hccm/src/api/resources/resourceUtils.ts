@@ -4,6 +4,7 @@ import { runResource as runAzureOcpResource } from './azureOcpResource';
 import { runResource as runAzureResource } from './azureResource';
 import { runResource as runGcpOcpResource } from './gcpOcpResource';
 import { runResource as runGcpResource } from './gcpResource';
+import { runResource as runOcpCloudResource } from './ocpCloudResource';
 import { runResource as runOcpResource } from './ocpResource';
 import { ResourcePathsType, ResourceType } from './resource';
 
@@ -69,8 +70,10 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       result = runGcpOcpResource(resourceType, query);
       break;
     case ResourcePathsType.ocp:
-    case ResourcePathsType.ocpCloud:
       result = runOcpResource(resourceType, query);
+      break;
+    case ResourcePathsType.ocpCloud:
+      result = runOcpCloudResource(resourceType, query);
       break;
   }
   return result;

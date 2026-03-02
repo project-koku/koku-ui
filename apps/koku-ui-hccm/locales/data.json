@@ -4110,7 +4110,7 @@
     "docsCostModelsGpu": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models"
       }
     ],
     "docsCostModelsMarkup": [
@@ -8160,6 +8160,14 @@
               }
             ]
           },
+          "mode": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Mode"
+              }
+            ]
+          },
           "node": {
             "value": [
               {
@@ -8198,6 +8206,12 @@
       {
         "type": 0,
         "value": "GPU"
+      }
+    ],
+    "gpuUnallocated": [
+      {
+        "type": 0,
+        "value": "GPU unallocated"
       }
     ],
     "gpuVendorDuplicate": [
@@ -10683,6 +10697,41 @@
       {
         "type": 0,
         "value": "Cost management operator version"
+      }
+    ],
+    "migColumns": [
+      {
+        "options": {
+          "compute": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Compute"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "uuid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UUID"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "monthOverMonthChange": [

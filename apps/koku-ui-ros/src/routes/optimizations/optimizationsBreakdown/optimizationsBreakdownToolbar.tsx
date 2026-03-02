@@ -61,7 +61,7 @@ const OptimizationsBreakdownToolbar: React.FC<OptimizationsBreakdownToolbarProps
       isDisabled={isDisabled}
       onSelect={onSelect}
       options={options}
-      title={messages.optimizationsPerspective}
+      title={messages.optimizationsType}
     />
   );
 };

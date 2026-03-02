@@ -124,7 +124,6 @@ const getTagKeyOptionsFromReport = (
   tagReport: Tag,
   isSelectWrapperOption = false
 ): ToolbarLabelGroup[] | SelectWrapperOption[] => {
-  let data = [];
   let options = [];
 
   if (!tagReport?.data) {
@@ -141,14 +140,13 @@ const getTagKeyOptionsFromReport = (
   }
 
   // Workaround for https://github.com/project-koku/koku/issues/1797
+  let data = uniq(tagReport.data);
   if (hasTagKeys) {
     const keepData = tagReport.data.map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ({ type, ...keepProps }: any) => keepProps
     );
     data = uniqBy(keepData, 'key');
-  } else {
-    data = uniq(tagReport.data);
   }
 
   if (data.length > 0) {

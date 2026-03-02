@@ -26,10 +26,9 @@ USER 1001
 
 FROM registry.access.redhat.com/ubi10/nginx-126
 
-COPY apps/koku-ui-onprem/nginx.conf.template /tmp/nginx.conf.template
 COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
 COPY --from=builder /app/apps/koku-ui-hccm/dist ./costManagement
 COPY --from=builder /app/apps/koku-ui-ros/dist ./costManagementRos
 
 EXPOSE 8080
-CMD ["/bin/sh", "-c", "envsubst '\\$API_PROXY_URL' < /tmp/nginx.conf.template > ${NGINX_DEFAULT_CONF_PATH}/nginx.conf && exec nginx -g 'daemon off;'"]
+CMD ["nginx", "-g", "daemon off;"]

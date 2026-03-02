@@ -1,5 +1,3 @@
-import './dataTable.scss';
-
 import { Bullseye, EmptyState, EmptyStateBody, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
@@ -29,6 +27,7 @@ interface ExpandableTableOwnProps {
   columns?: any[];
   emptyState?: React.ReactNode;
   filterBy: any;
+  gridBreakPoint?: '' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl' | 'grid-2xl';
   isActionsCell?: boolean;
   isAllExpanded?: boolean;
   isLoading?: boolean;
@@ -112,15 +111,14 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
   };
 
   public render() {
-    const { columns, intl, isActionsCell, isAllExpanded, isLoading, rows } = this.props;
+    const { columns, gridBreakPoint, intl, isActionsCell, isAllExpanded, isLoading, rows } = this.props;
     const { expandedRows } = this.state;
 
     return (
       <>
         <Table
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
-          className="tableOverride"
-          gridBreakPoint="grid-2xl"
+          gridBreakPoint={gridBreakPoint}
           hasAnimations
           isExpandable
           variant={TableVariant.compact}
@@ -155,17 +153,22 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
             rows.map((row, rowIndex) => {
               const rowId = `row-${rowIndex}`;
               const isExpanded = isAllExpanded || expandedRows.has(row?.item);
+              const hasExpandableRow = row?.children;
               return (
                 <Tbody isExpanded={isExpanded} key={rowId}>
                   <Tr isContentExpanded={isExpanded} key={`${rowId}-${rowIndex}`}>
-                    {row.cells.map((item, cellIndex) =>
+                    {row.cells?.map((item, cellIndex) =>
                       cellIndex === 0 ? (
                         <Td
-                          expand={{
-                            rowIndex,
-                            isExpanded,
-                            onToggle: () => this.handleOnToggle(row?.item),
-                          }}
+                          expand={
+                            hasExpandableRow
+                              ? {
+                                  rowIndex,
+                                  isExpanded,
+                                  onToggle: () => this.handleOnToggle(row?.item),
+                                }
+                              : undefined
+                          }
                           key={`cell-${cellIndex}-${rowIndex}`}
                         />
                       ) : (
@@ -181,29 +184,38 @@ class ExpandableTable extends React.Component<ExpandableTableProps, ExpandableTa
                       )
                     )}
                   </Tr>
-                  {row?.children?.map((child, childIndex) => (
-                    <Tr isExpanded={isExpanded} key={`${rowId}-${rowIndex}-${childIndex}`}>
-                      {child.cells.map((item, cellIndex) =>
-                        cellIndex === 0 ? (
-                          <Td key={`child-cell-${cellIndex}-${rowIndex}`} noPadding />
-                        ) : (
-                          <Td
-                            dataLabel={columns[cellIndex].name}
-                            key={`child-cell-${rowIndex}-${cellIndex}`}
-                            modifier="nowrap"
-                            noPadding
-                            isActionCell={isActionsCell && cellIndex === child.cells.length - 1}
-                            style={{
-                              ...(isExpanded ? styles.expandableRowContent : {}),
-                              ...item.style,
-                            }}
-                          >
-                            <ExpandableRowContent>{item.value}</ExpandableRowContent>
+                  {Array.isArray(row?.children)
+                    ? row?.children?.map((child, childIndex) => (
+                        <Tr isExpanded={isExpanded} key={`${rowId}-${rowIndex}-${childIndex}`}>
+                          {child.cells?.map((item, cellIndex) =>
+                            cellIndex === 0 ? (
+                              <Td key={`child-cell-${cellIndex}-${rowIndex}`} noPadding />
+                            ) : (
+                              <Td
+                                dataLabel={columns[cellIndex].name}
+                                key={`child-cell-${rowIndex}-${cellIndex}`}
+                                modifier="nowrap"
+                                noPadding
+                                isActionCell={isActionsCell && cellIndex === child.cells.length - 1}
+                                style={{
+                                  ...(isExpanded ? styles.expandableRowContent : {}),
+                                  ...item.style,
+                                }}
+                              >
+                                <ExpandableRowContent>{item.value}</ExpandableRowContent>
+                              </Td>
+                            )
+                          )}
+                        </Tr>
+                      ))
+                    : hasExpandableRow &&
+                      isExpanded && (
+                        <Tr isExpanded={isExpanded}>
+                          <Td noPadding colSpan={row?.cells?.length}>
+                            {row.children}
                           </Td>
-                        )
+                        </Tr>
                       )}
-                    </Tr>
-                  ))}
                 </Tbody>
               );
             })

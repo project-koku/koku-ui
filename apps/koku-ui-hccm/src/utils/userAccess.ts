@@ -3,15 +3,12 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 
 const hasAccess = (userAccess: UserAccess, userAccessType: UserAccessType) => {
-  let result = false;
+  let result = userAccess?.data === true; // Used with type=any, type=GCP, etc.
 
   if (userAccess && Array.isArray(userAccess.data)) {
     // Used with multiple types (e.g., type=)
     const data = (userAccess.data as any).find(d => d.type === userAccessType);
     result = data?.access;
-  } else {
-    // Used with type=any, type=GCP, etc.
-    result = userAccess?.data === true;
   }
   return result;
 };

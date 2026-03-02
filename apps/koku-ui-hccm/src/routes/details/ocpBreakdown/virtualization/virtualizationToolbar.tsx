@@ -23,14 +23,14 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface VirtualizationToolbarOwnProps extends RouterComponentProps {
-  hideCluster?: boolean;
-  hideNode?: boolean;
-  hideProject?: boolean;
-  hideTag?: boolean;
+  isTagHidden?: boolean;
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
+  isClusterHidden?: boolean;
   isDisabled?: boolean;
   isExportDisabled?: boolean;
+  isNodeHidden?: boolean;
+  isProjectHidden?: boolean;
   items?: ComputedReportItem[];
   itemsPerPage?: number;
   itemsTotal?: number;
@@ -101,7 +101,7 @@ export class VirtualizationToolbarBase extends React.Component<VirtualizationToo
   }
 
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
-    const { hideCluster, hideNode, hideProject, hideTag, intl, tagReport } = this.props;
+    const { isClusterHidden, isNodeHidden, isProjectHidden, isTagHidden, intl, tagReport } = this.props;
 
     const options: { name: string; key: string; resourceKey?: string }[] = [
       {
@@ -109,26 +109,26 @@ export class VirtualizationToolbarBase extends React.Component<VirtualizationToo
         key: 'vm_name',
       },
     ];
-    if (!hideCluster) {
+    if (!isClusterHidden) {
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }),
         key: 'cluster',
         resourceKey: 'cluster_alias',
       });
     }
-    if (!hideNode) {
+    if (!isNodeHidden) {
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: 'node' }),
         key: 'node',
       });
     }
-    if (!hideProject) {
+    if (!isProjectHidden) {
       options.push({
         name: intl.formatMessage(messages.filterByValues, { value: 'project' }),
         key: 'project',
       });
     }
-    if (!hideTag && tagReport?.data?.length) {
+    if (!isTagHidden && tagReport?.data?.length) {
       options.push({ name: intl.formatMessage(messages.filterByValues, { value: tagKey }), key: tagKey });
     }
     const sortedOptions = options.sort((a, b) => {

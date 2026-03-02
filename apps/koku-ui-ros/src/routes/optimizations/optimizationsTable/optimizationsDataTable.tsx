@@ -15,14 +15,16 @@ import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
+import { getLinkState } from './utils';
+
 interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   filterBy?: any;
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
   isLoading?: boolean;
   isOptimizationsDetails?: boolean;
+  isProjectHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   onSort(value: string, isSortAscending: boolean);
@@ -39,10 +41,10 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   filterBy,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
   isLoading,
   isOptimizationsDetails,
+  isProjectHidden,
   linkPath,
   linkState,
   onSort,
@@ -69,7 +71,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         ...(hasData && { isSortable: true }),
       },
       {
-        hidden: hideProject,
+        hidden: isProjectHidden,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'project' }),
         orderBy: 'project',
         ...(hasData && { isSortable: true }),
@@ -85,7 +87,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         ...(hasData && { isSortable: true }),
       },
       {
-        hidden: hideCluster,
+        hidden: isClusterHidden,
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
@@ -99,12 +101,12 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
     ];
 
     report?.data.map(item => {
-      const cluster = item.cluster_alias ? item.cluster_alias : item.cluster_uuid ? item.cluster_uuid : '';
-      const container = item.container ? item.container : '';
+      const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
+      const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
-      const project = item.project ? item.project : '';
-      const workload = item.workload ? item.workload : '';
-      const workloadType = item.workload_type ? item.workload_type : '';
+      const project = item.project ?? '';
+      const workload = item.workload ?? '';
+      const workloadType = item.workload_type ?? '';
       const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
 
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
@@ -115,33 +117,14 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         title: container,
       });
 
-      const newLinkState = {
-        ...(linkState && linkState),
-        // OCP details breakdown page
-        details: {
-          ...(linkState?.details && linkState?.details),
-          ...(projectPath && {
-            breadcrumbPath: optimizationsBreakdownPath, // Path back to optimizations breakdown page
-          }),
-        },
-        // Optimizations page
-        optimizations: {
-          ...(linkState?.optimizations && linkState?.optimizations),
-          ...(isOptimizationsDetails && {
-            ...query,
-            breadcrumbPath, // Path back to optimizations details page
-          }),
-          ...(projectPath && { projectPath }), // Path to OCP details breakdown page
-        },
-        // Optimizations breakdown page
-        optimizationsBreakdown: {
-          ...(linkState?.optimizationsBreakdown && linkState?.optimizationsBreakdown),
-          ...(!isOptimizationsDetails && {
-            ...query,
-            breadcrumbPath, // Path back to optimizations details page
-          }),
-        },
-      };
+      const newLinkState = getLinkState({
+        breadcrumbPath,
+        isOptimizationsDetails,
+        linkState,
+        projectPath,
+        optimizationsBreakdownPath,
+        query,
+      });
 
       newRows.push({
         cells: [
@@ -152,7 +135,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
               </Link>
             ),
           },
-          { value: project, hidden: hideProject },
+          { value: project, hidden: isProjectHidden },
           { value: workload },
           { value: workloadType },
           {
@@ -168,7 +151,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
                 )}
               </>
             ),
-            hidden: hideCluster,
+            hidden: isClusterHidden,
           },
           { value: lastReported, style: styles.lastItem },
         ],

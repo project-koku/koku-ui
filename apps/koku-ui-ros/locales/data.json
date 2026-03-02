@@ -210,6 +210,12 @@
         "value": "Successfully copied to clipboard!"
       }
     ],
+    "cost": [
+      {
+        "type": 0,
+        "value": "Cost"
+      }
+    ],
     "costManagement": [
       {
         "type": 0,
@@ -1127,6 +1133,12 @@
         "value": "OpenShift"
       }
     ],
+    "optimizableContainers": [
+      {
+        "type": 0,
+        "value": "Optimizable containers on this project"
+      }
+    ],
     "optimizations": [
       {
         "type": 0,
@@ -1137,6 +1149,12 @@
       {
         "type": 0,
         "value": "Cost optimizations"
+      }
+    ],
+    "optimizationsDesc": [
+      {
+        "type": 0,
+        "value": "Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance."
       }
     ],
     "optimizationsDetails": [
@@ -1236,6 +1254,14 @@
     "optimizationsNames": [
       {
         "options": {
+          "change": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Change"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -1252,11 +1278,35 @@
               }
             ]
           },
+          "cpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CPU requests"
+              }
+            ]
+          },
+          "current": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Current"
+              }
+            ]
+          },
           "last_reported": {
             "value": [
               {
                 "type": 0,
                 "value": "Last reported"
+              }
+            ]
+          },
+          "memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Memory requests"
               }
             ]
           },
@@ -1268,6 +1318,14 @@
               {
                 "type": 0,
                 "value": "Project names"
+              }
+            ]
+          },
+          "project_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project types"
               }
             ]
           },
@@ -1298,10 +1356,10 @@
         "value": "Performance optimizations"
       }
     ],
-    "optimizationsPerspective": [
+    "optimizationsProject": [
       {
         "type": 0,
-        "value": "View optimizations based on"
+        "value": "Optimization for this project"
       }
     ],
     "optimizationsShortTerm": [
@@ -1310,14 +1368,48 @@
         "value": "Last 24 hrs"
       }
     ],
+    "optimizationsType": [
+      {
+        "type": 0,
+        "value": "View optimizations based on"
+      }
+    ],
     "optimizationsValue": [
       {
-        "type": 1,
-        "value": "value"
-      },
-      {
-        "type": 1,
-        "value": "units"
+        "offset": 0,
+        "options": {
+          "=1": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " "
+              },
+              {
+                "type": 1,
+                "value": "units"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 1,
+                "value": "units"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "optimizationsValues": [
@@ -1389,6 +1481,12 @@
       {
         "type": 0,
         "value": "This project has not reported data this month."
+      }
+    ],
+    "optimizeFor": [
+      {
+        "type": 0,
+        "value": "Optimize for"
       }
     ],
     "optimizedStateDesc": [
@@ -1495,6 +1593,12 @@
         "pluralType": "cardinal",
         "type": 6,
         "value": "count"
+      }
+    ],
+    "performance": [
+      {
+        "type": 0,
+        "value": "Performance"
       }
     ],
     "perspective": [
@@ -1861,6 +1965,14 @@
     "units": [
       {
         "options": {
+          "bytes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "bytes"
+              }
+            ]
+          },
           "cores": {
             "value": [
               {
@@ -1960,6 +2072,14 @@
     "unitsK8": [
       {
         "options": {
+          "bytes": {
+            "value": [
+              {
+                "type": 0,
+                "value": "bytes"
+              }
+            ]
+          },
           "cores": {
             "value": []
           },

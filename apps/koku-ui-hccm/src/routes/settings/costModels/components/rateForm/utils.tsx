@@ -288,7 +288,7 @@ export const descriptionErrors = (value: string) => {
   return null;
 };
 
-export const tagKeyValueErrors = (value: string) => {
+export const tagKeyValueErrors = (value: string, isGpuMetric = false) => {
   if (value.length === 0) {
     return textHelpers.required;
   }
@@ -296,8 +296,9 @@ export const tagKeyValueErrors = (value: string) => {
     return textHelpers.tag_too_long;
   }
 
+  // Skip validation for GPU metric -- see https://issues.redhat.com/browse/COST-7241
   const pattern = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
-  if (!pattern.test(value)) {
+  if (!pattern.test(value) && !isGpuMetric) {
     return textHelpers.unsupported_tag_chars;
   }
   return null;

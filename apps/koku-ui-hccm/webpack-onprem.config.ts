@@ -108,7 +108,7 @@ const config: Configuration = {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
     symlinks: false,
     cacheWithContext: false,
-    modules: [srcDir, path.resolve(__dirname, '../../node_modules')],
+    modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
     alias: {
       '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
       '@redhat-cloud-services': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),

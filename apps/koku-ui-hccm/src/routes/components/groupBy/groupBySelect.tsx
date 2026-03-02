@@ -91,15 +91,13 @@ class GroupBySelectBase extends React.Component<GroupBySelectProps, GroupBySelec
     }
 
     // Workaround for https://github.com/project-koku/koku/issues/1797
-    let data = [];
+    let data: any[] = uniq(report.data);
     if (hasKeys) {
       const keepData = report.data.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ type, ...keepProps }: any) => keepProps
       );
       data = uniqBy(keepData, 'key');
-    } else {
-      data = uniq(report.data);
     }
 
     return data.map(item => {

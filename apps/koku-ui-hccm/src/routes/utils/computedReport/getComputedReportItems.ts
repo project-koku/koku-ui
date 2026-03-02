@@ -335,8 +335,12 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
   const cluster = cluster_alias || val?.cluster;
   const date = val?.date;
   const default_project = val?.default_project?.toLowerCase() === 'true';
+  const gpu_mode = val?.gpu_mode;
   const gpu_model = val?.gpu_model;
   const gpu_vendor = val?.gpu_vendor;
+  const mig_compute = val?.mig_compute; // Todo: Update MIG properties for https://issues.redhat.com/browse/COST-7239
+  const mig_memory = val?.mig_memory;
+  const mig_uuid = val?.mig_uuid;
   const node = val?.node;
 
   let label;
@@ -374,11 +378,15 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
       clusters: getClusters(val),
       cost: getCostData(val, 'cost'),
       default_project,
+      gpu_mode,
       gpu_model,
       gpu_vendor,
       id,
       infrastructure: getCostData(val, 'infrastructure'),
       label,
+      mig_compute,
+      mig_memory,
+      mig_uuid,
       node,
       supplementary: getCostData(val, 'supplementary'),
       type,
@@ -405,11 +413,15 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         cost: getCostData(val, 'cost', item),
         date,
         default_project,
+        gpu_mode,
         gpu_model,
         gpu_vendor,
         id,
         infrastructure: getCostData(val, 'infrastructure', item),
         label,
+        mig_compute,
+        mig_memory,
+        mig_uuid,
         node,
         supplementary: getCostData(val, 'supplementary', item),
         type,
@@ -424,11 +436,15 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         cost: getCostData(val, 'cost'),
         date,
         default_project,
+        gpu_mode,
         gpu_model,
         gpu_vendor,
         id,
         infrastructure: getCostData(val, 'infrastructure'),
         label,
+        mig_compute,
+        mig_memory,
+        mig_uuid,
         node,
         supplementary: getCostData(val, 'supplementary'),
         type,

@@ -23,6 +23,19 @@ podman machine init
 podman machine start
 ```
 
+If you are using fec development utilities on a Mac that uses Apple's silicon and Podman, you may experience issues when running `fec dev` or `fec dev-proxy`. Specifically the error `Chrome server stopped unexpectedly! The server port 9998 is already in use!`.
+
+If you have confirmed the port is not actually in use, follow the steps below (warning, this will remove and delete the default VM config). This will create a new default VM that uses an older Podman machine OS that does not have the compatibility issues on Apple silicon.
+
+For more context, see the [debugging Slack thread](https://redhat-internal.slack.com/archives/C023VGW21NU/p1758114060634089).
+
+```
+podman machine stop
+podman machine rm
+podman machine init --image docker://quay.io/podman/machine-os:5.5
+podman machine start
+```
+
 ## Setup `hosts` entries (do this once)
 
 Edit the `/etc/hosts` file and add the following entries

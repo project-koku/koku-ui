@@ -10,6 +10,7 @@ export type FeatureToggleState = Readonly<{
   hasFeatureToggle: boolean;
   isDebugToggleEnabled: boolean;
   isBoxPlotToggleEnabled: boolean;
+  isNamespaceToggleEnabled: boolean;
   isProjectLinkToggleEnabled: boolean;
 }>;
 
@@ -17,6 +18,7 @@ export const defaultState: FeatureToggleState = {
   hasFeatureToggle: false,
   isDebugToggleEnabled: false,
   isBoxPlotToggleEnabled: false,
+  isNamespaceToggleEnabled: false,
   isProjectLinkToggleEnabled: false,
 };
 
@@ -30,6 +32,7 @@ export function featureToggleReducer(state = defaultState, action: FeatureToggle
         hasFeatureToggle: true,
         isDebugToggleEnabled: action.payload.isDebugToggleEnabled,
         isBoxPlotToggleEnabled: action.payload.isBoxPlotToggleEnabled,
+        isNamespaceToggleEnabled: action.payload.isNamespaceToggleEnabled,
         isProjectLinkToggleEnabled: action.payload.isProjectLinkToggleEnabled,
       };
 

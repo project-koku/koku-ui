@@ -242,7 +242,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         isDirty = true;
       }
       if (action.payload.tagValue !== undefined) {
-        tagValueError = tagKeyValueErrors(action.payload.tagValue);
+        tagValueError = tagKeyValueErrors(action.payload.tagValue, state.metric?.toLowerCase() === 'gpu');
         isTagValueDirty = true;
       }
       if (action.payload.description !== undefined) {

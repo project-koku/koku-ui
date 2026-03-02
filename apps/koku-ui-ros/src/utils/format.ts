@@ -126,6 +126,7 @@ export const formatUnits: Formatter = (value, units, options) => {
   const fValue = value || 0;
 
   switch (lookup) {
+    case 'bytes':
     case 'byte_ms':
     case 'core':
     case 'core_hours':
@@ -239,6 +240,7 @@ export const unitsLookupKey = (units): string => {
   const lookup = units ? units.replace(/[- ]/g, '_').toLowerCase() : '';
 
   switch (lookup) {
+    case 'bytes':
     case 'cores':
     case 'ei':
     case 'eib':

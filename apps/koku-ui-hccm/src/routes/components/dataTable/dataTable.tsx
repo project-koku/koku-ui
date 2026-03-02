@@ -87,12 +87,7 @@ class DataTable extends React.Component<DataTableProps, any> {
 
     let newRows;
     let items = [];
-    if (rowId === -1) {
-      newRows = rows.map(row => {
-        row.selected = isSelected;
-        return row;
-      });
-    } else {
+    if (rowId !== -1) {
       newRows = [...rows];
       newRows[rowId].selected = isSelected;
       items = [newRows[rowId].item];

@@ -44,7 +44,7 @@ export const hasRecommendationValues = (
   key2: 'cpu' | 'memory'
 ) => {
   let result = false;
-  if (values && values[key1] && values[key1][key2]) {
+  if (values?.[key1]?.[key2]) {
     result = Object.keys(values[key1][key2]).length > 0;
   }
   return result;

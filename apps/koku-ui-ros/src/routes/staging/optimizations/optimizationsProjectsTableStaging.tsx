@@ -6,27 +6,27 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
-import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
-import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsProjectsTable';
+import { getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
 
-interface OptimizationsDetailsStagingOwnProps {
+interface OptimizationsProjectsTableStagingOwnProps {
   // TBD...
 }
 
-type OptimizationsDetailsStagingProps = OptimizationsDetailsStagingOwnProps;
+type OptimizationsProjectsTableStagingProps = OptimizationsProjectsTableStagingOwnProps;
 
 const useQueryFromRoute = () => {
   const location = useLocation();
   return parseQuery<Query>(location.search);
 };
 
-const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = () => {
+const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStagingProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
 
   // The groupBy and groupByValue is the project, cluster, node, or tag name shown in the OCP Details breakdown page
-  const groupBy = queryFromRoute?.group_by ? getGroupById(queryFromRoute) : undefined;
   const groupByValue = queryFromRoute?.group_by ? getGroupByValue(queryFromRoute) : 'openshift-kube-apiserver';
 
   // Test filters
@@ -35,14 +35,12 @@ const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = 
 
   return (
     <PageSection>
-      <OptimizationsTable
+      <OptimizationsProjectsTable
         breadcrumbLabel={
           intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue }) as string
         }
-        breadcrumbPath={formatPath(`${routes.optimizationsTable.path}${location.search}`)}
+        breadcrumbPath={formatPath(`${routes.optimizationsProjectsTable.path}${location.search}`)}
         cluster={clusterFilter}
-        hideCluster={groupBy === 'cluster'}
-        hideProject={groupBy === 'project'}
         project={projectFilter}
         linkPath={formatPath(routes.optimizationsBreakdown.path)}
       />
@@ -50,4 +48,4 @@ const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = 
   );
 };
 
-export default OptimizationsDetailsStaging;
+export default OptimizationsProjectsTableStaging;

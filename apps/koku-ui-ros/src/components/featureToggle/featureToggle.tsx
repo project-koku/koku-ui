@@ -5,9 +5,10 @@ import { useDispatch } from 'react-redux';
 import { featureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
-  boxPlot = 'cost-management.ros.box-plot', // https://issues.redhat.com/browse/COST-4619
-  debug = 'cost-management.ros.debug',
-  projectLink = 'cost-management.ros.project-link', // https://issues.redhat.com/browse/COST-4527 '
+  boxPlot = 'cost-management.koku-ui-ros.box-plot', // https://issues.redhat.com/browse/COST-4619
+  debug = 'cost-management.koku-ui-ros.debug', // Logs user data (e.g., account ID) in browser console
+  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://issues.redhat.com/browse/COST-6267
+  projectLink = 'cost-management.koku-ui-ros.project-link', // Optimizations breakdown project link https://issues.redhat.com/browse/COST-4527
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
@@ -27,6 +28,10 @@ export const useIsProjectLinkToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.projectLink);
 };
 
+export const useIsNamespaceToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.namespace);
+};
+
 // The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
 const useFeatureToggle = () => {
   const dispatch = useDispatch();
@@ -34,6 +39,7 @@ const useFeatureToggle = () => {
 
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isBoxPlotToggleEnabled = useIsBoxPlotToggleEnabled();
+  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isProjectLinkToggleEnabled = useIsProjectLinkToggleEnabled();
 
   const fetchUser = callback => {
@@ -48,6 +54,7 @@ const useFeatureToggle = () => {
       featureToggleActions.setFeatureToggle({
         isDebugToggleEnabled,
         isBoxPlotToggleEnabled,
+        isNamespaceToggleEnabled,
         isProjectLinkToggleEnabled,
       })
     );
@@ -55,7 +62,7 @@ const useFeatureToggle = () => {
       // eslint-disable-next-line no-console
       fetchUser(identity => console.log('User identity:', identity));
     }
-  }, [isDebugToggleEnabled, isBoxPlotToggleEnabled, isProjectLinkToggleEnabled]);
+  }, [isDebugToggleEnabled, isBoxPlotToggleEnabled, isNamespaceToggleEnabled, isProjectLinkToggleEnabled]);
 };
 
 export default useFeatureToggle;

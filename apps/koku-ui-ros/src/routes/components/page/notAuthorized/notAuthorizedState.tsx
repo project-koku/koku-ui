@@ -21,10 +21,11 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
     switch (pathname) {
       case formatPath(routes.optimizationsBadge.path):
       case formatPath(routes.optimizationsBreakdown.path):
+      case formatPath(routes.optimizationsContainersTable.path):
       case formatPath(routes.optimizationsDetails.path):
       case formatPath(routes.optimizationsLink.path):
+      case formatPath(routes.optimizationsProjectsTable.path):
       case formatPath(routes.optimizationsSummary.path):
-      case formatPath(routes.optimizationsTable.path):
       default:
         msg = messages.costManagement;
         break;

@@ -58,6 +58,11 @@ export default defineMessages({
     description: 'Successfully copied to clipboard!',
     id: 'copyToClipboardSuccessfull',
   },
+  cost: {
+    defaultMessage: 'Cost',
+    description: 'Cost',
+    id: 'cost',
+  },
   costManagement: {
     defaultMessage: 'Cost Management ROS',
     description: 'Cost Management ROS',
@@ -342,6 +347,11 @@ export default defineMessages({
     description: 'OpenShift',
     id: 'openShift',
   },
+  optimizableContainers: {
+    defaultMessage: 'Optimizable containers on this project',
+    description: 'Optimizable containers on this project',
+    id: 'optimizableContainers',
+  },
   optimizations: {
     defaultMessage: 'Optimizations',
     description: 'Optimizations',
@@ -356,6 +366,11 @@ export default defineMessages({
     defaultMessage: '{count, plural, =0 {No optimizations} =1 {{count} optimization} other {{count} optimizations}}',
     description: 'Optimization details',
     id: 'optimizationsDetails',
+  },
+  optimizationsDesc: {
+    defaultMessage: 'Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.',
+    description: 'Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.',
+    id: 'optimizationsDesc',
   },
   optimizationsInfoArialLabel: {
     defaultMessage: 'A description of optimizations',
@@ -401,13 +416,18 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'cluster {Cluster names} ' +
+      'change  {Change} ' +
       'container {Container names} ' +
+      'cpu  {CPU requests} ' +
+      'current  {Current} ' +
       'last_reported {Last reported} ' +
+      'memory  {Memory requests} ' +
       'project {Project names} ' +
+      'project_type {Project types} ' +
       'workload {Workload names} ' +
       'workload_type {Workload types} ' +
       'other {}}',
-    description: 'Selected items for export',
+    description: 'Optimization table column names',
     id: 'optimizationsNames',
   },
   optimizationsPerformance: {
@@ -415,18 +435,23 @@ export default defineMessages({
     description: 'Performance optimizations',
     id: 'optimizationsPerformance',
   },
-  optimizationsPerspective: {
-    defaultMessage: 'View optimizations based on',
-    description: 'View optimizations based on',
-    id: 'optimizationsPerspective',
-  },
   optimizationsShortTerm: {
     defaultMessage: 'Last 24 hrs',
     description: 'Last 24 hrs',
     id: 'optimizationsShortTerm',
   },
+  optimizationsProject: {
+    defaultMessage: 'Optimization for this project',
+    description: 'Optimization for this project',
+    id: 'optimizationsProject',
+  },
+  optimizationsType: {
+    defaultMessage: 'View optimizations based on',
+    description: 'View optimizations based on',
+    id: 'optimizationsType',
+  },
   optimizationsValue: {
-    defaultMessage: '{value}{units}',
+    defaultMessage: '{count, plural, =1 {{value} {units}} other {{value}{units}}}',
     description: '2 GiB',
     id: 'optimizationsValue',
   },
@@ -463,6 +488,11 @@ export default defineMessages({
     description: 'You have reached recommended state!',
     id: 'optimizedStateTitle',
   },
+  optimizeFor: {
+    defaultMessage: 'Optimize for',
+    description: 'Optimize for',
+    id: 'optimizeFor',
+  },
   pageTitleDefault: {
     defaultMessage: 'Cost Management ROS | OpenShift',
     description: 'Cost Management ROS | OpenShift',
@@ -486,6 +516,11 @@ export default defineMessages({
     defaultMessage: '{count, plural, one {+{value}%} other {{value}%}}',
     description: 'Percent value with plus symbol',
     id: 'percentPlus',
+  },
+  performance: {
+    defaultMessage: 'Performance',
+    description: 'Performance',
+    id: 'performance',
   },
   perspective: {
     defaultMessage: 'Perspective',
@@ -602,6 +637,7 @@ export default defineMessages({
   units: {
     defaultMessage:
       '{units, select, ' +
+      'bytes {bytes} ' +
       'cores {cores} ' +
       'ei {Ei} ' +
       'eib {EiB} ' +
@@ -620,6 +656,7 @@ export default defineMessages({
   unitsK8: {
     defaultMessage:
       '{units, select, ' +
+      'bytes {bytes} ' +
       'cores {} ' +
       'ei {Ei} ' +
       'eib {Ei} ' +

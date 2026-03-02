@@ -3,37 +3,37 @@ import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
-export interface OptimizationsDetailsOwnProps {
+export interface OptimizationsTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   cluster?: string[];
-  hideCluster?: boolean;
-  hideProject?: boolean;
+  isClusterHidden?: boolean;
+  isProjectHidden?: boolean;
   linkPath?: string;
   linkState?: any;
   project?: string[];
 }
 
-type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
+type OptimizationsTableProps = OptimizationsTableOwnProps;
 
-const OptimizationsTableWrapper: React.FC<OptimizationsDetailsProps> = ({
+const OptimizationsTableWrapper: React.FC<OptimizationsTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   cluster,
-  hideCluster,
-  hideProject,
+  isClusterHidden,
+  isProjectHidden,
   linkPath,
   linkState,
   project,
-}: OptimizationsDetailsOwnProps) => {
+}: OptimizationsTableOwnProps) => {
   return (
     <OptimizationsWrapper>
       <OptimizationsTable
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
         cluster={cluster}
-        hideCluster={hideCluster}
-        hideProject={hideProject}
+        isClusterHidden={isClusterHidden}
+        isProjectHidden={isProjectHidden}
         linkPath={linkPath}
         linkState={linkState}
         project={project}

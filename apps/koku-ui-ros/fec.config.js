@@ -66,8 +66,17 @@ module.exports = {
       // Shared component module path. Must include default export!
       './OptimizationsBadge': path.resolve(__dirname, './src/fed-modules/optimizationsBadgeWrapper.tsx'),
       './OptimizationsBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsBreakdownWrapper.tsx'),
+      './OptimizationsContainersTable': path.resolve(
+        __dirname,
+        './src/fed-modules/optimizationsContainersTableWrapper.tsx'
+      ),
       './OptimizationsDetails': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsWrapper.tsx'),
       './OptimizationsLink': path.resolve(__dirname, './src/fed-modules/optimizationsLinkWrapper.tsx'),
+      './OptimizationsOcpBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx'),
+      './OptimizationsProjectsTable': path.resolve(
+        __dirname,
+        './src/fed-modules/optimizationsProjectsTableWrapper.tsx'
+      ),
       './OptimizationsSummary': path.resolve(__dirname, './src/fed-modules/optimizationsSummaryWrapper.tsx'),
       './OptimizationsTable': path.resolve(__dirname, './src/fed-modules/optimizationsTableWrapper.tsx'),
     },
@@ -98,7 +107,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    modules: [srcDir, path.resolve(__dirname, '../../node_modules')],
+    modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
     alias: {
       '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
     },

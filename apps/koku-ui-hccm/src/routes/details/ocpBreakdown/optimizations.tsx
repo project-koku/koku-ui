@@ -1,5 +1,6 @@
 import { Card, CardBody } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -13,6 +14,10 @@ interface OptimizationsOwnProps {
   // TBD...
 }
 
+interface OptimizationsStateProps {
+  isNamespaceToggleEnabled?: boolean;
+}
+
 type OptimizationsProps = OptimizationsOwnProps;
 
 const Optimizations: React.FC<OptimizationsProps> = () => {
@@ -20,6 +25,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState();
+  const { isNamespaceToggleEnabled } = useMapToProps();
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -28,6 +34,25 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const clusterFilter = queryState?.filter_by?.cluster;
   const isOptimizationsPath = queryFromRoute?.optimizationsPath === 'true';
 
+  if (isNamespaceToggleEnabled) {
+    return (
+      <AsyncComponent
+        scope="costManagementRos"
+        module="./OptimizationsOcpBreakdown"
+        breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
+        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
+        cluster={clusterFilter}
+        isClusterHidden={clusterFilter !== undefined}
+        isProjectHidden={groupBy === 'project'}
+        isOptimizationsPath={isOptimizationsPath}
+        linkPath={formatPath(routes.optimizationsBreakdown.path)}
+        linkState={{
+          ...(location.state && location.state),
+        }}
+        project={groupBy === 'project' ? groupByValue : undefined}
+      />
+    );
+  }
   return (
     <Card>
       <CardBody>
@@ -37,8 +62,8 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
           breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
           cluster={clusterFilter}
-          hideCluster={clusterFilter !== undefined}
-          hideProject={groupBy === 'project'}
+          isClusterHidden={clusterFilter !== undefined}
+          isProjectHidden={groupBy === 'project'}
           isOptimizationsPath={isOptimizationsPath}
           linkPath={formatPath(routes.optimizationsBreakdown.path)}
           linkState={{
@@ -49,6 +74,12 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
       </CardBody>
     </Card>
   );
+};
+
+const useMapToProps = (): OptimizationsStateProps => {
+  return {
+    isNamespaceToggleEnabled: useIsNamespaceToggleEnabled(),
+  };
 };
 
 export { Optimizations };
