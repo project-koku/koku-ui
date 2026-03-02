@@ -76,7 +76,7 @@
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.37",
     "@reduxjs/toolkit": "^2.11.2",
     "@unleash/proxy-client-react": "^5.0.1",
-    "axios": "^1.13.5",
+    "axios": "^1.13.6",
     "date-fns": "^4.1.0",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.23",
@@ -95,7 +95,7 @@
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.1.0",
     "@redhat-cloud-services/frontend-components-config": "^6.7.52",
-    "@redhat-cloud-services/tsc-transform-imports": "^1.0.54",
+    "@redhat-cloud-services/tsc-transform-imports": "^1.0.56",
     "jws": "^4.0.1",
     "ts-patch": "^3.3.0",
     "typescript": "^5.9.3"
