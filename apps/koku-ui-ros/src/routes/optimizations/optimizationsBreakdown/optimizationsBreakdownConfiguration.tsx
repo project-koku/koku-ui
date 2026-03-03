@@ -66,10 +66,6 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
   };
 
   const getConfiguration = (values: RecommendationValues, isFormatted: boolean, isK8Units: boolean) => {
-    if (!values) {
-      return undefined;
-    }
-
     const hasConfigLimitsCpu = hasRecommendationValues(values, 'limits', 'cpu');
     const hasConfigLimitsMemory = hasRecommendationValues(values, 'limits', 'memory');
     const hasConfigRequestsCpu = hasRecommendationValues(values, 'requests', 'cpu');
@@ -103,33 +99,6 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     return getConfiguration(values, isFormatted, false);
   };
 
-  const getRecommendationTerm = (): RecommendationTerm => {
-    if (!recommendations) {
-      return undefined;
-    }
-
-    let result;
-    switch (currentInterval) {
-      case Interval.short_term:
-        result = recommendations?.recommendation_terms?.short_term;
-        break;
-      case Interval.medium_term:
-        result = recommendations?.recommendation_terms?.medium_term;
-        break;
-      case Interval.long_term:
-        result = recommendations?.recommendation_terms?.long_term;
-        break;
-    }
-    return result;
-  };
-
-  const getRecommendedConfig = (isFormatted = true) => {
-    const term = getRecommendationTerm();
-    const values = term?.recommendation_engines?.[optimizationType]?.config;
-
-    return getConfiguration(values, isFormatted, true);
-  };
-
   const getCurrentYaml = () => {
     const code = getCurrentConfig(true);
 
@@ -139,9 +108,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
 
   const getCurrentConfigCodeBlock = () => {
     const code = getCurrentYaml();
-    if (!code) {
-      return null;
-    }
+
     return (
       <CodeBlock actions={getEmptyActions()}>
         <CodeBlockCode>
@@ -185,23 +152,46 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
     );
   };
 
-  const getRecommendedYaml = () => {
-    let code = getRecommendedConfig();
-    if (!code) {
+  const getRecommendationTerm = (): RecommendationTerm => {
+    if (!recommendations) {
       return undefined;
     }
+
+    let result;
+    switch (currentInterval) {
+      case Interval.short_term:
+        result = recommendations?.recommendation_terms?.short_term;
+        break;
+      case Interval.medium_term:
+        result = recommendations?.recommendation_terms?.medium_term;
+        break;
+      case Interval.long_term:
+        result = recommendations?.recommendation_terms?.long_term;
+        break;
+    }
+    return result;
+  };
+
+  const getRecommendedConfig = (isFormatted = true) => {
+    const term = getRecommendationTerm();
+    const values = term?.recommendation_engines?.[optimizationType]?.config;
+
+    return getConfiguration(values, isFormatted, true);
+  };
+
+  const getRecommendedYaml = () => {
+    let code = getRecommendedConfig();
+
     // Add change values
     code = getVariationConfig(code);
 
     // See https://eemeli.org/yaml/#tojs-options
-    return code ? YAML.stringify(code).replace(/"/g, '') : undefined; // prettify
+    return code ? YAML.stringify(code).replace(/"/g, '') : null; // prettify
   };
 
   const getRecommendedConfigCodeBlock = () => {
     const code = getRecommendedYaml();
-    if (!code) {
-      return null;
-    }
+
     return (
       <CodeBlock actions={getRecommendedActions()}>
         <CodeBlockCode>
