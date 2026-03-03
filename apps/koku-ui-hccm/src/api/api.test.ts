@@ -26,6 +26,17 @@ describe('api axiosInstance', () => {
     return state as { axiosInstance: any; instance: any; create: jest.Mock };
   };
 
+  test('sets Cache-Control: no-cache header to prevent browser HTTP caching', () => {
+    const { create } = loadModule();
+    expect(create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'Cache-Control': 'no-cache',
+        }),
+      })
+    );
+  });
+
   test('registers request interceptor', () => {
     const { instance } = loadModule();
     expect(instance.interceptors.request.use).toHaveBeenCalledTimes(1);

@@ -38,6 +38,9 @@ function authInterceptor(reqConfig: AxiosRequestConfig) {
 // See https://issues.redhat.com/browse/RHCLOUD-25573
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: '/api/cost-management/v1/',
+  headers: {
+    'Cache-Control': 'no-cache',
+  },
 });
 
 axiosInstance.interceptors.request.use(authInterceptor);
