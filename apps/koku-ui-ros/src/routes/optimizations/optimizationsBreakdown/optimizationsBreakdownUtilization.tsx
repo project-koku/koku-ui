@@ -41,8 +41,8 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
       datum.push({
         ...data,
         name: resourceType === ResourceType.limits ? 'limit' : 'request',
-        y: values.amount,
-        units: values.format,
+        y: values?.amount,
+        units: values?.format,
       });
     });
     return datum.length
