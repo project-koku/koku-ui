@@ -2,6 +2,8 @@ import * as utils from './query';
 
 export interface OcpFilters extends utils.Filters {
   project?: string | number;
+  quota?: string | string[];
+  quota_type?: 'project' | 'cluster';
 }
 
 type OcpGroupByValue = string | string[];
@@ -10,6 +12,7 @@ interface OcpGroupBys {
   cluster?: OcpGroupByValue;
   node?: OcpGroupByValue;
   project?: OcpGroupByValue;
+  quota?: OcpGroupByValue;
 }
 
 interface OcpOrderBys {
@@ -20,6 +23,7 @@ interface OcpOrderBys {
   node?: string;
   persistentvolumeclaim?: string;
   project?: string;
+  quota?: string;
   request?: string;
   usage?: string;
   vendor?: string; // GPU vendor
