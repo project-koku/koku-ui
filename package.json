@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "npm exec --workspaces -- npm run build",
-    "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
+    "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-sources build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
     "check:dependencies": "npx npm-check-updates; npm exec --workspaces -- npm run check:dependencies",
     "check:dependencies:update": "npx npm-check-updates -u",
     "clean": "npm exec --workspaces -- npm run clean",
@@ -29,7 +29,8 @@
     "release:all": "node scripts/release-all.js",
     "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
-    "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS\" --prefix-colors \"yellow,cyan,magenta\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\"",
+    "start:sources": "npm run -w @koku-ui/koku-ui-sources start",
+    "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRC\" --prefix-colors \"yellow,cyan,magenta,green\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\"",
     "start:onprem:dev": ". scripts/setup-onprem-env.sh; npm run start:onprem"
   },
   "scripts-info": {

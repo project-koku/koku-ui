@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": true,
+    "paths": {
+      "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"],
+      "@redhat-cloud-services/*": ["../../../libs/onprem-cloud-deps/src/*"],
+      "@unleash/*": ["../../../libs/onprem-cloud-deps/src/unleash/*"]
+    }
+  }
+}

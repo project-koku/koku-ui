@@ -2,7 +2,7 @@
 # Discovers Keycloak and Koku API configuration from the OpenShift cluster
 # and exports environment variables for the on-prem UI dev server.
 #
-# Prerequisites: logged into the cluster via `oc login`
+# Prerequisites: `oc` CLI installed (will prompt for login if needed)
 #
 # Usage:
 #   source scripts/setup-onprem-env.sh            # auto-detect everything
@@ -14,6 +14,17 @@
 set -euo pipefail
 
 _fail() { echo "Error: $1" >&2; return 1 2>/dev/null || exit 1; }
+
+# ---------------------------------------------------------------------------
+# Ensure the user is logged in to the cluster
+# ---------------------------------------------------------------------------
+
+if ! oc whoami &>/dev/null; then
+  echo "Not logged in to an OpenShift cluster. Opening browser login..."
+  oc login -w || _fail "cluster login failed — cannot continue without a session"
+fi
+
+echo "Logged in as $(oc whoami) on $(oc whoami --show-server)"
 
 # ---------------------------------------------------------------------------
 # Locate the CostManagementMetricsConfig CR
