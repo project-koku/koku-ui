@@ -40,8 +40,8 @@
     "start:onprem": "Run onprem UI"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.0.2",
-    "@eslint/eslintrc": "^3.3.4",
+    "@eslint/compat": "^2.0.3",
+    "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "@formatjs/cli": "^6.13.0",
     "@formatjs/ecma402-abstract": "^3.1.1",
