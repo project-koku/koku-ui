@@ -64,7 +64,7 @@ These 5 things cannot be automated. Everything else is handled by the script.
 #    After installing, open Docker Desktop and wait for the whale icon to turn green.
 
 # 2. Node.js 22+ (nvm makes it easy to switch versions)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.zprofile  # or open a new terminal tab
 nvm install 22 && nvm use 22
 
@@ -730,5 +730,3 @@ rm /tmp/minio-fix.yml
 # Then retry:
 cd ~/code/koku-ui && npm run start:onprem
 ```
-
-[Jira]: https://issues.redhat.com/projects/COST/

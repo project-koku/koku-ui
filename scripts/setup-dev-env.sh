@@ -62,7 +62,7 @@ for arg in "$@"; do
     --load-data)     LOAD_SAMPLE_DATA=true ;;
     --skip-data)     LOAD_SAMPLE_DATA=false ;;
     --help|-h)
-      sed -n '3,40{ s/^# \{0,1\}//; p }' "$0"
+      sed -n '3,35{ s/^# \{0,1\}//; p }' "$0"
       exit 0
       ;;
   esac
