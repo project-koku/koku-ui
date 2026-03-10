@@ -13,6 +13,8 @@ export interface OcpReportItem extends ReportItem {
   node?: string;
   persistent_volume_claim?: string;
   project?: string;
+  quota?: string;
+  quota_type?: 'project' | 'cluster';
   request?: ReportValue;
   storage_class?: string;
   usage?: ReportValue;
@@ -37,6 +39,8 @@ export type GroupByPvcData = Omit<OcpReportData, 'persistentvolumeclaims'>;
 
 export type GroupByVmNameData = Omit<OcpReportData, 'vm_name'>;
 
+export type GroupByQuotaData = Omit<OcpReportData, 'quotas'>;
+
 export interface OcpReportData extends ReportData {
   cluster_alias?: string;
   clusters?: GroupByClusterData[];
@@ -44,6 +48,7 @@ export interface OcpReportData extends ReportData {
   nodes?: GroupByNodeData[];
   persistentvolumeclaims?: GroupByPvcData[];
   projects?: GroupByProjectData[];
+  quotas?: GroupByQuotaData[];
   vm_names?: GroupByVmNameData[];
 }
 

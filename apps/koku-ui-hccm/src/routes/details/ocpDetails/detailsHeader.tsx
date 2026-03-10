@@ -68,10 +68,11 @@ const groupByOptions: {
   label: string;
   value: ComputedOcpReportItemsParams['idKey'];
 }[] = [
-  { label: 'cluster', value: 'cluster' },
-  { label: 'node', value: 'node' },
-  { label: 'project', value: 'project' },
-];
+    { label: 'cluster', value: 'cluster' },
+    { label: 'node', value: 'node' },
+    { label: 'project', value: 'project' },
+    { label: 'quota', value: 'quota' },
+  ];
 
 const tagPathsType = TagPathsType.ocp;
 

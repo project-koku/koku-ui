@@ -23,6 +23,7 @@ export const enum ResourceType {
   payerTenantId = 'payer_tenant_id',
   productService = 'product_service',
   project = 'project',
+  quota = 'quota',
   region = 'region',
   resourceLocation = 'resource_location',
   service = 'service',

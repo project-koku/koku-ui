@@ -3,7 +3,7 @@ import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 
 import type { ComputedReportItemsParams } from './getComputedReportItems';
 
-export interface ComputedOcpReportItemsParams extends ComputedReportItemsParams<OcpReport, OcpReportItem> {}
+export interface ComputedOcpReportItemsParams extends ComputedReportItemsParams<OcpReport, OcpReportItem> { }
 
 export function getIdKeyForGroupBy(groupBy: OcpQuery['group_by'] = {}): ComputedOcpReportItemsParams['idKey'] {
   if (groupBy.project) {
@@ -14,6 +14,9 @@ export function getIdKeyForGroupBy(groupBy: OcpQuery['group_by'] = {}): Computed
   }
   if (groupBy.node) {
     return 'node';
+  }
+  if (groupBy.quota) {
+    return 'quota';
   }
   return 'date';
 }
