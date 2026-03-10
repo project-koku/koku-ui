@@ -21,7 +21,7 @@
     "test": "node --experimental-strip-types --experimental-test-module-mocks --test 'test/**/*.test.ts'"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.3.5",
     "typescript": "^5.9.3",
     "webpack-dev-server": "^5.2.3"
   }
