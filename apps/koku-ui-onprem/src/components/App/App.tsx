@@ -39,6 +39,10 @@ const config = {
     name: 'costManagementRos',
     manifestLocation: '/costManagementRos/plugin-manifest.json',
   },
+  sources: {
+    name: 'sources',
+    manifestLocation: '/sources/plugin-manifest.json',
+  },
 };
 
 const App = () => {

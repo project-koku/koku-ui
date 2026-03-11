@@ -1,0 +1,32 @@
+{
+  "en": {
+    "sources.addSource": "Add source",
+    "sources.emptyStateTitle": "Get started by connecting your sources",
+    "sources.emptyStateBody": "Select an available provider.",
+    "sources.filterByName": "Filter by name",
+    "sources.filterByType": "Filter by type",
+    "sources.filterByStatus": "Filter by status",
+    "sources.name": "Name",
+    "sources.sourceType": "Type",
+    "sources.dateAdded": "Date added",
+    "sources.status": "Status",
+    "sources.statusAvailable": "Available",
+    "sources.statusUnavailable": "Unavailable",
+    "sources.statusPartiallyAvailable": "Partially available",
+    "sources.tabTitle": "Sources",
+    "sources.rename": "Rename",
+    "sources.remove": "Remove",
+    "sources.pause": "Pause",
+    "sources.resume": "Resume",
+    "sources.pauseDescription": "Pause data collection for this source",
+    "sources.resumeDescription": "Unpause data collection for this source",
+    "sources.removeDescription": "Permanently delete this source and all collected data",
+    "sources.sourcePaused": "Source paused",
+    "sources.sourcePausedBody": "No data is being collected for this source. Turn the source back on to reestablish connection and data collection.",
+    "sources.resumeConnection": "Resume connection",
+    "sources.checkAvailability": "Check source availability",
+    "sources.viewDetails": "View details",
+    "sources.sourceNotFound": "Source not found",
+    "sources.removeConfirmation": "Are you sure you want to remove {name}? This action cannot be undone."
+  }
+}

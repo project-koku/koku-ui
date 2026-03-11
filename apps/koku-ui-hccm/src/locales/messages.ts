@@ -3534,6 +3534,11 @@ export default defineMessages({
     description: 'Cost management settings',
     id: 'settingsTitle',
   },
+  sourcesTabTitle: {
+    defaultMessage: 'Sources',
+    description: 'Sources',
+    id: 'sourcesTabTitle',
+  },
   sinceDate: {
     defaultMessage: '{dateRange}',
     description: 'Jan 1-31',

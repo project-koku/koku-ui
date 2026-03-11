@@ -370,6 +370,166 @@ Cypress.Commands.add('loadApiInterceptors', () => {
 });
 
 /**
+ * Override the sources API interceptor to return an empty list.
+ */
+Cypress.Commands.add('interceptSourcesEmpty', () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    {
+      statusCode: 200,
+      body: {
+        meta: { count: 0 },
+        links: { first: null, next: null, previous: null, last: null },
+        data: [],
+      },
+    }
+  ).as('getSourcesEmpty');
+});
+
+/**
+ * Override the sources API interceptor with full CRUD support.
+ */
+Cypress.Commands.add('interceptSourcesCRUD', () => {
+  const mockSources = [
+    {
+      id: 1,
+      uuid: '11111111-1111-1111-1111-111111111111',
+      name: 'My OpenShift Cluster',
+      source_type: 'OCP',
+      authentication: { credentials: { cluster_id: 'test-cluster-001' } },
+      billing_source: null,
+      provider_linked: true,
+      active: true,
+      paused: false,
+      current_month_data: true,
+      previous_month_data: true,
+      has_data: true,
+      created_timestamp: '2026-01-15T10:30:00Z',
+    },
+    {
+      id: 2,
+      uuid: '22222222-2222-2222-2222-222222222222',
+      name: 'AWS Production Account',
+      source_type: 'AWS',
+      authentication: { credentials: { role_arn: 'arn:aws:iam::123456789012:role/CostManagement' } },
+      billing_source: { data_source: { bucket: 'my-cost-bucket', region: 'us-east-1' } },
+      provider_linked: true,
+      active: true,
+      paused: false,
+      current_month_data: true,
+      previous_month_data: false,
+      has_data: true,
+      created_timestamp: '2026-02-20T14:15:00Z',
+    },
+  ];
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    req => {
+      const url = new URL(req.url);
+      if (url.searchParams.has('name')) {
+        req.reply({
+          statusCode: 200,
+          body: {
+            meta: { count: 0 },
+            links: { first: null, next: null, previous: null, last: null },
+            data: [],
+          },
+        });
+      } else {
+        req.reply({
+          statusCode: 200,
+          body: {
+            meta: { count: mockSources.length },
+            links: { first: null, next: null, previous: null, last: null },
+            data: mockSources,
+          },
+        });
+      }
+    }
+  ).as('getSourcesList');
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    req => {
+      const uuid = req.url.split('/sources/')[1].replace(/\/$/, '');
+      const source = mockSources.find(s => s.uuid === uuid);
+      req.reply(source ? { statusCode: 200, body: source } : { statusCode: 404 });
+    }
+  ).as('getSourceDetail');
+
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    req => {
+      req.reply({
+        statusCode: 201,
+        body: {
+          id: 99,
+          uuid: '99999999-9999-9999-9999-999999999999',
+          name: req.body.name,
+          source_type: req.body.source_type,
+          authentication: {},
+          billing_source: null,
+          provider_linked: false,
+          active: false,
+          paused: false,
+          current_month_data: false,
+          previous_month_data: false,
+          has_data: false,
+          created_timestamp: new Date().toISOString(),
+        },
+      });
+    }
+  ).as('createSource');
+
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/api/cost-management/v1/applications/',
+    },
+    {
+      statusCode: 201,
+      body: { id: 99, source_id: 99, application_type_id: 0, extra: {} },
+    }
+  ).as('createApplication');
+
+  cy.intercept(
+    {
+      method: 'PATCH',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    req => {
+      const uuid = req.url.split('/sources/')[1].replace(/\/$/, '');
+      const source = mockSources.find(s => s.uuid === uuid);
+      req.reply({
+        statusCode: 200,
+        body: { ...source, ...req.body },
+      });
+    }
+  ).as('updateSource');
+
+  cy.intercept(
+    {
+      method: 'DELETE',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    { statusCode: 204, body: '' }
+  ).as('deleteSource');
+});
+
+/**
  * Wait for the federated module to load and render.
  * This ensures the Scalprum component has finished loading the remote module.
  */
