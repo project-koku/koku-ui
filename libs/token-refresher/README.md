@@ -103,11 +103,17 @@ new TokenRefresher(options: TokenRefresherOptions)
 createKeycloakFetcher(options: KeycloakFetcherOptions): () => Promise<string>
 ```
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `tokenUrl` | `string` | Full Keycloak token endpoint URL. |
-| `clientId` | `string` | OAuth2 client ID. |
-| `clientSecret` | `string` | OAuth2 client secret. |
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `tokenUrl` | `string` | — | Full Keycloak token endpoint URL. |
+| `clientId` | `string` | — | OAuth2 client ID. |
+| `clientSecret` | `string` | — | OAuth2 client secret. |
+| `maxRetries` | `number` | `3` | Max retry attempts for 502/503/504. Set `0` to disable. |
+
+**Behavior:**
+
+- **Retries:** On HTTP 502, 503, or 504 the fetcher retries with exponential backoff (1s, 2s, 4s) before failing. This helps when Keycloak is temporarily unavailable (e.g. pod restart, route without backend).
+- **Error messages:** Response bodies are sanitized so logs are not flooded. HTML (e.g. OpenShift “Application is not available”) is replaced with a short summary like `503 Service Unavailable (HTML response; Keycloak may be starting or route has no backend)`.
 
 For self-signed certificates, set `NODE_TLS_REJECT_UNAUTHORIZED=0` in your environment.
 
