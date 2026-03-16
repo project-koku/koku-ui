@@ -1,3 +1,4 @@
+import { createDevServerProxy, createKeycloakFetcher, TokenRefresher } from '@koku-ui/token-refresher';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -8,6 +9,42 @@ import { container } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
+
+let refresher: TokenRefresher | undefined;
+
+if (NODE_ENV !== 'production' && !process.env.CI) {
+  if (!process.env.API_PROXY_URL) {
+    throw new Error(
+      '[koku-ui-onprem] Missing required env var: API_PROXY_URL\n' +
+        'Set it to the backend URL, e.g. https://koku-api.example.com:8000'
+    );
+  }
+
+  const hasKeycloak =
+    process.env.KEYCLOAK_TOKEN_URL && process.env.KEYCLOAK_CLIENT_ID && process.env.KEYCLOAK_CLIENT_SECRET;
+
+  if (!hasKeycloak && !process.env.API_TOKEN) {
+    throw new Error(
+      '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
+        'Provide one of:\n' +
+        '  1. KEYCLOAK_TOKEN_URL + KEYCLOAK_CLIENT_ID + KEYCLOAK_CLIENT_SECRET  (auto-refresh)\n' +
+        '  2. API_TOKEN  (static bearer token)\n' +
+        'See apps/koku-ui-onprem/README.md for details.'
+    );
+  }
+
+  if (hasKeycloak) {
+    refresher = new TokenRefresher({
+      fetchToken: createKeycloakFetcher({
+        tokenUrl: process.env.KEYCLOAK_TOKEN_URL!,
+        clientId: process.env.KEYCLOAK_CLIENT_ID!,
+        clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
+      }),
+      fallbackToken: process.env.API_TOKEN,
+    });
+    refresher.start();
+  }
+}
 
 const config: Configuration & {
   devServer?: WebpackDevServerConfiguration;
@@ -38,16 +75,23 @@ const config: Configuration & {
       overlay: true,
     },
     proxy: [
-      {
-        context: ['/api/cost-management/v1'],
-        target: process.env.API_PROXY_URL,
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: { '^/api/cost-management/v1': '' },
-        headers: {
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
-        },
-      },
+      refresher
+        ? createDevServerProxy(refresher, {
+            context: ['/api/cost-management/v1'],
+            target: process.env.API_PROXY_URL!,
+            pathRewrite: { '^/api/cost-management/v1': '' },
+            secure: false,
+          })
+        : {
+            context: ['/api/cost-management/v1'],
+            target: process.env.API_PROXY_URL,
+            changeOrigin: true,
+            secure: false,
+            pathRewrite: { '^/api/cost-management/v1': '' },
+            headers: {
+              Authorization: `Bearer ${process.env.API_TOKEN}`,
+            },
+          },
     ],
   },
   module: {
