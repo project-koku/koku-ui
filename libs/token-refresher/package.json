@@ -14,6 +14,8 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
+    "check:dependencies": "npx npm-check-updates",
+    "check:dependencies:update": "npx npm-check-updates -u",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
@@ -21,7 +23,7 @@
     "test": "node --experimental-strip-types --experimental-test-module-mocks --test 'test/**/*.test.ts'"
   },
   "devDependencies": {
-    "@types/node": "^25.3.5",
+    "@types/node": "^25.5.0",
     "typescript": "^5.9.3",
     "webpack-dev-server": "^5.2.3"
   }
