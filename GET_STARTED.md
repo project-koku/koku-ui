@@ -17,11 +17,15 @@ This guide covers setting up the full dev environment on a Mac — backend API i
 | Git | any | `xcode-select --install` |
 | Podman Desktop | 4+ | <https://podman-desktop.io/> |
 | Node.js | 22+ | <https://nodejs.org/> or [nvm](https://github.com/nvm-sh/nvm) |
-| npm | 10+ | ships with Node.js |
+| npm | 11+ | ships with Node.js |
 | curl | any | pre-installed on macOS |
 | make | any | `xcode-select --install` |
 | Python | **3.11 exactly** | `brew install python@3.11` |
 | pipenv | any | `pip3 install pipenv` |
+
+> **Node.js version note:** The frontend apps currently use Node 24 LTS in production.
+> Node 22 is the minimum supported version for this local dev workflow. If you already
+> have Node 24 installed, it will work — you do not need to downgrade.
 
 > **Why Podman?** Red Hat does not carry a Docker Desktop license. Podman is the supported container runtime for this project. Podman Desktop provides a drop-in CLI — `podman` commands work the same way as `docker`, and the koku Makefile detects Podman automatically.
 
@@ -43,6 +47,17 @@ There are two ways to run the frontend locally. Both require the koku backend ru
 ### Path A — koku-ui-onprem (experimental)
 
 koku-ui-onprem creates a build of koku-ui-hccm and koku-ui-ros and runs them together in a standalone webpack Module Federation environment. This bypasses Red Hat SSO entirely — no login required.
+
+> **What "onprem" means:** koku-ui-onprem is not simply a "no login" version of the SaaS
+> UI. It is a genuinely different build with meaningful functional differences:
+>
+> - **Omits** SaaS-only libraries and functionality (e.g., Red Hat notification service)
+> - **Includes** a **Sources tab** in the Settings page for adding integrations directly
+>   (this tab does not exist in the SaaS build — see [PR #4977](https://github.com/project-koku/koku-ui/pull/4977))
+> - Designed for customers running Cost Management in self-managed / on-premises OpenShift
+>
+> For local backend development and feature testing, it is the recommended path.
+> For UI changes that must match the SaaS experience exactly, use Path B.
 
 > **Experimental.** koku-ui-onprem was not originally designed as a local dev
 > workflow. In practice, federated-module debugging works — koku-ui-ros source
@@ -97,19 +112,23 @@ These steps cannot be automated.
 #   podman info   # must return machine info without errors
 
 # Node.js 22+
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 source ~/.zprofile
 nvm install 22 && nvm use 22
 
 # Python 3.11 exactly
 brew install python@3.11
 
-# pipenv
-pip3 install pipenv
+# pipenv — install using python3.11 explicitly to avoid version mismatch
+python3.11 -m pip install pipenv
+# The pipenv binary lands in ~/Library/Python/3.11/bin/ — add it to PATH once:
 echo 'export PATH="$HOME/Library/Python/3.11/bin:$PATH"' >> ~/.zprofile
 source ~/.zprofile
 
-# Clone both repos as siblings in the same parent folder
+# Clone both repos — they don't need to be siblings.
+# By default the script looks for koku at ../koku.
+# To use a different path, set KOKU_DIR before running:
+#   export KOKU_DIR=/your/path/to/koku
 # Uses SSH — verify your key first:
 #   ssh -T git@github.com
 # No SSH key? Use HTTPS instead:
@@ -118,8 +137,32 @@ source ~/.zprofile
 mkdir -p ~/code && cd ~/code
 git clone git@github.com:project-koku/koku.git
 git clone git@github.com:project-koku/koku-ui.git
-cd koku-ui
+
+# Create koku's .env from the example file — required before running Compose.
+# Without this file, the setup script fails with "required variable UNLEASH_TOKEN is missing".
+cd koku && cp .env.example .env
+# USER_ID and GROUP_ID are required by koku's docker-compose.yml.
+echo "USER_ID=$(id -u)" >> .env
+echo "GROUP_ID=$(id -g)" >> .env
+cd ../koku-ui
 ```
+
+> **⚠ macOS Docker credential conflict:** If you have (or ever had) Docker Desktop installed,
+> `~/.docker/config.json` may reference `"credsStore": "desktop"`. This causes Podman's
+> image builds to fail with:
+>
+> ```
+> error listing credentials — err: exec: "docker-credential-desktop": executable file not found in $PATH
+> ```
+>
+> **Fix:** Rename or delete the file before running the setup script:
+>
+> ```bash
+> mv ~/.docker/config.json ~/.docker/config.json.bak
+> ```
+>
+> Your existing credentials are preserved in the `.bak` file. If you never had Docker
+> Desktop installed, ignore this warning.
 
 ### Step 2 — Check prerequisites before running
 
@@ -129,8 +172,8 @@ Run these from inside the `koku-ui` directory. All five must succeed.
 podman info                  # must not say "Cannot connect"
 node --version               # must print v22.x or higher
 python3.11 --version         # must print Python 3.11.x
-pipenv --version 2>/dev/null || python3.11 -m pipenv --version
-ls ../koku/Pipfile           # confirms koku repo is a sibling
+pipenv --version || python3.11 -m pipenv --version
+ls "${KOKU_DIR:-../koku}/Pipfile"   # confirms koku repo can be found
 ```
 
 > If `pipenv --version` says "command not found" but the second form works, pipenv is installed but not in PATH yet. The setup script finds it automatically — you can still proceed.
@@ -141,7 +184,15 @@ Run from inside the `koku-ui` directory.
 
 ```bash
 cd ~/code/koku-ui
-bash scripts/setup-dev-env.sh
+
+# If koku is NOT at ../koku (i.e. not a sibling), set this first:
+#   export KOKU_DIR=~/koku   # or wherever you cloned it
+
+# If you have a koku-ui .venv already active (e.g. from a previous session),
+# set this to prevent pipenv from using the wrong Python version:
+#   export PIPENV_IGNORE_VIRTUALENVS=1
+
+bash scripts/setup-get-started.sh
 ```
 
 Before starting any long-running work the script prompts once:
@@ -177,9 +228,34 @@ Output on success:
 ==> Done
 ```
 
+> **Note on `[400] Bad Request` during source creation:** If you see 400 errors
+> in the output above, this is normal and expected on re-runs. Koku intentionally
+> rejects duplicate sources with the message "An integration already exists with
+> these details." The sources were created successfully on the first run — 400s
+> on subsequent runs mean the data is already there. The script continues safely.
+
 > **Why "Host port 9000 freed"?** MinIO (the object storage service) binds `localhost:9000` by default — the same port webpack uses for the dev server. The script moves MinIO off that port after data loading completes. MinIO's web console remains at <http://localhost:9090>.
 
-### Step 4 — Start the frontend
+### Step 4 — Verify the backend is running
+
+Before starting the frontend, confirm the koku backend is healthy.
+If these fail, do not proceed to the frontend — the UI will show errors.
+
+```bash
+curl http://localhost:8000/api/cost-management/v1/status/
+# Expected output: {"status":"OK"}
+```
+
+If it returns `Connection refused`, the containers are not running:
+
+```bash
+cd ~/code/koku
+podman compose start
+# Wait 30 seconds then try the curl again
+curl http://localhost:8000/api/cost-management/v1/status/
+```
+
+### Step 5 — Start the frontend
 
 **Path A (experimental, no login):**
 
@@ -196,6 +272,13 @@ npm run start:hccm
 ```
 
 Open <https://stage.foo.redhat.com:1337/openshift/cost-management>.
+
+> **Note:** Running `koku-ui-hccm` in SaaS mode (Path B) requires a Red Hat SSO account,
+> additional environment setup, and a podman image. Full instructions are in the app's
+> own README:
+>
+> - [koku-ui-hccm README](https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-hccm/README.md)
+> - [koku-ui-ros README](https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-ros/README.md)
 
 Verify end-to-end (Path A):
 
@@ -254,11 +337,11 @@ The script is safe to re-run: containers that are already running are not restar
 ### Script flags
 
 ```bash
-bash scripts/setup-dev-env.sh --skip-backend   # skip backend, run frontend steps only
-bash scripts/setup-dev-env.sh --skip-frontend  # skip frontend, run backend steps only
-bash scripts/setup-dev-env.sh --load-data      # load sample data without prompting
-bash scripts/setup-dev-env.sh --skip-data      # skip sample data without prompting
-bash scripts/setup-dev-env.sh --help           # show usage
+bash scripts/setup-get-started.sh --skip-backend   # skip backend, run frontend steps only
+bash scripts/setup-get-started.sh --skip-frontend  # skip frontend, run backend steps only
+bash scripts/setup-get-started.sh --load-data      # load sample data without prompting
+bash scripts/setup-get-started.sh --skip-data      # skip sample data without prompting
+bash scripts/setup-get-started.sh --help           # show usage
 ```
 
 ---
@@ -339,7 +422,7 @@ git clone git@github.com:project-koku/koku.git
 git clone git@github.com:project-koku/koku-ui.git
 ```
 
-Both repos must be siblings in the same parent directory.
+Both repos are cloned as siblings here for convenience, but they do not need to be. Set `KOKU_DIR=/path/to/koku` before running the setup script to use any location.
 
 ### 2. Backend
 
@@ -406,6 +489,8 @@ make DOCKER="$(command -v podman)" load-test-customer-data
 ```
 
 The `--api-prefix` flag is required — without it the script hits `/api/v1/...` and gets 404s. `load-test-customer-data` seeds sample rows for AWS, Azure, GCP, and OCP; the worker processes them in the background.
+
+> **Note on re-runs:** The `create_test_customer.py` script is idempotent — if you run it a second time and a source already exists, you'll see `[400] Bad Request` errors in the output. This is normal and expected. The script logs these but continues without failing, so re-running the setup script is safe.
 
 > **MinIO port-rebind:** After data loading completes, MinIO is still bound to `localhost:9000`. The automated script frees it after data load. If following the manual path, you'll hit "address already in use" when you later run `npm run start:onprem`. The troubleshooting section below covers how to free it manually.
 
@@ -562,6 +647,23 @@ rm /tmp/trino-ovr.yml
 
 The `links: !reset` override is required because Podman rejects the legacy `links:` directive in koku's `docker-compose.yml`. The setup script handles both this and the credential fix automatically.
 
+### Unleash fails to start — "Admin token cannot be scoped to single project"
+
+The `UNLEASH_ADMIN_TOKEN` in `koku/.env` has the wrong format. Admin tokens must use `*:*` scope. Fix it:
+
+```bash
+# Remove the wrong line and add the correct one
+grep -v "^UNLEASH_ADMIN_TOKEN=" ~/koku/.env > /tmp/env.tmp && mv /tmp/env.tmp ~/koku/.env
+echo "UNLEASH_ADMIN_TOKEN=*:*.unleash-insecure-api-token" >> ~/koku/.env
+```
+
+Then restart:
+
+```bash
+cd ~/koku && podman compose down -v
+cd ~/koku-ui && bash scripts/setup-get-started.sh
+```
+
 ### Stage login fails or returns 403
 
 Your Red Hat account needs the Cost Management role in the stage environment. Ask your org admin or create a test account at <https://access.stage.redhat.com>.
@@ -614,3 +716,26 @@ rm /tmp/minio-fix.yml
 ```
 
 Then retry `npm run start:onprem`.
+
+### Re-running the setup script after a failed attempt
+
+If the setup script failed partway through on a previous run, leftover containers
+may cause the next run to fail with different errors.
+
+**Recommended fix before re-running:**
+
+```bash
+cd ~/code/koku
+make DOCKER="$(command -v podman)" docker-down
+```
+
+This removes containers, networks, and volumes (including the database).
+After this, re-run the setup script from scratch:
+
+```bash
+cd ~/code/koku-ui
+bash scripts/setup-get-started.sh
+```
+
+> **Warning:** `docker-down` deletes all data in the local database.
+> Only do this when you want a completely fresh start.

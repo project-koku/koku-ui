@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# scripts/setup-dev-env.sh
+# scripts/setup-get-started.sh
 #
 # Sets up the full dev environment: koku backend (Podman) + koku-ui frontend (npm).
 # Run from the koku-ui repo root.  macOS only (Intel and Apple silicon).
 #
-#   bash scripts/setup-dev-env.sh
+#   bash scripts/setup-get-started.sh
 #
 # Prerequisites:
 #   - Podman Desktop 4+ (https://podman-desktop.io/)   <-- see note below re: Docker
@@ -44,10 +44,10 @@
 #     Recommended for: UI feature development and end-to-end SaaS testing.
 #
 # Options:
-#   --skip-backend   backend is already running, only set up the frontend
-#   --skip-frontend  only set up the backend
-#   --load-data      load sample AWS/Azure/GCP/OCP cost data without prompting
-#   --skip-data      skip sample data loading without prompting
+#   bash scripts/setup-get-started.sh --skip-backend   backend is already running, only set up the frontend
+#   bash scripts/setup-get-started.sh --skip-frontend  only set up the backend
+#   bash scripts/setup-get-started.sh --load-data      load sample AWS/Azure/GCP/OCP cost data without prompting
+#   bash scripts/setup-get-started.sh --skip-data      skip sample data loading without prompting
 #
 # If Podman Desktop quits, containers stop but are not deleted. Bring them back:
 #   cd ../koku && podman compose start
@@ -106,7 +106,7 @@ info "Checking prerequisites"
 
 # Guard: must be run from the koku-ui repo root.
 if [ ! -d "apps/koku-ui-onprem" ]; then
-  fail "Run this script from the koku-ui repo root.\n  cd /path/to/koku-ui\n  bash scripts/setup-dev-env.sh"
+  fail "Run this script from the koku-ui repo root.\n  cd /path/to/koku-ui\n  bash scripts/setup-get-started.sh"
 fi
 
 if command -v podman >/dev/null 2>&1; then
@@ -138,7 +138,7 @@ if podman compose version >/dev/null 2>&1; then
 elif command -v podman-compose >/dev/null 2>&1; then
   DC=(podman-compose)
 else
-  fail "Podman Compose not found. Install Podman Desktop: https://podman-desktop.io/"
+  fail "Podman Compose not found.\n\nFix options (choose one):\n  Option A — Install the Compose extension inside Podman Desktop:\n             Open Podman Desktop → Extensions → Install 'compose'\n  Option B — Install via Homebrew:\n             brew install podman-compose\n\nAfter installing, re-run this script."
 fi
 
 if [ "$SKIP_BACKEND" = false ]; then
@@ -165,7 +165,7 @@ if [ "$SKIP_BACKEND" = false ]; then
     done
   fi
   if [ -z "$PIPENV_BIN" ]; then
-    fail "pipenv not found. Run:\n  pip3 install pipenv\nThen add it to PATH:\n  echo 'export PATH=\"\$HOME/Library/Python/3.11/bin:\$PATH\"' >> ~/.zprofile && source ~/.zprofile"
+    fail "pipenv not found.\n\nInstall it for Python 3.11 specifically:\n  /usr/local/bin/python3.11 -m pip install pipenv\n  # OR if brew-installed python3.11 is elsewhere:\n  python3.11 -m pip install pipenv\n\nThen add pipenv to PATH:\n  echo 'export PATH=\"\$HOME/Library/Python/3.11/bin:\$PATH\"' >> ~/.zprofile\n  source ~/.zprofile\n\nDo NOT use plain 'pip3 install pipenv' — pip3 may point to a different Python version."
   fi
   ok "pipenv $($PIPENV_BIN --version | awk '{print $3}')"
 
@@ -214,9 +214,52 @@ fi
 
 # backend
 
+# If a koku-ui venv is already active, pipenv will use its Python instead of 3.11.
+# Force pipenv to ignore any active virtualenv and use the correct Python.
+export PIPENV_IGNORE_VIRTUALENVS=1
+
 if [ "$SKIP_BACKEND" = false ]; then
   info "Setting up backend"
   pushd "$KOKU_DIR" > /dev/null || fail "Cannot change to directory: $KOKU_DIR"
+
+  # Create koku's .env file if it does not already exist.
+  # Without this file, Compose fails immediately with "required variable UNLEASH_TOKEN
+  # is missing a value" — the contributor sees an error before any images are even pulled.
+  # koku ships a .env.example that provides safe defaults for local dev.
+  if [ ! -f ".env" ]; then
+    info "Creating koku/.env from .env.example"
+    if [ -f ".env.example" ]; then
+      cp .env.example .env
+      ok "koku/.env created from .env.example"
+    else
+      warn ".env.example not found in $KOKU_DIR — creating a minimal .env"
+      cat > .env << 'KOKU_ENV_EOF'
+# Minimal local-dev .env created by setup-get-started.sh
+# See .env.example in the koku repo for all available options.
+UNLEASH_TOKEN=default:development.unleash-insecure-api-token
+UNLEASH_ADMIN_TOKEN=*:*.unleash-insecure-api-token
+KOKU_API_PATH_PREFIX=/api/cost-management
+API_PATH_PREFIX=/api/cost-management
+MASU_API_PATH_PREFIX=/api/cost-management
+AWS_ACCESS_KEY_ID=local-dev
+AWS_SECRET_ACCESS_KEY=local-dev
+DATABASE_SERVICE_NAME=POSTGRES_SQL
+DATABASE_ENGINE=postgresql
+DATABASE_NAME=postgres
+DATABASE_USER=postgres
+DATABASE_ADMIN=postgres
+DATABASE_PASSWORD=postgres
+POSTGRES_SQL_SERVICE_HOST=localhost
+POSTGRES_SQL_SERVICE_PORT=15432
+HIVE_DATABASE_NAME=hive
+HIVE_DATABASE_USER=hive
+HIVE_DATABASE_PASSWORD=hive
+KOKU_ENV_EOF
+      ok "Minimal koku/.env created"
+    fi
+  else
+    ok "koku/.env already exists — not overwriting"
+  fi
 
   info "Installing Python dependencies"
   # PIPENV_PYTHON pins to 3.11 even if homebrew's default is newer.
@@ -227,6 +270,26 @@ if [ "$SKIP_BACKEND" = false ]; then
   info "Installing pre-commit hooks"
   "$PIPENV_BIN" run pre-commit install
   ok "pre-commit hooks installed"
+
+  # Warn about a known macOS credential helper conflict.
+  # If the contributor has Docker Desktop installed (or ever had it installed),
+  # ~/.docker/config.json may reference "credsStore": "desktop".
+  # Podman's docker-compat layer cannot call docker-credential-desktop and fails with:
+  #   error listing credentials - err: exec: "docker-credential-desktop": executable file not found in $PATH
+  # The safe fix is to remove (or rename) ~/.docker/config.json so Podman uses
+  # its own credential store. We warn but do NOT automatically delete the file
+  # because it may contain credentials the contributor wants to keep.
+  if [ -f "$HOME/.docker/config.json" ]; then
+    if grep -q "desktop" "$HOME/.docker/config.json" 2>/dev/null; then
+      warn "~/.docker/config.json references 'desktop' credential helper."
+      warn "This can cause: exec: \"docker-credential-desktop\": executable file not found in \$PATH"
+      warn "If the image build fails with that error, run:"
+      warn "  mv ~/.docker/config.json ~/.docker/config.json.bak"
+      warn "Then re-run this script. Your credentials will be in the .bak file."
+      printf "\n  Press Enter to continue, or Ctrl-C to abort and fix it now: "
+      read -r _
+    fi
+  fi
 
   info "Starting Compose services"
   # docker-up-min-trino starts PostgreSQL, Valkey, Unleash, koku-server,
@@ -249,6 +312,19 @@ if [ "$SKIP_BACKEND" = false ]; then
   trap 'rm -f "$_PODMAN_OVR"' EXIT
   printf 'services:\n  koku-worker:\n    ports: !reset\n      - "6001:9000"\n      - "5678:5678"\n  trino:\n    links: !reset\n' \
     > "$_PODMAN_OVR"
+  # If this is a re-run (containers from a previous attempt exist in a broken state),
+  # koku recommends running `make clean` first. We check for leftover koku containers
+  # and suggest a clean if found. We do NOT run clean automatically because it is
+  # destructive (removes volumes and all data).
+  _leftover_containers=$(podman ps -a --format "{{.Names}}" 2>/dev/null | grep -c "^koku" || true)
+  if [ "$_leftover_containers" -gt 0 ]; then
+    warn "Found $_leftover_containers existing koku container(s) from a previous run."
+    warn "If this is a fresh start after a failed attempt, consider running:"
+    warn "  cd $KOKU_DIR && make DOCKER=\"$(command -v podman)\" docker-down"
+    warn "Then re-run this script with --skip-frontend."
+    warn "Continuing with existing containers — press Ctrl-C to abort."
+    sleep 3
+  fi
   COMPOSE_FILE="docker-compose.yml:$_PODMAN_OVR" \
     "$PIPENV_BIN" run make DOCKER="$(command -v podman)" docker-up-min-trino
   ok "Containers started"
@@ -269,6 +345,18 @@ if [ "$SKIP_BACKEND" = false ]; then
   # whose message contains the word "variable", which the grep filter suppresses.
   export USER_ID="${USER_ID:-$(id -u)}"
   export GROUP_ID="${GROUP_ID:-$(id -g)}"
+  # Also write USER_ID and GROUP_ID into koku's .env so that subsequent
+  # `podman compose start` calls (which bypass this script and therefore bypass
+  # the `export` above) also work correctly.
+  # koku's docker-compose.yml requires both: ${USER_ID:?} and ${GROUP_ID:?}
+  if ! grep -q "^USER_ID=" .env 2>/dev/null; then
+    echo "USER_ID=$(id -u)" >> .env
+    ok "USER_ID added to koku/.env"
+  fi
+  if ! grep -q "^GROUP_ID=" .env 2>/dev/null; then
+    echo "GROUP_ID=$(id -g)" >> .env
+    ok "GROUP_ID added to koku/.env"
+  fi
   info "Restarting Trino with local-dev credentials (Glue connector fix)"
   AWS_ACCESS_KEY_ID=local-dev AWS_SECRET_ACCESS_KEY=local-dev \
     "${DC[@]}" -f docker-compose.yml -f "$_PODMAN_OVR" up -d --no-deps --force-recreate trino 2>&1 \
