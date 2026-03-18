@@ -3239,6 +3239,14 @@
               }
             ]
           },
+          "quota": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Quota names"
+              }
+            ]
+          },
           "region": {
             "value": [
               {
@@ -7898,6 +7906,22 @@
               }
             ]
           },
+          "quota": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Quota"
+              }
+            ]
+          },
+          "quota_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Quota type"
+              }
+            ]
+          },
           "region": {
             "value": [
               {
@@ -9477,6 +9501,34 @@
               }
             ]
           },
+          "quota": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "quota"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "quotas"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
           "region": {
             "value": [
               {
@@ -9898,6 +9950,34 @@
                       {
                         "type": 0,
                         "value": "Projects"
+                      }
+                    ]
+                  }
+                },
+                "pluralType": "cardinal",
+                "type": 6,
+                "value": "count"
+              }
+            ]
+          },
+          "quota": {
+            "value": [
+              {
+                "offset": 0,
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Quota"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "Quotas"
                       }
                     ]
                   }

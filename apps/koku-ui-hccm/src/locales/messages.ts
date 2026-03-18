@@ -1393,6 +1393,7 @@ export default defineMessages({
       'payer_tenant_id {Account names} ' +
       'product_service {Service names} ' +
       'project {Project names} ' +
+      'quota {Quota names} ' +
       'region {Region names} ' +
       'resource_location {Region names} ' +
       'service {Service names} ' +
@@ -2222,6 +2223,8 @@ export default defineMessages({
       'vm_name {Virtual machine}' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
+      'quota {Quota} ' +
+      'quota_type {Quota type} ' +
       'other {}}',
     description: 'Filter by values',
     id: 'filterByValues',
@@ -2384,6 +2387,7 @@ export default defineMessages({
       'payer_tenant_id {{count, plural, one {account} other {accounts}}} ' +
       'product_service {{count, plural, one {service} other {services}}} ' +
       'project {{count, plural, one {project} other {projects}}} ' +
+      'quota {{count, plural, one {quota} other {quotas}}} ' +
       'region {{count, plural, one {region} other {regions}}} ' +
       'resource_location {{count, plural, one {region} other {regions}}} ' +
       'service {{count, plural, one {service} other {services}}} ' +
@@ -2406,6 +2410,7 @@ export default defineMessages({
       'payer_tenant_id {{count, plural, one {Account} other {Accounts}}} ' +
       'product_service {{count, plural, one {Service} other {Services}}} ' +
       'project {{count, plural, one {Project} other {Projects}}} ' +
+      'quota {{count, plural, one {Quota} other {Quotas}}} ' +
       'region {{count, plural, one {Region} other {Regions}}} ' +
       'resource_location {{count, plural, one {Region} other {Regions}}} ' +
       'service {{count, plural, one {Service} other {Services}}} ' +

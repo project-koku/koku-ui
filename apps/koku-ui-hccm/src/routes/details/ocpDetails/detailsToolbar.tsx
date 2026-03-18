@@ -101,6 +101,15 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps, Det
       },
       { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'quota' }), key: 'quota' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'quota_type' }),
+        key: 'quota_type',
+        selectOptions: [
+          { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
+          { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
+        ],
+      },
     ];
 
     if (tagReport?.data?.length) {

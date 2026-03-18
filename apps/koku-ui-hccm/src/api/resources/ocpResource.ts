@@ -9,6 +9,7 @@ export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
   [ResourceType.gpuVendor]: 'resource-types/openshift-gpu-vendors/',
   [ResourceType.node]: 'resource-types/openshift-nodes/',
   [ResourceType.project]: 'resource-types/openshift-projects/',
+  [ResourceType.quota]: 'resource-types/openshift-quotas/',
   [ResourceType.virtualization]: 'resource-types/openshift-virtual-machines/',
 };
 
