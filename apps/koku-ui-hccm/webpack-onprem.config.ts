@@ -102,6 +102,7 @@ const config: Configuration = {
     new DefinePlugin({
       'process.env.KOKU_UI_COMMITHASH': undefined,
       'process.env.KOKU_UI_PKGNAME': undefined,
+      'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('true'),
     }),
   ],
   resolve: {

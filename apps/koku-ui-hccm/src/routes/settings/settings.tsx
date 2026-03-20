@@ -1,4 +1,5 @@
 import { PageSection, Tab, TabContent, Tabs, TabTitleText, Title, TitleSizes } from '@patternfly/react-core';
+import { ScalprumComponent } from '@scalprum/react-core';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
@@ -21,6 +22,7 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
 import { formatPath } from 'utils/paths';
+import { isSourcesSettingsTabEnabled } from 'utils/sourcesSettingsFeature';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
@@ -32,6 +34,7 @@ const enum SettingsTab {
   costCategory = 'cost_category',
   platformProjects = 'platform_projects',
   tags = 'tags',
+  sources = 'sources',
 }
 
 export const getIdKeyForTab = (tab: SettingsTab) => {
@@ -46,6 +49,8 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
       return 'platform_projects';
     case SettingsTab.tags:
       return 'tags';
+    case SettingsTab.sources:
+      return 'sources';
   }
 };
 
@@ -107,6 +112,14 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
       },
+      ...(isSourcesSettingsTabEnabled()
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: SettingsTab.sources,
+            },
+          ]
+        : []),
     ];
     return availableTabs;
   };
@@ -161,6 +174,17 @@ const Settings: React.FC<SettingsProps> = () => {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
+    } else if (currentTab === SettingsTab.sources) {
+      return hasSettingsAccess(userAccess) ? (
+        <ScalprumComponent
+          scope="sources"
+          module="./SourcesPage"
+          fallback={<LoadingState />}
+          {...({ canWrite: canWrite() } as Record<string, unknown>)}
+        />
+      ) : (
+        notAuthorized
+      );
     } else {
       return emptyTab;
     }
@@ -185,6 +209,8 @@ const Settings: React.FC<SettingsProps> = () => {
       return intl.formatMessage(messages.platformProjectsTitle);
     } else if (tab === SettingsTab.tags) {
       return intl.formatMessage(messages.tagLabelsTitle);
+    } else if (tab === SettingsTab.sources) {
+      return intl.formatMessage(messages.sourcesTabTitle);
     }
   };
 
