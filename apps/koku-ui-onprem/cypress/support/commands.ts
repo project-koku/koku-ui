@@ -2,6 +2,9 @@
  * Custom Cypress commands for the onprem application
  */
 
+import { buildSourcesDataset, type MockSourceRow } from './sourcesDataset';
+import { filterSortPaginateSources } from './sourcesListQuery';
+
 // Response for user-access API
 const userAccessResponse = {
   statusCode: 200,
@@ -367,6 +370,274 @@ Cypress.Commands.add('loadApiInterceptors', () => {
       },
     }
   ).as('getFeatureFlags');
+});
+
+/**
+ * Override the sources API interceptor to return an empty list.
+ */
+Cypress.Commands.add('interceptSourcesEmpty', () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    {
+      statusCode: 200,
+      body: {
+        meta: { count: 0 },
+        links: { first: null, next: null, previous: null, last: null },
+        data: [],
+      },
+    }
+  ).as('getSourcesEmpty');
+});
+
+/**
+ * Override the sources API interceptor with full CRUD support.
+ */
+Cypress.Commands.add('interceptSourcesCRUD', () => {
+  const mockSources = [
+    {
+      id: 1,
+      uuid: '11111111-1111-1111-1111-111111111111',
+      name: 'My OpenShift Cluster',
+      source_type: 'OCP',
+      authentication: { credentials: { cluster_id: 'test-cluster-001' } },
+      billing_source: null,
+      provider_linked: true,
+      active: true,
+      paused: false,
+      current_month_data: true,
+      previous_month_data: true,
+      has_data: true,
+      created_timestamp: '2026-01-15T10:30:00Z',
+    },
+    {
+      id: 2,
+      uuid: '22222222-2222-2222-2222-222222222222',
+      name: 'AWS Production Account',
+      source_type: 'AWS',
+      authentication: { credentials: { role_arn: 'arn:aws:iam::123456789012:role/CostManagement' } },
+      billing_source: { data_source: { bucket: 'my-cost-bucket', region: 'us-east-1' } },
+      provider_linked: true,
+      active: true,
+      paused: false,
+      current_month_data: true,
+      previous_month_data: false,
+      has_data: true,
+      created_timestamp: '2026-02-20T14:15:00Z',
+    },
+  ];
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    req => {
+      const { data, meta } = filterSortPaginateSources(mockSources as MockSourceRow[], req.url);
+      req.reply({
+        statusCode: 200,
+        body: {
+          meta: { count: meta.count },
+          links: { first: null, next: null, previous: null, last: null },
+          data,
+        },
+      });
+    }
+  ).as('getSourcesList');
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    req => {
+      const uuid = req.url.split('/sources/')[1].replace(/\/$/, '');
+      const source = mockSources.find(s => s.uuid === uuid);
+      req.reply(source ? { statusCode: 200, body: source } : { statusCode: 404 });
+    }
+  ).as('getSourceDetail');
+
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    req => {
+      req.reply({
+        statusCode: 201,
+        body: {
+          id: 99,
+          uuid: '99999999-9999-9999-9999-999999999999',
+          name: req.body.name,
+          source_type: req.body.source_type,
+          authentication: {},
+          billing_source: null,
+          provider_linked: false,
+          active: false,
+          paused: false,
+          current_month_data: false,
+          previous_month_data: false,
+          has_data: false,
+          created_timestamp: new Date().toISOString(),
+        },
+      });
+    }
+  ).as('createSource');
+
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/api/cost-management/v1/applications',
+    },
+    {
+      statusCode: 201,
+      body: { id: 99, source_id: 99, application_type_id: 0, extra: {} },
+    }
+  ).as('createApplication');
+
+  cy.intercept(
+    {
+      method: 'PATCH',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    req => {
+      const uuid = req.url.split('/sources/')[1].replace(/\/$/, '');
+      const idx = mockSources.findIndex(s => s.uuid === uuid);
+      if (idx === -1) {
+        req.reply({ statusCode: 404 });
+        return;
+      }
+      mockSources[idx] = { ...mockSources[idx], ...req.body } as (typeof mockSources)[0];
+      req.reply({
+        statusCode: 200,
+        body: mockSources[idx],
+      });
+    }
+  ).as('updateSource');
+
+  cy.intercept(
+    {
+      method: 'DELETE',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    { statusCode: 204, body: '' }
+  ).as('deleteSource');
+});
+
+/**
+ * Large deterministic sources list for pagination, name search, and detail navigation (no real API).
+ */
+Cypress.Commands.add('interceptSourcesWithDataset', (options?: { total?: number }) => {
+  const total = options?.total ?? 47;
+  const mutableSources: MockSourceRow[] = buildSourcesDataset(total);
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    req => {
+      const { data, meta } = filterSortPaginateSources(mutableSources, req.url);
+      req.reply({
+        statusCode: 200,
+        body: {
+          meta: { count: meta.count },
+          links: { first: null, next: null, previous: null, last: null },
+          data,
+        },
+      });
+    }
+  ).as('getSourcesList');
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    req => {
+      const uuid = req.url.split('/sources/')[1].replace(/\/$/, '');
+      const source = mutableSources.find(s => s.uuid === uuid);
+      req.reply(source ? { statusCode: 200, body: source } : { statusCode: 404 });
+    }
+  ).as('getSourceDetail');
+
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/api/cost-management/v1/sources/',
+    },
+    req => {
+      const body = req.body as { name?: string; source_type?: string };
+      const nextId = mutableSources.reduce((m, s) => Math.max(m, s.id), 0) + 1;
+      const hex12 = nextId.toString(16).padStart(12, '0');
+      const created: MockSourceRow = {
+        id: nextId,
+        uuid: `99999999-9999-9999-9999-${hex12}`,
+        name: String(body.name ?? 'New'),
+        source_type: (body.source_type as MockSourceRow['source_type']) ?? 'OCP',
+        authentication: { credentials: {} },
+        billing_source: null,
+        provider_linked: false,
+        active: false,
+        paused: false,
+        current_month_data: false,
+        previous_month_data: false,
+        has_data: false,
+        created_timestamp: new Date().toISOString(),
+      };
+      mutableSources.push(created);
+      req.reply({ statusCode: 201, body: created });
+    }
+  ).as('createSource');
+
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/api/cost-management/v1/applications',
+    },
+    {
+      statusCode: 201,
+      body: { id: 99, source_id: 99, application_type_id: 0, extra: {} },
+    }
+  ).as('createApplication');
+
+  cy.intercept(
+    {
+      method: 'PATCH',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    req => {
+      const uuid = req.url.split('/sources/')[1].replace(/\/$/, '');
+      const idx = mutableSources.findIndex(s => s.uuid === uuid);
+      if (idx === -1) {
+        req.reply({ statusCode: 404 });
+        return;
+      }
+      const body = req.body as Record<string, unknown>;
+      mutableSources[idx] = { ...mutableSources[idx], ...body } as MockSourceRow;
+      req.reply({
+        statusCode: 200,
+        body: mutableSources[idx],
+      });
+    }
+  ).as('updateSource');
+
+  cy.intercept(
+    {
+      method: 'DELETE',
+      pathname: /^\/api\/cost-management\/v1\/sources\/[^/]+\/$/,
+    },
+    req => {
+      const uuid = req.url.split('/sources/')[1].replace(/\/$/, '');
+      const idx = mutableSources.findIndex(s => s.uuid === uuid);
+      if (idx >= 0) {
+        mutableSources.splice(idx, 1);
+      }
+      req.reply({ statusCode: 204, body: '' });
+    }
+  ).as('deleteSource');
 });
 
 /**
