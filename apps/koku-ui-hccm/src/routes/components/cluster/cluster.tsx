@@ -88,7 +88,7 @@ class ClusterBase extends React.Component<ClusterProps, ClusterState> {
         idKey: groupBy as any,
       });
 
-      // Get clusters from all projects -- see https://issues.redhat.com/browse/COST-3371
+      // Get clusters from all projects -- see https://redhat.atlassian.net/browse/COST-3371
       computedItems.map(item => {
         if (item.clusters) {
           item.clusters.map(cluster => {

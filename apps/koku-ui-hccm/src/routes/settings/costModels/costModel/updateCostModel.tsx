@@ -62,7 +62,7 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
     const { costModel, intl, isProcessing, setDialogOpen, updateCostModel, updateError } = this.props;
     const current = costModel[0];
 
-    // Workaround for https://issues.redhat.com/browse/COST-4355
+    // Workaround for https://redhat.atlassian.net/browse/COST-4355
     const updateRatesCurrency = rates => {
       if (!rates) {
         return rates;

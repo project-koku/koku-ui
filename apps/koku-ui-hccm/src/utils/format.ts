@@ -80,7 +80,7 @@ export const formatCurrency: Formatter = (value: number, units: string, options:
   const currency = units ? units.toUpperCase() : 'USD';
   let fValue = value;
 
-  // Don't show negative zero -- https://issues.redhat.com/browse/COST-3087
+  // Don't show negative zero -- https://redhat.atlassian.net/browse/COST-3087
   if (!value || Number(value).toFixed(2) === '-0.00') {
     fValue = 0;
   }
@@ -136,7 +136,7 @@ export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
 };
 
 // Formats cost model rates with 0 to 10 decimals
-// https://issues.redhat.com/browse/COST-1884
+// https://redhat.atlassian.net/browse/COST-1884
 export const formatCurrencyRate: Formatter = (
   value: number,
   units: string,
@@ -149,7 +149,7 @@ export const formatCurrencyRate: Formatter = (
 };
 
 // Formats cost model rates with 0 to 10 decimals
-// https://issues.redhat.com/browse/COST-1884
+// https://redhat.atlassian.net/browse/COST-1884
 export const formatCurrencyRateRaw: Formatter = (
   value: number,
   units: string,
@@ -185,7 +185,7 @@ export const formatPercentage: PercentageFormatter = (
 };
 
 // Formats cost model markup with 0 to 10 decimals
-// https://issues.redhat.com/browse/COST-1884
+// https://redhat.atlassian.net/browse/COST-1884
 export const formatPercentageMarkup: PercentageFormatter = (
   value,
   options: FormatOptions = {

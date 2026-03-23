@@ -139,7 +139,7 @@ This [RELEASE][release-doc] doc describes how to release ROS UI to each staging 
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
-[Jira]: https://issues.redhat.com/projects/COST/
+[Jira]: https://redhat.atlassian.net/projects/COST/
 [koku-ui-readme]: https://github.com/project-koku/koku-ui#readme
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true
 [nodejs]: https://nodejs.org/en/
