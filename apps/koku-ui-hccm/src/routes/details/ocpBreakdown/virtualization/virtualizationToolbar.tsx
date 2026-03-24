@@ -235,9 +235,9 @@ const mapStateToProps = createMapStateToProps<VirtualizationToolbarOwnProps, Vir
         ...filterByParams,
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        // Related to https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
         ...(isFilterByExact && {
-          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
           [`exact:${groupBy}`]: groupByValue,
         }),
       },

@@ -3,6 +3,7 @@ import { createAction } from 'typesafe-actions';
 export interface FeatureToggleActionMeta {
   isAwsEc2InstancesToggleEnabled?: boolean;
   isDebugToggleEnabled?: boolean;
+  isEfficiencyToggleEnabled?: boolean;
   isExactFilterToggleEnabled?: boolean;
   isExportsToggleEnabled?: boolean;
   isGpuToggleEnabled?: boolean;

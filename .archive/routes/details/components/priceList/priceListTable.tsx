@@ -20,7 +20,7 @@ const PriceListTable = ({ rates, t }) => {
         t('details.price_list.modal.applied_usage_date_range'),
       ]}
       rows={rates.map(metric => {
-        // Avoid relying on API labels as i18n keys -- see https://issues.redhat.com/browse/COST-50
+        // Avoid relying on API labels as i18n keys -- see https://redhat.atlassian.net/browse/COST-50
         const s = metric.display.replace(/cpu/g, 'CPU');
         return [
           t(`details.price_list.modal.metric_display`, {

@@ -71,5 +71,5 @@ This script will run concurrent dev builds of hccm, ros and onprem applications.
 After the successful build, navigate to http://localhost:9000
 
 
-[Jira]: https://issues.redhat.com/projects/COST/
+[Jira]: https://redhat.atlassian.net/projects/COST/
 [Patternfly]: https://www.patternfly.org/
