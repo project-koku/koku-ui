@@ -370,6 +370,17 @@ Cypress.Commands.add('loadApiInterceptors', () => {
 });
 
 /**
+ * Intercept the /logout navigation so the browser stays in a testable state.
+ */
+Cypress.Commands.add('interceptLogout', () => {
+  cy.intercept('GET', '/logout', {
+    statusCode: 200,
+    body: '<html><body>Logged out</body></html>',
+    headers: { 'content-type': 'text/html' },
+  }).as('logoutPage');
+});
+
+/**
  * Wait for the federated module to load and render.
  * This ensures the Scalprum component has finished loading the remote module.
  */
