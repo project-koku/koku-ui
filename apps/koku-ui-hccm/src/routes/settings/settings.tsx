@@ -4,6 +4,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
+import { isSourcesSettingsTabEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useState } from 'react';
@@ -22,7 +23,6 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
 import { formatPath } from 'utils/paths';
-import { isSourcesSettingsTabEnabled } from 'utils/sourcesSettingsFeature';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
@@ -112,7 +112,7 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
       },
-      ...(isSourcesSettingsTabEnabled()
+      ...(isSourcesSettingsTabEnabled
         ? [
             {
               contentRef: React.createRef(),
