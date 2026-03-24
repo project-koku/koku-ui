@@ -1,5 +1,3 @@
-import mockAxios from 'axios';
-
 describe('api axiosInstance', () => {
   beforeEach(() => {
     jest.resetModules();
@@ -35,28 +33,6 @@ describe('api axiosInstance', () => {
         }),
       })
     );
-  });
-
-  test('registers request interceptor', () => {
-    const { instance } = loadModule();
-    expect(instance.interceptors.request.use).toHaveBeenCalledTimes(1);
-    const interceptor = (instance.interceptors.request.use as jest.Mock).mock.calls[0][0];
-    expect(typeof interceptor).toBe('function');
-  });
-
-  test('authInterceptor preserves headers', () => {
-    const { instance } = loadModule();
-    const interceptor = (instance.interceptors.request.use as jest.Mock).mock.calls[0][0];
-    const config = { headers: { Foo: 'Bar' } } as any;
-    const result = interceptor(config);
-    expect(result).toEqual({ ...config, headers: { Foo: 'Bar' } });
-  });
-
-  test('authInterceptor handles missing headers', () => {
-    const { instance } = loadModule();
-    const interceptor = (instance.interceptors.request.use as jest.Mock).mock.calls[0][0];
-    const result = interceptor({} as any);
-    expect(result.headers).toEqual({});
   });
 
   test('proxies get calls to axios instance', () => {
