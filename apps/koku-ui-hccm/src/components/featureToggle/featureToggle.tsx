@@ -4,6 +4,12 @@ import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
+/**
+ * Build-time flag from webpack DefinePlugin (`fec.config.js` / `webpack-onprem.config.ts`).
+ * Not an Unleash toggle.
+ */
+export const isSourcesSettingsTabEnabled = process.env.KOKU_UI_SOURCES_SETTINGS_TAB === 'true';
+
 export const enum FeatureToggle {
   awsEc2Instances = 'cost-management.koku-ui-hccm.aws-ec2-instances', // https://issues.redhat.com/browse/COST-4855
   debug = 'cost-management.koku-ui-hccm.debug', // Logs user data (e.g., account ID) in browser console
