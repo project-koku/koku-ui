@@ -320,7 +320,7 @@ class CostChartBase extends React.Component<CostChartProps, State> {
     const _3rdDay = _1stDay + half;
     const _4thDay = lastDate - Math.floor(half / 2);
 
-    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    // Clone original container. See https://redhat.atlassian.net/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
           disable: !isDataAvailable(series, hiddenSeries),

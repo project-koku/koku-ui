@@ -25,7 +25,7 @@ export const removeItem = (id: string) => {
 };
 
 export const setItem = async (id: string, value: string) => {
-  // Don't store undefined https://issues.redhat.com/browse/COST-3683
+  // Don't store undefined https://redhat.atlassian.net/browse/COST-3683
   if (!value) {
     return;
   }

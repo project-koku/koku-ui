@@ -153,7 +153,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
         ...(groupByOrgValue && useFilter && { [orgUnitIdKey]: groupByOrgValue }),
-        // Workaround for https://issues.redhat.com/browse/COST-1189
+        // Workaround for https://redhat.atlassian.net/browse/COST-1189
         ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
@@ -179,9 +179,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       },
       filter_by: {
         ...baseQuery.filter_by,
-        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        // Omit filters associated with the current group_by -- see https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
         ...(isFilterByExact && {
-          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
           [`exact:${groupBy}`]: groupByValue,
         }),
       },
@@ -206,9 +206,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
       },
       filter_by: {
         ...baseQuery.filter_by,
-        // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        // Omit filters associated with the current group_by -- see https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
         ...(isFilterByExact && {
-          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
           [`exact:${groupBy}`]: groupByValue,
         }),
       },

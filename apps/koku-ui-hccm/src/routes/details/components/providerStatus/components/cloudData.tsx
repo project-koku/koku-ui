@@ -25,7 +25,7 @@ const CloudData: React.FC<CloudDataProps> = ({ provider }: CloudDataProps) => {
   }
 
   // Note: The sources API returns two types for last_payload_received_at. We're expecting a date string, but a boolean
-  // may be returned instead. See https://issues.redhat.com/browse/COST-5750
+  // may be returned instead. See https://redhat.atlassian.net/browse/COST-5750
 
   return (
     <>

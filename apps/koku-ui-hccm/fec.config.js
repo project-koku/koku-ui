@@ -46,7 +46,7 @@ module.exports = {
   useCache: true,
   useProxy: process.env.LOCAL_API_PORT ? false : true,
   /**
-   * Temporarily disabled HMR -- see https://issues.redhat.com/browse/COST-3224
+   * Temporarily disabled HMR -- see https://redhat.atlassian.net/browse/COST-3224
    *
   ...(process.env.HMR && { _unstableHotReload: process.env.HMR === 'true' }),
    */
@@ -91,6 +91,8 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.KOKU_UI_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
       'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
+      // The Sources UI/MFE exists only in the on-prem bundle (webpack-onprem); hide tab on Consoledot.
+      'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('false'),
     }),
   ],
   resolve: {

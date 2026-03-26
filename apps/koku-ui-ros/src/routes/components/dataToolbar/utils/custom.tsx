@@ -30,7 +30,7 @@ export const getCustomSelect = ({
   selectOptions?: ToolbarChipGroupExt[];
   selectClassName?: string;
 }) => {
-  // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+  // Todo: categoryName workaround for https://redhat.atlassian.net/browse/COST-2094
   const categoryName = {
     name: categoryOption.name,
     key: categoryOption.key,

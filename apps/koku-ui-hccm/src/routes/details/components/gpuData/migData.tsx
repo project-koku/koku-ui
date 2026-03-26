@@ -123,10 +123,10 @@ export const useMapToProps = ({ query, reportPathsType, reportType }: MigMapProp
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
-      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      // Omit filters associated with the current group_by -- see https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
       // Note: We're not inserting PVC information for the 'Platform' project
       ...(isFilterByExact && {
-        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
         [`exact:${groupBy}`]: groupByValue,
       }),
       ...query.filter_by,

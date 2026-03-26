@@ -87,7 +87,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
   };
   public state: ExportModalState = { ...this.defaultState };
 
-  // Reset default state upon close -- see https://issues.redhat.com/browse/COST-1134
+  // Reset default state upon close -- see https://redhat.atlassian.net/browse/COST-1134
   private handleOnClose = () => {
     this.setState({ ...this.defaultState }, () => {
       this.props.onClose(false);

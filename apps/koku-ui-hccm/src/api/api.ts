@@ -35,7 +35,7 @@ function authInterceptor(reqConfig: AxiosRequestConfig) {
 // Create an Axios instance
 //
 // Note: Setting global defaults may affect the base URL in Cost Management, HCS, and OCM, when navigating between apps
-// See https://issues.redhat.com/browse/RHCLOUD-25573
+// See https://redhat.atlassian.net/browse/RHCLOUD-25573
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: '/api/cost-management/v1/',
   headers: {

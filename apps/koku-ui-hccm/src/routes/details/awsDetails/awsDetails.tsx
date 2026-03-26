@@ -344,7 +344,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
+      // filter_by: undefined, // Preserve filter -- see https://redhat.atlassian.net/browse/COST-1090
       group_by: {
         [groupByKey]: value,
       },
@@ -505,7 +505,7 @@ const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStat
     },
     filter_by: {
       ...query.filter_by,
-      // Workaround for https://issues.redhat.com/browse/COST-1189
+      // Workaround for https://redhat.atlassian.net/browse/COST-1189
       ...(query.filter_by &&
         query.filter_by[orgUnitIdKey] && {
           [`${logicalOrPrefix}${orgUnitIdKey}`]: query.filter_by[orgUnitIdKey],
