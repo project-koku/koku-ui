@@ -22,7 +22,7 @@ export const defaultFilters = {
   tag: {},
 };
 
-// Remove trailing commas -- see https://issues.redhat.com/browse/COST-3641
+// Remove trailing commas -- see https://redhat.atlassian.net/browse/COST-3641
 export const cleanInput = (value: string) => {
   return value.replace(/,*$/g, '').replace(/&*$/g, '');
 };

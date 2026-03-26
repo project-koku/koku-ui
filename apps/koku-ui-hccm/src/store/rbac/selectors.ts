@@ -23,7 +23,7 @@ export const isCostModelWritePermission = (state: RootState) => {
     return false;
   }
   // Check for multiple roles; cost-management:cost-model:read and cost-management:cost-model:write
-  // See https://issues.redhat.com/browse/COST-2816
+  // See https://redhat.atlassian.net/browse/COST-2816
   for (const item of costManagementPermissions) {
     if (hasCostModelWritePermission(item)) {
       return true;
@@ -45,7 +45,7 @@ export const isSettingsWritePermission = (state: RootState) => {
     return false;
   }
   // Check for multiple roles; cost-management:cost-model:read and cost-management:cost-model:write
-  // See https://issues.redhat.com/browse/COST-2816
+  // See https://redhat.atlassian.net/browse/COST-2816
   for (const item of costManagementPermissions) {
     if (hasSettingsWritePermission(item)) {
       return true;

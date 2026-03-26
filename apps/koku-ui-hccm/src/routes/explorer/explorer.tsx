@@ -253,7 +253,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        menuAppendTo={document.body} // Page scroll workaround https://issues.redhat.com/browse/COST-5320
+        menuAppendTo={document.body} // Page scroll workaround https://redhat.atlassian.net/browse/COST-5320
         onPerPageSelect={(event, perPage) => handleOnPerPageSelect(query, router, perPage)}
         onSetPage={(event, pageNumber) => handleOnSetPage(query, router, report, pageNumber)}
         page={page}
@@ -387,7 +387,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
+      // filter_by: undefined, // Preserve filter -- see https://redhat.atlassian.net/browse/COST-1090
       group_by: {
         [groupByKey]: value,
       },
