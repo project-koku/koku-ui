@@ -106,7 +106,7 @@ const useMapToProps = ({ resourcePathsType, resourceType, search }: ResourceFetc
     if (search?.trim().length && !resourceError && resourceFetchStatus !== FetchStatus.inProgress) {
       clearTimeout(searchTimeout);
 
-      // Delay was 750ms, but reduced -- https://issues.redhat.com/browse/COST-1742
+      // Delay was 750ms, but reduced -- https://redhat.atlassian.net/browse/COST-1742
       setSearchTimeout(
         setTimeout(() => {
           dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, resourceQueryString));

@@ -1,5 +1,6 @@
 import { Button, ButtonVariant, FormGroup, Split, SplitItem } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
+import { getQuery } from 'api/queries/query';
 import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
 import { intl as defaultIntl } from 'components/i18n';
@@ -141,22 +142,26 @@ const GpuRatesFormBase: React.FC<GpuRatesFormProps> = ({
 const useMapToProps = ({ resourcePathsType, resourceType, tagKey }: GpuRatesFormMapProps): GpuRatesFormStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const queryString = `vendor_name=${tagKey}`;
+  const reportQuery = {
+    limit: 100,
+    vendor_name: tagKey,
+  };
+  const reportQueryString = getQuery(reportQuery);
   const resource = useSelector((state: RootState) =>
-    resourceSelectors.selectResource(state, resourcePathsType, resourceType, queryString)
+    resourceSelectors.selectResource(state, resourcePathsType, resourceType, reportQueryString)
   );
   const resourceFetchStatus = useSelector((state: RootState) =>
-    resourceSelectors.selectResourceFetchStatus(state, resourcePathsType, resourceType, queryString)
+    resourceSelectors.selectResourceFetchStatus(state, resourcePathsType, resourceType, reportQueryString)
   );
   const resourceError = useSelector((state: RootState) =>
-    resourceSelectors.selectResourceError(state, resourcePathsType, resourceType, queryString)
+    resourceSelectors.selectResourceError(state, resourcePathsType, resourceType, reportQueryString)
   );
 
   useEffect(() => {
     if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress && tagKey?.length > 0) {
-      dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, queryString));
+      dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, reportQueryString));
     }
-  }, [queryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType, tagKey]);
+  }, [reportQueryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType, tagKey]);
 
   return {
     resource,

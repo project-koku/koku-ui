@@ -384,7 +384,7 @@ const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps 
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
       ...(query.filter_by && query.filter_by),
       ...(isFilterByExact && {
-        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
         [`exact:${groupBy}`]: groupByValue,
       }),
     },

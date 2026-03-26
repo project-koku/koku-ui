@@ -19,6 +19,8 @@ import { ScalprumComponent } from '@scalprum/react-core';
 import React from 'react';
 import { Link, Navigate, Route, Routes, useMatch } from 'react-router-dom';
 
+import openshiftLogo from './openshift-logo.svg';
+
 export const routes = [
   {
     path: '/openshift/cost-management',
@@ -85,7 +87,9 @@ const AppLayout = () => {
           />
         </MastheadToggle>
         <MastheadBrand>
-          <MastheadLogo component="a">Logo</MastheadLogo>
+          <MastheadLogo component="a" href="/">
+            <img src={openshiftLogo} alt="OpenShift" height={40} />
+          </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
     </Masthead>

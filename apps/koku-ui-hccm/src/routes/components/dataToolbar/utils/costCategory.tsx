@@ -129,7 +129,7 @@ export const getCostCategoryValueSelect = ({
   onCostCategoryValueInputChange?: (value: string) => void;
   resourcePathsType?: ResourcePathsType;
 }) => {
-  // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+  // Todo: categoryName workaround for https://redhat.atlassian.net/browse/COST-2094
   const categoryName = {
     name: costCategoryKeyOption.name,
     key: `${awsCategoryPrefix}${costCategoryKeyOption.key}`,

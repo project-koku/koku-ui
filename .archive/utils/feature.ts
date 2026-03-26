@@ -1,10 +1,9 @@
-// eslint-disable-next-line no-shadow
 export const enum FeatureType {
-  currency = 'currency', // Currency support https://issues.redhat.com/browse/COST-1277
-  // ninetyDays = 'ninetyDays', // Cost Explorer 90 days feature https://issues.redhat.com/browse/COST-1670
-  exports = 'exports', // Async exports https://issues.redhat.com/browse/COST-2223
-  gcpOcp = 'gcp_ocp', // GCP filtered by OpenShift https://issues.redhat.com/browse/COST-682
-  ibm = 'ibm', // IBM https://issues.redhat.com/browse/COST-935
+  currency = 'currency', // Currency support https://redhat.atlassian.net/browse/COST-1277
+  // ninetyDays = 'ninetyDays', // Cost Explorer 90 days feature https://redhat.atlassian.net/browse/COST-1670
+  exports = 'exports', // Async exports https://redhat.atlassian.net/browse/COST-2223
+  gcpOcp = 'gcp_ocp', // GCP filtered by OpenShift https://redhat.atlassian.net/browse/COST-682
+  ibm = 'ibm', // IBM https://redhat.atlassian.net/browse/COST-935
   oci = 'oci', // Oracle Cloud Infrastructure
 }
 

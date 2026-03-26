@@ -220,7 +220,7 @@ This [RELEASE][release-doc] doc describes how to release Koku UI to each staging
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe
-[Jira]: https://issues.redhat.com/projects/COST/
+[Jira]: https://redhat.atlassian.net/projects/COST/
 [koku-readme]: https://github.com/project-koku/koku#readme
 [koku-ui-ros-readme]: https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-ros/README.md
 [license-badge]: https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true

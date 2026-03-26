@@ -106,7 +106,7 @@ export const getCurrentMonthDate = (isFormatted = true) => {
   return getMonthDate(0, isFormatted);
 };
 
-// Returns offset + 1 days, including today's date. See https://issues.redhat.com/browse/COST-1117
+// Returns offset + 1 days, including today's date. See https://redhat.atlassian.net/browse/COST-1117
 export const getLastDaysDate = (offset: number, isFormatted = true) => {
   const endDate = getToday();
   const startDate = getToday();
