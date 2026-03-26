@@ -117,9 +117,10 @@ const GpuTable: React.FC<GpuTableProps> = ({
             value: item?.gpu_mode ?? '',
           },
         ],
-        children: item?.gpu_mode?.toLowerCase() === 'mig' && isMigToggleEnabled && (
-          <MigData reportPathsType={reportPathsType} reportType={reportType} />
-        ),
+        // Workaround for old versions of the operator not having mig profile fields yet, so the API may return zero here
+        children: typeof item?.gpu_mode === 'string' &&
+          item?.gpu_mode?.toLowerCase() === 'mig' &&
+          isMigToggleEnabled && <MigData reportPathsType={reportPathsType} reportType={reportType} />,
         item,
       });
     });

@@ -302,7 +302,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
           const item = itemMap.get(mapId);
           if (item) {
             // When applying multiple group_by params, costs may be split between regions. We need to sum those costs
-            // See https://issues.redhat.com/browse/COST-1131
+            // See https://redhat.atlassian.net/browse/COST-1131
             itemMap.set(mapId, {
               ...item,
               ...getUsageData(val, item), // capacity, limit, request, & usage
