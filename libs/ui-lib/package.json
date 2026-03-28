@@ -6,12 +6,19 @@
   "author": "Red Hat",
   "license": "Apache-2.0",
   "private": true,
+  "main": "./src/index.ts",
   "files": [
     "dist",
     "src"
   ],
   "exports": {
+    ".": {
+      "webpack": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
     "./*": {
+      "webpack": "./src/*",
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     },

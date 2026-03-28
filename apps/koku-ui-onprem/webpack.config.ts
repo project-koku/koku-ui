@@ -74,6 +74,15 @@ const config: Configuration & {
     client: {
       overlay: true,
     },
+    setupMiddlewares: (middlewares, devServer) => {
+      devServer.app?.get('/api/me', (_, res) => {
+        res.json({
+          username: 'dev-user',
+          email: 'dev@example.com',
+        });
+      });
+      return middlewares;
+    },
     proxy: [
       refresher
         ? createDevServerProxy(refresher, {
@@ -159,6 +168,7 @@ const config: Configuration & {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
+        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
       },
     }),
     new HtmlWebpackPlugin({
@@ -168,15 +178,11 @@ const config: Configuration & {
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
-    symlinks: false,
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     cacheWithContext: false,
     alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
       '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
     },
-  },
-  watchOptions: {
-    followSymlinks: true,
   },
   optimization: {
     splitChunks: {
