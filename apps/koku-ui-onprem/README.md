@@ -68,7 +68,7 @@ npm run start:onprem
 ```
 
 This script will run concurrent dev builds of hccm, ros and onprem applications.
-After the successful build, navigate to http://localhost:9000
+After the successful build, navigate to http://localhost:9001
 
 
 [Jira]: https://redhat.atlassian.net/projects/COST/

@@ -166,7 +166,7 @@ jobs:
           install-command: npm ci
           build: npm run build:onprem
           start: npm run -w @koku-ui/koku-ui-onprem start:prod
-          wait-on: http://localhost:9000
+          wait-on: http://localhost:9001
           wait-on-timeout: 120
           project: apps/koku-ui-onprem
           config-file: cypress/cypress.config.ts

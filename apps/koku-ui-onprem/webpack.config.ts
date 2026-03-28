@@ -12,6 +12,13 @@ const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'
 
 let refresher: TokenRefresher | undefined;
 
+// When running the UI with a local koku API, omit proxy header
+const proxyHeaders = process.env.API_TOKEN
+  ? {
+      Authorization: `Bearer ${process.env.API_TOKEN}`,
+    }
+  : undefined;
+
 if (NODE_ENV !== 'production' && !process.env.CI) {
   if (!process.env.API_PROXY_URL) {
     throw new Error(
@@ -23,7 +30,8 @@ if (NODE_ENV !== 'production' && !process.env.CI) {
   const hasKeycloak =
     process.env.KEYCLOAK_TOKEN_URL && process.env.KEYCLOAK_CLIENT_ID && process.env.KEYCLOAK_CLIENT_SECRET;
 
-  if (!hasKeycloak && !process.env.API_TOKEN) {
+  // When running the UI with a local koku API, API_TOKEN is omitted
+  if (hasKeycloak && !process.env.API_TOKEN) {
     throw new Error(
       '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
         'Provide one of:\n' +
@@ -53,7 +61,7 @@ const config: Configuration & {
   devtool: 'eval-source-map',
   devServer: {
     host: 'localhost',
-    port: 9000,
+    port: 9001,
     historyApiFallback: true,
     open: NODE_ENV !== 'production',
     static: [
@@ -88,9 +96,7 @@ const config: Configuration & {
             changeOrigin: true,
             secure: false,
             pathRewrite: { '^/api/cost-management/v1': '' },
-            headers: {
-              Authorization: `Bearer ${process.env.API_TOKEN}`,
-            },
+            ...(proxyHeaders && { headers: proxyHeaders }),
           },
     ],
   },
