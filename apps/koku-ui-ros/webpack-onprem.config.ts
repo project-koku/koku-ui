@@ -116,6 +116,10 @@ const config: Configuration = {
     modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
     alias: {
       '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
+      '@redhat-cloud-services/frontend-components-notifications': path.resolve(
+        __dirname,
+        '../../node_modules/@redhat-cloud-services/frontend-components-notifications'
+      ),
       '@redhat-cloud-services': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
       '@unleash': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src/unleash'),
     },

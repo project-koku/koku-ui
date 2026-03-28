@@ -62,13 +62,25 @@ token in the background before it expires.
 
 ### Starting the dev server
 
-From the root of the repo, run
+From the root of the repo, prefer:
+
 ```
-npm run start:onprem
+npm run start:onprem:dev
 ```
 
-This script will run concurrent dev builds of hccm, ros and onprem applications.
+That sources `scripts/setup-onprem-env.sh` (cluster discovery + env) and then runs `start:onprem`. If you already exported `API_PROXY_URL` / tokens yourself, you can run `npm run start:onprem` directly instead.
+
+Either way, this runs concurrent dev builds of the on-prem host, HCCM, ROS, and Sources MFEs.
 After the successful build, navigate to http://localhost:9000
+
+## Cypress (Integrations / Settings)
+
+From `apps/koku-ui-onprem`, with the dev server on **http://localhost:9000** (same as `cypress.config.ts` `baseUrl`):
+
+- `npm run test:cypress:open` — interactive runner (use **Integrations table — large mocked dataset** to see pagination and search against `cy.intercept` data, no backend).
+- `npm run test:cypress` — headless run.
+
+Mock helpers live under `cypress/support/` (`interceptSourcesWithDataset`, `buildSourcesDataset`, `filterSortPaginateSources`).
 
 
 [Jira]: https://redhat.atlassian.net/projects/COST/

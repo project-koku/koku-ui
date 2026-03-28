@@ -7,6 +7,23 @@ declare namespace Cypress {
     loadApiInterceptors(): Chainable<void>;
 
     /**
+     * Override the sources API interceptor to return an empty list.
+     * Useful for testing the Sources empty state with type tiles.
+     */
+    interceptSourcesEmpty(): Chainable<void>;
+
+    /**
+     * Override the sources API interceptor to return a specific list.
+     * Also intercepts POST/PATCH/DELETE for source CRUD operations.
+     */
+    interceptSourcesCRUD(): Chainable<void>;
+
+    /**
+     * Use a large deterministic sources dataset (filter, pagination, detail) with cy.intercept only.
+     */
+    interceptSourcesWithDataset(options?: { total?: number }): Chainable<void>;
+
+    /**
      * Wait for the federated module to load and render
      */
     waitForFederatedModule(): Chainable<void>;

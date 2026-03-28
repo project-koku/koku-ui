@@ -3,6 +3,7 @@
 import '@patternfly/patternfly/patternfly-addons.css';
 import './styles/global.css';
 
+import { isOnPremNotificationsHost } from '@koku-ui/ui-lib/onPremNotificationsHost';
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import { getLocale, ignoreDefaultMessageError } from 'components/i18n';
 import React from 'react';
@@ -22,6 +23,7 @@ const costStore = configureStore({
 
 const AppEntry = () => {
   const locale = getLocale();
+  const useHostNotifications = isOnPremNotificationsHost();
 
   return (
     <IntlProvider
@@ -31,7 +33,7 @@ const AppEntry = () => {
       onError={ignoreDefaultMessageError}
     >
       <Provider store={costStore as any}>
-        <NotificationsPortal />
+        {!useHostNotifications && <NotificationsPortal />}
         <App />
       </Provider>
     </IntlProvider>

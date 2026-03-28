@@ -70,6 +70,11 @@ const config: Configuration & {
         publicPath: '/costManagement/',
         watch: true,
       },
+      {
+        directory: path.resolve(__dirname, '../koku-ui-sources/dist'),
+        publicPath: '/sources/',
+        watch: true,
+      },
     ],
     client: {
       overlay: true,
