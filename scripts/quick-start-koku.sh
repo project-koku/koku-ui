@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # ============================================================
 # quick-start-koku.sh
@@ -27,9 +27,9 @@ default()
   PATH=/usr/local/bin:/opt/podman/bin:/usr/bin:/usr/sbin:${PATH}
   export PATH
 
-  SCRIPT=`basename $0`
-  SCRIPT_DIR=`dirname $0`
-  SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
+  SCRIPT=$(basename "$0")
+  SCRIPT_DIR=$(dirname "$0")
+  SCRIPT_DIR=$(cd "$SCRIPT_DIR" && pwd)
   TMP_DIR="/tmp/$SCRIPT.$$"
 
   mkdir $TMP_DIR
@@ -38,7 +38,7 @@ default()
   RUN_COMMAND=1
 
   # Podman
-  PODMAN=`command -v podman`
+  PODMAN=$(command -v podman)
   PODMAN_COMPOSE="$PODMAN compose"
   PODMAN_OVERRIDE_FILE=$TMP_DIR/koku-podman-override
   export PODMAN_COMPOSE_WARNING_LOGS=false
@@ -47,10 +47,10 @@ default()
   # the koku virtualenv. confluent-kafka links against librdkafka; cryptography
   # and psycopg2 require openssl headers; psycopg2 also needs the pg_config binary
   # from postgresql@16.
-  LIBRDKAFKA_PREFIX=`brew --prefix librdkafka`
-  OPENSSL_PREFIX=`brew --prefix openssl`
-  POSTGRESQL_PREFIX=`brew --prefix postgresql@16`
-  PYTHON_PREFIX=`brew --prefix python@3.11`
+  LIBRDKAFKA_PREFIX=$(brew --prefix librdkafka)
+  OPENSSL_PREFIX=$(brew --prefix openssl)
+  POSTGRESQL_PREFIX=$(brew --prefix postgresql@16)
+  PYTHON_PREFIX=$(brew --prefix python@3.11)
 
   export LDFLAGS="-L${OPENSSL_PREFIX}/lib -L${LIBRDKAFKA_PREFIX}/lib"
   export CPPFLAGS="-I${OPENSSL_PREFIX}/include -I${LIBRDKAFKA_PREFIX}/include"
@@ -58,13 +58,13 @@ default()
 
   # Find Koku dirs
   if [ -z "$KOKU_UI_DIR" ]; then
-    KOKU_UI_DIR=`cd $SCRIPT_DIR/..; pwd`
+    KOKU_UI_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
   fi
   if [ -z "$KOKU_DIR" ]; then
-    KOKU_DIR=`cd $SCRIPT_DIR/../../koku; pwd`
+    KOKU_DIR=$(cd "$SCRIPT_DIR/../../koku" && pwd)
   fi
   if [ -z "$NISE_DIR" ]; then
-    NISE_DIR=`cd $SCRIPT_DIR/../../nise; pwd`
+    NISE_DIR=$(cd "$SCRIPT_DIR/../../nise" && pwd)
   fi
 
   # Find pipenv -- on macOS, use '/usr/local/bin/python3.11 -m pip install pipenv'
@@ -77,8 +77,8 @@ default()
   PYTHON_BIN=""
   for CANDIDATE in python3.11 python3 python; do
     if command -v "$CANDIDATE" >/dev/null 2>&1; then
-      VERSION=`$CANDIDATE --version 2>&1 | awk '{print $2}'`
-      if [ "`echo "$VERSION" | cut -d. -f1,2`" = "3.11" ]; then
+      VERSION=$($CANDIDATE --version 2>&1 | awk '{print $2}')
+      if [[ "$(echo "$VERSION" | cut -d. -f1,2)" == "3.11" ]]; then
         PYTHON_BIN="$CANDIDATE"
         break
       fi
@@ -90,10 +90,17 @@ default()
 # Exits with a descriptive error message and install hint if any check fails.
 prereqs() {
   # koku's Makefile and dev scripts require bash 4+. macOS ships with bash 3.2
-  # (held at GPL2) — 'brew install bash' provides 5.x.
-  BASH_VERSION=`bash --version | head -1 | awk '{print $4}' | awk -F. '{print $1}'`
-  if [ "$BASH_VERSION" -lt 4 ]; then
-    echo "Error: Bash version must be 4+"
+  # (held at GPL2) — 'brew install bash' provides 5.x. BASH_VERSINFO is a bash
+  # built-in array; index 0 is the major version.
+  if (( BASH_VERSINFO[0] < 4 )); then
+    echo "Error: Bash 4+ required (running ${BASH_VERSION}). Install it: brew install bash"
+    exit 1
+  fi
+
+  # Homebrew is required to locate build dependencies (librdkafka, openssl,
+  # postgresql@16, python@3.11). Install it from https://brew.sh/
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "Error: Homebrew not found. Install it from https://brew.sh/"
     exit 1
   fi
 
@@ -104,8 +111,8 @@ prereqs() {
   fi
 
   # Check memory
-  MEMORY=`podman machine inspect --format '{{.Resources.Memory}}'`
-  if [ "$MEMORY" -lt 8192 ]; then
+  MEMORY=$(podman machine inspect --format '{{.Resources.Memory}}')
+  if (( MEMORY < 8192 )); then
     echo "Error: Set memory to 8GB (8192MB) and give it more CPUs, run:"
 cat <<- EEOOFF
   $PODMAN machine stop
@@ -117,15 +124,24 @@ EEOOFF
 
   # Check known macOS credential helper conflict.
   #
-  # If the contributor has Docker Desktop installed (or ever had it installed),
-  # ~/.docker/config.json may reference "credsStore": "desktop"
-  #
-  # Podman's docker-compat layer cannot call docker-credential-desktop and fails with:
-  #  error listing credentials - err: exec: "docker-credential-desktop": executable file not found in $PATH
-  #
-  # The safe fix is to remove (or rename) ~/.docker so Podman uses its own credential store.
-  if [ -d ~/.docker ]; then
-    echo "Error: mv ~/.docker ~/.docker.bak"
+  # Docker Desktop, Rancher Desktop, and similar tools create ~/.docker and register
+  # credential helpers that Podman's docker-compat layer cannot call, causing image
+  # pulls to fail. Checking for the directory catches all of these tools regardless
+  # of the specific config.json contents.
+  if [[ -d ~/.docker ]]; then
+    echo "Error: ~/.docker exists and may conflict with Podman."
+    echo ""
+    echo "  Docker Desktop, Rancher Desktop, and similar tools create ~/.docker"
+    echo "  and register credential helpers that Podman cannot call. This causes"
+    echo "  image pulls to fail with:"
+    echo "    error listing credentials: exec: \"docker-credential-desktop\":"
+    echo "    executable file not found in \$PATH"
+    echo ""
+    echo "  Rename the directory to remove the conflict:"
+    echo "    mv ~/.docker ~/.docker.bak"
+    echo ""
+    echo "  Your credentials are preserved in ~/.docker.bak and can be"
+    echo "  restored after Podman is set up."
     exit 1
   fi
 
@@ -166,9 +182,9 @@ EEOOFF
   fi
 
   # Check for Node.js 22+
-  NODE_MAJOR=`node --version 2>/dev/null | tr -d 'v' | cut -d. -f1`
-  if [ -z "$NODE_MAJOR" ] || [ "$NODE_MAJOR" -lt 22 ]; then
-    echo "Error: Node.js 22+ required (found: `node --version 2>/dev/null || echo 'not found'`)"
+  NODE_MAJOR=$(node --version 2>/dev/null | tr -d 'v' | cut -d. -f1)
+  if [[ -z "$NODE_MAJOR" ]] || (( NODE_MAJOR < 22 )); then
+    echo "Error: Node.js 22+ required (found: $(node --version 2>/dev/null || echo 'not found'))"
     echo "Install it: nvm install 22 && nvm use 22"
     exit 1
   fi
@@ -201,7 +217,7 @@ cat <<- EEOOFF
 
     Sets up the koku backend with sample cost data for local UI development.
 
-    sh [-x] $SCRIPT [-h|-c|-k|-n|-v]
+    bash [-x] $SCRIPT [-h|-c|-k|-n|-v]
 
     OPTIONS:
     h       Display this message
@@ -231,9 +247,9 @@ clean()
   # Koku recommends running `make clean` first. We check for leftover Koku containers
   # and suggest a clean if found. We do NOT run clean automatically because it is
   # destructive (removes volumes and all data).
-  CONTAINERS=`$PODMAN ps -a --format "{{.Names}}" 2>/dev/null | grep -c "^koku" || true`
+  CONTAINERS=$($PODMAN ps -a --format "{{.Names}}" 2>/dev/null | grep -c "^koku" || true)
   if [ "$CONTAINERS" -gt 0 ]; then
-    echo "\n*** Found $CONTAINERS Koku container(s) from a previous run"
+    echo -e "\n*** Found $CONTAINERS Koku container(s) from a previous run"
     echo "If this is a fresh start after a failed attempt, consider running:"
 cat <<- EEOOFF
   make DOCKER="$PODMAN" docker-down
@@ -250,14 +266,14 @@ EEOOFF
 # Removes the temp directory created by default() on SIGINT, SIGTERM, or EXIT.
 cleanup()
 {
-  echo "\n*** Cleaning temp directory..."
+  echo -e "\n*** Cleaning temp directory..."
   rm -rf $TMP_DIR
   exit 0
 }
 
 # Print the command to start the koku-ui-onprem frontend once the backend is ready.
 frontend() {
-  echo "\n*** To start the frontend, run:"
+  echo -e "\n*** To start the frontend, run:"
 
 cat <<- EEOOFF
   npm run start:onprem:koku
@@ -275,7 +291,7 @@ kokuEnv()
   cd $KOKU_DIR
 
   if [ ! -f .env ]; then
-    echo "\n*** Copying .env.example..."
+    echo -e "\n*** Copying .env.example..."
     cp .env.example .env
   fi
 
@@ -299,10 +315,10 @@ kokuEnv()
       echo "MASU_API_PATH_PREFIX='/api/cost-management'" >> .env
     fi
     if ! grep -q "GROUP_ID=" .env 2>/dev/null; then
-      echo "GROUP_ID=`id -g`" >> .env
+      echo "GROUP_ID=$(id -g)" >> .env
     fi
     if ! grep -q "USER_ID=" .env 2>/dev/null; then
-      echo "USER_ID=`id -u`" >> .env
+      echo "USER_ID=$(id -u)" >> .env
     fi
 #    if ! grep -q "ONPREM=" .env 2>/dev/null; then
 #      echo "ONPREM=True" >> .env
@@ -312,13 +328,13 @@ kokuEnv()
     sed -e "s|AWS_ACCESS_KEY_ID=.*|AWS_ACCESS_KEY_ID=local-dev|" \
         -e "s|AWS_SECRET_ACCESS_KEY=.*|AWS_SECRET_ACCESS_KEY=local-dev|" \
         -e "s|# GROUP_ID=.*|GROUP_ID=|" \
-        -e "s|GROUP_ID=.*|GROUP_ID=`id -g`|" \
+        -e "s|GROUP_ID=.*|GROUP_ID=$(id -g)|" \
         -e "s|KOKU_API_PATH_PREFIX=.*|KOKU_API_PATH_PREFIX='/api/cost-management'|" \
         -e "s|MASU_API_PATH_PREFIX=.*|MASU_API_PATH_PREFIX='/api/cost-management'|" \
         -e "s|UNLEASH_ADMIN_TOKEN=.*|UNLEASH_ADMIN_TOKEN=*:*.unleash-insecure-api-token|" \
         -e "s|UNLEASH_TOKEN=.*|UNLEASH_TOKEN=default:development.unleash-insecure-api-token|" \
         -e "s|# USER_ID=.*|USER_ID=|" \
-        -e "s|USER_ID=.*|USER_ID=`id -u`|" .env > .env.tmp
+        -e "s|USER_ID=.*|USER_ID=$(id -u)|" .env > .env.tmp
 
     mv .env.tmp .env
   fi
@@ -341,10 +357,10 @@ kokuVEnv() {
   export PIPENV_PYTHON="python3.11"
   export PIPENV_VENV_IN_PROJECT=1
 
-  echo "\n*** Creating Koku virtual env..."
+  echo -e "\n*** Creating Koku virtual env..."
   $PIPENV_BIN install --dev
 
-  echo "\n*** Installing pre-commit hooks..."
+  echo -e "\n*** Installing pre-commit hooks..."
   $PIPENV_BIN run pre-commit install
 }
 
@@ -383,10 +399,10 @@ EEOOFF
   # Export USER_ID and GROUP_ID so docker-compose.yml's ${USER_ID:?} / ${GROUP_ID:?}
   # resolve correctly for direct $PODMAN_COMPOSE calls. The koku Makefile sets these automatically
   # (via `id -u` / `id -g`), but $PODMAN_COMPOSE invocations that bypass make leave them unset.
-  export USER_ID=`id -u`
-  export GROUP_ID=`id -g`
+  export USER_ID=$(id -u)
+  export GROUP_ID=$(id -g)
 
-  echo "\n*** Starting the full stack with Trino..."
+  echo -e "\n*** Starting the full stack with Trino..."
   export COMPOSE_FILE="docker-compose.yml:$PODMAN_OVERRIDE_FILE"
   $PIPENV_BIN run make DOCKER="$PODMAN" docker-up-min-trino
 
@@ -398,12 +414,12 @@ EEOOFF
   #
   # The PODMAN_OVERRIDE_FILE override (links: !reset) is reused here so the Trino
   # recreate doesn't hit the same Podman link-not-supported rejection.
-  echo "\n*** Restarting Trino with local-dev credentials (Glue connector fix)"
+  echo -e "\n*** Restarting Trino with local-dev credentials (Glue connector fix)"
   export AWS_ACCESS_KEY_ID=local-dev
   export AWS_SECRET_ACCESS_KEY=local-dev
   $PODMAN_COMPOSE -f docker-compose.yml -f "$PODMAN_OVERRIDE_FILE" up -d --no-deps --force-recreate trino 2>&1
 
-  echo "\n*** To check all services are up, run:"
+  echo -e "\n*** To check all services are up, run:"
 cat <<- EEOOFF
   $PODMAN_COMPOSE ps
 EEOOFF
@@ -413,13 +429,13 @@ EEOOFF
     $PODMAN_COMPOSE ps
   fi
 
-  echo "\n*** To verify API responds, run:"
+  echo -e "\n*** To verify API responds, run:"
 cat <<- EEOOFF
   curl -s http://localhost:8000/api/cost-management/v1/status/ | python3 -m json.tool
 EEOOFF
 
   if [ -n "$VERBOSE" ]; then
-    echo "\n*** Would you like to poll (up to 3 min) to ensure the API responds?"
+    echo -e "\n*** Would you like to poll (up to 3 min) to ensure the API responds?"
     echo "Your choice [n/Y]:"
     read -r ANSWER
     case $ANSWER in
@@ -437,16 +453,16 @@ EEOOFF
       if curl -sf http://localhost:8000/api/cost-management/v1/status/ >/dev/null 2>&1; then
         SERVER_UP=1; break
       fi
-      echo ".\c"; sleep "$POLL_INTERVAL"
-      TRIES=`echo "$TRIES + 1" | bc`
+      echo -n "."; sleep "$POLL_INTERVAL"
+      TRIES=$(( TRIES + 1 ))
     done
     if [ -z "$SERVER_UP" ]; then
-      echo "\n*** koku-server did not respond after ${MAX_WAIT}s"
+      echo -e "\n*** koku-server did not respond after ${MAX_WAIT}s"
       exit 1
     fi
   fi
 
-  echo "\n***"
+  echo -e "\n***"
 
 cat <<- EEOOFF
   Koku API   -> http://localhost:8000/api/cost-management/v1/status/
@@ -467,7 +483,7 @@ loadData() {
   # Must call the script directly with --api-prefix. The koku .env sets
   # API_PATH_PREFIX=/api/cost-management; without the flag the script sends
   # requests to /api/v1/... which returns 404 every time.
-  echo "\n*** Creating test customer (org_id: 1234567, username: test_customer) and providers..."
+  echo -e "\n*** Creating test customer (org_id: 1234567, username: test_customer) and providers..."
   $PIPENV_BIN run $PYTHON_BIN dev/scripts/create_test_customer.py --api-prefix /api/cost-management
 
   # Note: test_source=ONPREM times out and doesn't load OCP data
@@ -475,11 +491,11 @@ loadData() {
 
   # koku-worker processes this asynchronously — wait a minute or two before expecting report pages to show rows.
   # This step uploads to MinIO at localhost:9000
-  echo "\n*** Loading sample cost data..."
+  echo -e "\n*** Loading sample cost data..."
   $PIPENV_BIN run make DOCKER="$PODMAN" load-test-customer-data test_source=all || \
     echo "load-test-customer-data had errors (partial upload) — reports may show less data"
 
-  echo "\n*** Data seeded — worker will process in the background..."
+  echo -e "\n*** Data seeded — worker will process in the background..."
 }
 
 # Create or update nise/.env. When -n is passed, sets KOKU_PATH to point at the
@@ -489,7 +505,7 @@ niseEnv()
   cd $NISE_DIR
 
   if [ ! -f .env ]; then
-    echo "\n*** Copying .env.example..."
+    echo -e "\n*** Copying .env.example..."
     cp .env.example .env
   fi
 
@@ -505,7 +521,7 @@ niseEnv()
 niseVEnv() {
   cd $NISE_DIR
 
-  echo "\n*** Creating NISE virtual env"
+  echo -e "\n*** Creating NISE virtual env"
   rm -rf .venv
 
   uv run nise -h
@@ -516,7 +532,7 @@ niseVEnv() {
 # Clears RUN_COMMAND to skip, or leaves it set to proceed.
 runCommand() {
   if [ -n "$VERBOSE" ]; then
-    echo "\n*** Would you like to run this command now?"
+    echo -e "\n*** Would you like to run this command now?"
     echo "Your choice [n/Y]:"
     read -r ANSWER
     case $ANSWER in
@@ -531,7 +547,7 @@ runCommand() {
 verify() {
   cd $KOKU_DIR
 
-  echo "\n*** To access the Trino CLI, run:"
+  echo -e "\n*** To access the Trino CLI, run:"
 cat <<- EEOOFF
   $PODMAN exec -it trino trino --server 127.0.0.1:8080 --catalog hive --schema org1234567 --user admin --debug
 

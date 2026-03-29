@@ -199,7 +199,7 @@ npm run quick:start:koku
 This is equivalent to running the script directly with the `-c`, `-k`, and `-n` flags:
 
 ```bash
-sh scripts/quick-start-koku.sh -c -k -n
+bash scripts/quick-start-koku.sh -c -k -n
 ```
 
 Expected output on success:
@@ -319,7 +319,7 @@ npm run start:onprem:koku
 ### Script flags
 
 ```
-sh scripts/quick-start-koku.sh [-h|-c|-k|-n|-v]
+bash scripts/quick-start-koku.sh [-h|-c|-k|-n|-v]
 
     h    Display the usage message
     c    Clean previous build (removes containers and all data — destructive)
@@ -331,7 +331,7 @@ sh scripts/quick-start-koku.sh [-h|-c|-k|-n|-v]
 Run the script with `-h` to print this message at any time:
 
 ```bash
-sh scripts/quick-start-koku.sh -h
+bash scripts/quick-start-koku.sh -h
 ```
 
 ### Useful commands
