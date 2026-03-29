@@ -31,7 +31,7 @@
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS\" --prefix-colors \"yellow,cyan,magenta\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\"",
     "start:onprem:dev": ". scripts/setup-onprem-env.sh; npm run start:onprem",
-    "start:onprem:koku": "API_TOKEN= API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
+    "start:onprem:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
   },
   "scripts-info": {
     "check:dependencies": "Checks for outdated dependencies in each workspace",
