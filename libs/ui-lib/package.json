@@ -6,16 +6,34 @@
   "author": "Red Hat",
   "license": "Apache-2.0",
   "private": true,
+  "sideEffects": false,
   "files": [
     "dist",
     "src"
   ],
   "exports": {
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "default": "./dist/*.js"
+    "./package.json": "./package.json",
+    "./components/page/uiVersion": {
+      "types": "./dist/src/components/page/uiVersion/index.d.ts",
+      "webpack": "./src/components/page/uiVersion/index.ts",
+      "import": "./dist/src/components/page/uiVersion/index.js",
+      "require": "./dist/src/components/page/uiVersion/index.js",
+      "default": "./dist/src/components/page/uiVersion/index.js"
     },
-    "./package.json": "./package.json"
+    "./components/page/notFound": {
+      "types": "./dist/src/components/page/notFound/index.d.ts",
+      "webpack": "./src/components/page/notFound/index.ts",
+      "import": "./dist/src/components/page/notFound/index.js",
+      "require": "./dist/src/components/page/notFound/index.js",
+      "default": "./dist/src/components/page/notFound/index.js"
+    },
+    "./*": {
+      "webpack": "./src/*",
+      "types": "./dist/src/*.d.ts",
+      "import": "./dist/src/*.js",
+      "require": "./dist/src/*.js",
+      "default": "./dist/src/*.js"
+    }
   },
   "scripts": {
     "prebuild": "tsc --noEmit && rimraf dist",

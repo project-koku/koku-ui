@@ -3535,8 +3535,8 @@ export default defineMessages({
     id: 'settingsTitle',
   },
   sourcesTabTitle: {
-    defaultMessage: 'Sources',
-    description: 'Sources',
+    defaultMessage: 'Integrations',
+    description: 'Integrations',
     id: 'sourcesTabTitle',
   },
   sinceDate: {
