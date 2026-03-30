@@ -32,7 +32,7 @@
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:sources": "npm run -w @koku-ui/koku-ui-sources start:onprem",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRC\" --prefix-colors \"yellow,cyan,magenta,green\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\"",
-    "start:onprem:dev": ". scripts/setup-onprem-env.sh; npm run start:onprem"
+    "start:onprem:dev": ". scripts/setup-onprem-env.sh; npm run start:onprem",
     "start:onprem:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
   },
   "scripts-info": {
@@ -42,7 +42,7 @@
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI",
-    "start:onprem:dev": "Source setup-onprem-env.sh from the cluster, then start:onprem"
+    "start:onprem:dev": "Source setup-onprem-env.sh from the cluster, then start:onprem",
     "start:onprem:koku": "Run onprem UI with local Koku API"
   },
   "devDependencies": {

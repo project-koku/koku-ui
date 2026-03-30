@@ -1,19 +1,15 @@
 import { type ReactNode, useCallback } from 'react';
 
-/** Window flag set by `koku-ui-onprem` so federated apps skip duplicate Insights notification provider + portal. */
-export const ONPREM_NOTIFICATIONS_HOST_FLAG = '__KOKU_ONPREM_NOTIFICATIONS_HOST__';
+let onPremNotificationsHostActive = false;
+let addNotificationBridge: OnPremAddNotification | undefined;
 
+/** Called once by `koku-ui-onprem` at startup so federated apps skip duplicate Insights notification provider + portal. */
 export function setOnPremNotificationsHostFlag(): void {
-  if (typeof window !== 'undefined') {
-    (window as unknown as Record<string, boolean>)[ONPREM_NOTIFICATIONS_HOST_FLAG] = true;
-  }
+  onPremNotificationsHostActive = true;
 }
 
 export function isOnPremNotificationsHost(): boolean {
-  if (typeof window === 'undefined') {
-    return false;
-  }
-  return Boolean((window as unknown as Record<string, boolean>)[ONPREM_NOTIFICATIONS_HOST_FLAG]);
+  return onPremNotificationsHostActive;
 }
 
 /**
@@ -37,20 +33,13 @@ export interface OnPremNotificationConfig {
 
 export type OnPremAddNotification = (config: OnPremNotificationConfig) => void;
 
-const ADD_NOTIFICATION_BRIDGE_KEY = '__KOKU_ONPREM_ADD_NOTIFICATION_BRIDGE__';
-
 /** Called by the on-prem shell to wire the real Insights notification dispatcher into federated bundles. */
 export function registerOnPremAddNotification(fn: OnPremAddNotification | undefined): void {
-  if (typeof window !== 'undefined') {
-    (window as unknown as Record<string, OnPremAddNotification | undefined>)[ADD_NOTIFICATION_BRIDGE_KEY] = fn;
-  }
+  addNotificationBridge = fn;
 }
 
 function getOnPremAddNotificationBridge(): OnPremAddNotification | undefined {
-  if (typeof window === 'undefined') {
-    return undefined;
-  }
-  return (window as unknown as Record<string, OnPremAddNotification | undefined>)[ADD_NOTIFICATION_BRIDGE_KEY];
+  return addNotificationBridge;
 }
 
 /**
@@ -58,8 +47,10 @@ function getOnPremAddNotificationBridge(): OnPremAddNotification | undefined {
  * `@redhat-cloud-services/frontend-components-notifications/hooks` so toasts use the host
  * `NotificationsProvider` (single React context).
  *
- * The dispatcher is stored on `window` so the host shell and federated bundles (separate webpack
- * runtimes) share one bridge — module-level state would be duplicated per bundle.
+ * With Module Federation **`@koku-ui/ui-lib` shared singleton** on on-prem, bridge state lives in this
+ * module; host and remotes share one instance. Without singleton sharing, each bundle would duplicate
+ * this module and the bridge would not cross runtimes (configure `shared` / `sharedModules` on the
+ * on-prem host and remotes).
  */
 export function useOnPremAddNotification(): OnPremAddNotification {
   return useCallback(config => {

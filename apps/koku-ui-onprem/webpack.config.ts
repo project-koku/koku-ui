@@ -171,6 +171,7 @@ const config: Configuration & {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
+        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
       },
     }),
     new HtmlWebpackPlugin({
@@ -183,7 +184,6 @@ const config: Configuration & {
     symlinks: false,
     cacheWithContext: false,
     alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
       '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
     },
   },

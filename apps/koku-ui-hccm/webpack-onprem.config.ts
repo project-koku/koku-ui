@@ -92,6 +92,7 @@ const config: Configuration = {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
+        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
       },
       pluginMetadata: {
         name: 'costManagement',
@@ -111,7 +112,6 @@ const config: Configuration = {
     cacheWithContext: false,
     modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
     alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
       '@redhat-cloud-services/frontend-components-notifications': path.resolve(
         __dirname,
         '../../node_modules/@redhat-cloud-services/frontend-components-notifications'
