@@ -34,14 +34,21 @@ default()
 
   mkdir $TMP_DIR
 
-  # Run commands by default
-  RUN_COMMAND=1
-
   # Podman
   PODMAN=$(command -v podman)
   PODMAN_COMPOSE="$PODMAN compose"
   PODMAN_OVERRIDE_FILE=$TMP_DIR/koku-podman-override
   export PODMAN_COMPOSE_WARNING_LOGS=false
+
+  # Run commands by default
+  RUN_COMMAND=1
+
+  # Homebrew is required to locate build dependencies (librdkafka, openssl,
+  # postgresql@16, python@3.11). Install it from https://brew.sh/
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "Error: Homebrew not found. Install it from https://brew.sh/"
+    exit 1
+  fi
 
   # Homebrew prefix paths for tools used when building Python C extensions inside
   # the koku virtualenv. confluent-kafka links against librdkafka; cryptography
@@ -97,21 +104,22 @@ prereqs() {
     exit 1
   fi
 
-  # Homebrew is required to locate build dependencies (librdkafka, openssl,
-  # postgresql@16, python@3.11). Install it from https://brew.sh/
-  if ! command -v brew >/dev/null 2>&1; then
-    echo "Error: Homebrew not found. Install it from https://brew.sh/"
+  # Check for Node.js 22+
+  NODE_MAJOR=$(node --version 2>/dev/null | tr -d 'v' | cut -d. -f1)
+  if [[ -z "$NODE_MAJOR" ]] || (( NODE_MAJOR < 22 )); then
+    echo "Error: Node.js 22+ required (found: $(node --version 2>/dev/null || echo 'not found'))"
+    echo "Install it: nvm install 22 && nvm use 22"
     exit 1
   fi
 
   # Check for podman compose
-  if ! podman compose version >/dev/null 2>&1; then
+  if ! $PODMAN_COMPOSE version >/dev/null 2>&1; then
     echo "Error: podman compose not found"
     exit 1
   fi
 
   # Check memory
-  MEMORY=$(podman machine inspect --format '{{.Resources.Memory}}')
+  MEMORY=$(PODMAN machine inspect --format '{{.Resources.Memory}}')
   if (( MEMORY < 8192 )); then
     echo "Error: Set memory to 8GB (8192MB) and give it more CPUs, run:"
 cat <<- EEOOFF
@@ -122,29 +130,6 @@ EEOOFF
     exit 1
   fi
 
-  # Check known macOS credential helper conflict.
-  #
-  # Docker Desktop, Rancher Desktop, and similar tools create ~/.docker and register
-  # credential helpers that Podman's docker-compat layer cannot call, causing image
-  # pulls to fail. Checking for the directory catches all of these tools regardless
-  # of the specific config.json contents.
-  if [[ -d ~/.docker ]]; then
-    echo "Error: ~/.docker exists and may conflict with Podman."
-    echo ""
-    echo "  Docker Desktop, Rancher Desktop, and similar tools create ~/.docker"
-    echo "  and register credential helpers that Podman cannot call. This causes"
-    echo "  image pulls to fail with:"
-    echo "    error listing credentials: exec: \"docker-credential-desktop\":"
-    echo "    executable file not found in \$PATH"
-    echo ""
-    echo "  Rename the directory to remove the conflict:"
-    echo "    mv ~/.docker ~/.docker.bak"
-    echo ""
-    echo "  Your credentials are preserved in ~/.docker.bak and can be"
-    echo "  restored after Podman is set up."
-    exit 1
-  fi
-
   # Port 15432 is koku's PostgreSQL test container. Leftover containers from a
   # failed previous run will prevent the new stack from binding to the port.
   if $PODMAN ps -a | grep -q 15432; then
@@ -152,12 +137,6 @@ EEOOFF
 cat <<- EEOOFF
   $PODMAN_COMPOSE down -v
 EEOOFF
-    exit 1
-  fi
-
-  # Test Koku dir
-  if [ ! -f "$KOKU_DIR/Pipfile" ]; then
-    echo "Error: $KOKU_DIR not found"
     exit 1
   fi
 
@@ -181,17 +160,22 @@ EEOOFF
     exit 1
   fi
 
-  # Check for Node.js 22+
-  NODE_MAJOR=$(node --version 2>/dev/null | tr -d 'v' | cut -d. -f1)
-  if [[ -z "$NODE_MAJOR" ]] || (( NODE_MAJOR < 22 )); then
-    echo "Error: Node.js 22+ required (found: $(node --version 2>/dev/null || echo 'not found'))"
-    echo "Install it: nvm install 22 && nvm use 22"
-    exit 1
-  fi
-
   # Check for make (used to start containers and load data)
   if ! command -v make >/dev/null 2>&1; then
     echo "Error: make not found. Install it: xcode-select --install"
+    exit 1
+  fi
+
+  # Test Koku dir
+  if [ ! -f "$KOKU_DIR/Pipfile" ]; then
+    echo "Error: $KOKU_DIR not found"
+    exit 1
+  fi
+
+  # Test koku .env -- without it, podman compose aborts with "required variable UNLEASH_TOKEN is missing"
+  if [ ! -f "$KOKU_DIR/.env" ]; then
+    echo "Error: $KOKU_DIR/.env not found"
+    echo "Create it: cd $KOKU_DIR && cp .env.example .env"
     exit 1
   fi
 
@@ -202,10 +186,26 @@ EEOOFF
     exit 1
   fi
 
-  # Test koku .env -- without it, podman compose aborts with "required variable UNLEASH_TOKEN is missing"
-  if [ ! -f "$KOKU_DIR/.env" ]; then
-    echo "Error: $KOKU_DIR/.env not found"
-    echo "Create it: cd $KOKU_DIR && cp .env.example .env"
+  # Check known macOS credential helper conflict.
+  #
+  # Docker Desktop, Rancher Desktop, and similar tools create ~/.docker and register
+  # credential helpers that Podman's docker-compat layer cannot call, causing image
+  # pulls to fail. Checking for the directory catches all of these tools regardless
+  # of the specific config.json contents.
+  if [[ -d ~/.docker ]]; then
+    echo "Error: ~/.docker exists and may conflict with Podman."
+    echo ""
+    echo "  Docker Desktop, Rancher Desktop, and similar tools create ~/.docker"
+    echo "  and register credential helpers that Podman cannot call. This causes"
+    echo "  image pulls to fail with:"
+    echo "    error listing credentials: exec: \"docker-credential-desktop\":"
+    echo "    executable file not found in \$PATH"
+    echo ""
+    echo "  Rename the directory to remove the conflict:"
+    echo "    mv ~/.docker ~/.docker.bak"
+    echo ""
+    echo "  Your credentials are preserved in ~/.docker.bak and can be"
+    echo "  restored after Podman is set up."
     exit 1
   fi
 }
