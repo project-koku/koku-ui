@@ -161,6 +161,7 @@ jobs:
         run: npm ci
 
       - name: Cypress run
+        id: cypress_run
         uses: cypress-io/github-action@v6
         with:
           install-command: npm ci
@@ -170,3 +171,12 @@ jobs:
           wait-on-timeout: 120
           project: apps/koku-ui-onprem
           config-file: cypress/cypress.config.ts
+
+      - name: Upload Cypress videos
+        if: failure() && steps.cypress_run.outcome == 'failure'
+        uses: actions/upload-artifact@v5
+        with:
+          name: cypress-videos
+          path: apps/koku-ui-onprem/cypress/videos
+          retention-days: 14
+          if-no-files-found: ignore
