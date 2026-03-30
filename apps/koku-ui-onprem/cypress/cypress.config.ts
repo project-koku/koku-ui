@@ -11,6 +11,6 @@ export default defineConfig({
     defaultCommandTimeout: 10000,
     viewportWidth: 1280,
     viewportHeight: 720,
-    video: process.env.CI ? true : false,
+    video: Boolean(process.env.CI),
   },
 });
