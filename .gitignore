@@ -56,3 +56,6 @@ report.*.json
 .swc/
 .dccache
 docs
+
+apps/**/cypress/videos/
+apps/**/cypress/screenshots/
