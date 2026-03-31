@@ -8,6 +8,24 @@ import type { Configuration } from 'webpack';
 import { container } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
+let setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = undefined;
+let proxyHeaders: Record<string, string> = undefined;
+
+if (process.env.API_TOKEN !== 'false') {
+  setupMiddlewares = (middlewares, devServer) => {
+    devServer.app?.get('/api/me', (_, res) => {
+      res.json({
+        username: 'dev-user',
+        email: 'dev@example.com',
+      });
+    });
+    return middlewares;
+  };
+  proxyHeaders = {
+    Authorization: `Bearer ${process.env.API_TOKEN}`,
+  };
+}
+
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
 let refresher: TokenRefresher | undefined;
@@ -23,6 +41,7 @@ if (NODE_ENV !== 'production' && !process.env.CI) {
   const hasKeycloak =
     process.env.KEYCLOAK_TOKEN_URL && process.env.KEYCLOAK_CLIENT_ID && process.env.KEYCLOAK_CLIENT_SECRET;
 
+  // When running the UI with a local koku API, API_TOKEN is omitted
   if (!hasKeycloak && !process.env.API_TOKEN) {
     throw new Error(
       '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
@@ -53,7 +72,7 @@ const config: Configuration & {
   devtool: 'eval-source-map',
   devServer: {
     host: 'localhost',
-    port: 9000,
+    port: 9001,
     historyApiFallback: true,
     open: NODE_ENV !== 'production',
     static: [
@@ -74,6 +93,7 @@ const config: Configuration & {
     client: {
       overlay: true,
     },
+    setupMiddlewares,
     proxy: [
       refresher
         ? createDevServerProxy(refresher, {
@@ -88,9 +108,7 @@ const config: Configuration & {
             changeOrigin: true,
             secure: false,
             pathRewrite: { '^/api/cost-management/v1': '' },
-            headers: {
-              Authorization: `Bearer ${process.env.API_TOKEN}`,
-            },
+            ...(proxyHeaders && { headers: proxyHeaders }),
           },
     ],
   },
@@ -159,6 +177,7 @@ const config: Configuration & {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
+        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
       },
     }),
     new HtmlWebpackPlugin({
@@ -168,15 +187,11 @@ const config: Configuration & {
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
-    symlinks: false,
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     cacheWithContext: false,
     alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
       '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
     },
-  },
-  watchOptions: {
-    followSymlinks: true,
   },
   optimization: {
     splitChunks: {
