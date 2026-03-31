@@ -1,5 +1,3 @@
-import { Button, ButtonVariant, Popover, Title, TitleSizes } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { RosNamespace } from 'api/ros/ros';
 import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
@@ -8,6 +6,7 @@ import { useIntl } from 'react-intl';
 import type { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { styles } from './optimizationsDetailsHeader.styles';
+import { OptimizationsDetailsTitle } from './optimizationsDetailsTitle';
 import { OptimizationsDetailsToolbar } from './optimizationsDetailsToolbar';
 
 export interface OptimizationsDetailsHeaderStateProps {
@@ -38,36 +37,7 @@ const OptimizationsDetailsHeader: React.FC<OptimizationsDetailsHeaderProps> = ({
 
   return (
     <header style={styles.headerContainer}>
-      <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
-        {intl.formatMessage(messages.optimizations)}
-        <span style={styles.infoIcon}>
-          <Popover
-            aria-label={intl.formatMessage(messages.optimizationsInfoArialLabel)}
-            enableFlip
-            bodyContent={
-              <>
-                <p>{intl.formatMessage(messages.optimizationsInfoTitle)}</p>
-                <br />
-                <p>
-                  {intl.formatMessage(messages.optimizationsInfoDesc, {
-                    learnMore: (
-                      <a href={intl.formatMessage(messages.docsOptimizations)} rel="noreferrer" target="_blank">
-                        {intl.formatMessage(messages.learnMore)}
-                      </a>
-                    ),
-                  })}
-                </p>
-              </>
-            }
-          >
-            <Button
-              icon={<OutlinedQuestionCircleIcon />}
-              aria-label={intl.formatMessage(messages.optimizationsInfoButtonArialLabel)}
-              variant={ButtonVariant.plain}
-            />
-          </Popover>
-        </span>
-      </Title>
+      <OptimizationsDetailsTitle />
       {isNamespaceToggleEnabled && (
         <>
           {intl.formatMessage(messages.optimizationsDesc)}
