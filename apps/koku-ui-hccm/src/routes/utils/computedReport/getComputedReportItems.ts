@@ -338,7 +338,7 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
   const gpu_mode = val?.gpu_mode;
   const gpu_model = val?.gpu_model;
   const gpu_vendor = val?.gpu_vendor;
-  const mig_compute = val?.mig_compute; // Todo: Update MIG properties for https://issues.redhat.com/browse/COST-7239
+  const mig_compute = val?.mig_compute; // Todo: Update MIG properties for https://redhat.atlassian.net/browse/COST-7239
   const mig_memory = val?.mig_memory;
   const mig_uuid = val?.mig_uuid;
   const node = val?.node;
@@ -403,7 +403,7 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
     const item = itemMap.get(mapId);
     if (item) {
       // When applying multiple group_by params, costs may be split between regions. We need to sum those costs
-      // See https://issues.redhat.com/browse/COST-1131
+      // See https://redhat.atlassian.net/browse/COST-1131
       itemMap.set(mapId, {
         ...item,
         ...getUsageData(val, item), // capacity, limit, request, & usage
