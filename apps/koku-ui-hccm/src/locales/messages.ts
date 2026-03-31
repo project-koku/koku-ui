@@ -1761,6 +1761,11 @@ export default defineMessages({
     description: 'Edit markup or discount',
     id: 'editMarkupOrDiscount',
   },
+  efficiency: {
+    defaultMessage: 'Efficiency',
+    description: 'Efficiency',
+    id: 'efficiency',
+  },
   emptyFilterSourceStateSubtitle: {
     defaultMessage: 'Sorry, no source with the given filter was found.',
     description: 'Sorry, no source with the given filter was found.',
@@ -3535,8 +3540,8 @@ export default defineMessages({
     id: 'settingsTitle',
   },
   sourcesTabTitle: {
-    defaultMessage: 'Sources',
-    description: 'Sources',
+    defaultMessage: 'Integrations',
+    description: 'Integrations',
     id: 'sourcesTabTitle',
   },
   sinceDate: {
