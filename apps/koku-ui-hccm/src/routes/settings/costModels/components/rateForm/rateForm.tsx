@@ -1,6 +1,8 @@
 import { Alert, Button, ButtonVariant, FormGroup, Grid, GridItem, Radio, Switch } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import type { MetricHash } from 'api/metrics';
+import type { Query } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { Resource } from 'api/resources/resource';
 import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
@@ -323,22 +325,25 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
 const useMapToProps = ({ resourcePathsType, resourceType }: RateFormMapProps): RateFormStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const queryString = '';
+  const reportQuery: Query = {
+    limit: 100,
+  };
+  const reportQueryString = getQuery(reportQuery);
   const resource = useSelector((state: RootState) =>
-    resourceSelectors.selectResource(state, resourcePathsType, resourceType, queryString)
+    resourceSelectors.selectResource(state, resourcePathsType, resourceType, reportQueryString)
   );
   const resourceFetchStatus = useSelector((state: RootState) =>
-    resourceSelectors.selectResourceFetchStatus(state, resourcePathsType, resourceType, queryString)
+    resourceSelectors.selectResourceFetchStatus(state, resourcePathsType, resourceType, reportQueryString)
   );
   const resourceError = useSelector((state: RootState) =>
-    resourceSelectors.selectResourceError(state, resourcePathsType, resourceType, queryString)
+    resourceSelectors.selectResourceError(state, resourcePathsType, resourceType, reportQueryString)
   );
 
   useEffect(() => {
     if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress) {
-      dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, queryString));
+      dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, reportQueryString));
     }
-  }, [queryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType]);
+  }, [reportQueryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType]);
 
   return {
     resource,

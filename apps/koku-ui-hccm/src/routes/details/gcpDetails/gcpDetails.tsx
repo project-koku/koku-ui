@@ -303,7 +303,7 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     const groupByKey: keyof GcpQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
+      // filter_by: undefined, // Preserve filter -- see https://redhat.atlassian.net/browse/COST-1090
       group_by: {
         [groupByKey]: '*',
       },

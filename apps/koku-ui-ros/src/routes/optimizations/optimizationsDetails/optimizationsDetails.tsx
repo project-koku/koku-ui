@@ -12,6 +12,7 @@ import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
 interface OptimizationsDetailsOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  isHeaderHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   projectPath?: string; // Project path (i.e., OCP details breakdown path)
@@ -26,6 +27,7 @@ type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
 const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
+  isHeaderHidden = false,
   linkPath,
   linkState,
   projectPath,
@@ -51,16 +53,18 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
 
   return (
     <>
-      <PageSection>
-        <OptimizationsDetailsHeader
-          currentInterval={currentInterval}
-          namespace={namespace}
-          onIntervalSelect={handleOnIntervalSelect}
-          onNamespaceSelect={handleOnNamespaceSelect}
-          onOptimizationTypeSelect={handleOnOptimizationTypeSelect}
-          optimizationType={optimizationType}
-        />
-      </PageSection>
+      {!isHeaderHidden && (
+        <PageSection>
+          <OptimizationsDetailsHeader
+            currentInterval={currentInterval}
+            namespace={namespace}
+            onIntervalSelect={handleOnIntervalSelect}
+            onNamespaceSelect={handleOnNamespaceSelect}
+            onOptimizationTypeSelect={handleOnOptimizationTypeSelect}
+            optimizationType={optimizationType}
+          />
+        </PageSection>
+      )}
       <PageSection>
         <Card>
           <CardBody>

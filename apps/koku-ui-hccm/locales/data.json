@@ -4239,6 +4239,12 @@
         "value": "Edit markup or discount"
       }
     ],
+    "efficiency": [
+      {
+        "type": 0,
+        "value": "Efficiency"
+      }
+    ],
     "emptyFilterSourceStateSubtitle": [
       {
         "type": 0,
@@ -12467,6 +12473,12 @@
       }
     ],
     "sources": [
+      {
+        "type": 0,
+        "value": "Integrations"
+      }
+    ],
+    "sourcesTabTitle": [
       {
         "type": 0,
         "value": "Integrations"

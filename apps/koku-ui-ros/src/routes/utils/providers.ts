@@ -24,7 +24,7 @@ const _getOcpProvider = (ocpProviders: Providers, uuid?: string) => {
 
 // Returns new Provider matching the given provider type
 //
-// See https://issues.redhat.com/browse/COST-2202
+// See https://redhat.atlassian.net/browse/COST-2202
 export const filterProviders = (providers: Providers, sourceType: ProviderType) => {
   if (!providers) {
     return providers;

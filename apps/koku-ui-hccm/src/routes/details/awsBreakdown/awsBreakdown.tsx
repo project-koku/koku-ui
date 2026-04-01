@@ -73,12 +73,12 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
       // Add filters here to apply logical OR/AND
       ...(queryState?.filter_by && queryState.filter_by),
       ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-      // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+      // Omit filters associated with the current group_by -- see https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
       ...(isFilterByExact && {
-        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
         [`exact:${groupBy}`]: groupByValue,
       }),
-      // Workaround for https://issues.redhat.com/browse/COST-1189
+      // Workaround for https://redhat.atlassian.net/browse/COST-1189
       ...(queryState?.filter_by &&
         queryState.filter_by[orgUnitIdKey] && {
           [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
