@@ -252,16 +252,16 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(queryState?.filter_by && queryState.filter_by),
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        // Workaround for https://issues.redhat.com/browse/COST-1189
+        // Workaround for https://redhat.atlassian.net/browse/COST-1189
         ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
             [orgUnitIdKey]: undefined,
           }),
-        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        // Related to https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
         // Note: We're not inserting PVC information for the 'Platform' project
         ...(isFilterByExact && {
-          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://issues.redhat.com/browse/COST-6659
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
           [`exact:${groupBy}`]: groupByValue,
         }),
       },
@@ -272,7 +272,7 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by all accounts, regions, etc.
       },
       order_by: {
-        cost: 'desc', // Volumes API uses implicit ordering on usage instead of cost -- see https://issues.redhat.com/browse/COST-6560
+        cost: 'desc', // Volumes API uses implicit ordering on usage instead of cost -- see https://redhat.atlassian.net/browse/COST-6560
       },
       ...(costDistribution === ComputedReportItemValueType.distributed && {
         order_by: {

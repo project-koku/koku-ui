@@ -46,7 +46,7 @@ module.exports = {
   useCache: true,
   useProxy: process.env.LOCAL_API_PORT ? false : true,
   /**
-   * Temporarily disabled HMR -- see https://issues.redhat.com/browse/COST-3224
+   * Temporarily disabled HMR -- see https://redhat.atlassian.net/browse/COST-3224
    *
   ...(process.env.HMR && { _unstableHotReload: process.env.HMR === 'true' }),
    */
@@ -71,6 +71,7 @@ module.exports = {
         './src/fed-modules/optimizationsContainersTableWrapper.tsx'
       ),
       './OptimizationsDetails': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsWrapper.tsx'),
+      './OptimizationsDetailsTitle': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsTitleWrapper.tsx'),
       './OptimizationsLink': path.resolve(__dirname, './src/fed-modules/optimizationsLinkWrapper.tsx'),
       './OptimizationsOcpBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx'),
       './OptimizationsProjectsTable': path.resolve(
@@ -108,9 +109,6 @@ module.exports = {
   ],
   resolve: {
     modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
-    alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
-    },
   },
   routes: {
     /**

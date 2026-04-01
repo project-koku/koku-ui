@@ -5,10 +5,10 @@ import { useDispatch } from 'react-redux';
 import { featureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
-  boxPlot = 'cost-management.koku-ui-ros.box-plot', // https://issues.redhat.com/browse/COST-4619
+  boxPlot = 'cost-management.koku-ui-ros.box-plot', // https://redhat.atlassian.net/browse/COST-4619
   debug = 'cost-management.koku-ui-ros.debug', // Logs user data (e.g., account ID) in browser console
-  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://issues.redhat.com/browse/COST-6267
-  projectLink = 'cost-management.koku-ui-ros.project-link', // Optimizations breakdown project link https://issues.redhat.com/browse/COST-4527
+  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
+  projectLink = 'cost-management.koku-ui-ros.project-link', // Optimizations breakdown project link https://redhat.atlassian.net/browse/COST-4527
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {

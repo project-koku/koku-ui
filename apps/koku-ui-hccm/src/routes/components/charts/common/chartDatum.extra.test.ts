@@ -49,8 +49,10 @@ describe('chartDatum helpers', () => {
 	test('getDatumDateRange and getDateRange compute ranges with offset and boundaries', () => {
 		const data = [{ key: '2021-01-02', y: 1 }, { key: '2021-01-04', y: 2 }];
 		const [s1, e1] = getDatumDateRange(data as any);
-		expect(s1.toISOString().startsWith('2021-01-02')).toBe(true);
-		expect(e1.toISOString().startsWith('2021-01-04')).toBe(true);
+		// Local calendar date (getDatumDateRange parses `key + T00:00:00` as local time).
+		// Do not use toISOString() — ahead-of-UTC zones map local midnight to the prior UTC day.
+		expect([s1.getFullYear(), s1.getMonth() + 1, s1.getDate()]).toEqual([2021, 1, 2]);
+		expect([e1.getFullYear(), e1.getMonth() + 1, e1.getDate()]).toEqual([2021, 1, 4]);
 		const [s2, e2] = getDateRange(data as any, true, true, 0);
 		expect(s2.getDate()).toBe(1);
 		expect(e2.getDate()).toBeGreaterThan(1);

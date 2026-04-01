@@ -20,6 +20,12 @@ test('Debug feature is enabled', async () => {
   expect(FeatureToggleSelectors.selectIsDebugToggleEnabled(store.getState())).toBe(true);
 });
 
+test('Efficiency feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureToggle({ isEfficiencyToggleEnabled: true }));
+  expect(FeatureToggleSelectors.selectIsEfficiencyToggleEnabled(store.getState())).toBe(true);
+});
+
 test('Exports feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isExportsToggleEnabled: true }));
@@ -31,4 +37,3 @@ test('Systems feature is enabled', async () => {
   store.dispatch(actions.setFeatureToggle({ isSystemsToggleEnabled: true }));
   expect(FeatureToggleSelectors.selectIsSystemsToggleEnabled(store.getState())).toBe(true);
 });
-

@@ -9,6 +9,7 @@ export type FeatureToggleAction = ActionType<typeof setFeatureToggle | typeof re
 export type FeatureToggleState = Readonly<{
   isAwsEc2InstancesToggleEnabled: boolean;
   isDebugToggleEnabled: boolean;
+  isEfficiencyToggleEnabled: boolean;
   isExactFilterToggleEnabled: boolean;
   isExportsToggleEnabled: boolean;
   isGpuToggleEnabled: boolean;
@@ -20,6 +21,7 @@ export type FeatureToggleState = Readonly<{
 export const defaultState: FeatureToggleState = {
   isAwsEc2InstancesToggleEnabled: false,
   isDebugToggleEnabled: false,
+  isEfficiencyToggleEnabled: false,
   isExactFilterToggleEnabled: false,
   isExportsToggleEnabled: false,
   isGpuToggleEnabled: false,
@@ -37,6 +39,7 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         ...state,
         isAwsEc2InstancesToggleEnabled: action.payload.isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled: action.payload.isDebugToggleEnabled,
+        isEfficiencyToggleEnabled: action.payload.isEfficiencyToggleEnabled,
         isExactFilterToggleEnabled: action.payload.isExactFilterToggleEnabled,
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
         isGpuToggleEnabled: action.payload.isGpuToggleEnabled,
