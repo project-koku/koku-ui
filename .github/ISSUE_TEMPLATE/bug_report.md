@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**To submit an issue please visit https://issues.redhat.com/projects/COST/**
+**To submit an issue please visit https://redhat.atlassian.net/projects/COST/**
 
 
 ~~**Describe the bug**

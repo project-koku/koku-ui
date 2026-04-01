@@ -57,7 +57,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
   const [width, setWidth] = useState(0);
   const intl = useIntl();
 
-  // Clone original container. See https://issues.redhat.com/browse/COST-762
+  // Clone original container. See https://redhat.atlassian.net/browse/COST-762
   const cloneContainer = () => {
     const legendData = getLegendData(series, hiddenSeries, true);
     // Force extra space for line wrapping

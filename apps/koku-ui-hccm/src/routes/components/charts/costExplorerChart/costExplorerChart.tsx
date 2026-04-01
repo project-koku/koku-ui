@@ -436,7 +436,7 @@ class CostExplorerChartBase extends React.Component<CostExplorerChartProps, Stat
     const barWidth = this.getBarWidth();
     const chartHeight = this.getHeight(baseHeight);
 
-    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    // Clone original container. See https://redhat.atlassian.net/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
           disable: !isDataAvailable(series, hiddenSeries),

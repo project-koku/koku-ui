@@ -14,6 +14,7 @@ module.exports = {
   moduleDirectories: ['node_modules', '<rootDir>/src'],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
+    '^@koku-ui/ui-lib/(.*)$': '<rootDir>/../../libs/ui-lib/src/$1',
   },
   preset: 'ts-jest',
   roots: ['<rootDir>/src/'],

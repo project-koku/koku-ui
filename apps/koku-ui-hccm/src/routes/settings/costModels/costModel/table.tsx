@@ -52,7 +52,7 @@ class TableBase extends React.Component<TableBaseProps, TableBaseState> {
       .map(uuid => [uuid]);
 
     // Note: Removed pagination props because the /cost-models/{cost_model_uuid}/ API does not support pagination
-    // See https://issues.redhat.com/browse/COST-2097
+    // See https://redhat.atlassian.net/browse/COST-2097
     return (
       <>
         <Title headingLevel="h2" size={TitleSizes.md} style={styles.sourceTypeTitle}>

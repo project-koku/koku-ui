@@ -126,7 +126,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
 
     const isGroupByProject = groupBy === 'project';
     const showPlatformCosts = perspective === PerspectiveType.ocp && isGroupByProject;
-    const showCostDistribution = costDistribution === ComputedReportItemValueType.distributed; // Always show -- see https://issues.redhat.com/browse/COST-5870
+    const showCostDistribution = costDistribution === ComputedReportItemValueType.distributed; // Always show -- see https://redhat.atlassian.net/browse/COST-5870
 
     const computedItems = getUnsortedComputedReportItems<any, any>({
       report,

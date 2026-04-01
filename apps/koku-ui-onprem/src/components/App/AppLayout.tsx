@@ -2,6 +2,7 @@ import {
   Bullseye,
   Masthead,
   MastheadBrand,
+  MastheadContent,
   MastheadLogo,
   MastheadMain,
   MastheadToggle,
@@ -16,8 +17,11 @@ import {
   Spinner,
 } from '@patternfly/react-core';
 import { ScalprumComponent } from '@scalprum/react-core';
+import openshiftLogo from 'assets/openshift-logo.svg';
 import React from 'react';
 import { Link, Navigate, Route, Routes, useMatch } from 'react-router-dom';
+
+import AppToolbar from './AppToolbar';
 
 export const routes = [
   {
@@ -85,9 +89,14 @@ const AppLayout = () => {
           />
         </MastheadToggle>
         <MastheadBrand>
-          <MastheadLogo component="a">Logo</MastheadLogo>
+          <MastheadLogo component="a" href="/">
+            <img src={openshiftLogo} alt="OpenShift" height={40} />
+          </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
+      <MastheadContent>
+        <AppToolbar />
+      </MastheadContent>
     </Masthead>
   );
 
