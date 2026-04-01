@@ -263,7 +263,7 @@ class HistoricalCostChartBase extends React.Component<HistoricalCostChartProps, 
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
-    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    // Clone original container. See https://redhat.atlassian.net/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
           disable: !isDataAvailable(series, hiddenSeries),

@@ -7,6 +7,11 @@ declare namespace Cypress {
     loadApiInterceptors(): Chainable<void>;
 
     /**
+     * Intercept the /logout navigation so the browser stays in a testable state.
+     */
+    interceptLogout(): Chainable<void>;
+
+    /**
      * Wait for the federated module to load and render
      */
     waitForFederatedModule(): Chainable<void>;

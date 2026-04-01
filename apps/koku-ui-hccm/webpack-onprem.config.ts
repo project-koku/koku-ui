@@ -92,6 +92,7 @@ const config: Configuration = {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
+        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
       },
       pluginMetadata: {
         name: 'costManagement',
@@ -102,21 +103,17 @@ const config: Configuration = {
     new DefinePlugin({
       'process.env.KOKU_UI_COMMITHASH': undefined,
       'process.env.KOKU_UI_PKGNAME': undefined,
+      'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('true'),
     }),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
-    symlinks: false,
     cacheWithContext: false,
     modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
     alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
       '@redhat-cloud-services': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
       '@unleash': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src/unleash'),
     },
-  },
-  watchOptions: {
-    followSymlinks: true,
   },
 };
 

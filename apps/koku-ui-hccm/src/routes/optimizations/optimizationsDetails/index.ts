@@ -1,1 +1,1 @@
-export { default } from './optimizationsDetails';
+export * from './optimizationsDetails';

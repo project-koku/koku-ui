@@ -199,7 +199,7 @@ export const getTagValueSelect = ({
   tagPathsType?: TagPathsType;
   timeScopeValue?: number;
 }) => {
-  // Todo: categoryName workaround for https://issues.redhat.com/browse/COST-2094
+  // Todo: categoryName workaround for https://redhat.atlassian.net/browse/COST-2094
   const categoryName = {
     name: tagKeyOption.name,
     key: `${tagPrefix}${tagKeyOption.key}`,

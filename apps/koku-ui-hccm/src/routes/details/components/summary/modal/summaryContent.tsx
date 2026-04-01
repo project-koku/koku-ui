@@ -129,9 +129,9 @@ const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryCon
         ...(queryState?.filter_by && queryState.filter_by),
         ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
         ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-        // Related to https://issues.redhat.com/browse/COST-1131 and https://issues.redhat.com/browse/COST-3642
+        // Related to https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
         ...(groupBy && groupByValue !== '*' && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by region, account, etc
-        // Workaround for https://issues.redhat.com/browse/COST-1189
+        // Workaround for https://redhat.atlassian.net/browse/COST-1189
         ...(queryState?.filter_by &&
           queryState.filter_by[orgUnitIdKey] && {
             [`${logicalOrPrefix}${orgUnitIdKey}`]: queryState.filter_by[orgUnitIdKey],
