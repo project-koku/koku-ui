@@ -21,9 +21,9 @@ import { styles } from './optimizationsBreakdown.styles';
 
 interface OptimizationsBreakdownProjectLinkOwnProps {
   breadcrumbLabel?: string;
-  isOptimizationsDetails?: boolean;
-  linkPath?: string;
+  linkState?: any;
   project?: string;
+  projectPath?: string;
 }
 
 interface OptimizationsBreakdownProjectLinkStateProps {
@@ -42,16 +42,16 @@ const reportPathsType = ReportPathsType.ocp;
 
 const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectLinkProps> = ({
   breadcrumbLabel,
-  isOptimizationsDetails,
-  linkPath,
+  linkState,
   project,
+  projectPath,
 }) => {
-  const { isProjectLinkToggleEnabled, report } = useMapToProps({ project, linkPath });
+  const { isProjectLinkToggleEnabled, report } = useMapToProps({ project, projectPath });
   const location = useLocation();
   const intl = useIntl();
 
   // Is stand alone?
-  if (!linkPath || !isOptimizationsDetails || !isProjectLinkToggleEnabled) {
+  if (!projectPath || !isProjectLinkToggleEnabled) {
     return project;
   }
   if (!report) {
@@ -67,7 +67,7 @@ const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectL
   const computedItems = getComputedItems();
   const isDisabled = computedItems.length === 0;
   const breakdownPath = getBreakdownPath({
-    basePath: linkPath,
+    basePath: projectPath,
     breadcrumbLabel,
     groupBy: 'project',
     id: project,
@@ -75,11 +75,16 @@ const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectL
     title: project,
   });
 
+  const newLinkState = {
+    ...(location.state && location.state),
+    ...linkState,
+  };
+
   const buttonComponent = (
     <Button
       isAriaDisabled={isDisabled}
       variant="link"
-      component={(props: any) => <Link {...props} to={breakdownPath} state={{ ...location.state }} />}
+      component={(props: any) => <Link {...props} to={breakdownPath} state={newLinkState} />}
       style={styles.projectLink}
     >
       {project}
@@ -94,7 +99,7 @@ const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectL
   );
 };
 
-const useMapToProps = ({ project, linkPath }): OptimizationsBreakdownProjectLinkStateProps => {
+const useMapToProps = ({ project, projectPath }): OptimizationsBreakdownProjectLinkStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const reportQueryString = getQuery({
@@ -118,10 +123,10 @@ const useMapToProps = ({ project, linkPath }): OptimizationsBreakdownProjectLink
   );
 
   useEffect(() => {
-    if (linkPath && !reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (projectPath && !reportError && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
-  }, [linkPath, reportQueryString]);
+  }, [projectPath, reportQueryString]);
 
   return {
     isProjectLinkToggleEnabled: useIsProjectLinkToggleEnabled(),

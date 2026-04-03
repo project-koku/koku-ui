@@ -21,7 +21,9 @@ const OptimizationsLinkStaging: React.FC<OptimizationsLinkStagingProps> = () => 
 
   const state = {
     ...(location.state && location.state),
-    details: {
+    // AWS/Azure/GCP/OCP details page
+    detailsState: {
+      ...(location.state?.detailsState && location.state.detailsState),
       breadcrumbPath: formatPath(routes.optimizationsLink.path),
     },
   };

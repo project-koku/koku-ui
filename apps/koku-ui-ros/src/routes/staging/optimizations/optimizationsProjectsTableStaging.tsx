@@ -6,7 +6,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
-import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsProjectsTable';
+import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
 import { getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
 
@@ -41,8 +41,9 @@ const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStag
         }
         breadcrumbPath={formatPath(`${routes.optimizationsProjectsTable.path}${location.search}`)}
         cluster={clusterFilter}
+        linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
         project={projectFilter}
-        linkPath={formatPath(routes.optimizationsBreakdown.path)}
+        queryStateName="optimizationsDetailsState"
       />
     </PageSection>
   );

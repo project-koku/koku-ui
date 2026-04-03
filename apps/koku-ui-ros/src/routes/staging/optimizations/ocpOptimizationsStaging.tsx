@@ -7,13 +7,13 @@ import { routes } from 'routes';
 import { OptimizationsOcpBreakdown } from 'routes/optimizations/optimizationsOcpBreakdown';
 import { formatPath } from 'utils/paths';
 
-interface OptimizationsOcpBreakdownStagingOwnProps {
+interface OcpOptimizationsStagingOwnProps {
   // TBD...
 }
 
-type OptimizationsOcpBreakdownStagingProps = OptimizationsOcpBreakdownStagingOwnProps;
+type OcpOptimizationsStagingProps = OcpOptimizationsStagingOwnProps;
 
-const OptimizationsOcpBreakdownStaging: React.FC<OptimizationsOcpBreakdownStagingProps> = () => {
+const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
   const intl = useIntl();
   const location = useLocation();
 
@@ -21,12 +21,15 @@ const OptimizationsOcpBreakdownStaging: React.FC<OptimizationsOcpBreakdownStagin
     <PageSection>
       <OptimizationsOcpBreakdown
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-        breadcrumbPath={formatPath(`${routes.optimizationsOcpBreakdown.path}${location.search}`)}
-        linkPath={formatPath(routes.optimizationsBreakdown.path)}
-        projectPath={formatPath(`${routes.optimizationsContainersTable.path}`)}
+        breadcrumbPath={formatPath(`${routes.ocpOptimizations.path}${location.search}`)}
+        linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
+        linkState={{
+          ...(location.state && location.state),
+        }}
+        queryStateName="ocpOptimizationsState"
       />
     </PageSection>
   );
 };
 
-export default OptimizationsOcpBreakdownStaging;
+export default OcpOptimizationsStaging;

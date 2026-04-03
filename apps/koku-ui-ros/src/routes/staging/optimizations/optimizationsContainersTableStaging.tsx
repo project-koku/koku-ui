@@ -6,7 +6,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
-import { OptimizationsContainersTable } from 'routes/optimizations/optimizationsContainersTable';
+import { OptimizationsContainersTable } from 'routes/optimizations/optimizationsTable';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
 
@@ -44,8 +44,9 @@ const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTable
         cluster={clusterFilter}
         isClusterHidden={groupBy === 'cluster'}
         isProjectHidden={groupBy === 'project'}
+        linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
         project={projectFilter}
-        linkPath={formatPath(routes.optimizationsBreakdown.path)}
+        queryStateName="optimizationsDetailsState"
       />
     </PageSection>
   );

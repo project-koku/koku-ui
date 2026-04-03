@@ -4,7 +4,6 @@ import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { ResourcePathsType } from 'api/resources/resource';
-import { TagPathsType } from 'api/tags/tag';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -64,11 +63,8 @@ const groupByOptions: {
   value: ComputedOcpReportItemsParams['idKey'];
 }[] = [
   { label: 'cluster', value: 'cluster' },
-  { label: 'node', value: 'node' },
   { label: 'project', value: 'project' },
 ];
-
-const tagPathsType = TagPathsType.ocp;
 
 class EfficiencyHeaderBase extends React.Component<EfficiencyHeaderProps, EfficiencyHeaderState> {
   protected defaultState: EfficiencyHeaderState = {
@@ -101,10 +97,11 @@ class EfficiencyHeaderBase extends React.Component<EfficiencyHeaderProps, Effici
   };
 
   private getToolbar = () => {
-    const { isDisabled, onFilterAdded, onFilterRemoved, query, resourcePathsType } = this.props;
+    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, query, resourcePathsType } = this.props;
 
     return (
       <EfficiencyToolbar
+        groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
@@ -139,8 +136,6 @@ class EfficiencyHeaderBase extends React.Component<EfficiencyHeaderProps, Effici
                   isDisabled={isDisabled}
                   onSelect={onGroupBySelect}
                   options={groupByOptions}
-                  showTags
-                  tagPathsType={tagPathsType}
                   timeScopeValue={timeScopeValue}
                 />
               </FlexItem>
@@ -187,4 +182,3 @@ const mapStateToProps = createMapStateToProps<EfficiencyHeaderOwnProps, Efficien
 const EfficiencyHeader = injectIntl(withRouter(connect(mapStateToProps, {})(EfficiencyHeaderBase)));
 
 export { EfficiencyHeader };
-export type { EfficiencyHeaderProps };

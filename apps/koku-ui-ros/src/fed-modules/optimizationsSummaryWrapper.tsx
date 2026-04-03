@@ -4,8 +4,8 @@ import { OptimizationsSummary } from 'routes/optimizations/optimizationsSummary'
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface OptimizationsSummaryOwnProps {
-  linkPath?: string;
-  linkState?: any;
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
 }
 
 type OptimizationsSummaryProps = OptimizationsSummaryOwnProps;

@@ -363,7 +363,7 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
 const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStateProps>(
   (state, { reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, 'detailsState');
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);

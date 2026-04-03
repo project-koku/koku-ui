@@ -13,6 +13,7 @@ import { createMapStateToProps } from 'store/common';
 
 interface EfficiencyToolbarOwnProps {
   isDisabled?: boolean;
+  groupBy?: string;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   query?: OcpQuery;
@@ -80,12 +81,13 @@ export class EfficiencyToolbarBase extends React.Component<EfficiencyToolbarProp
   };
 
   public render() {
-    const { isDisabled, onFilterAdded, onFilterRemoved, query, resourcePathsType } = this.props;
+    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, query, resourcePathsType } = this.props;
     const { categoryOptions } = this.state;
 
     return (
       <DataToolbar
         categoryOptions={categoryOptions}
+        groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
@@ -112,4 +114,3 @@ const EfficiencyToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(Ef
 const EfficiencyToolbar = injectIntl(EfficiencyToolbarConnect);
 
 export { EfficiencyToolbar };
-export type { EfficiencyToolbarProps };

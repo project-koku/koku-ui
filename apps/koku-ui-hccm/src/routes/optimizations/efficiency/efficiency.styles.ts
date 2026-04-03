@@ -9,7 +9,14 @@ export const styles = {
   headerContainer: {
     paddingBottom: 0,
   },
+  export: {
+    marginTop: '-5px',
+  },
   paginationContainer: {
+    marginTop: t_global_spacer_sm.var,
+  },
+  tableTitle: {
+    display: 'flex',
     marginTop: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

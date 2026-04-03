@@ -2,7 +2,6 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { Icon } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
-import type { Query } from 'api/queries/query';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -15,22 +14,16 @@ import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
-import { getLinkState } from './utils';
-
 interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
-  breadcrumbPath?: string;
   filterBy?: any;
   isClusterHidden?: boolean;
   isLoading?: boolean;
-  isOptimizationsDetails?: boolean;
   isProjectHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
-  query?: Query;
   report: RecommendationReport;
   reportQueryString: string;
 }
@@ -39,21 +32,18 @@ type OptimizationsDataTableProps = OptimizationsDataTableOwnProps;
 
 const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
   breadcrumbLabel,
-  breadcrumbPath,
   filterBy,
   isClusterHidden,
   isLoading,
-  isOptimizationsDetails,
   isProjectHidden,
   linkPath,
   linkState,
   onSort,
   orderBy,
-  projectPath,
-  query,
   report,
 }) => {
   const intl = useIntl();
+
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
 
@@ -113,24 +103,14 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         basePath: linkPath,
         breadcrumbLabel,
         id: item.id,
-        isOptimizationsDetails,
         title: container,
-      });
-
-      const newLinkState = getLinkState({
-        breadcrumbPath,
-        isOptimizationsDetails,
-        linkState,
-        projectPath,
-        optimizationsBreakdownPath,
-        query,
       });
 
       newRows.push({
         cells: [
           {
             value: (
-              <Link to={optimizationsBreakdownPath} state={newLinkState}>
+              <Link to={optimizationsBreakdownPath} state={linkState}>
                 {container}
               </Link>
             ),
@@ -181,7 +161,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [report]);
+  }, [linkState, report]);
 
   return (
     <DataTable

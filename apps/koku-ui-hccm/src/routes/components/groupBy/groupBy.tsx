@@ -98,7 +98,7 @@ const tagType = TagType.tag;
 
 class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   protected defaultState: GroupByState = {
-    defaultItem: this.props.groupBy || this.props.options[0].value,
+    defaultItem: this.props.options[0].value,
     isGroupByCostCategoryVisible: false,
     isGroupByOrgVisible: false,
     isGroupByTagVisible: false,
@@ -157,7 +157,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 
     const queryFromRoute = parseQuery<Query>(router.location.search);
     if (!queryFromRoute?.group_by) {
-      return defaultItem;
+      return this.props.groupBy || defaultItem;
     }
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
