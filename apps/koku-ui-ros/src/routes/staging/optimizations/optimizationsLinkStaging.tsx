@@ -21,15 +21,10 @@ const OptimizationsLinkStaging: React.FC<OptimizationsLinkStagingProps> = () => 
 
   const state = {
     ...(location.state || {}),
-    // AWS/Azure/GCP/OCP details page
-    detailsState: {
-      ...(location.state?.detailsState || {}),
-      breadcrumbPath: formatPath(routes.optimizationsLink.path),
-    },
   };
 
   const linkPath = getBreakdownPath({
-    basePath: formatPath(routes.optimizationsContainersTable.path),
+    basePath: formatPath(routes.ocpOptimizations.path),
     groupBy: 'project',
     id: 'openshift', // groupByValue
   });
