@@ -348,7 +348,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
 const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
-  const queryState = useQueryState('details');
+  const queryState = useQueryState('detailsState');
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery = {

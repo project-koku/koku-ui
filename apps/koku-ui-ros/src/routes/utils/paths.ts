@@ -40,19 +40,16 @@ export const getOptimizationsBreakdownPath = ({
   basePath,
   breadcrumbLabel,
   id,
-  isOptimizationsDetails,
   title,
 }: {
   basePath?: string;
   breadcrumbLabel?: string; // Used to display a breadcrumb in the breakdown header
   id: string | number; // group_by[account]=<id> param in the breakdown page
-  isOptimizationsDetails?: boolean;
   title: string | number; // Used to display a title in the breakdown header
 }) => {
   const newQuery: any = {
     id,
     ...(breadcrumbLabel && { [breadcrumbLabelKey]: breadcrumbLabel }),
-    ...(isOptimizationsDetails && { isOptimizationsDetails: true }),
     ...(title && { [breakdownTitleKey]: title }),
   };
   return `${basePath}?${getQueryRoute(newQuery)}`;

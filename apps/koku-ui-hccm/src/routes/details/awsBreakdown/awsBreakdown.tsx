@@ -49,7 +49,7 @@ const reportPathsType = ReportPathsType.aws;
 
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'details');
+  const queryState = getQueryState(router.location, 'detailsState');
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -138,6 +138,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     providersFetchStatus,
     providerType: ProviderType.aws,
     query,
+    queryStateName: 'detailsState',
     report,
     reportError,
     reportFetchStatus,

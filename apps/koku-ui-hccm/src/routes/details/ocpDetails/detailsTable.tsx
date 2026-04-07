@@ -233,6 +233,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const isLinkDisabled = isDisabled || isUnallocatedProject || isUnattributedCosts;
       const actions = this.getActions(item, index, isDisabled);
 
+      const linkState = {
+        ...(router.location.state && router.location.state),
+        detailsState: {
+          ...(query && query),
+          breadcrumbPath,
+        },
+        ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown
+      };
+
       const name = isLinkDisabled ? (
         (label as any)
       ) : (
@@ -245,13 +254,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             groupBy,
             title: label.toString(), // Convert IDs if applicable
           })}
-          state={{
-            ...(router.location.state && router.location.state),
-            details: {
-              ...(query && query),
-              breadcrumbPath,
-            },
-          }}
+          state={linkState}
         >
           {label}
         </Link>
@@ -320,13 +323,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
                   isOptimizationsTab: true,
                   title: label.toString(), // Convert IDs if applicable
                 })}
-                linkState={{
-                  ...(router.location.state && router.location.state),
-                  details: {
-                    ...(query && query),
-                    breadcrumbPath,
-                  },
-                }}
+                linkState={linkState}
                 project={item.id}
               />
             ),

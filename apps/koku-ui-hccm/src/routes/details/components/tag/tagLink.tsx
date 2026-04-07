@@ -119,7 +119,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
 
 const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>((state, { router, tagPathsType }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'details');
+  const queryState = getQueryState(router.location, 'detailsState');
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
