@@ -109,7 +109,7 @@ class SummaryContentBase extends React.Component<SummaryContentProps, any> {
 const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryContentStateProps>(
   (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, 'detailsState');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

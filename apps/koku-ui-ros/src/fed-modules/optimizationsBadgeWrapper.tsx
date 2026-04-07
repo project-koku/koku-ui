@@ -4,8 +4,8 @@ import { OptimizationsBadge } from 'routes/optimizations/optimizationsBadge';
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface OptimizationsBadgeOwnProps {
-  cluster?: string | string[];
-  project?: string | string[];
+  cluster?: string | string[]; // Cluster name to filter by
+  project?: string | string[]; // Project name to filter by
 }
 
 type OptimizationsBadgeProps = OptimizationsBadgeOwnProps;

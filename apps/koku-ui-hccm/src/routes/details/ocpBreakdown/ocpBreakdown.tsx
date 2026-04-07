@@ -30,7 +30,7 @@ import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
-import { Optimizations } from './optimizations';
+import { OcpOptimizations } from './optimizations';
 import { Virtualization } from './virtualization';
 
 interface OcpBreakdownDispatchProps {
@@ -46,7 +46,7 @@ const reportPathsType = ReportPathsType.ocp;
 
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'details');
+  const queryState = getQueryState(router.location, 'detailsState');
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -143,12 +143,13 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       />
     ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
-    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <Optimizations /> : undefined,
+    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OcpOptimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
     query,
     queryState,
+    queryStateName: 'detailsState',
     report,
     reportError,
     reportFetchStatus,

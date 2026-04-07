@@ -360,7 +360,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
 const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
-  const queryState = useQueryState('details');
+  const queryState = useQueryState('detailsState');
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);

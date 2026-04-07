@@ -40,7 +40,7 @@ const reportPathsType = ReportPathsType.azure;
 
 const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'details');
+  const queryState = getQueryState(router.location, 'detailsState');
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -110,6 +110,7 @@ const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps
     providersFetchStatus,
     providerType: ProviderType.azure,
     query,
+    queryStateName: 'detailsState',
     report,
     reportError,
     reportFetchStatus,

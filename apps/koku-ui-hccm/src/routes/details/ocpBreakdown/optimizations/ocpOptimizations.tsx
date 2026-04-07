@@ -10,17 +10,17 @@ import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { useQueryFromRoute, useQueryState } from 'utils/hooks';
 import { formatPath } from 'utils/paths';
 
-interface OptimizationsOwnProps {
+interface OcpOptimizationsOwnProps {
   // TBD...
 }
 
-interface OptimizationsStateProps {
+interface OcpOptimizationsStateProps {
   isNamespaceToggleEnabled?: boolean;
 }
 
-type OptimizationsProps = OptimizationsOwnProps;
+type OcpOptimizationsProps = OcpOptimizationsOwnProps;
 
-const Optimizations: React.FC<OptimizationsProps> = () => {
+const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
   const intl = useIntl();
   const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
@@ -45,11 +45,12 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         isClusterHidden={clusterFilter !== undefined}
         isProjectHidden={groupBy === 'project'}
         isOptimizationsPath={isOptimizationsPath}
-        linkPath={formatPath(routes.optimizationsBreakdown.path)}
+        linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
         linkState={{
-          ...(location.state && location.state),
+          ...(location.state || {}),
         }}
         project={groupBy === 'project' ? groupByValue : undefined}
+        queryStateName="ocpOptimizationsState"
       />
     );
   }
@@ -65,21 +66,22 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           isClusterHidden={clusterFilter !== undefined}
           isProjectHidden={groupBy === 'project'}
           isOptimizationsPath={isOptimizationsPath}
-          linkPath={formatPath(routes.optimizationsBreakdown.path)}
+          linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
           linkState={{
-            ...(location.state && location.state),
+            ...(location.state || {}),
           }}
           project={groupBy === 'project' ? groupByValue : undefined}
+          queryStateName="ocpOptimizationsState"
         />
       </CardBody>
     </Card>
   );
 };
 
-const useMapToProps = (): OptimizationsStateProps => {
+const useMapToProps = (): OcpOptimizationsStateProps => {
   return {
     isNamespaceToggleEnabled: useIsNamespaceToggleEnabled(),
   };
 };
 
-export { Optimizations };
+export { OcpOptimizations };
