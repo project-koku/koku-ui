@@ -85,21 +85,6 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
   const queryState = getQueryState(location, queryStateName);
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
 
-  // Update state
-  useEffect(() => {
-    navigate(`${location.pathname}${location.search}`, {
-      replace: true,
-      state: {
-        ...(location.state || {}),
-        ...(queryStateName && {
-          [queryStateName]: {
-            ...query,
-          },
-        }),
-      },
-    });
-  }, [query]);
-
   const {
     currency,
     isCurrentMonthData,
@@ -112,17 +97,32 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
     query,
   });
 
-  // Set default time scope
-  if (query.filter?.time_scope_value === undefined) {
-    const newQuery = {
-      ...query,
-      filter: {
-        ...query.filter,
-        time_scope_value: Number(!isCurrentMonthData ? -2 : -1),
-      },
-    };
-    setQuery(newQuery);
-  }
+  useEffect(() => {
+    // Set default time scope
+    if (query.filter?.time_scope_value === undefined) {
+      const newQuery = {
+        ...query,
+        filter: {
+          ...query.filter,
+          time_scope_value: Number(!isCurrentMonthData ? -2 : -1),
+        },
+      };
+      setQuery(newQuery);
+    } else {
+      // Update state
+      navigate(`${location.pathname}${location.search}`, {
+        replace: true,
+        state: {
+          ...(location.state || {}),
+          ...(queryStateName && {
+            [queryStateName]: {
+              ...query,
+            },
+          }),
+        },
+      });
+    }
+  }, [query]);
 
   const handleOnDateRangeSelect = (value: string) => {
     const newQuery = {
