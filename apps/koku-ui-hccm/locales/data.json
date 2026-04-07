@@ -2059,10 +2059,10 @@
         "value": "workload efficiency score = (usage / request) * 100)"
       }
     ],
-    "cpuEfficiencyInfoFormulaWasteCost": [
+    "cpuEfficiencyInfoFormulaWastedCost": [
       {
         "type": 0,
-        "value": "waste cost = (Cost -X% (% of total cost) = waste cost)"
+        "value": "wasted cost = (Cost -X% (% of total cost) = waste cost)"
       }
     ],
     "cpuTitle": [
