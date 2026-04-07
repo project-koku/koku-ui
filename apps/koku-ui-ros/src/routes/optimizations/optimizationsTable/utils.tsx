@@ -2,7 +2,7 @@ import { Icon } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { TrendDownIcon } from '@patternfly/react-icons/dist/esm/icons/trend-down-icon';
 import { TrendUpIcon } from '@patternfly/react-icons/dist/esm/icons/trend-up-icon';
-import type { Query } from '@testing-library/react';
+import type { Query } from 'api/queries/query';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';

@@ -136,7 +136,7 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
         item,
       };
     });
-  }, [computedItems, groupBy]);
+  }, [computedItems, location, groupBy]);
 
   return (
     <DataTable

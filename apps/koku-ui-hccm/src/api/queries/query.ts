@@ -5,10 +5,10 @@ export interface Filters {
   category?: string;
   limit?: number;
   offset?: number;
-  resolution?: string;
+  resolution?: 'daily' | 'monthly';
   service?: string;
   service_name?: string;
-  time_scope_units?: string;
+  time_scope_units?: 'month' | 'day';
   time_scope_value?: number;
 }
 
