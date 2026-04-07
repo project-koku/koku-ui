@@ -53,6 +53,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
   query: Query;
+  queryStateName: string;
   report: Report;
   showCostDistribution?: boolean;
   showCostType?: boolean;
@@ -100,9 +101,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private hasFilterBy = () => {
-    const { groupBy, router } = this.props;
-    const exclude = router.location.state?.detailsState?.exclude;
-    const filterBy = router.location.state?.detailsState?.filter_by;
+    const { groupBy, queryStateName, router } = this.props;
+    const exclude = router.location.state?.[queryStateName]?.exclude;
+    const filterBy = router.location.state?.[queryStateName]?.filter_by;
     return (
       (exclude && Object.keys(exclude).filter(key => key !== groupBy).length > 0) ||
       (filterBy && Object.keys(filterBy).filter(key => key !== groupBy).length > 0)
@@ -110,9 +111,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private getFilterChips = () => {
-    const { intl, router } = this.props;
+    const { intl, queryStateName, router } = this.props;
 
-    const filterBy = this.hasFilterBy() ? router.location.state?.detailsState?.filter_by : undefined;
+    const filterBy = this.hasFilterBy() ? router.location.state?.[queryStateName]?.filter_by : undefined;
     if (!filterBy) {
       return null;
     }
@@ -122,7 +123,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       return label !== '' ? label : value;
     };
 
-    const filters = getActiveFilters(router.location.state?.detailsState) as any;
+    const filters = getActiveFilters(router.location.state?.[queryStateName]) as any;
     const filterChips = Object.keys(filters).map(key => {
       if (filters[key] instanceof Array) {
         const chips: any[] = getChips(filters[key]);
