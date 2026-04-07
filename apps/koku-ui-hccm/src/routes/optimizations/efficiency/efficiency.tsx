@@ -115,9 +115,9 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
   // Set default time scope
   if (query.filter?.time_scope_value === undefined) {
     const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
+      ...query,
       filter: {
-        ...JSON.parse(JSON.stringify(query.filter)),
+        ...query.filter,
         time_scope_value: Number(!isCurrentMonthData ? -2 : -1),
       },
     };
