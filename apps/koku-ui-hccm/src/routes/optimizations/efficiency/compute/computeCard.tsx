@@ -220,7 +220,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
                     {intl.formatMessage(messages.formula)}
                   </Title>
                   <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaUsageScore)}</p>
-                  <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaWasteCost)}</p>
+                  <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaWastedCost)}</p>
                 </>
               }
               enableFlip
