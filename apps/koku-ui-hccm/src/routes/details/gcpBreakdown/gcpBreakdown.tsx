@@ -40,7 +40,7 @@ const reportPathsType = ReportPathsType.gcp;
 
 const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'details');
+  const queryState = getQueryState(router.location, 'detailsState');
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -108,6 +108,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
     providersFetchStatus,
     providerType: ProviderType.gcp,
     query,
+    queryStateName: 'detailsState',
     report,
     reportError,
     reportFetchStatus,

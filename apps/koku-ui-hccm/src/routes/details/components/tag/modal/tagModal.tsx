@@ -118,7 +118,7 @@ class TagModalBase extends React.Component<TagModalProps, any> {
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
   (state, { router, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, 'detailsState');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

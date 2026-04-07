@@ -377,6 +377,32 @@ podman compose exec valkey valkey-cli flushall
 
 ## Troubleshooting
 
+### Container(s) failed to start
+
+1. Increase memory to 8GB (8192MB) and give podman more CPUs if possible.
+
+```bash
+podman machine stop
+podman machine set --memory 8192 --cpus 4
+podman machine start
+```
+
+### Koku server is not available
+
+Wait up to 3 mins for koku-server to be ready. To verify koku-server API responds, run:
+
+```bash
+curl -s http://localhost:8000/api/cost-management/v1/status/ | python3 -m json.tool
+```
+
+### Masu server is not available
+
+Masu depends on trino being healthy, so wait up to 3 mins. To verify masu-server API responds, run:
+
+```bash
+curl -s http://localhost:5042/api/cost-management/v1/status/ | python3 -m json.tool
+```
+
 ### Reports show no data
 
 The worker processes ingested data asynchronously. After the setup script completes, wait a minute or two before expecting report pages to show rows. Check progress:

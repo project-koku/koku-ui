@@ -4,12 +4,12 @@ import { OptimizationsDetails } from 'routes/optimizations/optimizationsDetails'
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface OptimizationsDetailsOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
   isHeaderHidden?: boolean;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  queryStateName: string; // Name used to store link state -- details and breakdown should used same name
 }
 
 type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
@@ -20,7 +20,7 @@ const OptimizationsDetailsWrapper: React.FC<OptimizationsDetailsProps> = ({
   isHeaderHidden,
   linkPath,
   linkState,
-  projectPath,
+  queryStateName,
 }: OptimizationsDetailsOwnProps) => {
   return (
     <OptimizationsWrapper>
@@ -30,7 +30,7 @@ const OptimizationsDetailsWrapper: React.FC<OptimizationsDetailsProps> = ({
         isHeaderHidden={isHeaderHidden}
         linkPath={linkPath}
         linkState={linkState}
-        projectPath={projectPath}
+        queryStateName={queryStateName}
       />
     </OptimizationsWrapper>
   );

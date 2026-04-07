@@ -55,6 +55,10 @@ export interface OcpReportMeta extends ReportMeta {
     limit?: ReportValue;
     request?: ReportValue;
     supplementary?: ReportItemValue;
+    total_score?: {
+      usage_efficiency_percent?: number;
+      wasted_cost?: ReportValue;
+    };
     usage?: ReportValue;
   };
 }

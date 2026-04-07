@@ -101,8 +101,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
   private hasFilterBy = () => {
     const { groupBy, router } = this.props;
-    const exclude = router.location.state?.details?.exclude;
-    const filterBy = router.location.state?.details?.filter_by;
+    const exclude = router.location.state?.detailsState?.exclude;
+    const filterBy = router.location.state?.detailsState?.filter_by;
     return (
       (exclude && Object.keys(exclude).filter(key => key !== groupBy).length > 0) ||
       (filterBy && Object.keys(filterBy).filter(key => key !== groupBy).length > 0)
@@ -112,7 +112,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private getFilterChips = () => {
     const { intl, router } = this.props;
 
-    const filterBy = this.hasFilterBy() ? router.location.state?.details?.filter_by : undefined;
+    const filterBy = this.hasFilterBy() ? router.location.state?.detailsState?.filter_by : undefined;
     if (!filterBy) {
       return null;
     }
@@ -122,7 +122,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       return label !== '' ? label : value;
     };
 
-    const filters = getActiveFilters(router.location.state?.details) as any;
+    const filters = getActiveFilters(router.location.state?.detailsState) as any;
     const filterChips = Object.keys(filters).map(key => {
       if (filters[key] instanceof Array) {
         const chips: any[] = getChips(filters[key]);

@@ -79,6 +79,7 @@ export interface BreakdownStateProps {
   providersFetchStatus?: FetchStatus;
   query?: Query;
   queryState?: Query;
+  queryStateName: string;
   report?: Report;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -306,6 +307,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       providers,
       providersFetchStatus,
       query,
+      queryStateName,
       report,
       reportError,
       reportFetchStatus,
@@ -343,11 +345,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         <PageSection style={styles.headerContainer}>
           <BreakdownHeader
             breadcrumbLabel={breadcrumbLabel}
-            breadcrumbPath={
-              router?.location?.state?.details?.breadcrumbPath
-                ? router.location.state.details.breadcrumbPath
-                : breadcrumbPath
-            }
+            breadcrumbPath={router?.location?.state?.[queryStateName]?.breadcrumbPath || breadcrumbPath}
             clusterInfoComponent={clusterInfoComponent}
             costDistribution={costDistribution}
             costType={costType}
