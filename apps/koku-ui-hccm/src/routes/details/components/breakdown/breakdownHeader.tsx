@@ -53,6 +53,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   onCostTypeSelect(value: string);
   onCurrencySelect(value: string);
   query: Query;
+  queryStateName: string;
   report: Report;
   showCostDistribution?: boolean;
   showCostType?: boolean;
@@ -100,29 +101,25 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   };
 
   private hasFilterBy = () => {
-    const { groupBy, router } = this.props;
-    const exclude = router.location.state?.detailsState?.exclude;
-    const filterBy = router.location.state?.detailsState?.filter_by;
+    const { groupBy, queryStateName, router } = this.props;
+    const queryState = router.location.state?.[queryStateName];
+    const exclude = queryState?.exclude;
+    const filterBy = queryState?.filter_by;
     return (
-      (exclude && Object.keys(exclude).filter(key => key !== groupBy).length > 0) ||
-      (filterBy && Object.keys(filterBy).filter(key => key !== groupBy).length > 0)
+      (exclude && Object.keys(exclude).some(key => key !== groupBy)) ||
+      (filterBy && Object.keys(filterBy).some(key => key !== groupBy))
     );
   };
 
   private getFilterChips = () => {
-    const { intl, router } = this.props;
-
-    const filterBy = this.hasFilterBy() ? router.location.state?.detailsState?.filter_by : undefined;
-    if (!filterBy) {
-      return null;
-    }
+    const { intl, queryStateName, router } = this.props;
 
     const getLabel = value => {
       const label = intl.formatMessage(messages.filterByValues, { value });
       return label !== '' ? label : value;
     };
 
-    const filters = getActiveFilters(router.location.state?.detailsState) as any;
+    const filters = getActiveFilters(router.location.state?.[queryStateName]);
     const filterChips = Object.keys(filters).map(key => {
       if (filters[key] instanceof Array) {
         const chips: any[] = getChips(filters[key]);
