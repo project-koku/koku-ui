@@ -200,7 +200,7 @@
   "cpuEfficiencyBreakdown": "CPU workload efficiency breakdown",
   "cpuEfficiencyInfoArialLabel": "A description of CPU workload efficiency",
   "cpuEfficiencyInfoFormulaUsageScore": "workload efficiency score = (usage / request) * 100)",
-  "cpuEfficiencyInfoFormulaWasteCost": "waste cost = (Cost -X% (% of total cost) = waste cost)",
+  "cpuEfficiencyInfoFormulaWastedCost": "wasted cost = (Cost -X% (% of total cost) = waste cost)",
   "cpuTitle": "CPU",
   "create": "Create",
   "createCostModelConfirmMsg": "Are you sure you want to stop creating a cost model? All settings will be discarded.",

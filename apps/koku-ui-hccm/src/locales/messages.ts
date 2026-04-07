@@ -1084,10 +1084,10 @@ export default defineMessages({
     description: 'workload efficiency score = (usage / request) * 100)',
     id: 'cpuEfficiencyInfoFormulaUsageScore',
   },
-  cpuEfficiencyInfoFormulaWasteCost: {
-    defaultMessage: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
-    description: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
-    id: 'cpuEfficiencyInfoFormulaWasteCost',
+  cpuEfficiencyInfoFormulaWastedCost: {
+    defaultMessage: 'wasted cost = (Cost -X% (% of total cost) = waste cost)',
+    description: 'wasted cost = (Cost -X% (% of total cost) = waste cost)',
+    id: 'cpuEfficiencyInfoFormulaWastedCost',
   },
   cpuTitle: {
     defaultMessage: 'CPU',
