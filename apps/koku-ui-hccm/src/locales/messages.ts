@@ -1064,6 +1064,31 @@ export default defineMessages({
     description: 'Usage cost on the day you are charged',
     id: 'costTypeUnblendedDesc',
   },
+  cpuEfficiency: {
+    defaultMessage: 'CPU workload efficiency',
+    description: 'CPU workload efficiency',
+    id: 'cpuEfficiency',
+  },
+  cpuEfficiencyBreakdown: {
+    defaultMessage: 'CPU workload efficiency breakdown',
+    description: 'CPU workload efficiency breakdown',
+    id: 'cpuEfficiencyBreakdown',
+  },
+  cpuEfficiencyInfoArialLabel: {
+    defaultMessage: 'A description of CPU workload efficiency',
+    description: 'A description of CPU workload efficiency',
+    id: 'cpuEfficiencyInfoArialLabel',
+  },
+  cpuEfficiencyInfoFormulaUsageScore: {
+    defaultMessage: 'workload efficiency score = (usage / request) * 100)',
+    description: 'workload efficiency score = (usage / request) * 100)',
+    id: 'cpuEfficiencyInfoFormulaUsageScore',
+  },
+  cpuEfficiencyInfoFormulaWasteCost: {
+    defaultMessage: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
+    description: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
+    id: 'cpuEfficiencyInfoFormulaWasteCost',
+  },
   cpuTitle: {
     defaultMessage: 'CPU',
     description: 'CPU',
@@ -2256,6 +2281,11 @@ export default defineMessages({
     description: '{value} for {Jan 1-31}',
     id: 'forDate',
   },
+  formula: {
+    defaultMessage: 'Formula:',
+    description: 'Formula:',
+    id: 'formula',
+  },
   gcp: {
     defaultMessage: 'Google Cloud',
     description: 'Google Cloud',
@@ -2650,6 +2680,31 @@ export default defineMessages({
       'other {}}',
     description: 'Measurement descriptions',
     id: 'measurementValuesDesc',
+  },
+  memoryEfficiency: {
+    defaultMessage: 'Memory workload efficiency',
+    description: 'Memory workload efficiency',
+    id: 'memoryEfficiency',
+  },
+  memoryEfficiencyBreakdown: {
+    defaultMessage: 'Memory workload efficiency breakdown',
+    description: 'Memory workload efficiency breakdown',
+    id: 'memoryEfficiencyBreakdown',
+  },
+  memoryEfficiencyInfoArialLabel: {
+    defaultMessage: 'A description of memory workload efficiency',
+    description: 'A description of memory workload efficiency',
+    id: 'memoryEfficiencyInfoArialLabel',
+  },
+  memoryEfficiencyInfoFormulaUsageScore: {
+    defaultMessage: 'workload efficiency score = (usage / request) * 100)',
+    description: 'workload efficiency score = (usage / request) * 100)',
+    id: 'memoryEfficiencyInfoFormulaUsageScore',
+  },
+  memoryEfficiencyInfoFormulaWasteCost: {
+    defaultMessage: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
+    description: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
+    id: 'memoryEfficiencyInfoFormulaWasteCost',
   },
   memoryTitle: {
     defaultMessage: 'Memory',
@@ -4048,6 +4103,11 @@ export default defineMessages({
     description: 'Volume',
     id: 'volumeTitle',
   },
+  wastedCost: {
+    defaultMessage: 'Wasted cost',
+    description: 'Wasted cost',
+    id: 'wastedCost',
+  },
   workerUnallocated: {
     defaultMessage: 'Worker unallocated',
     description: 'Worker unallocated',
@@ -4057,6 +4117,11 @@ export default defineMessages({
     defaultMessage: 'Distribute unused and non-reserved resource costs to projects',
     description: 'Distribute unused and non-reserved resource costs to projects',
     id: 'workerUnallocatedDesc',
+  },
+  workloadEfficiency: {
+    defaultMessage: 'Workload efficiency',
+    description: 'Workload efficiency',
+    id: 'workloadEfficiency',
   },
   yes: {
     defaultMessage: 'Yes',

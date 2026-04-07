@@ -2035,6 +2035,36 @@
         "value": "Usage cost on the day you are charged"
       }
     ],
+    "cpuEfficiency": [
+      {
+        "type": 0,
+        "value": "CPU workload efficiency"
+      }
+    ],
+    "cpuEfficiencyBreakdown": [
+      {
+        "type": 0,
+        "value": "CPU workload efficiency breakdown"
+      }
+    ],
+    "cpuEfficiencyInfoArialLabel": [
+      {
+        "type": 0,
+        "value": "A description of CPU workload efficiency"
+      }
+    ],
+    "cpuEfficiencyInfoFormulaUsageScore": [
+      {
+        "type": 0,
+        "value": "workload efficiency score = (usage / request) * 100)"
+      }
+    ],
+    "cpuEfficiencyInfoFormulaWasteCost": [
+      {
+        "type": 0,
+        "value": "waste cost = (Cost -X% (% of total cost) = waste cost)"
+      }
+    ],
     "cpuTitle": [
       {
         "type": 0,
@@ -8067,6 +8097,12 @@
         "value": "dateRange"
       }
     ],
+    "formula": [
+      {
+        "type": 0,
+        "value": "Formula:"
+      }
+    ],
     "gcp": [
       {
         "type": 0,
@@ -10604,6 +10640,36 @@
         },
         "type": 5,
         "value": "value"
+      }
+    ],
+    "memoryEfficiency": [
+      {
+        "type": 0,
+        "value": "Memory workload efficiency"
+      }
+    ],
+    "memoryEfficiencyBreakdown": [
+      {
+        "type": 0,
+        "value": "Memory workload efficiency breakdown"
+      }
+    ],
+    "memoryEfficiencyInfoArialLabel": [
+      {
+        "type": 0,
+        "value": "A description of memory workload efficiency"
+      }
+    ],
+    "memoryEfficiencyInfoFormulaUsageScore": [
+      {
+        "type": 0,
+        "value": "workload efficiency score = (usage / request) * 100)"
+      }
+    ],
+    "memoryEfficiencyInfoFormulaWasteCost": [
+      {
+        "type": 0,
+        "value": "waste cost = (Cost -X% (% of total cost) = waste cost)"
       }
     ],
     "memoryTitle": [
@@ -13537,6 +13603,12 @@
         "value": "Volume"
       }
     ],
+    "wastedCost": [
+      {
+        "type": 0,
+        "value": "Wasted cost"
+      }
+    ],
     "workerUnallocated": [
       {
         "type": 0,
@@ -13547,6 +13619,12 @@
       {
         "type": 0,
         "value": "Distribute unused and non-reserved resource costs to projects"
+      }
+    ],
+    "workloadEfficiency": [
+      {
+        "type": 0,
+        "value": "Workload efficiency"
       }
     ],
     "yes": [

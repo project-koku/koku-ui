@@ -15,6 +15,12 @@ const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'route
 const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/details/ocpDetails'));
+const OcpOptimizationsBreakdown = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ './routes/details/ocpBreakdown/optimizations/ocpOptimizationsBreakdown'
+    )
+);
 const OptimizationsBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
 );
@@ -59,19 +65,19 @@ export const routes = {
     element: userAccess(OcpBreakdown),
     path: '/ocp/breakdown',
   },
-  ocpBreakdownOptimizations: {
-    element: userAccess(OptimizationsBreakdown),
-    path: '/ocp/breakdown/optimizations',
-  },
   ocpDetails: {
     element: userAccess(OcpDetails),
     path: '/ocp',
+  },
+  ocpOptimizationsBreakdown: {
+    element: userAccess(OcpOptimizationsBreakdown),
+    path: '/ocp/breakdown/optimizations',
   },
   optimizationsBreakdown: {
     element: userAccess(OptimizationsBreakdown),
     path: '/optimizations/breakdown',
   },
-  optimizationsDetails: {
+  optimizations: {
     element: userAccess(Optimizations),
     path: '/optimizations',
   },

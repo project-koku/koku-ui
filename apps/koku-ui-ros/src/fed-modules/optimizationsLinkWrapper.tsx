@@ -4,10 +4,10 @@ import { OptimizationsLink } from 'routes/optimizations/optimizationsLink';
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface OptimizationsLinkOwnProps {
-  cluster?: string | string[];
-  linkPath?: string;
-  linkState?: any;
-  project?: string | string[];
+  cluster?: string | string[]; // Cluster name to filter by
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  project?: string | string[]; // Project name to filter by
 }
 
 type OptimizationsLinkProps = OptimizationsLinkOwnProps;

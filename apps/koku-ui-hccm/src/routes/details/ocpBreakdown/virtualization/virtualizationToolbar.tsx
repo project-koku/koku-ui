@@ -201,7 +201,7 @@ export class VirtualizationToolbarBase extends React.Component<VirtualizationToo
 const mapStateToProps = createMapStateToProps<VirtualizationToolbarOwnProps, VirtualizationToolbarStateProps>(
   (state, { router, timeScopeValue = -1 }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, 'detailsState');
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
