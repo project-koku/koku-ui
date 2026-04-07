@@ -90,7 +90,7 @@ export const getLinkState = ({
   queryStateName: string;
 }) => {
   return {
-    ...(location?.state && location.state),
+    ...(location.state || {}),
     ...(linkState && linkState),
     ...(queryStateName && {
       [queryStateName]: {
