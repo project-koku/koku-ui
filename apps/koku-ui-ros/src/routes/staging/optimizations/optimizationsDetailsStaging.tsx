@@ -22,7 +22,7 @@ const OptimizationsDetailsStaging: React.FC<OptimizationsDetailsStagingProps> = 
       breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
       linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
       linkState={{
-        ...(location.state && location.state),
+        ...(location.state || {}),
       }}
       queryStateName="optimizationsDetailsState"
     />

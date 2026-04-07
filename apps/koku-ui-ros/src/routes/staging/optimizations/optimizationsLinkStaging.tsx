@@ -20,10 +20,10 @@ const OptimizationsLinkStaging: React.FC<OptimizationsLinkStagingProps> = () => 
   const projectFilter = 'openshift';
 
   const state = {
-    ...(location.state && location.state),
+    ...(location.state || {}),
     // AWS/Azure/GCP/OCP details page
     detailsState: {
-      ...(location.state?.detailsState && location.state.detailsState),
+      ...(location.state?.detailsState || {}),
       breadcrumbPath: formatPath(routes.optimizationsLink.path),
     },
   };

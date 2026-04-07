@@ -24,7 +24,7 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
         breadcrumbPath={formatPath(`${routes.ocpOptimizations.path}${location.search}`)}
         linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
         linkState={{
-          ...(location.state && location.state),
+          ...(location.state || {}),
         }}
         queryStateName="ocpOptimizationsState"
       />

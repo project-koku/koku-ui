@@ -96,7 +96,7 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
   const intl = useIntl();
   const location = useLocation();
 
-  const queryState = getQueryState(location, 'efficiencyCompute');
+  const queryState = getQueryState(location, 'efficiencyMemory');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 

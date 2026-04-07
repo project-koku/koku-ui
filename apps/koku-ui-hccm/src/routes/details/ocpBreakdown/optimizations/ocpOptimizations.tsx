@@ -47,7 +47,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
         isOptimizationsPath={isOptimizationsPath}
         linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
         linkState={{
-          ...(location.state && location.state),
+          ...(location.state || {}),
         }}
         project={groupBy === 'project' ? groupByValue : undefined}
         queryStateName="ocpOptimizationsState"
@@ -68,7 +68,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
           isOptimizationsPath={isOptimizationsPath}
           linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
           linkState={{
-            ...(location.state && location.state),
+            ...(location.state || {}),
           }}
           project={groupBy === 'project' ? groupByValue : undefined}
           queryStateName="ocpOptimizationsState"

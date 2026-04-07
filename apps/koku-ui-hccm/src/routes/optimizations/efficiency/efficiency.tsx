@@ -6,7 +6,7 @@ import { getQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -56,7 +56,7 @@ export interface EfficiencyStateProps {
 }
 
 export interface EfficiencyMapProps {
-  query?: OcpQuery;
+  // TBD...
 }
 
 type EfficiencyProps = EfficiencyOwnProps;
@@ -92,9 +92,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
     providers,
     providersError,
     providersFetchStatus,
-  } = useMapToProps({
-    query,
-  });
+  } = useMapToProps();
 
   useEffect(() => {
     // Set default time scope
@@ -121,7 +119,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
         },
       });
     }
-  }, [query]);
+  }, [isCurrentMonthData, query]);
 
   const handleOnDateRangeSelect = (value: string) => {
     const newQuery = {
@@ -167,12 +165,12 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
     forceUpdate();
   };
 
-  const handleOnResize = () => {
+  const handleOnResize = useCallback(() => {
     const { clientWidth = 0 } = containerRef?.current || {};
     if (clientWidth !== width) {
       setWidth(clientWidth);
     }
-  };
+  }, [width]);
 
   const isOperatorAlertOpen = () => {
     const result = providers?.data?.find(provider => provider.additional_context?.operator_update_available === true);
@@ -291,7 +289,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
   );
 };
 
-const useMapToProps = ({ query }: EfficiencyMapProps): EfficiencyStateProps => {
+const useMapToProps = (): EfficiencyStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const currency = getCurrency();
 
@@ -314,7 +312,7 @@ const useMapToProps = ({ query }: EfficiencyMapProps): EfficiencyStateProps => {
     if (!providersError && providersFetchStatus !== FetchStatus.inProgress) {
       dispatch(providersActions.fetchProviders(ProviderType.all, providersQueryString));
     }
-  }, [query]);
+  }, [providersQueryString]);
 
   return {
     currency,

@@ -29,12 +29,10 @@ const EfficiencySummary: React.FC<EfficiencySummaryProps> = ({ report }: Efficie
             {intl.formatMessage(messages.wastedCost)}
           </Title>
           <div>
-            {intl.formatMessage(messages.percent, {
-              value: formatCurrency(
-                report?.meta?.total?.total_score?.wasted_cost?.value || 0,
-                report?.meta?.total?.total_score?.wasted_cost?.units || 'USD'
-              ),
-            })}
+            {formatCurrency(
+              report?.meta?.total?.total_score?.wasted_cost?.value || 0,
+              report?.meta?.total?.total_score?.wasted_cost?.units || 'USD'
+            )}
           </div>
         </FlexItem>
       </Flex>

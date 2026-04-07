@@ -96,7 +96,7 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
               activeTabKey: 1, // Optimizations tab should be active when navigating back
             },
             optimizationsDetailsState: {
-              ...(location.state?.optimizationsState || {}),
+              ...(location.state?.optimizationsDetailsState || {}),
               filter_by: {
                 [groupBy]: [label], // Filter by cluster or project name
               },
