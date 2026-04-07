@@ -31,7 +31,7 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
       case formatPath(routes.ocpBreakdown.path):
       case formatPath(routes.ocpDetails.path):
         return messages.pageTitleOcp;
-      case formatPath(routes.optimizationsDetails.path):
+      case formatPath(routes.optimizations.path):
       case formatPath(routes.optimizationsBreakdown.path):
         return messages.pageTitleOptimizations;
       case formatPath(routes.overview.path):

@@ -1,1 +1,1 @@
-export * from './efficiency';
+export { default as Efficiency } from './efficiency';

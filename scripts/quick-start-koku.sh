@@ -172,13 +172,6 @@ EEOOFF
     exit 1
   fi
 
-  # Test koku .env -- without it, podman compose aborts with "required variable UNLEASH_TOKEN is missing"
-  if [ ! -f "$KOKU_DIR/.env" ]; then
-    echo "Error: $KOKU_DIR/.env not found"
-    echo "Create it: cd $KOKU_DIR && cp .env.example .env"
-    exit 1
-  fi
-
   # Test nise dir
   if [ ! -f "$NISE_DIR/pyproject.toml" ]; then
     echo "Error: nise repo not found at $NISE_DIR"
@@ -290,13 +283,20 @@ kokuEnv()
 {
   cd $KOKU_DIR
 
-  if [ ! -f .env ]; then
-    echo -e "\n*** Copying .env.example..."
+  if [[ ! -f .env && -n "$KOKU_ENV" ]]; then
+    echo -e "\n*** Copying $KOKU_DIR/.env.example..."
     cp .env.example .env
   fi
 
+  # Test koku .env -- without it, podman compose aborts with "required variable UNLEASH_TOKEN is missing"
+  if [ ! -f .env ]; then
+    echo "Error: $KOKU_DIR/.env not found"
+    echo "Create it: cd $KOKU_DIR && cp .env.example .env"
+    exit 1
+  fi
+
   if [ -n "$KOKU_ENV" ]; then
-    echo "*** Updating koku/.env file..."
+    echo "*** Updating $KOKU_DIR/.env file..."
 
     # First pass: append any keys that are entirely absent from the file.
     # Second pass (sed below): overwrite all known keys to their local-dev values.
@@ -331,6 +331,7 @@ kokuEnv()
         -e "s|GROUP_ID=.*|GROUP_ID=$(id -g)|" \
         -e "s|KOKU_API_PATH_PREFIX=.*|KOKU_API_PATH_PREFIX='/api/cost-management'|" \
         -e "s|MASU_API_PATH_PREFIX=.*|MASU_API_PATH_PREFIX='/api/cost-management'|" \
+        -e "s|S3_ENDPOINT=.*|S3_ENDPOINT=http://localhost:9000|" \
         -e "s|UNLEASH_ADMIN_TOKEN=.*|UNLEASH_ADMIN_TOKEN=*:*.unleash-insecure-api-token|" \
         -e "s|UNLEASH_TOKEN=.*|UNLEASH_TOKEN=default:development.unleash-insecure-api-token|" \
         -e "s|# USER_ID=.*|USER_ID=|" \
@@ -403,8 +404,9 @@ EEOOFF
   export GROUP_ID=$(id -g)
 
   echo -e "\n*** Starting the full stack with Trino..."
-  export COMPOSE_FILE="docker-compose.yml:$PODMAN_OVERRIDE_FILE"
-  $PIPENV_BIN run make DOCKER="$PODMAN" docker-up-min-trino
+  $PIPENV_BIN run make DOCKER="$PODMAN" \
+    COMPOSE_FILES="-f docker-compose.yml -f $PODMAN_OVERRIDE_FILE" \
+    docker-up-min-trino
 
   # Koku's .env sets AWS_ACCESS_KEY_ID= (empty string). Compose's
   # ${VAR-default} syntax only substitutes when the variable is UNSET, not empty,
@@ -429,37 +431,55 @@ EEOOFF
     $PODMAN_COMPOSE ps
   fi
 
-  echo -e "\n*** To verify API responds, run:"
+  echo -e "\n*** To verify koku-server API responds, run:"
 cat <<- EEOOFF
   curl -s http://localhost:8000/api/cost-management/v1/status/ | python3 -m json.tool
 EEOOFF
 
-  if [ -n "$VERBOSE" ]; then
-    echo -e "\n*** Would you like to poll (up to 3 min) to ensure the API responds?"
-    echo "Your choice [n/Y]:"
-    read -r ANSWER
-    case $ANSWER in
-      [Nn]*) RUN_COMMAND=;;
-      *) RUN_COMMAND=1;;
-    esac
-  fi
-  if [ -n "$RUN_COMMAND" ];then
-    SERVER_UP=
-    TRIES=0
-    MAX_WAIT=180 # seconds total before giving up
-    POLL_INTERVAL=2 # seconds between health-check attempts
-    MAX_TRIES=$(( MAX_WAIT / POLL_INTERVAL ))
-    while [ "$TRIES" -lt "$MAX_TRIES" ]; do
-      if curl -sf http://localhost:8000/api/cost-management/v1/status/ >/dev/null 2>&1; then
-        SERVER_UP=1; break
-      fi
-      echo -n "."; sleep "$POLL_INTERVAL"
-      TRIES=$(( TRIES + 1 ))
-    done
-    if [ -z "$SERVER_UP" ]; then
-      echo -e "\n*** koku-server did not respond after ${MAX_WAIT}s"
-      exit 1
+  MAX_WAIT=180 # seconds total before giving up
+  MAX_WAIT_MIN=$(( MAX_WAIT / 60 ))
+  POLL_INTERVAL=2 # seconds between health-check attempts
+  MAX_TRIES=$(( MAX_WAIT / POLL_INTERVAL ))
+  SERVER_UP=
+  TRIES=0
+
+  echo -e "\n*** Waiting for koku-server to be ready (up to ${MAX_WAIT_MIN} minutes)..."
+  while [ "$TRIES" -lt "$MAX_TRIES" ]; do
+    if curl -sf http://localhost:8000/api/cost-management/v1/status/ >/dev/null 2>&1; then
+      SERVER_UP=1; break
     fi
+    echo -n "."; sleep "$POLL_INTERVAL"
+    TRIES=$(( TRIES + 1 ))
+  done
+  if [ -z "$SERVER_UP" ]; then
+    echo -e "\n*** koku-server did not respond after ${MAX_WAIT_MIN} minutes"
+    exit 1
+  fi
+
+  # Also wait for masu-server (port 5042). load_test_customer_data.sh checks masu
+  # with a single curl and exits immediately if it is not ready. masu depends on
+  # trino being healthy (added in koku commit ed1fb1e75), so after the trino
+  # force-recreate above it may lag koku-server by 30+ seconds.
+
+  echo -e "\n*** To verify masu-server API responds, run:"
+cat <<- EEOOFF
+  curl -s http://localhost:5042/api/cost-management/v1/status/ | python3 -m json.tool
+EEOOFF
+
+  MASU_UP=
+  TRIES=0
+
+  echo -e "\n*** Waiting for masu-server to be ready (up to ${MAX_WAIT_MIN} minutes)..."
+  while [ "$TRIES" -lt "$MAX_TRIES" ]; do
+    if curl -sf http://localhost:5042/api/cost-management/v1/status/ >/dev/null 2>&1; then
+      MASU_UP=1; break
+    fi
+    echo -n "."; sleep "$POLL_INTERVAL"
+    TRIES=$(( TRIES + 1 ))
+  done
+  if [ -z "$MASU_UP" ]; then
+    echo -e "\n*** masu-server did not respond after ${MAX_WAIT_MIN} minutes"
+    exit 1
   fi
 
   echo -e "\n***"
@@ -504,13 +524,19 @@ niseEnv()
 {
   cd $NISE_DIR
 
-  if [ ! -f .env ]; then
-    echo -e "\n*** Copying .env.example..."
+  if [[ ! -f .env && -n "$NISE_ENV" ]]; then
+    echo -e "\n*** Copying $NISE_DIR/.env.example..."
     cp .env.example .env
   fi
 
+  if [ ! -f .env ]; then
+    echo "Error: $NISE_DIR/.env not found"
+    echo "Create it: cd $NISE_DIR && cp .env.example .env"
+    exit 1
+  fi
+
   if [ -n "$NISE_ENV" ]; then
-    echo "*** Updating nise/.env file..."
+    echo "*** Updating $NISE_DIR/.env file..."
     sed -e "s|KOKU_PATH=.*|KOKU_PATH=$KOKU_DIR|" .env > .env.tmp
     mv .env.tmp .env
   fi
@@ -562,6 +588,12 @@ EEOOFF
   trap cleanup SIGINT SIGTERM EXIT
 
   default
+
+  # Check if podman is running
+  if ! $PODMAN machine list | grep -q Currently; then
+    echo "Error: podman not running"
+    exit 1
+  fi
 
   while getopts hcknv z; do
     case $z in

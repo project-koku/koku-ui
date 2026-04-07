@@ -17,11 +17,12 @@ import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
-import { clearQueryState, getQueryState } from 'routes/utils/queryState';
+import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 
+import { getLinkState } from '../utils';
 import { OptimizationsContainersDataTable } from './optimizationsContainersDataTable';
 import { OptimizationsContainersToolbar } from './optimizationsContainersToolbar';
 
@@ -30,12 +31,11 @@ interface OptimizationsContainersTableOwnProps {
   breadcrumbPath?: string;
   cluster?: string | string[];
   isClusterHidden?: boolean;
-  isOptimizationsDetails?: boolean;
   isProjectHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   project?: string | string[];
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
+  queryStateName: string; // Name used to store query state
 }
 
 export interface OptimizationsContainersTableStateProps {
@@ -69,17 +69,17 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   breadcrumbPath,
   cluster,
   isClusterHidden,
-  isOptimizationsDetails,
   isProjectHidden,
   linkPath,
   linkState,
   project,
-  projectPath,
+  queryStateName,
 }) => {
   const intl = useIntl();
   const location = useLocation();
 
-  const queryState = getQueryState(location, projectPath ? 'optimizations' : 'optimizationsBreakdown');
+  const [newLinkState, setNewLinkState] = useState();
+  const queryState = getQueryState(location, queryStateName);
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     cluster,
@@ -87,10 +87,25 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     query,
   });
 
-  // Clear queryState, returned from breakdown page, after query has been initialized
+  // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
+  // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.
+  //
+  // Path 1: From OCP details, user navigates to the OCP breakdown (i.e., the "optimizations tab").
+  // Within the Optimizations tab, users may navigate to the Optimizations breakdown.
+  //
+  // Path 2: From Optimizations, user navigates to the Optimizations breakdown and chooses the "project" link.
+  // The project link navigates to the OCP breakdown, where users may navigate to the Optimizations breakdown.
   useEffect(() => {
-    clearQueryState(location, 'optimizationsBreakdown');
-  }, [reportQueryString]);
+    setNewLinkState(
+      getLinkState({
+        breadcrumbPath,
+        linkState,
+        location,
+        query,
+        queryStateName,
+      })
+    );
+  }, [query]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
@@ -123,20 +138,16 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     return (
       <OptimizationsContainersDataTable
         breadcrumbLabel={breadcrumbLabel}
-        breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
         isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isOptimizationsDetails={isOptimizationsDetails}
         isProjectHidden={isProjectHidden}
+        linkPath={linkPath}
+        linkState={newLinkState}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
-        query={query}
         report={report}
         reportQueryString={reportQueryString}
-        linkPath={linkPath}
-        linkState={linkState}
-        projectPath={projectPath}
       />
     );
   };
