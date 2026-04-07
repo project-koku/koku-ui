@@ -1,9 +1,12 @@
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { providersActions, providersSelectors } from 'store/providers';
 import { filterProviders, hasCurrentMonthData, hasPreviousMonthData } from 'routes/utils/providers';
+import * as queryUtils from 'routes/utils/query';
+import { getSinceDateRangeString } from 'utils/dates';
+import { isOperatorAvailableValid, setOperatorAvailable } from 'utils/sessionStorage';
 
 import { renderWithProviders } from './testUtils';
 import Efficiency from './efficiency';
@@ -72,8 +75,22 @@ jest.mock('./memory', () => ({
   MemoryCard: () => <div data-testid="memory-card" />,
 }));
 
+let capturedHeaderProps: any = null;
 jest.mock('./efficiencyHeader', () => ({
-  EfficiencyHeader: () => <div data-testid="efficiency-header" />,
+  EfficiencyHeader: (props: any) => {
+    capturedHeaderProps = props;
+    return <div data-testid="efficiency-header" />;
+  },
+}));
+
+jest.mock('routes/utils/query', () => ({
+  handleOnFilterAdded: jest.fn(q => ({ ...q })),
+  handleOnFilterRemoved: jest.fn(q => ({ ...q })),
+  handleOnCurrencySelect: jest.fn(q => ({ ...q })),
+  handleOnGroupBySelect: jest.fn(q => ({ ...q })),
+  handleOnSort: jest.fn(q => ({ ...q })),
+  handleOnPerPageSelect: jest.fn(q => ({ ...q })),
+  handleOnSetPage: jest.fn(q => ({ ...q })),
 }));
 
 jest.mock('routes/components/page/loading', () => ({
@@ -115,6 +132,7 @@ function setupDefaults() {
   (filterProviders as jest.Mock).mockReturnValue(emptyProviders);
   (hasCurrentMonthData as jest.Mock).mockReturnValue(true);
   (hasPreviousMonthData as jest.Mock).mockReturnValue(true);
+  (isOperatorAvailableValid as jest.Mock).mockReturnValue(false);
 }
 
 // --- Tests ---
@@ -215,6 +233,106 @@ describe('Efficiency', () => {
       expect(
         screen.queryByText('New version of the Cost Management operator available.')
       ).not.toBeInTheDocument();
+    });
+
+    it('does not show the operator alert when isOperatorAvailableValid returns true', () => {
+      (isOperatorAvailableValid as jest.Mock).mockReturnValue(true);
+      (filterProviders as jest.Mock).mockReturnValue({
+        data: [{ additional_context: { operator_update_available: true } }],
+        meta: { count: 1 },
+      });
+      renderWithProviders(<Efficiency />);
+      expect(
+        screen.queryByText('New version of the Cost Management operator available.')
+      ).not.toBeInTheDocument();
+    });
+
+    it('calls setOperatorAvailable when the alert close button is clicked', () => {
+      (filterProviders as jest.Mock).mockReturnValue({
+        data: [{ additional_context: { operator_update_available: true } }],
+        meta: { count: 1 },
+      });
+      renderWithProviders(<Efficiency />);
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      expect(setOperatorAvailable).toHaveBeenCalledWith('true');
+    });
+  });
+
+  describe('no current data alert', () => {
+    it('renders the no-current-data info alert when only previous month data is available', () => {
+      (providersSelectors.selectProvidersFetchStatus as jest.Mock).mockReturnValue(FetchStatus.complete);
+      (filterProviders as jest.Mock).mockReturnValue(populatedProviders);
+      (hasCurrentMonthData as jest.Mock).mockReturnValue(false);
+      (hasPreviousMonthData as jest.Mock).mockReturnValue(true);
+      renderWithProviders(<Efficiency />);
+      expect(getSinceDateRangeString).toHaveBeenCalled();
+    });
+  });
+
+  describe('data fetching', () => {
+    it('dispatches fetchProviders on mount', () => {
+      renderWithProviders(<Efficiency />);
+      expect(providersActions.fetchProviders).toHaveBeenCalled();
+      expect(mockDispatch).toHaveBeenCalled();
+    });
+
+    it('does not dispatch fetchProviders when status is inProgress', () => {
+      (providersSelectors.selectProvidersFetchStatus as jest.Mock).mockReturnValue(FetchStatus.inProgress);
+      renderWithProviders(<Efficiency />);
+      expect(providersActions.fetchProviders).not.toHaveBeenCalled();
+    });
+
+    it('does not dispatch fetchProviders when providersError is set', () => {
+      (providersSelectors.selectProvidersError as jest.Mock).mockReturnValue(new Error('API error'));
+      renderWithProviders(<Efficiency />);
+      expect(providersActions.fetchProviders).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('event handlers (via EfficiencyHeader props)', () => {
+    beforeEach(() => {
+      (providersSelectors.selectProvidersFetchStatus as jest.Mock).mockReturnValue(FetchStatus.complete);
+      (filterProviders as jest.Mock).mockReturnValue(populatedProviders);
+    });
+
+    it('handleOnFilterAdded delegates to queryUtils', () => {
+      renderWithProviders(<Efficiency />);
+      act(() => {
+        capturedHeaderProps.onFilterAdded({ type: 'cluster', value: 'my-cluster' });
+      });
+      expect(queryUtils.handleOnFilterAdded).toHaveBeenCalled();
+    });
+
+    it('handleOnFilterRemoved delegates to queryUtils', () => {
+      renderWithProviders(<Efficiency />);
+      act(() => {
+        capturedHeaderProps.onFilterRemoved({ type: 'cluster', value: 'my-cluster' });
+      });
+      expect(queryUtils.handleOnFilterRemoved).toHaveBeenCalled();
+    });
+
+    it('handleOnCurrencySelect delegates to queryUtils', () => {
+      renderWithProviders(<Efficiency />);
+      act(() => {
+        capturedHeaderProps.onCurrencySelect();
+      });
+      expect(queryUtils.handleOnCurrencySelect).toHaveBeenCalled();
+    });
+
+    it('handleOnGroupBySelect updates query group_by', () => {
+      renderWithProviders(<Efficiency />);
+      act(() => {
+        capturedHeaderProps.onGroupBySelect('project');
+      });
+      expect(screen.getByTestId('efficiency-header')).toBeInTheDocument();
+    });
+
+    it('handleOnDateRangeSelect updates time_scope_value', () => {
+      renderWithProviders(<Efficiency />);
+      act(() => {
+        capturedHeaderProps.onDateRangeSelect('previousMonth');
+      });
+      expect(screen.getByTestId('efficiency-header')).toBeInTheDocument();
     });
   });
 });
