@@ -1,14 +1,7 @@
 import { Flex, FlexItem } from '@patternfly/react-core';
-import type { Providers } from 'api/providers';
-import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
-import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { ResourcePathsType } from 'api/resources/resource';
-import type { AxiosError } from 'axios';
-import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Currency } from 'routes/components/currency';
 import { DateRange } from 'routes/components/dateRange';
 import { GroupBy } from 'routes/components/groupBy';
@@ -16,12 +9,6 @@ import type { ComputedOcpReportItemsParams } from 'routes/utils/computedReport/g
 import { getIdKeyForGroupBy } from 'routes/utils/computedReport/getComputedOcpReportItems';
 import { DateRangeType, getCurrentDateRangeType } from 'routes/utils/dateRange';
 import type { Filter } from 'routes/utils/filter';
-import { filterProviders } from 'routes/utils/providers';
-import type { FetchStatus } from 'store/common';
-import { createMapStateToProps } from 'store/common';
-import { providersQuery, providersSelectors } from 'store/providers';
-import type { RouterComponentProps } from 'utils/router';
-import { withRouter } from 'utils/router';
 
 import { styles } from './efficiencyHeader.styles';
 import { EfficiencyToolbar } from './efficiencyToolbar';
@@ -42,21 +29,7 @@ interface EfficiencyHeaderOwnProps {
   timeScopeValue?: number;
 }
 
-interface EfficiencyHeaderStateProps {
-  providers: Providers;
-  providersError: AxiosError;
-  providersFetchStatus: FetchStatus;
-  providersQueryString: string;
-}
-
-interface EfficiencyHeaderState {
-  currentDateRangeType?: string;
-}
-
-type EfficiencyHeaderProps = EfficiencyHeaderOwnProps &
-  EfficiencyHeaderStateProps &
-  RouterComponentProps &
-  WrappedComponentProps;
+type EfficiencyHeaderProps = EfficiencyHeaderOwnProps;
 
 const groupByOptions: {
   label: string;
@@ -66,39 +39,36 @@ const groupByOptions: {
   { label: 'project', value: 'project' },
 ];
 
-class EfficiencyHeaderBase extends React.Component<EfficiencyHeaderProps, EfficiencyHeaderState> {
-  protected defaultState: EfficiencyHeaderState = {
-    currentDateRangeType: DateRangeType.currentMonthToDate,
-  };
-  public state: EfficiencyHeaderState = { ...this.defaultState };
+// currentDateRangeType?: string;
+const EfficiencyHeader: React.FC<EfficiencyHeaderProps> = ({
+  currency,
+  groupBy,
+  isCurrentMonthData,
+  isDisabled,
+  isPreviousMonthData,
+  onCurrencySelect,
+  onDateRangeSelect,
+  onFilterAdded,
+  onFilterRemoved,
+  onGroupBySelect,
+  query,
+  resourcePathsType,
+  timeScopeValue,
+}: EfficiencyHeaderProps) => {
+  const [currentDateRangeType, setCurrentDateRangeType] = useState<string>(DateRangeType.currentMonthToDate);
 
-  public componentDidMount() {
-    const { timeScopeValue } = this.props;
+  useEffect(() => {
+    setCurrentDateRangeType(getCurrentDateRangeType(timeScopeValue));
+  }, [timeScopeValue]);
 
-    this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
-  }
-
-  public componentDidUpdate(prevProps: EfficiencyHeaderProps) {
-    const { timeScopeValue } = this.props;
-
-    if (prevProps.timeScopeValue !== timeScopeValue) {
-      this.setState({ currentDateRangeType: getCurrentDateRangeType(timeScopeValue) });
+  const handleOnDateRangeSelect = (value: string) => {
+    setCurrentDateRangeType(value);
+    if (onDateRangeSelect) {
+      onDateRangeSelect(value);
     }
-  }
-
-  private handleOnDateRangeSelect = (value: string) => {
-    const { onDateRangeSelect } = this.props;
-
-    this.setState({ currentDateRangeType: value }, () => {
-      if (onDateRangeSelect) {
-        onDateRangeSelect(value);
-      }
-    });
   };
 
-  private getToolbar = () => {
-    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, query, resourcePathsType } = this.props;
-
+  const getToolbar = () => {
     return (
       <EfficiencyToolbar
         groupBy={groupBy}
@@ -111,74 +81,39 @@ class EfficiencyHeaderBase extends React.Component<EfficiencyHeaderProps, Effici
     );
   };
 
-  public render() {
-    const {
-      currency,
-      groupBy,
-      isCurrentMonthData,
-      isDisabled,
-      isPreviousMonthData,
-      onCurrencySelect,
-      onGroupBySelect,
-      timeScopeValue,
-    } = this.props;
-    const { currentDateRangeType } = this.state;
-
-    return (
-      <>
-        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
-          <FlexItem>
-            <Flex>
-              <FlexItem>
-                <GroupBy
-                  getIdKeyForGroupBy={getIdKeyForGroupBy}
-                  groupBy={groupBy}
-                  isDisabled={isDisabled}
-                  onSelect={onGroupBySelect}
-                  options={groupByOptions}
-                  timeScopeValue={timeScopeValue}
-                />
-              </FlexItem>
-              <FlexItem>
-                <DateRange
-                  dateRangeType={currentDateRangeType}
-                  isCurrentMonthData={isCurrentMonthData}
-                  isDisabled={isDisabled}
-                  isPreviousMonthData={isPreviousMonthData}
-                  onSelect={this.handleOnDateRangeSelect}
-                />
-              </FlexItem>
-            </Flex>
-          </FlexItem>
-          <FlexItem style={styles.currencyContainer}>
-            <Currency currency={currency} onSelect={onCurrencySelect} />
-          </FlexItem>
-        </Flex>
-        <div style={styles.toolbarContainer}>{this.getToolbar()}</div>
-      </>
-    );
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<EfficiencyHeaderOwnProps, EfficiencyHeaderStateProps>((state, props) => {
-  const providersQueryString = getProvidersQuery(providersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.all,
-    providersQueryString
+  return (
+    <>
+      <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} style={styles.perspectiveContainer}>
+        <FlexItem>
+          <Flex>
+            <FlexItem>
+              <GroupBy
+                getIdKeyForGroupBy={getIdKeyForGroupBy}
+                groupBy={groupBy}
+                isDisabled={isDisabled}
+                onSelect={onGroupBySelect}
+                options={groupByOptions}
+                timeScopeValue={timeScopeValue}
+              />
+            </FlexItem>
+            <FlexItem>
+              <DateRange
+                dateRangeType={currentDateRangeType}
+                isCurrentMonthData={isCurrentMonthData}
+                isDisabled={isDisabled}
+                isPreviousMonthData={isPreviousMonthData}
+                onSelect={handleOnDateRangeSelect}
+              />
+            </FlexItem>
+          </Flex>
+        </FlexItem>
+        <FlexItem style={styles.currencyContainer}>
+          <Currency currency={currency} onSelect={onCurrencySelect} />
+        </FlexItem>
+      </Flex>
+      <div style={styles.toolbarContainer}>{getToolbar()}</div>
+    </>
   );
-
-  return {
-    providers: filterProviders(providers, ProviderType.ocp),
-    providersError,
-    providersFetchStatus,
-    providersQueryString,
-  };
-});
-
-const EfficiencyHeader = injectIntl(withRouter(connect(mapStateToProps, {})(EfficiencyHeaderBase)));
+};
 
 export { EfficiencyHeader };

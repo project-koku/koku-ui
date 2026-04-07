@@ -120,6 +120,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     this.setState({
       currentCategory: getDefaultCategory(categoryOptions, groupBy, query),
       currentCriteria: CriteriaType.include,
+      filters: getActiveFilters(query),
     });
   }
 
