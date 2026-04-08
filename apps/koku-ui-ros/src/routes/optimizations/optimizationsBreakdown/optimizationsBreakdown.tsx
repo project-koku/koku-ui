@@ -45,9 +45,9 @@ interface AvailableTab {
 }
 
 interface OptimizationsBreakdownOwnProps {
-  linkState?: any;
-  projectPath?: string;
-  queryStateName: string;
+  linkState?: any; // Link state used by the link displayed in each table row
+  projectPath?: string; // Path used by project link displayed in the optimizations breakdown header
+  queryStateName: string; // Name used to store query state
 }
 
 interface OptimizationsBreakdownMapProps {

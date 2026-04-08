@@ -8,5 +8,5 @@ export function clearQueryState(location: H.Location, key: string) {
 }
 
 export function getQueryState(location: H.Location, key: string) {
-  return location?.state?.[key] ? cloneDeep(location.state[key]) : undefined;
+  return location?.state?.[key] ? cloneDeep(location?.state[key]) : undefined;
 }
