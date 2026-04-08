@@ -110,7 +110,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
       navigate(`${location.pathname}${location.search}`, {
         replace: true,
         state: {
-          ...(location.state || {}),
+          ...(location?.state || {}),
           ...(queryStateName && {
             [queryStateName]: {
               ...query,

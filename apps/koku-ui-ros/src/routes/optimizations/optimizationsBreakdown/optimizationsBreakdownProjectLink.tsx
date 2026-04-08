@@ -76,7 +76,7 @@ const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectL
   });
 
   const newLinkState = {
-    ...(location.state || {}),
+    ...(location?.state || {}),
     ...linkState,
   };
 

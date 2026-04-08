@@ -89,7 +89,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       return null;
     }
     return (
-      <Link to={breadcrumbPath} state={{ ...router.location.state }}>
+      <Link to={breadcrumbPath} state={{ ...(router?.location?.state || {}) }}>
         {breadcrumbLabel
           ? breadcrumbLabel
           : intl.formatMessage(messages.breakdownBackToDetails, {
@@ -102,7 +102,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
   private hasFilterBy = () => {
     const { groupBy, queryStateName, router } = this.props;
-    const queryState = router.location.state?.[queryStateName];
+    const queryState = router?.location?.state?.[queryStateName];
     const exclude = queryState?.exclude;
     const filterBy = queryState?.filter_by;
     return (
@@ -119,7 +119,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       return label !== '' ? label : value;
     };
 
-    const filters = getActiveFilters(router.location.state?.[queryStateName]);
+    const filters = getActiveFilters(router?.location?.state?.[queryStateName]);
     const filterChips = Object.keys(filters).map(key => {
       if (filters[key] instanceof Array) {
         const chips: any[] = getChips(filters[key]);
