@@ -7,7 +7,6 @@ export const getBreakdownPath = ({
   groupBy,
   id,
   isPlatformCosts,
-  isOptimizationsPath,
   isOptimizationsTab,
   title,
 }: {
@@ -16,14 +15,12 @@ export const getBreakdownPath = ({
   groupBy: string | number;
   id: string | number; // group_by[account]=<id> param in the breakdown page
   isPlatformCosts?: boolean;
-  isOptimizationsPath?: boolean;
   isOptimizationsTab?: boolean;
   title: string | number; // Used to display a title in the breakdown header
 }) => {
   const newQuery: any = {
     ...(description && description !== title && { [breakdownDescKey]: description }),
     ...(title && { [breakdownTitleKey]: title }),
-    optimizationsPath: isOptimizationsPath ? true : undefined,
     optimizationsTab: isOptimizationsTab ? true : undefined, // Clear query params
     ...(groupBy && {
       group_by: {
