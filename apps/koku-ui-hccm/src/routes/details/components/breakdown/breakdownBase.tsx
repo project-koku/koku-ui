@@ -354,9 +354,9 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
             description={description}
             detailsURL={detailsURL}
             groupBy={groupBy}
-            onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router, router.location.state)}
-            onCostTypeSelect={() => handleOnCostTypeSelect(query, router, router.location.state)}
-            onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
+            onCostDistributionSelect={() => handleOnCostDistributionSelect(query, router, router?.location?.state)}
+            onCostTypeSelect={() => handleOnCostTypeSelect(query, router, router?.location?.state)}
+            onCurrencySelect={() => handleOnCurrencySelect(query, router, router?.location?.state)}
             query={query}
             report={report}
             showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}

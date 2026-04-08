@@ -20,7 +20,7 @@ const OptimizationsLinkStaging: React.FC<OptimizationsLinkStagingProps> = () => 
   const projectFilter = 'openshift';
 
   const state = {
-    ...(location.state || {}),
+    ...(location?.state || {}),
   };
 
   const linkPath = getBreakdownPath({
