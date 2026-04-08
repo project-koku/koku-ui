@@ -29,9 +29,9 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
       isHeaderHidden={isHeaderHidden}
       linkPath={formatPath(routes.optimizationsBreakdown.path)}
       linkState={{
-        ...(location.state || {}),
+        ...(location?.state || {}),
         efficiencyState: {
-          ...(location.state?.efficiencyState || {}),
+          ...(location?.state?.efficiencyState || {}),
           activeTabKey,
         },
       }}

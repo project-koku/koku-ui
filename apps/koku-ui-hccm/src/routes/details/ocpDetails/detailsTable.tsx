@@ -234,9 +234,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       const actions = this.getActions(item, index, isDisabled);
 
       const linkState = {
-        ...(router.location.state && router.location.state),
+        ...(router?.location?.state || {}),
         detailsState: {
-          ...(query && query),
+          ...(query || {}),
           breadcrumbPath,
         },
         ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown

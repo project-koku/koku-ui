@@ -14,7 +14,7 @@ const OcpOptimizationsBreakdownStaging: React.FC<OcpOptimizationsBreakdownStagin
   return (
     <OptimizationsBreakdown
       linkState={{
-        ...(location.state || {}),
+        ...(location?.state || {}),
       }}
       queryStateName="ocpOptimizationsState"
     />
