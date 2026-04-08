@@ -27,12 +27,18 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
   const queryState = useQueryState();
   const { isNamespaceToggleEnabled } = useMapToProps();
 
+  const clusterFilter = queryState?.filter_by?.cluster;
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
 
+  // Set optimizationsTab query param to ensure the optimizations tab is selected upon clicking the breadcrumb
+  // in OCP optimizations breakdown. In OCP details, clicking the optimizations link will add the query param, but
+  // clicking "project" links will not
   const params = new URLSearchParams(location.search);
-  const optimizationsTab = !params.has('optimizationsTab') ? `${location.search ? '&' : '?'}optimizationsTab=true` : '';
-  const clusterFilter = queryState?.filter_by?.cluster;
+  if (!params.has('optimizationsTab')) {
+    params.set('optimizationsTab', 'true');
+  }
+  const queryString = `?${params.toString()}`;
 
   if (isNamespaceToggleEnabled) {
     return (
@@ -40,7 +46,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
         scope="costManagementRos"
         module="./OptimizationsOcpBreakdown"
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${optimizationsTab}`)}
+        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${queryString}`)}
         cluster={clusterFilter}
         isClusterHidden={clusterFilter !== undefined}
         isProjectHidden={groupBy === 'project'}
@@ -60,7 +66,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
           scope="costManagementRos"
           module="./OptimizationsTable"
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-          breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${optimizationsTab}`)}
+          breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${queryString}`)}
           cluster={clusterFilter}
           isClusterHidden={clusterFilter !== undefined}
           isProjectHidden={groupBy === 'project'}
