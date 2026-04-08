@@ -29,10 +29,10 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const otimizationsTab = location.search.indexOf('optimizationsTab') === -1 ? '&optimizationsTab=true' : '';
 
+  const params = new URLSearchParams(location.search);
+  const optimizationsTab = !params.has('optimizationsTab') ? `${location.search ? '&' : '?'}optimizationsTab=true` : '';
   const clusterFilter = queryState?.filter_by?.cluster;
-  const isOptimizationsPath = queryFromRoute?.optimizationsPath === 'true';
 
   if (isNamespaceToggleEnabled) {
     return (
@@ -40,14 +40,13 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
         scope="costManagementRos"
         module="./OptimizationsOcpBreakdown"
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
+        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${optimizationsTab}`)}
         cluster={clusterFilter}
         isClusterHidden={clusterFilter !== undefined}
         isProjectHidden={groupBy === 'project'}
-        isOptimizationsPath={isOptimizationsPath}
         linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
         linkState={{
-          ...(location.state || {}),
+          ...(location?.state || {}),
         }}
         project={groupBy === 'project' ? groupByValue : undefined}
         queryStateName="ocpOptimizationsState"
@@ -61,14 +60,13 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
           scope="costManagementRos"
           module="./OptimizationsTable"
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-          breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
+          breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${optimizationsTab}`)}
           cluster={clusterFilter}
           isClusterHidden={clusterFilter !== undefined}
           isProjectHidden={groupBy === 'project'}
-          isOptimizationsPath={isOptimizationsPath}
           linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
           linkState={{
-            ...(location.state || {}),
+            ...(location?.state || {}),
           }}
           project={groupBy === 'project' ? groupByValue : undefined}
           queryStateName="ocpOptimizationsState"

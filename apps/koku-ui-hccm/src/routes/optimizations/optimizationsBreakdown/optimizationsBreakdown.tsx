@@ -19,14 +19,17 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
       appName="cost-management-ros"
       module="./OptimizationsBreakdown"
       linkState={{
-        ...(location.state || {}),
+        ...(location?.state || {}),
+        // When user clicks the optimizations breakdown "project" link, the user navigates to the OCP breakdown page
+        // The properties below are overridden to initialize the optimizations tab and breadcrumb path for that page
         detailsState: {
-          ...(location.state?.detailsState || {}),
+          ...(location?.state?.detailsState || {}),
+          // Breadcrumb should return to optimizations breakdown
           breadcrumbPath: formatPath(`${routes.optimizationsBreakdown.path}${location.search}`),
         },
-        ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown
+        ocpOptimizationsState: undefined, // Clear state to initialize optimizations tab
       }}
-      projectPath={formatPath(routes.ocpBreakdown.path)} // Path for optimizations breakdown project link
+      projectPath={formatPath(routes.ocpBreakdown.path)} // Path for "project" link
       queryStateName="optimizationsDetailsState"
     />
   );

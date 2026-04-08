@@ -6,7 +6,7 @@ import { OptimizationsWrapper } from './optimizationsWrapper';
 export interface OptimizationsBreakdownOwnProps {
   linkState?: any; // Link state used by the link displayed in each table row
   projectPath?: string; // Path used by project link displayed in the optimizations breakdown header
-  queryStateName: string; // Name used to store link state -- details and breakdown should used same name
+  queryStateName: string; // Name used to store query state
 }
 
 type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
