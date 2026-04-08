@@ -31,7 +31,7 @@ Every page that owns a filter slot calls `getQueryState(location, queryStateName
 // apps/koku-ui-ros/src/routes/optimizations/optimizationsTable/utils.tsx
 export const getLinkState = ({ breadcrumbPath, linkState, location, query, queryStateName }) => {
   return {
-    ...(location?.state || {} ),                   // 1. preserve all existing state slots
+    ...(location?.state || {}),                    // 1. preserve all existing state slots
     ...(linkState || {}),                          // 2. apply overrides from the hccm parent
     ...(queryStateName && {
       [queryStateName]: {
