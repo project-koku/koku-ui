@@ -9,12 +9,12 @@ import { Interval, OptimizationType } from 'utils/commonTypes';
 import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
 
 interface OptimizationsDetailsOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
-  isHeaderHidden?: boolean;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
-  queryStateName: string;
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  isHeaderHidden?: boolean; // Hides header for use in OCP optimizations breakdown
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  queryStateName: string; // Name used to store query state
 }
 
 interface OptimizationsDetailsStateProps {

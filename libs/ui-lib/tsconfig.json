@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDir": ".",
+    // "rootDir": ".", // Omit rootDir -- see https://github.com/project-koku/koku-ui/pull/5036
     "outDir": "dist",
     "module": "CommonJS",
     "target": "es2015",

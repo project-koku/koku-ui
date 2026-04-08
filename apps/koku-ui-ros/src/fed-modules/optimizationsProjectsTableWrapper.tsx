@@ -13,7 +13,7 @@ export interface OptimizationsProjectsOwnProps {
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
   project?: string[]; // Project name to filter by
-  queryStateName: string; // Name used to store link state -- details and breakdown should used same name
+  queryStateName: string; // Name used to store query state
 }
 
 type OptimizationsProjectsProps = OptimizationsProjectsOwnProps;
