@@ -27,14 +27,14 @@ import { OptimizationsContainersDataTable } from './optimizationsContainersDataT
 import { OptimizationsContainersToolbar } from './optimizationsContainersToolbar';
 
 interface OptimizationsContainersTableOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
-  cluster?: string | string[];
-  isClusterHidden?: boolean;
-  isProjectHidden?: boolean;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
-  project?: string | string[];
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  cluster?: string | string[]; // Cluster name to filter by
+  isClusterHidden?: boolean; // Hides cluster filter and column
+  isProjectHidden?: boolean; // Hides project filter and column
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  project?: string | string[]; // Project name to filter by
   queryStateName: string; // Name used to store query state
 }
 

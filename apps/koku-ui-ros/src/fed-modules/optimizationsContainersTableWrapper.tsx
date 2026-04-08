@@ -6,13 +6,13 @@ import { OptimizationsWrapper } from './optimizationsWrapper';
 export interface OptimizationsContainersTableOwnProps {
   breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
   breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
-  cluster?: string[]; // Cluster name to filter by
+  cluster?: string | string[]; // Cluster name to filter by
   isClusterHidden?: boolean; // Hides cluster filter and column
   isProjectHidden?: boolean; // Hides project filter and column
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
-  project?: string[]; // Project name to filter by
-  queryStateName: string; // Name used to store link state -- details and breakdown should used same name
+  project?: string | string[]; // Project name to filter by
+  queryStateName: string; // Name used to store query state
 }
 
 type OptimizationsContainersToolbarProps = OptimizationsContainersTableOwnProps;
