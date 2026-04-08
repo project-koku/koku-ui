@@ -27,14 +27,14 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
 
   // Initialize from location state if available (e.g. page reload or direct link)
-  const [activeTabKey, setActiveTabKey] = useState<number>((location.state as any)?.efficiencyState?.activeTabKey ?? 0);
+  const [activeTabKey, setActiveTabKey] = useState<number>(location?.state?.efficiencyState?.activeTabKey ?? 0);
 
   // Sync activeTabKey whenever the location.key changes (i.e. any navigation —
   // push or replace — including clicks on the CPU-table link). We only update
   // when efficiencyState.activeTabKey is explicitly present so that internal
   // navigations from the remote MFE component don't inadvertently reset the tab.
   useEffect(() => {
-    const nextTabKey = (location.state as any)?.efficiencyState?.activeTabKey;
+    const nextTabKey = location?.state?.efficiencyState?.activeTabKey;
     if (nextTabKey !== undefined) {
       setActiveTabKey(nextTabKey);
     }
@@ -47,9 +47,9 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
     navigate(formatPath(routes.optimizations.path), {
       replace: true,
       state: {
-        ...(location.state || {}),
+        ...(location?.state || {}),
         efficiencyState: {
-          ...((location.state as any)?.efficiencyState || {}),
+          ...(location?.state?.efficiencyState || {}),
           activeTabKey: tabIndex,
         },
       },

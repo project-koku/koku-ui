@@ -19,9 +19,9 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
       appName="cost-management-ros"
       module="./OptimizationsBreakdown"
       linkState={{
-        ...(location.state || {}),
+        ...(location?.state || {}),
         detailsState: {
-          ...(location.state?.detailsState || {}),
+          ...(location?.state?.detailsState || {}),
           breadcrumbPath: formatPath(`${routes.optimizationsBreakdown.path}${location.search}`),
         },
         ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown

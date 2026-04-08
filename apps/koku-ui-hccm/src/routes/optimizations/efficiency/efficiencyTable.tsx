@@ -90,13 +90,13 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
           to={basePath}
           replace
           state={{
-            ...(location.state || {}),
+            ...(location?.state || {}),
             efficiencyState: {
-              ...(location.state?.efficiencyState || {}),
+              ...(location?.state?.efficiencyState || {}),
               activeTabKey: 1, // Optimizations tab should be active when navigating back
             },
             optimizationsDetailsState: {
-              ...(location.state?.optimizationsDetailsState || {}),
+              ...(location?.state?.optimizationsDetailsState || {}),
               filter_by: {
                 [groupBy]: [label], // Filter by cluster or project name
               },

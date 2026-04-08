@@ -52,7 +52,7 @@ let capturedState: any = null;
 
 function LocationCapture() {
   const location = useLocation();
-  capturedState = location.state;
+  capturedState = location?.state;
   return null;
 }
 
