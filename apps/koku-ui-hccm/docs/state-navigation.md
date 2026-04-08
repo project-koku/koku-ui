@@ -314,7 +314,7 @@ flowchart TD
 
 ### Step-by-step state
 
-**Step 1 — OCP Details: user applies a filter, then clicks a row link**
+**Step 1 — OCP Details: user clicks a row link**
 
 `detailsTable.tsx` builds the `linkState` for every row:
 
@@ -322,10 +322,10 @@ flowchart TD
 const linkState = {
   ...(router?.location?.state || {}),  // carry existing slots
   detailsState: {
-    ...(query || {}),       // current filter_by, group_by, order_by, etc.
-    breadcrumbPath,            // URL back to the OCP details page
+    ...(query || {}),                  // current filter_by, group_by, order_by, etc.
+    breadcrumbPath,                    // URL back to the OCP details page
   },
-  ocpOptimizationsState: undefined, // reset — forces the optimizations tab to reinitialize
+  ocpOptimizationsState: undefined,    // reset — forces the optimizations tab to reinitialize
 };
 ```
 
@@ -356,7 +356,7 @@ const queryState = getQueryState(router.location, 'detailsState');
   module="./OptimizationsOcpBreakdown"      // or ./OptimizationsTable
   breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${optimizationsTab}`)}
   linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
-  linkState={{ ...location?.state }}          // full state forwarded unchanged
+  linkState={{ ...location?.state }}        // full state forwarded unchanged
   queryStateName="ocpOptimizationsState"
 />
 ```
@@ -449,7 +449,7 @@ flowchart TD
 
 ### Step-by-step state
 
-**Step 1 — Optimizations page: user applies a filter**
+**Step 1 — Optimizations: user clicks a row link**
 
 `OptimizationsDetails` (hccm) passes to `AsyncComponent`:
 
@@ -495,12 +495,15 @@ flowchart TD
   scope="costManagementRos"
   module="./OptimizationsBreakdown"
   linkState={{
-    ...(location?.state || {}),
+    ...(location?.state || {}), 
+    // When user clicks the optimizations breakdown "project" link, the user navigates to the OCP breakdown page
+    // The properties below are overridden to initialize the optimizations tab and breadcrumb path for that page
     detailsState: {
       ...(location?.state?.detailsState || {}),
+      // Breadcrumb should return to optimizations breakdown
       breadcrumbPath: formatPath(`${routes.optimizationsBreakdown.path}${location.search}`),
     },
-    ocpOptimizationsState: undefined,   // reset for the OCP tab
+    ocpOptimizationsState: undefined, // Clear state to initialize optimizations tab
   }}
   projectPath={formatPath(routes.ocpBreakdown.path)}
   queryStateName="optimizationsDetailsState"
@@ -516,7 +519,7 @@ This stamps `detailsState.breadcrumbPath` with the current Optimizations Breakdo
 ```typescript
 const newLinkState = {
   ...(location?.state || {}),  // all existing slots (including optimizationsDetailsState and detailsState)
-  ...linkState,               // overrides from hccm (detailsState.breadcrumbPath already stamped)
+  ...linkState,                // overrides from hccm (detailsState.breadcrumbPath already stamped)
 };
 ```
 
@@ -533,9 +536,7 @@ It navigates to the OCP breakdown path with `isOptimizationsTab=true` query para
 
 ```typescript
 {
-  efficiencyState: { activeTabKey: 1 },
-  optimizationsDetailsState: { filter_by: { ... }, breadcrumbPath: '<optimizations-breakdown-url>' },
-  detailsState: { breadcrumbPath: '<optimizations-breakdown-url-with-search>' },
+  ...(location?.state || {}),
   ocpOptimizationsState: {
     filter_by: { ... },
     breadcrumbPath: '<ocp-breakdown-url>?...&optimizationsTab=true',
