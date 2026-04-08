@@ -17,7 +17,7 @@ const OptimizationsDetailsBreakdownStaging: React.FC<OptimizationsBreakdownStagi
     <OptimizationsBreakdown
       projectPath={formatPath(`${routes.ocpOptimizations.path}`)} // Path for optimizations breakdown project link
       linkState={{
-        ...(location.state || {}),
+        ...(location?.state || {}),
         ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown
       }}
       queryStateName="optimizationsDetailsState"

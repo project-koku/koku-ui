@@ -55,7 +55,7 @@ report.*.json
 .vscode/
 .swc/
 .dccache
-docs
+/docs
 
 apps/**/cypress/videos/
 apps/**/cypress/screenshots/
