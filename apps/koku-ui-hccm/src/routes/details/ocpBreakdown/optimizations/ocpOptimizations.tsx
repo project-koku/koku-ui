@@ -29,7 +29,9 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
-  const optimizationsTab = location.search.indexOf('optimizationsTab') === -1 ? '&optimizationsTab=true' : '';
+
+  const params = new URLSearchParams(location.search);
+  const optimizationsTab = !params.has('optimizationsTab') ? `${location.search ? '&' : '?'}optimizationsTab=true` : '';
 
   const clusterFilter = queryState?.filter_by?.cluster;
   const isOptimizationsPath = queryFromRoute?.optimizationsPath === 'true';
