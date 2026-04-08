@@ -19,7 +19,7 @@ Filter state (which clusters, projects, or workloads the user has selected) must
 ```typescript
 // apps/koku-ui-hccm/src/routes/utils/queryState.ts
 export function getQueryState(location: H.Location, key: string) {
-  return location?.state?.[key] ? cloneDeep(location.state[key]) : undefined;
+  return location?.state?.[key] ? cloneDeep(location?.state[key]) : undefined;
 }
 ```
 
@@ -32,12 +32,12 @@ Every page that owns a filter slot calls `getQueryState(location, queryStateName
 export const getLinkState = ({ breadcrumbPath, linkState, location, query, queryStateName }) => {
   return {
     ...(location?.state || {} ),                   // 1. preserve all existing state slots
-    ...(linkState && linkState),                   // 2. apply overrides from the hccm parent
+    ...(linkState || {}),                          // 2. apply overrides from the hccm parent
     ...(queryStateName && {
       [queryStateName]: {
-        ...(linkState?.[queryStateName]),          // 3. carry parent-supplied slot values
+        ...(linkState?.[queryStateName] || {}),    // 3. carry parent-supplied slot values
         ...(breadcrumbPath && { breadcrumbPath }), // 4. stamp the back-link URL
-        ...(query && query),                       // 5. embed current filter/sort/page query
+        ...(query || {}),                          // 5. embed current filter/sort/page query
       },
     }),
   };
@@ -256,13 +256,13 @@ Each card renders an `EfficiencyTable`. When the user clicks a row link, `Effici
 ```typescript
 // efficiencyTable.tsx — Link state for each row
 state={{
-  ...(location.state || {}),
+  ...(location?.state || {}),
   efficiencyState: {
-    ...(location.state?.efficiencyState || {}),
+    ...(location?.state?.efficiencyState || {}),
     activeTabKey: 1,                  // switch to optimizations tab
   },
   optimizationsDetailsState: {
-    ...(location.state?.optimizationsDetailsState || {}),
+    ...(location?.state?.optimizationsDetailsState || {}),
     filter_by: {
       [groupBy]: [label],             // pre-filter optimizations by this cluster/project
     },
@@ -282,7 +282,7 @@ useEffect(() => {
   navigate(`${location.pathname}${location.search}`, {
     replace: true,
     state: {
-      ...(location.state || {}),
+      ...(location?.state || {}),
       efficiencyCompute: { ...query },  // or efficiencyMemory for MemoryCard
     },
   });
@@ -320,9 +320,9 @@ flowchart TD
 
 ```typescript
 const linkState = {
-  ...(router.location.state && router.location.state),  // carry existing slots
+  ...(router?.location?.state || {}),  // carry existing slots
   detailsState: {
-    ...(query && query),       // current filter_by, group_by, order_by, etc.
+    ...(query || {}),       // current filter_by, group_by, order_by, etc.
     breadcrumbPath,            // URL back to the OCP details page
   },
   ocpOptimizationsState: undefined, // reset — forces the optimizations tab to reinitialize
@@ -354,9 +354,9 @@ const queryState = getQueryState(router.location, 'detailsState');
 <AsyncComponent
   scope="costManagementRos"
   module="./OptimizationsOcpBreakdown"      // or ./OptimizationsTable
-  breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${otimizationsTab}`)}
+  breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${location.search}${optimizationsTab}`)}
   linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
-  linkState={{ ...location.state }}          // full state forwarded unchanged
+  linkState={{ ...location?.state }}          // full state forwarded unchanged
   queryStateName="ocpOptimizationsState"
 />
 ```
@@ -460,9 +460,9 @@ flowchart TD
   breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
   linkPath={formatPath(routes.optimizationsBreakdown.path)}
   linkState={{
-    ...(location.state || {}),
+    ...(location?.state || {}),
     efficiencyState: {
-      ...(location.state?.efficiencyState || {}),
+      ...(location?.state?.efficiencyState || {}),
       activeTabKey,    // preserves which tab (efficiency vs optimizations) was active
     },
   }}
@@ -495,9 +495,9 @@ flowchart TD
   scope="costManagementRos"
   module="./OptimizationsBreakdown"
   linkState={{
-    ...(location.state || {}),
+    ...(location?.state || {}),
     detailsState: {
-      ...(location.state?.detailsState || {}),
+      ...(location?.state?.detailsState || {}),
       breadcrumbPath: formatPath(`${routes.optimizationsBreakdown.path}${location.search}`),
     },
     ocpOptimizationsState: undefined,   // reset for the OCP tab
@@ -515,7 +515,7 @@ This stamps `detailsState.breadcrumbPath` with the current Optimizations Breakdo
 
 ```typescript
 const newLinkState = {
-  ...(location.state || {}),  // all existing slots (including optimizationsDetailsState and detailsState)
+  ...(location?.state || {}),  // all existing slots (including optimizationsDetailsState and detailsState)
   ...linkState,               // overrides from hccm (detailsState.breadcrumbPath already stamped)
 };
 ```

@@ -19,10 +19,10 @@ const OcpOptimizationsBreakdown: React.FC<OcpOptimizationsBreakdownProps> = () =
       appName="cost-management-ros"
       module="./OptimizationsBreakdown"
       linkState={{
-        ...(location.state || {}),
-        ...(location.state?.optimizationsDetails && {
+        ...(location?.state || {}),
+        ...(location?.state?.optimizationsDetails && {
           optimizationsDetails: {
-            ...(location.state?.optimizationsDetails || {}),
+            ...(location?.state?.optimizationsDetails || {}),
             breadcrumbPath: formatPath(`${routes.optimizationsBreakdown.path}${location.search}`),
           },
         }),
