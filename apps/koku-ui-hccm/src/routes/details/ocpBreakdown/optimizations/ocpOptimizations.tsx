@@ -32,9 +32,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
 
   const params = new URLSearchParams(location.search);
   const optimizationsTab = !params.has('optimizationsTab') ? `${location.search ? '&' : '?'}optimizationsTab=true` : '';
-
   const clusterFilter = queryState?.filter_by?.cluster;
-  const isOptimizationsPath = queryFromRoute?.optimizationsPath === 'true';
 
   if (isNamespaceToggleEnabled) {
     return (
@@ -46,7 +44,6 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
         cluster={clusterFilter}
         isClusterHidden={clusterFilter !== undefined}
         isProjectHidden={groupBy === 'project'}
-        isOptimizationsPath={isOptimizationsPath}
         linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
         linkState={{
           ...(location?.state || {}),
@@ -67,7 +64,6 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
           cluster={clusterFilter}
           isClusterHidden={clusterFilter !== undefined}
           isProjectHidden={groupBy === 'project'}
-          isOptimizationsPath={isOptimizationsPath}
           linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
           linkState={{
             ...(location?.state || {}),
