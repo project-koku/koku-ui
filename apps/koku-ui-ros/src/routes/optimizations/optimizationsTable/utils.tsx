@@ -90,13 +90,13 @@ export const getLinkState = ({
   queryStateName: string;
 }) => {
   return {
-    ...(location.state || {}),
-    ...(linkState && linkState),
+    ...(location?.state || {}),
+    ...(linkState || {}),
     ...(queryStateName && {
       [queryStateName]: {
-        ...(linkState?.[queryStateName] && linkState?.[queryStateName]),
+        ...(linkState?.[queryStateName] || {}),
         ...(breadcrumbPath && { breadcrumbPath }), // Path back to optimizations details page
-        ...(query && query),
+        ...(query || {}),
       },
     }),
   };

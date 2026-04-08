@@ -182,9 +182,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             type: item.type,
           })}
           state={{
-            ...(router.location.state && router.location.state),
+            ...(router?.location?.state || {}),
             detailsState: {
-              ...(query && query),
+              ...(query || {}),
               breadcrumbPath,
             },
           }}

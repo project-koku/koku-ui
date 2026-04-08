@@ -14,8 +14,8 @@ import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 
 export interface OptimizationsBadgeOwnProps {
-  cluster?: string | string[];
-  project?: string | string[];
+  cluster?: string | string[]; // Cluster name to filter by
+  project?: string | string[]; // Project name to filter by
 }
 
 export interface OptimizationsBadgeStateProps {
