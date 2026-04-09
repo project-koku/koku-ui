@@ -42,6 +42,7 @@ interface SummaryOwnProps extends RouterComponentProps, WrappedComponentProps {
   costType?: string;
   currency?: string;
   isPlatformCosts?: boolean;
+  queryStateName: string;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -134,6 +135,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
       intl,
       isPlatformCosts,
       query,
+      queryStateName,
       reportGroupBy,
       reportPathsType,
     } = this.props;
@@ -170,6 +172,7 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
             isOpen={isBulletChartModalOpen}
             onClose={this.handleBulletChartModalClose}
             query={query}
+            queryStateName={queryStateName}
             reportGroupBy={reportGroupBy}
             reportPathsType={reportPathsType}
           />
@@ -226,9 +229,12 @@ class SummaryBase extends React.Component<SummaryProps, SummaryState> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, reportType, router }) => {
+  (
+    state,
+    { costDistribution, costType, currency, queryStateName, reportGroupBy, reportPathsType, reportType, router }
+  ) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'detailsState');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

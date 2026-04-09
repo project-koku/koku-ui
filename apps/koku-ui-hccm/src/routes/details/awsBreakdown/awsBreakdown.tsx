@@ -135,7 +135,14 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     emptyStateTitle: intl.formatMessage(messages.awsDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData costType={costType} currency={currency} timeScopeValue={timeScopeValue} />,
+    historicalDataComponent: (
+      <HistoricalData
+        costType={costType}
+        currency={currency}
+        queryStateName={queryStateName}
+        timeScopeValue={timeScopeValue}
+      />
+    ),
     ...(isAwsEc2InstancesToggleEnabled &&
       groupBy === serviceKey &&
       groupByValue === 'AmazonEC2' && {
@@ -164,4 +171,8 @@ const mapDispatchToProps: AwsBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
+export default injectIntl(
+  withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(BreakdownBase) as unknown as React.ComponentType<AwsBreakdownOwnProps>
+  )
+);

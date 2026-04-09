@@ -200,6 +200,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency, queryStateNam
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
+        queryStateName={queryStateName}
         report={report}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}

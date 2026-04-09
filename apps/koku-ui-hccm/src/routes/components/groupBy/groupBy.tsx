@@ -29,7 +29,7 @@ import { GroupByOrg } from './groupByOrg';
 import { GroupBySelect } from './groupBySelect';
 
 interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
-  endDate?: string;
+  endDate?: string | Date;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -40,12 +40,12 @@ interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
   }[];
   orgPathsType?: OrgPathsType;
   perspective?: PerspectiveType;
-  resourcePathsType: ResourcePathsType;
+  resourcePathsType?: ResourcePathsType;
   showCostCategories?: boolean;
   showOrgs?: boolean;
   showTags?: boolean;
-  startDate?: string;
-  tagPathsType: TagPathsType;
+  startDate?: string | Date;
+  tagPathsType?: TagPathsType;
   timeScopeValue?: number;
 }
 

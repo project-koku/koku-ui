@@ -105,7 +105,9 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
     emptyStateTitle: intl.formatMessage(messages.gcpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData currency={currency} timeScopeValue={timeScopeValue} />,
+    historicalDataComponent: (
+      <HistoricalData currency={currency} queryStateName={queryStateName} timeScopeValue={timeScopeValue} />
+    ),
     providers: filterProviders(providers, ProviderType.gcp),
     providersError,
     providersFetchStatus,

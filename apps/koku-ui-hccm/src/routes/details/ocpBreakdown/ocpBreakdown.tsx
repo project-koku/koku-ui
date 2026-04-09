@@ -141,6 +141,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
         costDistribution={costDistribution}
         currency={currency}
         groupBy={groupBy}
+        queryStateName={queryStateName}
         timeScopeValue={timeScopeValue}
       />
     ),
@@ -162,7 +163,9 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     tagPathsType: TagPathsType.ocp,
     timeScopeValue,
     title,
-    virtualizationComponent: <Virtualization costDistribution={costDistribution} currency={currency} />,
+    virtualizationComponent: (
+      <Virtualization costDistribution={costDistribution} currency={currency} queryStateName={queryStateName} />
+    ),
   };
 });
 

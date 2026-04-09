@@ -33,6 +33,7 @@ interface VirtualizationTableOwnProps {
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   query?: Query;
+  queryStateName: string;
   report?: Report;
   reportPathsType: string;
   reportQueryString: string;
@@ -61,6 +62,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
   onSelect,
   onSort,
   orderBy,
+  queryStateName,
   report,
   reportPathsType,
   reportQueryString,
@@ -166,7 +168,14 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
             value: <StorageLink storageData={item.storage} virtualMachine={item.vm_name} />,
           },
           {
-            value: <TagLink tagData={item.tags} tagPathsType={tagPathsType} virtualMachine={item.vm_name} />,
+            value: (
+              <TagLink
+                queryStateName={queryStateName}
+                tagData={item.tags}
+                tagPathsType={tagPathsType}
+                virtualMachine={item.vm_name}
+              />
+            ),
           },
           {
             id: VirtualizationTableColumnIds.cpu,

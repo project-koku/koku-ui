@@ -18,6 +18,7 @@ interface HistoricalDataOwnProps {
   costType?: string;
   currency?: string;
   groupBy?: string;
+  queryStateName: string;
   timeScopeValue?: number;
 }
 
@@ -40,7 +41,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
-    const { costDistribution, costType, currency, intl, timeScopeValue } = this.props;
+    const { costDistribution, costType, currency, intl, queryStateName, timeScopeValue } = this.props;
 
     return (
       <Card>
@@ -57,6 +58,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
             costDistribution={costDistribution}
             costType={costType}
             currency={currency}
+            queryStateName={queryStateName}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
             timeScopeValue={timeScopeValue}
@@ -68,7 +70,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns network chart
   private getNetworkChart = (widget: HistoricalDataWidget) => {
-    const { groupBy, intl, timeScopeValue } = this.props;
+    const { groupBy, intl, queryStateName, timeScopeValue } = this.props;
 
     let showWidget = false;
     if (widget?.showWidgetOnGroupBy) {
@@ -92,6 +94,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
           <CardBody>
             <HistoricalDataNetworkChart
               chartName={widget.chartName}
+              queryStateName={queryStateName}
               reportPathsType={widget.reportPathsType}
               reportType={widget.reportType}
               showLimit={widget.showLimit}
@@ -107,7 +110,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns storage summary
   private getVolumeChart = (widget: HistoricalDataWidget) => {
-    const { groupBy, intl, timeScopeValue } = this.props;
+    const { groupBy, intl, queryStateName, timeScopeValue } = this.props;
 
     let showWidget = false;
     if (widget?.showWidgetOnGroupBy) {
@@ -131,6 +134,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
           <CardBody>
             <HistoricalDataVolumeChart
               chartName={widget.chartName}
+              queryStateName={queryStateName}
               reportPathsType={widget.reportPathsType}
               reportType={widget.reportType}
               showLimit={widget.showLimit}
@@ -146,7 +150,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns trend chart
   private getTrendChart = (widget: HistoricalDataWidget) => {
-    const { costType, currency, intl, timeScopeValue } = this.props;
+    const { costType, currency, intl, queryStateName, timeScopeValue } = this.props;
 
     return (
       <Card>
@@ -162,6 +166,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
             chartName={widget.chartName}
             costType={costType}
             currency={currency}
+            queryStateName={queryStateName}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
             timeScopeValue={timeScopeValue}
@@ -173,7 +178,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
 
   // Returns usage chart
   private getUsageChart = (widget: HistoricalDataWidget) => {
-    const { intl, timeScopeValue } = this.props;
+    const { intl, queryStateName, timeScopeValue } = this.props;
 
     return (
       <Card>
@@ -187,6 +192,7 @@ class HistoricalDatasBase extends React.Component<HistoricalDataProps, any> {
         <CardBody>
           <HistoricalDataUsageChart
             chartName={widget.chartName}
+            queryStateName={queryStateName}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
             showLimit={widget.showLimit}

@@ -17,6 +17,7 @@ import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import type { RootState } from 'store/rootReducer';
 import { formatCurrency } from 'utils/format';
 import { logicalAndPrefix, logicalOrPrefix, orgUnitIdKey, platformCategoryKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
@@ -175,7 +176,14 @@ const mapDispatchToProps: SummaryContentDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryContent = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(SummaryContentBase)));
+const SummaryContent = injectIntl(
+  withRouter(
+    connect<SummaryContentStateProps, SummaryContentDispatchProps, SummaryContentOwnProps, RootState>(
+      mapStateToProps,
+      mapDispatchToProps
+    )(SummaryContentBase)
+  )
+);
 
 export { SummaryContent };
 export type { SummaryContentProps };
