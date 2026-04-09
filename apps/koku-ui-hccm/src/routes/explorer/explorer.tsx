@@ -554,7 +554,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
                       costDistribution={costDistribution}
                       costType={costType}
                       currency={currency}
-                      dateRangeType={dateRangeType}
                       endDate={endDate}
                       groupBy={
                         groupByCostCategory

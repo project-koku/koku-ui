@@ -43,6 +43,7 @@ interface VirtualizationOwnProps {
   costDistribution?: string;
   costType?: string;
   currency?: string;
+  queryStateName: string;
 }
 
 export interface VirtualizationStateProps {
@@ -89,7 +90,7 @@ const reportType = ReportType.virtualization;
 const reportPathsType = ReportPathsType.ocp;
 const tagPathsType = TagPathsType.ocp;
 
-const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costType, currency }) => {
+const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costType, currency, queryStateName }) => {
   const intl = useIntl();
 
   const [hiddenColumns, setHiddenColumns] = useState(initHiddenColumns(defaultColumnOptions));
@@ -113,6 +114,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
     costType,
     currency,
     query,
+    queryStateName,
   });
 
   const getColumnManagementModal = () => {
@@ -208,6 +210,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
+        queryStateName={queryStateName}
         report={report}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
@@ -240,6 +243,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination(isDisabled)}
         query={query}
+        queryStateName={queryStateName}
         selectedItems={selectedItems}
         timeScopeValue={timeScopeValue}
       />
@@ -357,10 +361,10 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
   );
 };
 
-const useMapToProps = ({ costType, currency, query }): VirtualizationStateProps => {
+const useMapToProps = ({ costType, currency, query, queryStateName }): VirtualizationStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
-  const queryState = useQueryState('detailsState');
+  const queryState = useQueryState(queryStateName);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);

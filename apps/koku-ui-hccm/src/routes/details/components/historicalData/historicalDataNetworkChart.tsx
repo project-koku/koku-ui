@@ -24,6 +24,7 @@ import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataNetworkChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   showLimit?: boolean;
@@ -147,9 +148,9 @@ class HistoricalDataNetworkChartBase extends React.Component<HistoricalDataNetwo
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataNetworkChartOwnProps, HistoricalDataNetworkChartStateProps>(
-  (state, { reportPathsType, reportType, router, timeScopeValue = -1 }) => {
+  (state, { queryStateName, reportPathsType, reportType, router, timeScopeValue = -1 }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'detailsState');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);

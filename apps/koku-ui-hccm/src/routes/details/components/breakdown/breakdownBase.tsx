@@ -358,6 +358,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
             onCostTypeSelect={() => handleOnCostTypeSelect(query, router, router?.location?.state)}
             onCurrencySelect={() => handleOnCurrencySelect(query, router, router?.location?.state)}
             query={query}
+            queryStateName={queryStateName}
             report={report}
             showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}
             showCostType={showCostType}

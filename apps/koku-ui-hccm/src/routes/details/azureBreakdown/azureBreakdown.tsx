@@ -28,102 +28,109 @@ import { getCurrency } from 'utils/sessionStorage';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AzureOwnProps = RouterComponentProps & WrappedComponentProps;
-
-interface AzureDispatchProps {
+interface AzureBreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
+
+type AzureBreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
 
 const detailsURL = formatPath(routes.azureDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
-const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps>((state, { intl, router }) => {
-  const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'detailsState');
+const mapStateToProps = createMapStateToProps<AzureBreakdownOwnProps, BreakdownStateProps>(
+  (state, { intl, router }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
+    const queryStateName = 'detailsState';
+    const queryState = getQueryState(router.location, queryStateName);
 
-  const groupBy = getGroupById(queryFromRoute);
-  const groupByValue = getGroupByValue(queryFromRoute);
+    const groupBy = getGroupById(queryFromRoute);
+    const groupByValue = getGroupByValue(queryFromRoute);
 
-  const currency = getCurrency();
-  const isFilterByExact = groupBy && groupByValue !== '*';
-  const timeScopeValue = getTimeScopeValue(queryState);
+    const currency = getCurrency();
+    const isFilterByExact = groupBy && groupByValue !== '*';
+    const timeScopeValue = getTimeScopeValue(queryState);
 
-  const query = { ...queryFromRoute };
-  const reportQuery = {
-    currency,
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: timeScopeValue,
-    },
-    filter_by: {
-      // Add filters here to apply logical OR/AND
-      ...(queryState?.filter_by && queryState.filter_by),
-      // Omit filters associated with the current group_by -- see https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
-      ...(isFilterByExact && {
-        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
-        [`exact:${groupBy}`]: groupByValue,
-      }),
-    },
-    exclude: {
-      ...(queryState?.exclude && queryState.exclude),
-    },
-    group_by: {
-      ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
-    },
-  };
+    const query = { ...queryFromRoute };
+    const reportQuery = {
+      currency,
+      filter: {
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: timeScopeValue,
+      },
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...(queryState?.filter_by && queryState.filter_by),
+        // Omit filters associated with the current group_by -- see https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
+      },
+      exclude: {
+        ...(queryState?.exclude && queryState.exclude),
+      },
+      group_by: {
+        ...(groupBy && { [groupBy]: isFilterByExact ? '*' : groupByValue }),
+      },
+    };
 
-  const reportQueryString = getQuery(reportQuery);
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    reportQueryString
-  );
+    const reportQueryString = getQuery(reportQuery);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, reportQueryString);
+    const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, reportQueryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      reportQueryString
+    );
 
-  const providersQueryString = getProvidersQuery(providersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
-  const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.all,
-    providersQueryString
-  );
+    const providersQueryString = getProvidersQuery(providersQuery);
+    const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
+    const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
+    const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.all,
+      providersQueryString
+    );
 
-  const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
+    const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
-  return {
-    breadcrumbPath: formatPath(routes.azureDetails.path),
-    costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
-    currency,
-    description: queryFromRoute[breakdownDescKey],
-    detailsURL,
-    emptyStateTitle: intl.formatMessage(messages.azureDetailsTitle),
-    groupBy,
-    groupByValue,
-    historicalDataComponent: <HistoricalData currency={currency} timeScopeValue={timeScopeValue} />,
-    providers: filterProviders(providers, ProviderType.azure),
-    providersError,
-    providersFetchStatus,
-    providerType: ProviderType.azure,
-    query,
-    queryStateName: 'detailsState',
-    report,
-    reportError,
-    reportFetchStatus,
-    reportType,
-    reportPathsType,
-    reportQueryString,
-    tagPathsType: TagPathsType.azure,
-    timeScopeValue,
-    title,
-  };
-});
+    return {
+      breadcrumbPath: formatPath(routes.azureDetails.path),
+      costOverviewComponent: (
+        <CostOverview currency={currency} groupBy={groupBy} queryStateName={queryStateName} report={report} />
+      ),
+      currency,
+      description: queryFromRoute[breakdownDescKey],
+      detailsURL,
+      emptyStateTitle: intl.formatMessage(messages.azureDetailsTitle),
+      groupBy,
+      groupByValue,
+      historicalDataComponent: (
+        <HistoricalData currency={currency} queryStateName={queryStateName} timeScopeValue={timeScopeValue} />
+      ),
+      providers: filterProviders(providers, ProviderType.azure),
+      providersError,
+      providersFetchStatus,
+      providerType: ProviderType.azure,
+      query,
+      queryStateName,
+      report,
+      reportError,
+      reportFetchStatus,
+      reportType,
+      reportPathsType,
+      reportQueryString,
+      tagPathsType: TagPathsType.azure,
+      timeScopeValue,
+      title,
+    };
+  }
+);
 
-const mapDispatchToProps: AzureDispatchProps = {
+const mapDispatchToProps: AzureBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
