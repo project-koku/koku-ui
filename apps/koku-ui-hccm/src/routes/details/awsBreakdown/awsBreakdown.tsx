@@ -49,7 +49,8 @@ const reportPathsType = ReportPathsType.aws;
 
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'detailsState');
+  const queryStateName = 'detailsState';
+  const queryState = getQueryState(router.location, queryStateName);
 
   const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
@@ -118,7 +119,14 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   return {
     breadcrumbPath: formatPath(routes.awsDetails.path),
     costOverviewComponent: (
-      <CostOverview costType={costType} currency={currency} groupBy={groupBy} query={queryFromRoute} report={report} />
+      <CostOverview
+        costType={costType}
+        currency={currency}
+        groupBy={groupBy}
+        query={queryFromRoute}
+        queryStateName={queryStateName}
+        report={report}
+      />
     ),
     costType,
     currency,
@@ -131,14 +139,14 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
     ...(isAwsEc2InstancesToggleEnabled &&
       groupBy === serviceKey &&
       groupByValue === 'AmazonEC2' && {
-        instancesComponent: <Instances costType={costType} currency={currency} />,
+        instancesComponent: <Instances costType={costType} currency={currency} queryStateName={queryStateName} />,
       }),
     providers: filterProviders(providers, ProviderType.aws),
     providersError,
     providersFetchStatus,
     providerType: ProviderType.aws,
     query,
-    queryStateName: 'detailsState',
+    queryStateName,
     report,
     reportError,
     reportFetchStatus,

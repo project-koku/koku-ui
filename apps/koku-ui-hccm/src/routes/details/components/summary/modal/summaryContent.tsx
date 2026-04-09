@@ -28,6 +28,7 @@ interface SummaryContentOwnProps extends RouterComponentProps, WrappedComponentP
   costDistribution: string;
   costType?: string;
   currency?: string;
+  queryStateName: string;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
 }
@@ -107,9 +108,9 @@ class SummaryContentBase extends React.Component<SummaryContentProps, any> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryContentOwnProps, SummaryContentStateProps>(
-  (state, { costDistribution, costType, currency, reportGroupBy, reportPathsType, router }) => {
+  (state, { costDistribution, costType, currency, queryStateName, reportGroupBy, reportPathsType, router }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'detailsState');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

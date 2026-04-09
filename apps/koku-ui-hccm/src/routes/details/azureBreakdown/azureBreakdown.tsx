@@ -40,7 +40,8 @@ const reportPathsType = ReportPathsType.azure;
 
 const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'detailsState');
+  const queryStateName = 'detailsState';
+  const queryState = getQueryState(router.location, queryStateName);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -97,7 +98,9 @@ const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps
 
   return {
     breadcrumbPath: formatPath(routes.azureDetails.path),
-    costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
+    costOverviewComponent: (
+      <CostOverview currency={currency} groupBy={groupBy} queryStateName={queryStateName} report={report} />
+    ),
     currency,
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
@@ -110,7 +113,7 @@ const mapStateToProps = createMapStateToProps<AzureOwnProps, BreakdownStateProps
     providersFetchStatus,
     providerType: ProviderType.azure,
     query,
-    queryStateName: 'detailsState',
+    queryStateName,
     report,
     reportError,
     reportFetchStatus,

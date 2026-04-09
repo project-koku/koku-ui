@@ -41,6 +41,7 @@ interface CostOverviewOwnProps {
   groupBy?: string;
   isPlatformCosts?: boolean;
   query?: Query;
+  queryStateName: string;
   report: Report;
 }
 
@@ -246,7 +247,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns GPU data
   private getGpuData = (widget: CostOverviewWidget) => {
-    const { groupBy, intl } = this.props;
+    const { groupBy, intl, queryStateName } = this.props;
 
     let showWidget = false;
     if (widget.showWidgetOnGroupBy) {
@@ -266,7 +267,11 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
             </Title>
           </CardTitle>
           <CardBody>
-            <GpuData reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+            <GpuData
+              queryStateName={queryStateName}
+              reportPathsType={widget.reportPathsType}
+              reportType={widget.reportType}
+            />
           </CardBody>
         </Card>
       );

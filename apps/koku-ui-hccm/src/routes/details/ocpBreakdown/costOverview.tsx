@@ -13,8 +13,9 @@ const mapStateToProps = createMapStateToProps<OcpCostOverviewOwnProps, CostOverv
   return {
     isGpuToggleEnabled: selectIsGpuToggleEnabled(state),
     selectWidgets: ocpCostOverviewSelectors.selectWidgets(state),
-    widgets: ocpCostOverviewSelectors.selectCurrentWidgets(state),
+    queryStateName: 'detailsState',
     title,
+    widgets: ocpCostOverviewSelectors.selectCurrentWidgets(state),
   };
 });
 
