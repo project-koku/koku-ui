@@ -201,6 +201,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       onCostTypeSelect,
       onCurrencySelect,
       query,
+      queryStateName,
       showCostDistribution,
       showCostType,
       showCurrency,
@@ -304,7 +305,9 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
         <div className="pf-v6-c-tabs">
           <div style={styles.tabs}>
             {tabs}
-            <div style={styles.tag}>{showTags && <TagLink id="tags" tagPathsType={tagPathsType} />}</div>
+            <div style={styles.tag}>
+              {showTags && <TagLink id="tags" queryStateName={queryStateName} tagPathsType={tagPathsType} />}
+            </div>
           </div>
         </div>
       </header>

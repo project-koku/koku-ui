@@ -28,9 +28,9 @@ interface DataTableOwnProps {
   isNoWrapCell?: boolean;
   isNoWrapHeader?: boolean;
   isSelectable?: boolean;
-  onSelect(items: any[], isSelected: boolean);
-  onSort(sortType: string, isSortAscending: boolean);
-  orderBy: any;
+  onSelect?(items: any[], isSelected: boolean);
+  onSort?(sortType: string, isSortAscending: boolean);
+  orderBy?: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
   variant?: 'checkbox' | 'radio';
