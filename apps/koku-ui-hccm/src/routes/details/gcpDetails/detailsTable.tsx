@@ -31,8 +31,8 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   groupByTagKey?: string;
   isAllSelected?: boolean;
   isLoading?: boolean;
-  onSelect(items: ComputedReportItem[], isSelected: boolean);
-  onSort(sortType: string, isSortAscending: boolean);
+  onSelect?(items: ComputedReportItem[], isSelected: boolean);
+  onSort?(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   query?: Query;
   report: GcpReport;

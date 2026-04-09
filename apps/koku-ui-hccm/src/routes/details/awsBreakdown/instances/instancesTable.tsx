@@ -25,6 +25,7 @@ interface InstancesTableOwnProps {
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   query?: Query;
+  queryStateName: string;
   report?: Report;
   reportPathsType: string;
   reportQueryString: string;
@@ -49,6 +50,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
   onSelect,
   onSort,
   orderBy,
+  queryStateName,
   report,
   reportPathsType,
   reportQueryString,
@@ -157,7 +159,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
             ),
           },
           { value: item.operating_system ? item.operating_system : null },
-          { value: <TagLink tagData={item.tags} /> },
+          { value: <TagLink tagData={item.tags} queryStateName={queryStateName} /> },
           { value: item.instance_type ? item.instance_type : null },
           { value: item.region ? item.region : null },
           {

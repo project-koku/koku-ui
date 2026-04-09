@@ -9,6 +9,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
@@ -16,11 +17,12 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import * as queryUtils from 'routes/utils/query';
+import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { useQueryFromRoute, useQueryState } from 'utils/hooks';
+import { useQueryFromRoute } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
 import { styles } from './gpuData.styles';
@@ -28,6 +30,7 @@ import { GpuTable } from './gpuTable';
 import { GpuModal } from './modal/gpuModal';
 
 interface GpuDataOwnProps {
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -42,6 +45,7 @@ export interface GpuStateProps {
 
 export interface GpuMapProps {
   query?: OcpQuery;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -58,12 +62,13 @@ const baseQuery: OcpQuery = {
   },
 };
 
-const GpuData: React.FC<GpuDataProps> = ({ reportPathsType, reportType }) => {
+const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, reportType }) => {
   const intl = useIntl();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState({ ...baseQuery });
   const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
     query,
+    queryStateName,
     reportPathsType,
     reportType,
   });
@@ -167,10 +172,12 @@ const GpuData: React.FC<GpuDataProps> = ({ reportPathsType, reportType }) => {
   );
 };
 
-export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProps): GpuStateProps => {
+export const useMapToProps = ({ query, queryStateName, reportPathsType, reportType }: GpuMapProps): GpuStateProps => {
+  const location = useLocation();
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
   const queryFromRoute = useQueryFromRoute();
-  const queryState = useQueryState();
+  const queryState = getQueryState(location, queryStateName);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);

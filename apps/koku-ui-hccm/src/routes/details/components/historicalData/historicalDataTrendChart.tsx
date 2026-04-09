@@ -26,6 +26,7 @@ interface HistoricalDataTrendChartOwnProps extends RouterComponentProps, Wrapped
   chartName?: string;
   costType?: string;
   currency?: string;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   timeScopeValue?: number;
@@ -153,9 +154,9 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
-  (state, { costType, currency, reportPathsType, reportType, router, timeScopeValue = -1 }) => {
+  (state, { costType, currency, queryStateName, reportPathsType, reportType, router, timeScopeValue = -1 }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'detailsState');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

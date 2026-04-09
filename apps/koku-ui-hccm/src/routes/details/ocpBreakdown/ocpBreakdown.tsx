@@ -46,7 +46,8 @@ const reportPathsType = ReportPathsType.ocp;
 
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'detailsState');
+  const queryStateName = 'detailsState';
+  const queryState = getQueryState(router.location, queryStateName);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -124,6 +125,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
         currency={currency}
         groupBy={groupBy}
         isPlatformCosts={queryFromRoute?.isPlatformCosts}
+        queryStateName={queryStateName}
         report={report}
         title={title}
       />
@@ -139,6 +141,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
         costDistribution={costDistribution}
         currency={currency}
         groupBy={groupBy}
+        queryStateName={queryStateName}
         timeScopeValue={timeScopeValue}
       />
     ),
@@ -149,7 +152,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     providerType: ProviderType.ocp,
     query,
     queryState,
-    queryStateName: 'detailsState',
+    queryStateName,
     report,
     reportError,
     reportFetchStatus,
@@ -160,7 +163,9 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     tagPathsType: TagPathsType.ocp,
     timeScopeValue,
     title,
-    virtualizationComponent: <Virtualization costDistribution={costDistribution} currency={currency} />,
+    virtualizationComponent: (
+      <Virtualization costDistribution={costDistribution} currency={currency} queryStateName={queryStateName} />
+    ),
   };
 });
 
