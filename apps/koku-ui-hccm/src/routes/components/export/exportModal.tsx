@@ -129,7 +129,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       isAllItems,
       isExportsToggleEnabled,
       isTimeScoped,
-      items,
+      items = [],
       reportPathsType,
       reportQueryString,
       reportType,
@@ -139,7 +139,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     } = this.props;
     const { error, formatType, name, resolution } = this.state;
 
-    let sortedItems = isAllItems ? [] : [...items];
+    let sortedItems = [...items];
     if (this.props.isOpen) {
       if (items && items.length === 0 && isAllItems) {
         sortedItems = [
