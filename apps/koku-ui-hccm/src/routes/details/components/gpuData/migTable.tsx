@@ -12,7 +12,7 @@ import { styles } from './migTable.styles';
 interface MigTableOwnProps {
   filterBy?: any;
   isLoading?: boolean;
-  onSort(sortType: string, isSortAscending: boolean);
+  onSort?(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   report: OcpReport;
 }

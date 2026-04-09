@@ -22,6 +22,7 @@
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
     "lint:ts:fix": "eslint src --fix",
+    "type-check": "tsc --noEmit",
     "patch:hosts": "fec patch-etc-hosts",
     "postinstall": "ts-patch install && rm -rf .cache",
     "release:app-interface:stage": "sh ../../scripts/release-app-interface.sh -q",

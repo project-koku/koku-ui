@@ -60,7 +60,7 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   costType?: string;
   currency?: string;
   dateRangeType?: DateRangeType;
-  endDate?: string;
+  endDate?: string | Date;
   groupBy?: string;
   isCurrentMonthData?: boolean;
   isDataAvailable?: boolean;
@@ -75,7 +75,7 @@ interface ExplorerHeaderOwnProps extends RouterComponentProps, WrappedComponentP
   onPerspectiveClicked(value: string);
   perspective: PerspectiveType;
   report: Report;
-  startDate?: string;
+  startDate?: string | Date;
 }
 
 interface ExplorerHeaderStateProps {

@@ -17,6 +17,7 @@ interface SummaryModalOwnProps {
   isOpen: boolean;
   onClose(isOpen: boolean);
   query?: Query;
+  queryStateName: string;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
 }
@@ -39,8 +40,17 @@ class SummaryModalBase extends React.Component<SummaryModalProps, any> {
   };
 
   public render() {
-    const { costDistribution, costType, currency, groupByValue, intl, isOpen, reportGroupBy, reportPathsType } =
-      this.props;
+    const {
+      costDistribution,
+      costType,
+      currency,
+      groupByValue,
+      intl,
+      isOpen,
+      queryStateName,
+      reportGroupBy,
+      reportPathsType,
+    } = this.props;
 
     return (
       <Modal className="modalOverride" isOpen={isOpen} onClose={this.handleClose} variant={ModalVariant.large}>
@@ -55,6 +65,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps, any> {
             costDistribution={costDistribution}
             costType={costType}
             currency={currency}
+            queryStateName={queryStateName}
             reportGroupBy={reportGroupBy}
             reportPathsType={reportPathsType}
           />

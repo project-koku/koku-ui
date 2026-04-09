@@ -37,7 +37,7 @@ import { PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentProps {
   costDistribution?: string;
-  endDate?: string;
+  endDate?: string | Date;
   groupBy: string;
   groupByCostCategory?: string;
   groupByOrg?: string;
@@ -50,7 +50,7 @@ interface ExplorerTableOwnProps extends RouterComponentProps, WrappedComponentPr
   query: Query;
   report: Report;
   selectedItems?: ComputedReportItem[];
-  startDate?: string;
+  startDate?: string | Date;
 }
 
 interface ExplorerTableStateProps {
