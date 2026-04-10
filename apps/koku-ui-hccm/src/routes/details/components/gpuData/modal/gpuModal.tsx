@@ -9,6 +9,7 @@ import { GpuContent } from './gpuContent';
 interface GpuModalOwnProps {
   isOpen: boolean;
   onClose(isOpen: boolean);
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   title?: string;
@@ -32,13 +33,13 @@ class GpuModalBase extends React.Component<GpuModalProps, any> {
   };
 
   public render() {
-    const { isOpen, reportPathsType, reportType, title } = this.props;
+    const { isOpen, queryStateName, reportPathsType, reportType, title } = this.props;
 
     return (
       <Modal isOpen={isOpen} onClose={this.handleClose} width={'50%'}>
         <ModalHeader title={title} />
         <ModalBody>
-          <GpuContent reportPathsType={reportPathsType} reportType={reportType} />
+          <GpuContent queryStateName={queryStateName} reportPathsType={reportPathsType} reportType={reportType} />
         </ModalBody>
       </Modal>
     );
