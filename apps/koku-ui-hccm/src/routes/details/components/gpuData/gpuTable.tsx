@@ -1,6 +1,5 @@
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { OcpReportItem } from 'api/reports/ocpReports';
-import type { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -18,8 +17,6 @@ interface GpuTableOwnProps {
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   report: OcpReport;
-  reportPathsType: ReportPathsType;
-  reportType: ReportType;
 }
 
 type GpuTableProps = GpuTableOwnProps;
@@ -31,8 +28,6 @@ const GpuTable: React.FC<GpuTableProps> = ({
   onSort,
   orderBy,
   report,
-  reportPathsType,
-  reportType,
 }) => {
   const intl = useIntl();
 
@@ -120,7 +115,7 @@ const GpuTable: React.FC<GpuTableProps> = ({
         // Workaround for old versions of the operator not having mig profile fields yet, so the API may return zero here
         children: typeof item?.gpu_mode === 'string' &&
           item?.gpu_mode?.toLowerCase() === 'mig' &&
-          isMigToggleEnabled && <MigData reportPathsType={reportPathsType} reportType={reportType} />,
+          isMigToggleEnabled && <MigData gpu_model={item?.gpu_model} gpu_vendor={item?.gpu_vendor} node={item?.node} />,
         item,
       });
     });
