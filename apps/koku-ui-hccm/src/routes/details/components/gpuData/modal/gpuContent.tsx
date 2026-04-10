@@ -16,6 +16,7 @@ import { styles } from './gpuContent.styles';
 import { GpuToolbar } from './gpuToolbar';
 
 interface GpuContentOwnProps {
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -32,12 +33,13 @@ const baseQuery: OcpQuery = {
   },
 };
 
-const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => {
+const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType, reportType }) => {
   const intl = useIntl();
 
   const [query, setQuery] = useState({ ...baseQuery });
   const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
     query,
+    queryStateName,
     reportPathsType,
     reportType,
   });

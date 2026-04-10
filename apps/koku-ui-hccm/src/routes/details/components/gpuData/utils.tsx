@@ -7,14 +7,16 @@ import type { AxiosError } from 'axios';
 import { useIsMigToggleEnabled } from 'components/featureToggle';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
+import { getQueryState } from 'routes/utils/queryState';
 import { getTimeScopeValue } from 'routes/utils/timeScope';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { useQueryFromRoute, useQueryState } from 'utils/hooks';
+import { useQueryFromRoute } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
 export interface GpuStateProps {
@@ -26,15 +28,18 @@ export interface GpuStateProps {
 }
 
 export interface GpuMapProps {
-  query?: OcpQuery;
+  query: OcpQuery;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
 
-export const useMapToProps = ({ query, reportPathsType, reportType }: GpuMapProps): GpuStateProps => {
+export const useMapToProps = ({ query, queryStateName, reportPathsType, reportType }: GpuMapProps): GpuStateProps => {
+  const location = useLocation();
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
   const queryFromRoute = useQueryFromRoute();
-  const queryState = useQueryState();
+  const queryState = getQueryState(location, queryStateName);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
