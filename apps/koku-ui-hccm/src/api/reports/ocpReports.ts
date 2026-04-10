@@ -73,6 +73,7 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cpu]: 'reports/openshift/compute/',
   [ReportType.gpu]: 'reports/openshift/gpu/',
   [ReportType.memory]: 'reports/openshift/memory/',
+  [ReportType.mig]: 'reports/openshift/gpu/mig_profiles/',
   [ReportType.network]: 'reports/openshift/network/',
   [ReportType.volume]: 'reports/openshift/volumes/',
   [ReportType.virtualization]: 'reports/openshift/resources/virtual-machines/',

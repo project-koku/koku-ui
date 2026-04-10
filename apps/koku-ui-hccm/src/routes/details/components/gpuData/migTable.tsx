@@ -30,8 +30,8 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
     }
 
     const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
+      idKey: 'mig_profile' as any,
       report,
-      idKey: 'mig_name',
     });
 
     const newRows = [];
@@ -43,17 +43,17 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
       {
         name: intl.formatMessage(messages.migColumns, { value: 'uuid' }),
         orderBy: 'uuid',
-        isSortable: true,
+        isSortable: false,
       },
       {
         name: intl.formatMessage(messages.migColumns, { value: 'compute' }),
         orderBy: 'compute',
-        isSortable: true,
+        isSortable: false,
       },
       {
         name: intl.formatMessage(messages.migColumns, { value: 'memory' }),
         orderBy: 'memory',
-        isSortable: true,
+        isSortable: false,
       },
     ];
 
@@ -65,14 +65,18 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
             value: item?.mig_uuid ?? '',
           },
           {
-            value: item?.mig_compute ?? '',
+            value: intl.formatMessage(messages.valueUnits, {
+              value: item?.compute?.value !== undefined ? formatUnits(item.compute.value, item.compute.units) : '',
+              units: item?.compute?.units
+                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.compute.units) })
+                : null,
+            }),
           },
           {
             value: intl.formatMessage(messages.valueUnits, {
-              value:
-                item?.mig_memory?.value !== undefined ? formatUnits(item.mig_memory.value, item.mig_memory.units) : '',
-              units: item?.mig_memory?.units
-                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.mig_memory.units) })
+              value: item?.memory?.value !== undefined ? formatUnits(item.memory.value, item.memory.units) : '',
+              units: item?.memory?.units
+                ? intl.formatMessage(messages.units, { units: unitsLookupKey(item.memory.units) })
                 : null,
             }),
           },
