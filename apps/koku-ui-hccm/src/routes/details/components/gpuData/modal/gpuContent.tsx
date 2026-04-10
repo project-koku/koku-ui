@@ -80,8 +80,6 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
-        reportPathsType={reportPathsType}
-        reportType={reportType}
       />
     );
   };
