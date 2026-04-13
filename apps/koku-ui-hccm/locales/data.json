@@ -13145,6 +13145,18 @@
               }
             ]
           },
+          "g": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " G"
+              }
+            ]
+          },
           "gb": {
             "value": [
               {
@@ -13354,6 +13366,14 @@
               {
                 "type": 0,
                 "value": "core-hours"
+              }
+            ]
+          },
+          "g": {
+            "value": [
+              {
+                "type": 0,
+                "value": "G"
               }
             ]
           },
