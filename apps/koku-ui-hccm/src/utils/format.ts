@@ -332,6 +332,7 @@ export const unitsLookupKey = (units): string => {
     case 'cluser_month':
     case 'core':
     case 'core_hours':
+    case 'g':
     case 'gb':
     case 'gb_hours':
     case 'gb_ms':

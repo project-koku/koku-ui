@@ -79,9 +79,8 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
         isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
+        queryStateName={queryStateName}
         report={report}
-        reportPathsType={reportPathsType}
-        reportType={reportType}
       />
     );
   };

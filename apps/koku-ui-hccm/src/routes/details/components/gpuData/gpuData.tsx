@@ -96,9 +96,8 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
         isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
+        queryStateName={queryStateName}
         report={report}
-        reportPathsType={reportPathsType}
-        reportType={reportType}
       />
     );
   };
