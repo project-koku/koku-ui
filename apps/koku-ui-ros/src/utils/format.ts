@@ -132,6 +132,7 @@ export const formatUnits: Formatter = (value, units, options) => {
     case 'core_hours':
     case 'hour':
     case 'hrs':
+    case 'g':
     case 'gb':
     case 'gb_hours':
     case 'gb_mo':
@@ -244,6 +245,7 @@ export const unitsLookupKey = (units): string => {
     case 'cores':
     case 'ei':
     case 'eib':
+    case 'g':
     case 'gi':
     case 'gib':
     case 'ki':
