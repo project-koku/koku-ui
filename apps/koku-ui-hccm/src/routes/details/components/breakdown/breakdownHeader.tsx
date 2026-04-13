@@ -87,8 +87,8 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
 
     let basePath = breadcrumbPath;
     if (!basePath) {
-      const cleanPath = router?.location?.pathname?.replace(/\/$/, '');
-      basePath = cleanPath.substring(0, cleanPath.lastIndexOf('/'));
+      const cleanPath = (router?.location?.pathname || '').replace(/\/$/, '');
+      basePath = cleanPath.substring(0, cleanPath.lastIndexOf('/')) || '/';
     }
 
     return (

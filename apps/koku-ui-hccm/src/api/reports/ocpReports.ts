@@ -7,9 +7,14 @@ export interface OcpReportItem extends ReportItem {
   capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
+  compute?: ReportValue;
   gpu_name?: string;
+  gpu_model?: string;
+  gpu_vendor?: string;
   limit?: ReportValue;
-  mig_name?: string;
+  memory?: ReportValue;
+  mig_profile?: string;
+  mig_uuid?: string;
   node?: string;
   persistent_volume_claim?: string;
   project?: string;

@@ -30,7 +30,7 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
     }
 
     const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
-      idKey: 'mig_profile' as any,
+      idKey: 'mig_profile',
       report,
     });
 
