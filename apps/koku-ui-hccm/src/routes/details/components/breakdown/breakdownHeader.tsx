@@ -85,11 +85,14 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
   private getBackToLink = groupByKey => {
     const { breadcrumbLabel, breadcrumbPath, intl, router, tagPathsType } = this.props;
 
-    if (!breadcrumbPath) {
-      return null;
+    let basePath = breadcrumbPath;
+    if (!basePath) {
+      const cleanPath = router?.location?.pathname?.replace(/\/$/, '');
+      basePath = cleanPath.substring(0, cleanPath.lastIndexOf('/'));
     }
+
     return (
-      <Link to={breadcrumbPath} state={{ ...(router?.location?.state || {}) }}>
+      <Link to={basePath} state={{ ...(router?.location?.state || {}) }}>
         {breadcrumbLabel
           ? breadcrumbLabel
           : intl.formatMessage(messages.breakdownBackToDetails, {
