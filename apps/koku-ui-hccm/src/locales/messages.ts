@@ -3983,6 +3983,7 @@ export default defineMessages({
       'byte_ms {{value} Byte-ms} ' +
       'cluster_month {cluster-month} ' +
       'core_hours {{value} core-hours} ' +
+      'g {{value} G} ' +
       'gb {{value} GB} ' +
       'gb_hours {{value} GB-hours} ' +
       'gb_month {{value} GB-month} ' +
@@ -4008,6 +4009,7 @@ export default defineMessages({
       'cluster_month {cluster-month} ' +
       'core {core} ' +
       'core_hours {core-hours} ' +
+      'g {G} ' +
       'gb {GB} ' +
       'gb_hours {GB-hours} ' +
       'gb_month {GB-month} ' +
