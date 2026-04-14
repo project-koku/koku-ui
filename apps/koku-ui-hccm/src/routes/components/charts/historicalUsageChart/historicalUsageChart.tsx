@@ -1,6 +1,6 @@
 import 'routes/components/charts/common/chart.scss';
 
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl';
 import {
   Chart,
   ChartArea,

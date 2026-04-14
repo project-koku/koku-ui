@@ -1,4 +1,4 @@
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { FormatOptions } from 'utils/format';
