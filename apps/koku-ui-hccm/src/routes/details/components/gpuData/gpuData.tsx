@@ -3,7 +3,7 @@ import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -51,8 +51,10 @@ const baseQuery: OcpQuery = {
 
 const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, reportType }) => {
   const intl = useIntl();
+
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState({ ...baseQuery });
+
   const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
     query,
     queryStateName,
@@ -60,8 +62,7 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
     reportType,
   });
 
-  // eslint-disable-next-line
-  const [containerRef] = useState(React.createRef<HTMLDivElement>());
+  const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
 
   const getMoreLink = () => {
@@ -91,7 +92,7 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
   const getTable = () => {
     return (
       <GpuTable
-        gridBreakPoint={width < 725 ? 'grid' : undefined}
+        gridBreakPoint={width < 600 ? 'grid' : undefined}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -112,12 +113,10 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
     return false;
   };
 
-  const handleOnResize = () => {
+  const handleOnResize = useCallback(() => {
     const { clientWidth = 0 } = containerRef?.current || {};
-    if (clientWidth !== width) {
-      setWidth(clientWidth);
-    }
-  };
+    setWidth(prevWidth => (clientWidth !== prevWidth ? clientWidth : prevWidth));
+  }, []);
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
