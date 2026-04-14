@@ -54,6 +54,7 @@ const baseQuery: OcpQuery = {
     resolution: 'monthly',
     time_scope_units: 'month',
   },
+  limit: 100,
 };
 
 const reportPathsType = ReportPathsType.ocp;
@@ -122,9 +123,9 @@ export const useMapToProps = ({ gpu_model, gpu_vendor, node, query, queryStateNa
   const reportQuery: Query = {
     filter: {
       ...query.filter,
-      gpu_model,
-      gpu_vendor,
-      node,
+      ...(gpu_model && { gpu_model }),
+      ...(gpu_vendor && { gpu_vendor }),
+      ...(node && { node }),
       time_scope_value: timeScopeValue,
     },
     filter_by: {
@@ -141,6 +142,7 @@ export const useMapToProps = ({ gpu_model, gpu_vendor, node, query, queryStateNa
     exclude: {
       ...(queryState?.exclude && queryState.exclude),
     },
+    limit: query.limit,
   };
 
   const reportQueryString = getQuery(reportQuery);
