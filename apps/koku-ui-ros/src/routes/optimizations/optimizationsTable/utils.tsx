@@ -6,6 +6,7 @@ import type { Query } from 'api/queries/query';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
+import type { Location } from 'react-router-dom';
 import { formatOptimization, formatPercentage, unitsLookupKey } from 'utils/format';
 
 import { styles } from './optimizationsTable.styles';
@@ -76,45 +77,28 @@ export const getConfiguration = (values: any, isFormatted: boolean, isK8Units: b
 
 export const getLinkState = ({
   breadcrumbPath,
-  isOptimizationsDetails,
   linkState,
-  projectPath,
-  optimizationsBreakdownPath,
-  query = {},
+  location,
+  query,
+  queryStateName,
 }: {
-  breadcrumbPath: string;
+  breadcrumbPath?: string;
   isOptimizationsDetails?: boolean;
   linkState?: any; // Optimizations breakdown link state
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
-  optimizationsBreakdownPath: string; // Optimizations breakdown path
+  location?: Location;
   query?: Query;
+  queryStateName: string;
 }) => {
   return {
-    ...(linkState && linkState),
-    // OCP details breakdown page
-    details: {
-      ...(linkState?.details && linkState?.details),
-      ...(projectPath && {
-        breadcrumbPath: optimizationsBreakdownPath, // Path back to optimizations breakdown page
-      }),
-    },
-    // Optimizations page
-    optimizations: {
-      ...(linkState?.optimizations && linkState?.optimizations),
-      ...(isOptimizationsDetails && {
-        ...query,
-        breadcrumbPath, // Path back to optimizations details page
-      }),
-      ...(projectPath && { projectPath }), // Path to OCP details breakdown page
-    },
-    // Optimizations breakdown page
-    optimizationsBreakdown: {
-      ...(linkState?.optimizationsBreakdown && linkState?.optimizationsBreakdown),
-      ...(!isOptimizationsDetails && {
-        ...query,
-        breadcrumbPath, // Path back to optimizations details page
-      }),
-    },
+    ...(location?.state || {}),
+    ...(linkState || {}),
+    ...(queryStateName && {
+      [queryStateName]: {
+        ...(linkState?.[queryStateName] || {}),
+        ...(breadcrumbPath && { breadcrumbPath }), // Path back to optimizations details page
+        ...(query || {}),
+      },
+    }),
   };
 };
 

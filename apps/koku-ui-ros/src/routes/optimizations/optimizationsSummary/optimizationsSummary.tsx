@@ -29,8 +29,8 @@ import { rosActions, rosSelectors } from 'store/ros';
 import { styles } from './optimizations.styles';
 
 export interface OptimizationsSummaryOwnProps {
-  linkPath?: string;
-  linkState?: any;
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
 }
 
 export interface OptimizationsSummaryStateProps {

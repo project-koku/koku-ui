@@ -173,6 +173,7 @@ export const enum ReportType {
   gpu = 'gpu',
   instanceType = 'instance_type',
   memory = 'memory',
+  mig = 'mig',
   network = 'network',
   org = 'org',
   storage = 'storage',

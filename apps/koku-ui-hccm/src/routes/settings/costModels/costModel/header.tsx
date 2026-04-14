@@ -17,6 +17,7 @@ import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -216,17 +217,19 @@ const Header: React.FC<Props> = ({
   );
 };
 
-export default withRouter(
-  connect(
-    createMapStateToProps(state => ({
-      isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
-      isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
-      deleteError: costModelsSelectors.deleteError(state),
-      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-    })),
-    {
-      setDialogOpen: costModelsActions.setCostModelDialog,
-      deleteCostModel: costModelsActions.deleteCostModel,
-    }
-  )(Header)
+export default injectIntl(
+  withRouter(
+    connect(
+      createMapStateToProps(state => ({
+        isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
+        isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
+        deleteError: costModelsSelectors.deleteError(state),
+        isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+      })),
+      {
+        setDialogOpen: costModelsActions.setCostModelDialog,
+        deleteCostModel: costModelsActions.deleteCostModel,
+      }
+    )(Header)
+  )
 );

@@ -40,7 +40,7 @@ import {
 
 interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentProps {
   dateRangeType: DateRangeType;
-  endDate?: string;
+  endDate?: string | Date;
   groupBy: string;
   isCurrentMonthData?: boolean;
   isDataAvailable?: boolean;
@@ -52,7 +52,7 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
   perspective: PerspectiveType;
   pagination?: React.ReactNode;
   query?: Query;
-  startDate?: string;
+  startDate?: string | Date;
 }
 
 interface ExplorerFilterStateProps {

@@ -38,10 +38,10 @@ interface ExplorerChartOwnProps extends RouterComponentProps, WrappedComponentPr
   costDistribution?: string;
   costType?: string;
   currency?: string;
-  endDate?: string;
+  endDate?: string | Date;
   groupBy?: string;
   perspective: PerspectiveType;
-  startDate?: string;
+  startDate?: string | Date;
 }
 
 interface ExplorerChartStateProps {

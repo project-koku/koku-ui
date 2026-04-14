@@ -2,23 +2,21 @@ import { Card, CardBody, Divider } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { OptimizationsContainersTable } from 'routes/optimizations/optimizationsContainersTable';
-import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsProjectsTable';
+import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { styles } from './optimizationsOcpBreakdown.styles';
 import { OptimizationsOcpBreakdownToolbar } from './optimizationsOcpBreakdownToolbar';
 
 interface OptimizationsOcpBreakdownOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
-  cluster?: string | string[];
-  isClusterHidden?: boolean;
-  isOptimizationsDetails?: boolean;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
-  project?: string | string[];
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  cluster?: string | string[]; // Cluster name to filter by
+  isClusterHidden?: boolean; // Hides cluster filter and column
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  project?: string | string[]; // Project name to filter by
+  queryStateName: string; // Name used to store query state
 }
 
 type OptimizationsOcpBreakdownProps = OptimizationsOcpBreakdownOwnProps;
@@ -28,11 +26,10 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
   breadcrumbPath,
   cluster,
   isClusterHidden,
-  isOptimizationsDetails,
   linkPath,
   linkState,
   project,
-  projectPath,
+  queryStateName,
 }) => {
   const intl = useIntl();
   const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
@@ -63,13 +60,12 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
             breadcrumbPath={breadcrumbPath}
             cluster={cluster}
             isClusterHidden={isClusterHidden}
-            isOptimizationsDetails
             isPaginationHidden
             isToolbarHidden
             linkPath={linkPath}
             linkState={linkState}
             project={project}
-            projectPath={projectPath}
+            queryStateName={queryStateName}
           />
         </CardBody>
       </Card>
@@ -82,12 +78,11 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
             breadcrumbPath={breadcrumbPath}
             cluster={cluster}
             isClusterHidden={isClusterHidden}
-            isOptimizationsDetails={isOptimizationsDetails}
             isProjectHidden
             linkPath={linkPath}
             linkState={linkState}
             project={project}
-            projectPath={projectPath}
+            queryStateName={queryStateName}
           />
         </CardBody>
       </Card>

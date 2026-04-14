@@ -173,7 +173,7 @@ class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourc
   }
 }
 
-const mapStateToProps = createMapStateToProps<AddSourceWizardProps, AddSourceWizardStateProps>(state => {
+const mapStateToProps = createMapStateToProps<AddSourceWizardOwnProps, AddSourceWizardStateProps>(state => {
   return {
     fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,
     isLoadingSources: sourcesSelectors.status(state) === FetchStatus.inProgress,

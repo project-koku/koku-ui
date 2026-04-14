@@ -46,7 +46,7 @@ export const getCustomSelect = ({
     >
       <CustomSelect
         className={selectClassName}
-        filters={filters[categoryOption.key]}
+        filters={filters[categoryOption.key] as Filter[]}
         isDisabled={isDisabled && !hasFilters(filters)}
         onSelect={onSelect}
         options={selectOptions}
