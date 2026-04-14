@@ -1,3 +1,4 @@
+import { Truncate } from '@patternfly/react-core';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { OcpReportItem } from 'api/reports/ocpReports';
 import messages from 'locales/messages';
@@ -62,7 +63,7 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
         cells: [
           {}, // Empty for layout
           {
-            value: item?.mig_uuid ?? '',
+            value: <Truncate content={item?.mig_uuid ?? ''} />,
           },
           {
             value: intl.formatMessage(messages.valueUnits, {
