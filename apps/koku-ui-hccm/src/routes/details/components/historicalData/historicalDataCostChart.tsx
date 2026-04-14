@@ -27,6 +27,7 @@ interface HistoricalDataCostChartOwnProps extends RouterComponentProps, WrappedC
   costDistribution: string;
   costType?: string;
   currency?: string;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   timeScopeValue?: number;
@@ -148,9 +149,9 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
-  (state, { costType, currency, reportPathsType, reportType, router, timeScopeValue = -1 }) => {
+  (state, { costType, currency, queryStateName, reportPathsType, reportType, router, timeScopeValue = -1 }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);

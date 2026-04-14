@@ -364,7 +364,7 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
     } else {
       label = val[itemLabelKey];
     }
-    if (label === undefined || label.trim().length === 0) {
+    if (label == null || label.trim().length === 0) {
       label = val?.alias?.trim()?.length > 0 ? val.alias : val[idKey];
     }
   }

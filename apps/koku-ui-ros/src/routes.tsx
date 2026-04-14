@@ -4,67 +4,78 @@ import React, { lazy, Suspense } from 'react';
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
 const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ '@koku-ui/ui-lib/components/page/notFound'));
-const OptimizationsBadgeStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsBadgeStaging')
+const OcpOptimizations = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ './routes/staging/optimizations/ocpOptimizationsStaging')
 );
-const OptimizationsBreakdownStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsBreakdownStaging')
-);
-const OptimizationsContainersTableStaging = lazy(
+const OcpOptimizationsBreakdown = lazy(
   () =>
-    import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsContainersTableStaging')
+    import(/* webpackChunkName: "recommendations" */ './routes/staging/optimizations/ocpOptimizationsBreakdownStaging')
 );
-const OptimizationsDetailsStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsDetailsStaging')
+const OptimizationsBadge = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ './routes/staging/optimizations/optimizationsBadgeStaging')
 );
-const OptimizationsLinkStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsLinkStaging')
-);
-const OptimizationsOcpBreakdownStaging = lazy(
+const OptimizationsContainersTable = lazy(
   () =>
-    import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsOcpBreakdownStaging')
+    import(
+      /* webpackChunkName: "recommendations" */ './routes/staging/optimizations/optimizationsContainersTableStaging'
+    )
 );
-const OptimizationsProjectsTableStaging = lazy(
+const OptimizationsDetails = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ './routes/staging/optimizations/optimizationsDetailsStaging')
+);
+const OptimizationsDetailsBreakdown = lazy(
   () =>
-    import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsProjectsTableStaging')
+    import(
+      /* webpackChunkName: "recommendations" */ './routes/staging/optimizations/optimizationsDetailsBreakdownStaging'
+    )
 );
-const OptimizationsSummaryStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsSummaryStaging')
+const OptimizationsLink = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ './routes/staging/optimizations/optimizationsLinkStaging')
 );
-
+const OptimizationsProjectsTable = lazy(
+  () =>
+    import(/* webpackChunkName: "recommendations" */ './routes/staging/optimizations/optimizationsProjectsTableStaging')
+);
+const OptimizationsSummary = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ './routes/staging/optimizations/optimizationsSummaryStaging')
+);
 const Welcome = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/components/page/welcome/welcome'));
 
 const routes = {
+  ocpOptimizations: {
+    element: userAccess(OcpOptimizations),
+    path: '/optimizations/ocp',
+  },
+  ocpOptimizationsBreakdown: {
+    element: userAccess(OcpOptimizationsBreakdown),
+    path: '/optimizations/ocp/breakdown',
+  },
   optimizationsBadge: {
-    element: userAccess(OptimizationsBadgeStaging),
+    element: userAccess(OptimizationsBadge),
     path: '/optimizations/badge',
   },
-  optimizationsBreakdown: {
-    element: userAccess(OptimizationsBreakdownStaging),
-    path: '/optimizations/breakdown',
-  },
   optimizationsContainersTable: {
-    element: userAccess(OptimizationsContainersTableStaging),
+    element: userAccess(OptimizationsContainersTable),
     path: '/optimizations/table/containers',
   },
   optimizationsDetails: {
-    element: userAccess(OptimizationsDetailsStaging),
+    element: userAccess(OptimizationsDetails),
     path: '/optimizations/details',
   },
+  optimizationsDetailsBreakdown: {
+    element: userAccess(OptimizationsDetailsBreakdown),
+    path: '/optimizations/details/breakdown',
+  },
   optimizationsLink: {
-    element: userAccess(OptimizationsLinkStaging),
+    element: userAccess(OptimizationsLink),
     path: '/optimizations/link',
   },
-  optimizationsOcpBreakdown: {
-    element: userAccess(OptimizationsOcpBreakdownStaging),
-    path: '/optimizations/ocp/breakdown',
-  },
   optimizationsProjectsTable: {
-    element: userAccess(OptimizationsProjectsTableStaging),
+    element: userAccess(OptimizationsProjectsTable),
     path: '/optimizations/table/projects',
   },
   optimizationsSummary: {
-    element: userAccess(OptimizationsSummaryStaging),
+    element: userAccess(OptimizationsSummary),
     path: '/optimizations/summary',
   },
   welcome: {

@@ -35,6 +35,7 @@ import { InstancesToolbar } from './instancesToolbar';
 interface InstancesOwnProps {
   costType?: string;
   currency?: string;
+  queryStateName: string;
 }
 
 export interface InstancesStateProps {
@@ -83,7 +84,7 @@ const defaultColumnOptions: ColumnManagementModalOption[] = [
 const reportType = ReportType.ec2Compute;
 const reportPathsType = ReportPathsType.aws;
 
-const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
+const Instances: React.FC<InstancesProps> = ({ costType, currency, queryStateName }) => {
   const intl = useIntl();
 
   const [hiddenColumns, setHiddenColumns] = useState(initHiddenColumns(defaultColumnOptions));
@@ -106,6 +107,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
     costType,
     currency,
     query,
+    queryStateName,
   });
 
   const getColumnManagementModal = () => {
@@ -198,6 +200,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         query={query}
+        queryStateName={queryStateName}
         report={report}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
@@ -345,10 +348,10 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency }) => {
   );
 };
 
-const useMapToProps = ({ costType, currency, query }): InstancesStateProps => {
+const useMapToProps = ({ costType, currency, query, queryStateName }): InstancesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
-  const queryState = useQueryState('details');
+  const queryState = useQueryState(queryStateName);
   const timeScopeValue = getTimeScopeValue(queryState);
 
   const reportQuery = {

@@ -24,6 +24,7 @@ import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataVolumeChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   chartName?: string;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   showLimit?: boolean;
@@ -129,9 +130,9 @@ class HistoricalDataVolumeChartBase extends React.Component<HistoricalDataVolume
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataVolumeChartOwnProps, HistoricalDataVolumeChartStateProps>(
-  (state, { reportPathsType, reportType, router, timeScopeValue = -1 }) => {
+  (state, { queryStateName, reportPathsType, reportType, router, timeScopeValue = -1 }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = getGroupById(queryFromRoute);

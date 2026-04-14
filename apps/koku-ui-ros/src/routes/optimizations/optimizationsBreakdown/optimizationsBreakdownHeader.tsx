@@ -4,7 +4,7 @@ import type { RecommendationReportData } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import type { OptimizationType } from 'utils/commonTypes';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
@@ -18,10 +18,10 @@ interface OptimizationsBreakdownHeaderOwnProps {
   breadcrumbPath?: string;
   currentInterval?: string;
   isDisabled?: boolean;
-  isOptimizationsDetails?: boolean;
-  projectPath?: string;
+  linkState?: any;
   onSelect?: (value: string) => void;
   optimizationType?: OptimizationType;
+  projectPath?: string;
   report?: RecommendationReportData;
 }
 
@@ -32,19 +32,18 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
   breadcrumbPath,
   currentInterval,
   isDisabled,
-  isOptimizationsDetails,
+  linkState,
   onSelect,
   optimizationType,
   projectPath,
   report,
 }) => {
   const intl = useIntl();
-  const location = useLocation();
   const showWarningIcon = hasNotificationsWarning(report?.recommendations);
 
   const getBackToLink = () => {
     return (
-      <Link to={breadcrumbPath} state={{ ...location.state }}>
+      <Link to={breadcrumbPath} state={{ ...linkState }}>
         {breadcrumbLabel ? breadcrumbLabel : intl.formatMessage(messages.breakdownBackToOptimizations)}
       </Link>
     );
@@ -77,9 +76,9 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
           <Content component={ContentVariants.dd}>
             <OptimizationsBreakdownProjectLink
               breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: project })}
-              isOptimizationsDetails={isOptimizationsDetails}
-              linkPath={projectPath}
+              linkState={linkState}
               project={project}
+              projectPath={projectPath}
             />
           </Content>
           <Content component={ContentVariants.dt}>
