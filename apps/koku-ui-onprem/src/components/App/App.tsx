@@ -39,12 +39,16 @@ const config = {
     name: 'costManagementRos',
     manifestLocation: '/costManagementRos/plugin-manifest.json',
   },
+  sources: {
+    name: 'sources',
+    manifestLocation: '/sources/plugin-manifest.json',
+  },
 };
 
 const App = () => {
   return (
     <ScalprumProvider config={config} api={{}}>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppLayout />
       </BrowserRouter>
     </ScalprumProvider>
