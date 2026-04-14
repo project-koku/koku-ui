@@ -21,12 +21,16 @@ interface DataTableOwnProps {
   emptyState?: React.ReactNode;
   exclude?: any;
   filterBy?: any;
+  gridBreakPoint?: '' | 'grid-2xl' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl';
   isActionsCell?: boolean;
   isLoading?: boolean;
+  isNoPadding?: boolean;
+  isNoWrapCell?: boolean;
+  isNoWrapHeader?: boolean;
   isSelectable?: boolean;
-  onSelect(items: any[], isSelected: boolean);
-  onSort(sortType: string, isSortAscending: boolean);
-  orderBy: any;
+  onSelect?(items: any[], isSelected: boolean);
+  onSort?(sortType: string, isSortAscending: boolean);
+  orderBy?: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
   variant?: 'checkbox' | 'radio';
@@ -110,14 +114,27 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { ariaLabel, columns, intl, isActionsCell, isLoading, isSelectable, rows, variant } = this.props;
+    const {
+      ariaLabel,
+      columns,
+      gridBreakPoint = 'grid-2xl',
+      intl,
+      isActionsCell,
+      isLoading,
+      isNoPadding,
+      isNoWrapCell = true,
+      isNoWrapHeader = true,
+      isSelectable,
+      rows,
+      variant,
+    } = this.props;
 
     return (
       <>
         <Table
           aria-label={ariaLabel ? ariaLabel : intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
-          gridBreakPoint="grid-2xl"
+          gridBreakPoint={gridBreakPoint}
           variant={TableVariant.compact}
         >
           <Thead>
@@ -125,7 +142,7 @@ class DataTable extends React.Component<DataTableProps, any> {
               {columns.map((col, index) => (
                 <Th
                   key={`col-${index}-${col.value}`}
-                  modifier="nowrap"
+                  modifier={isNoWrapHeader ? 'nowrap' : undefined}
                   sort={col.isSortable ? this.getSortParams(index) : undefined}
                   style={col.style}
                 >
@@ -154,7 +171,8 @@ class DataTable extends React.Component<DataTableProps, any> {
                         className={item.className}
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${cellIndex}-${rowIndex}`}
-                        modifier="nowrap"
+                        modifier={isNoWrapCell ? 'nowrap' : undefined}
+                        noPadding={isNoPadding}
                         select={{
                           isDisabled: row.selectionDisabled, // Disable select for "no-project"
                           isSelected: row.selected,
@@ -169,7 +187,8 @@ class DataTable extends React.Component<DataTableProps, any> {
                         className={item.className}
                         dataLabel={columns[cellIndex].name}
                         key={`cell-${rowIndex}-${cellIndex}`}
-                        modifier="nowrap"
+                        modifier={isNoWrapCell ? 'nowrap' : undefined}
+                        noPadding={isNoPadding}
                         isActionCell={isActionsCell && cellIndex === row.cells.length - 1}
                         style={item.style}
                       >

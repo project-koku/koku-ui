@@ -19,13 +19,13 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface TagValueOwnProps extends RouterComponentProps, WrappedComponentProps {
-  endDate?: string;
+  endDate?: string | Date;
   isDisabled?: boolean;
   onTagValueSelect(event, selection);
   onTagValueInput(event);
   onTagValueInputChange(value: string);
   selections?: SelectWrapperOption[];
-  startDate?: string;
+  startDate?: string | Date;
   tagKey: string;
   tagKeyValue: string;
   tagPathsType: TagPathsType;

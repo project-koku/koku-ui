@@ -14,9 +14,9 @@ import { styles } from './explorerDatePicker.styles';
 
 interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedComponentProps {
   dateRangeType?: DateRangeType;
-  endDate?: string;
+  endDate?: string | Date;
   onSelect(startDate: Date, endDate: Date);
-  startDate?: string;
+  startDate?: string | Date;
 }
 
 interface ExplorerDatePickerState {

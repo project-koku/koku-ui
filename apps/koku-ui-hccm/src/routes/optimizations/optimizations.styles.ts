@@ -1,4 +1,4 @@
-import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import type React from 'react';
 
 export const styles = {
@@ -10,6 +10,6 @@ export const styles = {
     justifyContent: 'space-between',
   },
   tabs: {
-    paddingTop: t_global_spacer_lg.var,
+    paddingTop: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };

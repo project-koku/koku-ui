@@ -41,6 +41,7 @@ interface CostOverviewOwnProps {
   groupBy?: string;
   isPlatformCosts?: boolean;
   query?: Query;
+  queryStateName: string;
   report: Report;
 }
 
@@ -228,7 +229,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns CPU usage chart
   private getCpuUsageChart = (widget: CostOverviewWidget) => {
-    const { groupBy, intl } = this.props;
+    const { groupBy, intl, queryStateName } = this.props;
 
     return (
       <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
@@ -238,7 +239,12 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           </Title>
         </CardTitle>
         <CardBody>
-          <UsageChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <UsageChart
+            name={widget.chartName}
+            queryStateName={queryStateName}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
         </CardBody>
       </Card>
     );
@@ -246,7 +252,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns GPU data
   private getGpuData = (widget: CostOverviewWidget) => {
-    const { groupBy, intl } = this.props;
+    const { groupBy, intl, queryStateName } = this.props;
 
     let showWidget = false;
     if (widget.showWidgetOnGroupBy) {
@@ -266,7 +272,11 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
             </Title>
           </CardTitle>
           <CardBody>
-            <GpuData reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+            <GpuData
+              queryStateName={queryStateName}
+              reportPathsType={widget.reportPathsType}
+              reportType={widget.reportType}
+            />
           </CardBody>
         </Card>
       );
@@ -276,7 +286,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
-    const { groupBy, intl } = this.props;
+    const { groupBy, intl, queryStateName } = this.props;
 
     return (
       <Card className={groupBy === 'node' ? 'cardOverride' : undefined}>
@@ -286,7 +296,12 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           </Title>
         </CardTitle>
         <CardBody>
-          <UsageChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+          <UsageChart
+            name={widget.chartName}
+            queryStateName={queryStateName}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
         </CardBody>
       </Card>
     );
@@ -294,7 +309,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns PVC (persistent volume claim) chart
   private getPvcChart = (widget: CostOverviewWidget) => {
-    const { groupBy, intl } = this.props;
+    const { groupBy, intl, queryStateName } = this.props;
 
     let showWidget = false;
     if (widget.showWidgetOnGroupBy) {
@@ -314,7 +329,12 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
             </Title>
           </CardTitle>
           <CardBody>
-            <PvcChart name={widget.chartName} reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
+            <PvcChart
+              name={widget.chartName}
+              queryStateName={queryStateName}
+              reportPathsType={widget.reportPathsType}
+              reportType={widget.reportType}
+            />
           </CardBody>
         </Card>
       );
@@ -324,7 +344,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns report summary card
   private getReportSummaryCard = (widget: CostOverviewWidget) => {
-    const { costDistribution, costType, currency, groupBy, isPlatformCosts, query } = this.props;
+    const { costDistribution, costType, currency, groupBy, isPlatformCosts, query, queryStateName } = this.props;
 
     const groupByCostCategory = getGroupByCostCategory(query);
     const groupByOrg = getGroupByOrgValue(query);
@@ -358,6 +378,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           costType={!isVolumeWidget ? costType : undefined}
           currency={currency}
           isPlatformCosts={showPlatformCosts}
+          queryStateName={queryStateName}
           reportGroupBy={widget.reportSummary.reportGroupBy}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}
@@ -371,7 +392,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns volume usage chart
   private getVolumeUsageChart = (widget: CostOverviewWidget) => {
-    const { groupBy, intl } = this.props;
+    const { groupBy, intl, queryStateName } = this.props;
 
     let showWidget = false;
 
@@ -394,6 +415,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           <CardBody>
             <UsageChart
               name={widget.chartName}
+              queryStateName={queryStateName}
               reportPathsType={widget.reportPathsType}
               reportType={widget.reportType}
             />

@@ -25,17 +25,17 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
       scope="costManagementRos"
       module="./OptimizationsDetails"
       breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-      breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
+      breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
       isHeaderHidden={isHeaderHidden}
       linkPath={formatPath(routes.optimizationsBreakdown.path)}
       linkState={{
-        ...(location.state && location.state),
-        activeTabKey,
-        optimizations: {
+        ...(location?.state || {}),
+        efficiencyState: {
+          ...(location?.state?.efficiencyState || {}),
           activeTabKey,
         },
       }}
-      projectPath={formatPath(routes.ocpBreakdown.path)}
+      queryStateName="optimizationsDetailsState"
     />
   );
 };
