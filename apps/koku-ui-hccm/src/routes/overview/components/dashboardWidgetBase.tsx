@@ -1,4 +1,4 @@
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import type { Forecast } from 'api/forecasts/forecast';

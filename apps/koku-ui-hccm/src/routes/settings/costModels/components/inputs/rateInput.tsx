@@ -1,4 +1,4 @@
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl';
 import type { TextInputProps } from '@patternfly/react-core';
 import type { FormGroupProps } from '@patternfly/react-core';
 import {
