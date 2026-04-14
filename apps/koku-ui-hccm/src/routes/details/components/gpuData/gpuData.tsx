@@ -3,7 +3,7 @@ import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -113,10 +113,12 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
     return false;
   };
 
-  const handleOnResize = useCallback(() => {
+  const handleOnResize = () => {
     const { clientWidth = 0 } = containerRef?.current || {};
-    setWidth(prevWidth => (clientWidth !== prevWidth ? clientWidth : prevWidth));
-  }, []);
+    if (clientWidth !== width) {
+      setWidth(clientWidth);
+    }
+  };
 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
