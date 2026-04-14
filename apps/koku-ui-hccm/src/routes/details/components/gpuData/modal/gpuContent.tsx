@@ -3,7 +3,7 @@ import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { ReportPathsType } from 'api/reports/report';
 import type { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getResizeObserver } from 'routes/components/charts/common';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -123,10 +123,12 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
     setQuery(newQuery);
   };
 
-  const handleOnResize = useCallback(() => {
+  const handleOnResize = () => {
     const { clientWidth = 0 } = containerRef?.current || {};
-    setWidth(prevWidth => (clientWidth !== prevWidth ? clientWidth : prevWidth));
-  }, []);
+    if (clientWidth !== width) {
+      setWidth(clientWidth);
+    }
+  };
 
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
