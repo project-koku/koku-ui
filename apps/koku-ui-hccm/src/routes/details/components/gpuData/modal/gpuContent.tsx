@@ -3,8 +3,9 @@ import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { ReportPathsType } from 'api/reports/report';
 import type { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { getResizeObserver } from 'routes/components/charts/common';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { useMapToProps } from 'routes/details/components/gpuData/utils';
@@ -44,6 +45,9 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
     reportType,
   });
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
     const limit = report?.meta ? report.meta.limit : baseQuery.filter.limit;
@@ -75,6 +79,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
     return (
       <GpuTable
         filterBy={query.filter_by}
+        gridBreakPoint={width < 650 ? 'grid' : undefined}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -118,6 +123,11 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
     setQuery(newQuery);
   };
 
+  const handleOnResize = useCallback(() => {
+    const { clientWidth = 0 } = containerRef?.current || {};
+    setWidth(prevWidth => (clientWidth !== prevWidth ? clientWidth : prevWidth));
+  }, []);
+
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
     setQuery(newQuery);
@@ -128,6 +138,17 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
     setQuery(newQuery);
   };
 
+  useEffect(() => {
+    if (containerRef?.current) {
+      const unobserve = getResizeObserver(containerRef?.current, handleOnResize);
+      return () => {
+        if (unobserve) {
+          unobserve();
+        }
+      };
+    }
+  }, [containerRef, handleOnResize]);
+
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
 
@@ -135,7 +156,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
     return <NotAvailable />;
   }
   return (
-    <div style={styles.container}>
+    <div ref={containerRef} style={styles.container}>
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
         <div style={styles.loading}>
