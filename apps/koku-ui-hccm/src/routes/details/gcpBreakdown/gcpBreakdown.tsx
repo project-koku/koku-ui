@@ -40,7 +40,8 @@ const reportPathsType = ReportPathsType.gcp;
 
 const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownStateProps>((state, { intl, router }) => {
   const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'details');
+  const queryStateName = 'detailsState';
+  const queryState = getQueryState(router.location, queryStateName);
 
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
@@ -95,19 +96,24 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
 
   return {
     breadcrumbPath: formatPath(routes.gcpDetails.path),
-    costOverviewComponent: <CostOverview currency={currency} groupBy={groupBy} report={report} />,
+    costOverviewComponent: (
+      <CostOverview currency={currency} groupBy={groupBy} queryStateName={queryStateName} report={report} />
+    ),
     currency,
     description: queryFromRoute[breakdownDescKey],
     detailsURL,
     emptyStateTitle: intl.formatMessage(messages.gcpDetailsTitle),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData currency={currency} timeScopeValue={timeScopeValue} />,
+    historicalDataComponent: (
+      <HistoricalData currency={currency} queryStateName={queryStateName} timeScopeValue={timeScopeValue} />
+    ),
     providers: filterProviders(providers, ProviderType.gcp),
     providersError,
     providersFetchStatus,
     providerType: ProviderType.gcp,
     query,
+    queryStateName,
     report,
     reportError,
     reportFetchStatus,

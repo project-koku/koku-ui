@@ -70,10 +70,10 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.gcpDetails.path):
         return gcp;
       case formatPath(routes.ocpBreakdown.path):
-      case formatPath(routes.ocpBreakdownOptimizations.path):
       case formatPath(routes.ocpDetails.path):
+      case formatPath(routes.ocpOptimizationsBreakdown.path):
       case formatPath(routes.optimizationsBreakdown.path):
-      case formatPath(routes.optimizationsDetails.path):
+      case formatPath(routes.optimizations.path):
         return ocp;
       case formatPath(routes.settings.path):
         return settings;

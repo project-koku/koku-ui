@@ -23,6 +23,7 @@ import { TagContent } from './tagContent';
 interface TagModalOwnProps extends RouterComponentProps, WrappedComponentProps {
   isOpen: boolean;
   onClose(isOpen: boolean);
+  queryStateName: string;
   tagData?: TagData[];
   tagPathsType: TagPathsType;
   virtualMachine?: string;
@@ -116,9 +117,9 @@ class TagModalBase extends React.Component<TagModalProps, any> {
 }
 
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
-  (state, { router, tagPathsType }) => {
+  (state, { queryStateName, router, tagPathsType }) => {
     const queryFromRoute = parseQuery<Query>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);

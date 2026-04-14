@@ -1,6 +1,6 @@
 import './dateRange.scss';
 
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl';
 import type { MenuToggleElement } from '@patternfly/react-core';
 import { Dropdown, DropdownItem, DropdownList, MenuToggle } from '@patternfly/react-core';
 import messages from 'locales/messages';

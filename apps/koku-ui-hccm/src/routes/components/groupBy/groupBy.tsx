@@ -29,7 +29,7 @@ import { GroupByOrg } from './groupByOrg';
 import { GroupBySelect } from './groupBySelect';
 
 interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
-  endDate?: string;
+  endDate?: string | Date;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -40,12 +40,12 @@ interface GroupByOwnProps extends RouterComponentProps, WrappedComponentProps {
   }[];
   orgPathsType?: OrgPathsType;
   perspective?: PerspectiveType;
-  resourcePathsType: ResourcePathsType;
+  resourcePathsType?: ResourcePathsType;
   showCostCategories?: boolean;
   showOrgs?: boolean;
   showTags?: boolean;
-  startDate?: string;
-  tagPathsType: TagPathsType;
+  startDate?: string | Date;
+  tagPathsType?: TagPathsType;
   timeScopeValue?: number;
 }
 
@@ -98,7 +98,7 @@ const tagType = TagType.tag;
 
 class GroupByBase extends React.Component<GroupByProps, GroupByState> {
   protected defaultState: GroupByState = {
-    defaultItem: this.props.groupBy || this.props.options[0].value,
+    defaultItem: this.props.options[0].value,
     isGroupByCostCategoryVisible: false,
     isGroupByOrgVisible: false,
     isGroupByTagVisible: false,
@@ -157,7 +157,7 @@ class GroupByBase extends React.Component<GroupByProps, GroupByState> {
 
     const queryFromRoute = parseQuery<Query>(router.location.search);
     if (!queryFromRoute?.group_by) {
-      return defaultItem;
+      return this.props.groupBy || defaultItem;
     }
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);

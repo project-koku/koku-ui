@@ -186,14 +186,14 @@ export const getTagValueSelect = ({
 }: {
   currentCategory?: string;
   currentTagKey?: string;
-  endDate?: string;
+  endDate?: string | Date;
   filters?: Filters;
   isDisabled?: boolean;
   onDelete?: (type: any, chip: any) => void;
   onTagValueSelect?: (event: any, selection) => void;
   onTagValueInput?: (event: any) => void;
   onTagValueInputChange?: (value: string) => void;
-  startDate?: string;
+  startDate?: string | Date;
   tagKeyValueInput?: string;
   tagKeyOption?: ToolbarLabelGroup;
   tagPathsType?: TagPathsType;

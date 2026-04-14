@@ -35,6 +35,7 @@ export interface Query {
   order_how?: any;
   perspective?: any;
   project?: any;
+  queryStateName?: string;
   search?: any;
   start_date?: any;
   state?: any;

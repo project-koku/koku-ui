@@ -126,7 +126,7 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
       filterBy={filterBy}
       gridBreakPoint="grid-2xl"
       isActionsCell
-      isAllExpanded={filterBy ? Object.keys(filterBy).find(key => key === 'child') : false}
+      isAllExpanded={filterBy ? Object.keys(filterBy).find(key => key === 'child')?.length > 0 : false}
       isLoading={isLoading}
       onSort={onSort}
       orderBy={orderBy}

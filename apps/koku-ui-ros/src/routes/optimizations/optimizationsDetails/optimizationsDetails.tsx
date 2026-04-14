@@ -2,20 +2,19 @@ import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { RosNamespace } from 'api/ros/ros';
 import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import React, { useState } from 'react';
-import { OptimizationsContainersTable } from 'routes/optimizations/optimizationsContainersTable';
-import { OptimizationsProjectsTable } from 'routes/optimizations/optimizationsProjectsTable';
+import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
 import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
 
 interface OptimizationsDetailsOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
-  isHeaderHidden?: boolean;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  isHeaderHidden?: boolean; // Hides header for use in OCP optimizations breakdown
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  queryStateName: string; // Name used to store query state
 }
 
 interface OptimizationsDetailsStateProps {
@@ -30,7 +29,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   isHeaderHidden = false,
   linkPath,
   linkState,
-  projectPath,
+  queryStateName,
 }) => {
   const { isNamespaceToggleEnabled } = useMapToProps();
   const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
@@ -73,29 +72,26 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
                 <OptimizationsContainersTable
                   breadcrumbLabel={breadcrumbLabel}
                   breadcrumbPath={breadcrumbPath}
-                  isOptimizationsDetails
                   linkPath={linkPath}
                   linkState={linkState}
-                  projectPath={projectPath}
+                  queryStateName={queryStateName}
                 />
               ) : (
                 <OptimizationsProjectsTable
                   breadcrumbLabel={breadcrumbLabel}
                   breadcrumbPath={breadcrumbPath}
-                  isOptimizationsDetails
                   linkPath={linkPath}
                   linkState={linkState}
-                  projectPath={projectPath}
+                  queryStateName={queryStateName}
                 />
               )
             ) : (
               <OptimizationsTable
                 breadcrumbLabel={breadcrumbLabel}
                 breadcrumbPath={breadcrumbPath}
-                isOptimizationsDetails
                 linkPath={linkPath}
                 linkState={linkState}
-                projectPath={projectPath}
+                queryStateName={queryStateName}
               />
             )}
           </CardBody>

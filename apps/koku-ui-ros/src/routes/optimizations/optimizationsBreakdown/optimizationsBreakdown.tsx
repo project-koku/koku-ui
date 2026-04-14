@@ -45,15 +45,19 @@ interface AvailableTab {
 }
 
 interface OptimizationsBreakdownOwnProps {
-  // TBD...
+  linkState?: any; // Link state used by the link displayed in each table row
+  projectPath?: string; // Path used by project link displayed in the optimizations breakdown header
+  queryStateName: string; // Name used to store query state
+}
+
+interface OptimizationsBreakdownMapProps {
+  queryStateName: string;
 }
 
 interface OptimizationsBreakdownStateProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   isBoxPlotToggleEnabled?: boolean;
-  isOptimizationsDetails?: boolean;
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
   report?: RecommendationReportData;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -65,16 +69,10 @@ type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps & Optimization
 const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.recommendation as any;
 
-const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
-  const {
-    breadcrumbLabel,
-    breadcrumbPath,
-    isBoxPlotToggleEnabled,
-    isOptimizationsDetails,
-    projectPath,
-    report,
-    reportFetchStatus,
-  } = useMapToProps();
+const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkState, projectPath, queryStateName }) => {
+  const { breadcrumbLabel, breadcrumbPath, isBoxPlotToggleEnabled, report, reportFetchStatus } = useMapToProps({
+    queryStateName,
+  });
   const [activeTabKey, setActiveTabKey] = useState(0);
   const intl = useIntl();
 
@@ -251,10 +249,10 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
           breadcrumbPath={breadcrumbPath}
           currentInterval={currentInterval}
           isDisabled={isLoading}
-          isOptimizationsDetails={isOptimizationsDetails}
+          linkState={linkState}
+          projectPath={projectPath}
           onSelect={handleOnSelect}
           optimizationType={getOptimizationType()}
-          projectPath={projectPath}
           report={report}
         />
       </PageSection>
@@ -281,7 +279,7 @@ const useQueryFromRoute = () => {
   return parseQuery<Query>(location.search);
 };
 
-const useMapToProps = (): OptimizationsBreakdownStateProps => {
+const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): OptimizationsBreakdownStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const location = useLocation();
@@ -303,15 +301,10 @@ const useMapToProps = (): OptimizationsBreakdownStateProps => {
     }
   }, [reportQueryString]);
 
-  const isOptimizationsDetails = queryFromRoute?.isOptimizationsDetails === 'true';
-
   return {
     breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
-    breadcrumbPath:
-      location?.state?.[isOptimizationsDetails ? 'optimizations' : 'optimizationsBreakdown']?.breadcrumbPath,
+    breadcrumbPath: location?.state?.[queryStateName]?.breadcrumbPath,
     isBoxPlotToggleEnabled: useIsBoxPlotToggleEnabled(),
-    isOptimizationsDetails,
-    projectPath: location?.state?.optimizations?.projectPath,
     report,
     reportError,
     reportFetchStatus,

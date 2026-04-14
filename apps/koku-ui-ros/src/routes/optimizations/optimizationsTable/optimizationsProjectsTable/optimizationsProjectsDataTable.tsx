@@ -2,7 +2,6 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { Icon } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
-import type { Query } from 'api/queries/query';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -15,22 +14,18 @@ import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
-import { getRequestProps } from './utils';
-import { getLinkState } from './utils';
+import { getRequestProps } from '../utils';
 
 interface OptimizationsProjectTableOwnProps {
   breadcrumbLabel?: string;
-  breadcrumbPath?: string;
   filterBy?: any;
   isClusterHidden?: boolean;
   isLoading?: boolean;
-  isOptimizationsDetails?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   projectPath?: string; // Project path (i.e., OCP details breakdown path)
-  query?: Query;
   report: RecommendationReport;
   reportQueryString: string;
 }
@@ -39,20 +34,17 @@ type OptimizationsProjectTableProps = OptimizationsProjectTableOwnProps;
 
 const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> = ({
   breadcrumbLabel,
-  breadcrumbPath,
   filterBy,
   isClusterHidden,
   isLoading,
-  isOptimizationsDetails,
   linkPath,
   linkState,
   onSort,
   orderBy,
-  projectPath,
-  query,
   report,
 }) => {
   const intl = useIntl();
+
   const [columns, setColumns] = useState([]);
   const [nestedColumns, setNestedColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -143,17 +135,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
         breadcrumbLabel,
         // id: item.id, Todo: for testing
         id: '91b2a9dc-9143-4f67-9d2a-8fc3bd998183',
-        isOptimizationsDetails,
         title: container,
-      });
-
-      const newLinkState = getLinkState({
-        breadcrumbPath,
-        isOptimizationsDetails,
-        linkState,
-        projectPath,
-        optimizationsBreakdownPath,
-        query,
       });
 
       const requestProps = getRequestProps(item);
@@ -162,7 +144,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
         cells: [
           {
             value: (
-              <Link to={optimizationsBreakdownPath} state={newLinkState}>
+              <Link to={optimizationsBreakdownPath} state={linkState}>
                 {project}
               </Link>
             ),
@@ -216,7 +198,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
 
   useEffect(() => {
     initDatum();
-  }, [report]);
+  }, [linkState, report]);
 
   return (
     <DataTable

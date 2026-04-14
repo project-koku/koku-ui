@@ -45,7 +45,7 @@ interface DataToolbarOwnProps {
   className?: string;
   dateRange?: React.ReactNode; // Optional date range controls to display in toolbar
   datePicker?: React.ReactNode; // Optional date picker controls to display in toolbar
-  endDate?: string; // For Cost Explorer tag key value
+  endDate?: string | Date; // For Cost Explorer tag key value
   groupBy?: string; // Sync category selection with groupBy value
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -71,7 +71,7 @@ interface DataToolbarOwnProps {
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   showPlatformCosts?: boolean; // Show platform costs switch
-  startDate?: string; // For Cost Explorer tag key value
+  startDate?: string | Date; // For Cost Explorer tag key value
   style?: React.CSSProperties;
   tagPathsType?: TagPathsType;
   tagReport?: Tag; // Data containing tag key and value data
@@ -120,6 +120,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     this.setState({
       currentCategory: getDefaultCategory(categoryOptions, groupBy, query),
       currentCriteria: CriteriaType.include,
+      filters: getActiveFilters(query),
     });
   }
 

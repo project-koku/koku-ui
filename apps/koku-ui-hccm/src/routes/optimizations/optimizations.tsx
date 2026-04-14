@@ -1,138 +1,60 @@
-import { PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import { PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useIsEfficiencyToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
-import type { RefObject } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { routes } from 'routes';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
-import { useQueryState } from 'utils/hooks';
+import { formatPath } from 'utils/paths';
 
 import { Efficiency } from './efficiency';
 import { styles } from './optimizations.styles';
 import { OptimizationsDetails } from './optimizationsDetails';
 
-const enum OptimizationsTab {
-  efficiency = 'efficiency',
-  optimizations = 'optimizations',
-}
-
-export const getIdKeyForTab = (tab: OptimizationsTab) => {
-  switch (tab) {
-    case OptimizationsTab.efficiency:
-      return 'efficiency';
-    case OptimizationsTab.optimizations:
-      return 'optimizations';
-  }
-};
-
-interface AvailableTab {
-  contentRef: RefObject<any>;
-  tab: OptimizationsTab;
-}
-
 interface OptimizationsOwnProps extends ChromeComponentProps {
   // TBD...
-}
-
-export interface OptimizationsMapProps {
-  // TBD...
-}
-
-export interface OptimizationsStateProps {
-  activeTabKeyState?: number;
 }
 
 type OptimizationsProps = OptimizationsOwnProps;
 
 const Optimizations: React.FC<OptimizationsProps> = () => {
-  const { activeTabKeyState = 0 } = useMapToProps();
-  const [activeTabKey, setActiveTabKey] = useState(activeTabKeyState);
-  const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
   const intl = useIntl();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
 
-  const getAvailableTabs = () => {
-    const availableTabs: AvailableTab[] = [
-      {
-        contentRef: React.createRef(),
-        tab: OptimizationsTab.efficiency,
+  // Initialize from location state if available (e.g. page reload or direct link)
+  const [activeTabKey, setActiveTabKey] = useState<number>(location?.state?.efficiencyState?.activeTabKey ?? 0);
+
+  // Sync activeTabKey whenever the location.key changes (i.e. any navigation —
+  // push or replace — including clicks on the CPU-table link). We only update
+  // when efficiencyState.activeTabKey is explicitly present so that internal
+  // navigations from the remote MFE component don't inadvertently reset the tab.
+  useEffect(() => {
+    const nextTabKey = location?.state?.efficiencyState?.activeTabKey;
+    if (nextTabKey !== undefined) {
+      setActiveTabKey(nextTabKey);
+    }
+  }, [location.key]);
+
+  const handleTabClick = (_event, tabIndex) => {
+    // Immediately update local state so the tab header responds without waiting
+    // for the navigation round-trip.
+    setActiveTabKey(tabIndex);
+    navigate(formatPath(routes.optimizations.path), {
+      replace: true,
+      state: {
+        ...(location?.state || {}),
+        efficiencyState: {
+          ...(location?.state?.efficiencyState || {}),
+          activeTabKey: tabIndex,
+        },
       },
-      {
-        contentRef: React.createRef(),
-        tab: OptimizationsTab.optimizations,
-      },
-    ];
-    return availableTabs;
-  };
-
-  const getTab = (tab: OptimizationsTab, contentRef, index: number) => {
-    return (
-      <Tab
-        eventKey={index}
-        key={`${getIdKeyForTab(tab)}-tab`}
-        tabContentId={`tab-${index}`}
-        tabContentRef={contentRef}
-        title={<TabTitleText>{getTabTitle(tab)}</TabTitleText>}
-      />
-    );
-  };
-
-  const getTabContent = (availableTabs: AvailableTab[]) => {
-    return availableTabs.map((val, index) => {
-      return (
-        <TabContent
-          eventKey={index}
-          key={`${getIdKeyForTab(val.tab)}-tabContent`}
-          id={`tab-${index}`}
-          ref={val.contentRef as any}
-        >
-          {getTabItem(val.tab, index)}
-        </TabContent>
-      );
     });
   };
-
-  const getTabItem = (tab: OptimizationsTab, index: number) => {
-    const emptyTab = <></>; // Lazily load tabs
-
-    if (activeTabKey !== index) {
-      return emptyTab;
-    }
-
-    const currentTab = getIdKeyForTab(tab);
-    if (currentTab === OptimizationsTab.efficiency) {
-      return <Efficiency />;
-    } else if (currentTab === OptimizationsTab.optimizations) {
-      return <OptimizationsDetails activeTabKey={activeTabKey} isHeaderHidden={true} />;
-    } else {
-      return emptyTab;
-    }
-  };
-
-  const getTabs = (availableTabs: AvailableTab[]) => {
-    return (
-      <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-        {availableTabs.map((val, index) => getTab(val.tab, val.contentRef, index))}
-      </Tabs>
-    );
-  };
-
-  const getTabTitle = (tab: OptimizationsTab) => {
-    if (tab === OptimizationsTab.efficiency) {
-      return intl.formatMessage(messages.efficiency);
-    } else if (tab === OptimizationsTab.optimizations) {
-      return intl.formatMessage(messages.optimizations);
-    }
-  };
-
-  const handleTabClick = (event, tabIndex) => {
-    if (activeTabKey !== tabIndex) {
-      setActiveTabKey(tabIndex);
-    }
-  };
-
-  const availableTabs = getAvailableTabs();
 
   if (!isEfficiencyToggleEnabled) {
     return <OptimizationsDetails />;
@@ -144,20 +66,20 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           <div style={styles.headerContent}>
             <AsyncComponent scope="costManagementRos" module="./OptimizationsDetailsTitle" />
           </div>
-          <div style={styles.tabs}>{getTabs(availableTabs)}</div>
+          <div style={styles.tabs}>
+            <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+              <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
+              <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
+            </Tabs>
+          </div>
         </header>
       </PageSection>
-      <PageSection>{getTabContent(availableTabs)}</PageSection>
+      <PageSection>
+        {activeTabKey === 0 && <Efficiency />}
+        {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={true} />}
+      </PageSection>
     </>
   );
-};
-
-export const useMapToProps = (): OptimizationsStateProps => {
-  const queryState = useQueryState('optimizations');
-
-  return {
-    activeTabKeyState: queryState?.activeTabKey,
-  };
 };
 
 export default withChrome(Optimizations);

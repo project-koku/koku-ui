@@ -38,6 +38,7 @@ export interface ChartDatum {
 
 interface PvcChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   name?: string;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -361,9 +362,9 @@ class PvcChartBase extends React.Component<PvcChartProps, PvcChartState> {
 }
 
 const mapStateToProps = createMapStateToProps<PvcChartOwnProps, PvcChartStateProps>(
-  (state, { reportPathsType, reportType, router }) => {
+  (state, { queryStateName, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);
