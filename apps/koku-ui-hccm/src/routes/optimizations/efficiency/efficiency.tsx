@@ -6,7 +6,7 @@ import { getQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -165,12 +165,12 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
     forceUpdate();
   };
 
-  const handleOnResize = useCallback(() => {
+  const handleOnResize = () => {
     const { clientWidth = 0 } = containerRef?.current || {};
     if (clientWidth !== width) {
       setWidth(clientWidth);
     }
-  }, [width]);
+  };
 
   const isOperatorAlertOpen = () => {
     const result = providers?.data?.find(provider => provider.additional_context?.operator_update_available === true);
