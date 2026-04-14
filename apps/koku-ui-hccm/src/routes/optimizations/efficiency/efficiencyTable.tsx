@@ -143,12 +143,9 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
       columns={columns}
       exclude={exclude}
       filterBy={filterBy}
-      // gridBreakPoint={width < 300 ? 'grid' : undefined}
       gridBreakPoint="grid-md"
       isLoading={isLoading}
-      // isNoWrapCell={false}
       isNoWrapHeader={false}
-      // isNoPadding
       onSort={onSort}
       orderBy={orderBy}
       rows={rows}

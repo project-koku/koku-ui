@@ -164,8 +164,8 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
     return (
       <EfficiencyTable
         basePath={formatPath(routes.optimizations.path)}
-        exclude={query.exclude}
-        filterBy={query.filter_by}
+        exclude={exclude}
+        filterBy={filterBy}
         groupBy={groupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
