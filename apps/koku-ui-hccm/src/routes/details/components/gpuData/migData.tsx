@@ -51,10 +51,10 @@ type MigDataProps = MigDataOwnProps;
 
 const baseQuery: OcpQuery = {
   filter: {
+    limit: 100,
     resolution: 'monthly',
     time_scope_units: 'month',
   },
-  limit: 100,
 };
 
 const reportPathsType = ReportPathsType.ocp;
