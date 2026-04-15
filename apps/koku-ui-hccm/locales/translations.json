@@ -434,7 +434,7 @@
   "metricPlaceholder": "Filter by metrics",
   "metricValues": "{value, select, cpu {CPU} cluster {Cluster} memory {Memory} project {Project} node {Node} persistent_volume_claims {Persistent volume claims} storage {Storage} virtual_machine {Virtual machine}other {}}",
   "metricsOperatorVersion": "Cost management operator version",
-  "migColumns": "{value, select, compute {Compute} memory {Memory} uuid {UUID} other {}}",
+  "migColumns": "{value, select, compute {Compute} memory {Memory} id {ID} other {}}",
   "monthOverMonthChange": "Month over month change",
   "moreOptions": "More options",
   "names": "{count, plural, one {Name} other {Names}}",

@@ -10782,6 +10782,14 @@
               }
             ]
           },
+          "id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ID"
+              }
+            ]
+          },
           "memory": {
             "value": [
               {
@@ -10792,14 +10800,6 @@
           },
           "other": {
             "value": []
-          },
-          "uuid": {
-            "value": [
-              {
-                "type": 0,
-                "value": "UUID"
-              }
-            ]
           }
         },
         "type": 5,
