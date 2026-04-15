@@ -13,8 +13,8 @@ export interface OcpReportItem extends ReportItem {
   gpu_vendor?: string;
   limit?: ReportValue;
   memory?: ReportValue;
+  mig_id?: string;
   mig_profile?: string;
-  mig_uuid?: string;
   node?: string;
   persistent_volume_claim?: string;
   project?: string;

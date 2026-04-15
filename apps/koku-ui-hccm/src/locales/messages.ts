@@ -2742,7 +2742,7 @@ export default defineMessages({
     id: 'metricsOperatorVersion',
   },
   migColumns: {
-    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'uuid {UUID} ' + 'other {}}',
+    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'id {ID} ' + 'other {}}',
     description: 'MIG columns',
     id: 'migColumns',
   },
