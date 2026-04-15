@@ -6,6 +6,8 @@
     "sources.emptyStateAddOpenShift": "Add OpenShift integration",
     "sources.emptyStateNoMatchesTitle": "No integrations match your filters",
     "sources.emptyStateNoMatchesBody": "Try adjusting or clearing your filters to see more results.",
+    "sources.loadingStateTitle": "Looking for integrations...",
+    "sources.loadingStateDesc": "Searching for your integrations. Do not refresh the browser",
     "sources.clearAllFilters": "Clear all filters",
     "sources.filterByName": "Filter by name",
     "sources.filterByType": "Filter by type",

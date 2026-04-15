@@ -1,4 +1,4 @@
-import { Bullseye, EmptyState, EmptyStateBody, Pagination, PaginationVariant, Spinner } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, Pagination, PaginationVariant } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadEntities, setFilter, setPage, setSort } from 'redux/sources-slice';
 import type { AppDispatch, RootState } from 'redux/store';
 
+import { ListLoadingState } from './ListLoadingState';
 import { SourcesEmptyState } from './SourcesEmptyState';
 
 const styles = {
@@ -92,9 +93,7 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   const showLoadingInTable = loading && sources.length === 0;
   const showNoMatchesInTable = !loading && count === 0 && hasActiveFilter;
   const emptyTableBody = showLoadingInTable ? (
-    <Bullseye>
-      <Spinner size="lg" />
-    </Bullseye>
+    <ListLoadingState />
   ) : showNoMatchesInTable ? (
     <NoMatchesEmptyState />
   ) : undefined;

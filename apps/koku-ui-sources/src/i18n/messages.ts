@@ -25,6 +25,14 @@ export const messages = defineMessages({
     id: 'sources.emptyStateNoMatchesBody',
     defaultMessage: 'Try adjusting or clearing your filters to see more results.',
   },
+  loadingStateTitle: {
+    id: 'sources.loadingStateTitle',
+    defaultMessage: 'Looking for integrations...',
+  },
+  loadingStateDesc: {
+    id: 'sources.loadingStateDesc',
+    defaultMessage: 'Searching for your integrations. Do not refresh the browser',
+  },
   clearAllFilters: {
     id: 'sources.clearAllFilters',
     defaultMessage: 'Clear all filters',

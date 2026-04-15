@@ -102,7 +102,7 @@ describe('SourcesPage', () => {
     jest.clearAllMocks();
   });
 
-  it('shows spinner when loading with no entities', async () => {
+  it('shows loading state when loading with no entities', async () => {
     const { listSources } = require('apis/sources-service').SourcesService;
     listSources.mockReturnValue(new Promise(() => {}));
 
@@ -111,6 +111,10 @@ describe('SourcesPage', () => {
     });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByText('Looking for integrations...')).toBeInTheDocument();
+    expect(
+      screen.getByText('Searching for your integrations. Do not refresh the browser')
+    ).toBeInTheDocument();
     expect(screen.getByRole('grid')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Filter by name')).toBeInTheDocument();
   });
