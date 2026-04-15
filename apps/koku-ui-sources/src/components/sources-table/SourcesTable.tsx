@@ -16,6 +16,8 @@ interface SourcesTableProps {
   sortDirection: 'asc' | 'desc';
   onSort: (sortBy: string, direction: 'asc' | 'desc') => void;
   canWrite?: boolean;
+  /** When there are no rows, render this inside one full-width body cell (e.g. filtered empty). */
+  emptyTableBody?: React.ReactNode;
 }
 
 const getStatusColor = (source: Source): 'green' | 'orange' | 'red' => {
@@ -43,6 +45,7 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
   sortDirection,
   onSort,
   canWrite = false,
+  emptyTableBody,
 }) => {
   const intl = useIntl();
   const activeSortIndex = columnFields.indexOf(sortBy);
@@ -83,52 +86,58 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
         </Tr>
       </Thead>
       <Tbody>
-        {sources.map(source => {
-          const sourceType = getSourceTypeById(source.source_type);
-          return (
-            <Tr key={source.uuid}>
-              <Td dataLabel={intl.formatMessage(messages.name)}>
-                <Button variant="link" isInline onClick={() => onSelectSource(source)}>
-                  {source.name}
-                </Button>
-              </Td>
-              <Td dataLabel={intl.formatMessage(messages.sourceType)}>
-                {sourceType?.product_name ?? source.source_type}
-              </Td>
-              <Td dataLabel={intl.formatMessage(messages.dateAdded)}>{formatRelativeDate(source.created_timestamp)}</Td>
-              <Td dataLabel={intl.formatMessage(messages.status)}>
-                <Label color={getStatusColor(source)}>{formatStatus(source)}</Label>
-              </Td>
-              <Td isActionCell onClick={e => e.stopPropagation()}>
-                <ActionsColumn
-                  items={[
-                    {
-                      title: source.paused ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.pause),
-                      description: source.paused
-                        ? intl.formatMessage(messages.resumeDescription)
-                        : intl.formatMessage(messages.pauseDescription),
-                      onClick: async () => {
-                        await onTogglePause(source);
+        {sources.length === 0 && emptyTableBody ? (
+          <Tr>
+            <Td colSpan={5}>{emptyTableBody}</Td>
+          </Tr>
+        ) : (
+          sources.map(source => {
+            const sourceType = getSourceTypeById(source.source_type);
+            return (
+              <Tr key={source.uuid}>
+                <Td dataLabel={intl.formatMessage(messages.name)}>
+                  <Button variant="link" isInline onClick={() => onSelectSource(source)}>
+                    {source.name}
+                  </Button>
+                </Td>
+                <Td dataLabel={intl.formatMessage(messages.sourceType)}>
+                  {sourceType?.product_name ?? source.source_type}
+                </Td>
+                <Td dataLabel={intl.formatMessage(messages.dateAdded)}>{formatRelativeDate(source.created_timestamp)}</Td>
+                <Td dataLabel={intl.formatMessage(messages.status)}>
+                  <Label color={getStatusColor(source)}>{formatStatus(source)}</Label>
+                </Td>
+                <Td isActionCell onClick={e => e.stopPropagation()}>
+                  <ActionsColumn
+                    items={[
+                      {
+                        title: source.paused ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.pause),
+                        description: source.paused
+                          ? intl.formatMessage(messages.resumeDescription)
+                          : intl.formatMessage(messages.pauseDescription),
+                        onClick: async () => {
+                          await onTogglePause(source);
+                        },
+                        isDisabled: !canWrite,
                       },
-                      isDisabled: !canWrite,
-                    },
-                    {
-                      title: intl.formatMessage(messages.remove),
-                      description: intl.formatMessage(messages.removeDescription),
-                      onClick: () => onRemove(source),
-                      isDanger: true,
-                      isDisabled: !canWrite,
-                    },
-                    {
-                      title: intl.formatMessage(messages.viewDetails),
-                      onClick: () => onSelectSource(source),
-                    },
-                  ]}
-                />
-              </Td>
-            </Tr>
-          );
-        })}
+                      {
+                        title: intl.formatMessage(messages.remove),
+                        description: intl.formatMessage(messages.removeDescription),
+                        onClick: () => onRemove(source),
+                        isDanger: true,
+                        isDisabled: !canWrite,
+                      },
+                      {
+                        title: intl.formatMessage(messages.viewDetails),
+                        onClick: () => onSelectSource(source),
+                      },
+                    ]}
+                  />
+                </Td>
+              </Tr>
+            );
+          })
+        )}
       </Tbody>
     </Table>
   );

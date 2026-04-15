@@ -44,18 +44,16 @@ interface NoMatchesEmptyStateProps {
 const NoMatchesEmptyState: React.FC<NoMatchesEmptyStateProps> = ({ onClearFilters }) => {
   const intl = useIntl();
   return (
-    <Bullseye>
-      <EmptyState icon={SearchIcon} titleText={intl.formatMessage(messages.emptyStateNoMatchesTitle)} headingLevel="h2">
-        <EmptyStateBody>{intl.formatMessage(messages.emptyStateNoMatchesBody)}</EmptyStateBody>
-        <EmptyStateFooter>
-          <EmptyStateActions>
-            <Button variant="primary" onClick={onClearFilters}>
-              {intl.formatMessage(messages.clearFilters)}
-            </Button>
-          </EmptyStateActions>
-        </EmptyStateFooter>
-      </EmptyState>
-    </Bullseye>
+    <EmptyState icon={SearchIcon} titleText={intl.formatMessage(messages.emptyStateNoMatchesTitle)} headingLevel="h2">
+      <EmptyStateBody>{intl.formatMessage(messages.emptyStateNoMatchesBody)}</EmptyStateBody>
+      <EmptyStateFooter>
+        <EmptyStateActions>
+          <Button variant="primary" onClick={onClearFilters}>
+            {intl.formatMessage(messages.clearFilters)}
+          </Button>
+        </EmptyStateActions>
+      </EmptyStateFooter>
+    </EmptyState>
   );
 };
 
@@ -108,6 +106,7 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   onTogglePause,
   onSort,
 }) => {
+  const hasActiveFilter = filterValue !== '' || filterColumn !== 'name';
   if (loading && sources.length === 0) {
     return (
       <Bullseye>
@@ -118,10 +117,7 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   if (!loading && count === 0 && !filterValue) {
     return <SourcesEmptyState onAddSource={onAddSource} canWrite={canWrite} />;
   }
-  const hasActiveFilter = filterValue !== '' || filterColumn !== 'name';
-  if (!loading && count === 0 && hasActiveFilter) {
-    return <NoMatchesEmptyState onClearFilters={onClearFilters} />;
-  }
+  const showNoMatchesInTable = !loading && count === 0 && hasActiveFilter;
   return (
     <>
       <SourcesToolbar
@@ -146,6 +142,7 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
         sortDirection={sortDirection}
         onSort={onSort}
         canWrite={canWrite}
+        emptyTableBody={showNoMatchesInTable ? <NoMatchesEmptyState onClearFilters={onClearFilters} /> : undefined}
       />
       <div style={styles.paginationContainer}>
         <Pagination

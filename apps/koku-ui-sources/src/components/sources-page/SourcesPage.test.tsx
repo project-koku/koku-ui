@@ -141,6 +141,8 @@ describe('SourcesPage', () => {
       renderWithProviders({ filterValue: 'nonexistent', filterColumn: 'name' });
     });
 
+    expect(screen.getByRole('grid')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Filter by name')).toBeInTheDocument();
     expect(screen.getByText('No integrations match your filters')).toBeInTheDocument();
     expect(screen.getByText('Try adjusting or clearing your filters to see more results.')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Clear filters' })).toBeInTheDocument();
