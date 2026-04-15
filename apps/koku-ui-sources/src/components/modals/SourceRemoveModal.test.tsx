@@ -1,16 +1,19 @@
+import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
-import { deleteSource } from 'api/entities';
-import type { Source } from 'typings/source';
+import type { Source } from '../../apis/models/sources';
+import { SourcesService } from '../../apis/sources-service';
 
 import { SourceRemoveModal } from './SourceRemoveModal';
 
-jest.mock('api/entities', () => ({
-  deleteSource: jest.fn(),
+jest.mock('apis/sources-service', () => ({
+  SourcesService: {
+    deleteSource: jest.fn(),
+  },
 }));
 
-const mockedDeleteSource = deleteSource as jest.MockedFunction<typeof deleteSource>;
+const mockedDeleteSource = SourcesService.deleteSource as jest.MockedFunction<typeof SourcesService.deleteSource>;
 
 beforeEach(() => {
   jest.useRealTimers();

@@ -1,16 +1,19 @@
+import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
-import { updateSource } from 'api/entities';
-import type { Source } from 'typings/source';
+import type { Source } from '../../apis/models/sources';
+import { SourcesService } from '../../apis/sources-service';
 
 import { SourceRenameModal } from './SourceRenameModal';
 
-jest.mock('api/entities', () => ({
-  updateSource: jest.fn(),
+jest.mock('apis/sources-service', () => ({
+  SourcesService: {
+    updateSource: jest.fn(),
+  },
 }));
 
-const mockedUpdateSource = updateSource as jest.MockedFunction<typeof updateSource>;
+const mockedUpdateSource = SourcesService.updateSource as jest.MockedFunction<typeof SourcesService.updateSource>;
 
 beforeEach(() => {
   jest.useRealTimers();

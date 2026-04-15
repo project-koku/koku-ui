@@ -1,39 +1,30 @@
 import FormRenderer from '@data-driven-forms/react-form-renderer/form-renderer';
 import { Alert, Button, Form, Modal, ModalBody, ModalFooter, ModalHeader } from '@patternfly/react-core';
-import { createApplication, createSource, type CreateSourcePayload, deleteSource } from 'api/entities';
-import componentMapper from 'components/pf6-ddf-mapper';
-import messages from 'locales/messages';
+import { ApplicationsService } from 'apis/applications-service';
+import type { CreateSourcePayload } from 'apis/models/sources';
+import { SourcesService } from 'apis/sources-service';
+import { componentMapper } from 'components/add-source-wizard/pf6-ddf-mapper/ddf-component-mapper';
+import { messages } from 'i18n/messages';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { buildWizardSchema } from './schemaBuilder';
+import { buildWizardSchema } from './schema-builder';
 
 interface AddSourceWizardProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmitSuccess: () => void;
-  preselectedType?: string;
 }
 
 const FormTemplate: React.FC<any> = ({ formFields }) => {
   return <Form onSubmit={e => e.preventDefault()}>{formFields}</Form>;
 };
 
-const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSubmitSuccess, preselectedType }) => {
+FormTemplate.displayName = 'FormTemplate';
+
+export const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSubmitSuccess }) => {
   const intl = useIntl();
-  const modalTitle = useMemo(() => {
-    if (!preselectedType) {
-      return intl.formatMessage(messages.wizardTitleDefault);
-    }
-    const byType: Record<string, typeof messages.wizardTitleOcp> = {
-      OCP: messages.wizardTitleOcp,
-      AWS: messages.wizardTitleAws,
-      Azure: messages.wizardTitleAzure,
-      GCP: messages.wizardTitleGcp,
-    };
-    const descriptor = byType[preselectedType];
-    return intl.formatMessage(descriptor ?? messages.wizardTitleDefault);
-  }, [intl, preselectedType]);
+  const modalTitle = useMemo(() => intl.formatMessage(messages.wizardTitleOcp), [intl]);
   const formatMessage = useCallback((id: string) => intl.formatMessage({ id }), [intl]);
   const [error, setError] = useState<string | null>(null);
   const [isCancelConfirmOpen, setIsCancelConfirmOpen] = useState(false);
@@ -55,13 +46,12 @@ const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSu
     async (values: Record<string, any>) => {
       setError(null);
 
-      const sourceType = preselectedType || values.source_type;
       let createdSource: any = null;
 
       try {
         const sourcePayload: CreateSourcePayload = {
           name: values.source_name,
-          source_type: sourceType,
+          source_type: 'OCP',
         };
 
         if (values.credentials && typeof values.credentials === 'object') {
@@ -78,7 +68,7 @@ const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSu
           }
         }
 
-        createdSource = await createSource(sourcePayload);
+        createdSource = await SourcesService.createSource(sourcePayload);
 
         const extra: Record<string, any> = {};
         if (values.credentials) {
@@ -88,7 +78,7 @@ const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSu
           extra.billing_source = values.billing_source;
         }
 
-        await createApplication({
+        await ApplicationsService.createApplication({
           source_id: createdSource.id,
           application_type_id: 0,
           extra,
@@ -99,7 +89,7 @@ const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSu
       } catch (err: any) {
         if (createdSource?.uuid) {
           try {
-            await deleteSource(createdSource.uuid);
+            await SourcesService.deleteSource(createdSource.uuid);
           } catch {
             // Best effort cleanup
           }
@@ -107,15 +97,15 @@ const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSu
         setError(err?.message || intl.formatMessage(messages.wizardErrorCreate));
       }
     },
-    [preselectedType, onSubmitSuccess, onClose, intl]
+    [onSubmitSuccess, onClose, intl]
   );
 
   if (!isOpen) {
     return null;
   }
 
-  const schema = buildWizardSchema(formatMessage, preselectedType);
-  const initialValues = preselectedType ? { source_type: preselectedType } : {};
+  const schema = buildWizardSchema(formatMessage);
+  const initialValues = { source_type: 'OCP' as const };
 
   return (
     <>
@@ -163,4 +153,4 @@ const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClose, onSu
   );
 };
 
-export { AddSourceWizard };
+AddSourceWizard.displayName = 'AddSourceWizard';

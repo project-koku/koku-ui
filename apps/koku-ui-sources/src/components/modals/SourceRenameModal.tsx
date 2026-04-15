@@ -9,11 +9,11 @@ import {
   ModalHeader,
   TextInput,
 } from '@patternfly/react-core';
-import { updateSource } from 'api/entities';
-import messages from 'locales/messages';
+import { SourcesService } from 'apis/sources-service';
+import { messages } from 'i18n/messages';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
-import type { Source } from 'typings/source';
+import type { Source } from 'apis/models/sources';
 
 interface SourceRenameModalProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ interface SourceRenameModalProps {
   onSuccess: () => void;
 }
 
-const SourceRenameModal: React.FC<SourceRenameModalProps> = ({ isOpen, source, onClose, onSuccess }) => {
+export const SourceRenameModal: React.FC<SourceRenameModalProps> = ({ isOpen, source, onClose, onSuccess }) => {
   const intl = useIntl();
   const [newName, setNewName] = useState(source.name);
   const [isSaving, setIsSaving] = useState(false);
@@ -35,7 +35,7 @@ const SourceRenameModal: React.FC<SourceRenameModalProps> = ({ isOpen, source, o
     setIsSaving(true);
     setError(null);
     try {
-      await updateSource(source.uuid, { name: newName.trim() });
+      await SourcesService.updateSource(source.uuid, { name: newName.trim() });
       onSuccess();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to rename source');
@@ -67,4 +67,4 @@ const SourceRenameModal: React.FC<SourceRenameModalProps> = ({ isOpen, source, o
   );
 };
 
-export { SourceRenameModal };
+SourceRenameModal.displayName = 'SourceRenameModal';

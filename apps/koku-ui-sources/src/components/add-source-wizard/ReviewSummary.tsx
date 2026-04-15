@@ -5,11 +5,11 @@ import {
   DescriptionListGroup,
   DescriptionListTerm,
 } from '@patternfly/react-core';
-import messages from 'locales/messages';
+import { messages } from 'i18n/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-const ReviewSummary: React.FC = () => {
+export const ReviewSummary: React.FC = () => {
   const intl = useIntl();
   const formOptions = useFormApi();
   const values = formOptions.getState().values;
@@ -38,4 +38,4 @@ const ReviewSummary: React.FC = () => {
   );
 };
 
-export { ReviewSummary };
+ReviewSummary.displayName = 'ReviewSummary';

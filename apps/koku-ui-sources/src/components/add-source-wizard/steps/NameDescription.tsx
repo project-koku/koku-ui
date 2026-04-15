@@ -1,11 +1,11 @@
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import { Content } from '@patternfly/react-core';
-import { getSourceTypeById } from 'api/sourceTypes';
-import messages from 'locales/messages';
+import { getSourceTypeById } from 'apis/source-types';
+import { messages } from 'i18n/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-const NameDescription: React.FC = () => {
+export const NameDescription: React.FC = () => {
   const intl = useIntl();
   const { getState } = useFormApi();
   const sourceType = getState().values.source_type;
@@ -22,4 +22,4 @@ const NameDescription: React.FC = () => {
   );
 };
 
-export default NameDescription;
+NameDescription.displayName = 'NameDescription';

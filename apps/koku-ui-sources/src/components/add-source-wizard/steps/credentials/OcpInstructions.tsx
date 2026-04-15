@@ -1,7 +1,7 @@
 import { Content, ContentVariants } from '@patternfly/react-core';
 import React from 'react';
 
-const OcpInstructions: React.FC = () => {
+export const OcpInstructions: React.FC = () => {
   return (
     <div>
       <Content component={ContentVariants.p}>
@@ -20,4 +20,4 @@ const OcpInstructions: React.FC = () => {
   );
 };
 
-export { OcpInstructions };
+OcpInstructions.displayName = 'OcpInstructions';

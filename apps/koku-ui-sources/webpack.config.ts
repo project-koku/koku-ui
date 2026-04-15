@@ -4,6 +4,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin } from 'webpack';
 
@@ -13,7 +14,7 @@ const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
 const exposedModules = {
-  './SourcesPage': './src/fed-modules/sourcesPageWrapper.tsx',
+  './SourcesPage': './src/fed-modules/SourcesPageWrapper.tsx',
 };
 
 const config: Configuration = {
@@ -107,17 +108,12 @@ const config: Configuration = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
     symlinks: false,
-    cacheWithContext: false,
     modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
-    alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
-      '@redhat-cloud-services/frontend-components-notifications': path.resolve(
-        __dirname,
-        '../../libs/onprem-cloud-deps/src/frontend-components-notifications'
-      ),
-      '@redhat-cloud-services': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
-      '@unleash': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src/unleash'),
-    },
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, 'tsconfig.json'),
+      }),
+    ],
   },
   watchOptions: {
     followSymlinks: true,

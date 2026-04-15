@@ -1,9 +1,9 @@
 import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader } from '@patternfly/react-core';
-import { deleteSource } from 'api/entities';
-import messages from 'locales/messages';
+import { SourcesService } from 'apis/sources-service';
+import { messages } from 'i18n/messages';
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import type { Source } from 'typings/source';
+import type { Source } from 'apis/models/sources';
 
 interface SourceRemoveModalProps {
   isOpen: boolean;
@@ -12,7 +12,7 @@ interface SourceRemoveModalProps {
   onSuccess: () => void;
 }
 
-const SourceRemoveModal: React.FC<SourceRemoveModalProps> = ({ isOpen, source, onClose, onSuccess }) => {
+export const SourceRemoveModal: React.FC<SourceRemoveModalProps> = ({ isOpen, source, onClose, onSuccess }) => {
   const intl = useIntl();
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +21,7 @@ const SourceRemoveModal: React.FC<SourceRemoveModalProps> = ({ isOpen, source, o
     setIsDeleting(true);
     setError(null);
     try {
-      await deleteSource(source.uuid);
+      await SourcesService.deleteSource(source.uuid);
       onSuccess();
       onClose();
     } catch (err: unknown) {
@@ -50,4 +50,4 @@ const SourceRemoveModal: React.FC<SourceRemoveModalProps> = ({ isOpen, source, o
   );
 };
 
-export { SourceRemoveModal };
+SourceRemoveModal.displayName = 'SourceRemoveModal';

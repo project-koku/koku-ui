@@ -1,7 +1,8 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import FormRenderer from '@data-driven-forms/react-form-renderer/form-renderer';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
-import TextField from 'components/pf6-ddf-mapper/textField';
+import { TextField } from '../../components/add-source-wizard/pf6-ddf-mapper/TextField';
 import localeEn from '../../../locales/data.json';
 import { IntlProvider } from 'react-intl';
 
@@ -33,12 +34,12 @@ const renderWithForm = (initialValues: Record<string, any> = {}) =>
 
 describe('ReviewSummary', () => {
   it('renders source name and type from form values', () => {
-    renderWithForm({ source_name: 'Test Source', source_type: 'AWS' });
+    renderWithForm({ source_name: 'Test Source', source_type: 'OCP' });
 
     expect(screen.getByText('Integration name')).toBeInTheDocument();
     expect(screen.getByText('Test Source')).toBeInTheDocument();
     expect(screen.getByText('Integration type')).toBeInTheDocument();
-    expect(screen.getByText('AWS')).toBeInTheDocument();
+    expect(screen.getByText('OCP')).toBeInTheDocument();
   });
 
   it('renders fallback values when fields are empty', () => {

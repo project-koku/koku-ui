@@ -1,11 +1,12 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import FormRenderer from '@data-driven-forms/react-form-renderer/form-renderer';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
-import Description from 'components/pf6-ddf-mapper/description';
-import TextField from 'components/pf6-ddf-mapper/textField';
+import { Description } from '../../../components/add-source-wizard/pf6-ddf-mapper/Description';
+import { TextField } from '../../../components/add-source-wizard/pf6-ddf-mapper/TextField';
 import localeEn from '../../../../locales/data.json';
 import { IntlProvider } from 'react-intl';
-import NameDescription from './NameDescription';
+import { NameDescription } from './NameDescription';
 
 const componentMapper = {
   [componentTypes.TEXT_FIELD]: TextField,
@@ -15,6 +16,8 @@ const componentMapper = {
 const FormTemplate: React.FC<any> = ({ formFields }) => (
   <form onSubmit={e => e.preventDefault()}>{formFields}</form>
 );
+
+FormTemplate.displayName = 'FormTemplate';
 
 describe('NameDescription', () => {
   it('renders the product name based on selected source type', () => {
@@ -33,13 +36,13 @@ describe('NameDescription', () => {
           componentMapper={componentMapper}
           FormTemplate={FormTemplate}
           onSubmit={jest.fn()}
-          initialValues={{ source_type: 'AWS' }}
+          initialValues={{ source_type: 'OCP' }}
         />
       </IntlProvider>
     );
 
     expect(
-      screen.getByText('Enter a name for your Amazon Web Services integration.')
+      screen.getByText('Enter a name for your OpenShift Container Platform integration.')
     ).toBeInTheDocument();
   });
 
