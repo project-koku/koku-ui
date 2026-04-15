@@ -1,4 +1,3 @@
-import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import {
   Bullseye,
   Button,
@@ -10,9 +9,11 @@ import {
   PaginationVariant,
   Spinner,
 } from '@patternfly/react-core';
-import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import { SearchIcon } from '@patternfly/react-icons';
+import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { ApiErrorService } from 'apis/api-error-service';
+import type { Source } from 'apis/models/sources';
 import { SourcesService } from 'apis/sources-service';
 import { AddSourceWizard } from 'components/add-source-wizard/AddSourceWizard';
 import { SourceRemoveModal } from 'components/modals/SourceRemoveModal';
@@ -25,17 +26,10 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadEntities, setFilter, setPage, setSort } from 'redux/sources-slice';
 import type { AppDispatch, RootState } from 'redux/store';
-import type { Source } from 'apis/models/sources';
 
 import { SourcesEmptyState } from './SourcesEmptyState';
 
 const styles = {
-  loadingContainer: {
-    minHeight: '12rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   paginationContainer: {
     marginTop: t_global_spacer_sm.var,
   },
@@ -50,24 +44,18 @@ interface NoMatchesEmptyStateProps {
 const NoMatchesEmptyState: React.FC<NoMatchesEmptyStateProps> = ({ onClearFilters }) => {
   const intl = useIntl();
   return (
-    <div style={styles.loadingContainer}>
-      <Bullseye>
-        <EmptyState
-          icon={SearchIcon}
-          titleText={intl.formatMessage(messages.emptyStateNoMatchesTitle)}
-          headingLevel="h2"
-        >
-          <EmptyStateBody>{intl.formatMessage(messages.emptyStateNoMatchesBody)}</EmptyStateBody>
-          <EmptyStateFooter>
-            <EmptyStateActions>
-              <Button variant="primary" onClick={onClearFilters}>
-                {intl.formatMessage(messages.clearFilters)}
-              </Button>
-            </EmptyStateActions>
-          </EmptyStateFooter>
-        </EmptyState>
-      </Bullseye>
-    </div>
+    <Bullseye>
+      <EmptyState icon={SearchIcon} titleText={intl.formatMessage(messages.emptyStateNoMatchesTitle)} headingLevel="h2">
+        <EmptyStateBody>{intl.formatMessage(messages.emptyStateNoMatchesBody)}</EmptyStateBody>
+        <EmptyStateFooter>
+          <EmptyStateActions>
+            <Button variant="primary" onClick={onClearFilters}>
+              {intl.formatMessage(messages.clearFilters)}
+            </Button>
+          </EmptyStateActions>
+        </EmptyStateFooter>
+      </EmptyState>
+    </Bullseye>
   );
 };
 
@@ -122,11 +110,9 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
 }) => {
   if (loading && sources.length === 0) {
     return (
-      <div style={styles.loadingContainer}>
-        <Bullseye>
-          <Spinner size="lg" />
-        </Bullseye>
-      </div>
+      <Bullseye>
+        <Spinner size="lg" />
+      </Bullseye>
     );
   }
   if (!loading && count === 0 && !filterValue) {
