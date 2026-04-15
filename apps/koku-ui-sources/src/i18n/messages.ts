@@ -49,6 +49,10 @@ export const messages = defineMessages({
     id: 'sources.filterByStatus',
     defaultMessage: 'Filter by status',
   },
+  filterStatusGroupAria: {
+    id: 'sources.filterStatusGroupAria',
+    defaultMessage: 'Filter integrations by availability',
+  },
   name: {
     id: 'sources.name',
     defaultMessage: 'Name',

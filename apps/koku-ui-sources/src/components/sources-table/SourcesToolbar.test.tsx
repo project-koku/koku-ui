@@ -5,16 +5,31 @@ import { IntlProvider } from 'react-intl';
 
 import { SourcesToolbar } from './SourcesToolbar';
 
+type SourcesFilterColumn = 'name' | 'source_type' | 'availability_status';
+
+type ToolbarHarnessProps = {
+  count: number;
+  page: number;
+  perPage: number;
+  filterValue: string;
+  filterColumn: SourcesFilterColumn;
+  onFilterChange: jest.Mock;
+  onFilterColumnChange: jest.Mock;
+  onPageChange: jest.Mock;
+  onAddSource: jest.Mock;
+  canWrite: boolean;
+};
+
 beforeEach(() => {
   jest.useRealTimers();
 });
 
-const defaultProps = {
+const defaultProps: ToolbarHarnessProps = {
   count: 25,
   page: 1,
   perPage: 10,
   filterValue: '',
-  filterColumn: 'name' as const,
+  filterColumn: 'name',
   onFilterChange: jest.fn(),
   onFilterColumnChange: jest.fn(),
   onPageChange: jest.fn(),
@@ -22,7 +37,7 @@ const defaultProps = {
   canWrite: true,
 };
 
-const renderToolbar = (props: Partial<typeof defaultProps> = {}) =>
+const renderToolbar = (props: Partial<ToolbarHarnessProps> = {}) =>
   render(
     <IntlProvider locale="en" defaultLocale="en">
       <SourcesToolbar {...defaultProps} {...props} />
@@ -65,6 +80,28 @@ describe('SourcesToolbar', () => {
     await user.click(statusOption);
 
     expect(onFilterColumnChange).toHaveBeenCalledWith('availability_status');
+  });
+
+  it('renders availability radios inside the status menu when opened', async () => {
+    const user = userEvent.setup();
+    renderToolbar({ filterColumn: 'availability_status', filterValue: '' });
+
+    await user.click(screen.getByRole('button', { name: 'Filter by status' }));
+
+    const group = screen.getByRole('radiogroup', { name: 'Filter integrations by availability' });
+    expect(group).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Available' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Unavailable' })).toBeInTheDocument();
+  });
+
+  it('calls onFilterChange when an availability radio is selected in the menu', async () => {
+    const user = userEvent.setup();
+    const onFilterChange = jest.fn();
+    renderToolbar({ filterColumn: 'availability_status', filterValue: '', onFilterChange });
+
+    await user.click(screen.getByRole('button', { name: 'Filter by status' }));
+    await user.click(screen.getByRole('radio', { name: 'Unavailable' }));
+    expect(onFilterChange).toHaveBeenCalledWith('unavailable');
   });
 
   it('submits the search filter on Enter', async () => {

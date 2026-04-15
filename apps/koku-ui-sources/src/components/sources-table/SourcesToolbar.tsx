@@ -1,9 +1,13 @@
 import {
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownList,
   Icon,
   MenuToggle,
   Pagination,
   PaginationVariant,
+  Radio,
   SearchInput,
   Select,
   SelectList,
@@ -54,11 +58,9 @@ const getFilterChipDisplayValue = (
     case 'availability_status':
       return filterValue === 'available'
         ? intl.formatMessage(messages.statusAvailable)
-        : filterValue === 'paused'
-          ? intl.formatMessage(messages.statusPaused)
-          : filterValue === 'unavailable'
-            ? intl.formatMessage(messages.statusUnavailable)
-            : filterValue;
+        : filterValue === 'unavailable'
+          ? intl.formatMessage(messages.statusUnavailable)
+          : filterValue;
     default:
       return filterValue;
   }
@@ -80,8 +82,8 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
   const intl = useIntl();
   const showTypeFilterColumn = SOURCE_TYPES.length > 1;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isStatusSelectOpen, setIsStatusSelectOpen] = useState(false);
   const [isTypeSelectOpen, setIsTypeSelectOpen] = useState(false);
+  const [isStatusMenuOpen, setIsStatusMenuOpen] = useState(false);
   const [localFilter, setLocalFilter] = useState(filterValue);
 
   const filterColumnLabels: Record<string, string> = {
@@ -128,6 +130,33 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
 
   const isStatusFilter = filterColumn === 'availability_status';
   const isTypeFilter = filterColumn === 'source_type';
+
+  useEffect(() => {
+    if (!isStatusFilter) {
+      setIsStatusMenuOpen(false);
+    }
+  }, [isStatusFilter]);
+
+  const statusMenuToggleLabel = useMemo(() => {
+    if (!isStatusFilter) {
+      return '';
+    }
+    if (filterValue === 'available') {
+      return intl.formatMessage(messages.statusAvailable);
+    }
+    if (filterValue === 'unavailable') {
+      return intl.formatMessage(messages.statusUnavailable);
+    }
+    return intl.formatMessage(messages.filterByStatus);
+  }, [filterValue, intl, isStatusFilter]);
+
+  const handleStatusRadioChange = useCallback(
+    (value: 'available' | 'unavailable') => {
+      onFilterChange(value);
+      setIsStatusMenuOpen(false);
+    },
+    [onFilterChange]
+  );
 
   const handleTypeSelect = useCallback(
     (_event: React.MouseEvent | undefined, value: string | number | undefined) => {
@@ -232,47 +261,44 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
                   </SelectList>
                 </Select>
                 ) : isStatusFilter ? (
-                  <Select
+                  <Dropdown
+                    isOpen={isStatusMenuOpen}
+                    onOpenChange={setIsStatusMenuOpen}
                     toggle={toggleRef => (
                       <MenuToggle
                         ref={toggleRef}
-                        onClick={() => setIsStatusSelectOpen(!isStatusSelectOpen)}
-                        isExpanded={isStatusSelectOpen}
+                        onClick={() => setIsStatusMenuOpen(!isStatusMenuOpen)}
+                        isExpanded={isStatusMenuOpen}
+                        aria-label={intl.formatMessage(messages.filterByStatus)}
                       >
-                        {filterValue === ''
-                          ? intl.formatMessage(messages.filterStatusAny)
-                          : filterValue === 'available'
-                            ? intl.formatMessage(messages.statusAvailable)
-                            : filterValue === 'paused'
-                              ? intl.formatMessage(messages.statusPaused)
-                              : filterValue === 'unavailable'
-                                ? intl.formatMessage(messages.statusUnavailable)
-                                : intl.formatMessage(messages.filterStatusAny)}
+                        {statusMenuToggleLabel}
                       </MenuToggle>
                     )}
-                    onSelect={(_event, value) => {
-                      onFilterChange((value as string) ?? '');
-                      setIsStatusSelectOpen(false);
-                    }}
-                    isOpen={isStatusSelectOpen}
-                    onOpenChange={setIsStatusSelectOpen}
-                    selected={filterValue === '' ? undefined : filterValue}
                   >
-                    <SelectList>
-                      <SelectOption key="status-any" value="">
-                        {intl.formatMessage(messages.filterStatusAny)}
-                      </SelectOption>
-                      <SelectOption key="available" value="available">
-                        {intl.formatMessage(messages.statusAvailable)}
-                      </SelectOption>
-                      <SelectOption key="paused" value="paused">
-                        {intl.formatMessage(messages.statusPaused)}
-                      </SelectOption>
-                      <SelectOption key="unavailable" value="unavailable">
-                        {intl.formatMessage(messages.statusUnavailable)}
-                      </SelectOption>
-                    </SelectList>
-                  </Select>
+                    <DropdownList
+                      role="radiogroup"
+                      aria-label={intl.formatMessage(messages.filterStatusGroupAria)}
+                    >
+                      <DropdownItem key="status-available" component="div" onClick={e => e.preventDefault()}>
+                        <Radio
+                          id="sources-filter-status-available"
+                          name="sources-availability-filter"
+                          label={intl.formatMessage(messages.statusAvailable)}
+                          isChecked={filterValue === 'available'}
+                          onChange={() => handleStatusRadioChange('available')}
+                        />
+                      </DropdownItem>
+                      <DropdownItem key="status-unavailable" component="div" onClick={e => e.preventDefault()}>
+                        <Radio
+                          id="sources-filter-status-unavailable"
+                          name="sources-availability-filter"
+                          label={intl.formatMessage(messages.statusUnavailable)}
+                          isChecked={filterValue === 'unavailable'}
+                          onChange={() => handleStatusRadioChange('unavailable')}
+                        />
+                      </DropdownItem>
+                    </DropdownList>
+                  </Dropdown>
                 ) : (
                   <SearchInput
                     aria-label={searchPlaceholder}

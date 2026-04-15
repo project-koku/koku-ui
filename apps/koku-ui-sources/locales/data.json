@@ -12,6 +12,7 @@
     "sources.filterByName": "Filter by name",
     "sources.filterByType": "Filter by type",
     "sources.filterByStatus": "Filter by status",
+    "sources.filterStatusGroupAria": "Filter integrations by availability",
     "sources.name": "Name",
     "sources.sourceType": "Type",
     "sources.dateAdded": "Date added",

@@ -36,8 +36,6 @@ export interface SourceType {
 export interface ListSourcesParams {
   name?: string;
   type?: string;
-  active?: boolean;
-  paused?: boolean;
   ordering?: string;
   offset?: number;
   limit?: number;

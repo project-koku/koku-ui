@@ -86,12 +86,12 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   onTogglePause,
   onSort,
 }) => {
-  const hasActiveFilter = filterValue !== '' || filterColumn !== 'name';
-  if (!loading && count === 0 && !filterValue) {
+  const showFullPageEmpty = !loading && count === 0 && filterValue === '' && filterColumn === 'name';
+  const showNoMatchesInTable = !loading && count === 0 && filterValue !== '';
+  if (showFullPageEmpty) {
     return <SourcesEmptyState onAddSource={onAddSource} canWrite={canWrite} />;
   }
   const showLoadingInTable = loading && sources.length === 0;
-  const showNoMatchesInTable = !loading && count === 0 && hasActiveFilter;
   const emptyTableBody = showLoadingInTable ? (
     <ListLoadingState />
   ) : showNoMatchesInTable ? (
@@ -159,15 +159,11 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
 
   useEffect(() => {
     dispatch(loadEntities());
-  }, [dispatch, filterValue, filterColumn, page, perPage]);
+  }, [dispatch, filterValue, filterColumn, page, perPage, sortBy, sortDirection]);
 
-  const handleFilterChange = useCallback(
-    (value: string) => {
-      dispatch(setFilter({ filterValue: value }));
-      dispatch(loadEntities());
-    },
-    [dispatch]
-  );
+  const handleFilterChange = useCallback((value: string) => {
+    dispatch(setFilter({ filterValue: value }));
+  }, [dispatch]);
 
   const handleFilterColumnChange = useCallback(
     (column: 'name' | 'source_type' | 'availability_status') => {
@@ -179,7 +175,6 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const handlePageChange = useCallback(
     (newPage: number, newPerPage: number) => {
       dispatch(setPage({ page: newPage, perPage: newPerPage }));
-      dispatch(loadEntities());
     },
     [dispatch]
   );
@@ -187,7 +182,6 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const handleSort = useCallback(
     (newSortBy: string, direction: 'asc' | 'desc') => {
       dispatch(setSort({ sortBy: newSortBy, sortDirection: direction }));
-      dispatch(loadEntities());
     },
     [dispatch]
   );
@@ -251,7 +245,6 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
 
   const handleClearFilters = useCallback(() => {
     dispatch(setFilter({ filterColumn: 'name', filterValue: '' }));
-    dispatch(loadEntities());
   }, [dispatch]);
 
   return (

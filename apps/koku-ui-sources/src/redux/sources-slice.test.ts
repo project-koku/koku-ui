@@ -1,4 +1,17 @@
+import { configureStore } from '@reduxjs/toolkit';
+
+import { SourcesService } from 'apis/sources-service';
+import type { Source } from 'apis/models/sources';
+
 import { sourcesReducer, setFilter, setSort, setPage, loadEntities, type SourcesState } from './sources-slice';
+
+jest.mock('apis/sources-service', () => ({
+  SourcesService: {
+    listSources: jest.fn(),
+  },
+}));
+
+const listSourcesMock = SourcesService.listSources as jest.MockedFunction<typeof SourcesService.listSources>;
 
 const initialState: SourcesState = {
   entities: [],
@@ -92,6 +105,105 @@ describe('sourcesSlice', () => {
       expect(state.entities).toEqual(mockSources);
       expect(state.count).toBe(2);
       expect(state.loading).toBe(false);
+    });
+  });
+
+  describe('loadEntities (availability status, client-side)', () => {
+    const mk = (over: Partial<Source>): Source =>
+      ({
+        id: 1,
+        uuid: '00000000-0000-0000-0000-000000000001',
+        name: 'A',
+        source_type: 'OCP',
+        authentication: {},
+        billing_source: null,
+        provider_linked: true,
+        current_month_data: false,
+        previous_month_data: false,
+        has_data: false,
+        ...over,
+      }) as Source;
+
+    beforeEach(() => {
+      listSourcesMock.mockReset();
+    });
+
+    it('requests a large page then filters to Available rows', async () => {
+      listSourcesMock.mockResolvedValue({
+        data: [
+          mk({ id: 1, active: true, paused: false }),
+          mk({ id: 2, uuid: '2', name: 'B', active: false, paused: false }),
+          mk({ id: 3, uuid: '3', name: 'C', active: true, paused: true }),
+        ],
+        meta: { count: 3 },
+        links: { first: '', next: null, previous: null, last: '' },
+      });
+
+      const store = configureStore({
+        reducer: { sources: sourcesReducer },
+        preloadedState: {
+          sources: {
+            ...initialState,
+            filterColumn: 'availability_status',
+            filterValue: 'available',
+            page: 1,
+            perPage: 10,
+            sortBy: 'name',
+            sortDirection: 'asc',
+          },
+        },
+      });
+
+      await store.dispatch(loadEntities());
+
+      expect(listSourcesMock).toHaveBeenCalledWith(
+        expect.objectContaining({ offset: 0, limit: 2000, ordering: 'name' })
+      );
+      expect(store.getState().sources.count).toBe(1);
+      expect(store.getState().sources.entities).toHaveLength(1);
+      expect(store.getState().sources.entities[0].id).toBe(1);
+    });
+
+    it('paginates filtered Unavailable results client-side', async () => {
+      listSourcesMock.mockResolvedValue({
+        data: [
+          mk({ id: 1, active: true, paused: false }),
+          mk({ id: 2, uuid: '2', name: 'B', active: false, paused: false }),
+        ],
+        meta: { count: 2 },
+        links: { first: '', next: null, previous: null, last: '' },
+      });
+
+      const store = configureStore({
+        reducer: { sources: sourcesReducer },
+        preloadedState: {
+          sources: {
+            ...initialState,
+            filterColumn: 'availability_status',
+            filterValue: 'unavailable',
+            page: 1,
+            perPage: 1,
+          },
+        },
+      });
+
+      await store.dispatch(loadEntities());
+      expect(store.getState().sources.count).toBe(1);
+      expect(store.getState().sources.entities).toHaveLength(1);
+      expect(store.getState().sources.entities[0].id).toBe(2);
+
+      listSourcesMock.mockResolvedValue({
+        data: [
+          mk({ id: 1, active: true, paused: false }),
+          mk({ id: 2, uuid: '2', name: 'B', active: false, paused: false }),
+        ],
+        meta: { count: 2 },
+        links: { first: '', next: null, previous: null, last: '' },
+      });
+
+      await store.dispatch(setPage({ page: 2, perPage: 1 }));
+      await store.dispatch(loadEntities());
+      expect(store.getState().sources.entities).toHaveLength(0);
     });
   });
 
