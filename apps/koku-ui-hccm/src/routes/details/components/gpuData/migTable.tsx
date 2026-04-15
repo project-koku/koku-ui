@@ -31,7 +31,7 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
     }
 
     const computedItems = getUnsortedComputedReportItems<OcpReport, OcpReportItem>({
-      idKey: 'mig_uuid',
+      idKey: 'mig_id',
       report,
     });
 
@@ -42,8 +42,8 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
         style: styles.header,
       },
       {
-        name: intl.formatMessage(messages.migColumns, { value: 'uuid' }),
-        orderBy: 'uuid',
+        name: intl.formatMessage(messages.migColumns, { value: 'id' }),
+        orderBy: 'mig_id',
         isSortable: false,
       },
       {
@@ -63,7 +63,7 @@ const MigTable: React.FC<MigTableProps> = ({ filterBy, isLoading, onSort, orderB
         cells: [
           {}, // Empty for layout
           {
-            value: <Truncate content={item?.mig_uuid ?? ''} />,
+            value: <Truncate content={item?.mig_id ?? ''} />,
           },
           {
             value: intl.formatMessage(messages.valueUnits, {
