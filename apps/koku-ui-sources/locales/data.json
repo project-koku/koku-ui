@@ -22,6 +22,7 @@
     "sources.filterStatusAny": "Any",
     "sources.sourceTypeOCPLabel": "OpenShift Container Platform",
     "sources.tabTitle": "Integrations",
+    "sources.backToIntegrations": "Back to Integrations",
     "sources.integrationsTableBottomPagination": "Integrations table bottom pagination",
     "sources.rename": "Rename",
     "sources.remove": "Remove",

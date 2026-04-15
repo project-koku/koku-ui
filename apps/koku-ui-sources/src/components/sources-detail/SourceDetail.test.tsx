@@ -201,13 +201,13 @@ describe('SourceDetail', () => {
     expect(screen.queryByText('Resume connection')).not.toBeInTheDocument();
   });
 
-  it('navigates back via breadcrumb link', async () => {
+  it('navigates back via Back to Integrations link button', async () => {
     const user = userEvent.setup();
     mockedGetSource.mockResolvedValue(activeSource);
     const onBack = jest.fn();
     await renderDetail('uuid-1', onBack);
 
-    await user.click(screen.getByText('Integrations'));
+    await user.click(screen.getByRole('button', { name: 'Back to Integrations' }));
 
     expect(onBack).toHaveBeenCalled();
   });

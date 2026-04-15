@@ -89,6 +89,10 @@ export const messages = defineMessages({
     id: 'sources.tabTitle',
     defaultMessage: 'Integrations',
   },
+  backToIntegrations: {
+    id: 'sources.backToIntegrations',
+    defaultMessage: 'Back to Integrations',
+  },
   integrationsTableBottomPagination: {
     id: 'sources.integrationsTableBottomPagination',
     defaultMessage: 'Integrations table bottom pagination',

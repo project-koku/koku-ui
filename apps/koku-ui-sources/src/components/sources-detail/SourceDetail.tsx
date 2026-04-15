@@ -1,8 +1,6 @@
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import {
   Alert,
-  Breadcrumb,
-  BreadcrumbItem,
   Bullseye,
   Button,
   DescriptionList,
@@ -20,7 +18,7 @@ import {
   Spinner,
   Title,
 } from '@patternfly/react-core';
-import { EllipsisVIcon, RedoIcon } from '@patternfly/react-icons';
+import { AngleLeftIcon, EllipsisVIcon, RedoIcon } from '@patternfly/react-icons';
 import { ApiErrorService } from 'apis/api-error-service';
 import { getSourceTypeById } from 'apis/source-types';
 import { SourcesService } from 'apis/sources-service';
@@ -153,18 +151,9 @@ export const SourceDetail: React.FC<SourceDetailProps> = ({ uuid, onBack, canWri
   return (
     <>
       <PageSection>
-        <Breadcrumb>
-          <BreadcrumbItem
-            to="#"
-            onClick={e => {
-              e.preventDefault();
-              onBack();
-            }}
-          >
-            {intl.formatMessage(messages.sourcesTabTitle)}
-          </BreadcrumbItem>
-          <BreadcrumbItem isActive>{source.name}</BreadcrumbItem>
-        </Breadcrumb>
+        <Button variant="link" icon={<AngleLeftIcon />} iconPosition="start" onClick={onBack}>
+          {intl.formatMessage(messages.backToIntegrations)}
+        </Button>
       </PageSection>
       <PageSection>
         <Flex direction={{ default: 'column' }} gap={{ default: 'gap2xl' }}>
