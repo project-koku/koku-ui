@@ -111,6 +111,8 @@ describe('SourcesPage', () => {
     });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByRole('grid')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Filter by name')).toBeInTheDocument();
   });
 
   it('shows empty state when count is 0 and no filter', async () => {
@@ -145,10 +147,10 @@ describe('SourcesPage', () => {
     expect(screen.getByPlaceholderText('Filter by name')).toBeInTheDocument();
     expect(screen.getByText('No integrations match your filters')).toBeInTheDocument();
     expect(screen.getByText('Try adjusting or clearing your filters to see more results.')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Clear filters' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Clear all filters' })).toBeInTheDocument();
   });
 
-  it('Clear filters button resets filter and reloads', async () => {
+  it('Clear all filters in toolbar resets filter and reloads', async () => {
     const user = userEvent.setup();
     const { listSources } = require('apis/sources-service').SourcesService;
     listSources.mockResolvedValue({
@@ -161,7 +163,7 @@ describe('SourcesPage', () => {
       renderWithProviders({ filterValue: 'x', filterColumn: 'name' });
     });
 
-    await user.click(screen.getByRole('button', { name: 'Clear filters' }));
+    await user.click(screen.getByRole('button', { name: 'Clear all filters' }));
 
     await waitFor(() => {
       expect(listSources).toHaveBeenCalled();

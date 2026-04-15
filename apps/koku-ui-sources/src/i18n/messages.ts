@@ -25,10 +25,6 @@ export const messages = defineMessages({
     id: 'sources.emptyStateNoMatchesBody',
     defaultMessage: 'Try adjusting or clearing your filters to see more results.',
   },
-  clearFilters: {
-    id: 'sources.clearFilters',
-    defaultMessage: 'Clear filters',
-  },
   clearAllFilters: {
     id: 'sources.clearAllFilters',
     defaultMessage: 'Clear all filters',

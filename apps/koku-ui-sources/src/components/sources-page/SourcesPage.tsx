@@ -1,14 +1,4 @@
-import {
-  Bullseye,
-  Button,
-  EmptyState,
-  EmptyStateActions,
-  EmptyStateBody,
-  EmptyStateFooter,
-  Pagination,
-  PaginationVariant,
-  Spinner,
-} from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody, Pagination, PaginationVariant, Spinner } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
@@ -37,22 +27,11 @@ const styles = {
 
 type ViewState = { type: 'list' } | { type: 'detail'; uuid: string };
 
-interface NoMatchesEmptyStateProps {
-  onClearFilters: () => void;
-}
-
-const NoMatchesEmptyState: React.FC<NoMatchesEmptyStateProps> = ({ onClearFilters }) => {
+const NoMatchesEmptyState: React.FC = () => {
   const intl = useIntl();
   return (
     <EmptyState icon={SearchIcon} titleText={intl.formatMessage(messages.emptyStateNoMatchesTitle)} headingLevel="h2">
       <EmptyStateBody>{intl.formatMessage(messages.emptyStateNoMatchesBody)}</EmptyStateBody>
-      <EmptyStateFooter>
-        <EmptyStateActions>
-          <Button variant="primary" onClick={onClearFilters}>
-            {intl.formatMessage(messages.clearFilters)}
-          </Button>
-        </EmptyStateActions>
-      </EmptyStateFooter>
     </EmptyState>
   );
 };
@@ -107,17 +86,18 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   onSort,
 }) => {
   const hasActiveFilter = filterValue !== '' || filterColumn !== 'name';
-  if (loading && sources.length === 0) {
-    return (
-      <Bullseye>
-        <Spinner size="lg" />
-      </Bullseye>
-    );
-  }
   if (!loading && count === 0 && !filterValue) {
     return <SourcesEmptyState onAddSource={onAddSource} canWrite={canWrite} />;
   }
+  const showLoadingInTable = loading && sources.length === 0;
   const showNoMatchesInTable = !loading && count === 0 && hasActiveFilter;
+  const emptyTableBody = showLoadingInTable ? (
+    <Bullseye>
+      <Spinner size="lg" />
+    </Bullseye>
+  ) : showNoMatchesInTable ? (
+    <NoMatchesEmptyState />
+  ) : undefined;
   return (
     <>
       <SourcesToolbar
@@ -142,7 +122,7 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
         sortDirection={sortDirection}
         onSort={onSort}
         canWrite={canWrite}
-        emptyTableBody={showNoMatchesInTable ? <NoMatchesEmptyState onClearFilters={onClearFilters} /> : undefined}
+        emptyTableBody={emptyTableBody}
       />
       <div style={styles.paginationContainer}>
         <Pagination
