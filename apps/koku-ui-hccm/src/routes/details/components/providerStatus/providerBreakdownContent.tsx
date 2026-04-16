@@ -14,7 +14,6 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { CloudData } from './components/cloudData';
 import { ClusterData } from './components/clusterData';
 import { Finalization } from './components/finalization';
-import { styles } from './providerStatus.styles';
 
 interface ProviderDetailsContentOwnProps {
   clusterId?: string;
@@ -45,11 +44,7 @@ const ProviderBreakdownContent: React.FC<ProviderDetailsContentProps> = ({
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {
-    return (
-      <div style={styles.loading}>
-        <LoadingState />
-      </div>
-    );
+    return <LoadingState />;
   }
 
   // Filter OCP providers to skip an extra API request

@@ -13,47 +13,47 @@ export const chartStyles = {
   currentRequestData: {
     data: {
       fill: 'none',
-      stroke: chart_color_green_300.value,
+      stroke: chart_color_green_300.var,
       strokeDasharray: '3,3',
     },
   },
   currentUsageData: {
     data: {
       fill: 'none',
-      stroke: chart_color_green_400.value,
+      stroke: chart_color_green_400.var,
     },
   },
   itemsPerRow: 2,
   // See: https://github.com/project-koku/koku-ui/issues/241
   legendColorScale: [
-    chart_color_black_200.value,
-    chart_color_green_400.value,
-    chart_color_black_200.value,
-    chart_color_green_300.value,
+    chart_color_black_200.var,
+    chart_color_green_400.var,
+    chart_color_black_200.var,
+    chart_color_green_300.var,
   ],
   previousRequestData: {
     data: {
       fill: 'none',
-      stroke: chart_color_black_200.value,
+      stroke: chart_color_black_200.var,
       strokeDasharray: '3,3',
     },
   },
   previousUsageData: {
     data: {
       fill: 'none',
-      stroke: chart_color_black_200.value,
+      stroke: chart_color_black_200.var,
     },
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
-    chart_color_green_400.value,
-    chart_color_green_300.value,
-    chart_color_green_200.value,
-    chart_color_green_100.value,
-    chart_color_green_500.value,
+    chart_color_green_400.var,
+    chart_color_green_300.var,
+    chart_color_green_200.var,
+    chart_color_green_100.var,
+    chart_color_green_500.var,
   ],
   // TBD: No grey scale, yet
-  previousColorScale: [chart_color_black_200.value, chart_color_black_200.value],
+  previousColorScale: [chart_color_black_200.var, chart_color_black_200.var],
 
   yAxis: {
     axisLabel: {

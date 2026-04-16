@@ -8,27 +8,27 @@ import chart_color_green_500 from '@patternfly/react-tokens/dist/js/chart_color_
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
-    chart_color_green_400.value,
-    chart_color_green_300.value,
-    chart_color_green_200.value,
-    chart_color_green_100.value,
-    chart_color_green_500.value,
+    chart_color_green_400.var,
+    chart_color_green_300.var,
+    chart_color_green_200.var,
+    chart_color_green_100.var,
+    chart_color_green_500.var,
   ],
   currentMonthData: {
     fill: 'none',
   },
   forecastConeData: {
-    fill: chart_color_green_100.value,
+    fill: chart_color_green_100.var,
     strokeWidth: 0,
   },
-  forecastConeDataColorScale: [chart_color_green_100.value],
+  forecastConeDataColorScale: [chart_color_green_100.var],
   forecastData: {
     fill: 'none',
   },
-  forecastDataColorScale: [chart_color_green_200.value],
+  forecastDataColorScale: [chart_color_green_200.var],
   itemsPerRow: 4,
   // See: https://github.com/project-koku/koku-ui/issues/241
-  previousColorScale: [chart_color_black_200.value, chart_color_black_200.value],
+  previousColorScale: [chart_color_black_200.var, chart_color_black_200.var],
   previousMonthData: {
     fill: 'none',
   },

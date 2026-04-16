@@ -45,11 +45,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {
-    return (
-      <div style={styles.loading}>
-        <LoadingState />
-      </div>
-    );
+    return <LoadingState />;
   }
 
   // Filter OCP providers to skip an extra API request
