@@ -1,4 +1,3 @@
-import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
 import t_global_font_size_body_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_body_sm';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
 import type React from 'react';
@@ -12,9 +11,7 @@ export const styles = {
   dataDetailsButton: {
     fontSize: t_global_font_size_body_sm.var,
   },
-  loading: {
-    backgroundColor: t_global_background_color_100.var,
-  },
+  loading: {},
   statusLabel: {
     marginRight: t_global_font_size_body_sm.var,
   },
