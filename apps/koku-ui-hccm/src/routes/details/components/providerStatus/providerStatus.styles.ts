@@ -11,7 +11,6 @@ export const styles = {
   dataDetailsButton: {
     fontSize: t_global_font_size_body_sm.var,
   },
-  loading: {},
   statusLabel: {
     marginRight: t_global_font_size_body_sm.var,
   },
