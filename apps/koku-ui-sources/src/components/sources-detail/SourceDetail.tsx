@@ -95,6 +95,8 @@ export const SourceDetail: React.FC<SourceDetailProps> = ({ uuid, onBack, canWri
         dismissable: true,
       });
     } catch (e) {
+      // eslint-disable-next-line no-console -- observability for failed pause/resume (e.g. E2E / ops)
+      console.error('Pause or resume integration failed', e);
       const detail = ApiErrorService.getMessage(e);
       const triedResume = source.paused;
       addNotification({

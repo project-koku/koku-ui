@@ -158,8 +158,10 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const [removeSource, setRemoveSource] = useState<Source | null>(null);
 
   useEffect(() => {
-    dispatch(loadEntities());
-  }, [dispatch, filterValue, filterColumn, page, perPage, sortBy, sortDirection]);
+    if (currentView.type === 'list') {
+      dispatch(loadEntities());
+    }
+  }, [dispatch, currentView.type, filterValue, filterColumn, page, perPage, sortBy, sortDirection]);
 
   const handleFilterChange = useCallback(
     (value: string) => {
@@ -223,6 +225,8 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
           dismissable: true,
         });
       } catch (e) {
+        // eslint-disable-next-line no-console -- observability for failed pause/resume (e.g. E2E / ops)
+        console.error('Pause or resume integration failed', e);
         const detail = ApiErrorService.getMessage(e);
         const triedResume = source.paused;
         addNotification({
