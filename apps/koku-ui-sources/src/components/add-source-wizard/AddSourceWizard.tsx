@@ -1,7 +1,8 @@
 import FormRenderer from '@data-driven-forms/react-form-renderer/form-renderer';
 import { Alert, Button, Form, Modal, ModalBody, ModalFooter, ModalHeader } from '@patternfly/react-core';
+import { ApiErrorService } from 'apis/api-error-service';
 import { ApplicationsService } from 'apis/applications-service';
-import type { CreateSourcePayload } from 'apis/models/sources';
+import type { CreateSourcePayload, Source } from 'apis/models/sources';
 import { SourcesService } from 'apis/sources-service';
 import { componentMapper } from 'components/add-source-wizard/pf6-ddf-mapper/ddf-component-mapper';
 import { messages } from 'i18n/messages';
@@ -46,7 +47,7 @@ export const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClos
     async (values: Record<string, any>) => {
       setError(null);
 
-      let createdSource: any = null;
+      let createdSource: Source | null = null;
 
       try {
         const sourcePayload: CreateSourcePayload = {
@@ -86,7 +87,7 @@ export const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClos
 
         onSubmitSuccess();
         onClose();
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (createdSource?.uuid) {
           try {
             await SourcesService.deleteSource(createdSource.uuid);
@@ -94,7 +95,7 @@ export const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClos
             // Best effort cleanup
           }
         }
-        setError(err?.message || intl.formatMessage(messages.wizardErrorCreate));
+        setError(ApiErrorService.getMessage(err) ?? intl.formatMessage(messages.wizardErrorCreate));
       }
     },
     [onSubmitSuccess, onClose, intl]

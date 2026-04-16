@@ -31,8 +31,7 @@ const completeAddIntegrationWizard = (name: string, clusterId: string) => {
   cy.contains('h2', 'Integration name', { timeout: 15000 }).should('be.visible');
   cy.get('#source_name').clear();
   cy.get('#source_name').type(name);
-  cy.wait(500);
-  cy.contains('button', 'Next').click();
+  cy.contains('button', 'Next').should('be.enabled').click();
   cy.get('[id="credentials.cluster_id"]').clear();
   cy.get('[id="credentials.cluster_id"]').type(clusterId);
   cy.contains('button', 'Next').click();
@@ -208,7 +207,7 @@ describe('Settings — Integrations (Sources)', () => {
     cy.intercept('PATCH', '**/sources/70000000-0000-4000-8000-000000000008/**', {
       statusCode: 500,
       body: { errors: [{ detail: 'mock pause failure' }] },
-    });
+    }).as('pauseRequest');
     store.rows = [
       makeMockSource({
         id: 8,
@@ -227,7 +226,7 @@ describe('Settings — Integrations (Sources)', () => {
     cy.get('table[aria-label="Sources table"]', { timeout: 30000 }).should('be.visible');
     openRowActions('pause-fail-src');
     cy.get('[role="menu"]').contains('Pause').click({ force: true });
-    cy.wait(1500);
+    cy.wait('@pauseRequest');
     cy.get('@consoleError').should(stub => {
       const s = stub as unknown as { callCount: number; getCall: (i: number) => { args: unknown[] } };
       let found = false;

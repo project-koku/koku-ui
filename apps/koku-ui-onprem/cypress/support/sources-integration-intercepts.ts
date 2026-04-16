@@ -202,11 +202,8 @@ export function registerSourcesIntegrationApi(store: SourcesIntegrationStore) {
       if (typeof body.name === 'string') {
         cur.name = body.name;
       }
-      if (body.paused === true) {
-        cur.paused = true;
-      }
-      if (body.paused === false) {
-        cur.paused = false;
+      if (typeof body.paused === 'boolean') {
+        cur.paused = body.paused;
       }
       store.rows[idx] = cur;
       req.reply({ statusCode: 200, body: cur });
