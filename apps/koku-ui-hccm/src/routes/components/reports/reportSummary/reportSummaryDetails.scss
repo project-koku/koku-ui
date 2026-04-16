@@ -21,13 +21,14 @@
 }
 
 .value {
-  color: var(--pf-t--global--text--color--100);
+  /* PF dark theme: --100 stays near-black; --regular maps to default body text (light on dark). */
+  color: var(--pf-t--global--text--color--regular);
   margin-right: var(--pf-t--global--spacer--sm);
   font-size: var(--pf-t--global--font--size--2xl);
 }
 
 .valueAlt {
-  color: var(--pf-t--global--text--color--100);
+  color: var(--pf-t--global--text--color--regular);
   margin-right: var(--pf-t--global--spacer--sm);
   font-size: var(--pf-t--global--font--size--4xl);
 }
