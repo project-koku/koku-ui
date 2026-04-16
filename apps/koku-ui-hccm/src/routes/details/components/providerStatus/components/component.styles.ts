@@ -10,7 +10,7 @@ export const styles = {
     marginRight: t_global_spacer_sm.value,
   },
   description: {
-    color: t_global_text_color_subtle.value,
+    color: t_global_text_color_subtle.var,
     fontSize: t_global_font_size_body_sm.value,
   },
   sourceLink: {

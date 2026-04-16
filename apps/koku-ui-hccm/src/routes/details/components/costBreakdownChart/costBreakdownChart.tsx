@@ -203,6 +203,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       <Charts
         height={chartStyles.chartHeight}
         id={`${id}-skeleton`}
+        nodeSelector="html"
         option={{
           series: [
             {
@@ -563,6 +564,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             <Charts
               height={chartStyles.chartHeight}
               id={id}
+              nodeSelector="html"
               option={{
                 series: [
                   {
