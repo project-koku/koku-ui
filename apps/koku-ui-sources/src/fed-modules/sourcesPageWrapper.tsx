@@ -1,12 +1,12 @@
 import UiVersion from '@koku-ui/ui-lib/components/page/uiVersion';
 import { Card, CardBody } from '@patternfly/react-core';
-import { getLocale, ignoreDefaultMessageError } from '../i18n/intl';
-import { ErrorBoundary } from '../components/ErrorBoundary';
-import { SourcesPage } from '../components/sources-page/SourcesPage';
+import { ErrorBoundary } from 'components/ErrorBoundary';
+import { SourcesPage } from 'components/sources-page/SourcesPage';
+import { getLocale, ignoreDefaultMessageError } from 'i18n/intl';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
-import { sourcesStore } from '../redux/store';
+import { sourcesStore } from 'redux/store';
 
 // eslint-disable-next-line no-restricted-imports
 import messages from '../../locales/data.json';

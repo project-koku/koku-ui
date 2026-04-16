@@ -9,11 +9,11 @@ import {
   ModalHeader,
   TextInput,
 } from '@patternfly/react-core';
+import type { Source } from 'apis/models/sources';
 import { SourcesService } from 'apis/sources-service';
 import { messages } from 'i18n/messages';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
-import type { Source } from 'apis/models/sources';
 
 interface SourceRenameModalProps {
   isOpen: boolean;

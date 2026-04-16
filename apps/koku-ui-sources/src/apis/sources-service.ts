@@ -1,6 +1,5 @@
-import type { CreateSourcePayload, ListSourcesParams, Source, SourcesListResponse } from './models/sources';
-
 import { API_BASE, axiosInstance } from './axios-client';
+import type { CreateSourcePayload, ListSourcesParams, Source, SourcesListResponse } from './models/sources';
 
 export const SOURCES_PATH = `${API_BASE}/sources`;
 

@@ -1,6 +1,5 @@
-import type { Application, CreateApplicationPayload } from './models/applications';
-
 import { API_BASE, axiosInstance } from './axios-client';
+import type { Application, CreateApplicationPayload } from './models/applications';
 
 export const APPLICATIONS_PATH = `${API_BASE}/applications`;
 

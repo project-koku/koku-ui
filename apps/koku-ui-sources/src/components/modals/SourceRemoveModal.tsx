@@ -11,11 +11,11 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
+import type { Source } from 'apis/models/sources';
 import { SourcesService } from 'apis/sources-service';
 import { messages } from 'i18n/messages';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import type { Source } from 'apis/models/sources';
 
 interface SourceRemoveModalProps {
   isOpen: boolean;

@@ -1,8 +1,17 @@
-import { Card, CardBody, CardTitle, Content, ContentVariants, Form, FormGroup, TextInput } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Content,
+  ContentVariants,
+  Form,
+  FormGroup,
+  TextInput,
+} from '@patternfly/react-core';
+import type { Source } from 'apis/models/sources';
 import { messages } from 'i18n/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import type { Source } from 'apis/models/sources';
 
 function formatLabel(key: string): string {
   return key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());

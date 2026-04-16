@@ -232,34 +232,34 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
             >
               <ToolbarItem>
                 {isTypeFilter ? (
-                <Select
-                  toggle={toggleRef => (
-                    <MenuToggle
-                      ref={toggleRef}
-                      onClick={() => setIsTypeSelectOpen(!isTypeSelectOpen)}
-                      isExpanded={isTypeSelectOpen}
-                    >
-                      {filterValue
-                        ? (sourceTypeOptionLabels[filterValue] ?? filterValue)
-                        : intl.formatMessage(messages.filterStatusAny)}
-                    </MenuToggle>
-                  )}
-                  onSelect={handleTypeSelect}
-                  isOpen={isTypeSelectOpen}
-                  onOpenChange={setIsTypeSelectOpen}
-                  selected={filterValue || undefined}
-                >
-                  <SelectList>
-                    <SelectOption key="type-any" value="">
-                      {intl.formatMessage(messages.filterStatusAny)}
-                    </SelectOption>
-                    {SOURCE_TYPES.map(st => (
-                      <SelectOption key={st.id} value={st.id}>
-                        {sourceTypeOptionLabels[st.id]}
+                  <Select
+                    toggle={toggleRef => (
+                      <MenuToggle
+                        ref={toggleRef}
+                        onClick={() => setIsTypeSelectOpen(!isTypeSelectOpen)}
+                        isExpanded={isTypeSelectOpen}
+                      >
+                        {filterValue
+                          ? (sourceTypeOptionLabels[filterValue] ?? filterValue)
+                          : intl.formatMessage(messages.filterStatusAny)}
+                      </MenuToggle>
+                    )}
+                    onSelect={handleTypeSelect}
+                    isOpen={isTypeSelectOpen}
+                    onOpenChange={setIsTypeSelectOpen}
+                    selected={filterValue || undefined}
+                  >
+                    <SelectList>
+                      <SelectOption key="type-any" value="">
+                        {intl.formatMessage(messages.filterStatusAny)}
                       </SelectOption>
-                    ))}
-                  </SelectList>
-                </Select>
+                      {SOURCE_TYPES.map(st => (
+                        <SelectOption key={st.id} value={st.id}>
+                          {sourceTypeOptionLabels[st.id]}
+                        </SelectOption>
+                      ))}
+                    </SelectList>
+                  </Select>
                 ) : isStatusFilter ? (
                   <Dropdown
                     isOpen={isStatusMenuOpen}
@@ -275,10 +275,7 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
                       </MenuToggle>
                     )}
                   >
-                    <DropdownList
-                      role="radiogroup"
-                      aria-label={intl.formatMessage(messages.filterStatusGroupAria)}
-                    >
+                    <DropdownList role="radiogroup" aria-label={intl.formatMessage(messages.filterStatusGroupAria)}>
                       <DropdownItem key="status-available" component="div" onClick={e => e.preventDefault()}>
                         <Radio
                           id="sources-filter-status-available"

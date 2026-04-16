@@ -51,9 +51,7 @@ export const loadEntities = createAsyncThunk('sources/loadEntities', async (_, {
       params.ordering = ordering;
     }
     const response = await SourcesService.listSources(params);
-    const filtered = response.data.filter((s: Source) =>
-      sourceMatchesAvailabilityFilter(s, state.filterValue)
-    );
+    const filtered = response.data.filter((s: Source) => sourceMatchesAvailabilityFilter(s, state.filterValue));
     const total = filtered.length;
     const start = (state.page - 1) * state.perPage;
     const pageRows = filtered.slice(start, start + state.perPage);

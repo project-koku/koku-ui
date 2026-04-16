@@ -1,4 +1,3 @@
-import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import {
   Alert,
   Bullseye,
@@ -19,7 +18,9 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { AngleLeftIcon, EllipsisVIcon, RedoIcon } from '@patternfly/react-icons';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { ApiErrorService } from 'apis/api-error-service';
+import type { Source } from 'apis/models/sources';
 import { getSourceTypeById } from 'apis/source-types';
 import { SourcesService } from 'apis/sources-service';
 import { SourceRemoveModal } from 'components/modals/SourceRemoveModal';
@@ -28,7 +29,6 @@ import { CredentialForm } from 'components/sources-detail/CredentialForm';
 import { messages } from 'i18n/messages';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import type { Source } from 'apis/models/sources';
 import { formatRelativeDate } from 'utilities/relative-date';
 
 interface SourceDetailProps {

@@ -161,9 +161,12 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
     dispatch(loadEntities());
   }, [dispatch, filterValue, filterColumn, page, perPage, sortBy, sortDirection]);
 
-  const handleFilterChange = useCallback((value: string) => {
-    dispatch(setFilter({ filterValue: value }));
-  }, [dispatch]);
+  const handleFilterChange = useCallback(
+    (value: string) => {
+      dispatch(setFilter({ filterValue: value }));
+    },
+    [dispatch]
+  );
 
   const handleFilterColumnChange = useCallback(
     (column: 'name' | 'source_type' | 'availability_status') => {

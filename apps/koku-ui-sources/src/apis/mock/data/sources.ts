@@ -1,4 +1,4 @@
-import type { Source } from '../../models/sources';
+import type { Source } from 'apis/models/sources';
 
 export const mockSources: Source[] = [
   {

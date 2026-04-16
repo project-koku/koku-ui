@@ -1,10 +1,10 @@
 import { Button, Label } from '@patternfly/react-core';
 import { ActionsColumn, Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import type { Source } from 'apis/models/sources';
 import { getSourceTypeById } from 'apis/source-types';
 import { messages } from 'i18n/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import type { Source } from 'apis/models/sources';
 import { formatRelativeDate } from 'utilities/relative-date';
 
 interface SourcesTableProps {
@@ -103,7 +103,9 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
                 <Td dataLabel={intl.formatMessage(messages.sourceType)}>
                   {sourceType?.product_name ?? source.source_type}
                 </Td>
-                <Td dataLabel={intl.formatMessage(messages.dateAdded)}>{formatRelativeDate(source.created_timestamp)}</Td>
+                <Td dataLabel={intl.formatMessage(messages.dateAdded)}>
+                  {formatRelativeDate(source.created_timestamp)}
+                </Td>
                 <Td dataLabel={intl.formatMessage(messages.status)}>
                   <Label color={getStatusColor(source)}>{formatStatus(source)}</Label>
                 </Td>
