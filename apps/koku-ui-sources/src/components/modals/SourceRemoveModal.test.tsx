@@ -52,15 +52,30 @@ const renderModal = (props: Partial<React.ComponentProps<typeof SourceRemoveModa
   return merged;
 };
 
-const getRemoveButton = () => screen.getAllByText('Remove')[1].closest('button')!;
+const getSubmitButton = () => screen.getByRole('button', { name: 'Remove integration and its data' });
 
 describe('SourceRemoveModal', () => {
-  it('renders the source name in the confirmation text', () => {
+  it('renders title, body, connected application, and acknowledgement copy', () => {
     renderModal();
 
-    expect(screen.getByText(/Are you sure you want to remove/)).toBeInTheDocument();
+    expect(screen.getByText('Remove integration?')).toBeInTheDocument();
+    expect(
+      screen.getByText(/permanently deletes all collected data and detaches the following connected application/)
+    ).toBeInTheDocument();
     expect(screen.getByText('My OCP Source')).toBeInTheDocument();
-    expect(screen.getByText(/This action cannot be undone/)).toBeInTheDocument();
+    expect(screen.getByText('Cost Management')).toBeInTheDocument();
+    expect(screen.getByText('I acknowledge that this action cannot be undone.')).toBeInTheDocument();
+  });
+
+  it('keeps the remove action disabled until the acknowledgement checkbox is checked', async () => {
+    const user = userEvent.setup();
+    renderModal();
+
+    expect(getSubmitButton()).toBeDisabled();
+
+    await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
+
+    expect(getSubmitButton()).not.toBeDisabled();
   });
 
   it('calls deleteSource + onSuccess + onClose on successful remove', async () => {
@@ -68,7 +83,8 @@ describe('SourceRemoveModal', () => {
     mockedDeleteSource.mockResolvedValue(undefined);
     const props = renderModal();
 
-    await user.click(getRemoveButton());
+    await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
+    await user.click(getSubmitButton());
 
     await waitFor(() => {
       expect(mockedDeleteSource).toHaveBeenCalledWith('uuid-1');
@@ -83,7 +99,8 @@ describe('SourceRemoveModal', () => {
     const props = renderModal();
 
     await act(async () => {
-      await user.click(getRemoveButton());
+      await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
+      await user.click(getSubmitButton());
       await Promise.resolve();
     });
 
@@ -98,11 +115,12 @@ describe('SourceRemoveModal', () => {
     renderModal();
 
     await act(async () => {
-      await user.click(getRemoveButton());
+      await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
+      await user.click(getSubmitButton());
       await Promise.resolve();
     });
 
-    expect(screen.getByText('Failed to remove source')).toBeInTheDocument();
+    expect(screen.getByText('Failed to remove integration')).toBeInTheDocument();
   });
 
   it('calls onClose when Cancel is clicked', async () => {
@@ -117,7 +135,7 @@ describe('SourceRemoveModal', () => {
   it('does not render when isOpen is false', () => {
     renderModal({ isOpen: false });
 
-    expect(screen.queryByText('Remove')).not.toBeInTheDocument();
+    expect(screen.queryByText('Remove integration?')).not.toBeInTheDocument();
     expect(screen.queryByText('My OCP Source')).not.toBeInTheDocument();
   });
 });

@@ -17,6 +17,10 @@ export const messages = defineMessages({
     id: 'sources.emptyStateAddOpenShift',
     defaultMessage: 'Add OpenShift integration',
   },
+  emptyStateLogoAlt: {
+    id: 'sources.emptyStateLogoAlt',
+    defaultMessage: 'OpenShift',
+  },
   emptyStateNoMatchesTitle: {
     id: 'sources.emptyStateNoMatchesTitle',
     defaultMessage: 'No integrations match your filters',
@@ -113,6 +117,35 @@ export const messages = defineMessages({
     id: 'sources.remove',
     defaultMessage: 'Remove',
   },
+  cancel: {
+    id: 'sources.cancel',
+    defaultMessage: 'Cancel',
+  },
+  removeIntegrationModalTitle: {
+    id: 'sources.removeIntegrationModalTitle',
+    defaultMessage: 'Remove integration?',
+  },
+  removeIntegrationModalBody: {
+    id: 'sources.removeIntegrationModalBody',
+    defaultMessage:
+      'Removing {name} permanently deletes all collected data and detaches the following connected application:',
+  },
+  removeIntegrationConnectedCostManagement: {
+    id: 'sources.removeIntegrationConnectedCostManagement',
+    defaultMessage: 'Cost Management',
+  },
+  removeIntegrationAcknowledge: {
+    id: 'sources.removeIntegrationAcknowledge',
+    defaultMessage: 'I acknowledge that this action cannot be undone.',
+  },
+  removeIntegrationSubmit: {
+    id: 'sources.removeIntegrationSubmit',
+    defaultMessage: 'Remove integration and its data',
+  },
+  removeIntegrationGenericError: {
+    id: 'sources.removeIntegrationGenericError',
+    defaultMessage: 'Failed to remove integration',
+  },
   pause: {
     id: 'sources.pause',
     defaultMessage: 'Pause',
@@ -169,10 +202,6 @@ export const messages = defineMessages({
   sourceNotFound: {
     id: 'sources.sourceNotFound',
     defaultMessage: 'Integration not found',
-  },
-  removeConfirmation: {
-    id: 'sources.removeConfirmation',
-    defaultMessage: 'Are you sure you want to remove {name}? This action cannot be undone.',
   },
   nameValidationError: {
     id: 'sources.nameValidationError',

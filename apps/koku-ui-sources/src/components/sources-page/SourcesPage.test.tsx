@@ -133,6 +133,8 @@ describe('SourcesPage', () => {
 
     expect(screen.getByText('Get started by connecting your integrations')).toBeInTheDocument();
     expect(screen.getByText('Connect an OpenShift cluster to collect usage and cost data.')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'OpenShift' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Add OpenShift integration')).toBeInTheDocument();
   });
 
   it('shows no-matches empty state when count is 0 and a filter is active', async () => {
@@ -239,7 +241,9 @@ describe('SourcesPage', () => {
     await user.click(kebabButtons[0]);
     await user.click(screen.getByText('Remove'));
 
-    expect(screen.getByText(/Are you sure you want to remove/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/permanently deletes all collected data and detaches the following connected application/)
+    ).toBeInTheDocument();
   });
 
   it('applies search filter', async () => {
@@ -297,7 +301,7 @@ describe('SourcesPage', () => {
     expect(listSources).toHaveBeenCalled();
   });
 
-  it('opens wizard from empty state Add OpenShift integration button', async () => {
+  it('opens wizard when empty-state Add OpenShift integration card is clicked', async () => {
     const user = userEvent.setup();
     const { listSources } = require('apis/sources-service').SourcesService;
     listSources.mockResolvedValue({
@@ -310,7 +314,7 @@ describe('SourcesPage', () => {
       renderWithProviders({}, { canWrite: true });
     });
 
-    await user.click(screen.getByRole('button', { name: 'Add OpenShift integration' }));
+    await user.click(screen.getByLabelText('Add OpenShift integration'));
     await waitFor(() => {
       expect(screen.getByText('Add an OpenShift integration')).toBeInTheDocument();
     });
@@ -426,12 +430,12 @@ describe('SourcesPage', () => {
     await user.click(kebabButtons[0]);
     await user.click(screen.getByText('Remove'));
 
-    expect(screen.getByText(/Are you sure you want to remove/)).toBeInTheDocument();
+    expect(screen.getByText('Remove integration?')).toBeInTheDocument();
 
     await user.click(screen.getByText('Cancel'));
 
     await waitFor(() => {
-      expect(screen.queryByText(/Are you sure you want to remove/)).not.toBeInTheDocument();
+      expect(screen.queryByText('Remove integration?')).not.toBeInTheDocument();
     });
   });
 });

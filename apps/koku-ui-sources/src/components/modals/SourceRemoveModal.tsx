@@ -1,7 +1,19 @@
-import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  Checkbox,
+  List,
+  ListItem,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Stack,
+  StackItem,
+} from '@patternfly/react-core';
 import { SourcesService } from 'apis/sources-service';
 import { messages } from 'i18n/messages';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import type { Source } from 'apis/models/sources';
 
@@ -16,6 +28,14 @@ export const SourceRemoveModal: React.FC<SourceRemoveModalProps> = ({ isOpen, so
   const intl = useIntl();
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [acknowledged, setAcknowledged] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setAcknowledged(false);
+      setError(null);
+    }
+  }, [isOpen]);
 
   const handleDelete = useCallback(async () => {
     setIsDeleting(true);
@@ -25,25 +45,50 @@ export const SourceRemoveModal: React.FC<SourceRemoveModalProps> = ({ isOpen, so
       onSuccess();
       onClose();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to remove source');
+      setError(err instanceof Error ? err.message : intl.formatMessage(messages.removeIntegrationGenericError));
     } finally {
       setIsDeleting(false);
     }
-  }, [source.uuid, onSuccess, onClose]);
+  }, [source.uuid, onSuccess, onClose, intl]);
+
+  const removeDisabled = isDeleting || !acknowledged;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant="small">
-      <ModalHeader title={intl.formatMessage(messages.remove)} titleIconVariant="warning" />
+      <ModalHeader title={intl.formatMessage(messages.removeIntegrationModalTitle)} titleIconVariant="warning" />
       <ModalBody>
         {error && <Alert variant="danger" title={error} isInline style={{ marginBottom: '16px' }} />}
-        <FormattedMessage {...messages.removeConfirmation} values={{ name: <strong>{source.name}</strong> }} />
+        <Stack hasGutter>
+          <StackItem>
+            <FormattedMessage
+              {...messages.removeIntegrationModalBody}
+              values={{ name: <strong>{source.name}</strong> }}
+            />
+          </StackItem>
+          <StackItem>
+            <List isPlain>
+              <ListItem>
+                <strong>{intl.formatMessage(messages.removeIntegrationConnectedCostManagement)}</strong>
+              </ListItem>
+            </List>
+          </StackItem>
+          <StackItem>
+            <Checkbox
+              id="remove-integration-acknowledge"
+              label={intl.formatMessage(messages.removeIntegrationAcknowledge)}
+              isChecked={acknowledged}
+              onChange={(_event, checked) => setAcknowledged(checked)}
+              isDisabled={isDeleting}
+            />
+          </StackItem>
+        </Stack>
       </ModalBody>
       <ModalFooter>
-        <Button variant="danger" onClick={handleDelete} isLoading={isDeleting} isDisabled={isDeleting}>
-          {intl.formatMessage(messages.remove)}
+        <Button variant="danger" onClick={handleDelete} isLoading={isDeleting} isDisabled={removeDisabled}>
+          {intl.formatMessage(messages.removeIntegrationSubmit)}
         </Button>
         <Button variant="link" onClick={onClose} isDisabled={isDeleting}>
-          Cancel
+          {intl.formatMessage(messages.cancel)}
         </Button>
       </ModalFooter>
     </Modal>
