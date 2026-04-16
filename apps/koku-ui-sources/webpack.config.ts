@@ -79,7 +79,7 @@ const config: Configuration = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.join(srcDir, 'locales'),
+          from: path.resolve(__dirname, 'locales'),
           to: path.join(distDir, 'locales'),
         },
       ],
