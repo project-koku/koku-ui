@@ -8,8 +8,8 @@ export const styles = {
     marginLeft: t_global_spacer_md.var,
   },
   paginationContainer: {
-    paddingBottom: t_global_spacer_md.value,
-    paddingTop: t_global_spacer_sm.value,
+    paddingBottom: t_global_spacer_md.var,
+    paddingTop: t_global_spacer_sm.var,
   },
   tableContainer: {
     marginTop: t_global_spacer_lg.var,

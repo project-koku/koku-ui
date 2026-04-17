@@ -3,7 +3,7 @@ import type React from 'react';
 
 export const styles = {
   details: {
-    marginBottom: t_global_spacer_xl.value,
-    marginTop: t_global_spacer_xl.value,
+    marginBottom: t_global_spacer_xl.var,
+    marginTop: t_global_spacer_xl.var,
   },
 } as { [className: string]: React.CSSProperties };

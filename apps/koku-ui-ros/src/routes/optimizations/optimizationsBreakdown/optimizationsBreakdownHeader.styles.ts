@@ -9,7 +9,7 @@ export const styles = {
     marginTop: t_global_spacer_lg.var,
   },
   infoIcon: {
-    fontSize: t_global_font_size_md.value,
+    fontSize: t_global_font_size_md.var,
   },
   infoTitle: {
     fontWeight: 'bold',

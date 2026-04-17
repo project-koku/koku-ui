@@ -7,10 +7,10 @@ export const styles = {
     minHeight: 330,
   },
   cardDescription: {
-    fontSize: t_global_font_size_md.value,
+    fontSize: t_global_font_size_md.var,
   },
   cardBody: {
-    fontSize: t_global_font_size_xl.value,
+    fontSize: t_global_font_size_xl.var,
     textAlign: 'center',
   },
   exampleMargin: {

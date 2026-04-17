@@ -3,6 +3,6 @@ import type React from 'react';
 
 export const styles = {
   trendIcon: {
-    marginRight: t_global_spacer_sm.value,
+    marginRight: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

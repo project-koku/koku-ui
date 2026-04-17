@@ -8,7 +8,7 @@ export const styles = {
     width: '600px',
   },
   subTitle: {
-    marginTop: t_global_spacer_2xl.value,
+    marginTop: t_global_spacer_2xl.var,
     textAlign: 'right',
   },
 } as { [className: string]: React.CSSProperties };
