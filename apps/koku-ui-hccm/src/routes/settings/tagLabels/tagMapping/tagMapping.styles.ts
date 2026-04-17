@@ -9,20 +9,20 @@ export const styles = {
     marginLeft: t_global_spacer_md.var,
   },
   childActionColumn: {
-    paddingRight: t_global_spacer_2xl.value,
+    paddingRight: t_global_spacer_2xl.var,
   },
   childSourceTypeColumn: {
-    paddingLeft: t_global_spacer_md.value,
+    paddingLeft: t_global_spacer_md.var,
   },
   childTagKeyColumn: {
-    paddingLeft: t_global_spacer_md.value,
+    paddingLeft: t_global_spacer_md.var,
   },
   emptyStateContainer: {
-    paddingTop: t_global_spacer_md.value,
+    paddingTop: t_global_spacer_md.var,
   },
   paginationContainer: {
-    paddingBottom: t_global_spacer_md.value,
-    paddingTop: t_global_spacer_sm.value,
+    paddingBottom: t_global_spacer_md.var,
+    paddingTop: t_global_spacer_sm.var,
   },
   tableContainer: {
     marginTop: t_global_spacer_lg.var,
