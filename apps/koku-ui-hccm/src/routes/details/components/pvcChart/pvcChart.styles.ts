@@ -12,7 +12,7 @@ export const styles = {
     marginBottom: t_global_spacer_md.var,
   },
   capacity: {
-    fontWeight: t_global_font_weight_body_bold_legacy.var as any,
+    fontWeight: t_global_font_weight_body_bold_legacy.var,
   },
   description: {
     display: 'flex',
