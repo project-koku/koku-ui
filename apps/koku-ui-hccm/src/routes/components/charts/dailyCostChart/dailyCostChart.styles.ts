@@ -14,31 +14,31 @@ import { chart_color_orange_300 } from '@patternfly/react-tokens/dist/js/chart_c
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
-    chart_color_green_400.value,
-    chart_color_green_300.value,
-    chart_color_green_200.value,
-    chart_color_green_100.value,
-    chart_color_green_500.value,
+    chart_color_green_400.var,
+    chart_color_green_300.var,
+    chart_color_green_200.var,
+    chart_color_green_100.var,
+    chart_color_green_500.var,
   ],
   currentInfrastructureColorScale: [
-    chart_color_blue_400.value,
-    chart_color_blue_300.value,
-    chart_color_blue_200.value,
-    chart_color_blue_100.value,
-    chart_color_blue_500.value,
+    chart_color_blue_400.var,
+    chart_color_blue_300.var,
+    chart_color_blue_200.var,
+    chart_color_blue_100.var,
+    chart_color_blue_500.var,
   ],
   currentInfrastructureCostData: {
     strokeDasharray: '3,3',
   },
-  forecastConeDataColorScale: [chart_color_orange_300.value],
-  forecastDataColorScale: [chart_color_green_200.value],
-  forecastInfrastructureConeDataColorScale: [chart_color_orange_300.value],
-  forecastInfrastructureDataColorScale: [chart_color_blue_200.value],
+  forecastConeDataColorScale: [chart_color_orange_300.var],
+  forecastDataColorScale: [chart_color_green_200.var],
+  forecastInfrastructureConeDataColorScale: [chart_color_orange_300.var],
+  forecastInfrastructureDataColorScale: [chart_color_blue_200.var],
   previousInfrastructureCostData: {
     strokeDasharray: '3,3',
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
-  previousColorScale: [chart_color_black_200.value, chart_color_black_200.value],
+  previousColorScale: [chart_color_black_200.var, chart_color_black_200.var],
   yAxis: {
     axisLabel: {
       padding: 15,
