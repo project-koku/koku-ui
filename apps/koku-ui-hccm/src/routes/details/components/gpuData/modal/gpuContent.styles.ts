@@ -9,7 +9,7 @@ export const styles = {
     minHeight: '520px',
   },
   pagination: {
-    paddingBottom: t_global_spacer_md.value,
-    paddingTop: t_global_spacer_md.value,
+    paddingBottom: t_global_spacer_md.var,
+    paddingTop: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };

@@ -4,7 +4,7 @@ import type React from 'react';
 
 export const styles = {
   alertContainer: {
-    marginBottom: t_global_spacer_lg.value,
+    marginBottom: t_global_spacer_lg.var,
   },
   codeBlock: {
     display: 'flex',
@@ -25,6 +25,6 @@ export const styles = {
     padding: 0,
   },
   utilizationContainer: {
-    marginTop: t_global_spacer_lg.value,
+    marginTop: t_global_spacer_lg.var,
   },
 } as { [className: string]: React.CSSProperties };

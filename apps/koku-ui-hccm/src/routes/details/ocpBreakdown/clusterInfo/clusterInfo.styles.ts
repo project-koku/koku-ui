@@ -5,10 +5,10 @@ import type React from 'react';
 
 export const styles = {
   clusterInfoButton: {
-    fontSize: t_global_font_size_body_sm.value,
+    fontSize: t_global_font_size_body_sm.var,
   },
   spacingRight: {
-    marginRight: t_global_spacer_md.value,
+    marginRight: t_global_spacer_md.var,
   },
   updateAvailable: {
     color: t_global_color_status_warning_100.var,

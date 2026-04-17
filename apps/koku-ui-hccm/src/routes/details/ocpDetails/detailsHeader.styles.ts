@@ -21,7 +21,7 @@ export const styles = {
     verticalAlign: 'middle',
   },
   infoIcon: {
-    fontSize: t_global_font_size_md.value,
+    fontSize: t_global_font_size_md.var,
   },
   infoTitle: {
     fontWeight: 'bold',

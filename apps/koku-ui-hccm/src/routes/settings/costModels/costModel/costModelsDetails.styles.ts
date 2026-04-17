@@ -9,19 +9,19 @@ export const styles = {
     wordWrap: 'break-word',
   },
   content: {
-    paddingTop: t_global_spacer_lg.value,
+    paddingTop: t_global_spacer_lg.var,
     height: '182vh',
   },
   currency: {
-    paddingBottom: t_global_spacer_md.value,
-    paddingTop: t_global_spacer_lg.value,
+    paddingBottom: t_global_spacer_md.var,
+    paddingTop: t_global_spacer_lg.var,
   },
   headerContent: {
     display: 'flex',
     justifyContent: 'space-between',
   },
   headerCostModel: {
-    padding: t_global_spacer_lg.value,
+    padding: t_global_spacer_lg.var,
     paddingBottom: 0,
   },
   breadcrumb: {
