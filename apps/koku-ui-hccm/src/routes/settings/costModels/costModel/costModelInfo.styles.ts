@@ -4,7 +4,7 @@ import type React from 'react';
 
 export const styles = {
   addSourceStep: {
-    paddingTop: t_global_spacer_lg.value,
+    paddingTop: t_global_spacer_lg.var,
   },
   headerDescription: {
     width: '97%',
@@ -15,7 +15,7 @@ export const styles = {
     paddingBottom: 0,
   },
   pagination: {
-    paddingTop: t_global_spacer_sm.value,
+    paddingTop: t_global_spacer_sm.var,
   },
   title: {
     paddingBottom: t_global_spacer_sm.var,

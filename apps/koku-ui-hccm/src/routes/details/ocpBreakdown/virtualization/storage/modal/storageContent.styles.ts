@@ -4,9 +4,9 @@ import type React from 'react';
 
 export const styles = {
   dataListHeading: {
-    fontWeight: t_global_font_weight_body_bold_legacy.value as any,
+    fontWeight: t_global_font_weight_body_bold_legacy.var,
   },
   dataListSubHeading: {
-    marginBottom: t_global_spacer_lg.value,
+    marginBottom: t_global_spacer_lg.var,
   },
 } as { [className: string]: React.CSSProperties };
