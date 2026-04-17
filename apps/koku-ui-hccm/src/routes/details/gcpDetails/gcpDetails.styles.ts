@@ -4,7 +4,7 @@ import type React from 'react';
 
 export const styles = {
   alert: {
-    marginBottom: t_global_spacer_lg.value,
+    marginBottom: t_global_spacer_lg.var,
   },
   headerContainer: {
     paddingBottom: 0,
