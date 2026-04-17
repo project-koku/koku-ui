@@ -7,6 +7,6 @@ export const styles = {
     fontWeight: t_global_font_weight_body_bold_legacy.value as any,
   },
   dataListSubHeading: {
-    marginBottom: t_global_spacer_lg.value,
+    marginBottom: t_global_spacer_lg.var,
   },
 } as { [className: string]: React.CSSProperties };

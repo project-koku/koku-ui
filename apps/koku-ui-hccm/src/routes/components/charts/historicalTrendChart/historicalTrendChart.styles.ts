@@ -64,9 +64,9 @@ export const chartStyles = {
 
 export const styles = {
   chart: {
-    marginTop: t_global_spacer_sm.value,
+    marginTop: t_global_spacer_sm.var,
   },
   title: {
-    marginLeft: '-' + t_global_spacer_lg.value,
+    marginLeft: `calc(-1 * ${t_global_spacer_lg.var})`,
   },
 } as { [className: string]: React.CSSProperties };

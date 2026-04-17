@@ -4,9 +4,9 @@ import type React from 'react';
 
 export const styles = {
   divider: {
-    marginTop: t_global_font_size_2xl.value,
+    marginTop: t_global_font_size_2xl.var,
   },
   toolbarContainer: {
-    marginTop: t_global_font_size_lg.value,
+    marginTop: t_global_font_size_lg.var,
   },
 } as { [className: string]: React.CSSProperties };

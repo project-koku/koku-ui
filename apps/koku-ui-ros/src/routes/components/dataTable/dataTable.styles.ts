@@ -18,7 +18,7 @@ export const styles = {
   emptyState: {
     display: 'flex',
     justifyContent: 'center',
-    paddingTop: t_global_spacer_3xl.value,
+    paddingTop: t_global_spacer_3xl.var,
     height: '35vh',
     width: '100%',
   },
@@ -26,11 +26,11 @@ export const styles = {
     position: 'relative',
   },
   infoArrowDesc: {
-    bottom: t_global_spacer_xs.value,
+    bottom: t_global_spacer_xs.var,
   },
   infoDescription: {
     color: t_global_color_disabled_100.var,
-    fontSize: t_global_font_size_xs.value,
+    fontSize: t_global_font_size_xs.var,
   },
   lastItem: {
     textAlign: 'right',
