@@ -16,11 +16,11 @@ export const styles = {
     textAlign: 'right',
   },
   costLabelUnit: {
-    fontSize: t_global_font_size_sm.value,
+    fontSize: t_global_font_size_sm.var,
     color: t_global_text_color_100.var,
   },
   costLabelDate: {
-    fontSize: t_global_font_size_sm.value,
+    fontSize: t_global_font_size_sm.var,
     color: t_global_text_color_200.var,
   },
   dateTitle: {
