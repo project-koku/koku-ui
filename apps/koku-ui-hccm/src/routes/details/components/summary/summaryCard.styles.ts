@@ -4,7 +4,7 @@ import type React from 'react';
 export const styles = {
   card: {},
   skeleton: {
-    marginTop: t_global_spacer_md.value,
+    marginTop: t_global_spacer_md.var,
   },
   viewAllContainer: {
     marginLeft: '-15px',

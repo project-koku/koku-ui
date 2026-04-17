@@ -31,7 +31,7 @@ export const styles = {
   },
   description: {
     color: t_global_text_color_subtle.var,
-    fontSize: t_global_font_size_body_sm.value,
+    fontSize: t_global_font_size_body_sm.var,
     marginBottom: 0,
   },
   filterChip: {

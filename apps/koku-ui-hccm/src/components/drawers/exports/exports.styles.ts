@@ -5,23 +5,23 @@ import type React from 'react';
 
 export const styles = {
   content: {
-    paddingBottom: t_global_spacer_lg.value,
-    paddingTop: t_global_spacer_lg.value,
+    paddingBottom: t_global_spacer_lg.var,
+    paddingTop: t_global_spacer_lg.var,
   },
   exportsIcon: {
-    marginLeft: t_global_spacer_md.value,
-    marginRight: t_global_spacer_sm.value,
+    marginLeft: t_global_spacer_md.var,
+    marginRight: t_global_spacer_sm.var,
   },
   exportsLink: {
     display: 'flex',
     alignItems: 'center',
   },
   pagination: {
-    paddingBottom: t_global_spacer_md.value,
-    paddingTop: t_global_spacer_md.value,
+    paddingBottom: t_global_spacer_md.var,
+    paddingTop: t_global_spacer_md.var,
   },
   toolbarContainer: {
-    paddingBottom: t_global_spacer_md.value,
-    paddingTop: t_global_spacer_md.value,
+    paddingBottom: t_global_spacer_md.var,
+    paddingTop: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };
