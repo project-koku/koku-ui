@@ -13,7 +13,7 @@ export const styles = {
     display: 'flex',
   },
   dividerContainer: {
-    marginRight: `-${t_global_spacer_sm.value}`,
+    marginRight: `calc(-1 * ${t_global_spacer_sm.var})`,
     paddingBottom: t_global_spacer_md.var,
     paddingTop: t_global_spacer_md.var,
   },
