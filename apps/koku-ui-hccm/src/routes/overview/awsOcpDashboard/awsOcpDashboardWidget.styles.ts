@@ -9,9 +9,9 @@ export const chartStyles = {
 
 export const styles = {
   tabs: {
-    marginTop: t_global_spacer_2xl.value,
+    marginTop: t_global_spacer_2xl.var,
   },
   tabItems: {
-    marginTop: t_global_spacer_xl.value,
+    marginTop: t_global_spacer_xl.var,
   },
 } as { [className: string]: React.CSSProperties };

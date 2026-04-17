@@ -14,7 +14,7 @@ export const chartStyles = {
 export const styles = {
   chartSkeleton: {
     height: '125px',
-    marginBottom: t_global_spacer_md.value,
-    marginTop: t_global_spacer_3xl.value,
+    marginBottom: t_global_spacer_md.var,
+    marginTop: t_global_spacer_3xl.var,
   },
 } as { [className: string]: React.CSSProperties };

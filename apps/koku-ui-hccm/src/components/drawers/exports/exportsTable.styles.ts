@@ -8,16 +8,16 @@ export const styles = {
   emptyState: {
     display: 'flex',
     justifyContent: 'center',
-    paddingTop: t_global_spacer_xl.value,
+    paddingTop: t_global_spacer_xl.var,
     width: '100%',
   },
   failed: {
     color: t_global_color_status_danger_200.var,
   },
   failedButton: {
-    fontSize: t_global_font_size_sm.value,
+    fontSize: t_global_font_size_sm.var,
   },
   failedHeader: {
-    marginLeft: t_global_spacer_md.value,
+    marginLeft: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };
