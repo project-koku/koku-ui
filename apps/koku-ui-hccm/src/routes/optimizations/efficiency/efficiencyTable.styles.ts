@@ -8,7 +8,7 @@ export const styles = {
     paddingRight: 0,
   },
   infoDescription: {
-    color: t_global_text_color_subtle.value,
+    color: t_global_text_color_subtle.var,
     fontSize: t_global_font_size_body_sm.value,
   },
 } as { [className: string]: React.CSSProperties };

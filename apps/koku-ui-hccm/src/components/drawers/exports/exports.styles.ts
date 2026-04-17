@@ -1,4 +1,3 @@
-import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
 import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
 import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
@@ -18,12 +17,10 @@ export const styles = {
     alignItems: 'center',
   },
   pagination: {
-    backgroundColor: t_global_background_color_100.value,
     paddingBottom: t_global_spacer_md.value,
     paddingTop: t_global_spacer_md.value,
   },
   toolbarContainer: {
-    backgroundColor: t_global_background_color_100.value,
     paddingBottom: t_global_spacer_md.value,
     paddingTop: t_global_spacer_md.value,
   },

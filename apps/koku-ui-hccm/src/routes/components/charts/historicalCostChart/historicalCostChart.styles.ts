@@ -18,11 +18,11 @@ export const chartStyles = {
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
-    chart_color_green_400.value,
-    chart_color_green_300.value,
-    chart_color_green_200.value,
-    chart_color_green_100.value,
-    chart_color_green_500.value,
+    chart_color_green_400.var,
+    chart_color_green_300.var,
+    chart_color_green_200.var,
+    chart_color_green_100.var,
+    chart_color_green_500.var,
   ],
   currentInfrastructureCostData: {
     fill: 'none',
@@ -37,11 +37,11 @@ export const chartStyles = {
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
   previousColorScale: [
-    chart_color_blue_100.value,
-    chart_color_blue_200.value,
-    chart_color_blue_300.value,
-    chart_color_blue_400.value,
-    chart_color_blue_500.value,
+    chart_color_blue_100.var,
+    chart_color_blue_200.var,
+    chart_color_blue_300.var,
+    chart_color_blue_400.var,
+    chart_color_blue_500.var,
   ],
   previousInfrastructureCostData: {
     fill: 'none',

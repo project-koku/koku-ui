@@ -1,4 +1,3 @@
-import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
 import t_global_box_shadow_sm_right from '@patternfly/react-tokens/dist/js/t_global_box_shadow_sm_right';
 import t_global_breakpoint_lg from '@patternfly/react-tokens/dist/js/t_global_breakpoint_lg';
 import t_global_breakpoint_md from '@patternfly/react-tokens/dist/js/t_global_breakpoint_md';
@@ -20,7 +19,6 @@ export const theme = {
   breakpoints,
   page_breakpoint: breakpoints.md,
   page_masthead_height: 70,
-  page_sidebar_background: t_global_background_color_100.value,
-  page_sidebar_boxShadow: t_global_box_shadow_sm_right.value,
+  page_sidebar_boxShadow: t_global_box_shadow_sm_right.var,
   page_sidebar_width: 300,
 };

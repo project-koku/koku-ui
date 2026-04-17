@@ -1,4 +1,3 @@
-import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
 import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
 import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
@@ -24,7 +23,6 @@ export const styles = {
   headerCostModel: {
     padding: t_global_spacer_lg.value,
     paddingBottom: 0,
-    backgroundColor: t_global_background_color_100.var,
   },
   breadcrumb: {
     paddingBottom: t_global_spacer_md.var,
