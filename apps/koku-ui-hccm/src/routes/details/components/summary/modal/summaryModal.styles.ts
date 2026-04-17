@@ -3,7 +3,7 @@ import type React from 'react';
 
 export const styles = {
   mainContent: {
-    marginTop: t_global_spacer_xl.value,
+    marginTop: t_global_spacer_xl.var,
   },
   subTitle: {
     textAlign: 'right',

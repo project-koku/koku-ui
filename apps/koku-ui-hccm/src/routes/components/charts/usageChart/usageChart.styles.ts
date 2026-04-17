@@ -8,7 +8,7 @@ import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer
 
 export const chartStyles = {
   chartContainer: {
-    marginTop: t_global_spacer_lg.value,
+    marginTop: t_global_spacer_lg.var,
   },
   currentRequestData: {
     data: {
