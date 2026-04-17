@@ -7,7 +7,7 @@ export const styles = {
     paddingBottom: 0,
   },
   infoIcon: {
-    fontSize: t_global_font_size_md.value,
+    fontSize: t_global_font_size_md.var,
   },
   title: {
     paddingBottom: t_global_spacer_sm.var,

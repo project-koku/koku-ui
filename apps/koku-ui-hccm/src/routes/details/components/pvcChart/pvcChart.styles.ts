@@ -6,10 +6,10 @@ import type React from 'react';
 
 export const styles = {
   chartContainer: {
-    marginTop: t_global_spacer_md.value,
+    marginTop: t_global_spacer_md.var,
   },
   chartSkeleton: {
-    marginBottom: t_global_spacer_md.value,
+    marginBottom: t_global_spacer_md.var,
   },
   capacity: {
     fontWeight: t_global_font_weight_body_bold_legacy.value as any,
@@ -17,14 +17,14 @@ export const styles = {
   description: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginBottom: t_global_spacer_md.value,
-    marginRight: t_global_spacer_xl.value,
+    marginBottom: t_global_spacer_md.var,
+    marginRight: t_global_spacer_xl.var,
   },
   divider: {
-    marginBottom: t_global_spacer_lg.value,
-    marginTop: t_global_spacer_lg.value,
+    marginBottom: t_global_spacer_lg.var,
+    marginTop: t_global_spacer_lg.var,
   },
   legendSkeleton: {
-    marginTop: t_global_spacer_md.value,
+    marginTop: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };

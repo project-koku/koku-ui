@@ -4,7 +4,7 @@ import type React from 'react';
 
 export const styles = {
   clustersContainer: {
-    marginRight: t_global_spacer_3xl.value,
-    marginTop: t_global_spacer_sm.value,
+    marginRight: t_global_spacer_3xl.var,
+    marginTop: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

@@ -14,7 +14,7 @@ export const styles = {
   },
   dividerContainer: {
     marginRight: `-${t_global_spacer_sm.value}`,
-    paddingBottom: t_global_spacer_md.value,
-    paddingTop: t_global_spacer_md.value,
+    paddingBottom: t_global_spacer_md.var,
+    paddingTop: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };

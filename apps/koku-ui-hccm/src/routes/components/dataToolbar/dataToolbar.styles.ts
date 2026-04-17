@@ -3,7 +3,7 @@ import type React from 'react';
 
 export const styles = {
   export: {
-    marginRight: t_global_spacer_md.value,
+    marginRight: t_global_spacer_md.var,
   },
   platformCosts: {
     paddingTop: '8px',
