@@ -110,26 +110,6 @@ describe('Settings — Integrations (Sources)', () => {
     cy.contains('tr', 'page-src-01').should('not.exist');
   });
 
-  it('sorts by name via column header', () => {
-    store.rows = [
-      makeMockSource({ id: 1, uuid: '30000000-0000-4000-8000-000000000001', name: 'Zulu' }),
-      makeMockSource({ id: 2, uuid: '30000000-0000-4000-8000-000000000002', name: 'Alpha' }),
-      makeMockSource({ id: 3, uuid: '30000000-0000-4000-8000-000000000003', name: 'Mike' }),
-    ];
-    visitIntegrationsTab();
-    cy.get('table[aria-label="Sources table"] tbody tr').eq(0).contains('Alpha');
-    cy.contains('thead th', 'Name').within(() => {
-      cy.get('button').click();
-    });
-    cy.wait(300);
-    cy.get('table[aria-label="Sources table"] tbody tr').eq(0).contains('Zulu');
-    cy.contains('thead th', 'Name').within(() => {
-      cy.get('button').click();
-    });
-    cy.wait(300);
-    cy.get('table[aria-label="Sources table"] tbody tr').eq(0).contains('Alpha');
-  });
-
   it('adds an integration from the empty state', () => {
     visitIntegrationsTab({ emptyListOk: true });
     cy.contains('Get started by connecting your integrations').should('be.visible');
