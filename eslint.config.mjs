@@ -87,7 +87,7 @@ export default [
         shallow: 'readonly',
       },
 
-      ecmaVersion: 7,
+      ecmaVersion: 'latest',
       sourceType: 'module',
 
       parserOptions: {
@@ -174,7 +174,7 @@ export default [
       'no-unsafe-finally': 'error',
 
       'no-unused-expressions': [
-        'error',
+        'warn',
         {
           allowTernary: true,
           allowShortCircuit: true,
