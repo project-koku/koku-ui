@@ -184,7 +184,7 @@ export const SourceDetail: React.FC<SourceDetailProps> = ({ uuid, onBack, canWri
                       variant="plain"
                       onClick={() => setIsKebabOpen(!isKebabOpen)}
                       isExpanded={isKebabOpen}
-                      aria-label="Actions"
+                      aria-label={intl.formatMessage(messages.actions)}
                     >
                       <EllipsisVIcon />
                     </MenuToggle>

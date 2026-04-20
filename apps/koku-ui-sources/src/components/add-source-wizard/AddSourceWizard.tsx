@@ -137,7 +137,7 @@ export const AddSourceWizard: React.FC<AddSourceWizardProps> = ({ isOpen, onClos
         isOpen={isCancelConfirmOpen}
         onClose={handleDismissCancel}
         variant="small"
-        aria-label="Cancel confirmation"
+        aria-label={intl.formatMessage(messages.cancelWizardConfirmationAria)}
       >
         <ModalHeader title={intl.formatMessage(messages.wizardExitTitle)} titleIconVariant="warning" />
         <ModalBody>{intl.formatMessage(messages.wizardExitBody)}</ModalBody>

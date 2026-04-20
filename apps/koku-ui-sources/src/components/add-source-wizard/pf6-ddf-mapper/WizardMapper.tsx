@@ -14,7 +14,9 @@ import {
 import { css } from '@patternfly/react-styles';
 import formStyles from '@patternfly/react-styles/css/components/Form/form';
 import styles from '@patternfly/react-styles/css/components/Wizard/wizard';
+import { messages } from 'i18n/messages';
 import React, { useCallback, useContext, useMemo } from 'react';
+import { useIntl } from 'react-intl';
 
 interface NavSchemaItem {
   name: string;
@@ -26,6 +28,7 @@ const getStepLabel = (step: NavSchemaItem | string): string =>
   typeof step === 'string' ? step : step.title || step.name || '';
 
 const PF6WizardRenderer: React.FC = () => {
+  const intl = useIntl();
   const {
     formOptions,
     currentStep,
@@ -80,7 +83,7 @@ const PF6WizardRenderer: React.FC = () => {
     <div className={css(styles.wizard)} style={{ minHeight: 400, display: 'flex', flexDirection: 'column' }}>
       <div className={css(styles.wizardOuterWrap)}>
         <div className={css(styles.wizardInnerWrap)}>
-          <WizardNav aria-label="Wizard steps" isExpanded>
+          <WizardNav aria-label={intl.formatMessage(messages.wizardNavStepsAria)} isExpanded>
             {steps.map(step => (
               <WizardNavItem
                 key={step.id}

@@ -285,4 +285,28 @@ export const messages = defineMessages({
     id: 'sources.resumeToggleSuccessTitle',
     defaultMessage: 'Integration resumed',
   },
+  errorBoundaryTitle: {
+    id: 'sources.errorBoundaryTitle',
+    defaultMessage: 'Something went wrong',
+  },
+  errorBoundaryUnexpected: {
+    id: 'sources.errorBoundaryUnexpected',
+    defaultMessage: 'An unexpected error occurred.',
+  },
+  errorBoundaryTryAgain: {
+    id: 'sources.errorBoundaryTryAgain',
+    defaultMessage: 'Try again',
+  },
+  wizardNavStepsAria: {
+    id: 'sources.wizardNavStepsAria',
+    defaultMessage: 'Wizard steps',
+  },
+  cancelWizardConfirmationAria: {
+    id: 'sources.cancelWizardConfirmationAria',
+    defaultMessage: 'Cancel confirmation',
+  },
+  actions: {
+    id: 'sources.actions',
+    defaultMessage: 'Actions',
+  },
 });

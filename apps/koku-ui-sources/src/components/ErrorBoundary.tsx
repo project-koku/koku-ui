@@ -1,5 +1,7 @@
 import { Button, EmptyState, EmptyStateActions, EmptyStateBody, EmptyStateFooter } from '@patternfly/react-core';
+import { messages } from 'i18n/messages';
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -9,6 +11,24 @@ interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
 }
+
+const ErrorBoundaryFallback: React.FC<{ error: Error | null; onReset: () => void }> = ({ error, onReset }) => {
+  const intl = useIntl();
+  return (
+    <EmptyState titleText={intl.formatMessage(messages.errorBoundaryTitle)} headingLevel="h2">
+      <EmptyStateBody>{error?.message || intl.formatMessage(messages.errorBoundaryUnexpected)}</EmptyStateBody>
+      <EmptyStateFooter>
+        <EmptyStateActions>
+          <Button variant="primary" onClick={onReset}>
+            {intl.formatMessage(messages.errorBoundaryTryAgain)}
+          </Button>
+        </EmptyStateActions>
+      </EmptyStateFooter>
+    </EmptyState>
+  );
+};
+
+ErrorBoundaryFallback.displayName = 'ErrorBoundaryFallback';
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   static displayName = 'ErrorBoundary';
@@ -30,18 +50,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   render() {
     if (this.state.hasError) {
-      return (
-        <EmptyState titleText="Something went wrong" headingLevel="h2">
-          <EmptyStateBody>{this.state.error?.message || 'An unexpected error occurred.'}</EmptyStateBody>
-          <EmptyStateFooter>
-            <EmptyStateActions>
-              <Button variant="primary" onClick={this.handleReset}>
-                Try again
-              </Button>
-            </EmptyStateActions>
-          </EmptyStateFooter>
-        </EmptyState>
-      );
+      return <ErrorBoundaryFallback error={this.state.error} onReset={this.handleReset} />;
     }
     return this.props.children;
   }

@@ -92,7 +92,7 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
             {intl.formatMessage(messages.dateAdded)}
           </Th>
           <Th>{intl.formatMessage(messages.status)}</Th>
-          <Th screenReaderText="Actions" />
+          <Th screenReaderText={intl.formatMessage(messages.actions)} />
         </Tr>
       </Thead>
       <Tbody>

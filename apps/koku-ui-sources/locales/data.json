@@ -69,6 +69,12 @@
     "sources.resumeToggleErrorTitle": "Could not resume integration",
     "sources.pauseToggleErrorFallback": "The server rejected the request. Try again later or contact your administrator.",
     "sources.pauseToggleSuccessTitle": "Integration paused",
-    "sources.resumeToggleSuccessTitle": "Integration resumed"
+    "sources.resumeToggleSuccessTitle": "Integration resumed",
+    "sources.errorBoundaryTitle": "Something went wrong",
+    "sources.errorBoundaryUnexpected": "An unexpected error occurred.",
+    "sources.errorBoundaryTryAgain": "Try again",
+    "sources.wizardNavStepsAria": "Wizard steps",
+    "sources.cancelWizardConfirmationAria": "Cancel confirmation",
+    "sources.actions": "Actions"
   }
 }
