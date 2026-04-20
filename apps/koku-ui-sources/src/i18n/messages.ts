@@ -309,4 +309,57 @@ export const messages = defineMessages({
     id: 'sources.actions',
     defaultMessage: 'Actions',
   },
+  integrationsTableAria: {
+    id: 'sources.integrationsTableAria',
+    defaultMessage: 'Integrations table',
+  },
+  wizardOcpCredentialsStepTitle: {
+    id: 'sources.wizardOcpCredentialsStepTitle',
+    defaultMessage: 'Install and configure operator',
+  },
+  wizardClusterIdentifierLabel: {
+    id: 'sources.wizardClusterIdentifierLabel',
+    defaultMessage: 'Cluster Identifier',
+  },
+  wizardReviewStepTitle: {
+    id: 'sources.wizardReviewStepTitle',
+    defaultMessage: 'Review',
+  },
+  ocpInstructionsP1Before: {
+    id: 'sources.ocpInstructionsP1Before',
+    defaultMessage: 'For Red Hat OpenShift Container Platform 4.6 and later, install the',
+  },
+  ocpInstructionsP1After: {
+    id: 'sources.ocpInstructionsP1After',
+    defaultMessage: 'from the OpenShift Container Platform web console.',
+  },
+  ocpInstructionsP2Part1: {
+    id: 'sources.ocpInstructionsP2Part1',
+    defaultMessage: 'If you configured the operator to create an integration (',
+  },
+  ocpInstructionsP2Part2: {
+    id: 'sources.ocpInstructionsP2Part2',
+    defaultMessage: '), ',
+  },
+  ocpInstructionsP2Part3: {
+    id: 'sources.ocpInstructionsP2Part3',
+    defaultMessage: ' here and ',
+  },
+  ocpInstructionsP2Part4: {
+    id: 'sources.ocpInstructionsP2Part4',
+    defaultMessage: ' out of this flow.',
+  },
+  ocpInstructionsStopEmphasis: {
+    id: 'sources.ocpInstructionsStopEmphasis',
+    defaultMessage: 'STOP',
+  },
+  ocpInstructionsCancelEmphasis: {
+    id: 'sources.ocpInstructionsCancelEmphasis',
+    defaultMessage: 'CANCEL',
+  },
+  ocpInstructionsP3: {
+    id: 'sources.ocpInstructionsP3',
+    defaultMessage:
+      "Otherwise, enter the cluster identifier below. You can find the cluster identifier in the cluster's Help > About screen.",
+  },
 });

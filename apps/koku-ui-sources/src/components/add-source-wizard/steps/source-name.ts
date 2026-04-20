@@ -20,7 +20,7 @@ export function getSourceNameStep(formatMessage: FormatMessage) {
       {
         component: componentTypes.TEXT_FIELD,
         name: 'source_name',
-        label: 'Name',
+        label: formatMessage('sources.name'),
         placeholder: formatMessage('sources.wizardNamePlaceholder'),
         isRequired: true,
         validate: [{ type: validatorTypes.REQUIRED }, createNameValidator(formatMessage)],

@@ -1,20 +1,27 @@
 import { Content, ContentVariants } from '@patternfly/react-core';
+import { messages } from 'i18n/messages';
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 export const OcpInstructions: React.FC = () => {
+  const intl = useIntl();
   return (
     <div>
       <Content component={ContentVariants.p}>
-        For Red Hat OpenShift Container Platform 4.6 and later, install the{' '}
-        <strong>costmanagement-metrics-operator</strong> from the OpenShift Container Platform web console.
+        {intl.formatMessage(messages.ocpInstructionsP1Before)}{' '}
+        <strong>costmanagement-metrics-operator</strong> {intl.formatMessage(messages.ocpInstructionsP1After)}
       </Content>
       <Content component={ContentVariants.p} style={{ marginTop: '8px' }}>
-        If you configured the operator to create an integration (<code>create_source: true</code>),{' '}
-        <strong>STOP</strong> here and <strong>CANCEL</strong> out of this flow.
+        {intl.formatMessage(messages.ocpInstructionsP2Part1)}
+        <code>create_source: true</code>
+        {intl.formatMessage(messages.ocpInstructionsP2Part2)}
+        <strong>{intl.formatMessage(messages.ocpInstructionsStopEmphasis)}</strong>
+        {intl.formatMessage(messages.ocpInstructionsP2Part3)}
+        <strong>{intl.formatMessage(messages.ocpInstructionsCancelEmphasis)}</strong>
+        {intl.formatMessage(messages.ocpInstructionsP2Part4)}
       </Content>
       <Content component={ContentVariants.p} style={{ marginTop: '8px' }}>
-        Otherwise, enter the cluster identifier below. You can find the cluster identifier in the cluster&apos;s Help
-        &gt; About screen.
+        {intl.formatMessage(messages.ocpInstructionsP3)}
       </Content>
     </div>
   );

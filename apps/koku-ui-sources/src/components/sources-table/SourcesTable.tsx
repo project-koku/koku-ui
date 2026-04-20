@@ -27,13 +27,6 @@ const getStatusColor = (source: Source): 'green' | 'orange' | 'red' => {
   return source.active ? 'green' : 'red';
 };
 
-const formatStatus = (source: Source): string => {
-  if (source.paused) {
-    return 'Paused';
-  }
-  return source.active ? 'Available' : 'Unavailable';
-};
-
 // TODO(jkilzi): Sortable column headers are commented out because the Koku sources list API ignores the
 // `ordering` query param (no OrderingFilter on SourcesViewSet), so UI sort state did not change row order.
 // To restore: add server-side ordering support on Koku (`OrderingFilter` + `ordering_fields` on sources list),
@@ -60,8 +53,15 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
   void onSort;
   // const activeSortIndex = columnFields.indexOf(sortBy);
 
+  const formatStatus = (source: Source): string => {
+    if (source.paused) {
+      return intl.formatMessage(messages.statusPaused);
+    }
+    return source.active ? intl.formatMessage(messages.statusAvailable) : intl.formatMessage(messages.statusUnavailable);
+  };
+
   return (
-    <Table aria-label="Sources table" variant={TableVariant.compact}>
+    <Table aria-label={intl.formatMessage(messages.integrationsTableAria)} variant={TableVariant.compact}>
       <Thead>
         <Tr>
           <Th
