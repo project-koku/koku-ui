@@ -49,7 +49,7 @@
     "@koku-ui/token-refresher": "*",
     "@types/node": "^25.6.0",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "cypress": "^15.13.1",
+    "cypress": "^15.14.0",
     "sass": "^1.99.0",
     "sass-loader": "^16.0.7",
     "style-loader": "^4.0.0",
