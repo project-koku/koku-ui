@@ -75,7 +75,6 @@ const defaultState = {
   loading: false,
   error: null,
   nameFilter: '',
-  typeFilter: '',
   availabilityFilter: '' as const,
   sortBy: 'name',
   sortDirection: 'asc' as const,

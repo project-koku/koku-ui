@@ -4,7 +4,11 @@ import { SourcesService } from 'apis/sources-service';
 
 import { sourceMatchesAvailabilityFilter } from './availability-filter';
 
-/** Sources list API does not filter by availability; fetch a bounded window then filter client-side. */
+/**
+ * Sources list API does not filter by availability; fetch a bounded window then filter client-side.
+ * Multi-name OR (chip set) is blocked until Koku exposes it — see product spec **0002** § **GET /sources/
+ * list filters: API limits and backlog** (docs-store `koku-ui/docs/specs/0002-koku-ui-sources.md`).
+ */
 const AVAILABILITY_STATUS_CLIENT_FILTER_LIMIT = 2000;
 
 export type AvailabilityFilterValue = '' | 'available' | 'unavailable';
@@ -16,9 +20,7 @@ export interface SourcesState {
   error: string | null;
   /** Server-side `name` query param when non-empty. */
   nameFilter: string;
-  /** Server-side `type` query param when non-empty. */
-  typeFilter: string;
-  /** Client-side availability filter; ANDed with name/type via `loadEntities`. */
+  /** Client-side availability filter; ANDed with name via `loadEntities`. */
   availabilityFilter: AvailabilityFilterValue;
   sortBy: string;
   sortDirection: 'asc' | 'desc';
@@ -32,7 +34,6 @@ const initialState: SourcesState = {
   loading: false,
   error: null,
   nameFilter: '',
-  typeFilter: '',
   availabilityFilter: '',
   sortBy: 'name',
   sortDirection: 'asc',
@@ -42,7 +43,6 @@ const initialState: SourcesState = {
 
 export interface ListFiltersPatch {
   nameFilter?: string;
-  typeFilter?: string;
   availabilityFilter?: AvailabilityFilterValue;
 }
 
@@ -64,9 +64,6 @@ export const loadEntities = createAsyncThunk('sources/loadEntities', async (_, {
     };
     if (state.nameFilter) {
       params.name = state.nameFilter;
-    }
-    if (state.typeFilter) {
-      params.type = state.typeFilter;
     }
     if (ordering) {
       params.ordering = ordering;
@@ -90,9 +87,6 @@ export const loadEntities = createAsyncThunk('sources/loadEntities', async (_, {
   if (state.nameFilter) {
     params.name = state.nameFilter;
   }
-  if (state.typeFilter) {
-    params.type = state.typeFilter;
-  }
   if (ordering) {
     params.ordering = ordering;
   }
@@ -107,9 +101,6 @@ const sourcesSlice = createSlice({
       const p = action.payload;
       if (p.nameFilter !== undefined) {
         state.nameFilter = p.nameFilter;
-      }
-      if (p.typeFilter !== undefined) {
-        state.typeFilter = p.typeFilter;
       }
       if (p.availabilityFilter !== undefined) {
         state.availabilityFilter = p.availabilityFilter;

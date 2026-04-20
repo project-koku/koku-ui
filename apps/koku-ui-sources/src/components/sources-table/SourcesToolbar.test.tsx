@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
 
@@ -11,10 +11,8 @@ type ToolbarHarnessProps = {
   page: number;
   perPage: number;
   nameFilter: string;
-  typeFilter: string;
   availabilityFilter: AvailabilityFilterValue;
   onNameFilterChange: jest.Mock;
-  onTypeFilterChange: jest.Mock;
   onAvailabilityFilterChange: jest.Mock;
   onPageChange: jest.Mock;
   onAddSource: jest.Mock;
@@ -30,10 +28,8 @@ const defaultProps: ToolbarHarnessProps = {
   page: 1,
   perPage: 10,
   nameFilter: '',
-  typeFilter: '',
   availabilityFilter: '',
   onNameFilterChange: jest.fn(),
-  onTypeFilterChange: jest.fn(),
   onAvailabilityFilterChange: jest.fn(),
   onPageChange: jest.fn(),
   onAddSource: jest.fn(),
@@ -46,6 +42,10 @@ const renderToolbar = (props: Partial<ToolbarHarnessProps> = {}) =>
       <SourcesToolbar {...defaultProps} {...props} />
     </IntlProvider>
   );
+
+const openFilterFieldMenu = async (user: ReturnType<typeof userEvent.setup>) => {
+  await user.click(screen.getByRole('button', { name: 'Filter integrations by field' }));
+};
 
 describe('SourcesToolbar', () => {
   it('renders the Add integration button', () => {
@@ -72,10 +72,37 @@ describe('SourcesToolbar', () => {
     expect(screen.getByLabelText('Pagination')).toBeInTheDocument();
   });
 
+  it('exposes filter field options Name and Status only', async () => {
+    const user = userEvent.setup();
+    renderToolbar();
+
+    await openFilterFieldMenu(user);
+    const listbox = screen.getByRole('listbox');
+    const options = within(listbox).getAllByRole('option');
+    expect(options.map(o => o.textContent)).toEqual(['Name', 'Status']);
+  });
+
+  it('shows name SearchInput and hides status controls when Name field is selected', async () => {
+    const user = userEvent.setup();
+    renderToolbar();
+
+    expect(screen.getByPlaceholderText('Filter by name')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Filter by status' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Apply availability filter' })).not.toBeInTheDocument();
+
+    await openFilterFieldMenu(user);
+    await user.click(screen.getByRole('option', { name: 'Status' }));
+    expect(screen.queryByPlaceholderText('Filter by name')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Filter by status' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Apply availability filter' })).toBeInTheDocument();
+  });
+
   it('renders availability radios inside the status menu when opened', async () => {
     const user = userEvent.setup();
     renderToolbar();
 
+    await openFilterFieldMenu(user);
+    await user.click(screen.getByRole('option', { name: 'Status' }));
     await user.click(screen.getByRole('button', { name: 'Filter by status' }));
 
     const group = screen.getByRole('radiogroup', { name: 'Filter integrations by availability' });
@@ -84,13 +111,35 @@ describe('SourcesToolbar', () => {
     expect(screen.getByRole('radio', { name: 'Unavailable' })).toBeInTheDocument();
   });
 
-  it('calls onAvailabilityFilterChange when an availability radio is selected in the menu', async () => {
+  it('keeps status menu toggle as Filter by status while staging; Apply commits draft', async () => {
     const user = userEvent.setup();
     const onAvailabilityFilterChange = jest.fn();
     renderToolbar({ onAvailabilityFilterChange });
 
+    await openFilterFieldMenu(user);
+    await user.click(screen.getByRole('option', { name: 'Status' }));
+    expect(screen.getByRole('button', { name: 'Filter by status' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Filter by status' }));
+    await user.click(screen.getByRole('radio', { name: 'Available' }));
+    expect(screen.getByRole('button', { name: 'Filter by status' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Apply availability filter' }));
+    expect(onAvailabilityFilterChange).toHaveBeenCalledWith('available');
+    expect(screen.getByRole('button', { name: 'Filter by status' })).toBeInTheDocument();
+  });
+
+  it('does not apply availability until submit; applies on Apply button', async () => {
+    const user = userEvent.setup();
+    const onAvailabilityFilterChange = jest.fn();
+    renderToolbar({ onAvailabilityFilterChange });
+
+    await openFilterFieldMenu(user);
+    await user.click(screen.getByRole('option', { name: 'Status' }));
     await user.click(screen.getByRole('button', { name: 'Filter by status' }));
     await user.click(screen.getByRole('radio', { name: 'Unavailable' }));
+    expect(onAvailabilityFilterChange).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Apply availability filter' }));
     expect(onAvailabilityFilterChange).toHaveBeenCalledWith('unavailable');
   });
 
@@ -103,6 +152,23 @@ describe('SourcesToolbar', () => {
     await user.type(searchInput, 'test{Enter}');
 
     expect(onNameFilterChange).toHaveBeenCalledWith('test');
+  });
+
+  it('submits name without clearing availability (AND regression)', async () => {
+    const user = userEvent.setup();
+    const onNameFilterChange = jest.fn();
+    const onAvailabilityFilterChange = jest.fn();
+    renderToolbar({
+      onNameFilterChange,
+      onAvailabilityFilterChange,
+      availabilityFilter: 'unavailable',
+    });
+
+    const searchInput = screen.getByPlaceholderText('Filter by name');
+    await user.type(searchInput, 'prod{Enter}');
+
+    expect(onNameFilterChange).toHaveBeenCalledWith('prod');
+    expect(onAvailabilityFilterChange).not.toHaveBeenCalled();
   });
 
   it('clears the name filter', async () => {
@@ -125,5 +191,15 @@ describe('SourcesToolbar', () => {
     await user.click(nextBtn);
 
     expect(onPageChange).toHaveBeenCalledWith(2, 10);
+  });
+
+  it('places filter field control before Add integration in document order', () => {
+    renderToolbar();
+    const buttons = screen.getAllByRole('button');
+    const fieldIdx = buttons.findIndex(b => b.getAttribute('aria-label') === 'Filter integrations by field');
+    const addIdx = buttons.findIndex(b => b.textContent === 'Add integration');
+    expect(fieldIdx).toBeGreaterThanOrEqual(0);
+    expect(addIdx).toBeGreaterThanOrEqual(0);
+    expect(fieldIdx).toBeLessThan(addIdx);
   });
 });

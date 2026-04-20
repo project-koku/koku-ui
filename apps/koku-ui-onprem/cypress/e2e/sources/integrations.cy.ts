@@ -27,6 +27,15 @@ const openRowActions = (rowText: string) => {
   });
 };
 
+const selectIntegrationsFilterField = (label: 'Name' | 'Status') => {
+  cy.get('button[aria-label="Filter integrations by field"]').click();
+  cy.get('[role="listbox"]').contains('[role="option"]', label).click();
+};
+
+const applyAvailabilityFilter = () => {
+  cy.get('button[aria-label="Apply availability filter"]').click();
+};
+
 const completeAddIntegrationWizard = (name: string, clusterId: string) => {
   cy.contains('h2', 'Integration name', { timeout: 15000 }).should('be.visible');
   cy.get('#source_name').clear();
@@ -83,8 +92,10 @@ describe('Settings — Integrations (Sources)', () => {
       }),
     ];
     visitIntegrationsTab();
+    selectIntegrationsFilterField('Status');
     cy.contains('button', 'Filter by status').click();
     cy.get('#sources-filter-status-available').check({ force: true });
+    applyAvailabilityFilter();
     cy.contains('tr', 'available-src').should('exist');
     cy.contains('tr', 'paused-src').should('not.exist');
   });
@@ -114,8 +125,11 @@ describe('Settings — Integrations (Sources)', () => {
       }),
     ];
     visitIntegrationsTab();
+    selectIntegrationsFilterField('Status');
     cy.contains('button', 'Filter by status').click();
     cy.get('#sources-filter-status-available').check({ force: true });
+    applyAvailabilityFilter();
+    selectIntegrationsFilterField('Name');
     cy.get('[placeholder="Filter by name"]').clear();
     cy.get('[placeholder="Filter by name"]').type('AWS{enter}');
     cy.contains('tr', 'AWS-east').should('exist');

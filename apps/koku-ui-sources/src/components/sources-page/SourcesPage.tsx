@@ -44,7 +44,6 @@ interface SourcesPageListContentProps {
   sources: Source[];
   count: number;
   nameFilter: string;
-  typeFilter: string;
   availabilityFilter: AvailabilityFilterValue;
   page: number;
   perPage: number;
@@ -54,7 +53,6 @@ interface SourcesPageListContentProps {
   paginationAriaLabel: string;
   hasAnyListFilter: boolean;
   onNameFilterChange: (value: string) => void;
-  onTypeFilterChange: (value: string) => void;
   onAvailabilityFilterChange: (value: '' | 'available' | 'unavailable') => void;
   onPageChange: (newPage: number, newPerPage: number) => void;
   onAddSource: () => void;
@@ -70,7 +68,6 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   sources,
   count,
   nameFilter,
-  typeFilter,
   availabilityFilter,
   page,
   perPage,
@@ -80,7 +77,6 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   paginationAriaLabel,
   hasAnyListFilter,
   onNameFilterChange,
-  onTypeFilterChange,
   onAvailabilityFilterChange,
   onPageChange,
   onAddSource,
@@ -108,10 +104,8 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
         page={page}
         perPage={perPage}
         nameFilter={nameFilter}
-        typeFilter={typeFilter}
         availabilityFilter={availabilityFilter}
         onNameFilterChange={onNameFilterChange}
-        onTypeFilterChange={onTypeFilterChange}
         onAvailabilityFilterChange={onAvailabilityFilterChange}
         onPageChange={onPageChange}
         onAddSource={onAddSource}
@@ -156,37 +150,26 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const dispatch = useDispatch<AppDispatch>();
   const intl = useIntl();
   const addNotification = useAddNotification();
-  const { entities, count, loading, nameFilter, typeFilter, availabilityFilter, page, perPage, sortBy, sortDirection } =
+  const { entities, count, loading, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection } =
     useSelector((state: RootState) => state.sources);
   const [currentView, setCurrentView] = useState<ViewState>({ type: 'list' });
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [removeSource, setRemoveSource] = useState<Source | null>(null);
 
   const hasAnyListFilter = useMemo(
-    () =>
-      Boolean(nameFilter) ||
-      Boolean(typeFilter) ||
-      availabilityFilter === 'available' ||
-      availabilityFilter === 'unavailable',
-    [nameFilter, typeFilter, availabilityFilter]
+    () => Boolean(nameFilter) || availabilityFilter === 'available' || availabilityFilter === 'unavailable',
+    [nameFilter, availabilityFilter]
   );
 
   useEffect(() => {
     if (currentView.type === 'list') {
       dispatch(loadEntities());
     }
-  }, [dispatch, currentView.type, nameFilter, typeFilter, availabilityFilter, page, perPage, sortBy, sortDirection]);
+  }, [dispatch, currentView.type, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection]);
 
   const handleNameFilterChange = useCallback(
     (value: string) => {
       dispatch(setListFilters({ nameFilter: value }));
-    },
-    [dispatch]
-  );
-
-  const handleTypeFilterChange = useCallback(
-    (value: string) => {
-      dispatch(setListFilters({ typeFilter: value }));
     },
     [dispatch]
   );
@@ -272,7 +255,7 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   }, [dispatch]);
 
   const handleClearFilters = useCallback(() => {
-    dispatch(setListFilters({ nameFilter: '', typeFilter: '', availabilityFilter: '' }));
+    dispatch(setListFilters({ nameFilter: '', availabilityFilter: '' }));
   }, [dispatch]);
 
   return (
@@ -285,7 +268,6 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
           sources={entities}
           count={count}
           nameFilter={nameFilter}
-          typeFilter={typeFilter}
           availabilityFilter={availabilityFilter}
           page={page}
           perPage={perPage}
@@ -295,7 +277,6 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
           paginationAriaLabel={intl.formatMessage(messages.integrationsTableBottomPagination)}
           hasAnyListFilter={hasAnyListFilter}
           onNameFilterChange={handleNameFilterChange}
-          onTypeFilterChange={handleTypeFilterChange}
           onAvailabilityFilterChange={handleAvailabilityFilterChange}
           onPageChange={handlePageChange}
           onAddSource={handleAddSource}

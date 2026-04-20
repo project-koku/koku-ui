@@ -53,6 +53,14 @@ export const messages = defineMessages({
     id: 'sources.filterByStatus',
     defaultMessage: 'Filter by status',
   },
+  toolbarFilterField: {
+    id: 'sources.toolbarFilterField',
+    defaultMessage: 'Filter integrations by field',
+  },
+  applyAvailabilityFilter: {
+    id: 'sources.applyAvailabilityFilter',
+    defaultMessage: 'Apply availability filter',
+  },
   filterStatusGroupAria: {
     id: 'sources.filterStatusGroupAria',
     defaultMessage: 'Filter integrations by availability',

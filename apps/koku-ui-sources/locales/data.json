@@ -13,6 +13,8 @@
     "sources.filterByName": "Filter by name",
     "sources.filterByType": "Filter by type",
     "sources.filterByStatus": "Filter by status",
+    "sources.toolbarFilterField": "Filter integrations by field",
+    "sources.applyAvailabilityFilter": "Apply availability filter",
     "sources.filterStatusGroupAria": "Filter integrations by availability",
     "sources.name": "Name",
     "sources.sourceType": "Type",

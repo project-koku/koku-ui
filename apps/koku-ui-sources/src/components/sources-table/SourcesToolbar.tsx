@@ -3,6 +3,9 @@ import {
   Dropdown,
   DropdownItem,
   DropdownList,
+  Icon,
+  InputGroup,
+  InputGroupItem,
   MenuToggle,
   Pagination,
   PaginationVariant,
@@ -19,22 +22,21 @@ import {
   ToolbarItemVariant,
   ToolbarToggleGroup,
 } from '@patternfly/react-core';
-import { FilterIcon } from '@patternfly/react-icons';
-import { getSourceTypeById, SOURCE_TYPES } from 'apis/source-types';
+import { ArrowRightIcon, FilterIcon } from '@patternfly/react-icons';
 import { messages } from 'i18n/messages';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { AvailabilityFilterValue } from 'redux/sources-slice';
+
+type ActiveFilterType = 'name' | 'status';
 
 interface SourcesToolbarProps {
   count: number;
   page: number;
   perPage: number;
   nameFilter: string;
-  typeFilter: string;
   availabilityFilter: AvailabilityFilterValue;
   onNameFilterChange: (value: string) => void;
-  onTypeFilterChange: (value: string) => void;
   onAvailabilityFilterChange: (value: AvailabilityFilterValue) => void;
   onPageChange: (page: number, perPage: number) => void;
   onAddSource: () => void;
@@ -47,10 +49,8 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
   page,
   perPage,
   nameFilter,
-  typeFilter,
   availabilityFilter,
   onNameFilterChange,
-  onTypeFilterChange,
   onAvailabilityFilterChange,
   onPageChange,
   onAddSource,
@@ -58,29 +58,21 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
   canWrite = false,
 }) => {
   const intl = useIntl();
-  const showTypeFilter = SOURCE_TYPES.length > 1;
-  const [isTypeSelectOpen, setIsTypeSelectOpen] = useState(false);
+  const [activeFilterType, setActiveFilterType] = useState<ActiveFilterType>('name');
+  const [isFilterTypeOpen, setIsFilterTypeOpen] = useState(false);
   const [isStatusMenuOpen, setIsStatusMenuOpen] = useState(false);
   const [localNameFilter, setLocalNameFilter] = useState(nameFilter);
-
-  const sourceTypeOptionLabels = useMemo(
-    () =>
-      SOURCE_TYPES.reduce<Record<string, string>>((acc, st) => {
-        acc[st.id] = intl.formatMessage(messages.sourceTypeOCPLabel);
-        return acc;
-      }, {}),
-    [intl]
-  );
+  const [draftAvailability, setDraftAvailability] = useState<AvailabilityFilterValue>(availabilityFilter);
 
   useEffect(() => {
     setLocalNameFilter(nameFilter);
   }, [nameFilter]);
 
   useEffect(() => {
-    if (!showTypeFilter && typeFilter) {
-      onTypeFilterChange('');
+    if (activeFilterType === 'status') {
+      setDraftAvailability(availabilityFilter);
     }
-  }, [showTypeFilter, typeFilter, onTypeFilterChange]);
+  }, [activeFilterType, availabilityFilter]);
 
   const handleNameSubmit = useCallback(() => {
     onNameFilterChange(localNameFilter);
@@ -91,41 +83,26 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
     onNameFilterChange('');
   }, [onNameFilterChange]);
 
-  const statusMenuToggleLabel = useMemo(() => {
-    if (availabilityFilter === 'available') {
-      return intl.formatMessage(messages.statusAvailable);
-    }
-    if (availabilityFilter === 'unavailable') {
-      return intl.formatMessage(messages.statusUnavailable);
-    }
-    return intl.formatMessage(messages.filterByStatus);
-  }, [availabilityFilter, intl]);
+  const handleStatusSubmit = useCallback(() => {
+    onAvailabilityFilterChange(draftAvailability);
+    setIsStatusMenuOpen(false);
+  }, [draftAvailability, onAvailabilityFilterChange]);
 
-  const handleStatusRadioChange = useCallback(
-    (value: 'available' | 'unavailable') => {
-      onAvailabilityFilterChange(value);
-      setIsStatusMenuOpen(false);
+  const handleFilterTypeSelect = useCallback(
+    (_event: React.MouseEvent | undefined, value: string | number | undefined) => {
+      const v = value === 'status' ? 'status' : 'name';
+      setActiveFilterType(v);
+      setIsFilterTypeOpen(false);
     },
-    [onAvailabilityFilterChange]
+    []
   );
 
-  const handleTypeSelect = useCallback(
-    (_event: React.MouseEvent | undefined, value: string | number | undefined) => {
-      onTypeFilterChange(value === '' ? '' : String(value));
-      setIsTypeSelectOpen(false);
-    },
-    [onTypeFilterChange]
+  const filterTypeToggleLabel = useMemo(
+    () => (activeFilterType === 'name' ? intl.formatMessage(messages.name) : intl.formatMessage(messages.status)),
+    [activeFilterType, intl]
   );
 
   const nameLabels = useMemo(() => (nameFilter ? [{ key: 'name', node: nameFilter }] : []), [nameFilter]);
-
-  const typeLabels = useMemo(() => {
-    if (!typeFilter) {
-      return [];
-    }
-    const st = getSourceTypeById(typeFilter);
-    return [{ key: 'type', node: st?.product_name ?? typeFilter }];
-  }, [typeFilter]);
 
   const availabilityLabels = useMemo(() => {
     if (availabilityFilter === 'available') {
@@ -137,7 +114,7 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
     return [];
   }, [availabilityFilter, intl]);
 
-  const hasActiveFilters = Boolean(nameFilter || typeFilter || availabilityFilter);
+  const hasActiveFilters = Boolean(nameFilter || availabilityFilter);
 
   return (
     <Toolbar id="sources-toolbar" clearAllFilters={hasActiveFilters ? onClearAllFilters : undefined}>
@@ -145,61 +122,48 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
         <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
           <ToolbarGroup variant="filter-group">
             <ToolbarItem>
+              <Select
+                toggle={toggleRef => (
+                  <MenuToggle
+                    ref={toggleRef}
+                    onClick={() => setIsFilterTypeOpen(!isFilterTypeOpen)}
+                    isExpanded={isFilterTypeOpen}
+                    aria-label={intl.formatMessage(messages.toolbarFilterField)}
+                    icon={<FilterIcon />}
+                  >
+                    {filterTypeToggleLabel}
+                  </MenuToggle>
+                )}
+                onSelect={handleFilterTypeSelect}
+                isOpen={isFilterTypeOpen}
+                onOpenChange={setIsFilterTypeOpen}
+                selected={activeFilterType}
+              >
+                <SelectList>
+                  <SelectOption value="name">{intl.formatMessage(messages.name)}</SelectOption>
+                  <SelectOption value="status">{intl.formatMessage(messages.status)}</SelectOption>
+                </SelectList>
+              </Select>
+            </ToolbarItem>
+            <ToolbarItem>
               <ToolbarFilter
                 categoryName={intl.formatMessage(messages.name)}
                 labels={nameLabels}
                 deleteLabel={() => onNameFilterChange('')}
                 deleteLabelGroup={onClearAllFilters}
               >
-                <SearchInput
-                  aria-label={intl.formatMessage(messages.filterByName)}
-                  placeholder={intl.formatMessage(messages.filterByName)}
-                  value={localNameFilter}
-                  onChange={(_event, value) => setLocalNameFilter(value)}
-                  onSearch={handleNameSubmit}
-                  onClear={handleNameClear}
-                />
+                {activeFilterType === 'name' ? (
+                  <SearchInput
+                    aria-label={intl.formatMessage(messages.filterByName)}
+                    placeholder={intl.formatMessage(messages.filterByName)}
+                    value={localNameFilter}
+                    onChange={(_event, value) => setLocalNameFilter(value)}
+                    onSearch={handleNameSubmit}
+                    onClear={handleNameClear}
+                  />
+                ) : null}
               </ToolbarFilter>
             </ToolbarItem>
-            {showTypeFilter ? (
-              <ToolbarItem>
-                <ToolbarFilter
-                  categoryName={intl.formatMessage(messages.sourceType)}
-                  labels={typeLabels}
-                  deleteLabel={() => onTypeFilterChange('')}
-                  deleteLabelGroup={onClearAllFilters}
-                >
-                  <Select
-                    toggle={toggleRef => (
-                      <MenuToggle
-                        ref={toggleRef}
-                        onClick={() => setIsTypeSelectOpen(!isTypeSelectOpen)}
-                        isExpanded={isTypeSelectOpen}
-                      >
-                        {typeFilter
-                          ? (sourceTypeOptionLabels[typeFilter] ?? typeFilter)
-                          : intl.formatMessage(messages.filterStatusAny)}
-                      </MenuToggle>
-                    )}
-                    onSelect={handleTypeSelect}
-                    isOpen={isTypeSelectOpen}
-                    onOpenChange={setIsTypeSelectOpen}
-                    selected={typeFilter || undefined}
-                  >
-                    <SelectList>
-                      <SelectOption key="type-any" value="">
-                        {intl.formatMessage(messages.filterStatusAny)}
-                      </SelectOption>
-                      {SOURCE_TYPES.map(st => (
-                        <SelectOption key={st.id} value={st.id}>
-                          {sourceTypeOptionLabels[st.id]}
-                        </SelectOption>
-                      ))}
-                    </SelectList>
-                  </Select>
-                </ToolbarFilter>
-              </ToolbarItem>
-            ) : null}
             <ToolbarItem>
               <ToolbarFilter
                 categoryName={intl.formatMessage(messages.status)}
@@ -207,41 +171,60 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
                 deleteLabel={() => onAvailabilityFilterChange('')}
                 deleteLabelGroup={onClearAllFilters}
               >
-                <Dropdown
-                  isOpen={isStatusMenuOpen}
-                  onOpenChange={setIsStatusMenuOpen}
-                  toggle={toggleRef => (
-                    <MenuToggle
-                      ref={toggleRef}
-                      onClick={() => setIsStatusMenuOpen(!isStatusMenuOpen)}
-                      isExpanded={isStatusMenuOpen}
-                      aria-label={intl.formatMessage(messages.filterByStatus)}
-                    >
-                      {statusMenuToggleLabel}
-                    </MenuToggle>
-                  )}
-                >
-                  <DropdownList role="radiogroup" aria-label={intl.formatMessage(messages.filterStatusGroupAria)}>
-                    <DropdownItem key="status-available" component="div" onClick={e => e.preventDefault()}>
-                      <Radio
-                        id="sources-filter-status-available"
-                        name="sources-availability-filter"
-                        label={intl.formatMessage(messages.statusAvailable)}
-                        isChecked={availabilityFilter === 'available'}
-                        onChange={() => handleStatusRadioChange('available')}
+                {activeFilterType === 'status' ? (
+                  <InputGroup>
+                    <InputGroupItem isFill>
+                      <Dropdown
+                        isOpen={isStatusMenuOpen}
+                        onOpenChange={setIsStatusMenuOpen}
+                        toggle={toggleRef => (
+                          <MenuToggle
+                            ref={toggleRef}
+                            onClick={() => setIsStatusMenuOpen(!isStatusMenuOpen)}
+                            isExpanded={isStatusMenuOpen}
+                            aria-label={intl.formatMessage(messages.filterByStatus)}
+                          >
+                            {intl.formatMessage(messages.filterByStatus)}
+                          </MenuToggle>
+                        )}
+                      >
+                        <DropdownList role="radiogroup" aria-label={intl.formatMessage(messages.filterStatusGroupAria)}>
+                          <DropdownItem key="status-available" component="div" onClick={e => e.preventDefault()}>
+                            <Radio
+                              id="sources-filter-status-available"
+                              name="sources-availability-filter"
+                              label={intl.formatMessage(messages.statusAvailable)}
+                              isChecked={draftAvailability === 'available'}
+                              onChange={() => setDraftAvailability('available')}
+                            />
+                          </DropdownItem>
+                          <DropdownItem key="status-unavailable" component="div" onClick={e => e.preventDefault()}>
+                            <Radio
+                              id="sources-filter-status-unavailable"
+                              name="sources-availability-filter"
+                              label={intl.formatMessage(messages.statusUnavailable)}
+                              isChecked={draftAvailability === 'unavailable'}
+                              onChange={() => setDraftAvailability('unavailable')}
+                            />
+                          </DropdownItem>
+                        </DropdownList>
+                      </Dropdown>
+                    </InputGroupItem>
+                    <InputGroupItem>
+                      <Button
+                        type="submit"
+                        variant="control"
+                        aria-label={intl.formatMessage(messages.applyAvailabilityFilter)}
+                        icon={
+                          <Icon shouldMirrorRTL>
+                            <ArrowRightIcon />
+                          </Icon>
+                        }
+                        onClick={handleStatusSubmit}
                       />
-                    </DropdownItem>
-                    <DropdownItem key="status-unavailable" component="div" onClick={e => e.preventDefault()}>
-                      <Radio
-                        id="sources-filter-status-unavailable"
-                        name="sources-availability-filter"
-                        label={intl.formatMessage(messages.statusUnavailable)}
-                        isChecked={availabilityFilter === 'unavailable'}
-                        onChange={() => handleStatusRadioChange('unavailable')}
-                      />
-                    </DropdownItem>
-                  </DropdownList>
-                </Dropdown>
+                    </InputGroupItem>
+                  </InputGroup>
+                ) : null}
               </ToolbarFilter>
             </ToolbarItem>
           </ToolbarGroup>

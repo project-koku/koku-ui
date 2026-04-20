@@ -13,14 +13,10 @@ export const handlers = [
     const offset = parseInt(url.searchParams.get('offset') ?? '0', 10);
     const limit = parseInt(url.searchParams.get('limit') ?? '10', 10);
     const nameFilter = url.searchParams.get('name');
-    const typeFilter = url.searchParams.get('type');
 
     let filtered = [...sources];
     if (nameFilter) {
       filtered = filtered.filter(s => s.name.toLowerCase().includes(nameFilter.toLowerCase()));
-    }
-    if (typeFilter) {
-      filtered = filtered.filter(s => s.source_type === typeFilter);
     }
 
     const page = filtered.slice(offset, offset + limit);

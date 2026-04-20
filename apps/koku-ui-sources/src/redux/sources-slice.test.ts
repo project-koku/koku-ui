@@ -19,7 +19,6 @@ const initialState: SourcesState = {
   loading: false,
   error: null,
   nameFilter: '',
-  typeFilter: '',
   availabilityFilter: '',
   sortBy: 'name',
   sortDirection: 'asc',
@@ -29,9 +28,9 @@ const initialState: SourcesState = {
 
 describe('sourcesSlice', () => {
   describe('setListFilters', () => {
-    it('sets typeFilter and resets page to 1', () => {
-      const state = sourcesReducer({ ...initialState, page: 3 }, setListFilters({ typeFilter: 'OCP' }));
-      expect(state.typeFilter).toBe('OCP');
+    it('sets availabilityFilter and resets page to 1', () => {
+      const state = sourcesReducer({ ...initialState, page: 3 }, setListFilters({ availabilityFilter: 'available' }));
+      expect(state.availabilityFilter).toBe('available');
       expect(state.page).toBe(1);
     });
 
