@@ -100,6 +100,31 @@ describe('Settings — Integrations (Sources)', () => {
     cy.contains('tr', 'paused-src').should('not.exist');
   });
 
+  it('shows selected status radio while filter menu stays open', () => {
+    store.rows = [
+      makeMockSource({
+        id: 1,
+        uuid: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',
+        name: 'status-radio-ui-src',
+        active: true,
+        paused: false,
+      }),
+    ];
+    visitIntegrationsTab();
+    selectIntegrationsFilterField('Status');
+    cy.contains('button', 'Filter by status').click();
+    cy.get('#sources-filter-status-available').check({ force: true });
+    cy.get('#sources-filter-status-available').should('be.checked');
+    cy.get('#sources-filter-status-unavailable').should('not.be.checked');
+    cy.get('#sources-filter-status-unavailable').check({ force: true });
+    cy.get('#sources-filter-status-unavailable').should('be.checked');
+    cy.get('#sources-filter-status-available').should('not.be.checked');
+    cy.get('#sources-filter-status-available').check({ force: true });
+    cy.get('#sources-filter-status-available').should('be.checked');
+    applyAvailabilityFilter();
+    cy.contains('tr', 'status-radio-ui-src').should('exist');
+  });
+
   it('combines availability and name filters (AND)', () => {
     store.rows = [
       makeMockSource({

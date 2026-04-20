@@ -189,7 +189,7 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
                         )}
                       >
                         <DropdownList role="radiogroup" aria-label={intl.formatMessage(messages.filterStatusGroupAria)}>
-                          <DropdownItem key="status-available" component="div" onClick={e => e.preventDefault()}>
+                          <DropdownItem key="status-available" component="div">
                             <Radio
                               id="sources-filter-status-available"
                               name="sources-availability-filter"
@@ -198,7 +198,7 @@ export const SourcesToolbar: React.FC<SourcesToolbarProps> = ({
                               onChange={() => setDraftAvailability('available')}
                             />
                           </DropdownItem>
-                          <DropdownItem key="status-unavailable" component="div" onClick={e => e.preventDefault()}>
+                          <DropdownItem key="status-unavailable" component="div">
                             <Radio
                               id="sources-filter-status-unavailable"
                               name="sources-availability-filter"
