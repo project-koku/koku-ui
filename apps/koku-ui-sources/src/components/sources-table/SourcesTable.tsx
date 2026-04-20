@@ -34,50 +34,57 @@ const formatStatus = (source: Source): string => {
   return source.active ? 'Available' : 'Unavailable';
 };
 
-const columnFields = ['name', 'source_type', 'created_timestamp'];
+// TODO(jkilzi): Sortable column headers are commented out because the Koku sources list API ignores the
+// `ordering` query param (no OrderingFilter on SourcesViewSet), so UI sort state did not change row order.
+// To restore: add server-side ordering support on Koku (`OrderingFilter` + `ordering_fields` on sources list),
+// then uncomment `columnFields`, `activeSortIndex`, and the `sort={{...}}` props on the three `<Th>` cells
+// below (Name, Type, Date added). Revert the `_sortBy` / `_sortDirection` / `_onSort` destructuring names
+// to `sortBy`, `sortDirection`, and `onSort` when those props are used again.
+
+// const columnFields = ['name', 'source_type', 'created_timestamp'];
 
 export const SourcesTable: React.FC<SourcesTableProps> = ({
   sources,
   onSelectSource,
   onRemove,
   onTogglePause,
-  sortBy,
-  sortDirection,
-  onSort,
+  sortBy: _sortBy,
+  sortDirection: _sortDirection,
+  onSort: _onSort,
   canWrite = false,
   emptyTableBody,
 }) => {
   const intl = useIntl();
-  const activeSortIndex = columnFields.indexOf(sortBy);
+  // const activeSortIndex = columnFields.indexOf(sortBy);
 
   return (
     <Table aria-label="Sources table" variant={TableVariant.compact}>
       <Thead>
         <Tr>
           <Th
-            sort={{
-              sortBy: { index: activeSortIndex >= 0 ? activeSortIndex : 0, direction: sortDirection },
-              onSort: (_event, index, direction) => onSort(columnFields[index], direction),
-              columnIndex: 0,
-            }}
+          // sort={{
+          //   sortBy: { index: activeSortIndex >= 0 ? activeSortIndex : 0, direction: sortDirection },
+          //   onSort: (_event, index, direction) => onSort(columnFields[index], direction),
+          //   columnIndex: 0,
+          // }}
           >
             {intl.formatMessage(messages.name)}
           </Th>
           <Th
-            sort={{
-              sortBy: { index: activeSortIndex >= 0 ? activeSortIndex : 0, direction: sortDirection },
-              onSort: (_event, index, direction) => onSort(columnFields[index], direction),
-              columnIndex: 1,
-            }}
+          // sort={{
+          //   sortBy: { index: activeSortIndex >= 0 ? activeSortIndex : 0, direction: sortDirection },
+          //   onSort: (_event, index, direction) => onSort(columnFields[index], direction),
+          //   columnIndex: 1,
+          // }}
           >
             {intl.formatMessage(messages.sourceType)}
           </Th>
           <Th
-            sort={{
-              sortBy: { index: activeSortIndex >= 0 ? activeSortIndex : 0, direction: sortDirection },
-              onSort: (_event, index, direction) => onSort(columnFields[index], direction),
-              columnIndex: 2,
-            }}
+          // sort={{
+          //   sortBy: { index: activeSortIndex >= 0 ? activeSortIndex : 0, direction: sortDirection },
+          //   onSort: (_event, index, direction) => onSort(columnFields[index], direction),
+          //   columnIndex: 2,
+          // }}
           >
             {intl.formatMessage(messages.dateAdded)}
           </Th>
