@@ -83,7 +83,7 @@
     "@redhat-cloud-services/rbac-client": "^9.0.0",
     "@reduxjs/toolkit": "^2.11.2",
     "@unleash/proxy-client-react": "^5.0.1",
-    "axios": "^1.15.0",
+    "axios": "^1.15.1",
     "date-fns": "^4.1.0",
     "echarts": "^6.0.0",
     "js-file-download": "^0.4.12",
@@ -100,7 +100,7 @@
     "victory": "^37.3.6"
   },
   "devDependencies": {
-    "@openshift/dynamic-plugin-sdk-webpack": "^5.1.0",
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
     "@redhat-cloud-services/frontend-components-config": "^6.8.4",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.58",
     "ts-patch": "^3.3.0",
