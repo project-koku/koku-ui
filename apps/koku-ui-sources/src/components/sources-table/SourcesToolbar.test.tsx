@@ -3,18 +3,19 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
 
+import type { AvailabilityFilterValue } from 'redux/sources-slice';
 import { SourcesToolbar } from './SourcesToolbar';
-
-type SourcesFilterColumn = 'name' | 'source_type' | 'availability_status';
 
 type ToolbarHarnessProps = {
   count: number;
   page: number;
   perPage: number;
-  filterValue: string;
-  filterColumn: SourcesFilterColumn;
-  onFilterChange: jest.Mock;
-  onFilterColumnChange: jest.Mock;
+  nameFilter: string;
+  typeFilter: string;
+  availabilityFilter: AvailabilityFilterValue;
+  onNameFilterChange: jest.Mock;
+  onTypeFilterChange: jest.Mock;
+  onAvailabilityFilterChange: jest.Mock;
   onPageChange: jest.Mock;
   onAddSource: jest.Mock;
   canWrite: boolean;
@@ -28,10 +29,12 @@ const defaultProps: ToolbarHarnessProps = {
   count: 25,
   page: 1,
   perPage: 10,
-  filterValue: '',
-  filterColumn: 'name',
-  onFilterChange: jest.fn(),
-  onFilterColumnChange: jest.fn(),
+  nameFilter: '',
+  typeFilter: '',
+  availabilityFilter: '',
+  onNameFilterChange: jest.fn(),
+  onTypeFilterChange: jest.fn(),
+  onAvailabilityFilterChange: jest.fn(),
   onPageChange: jest.fn(),
   onAddSource: jest.fn(),
   canWrite: true,
@@ -69,22 +72,9 @@ describe('SourcesToolbar', () => {
     expect(screen.getByLabelText('Pagination')).toBeInTheDocument();
   });
 
-  it('opens filter column selector and changes column (OCP-only: Type hidden; Status available)', async () => {
-    const user = userEvent.setup();
-    const onFilterColumnChange = jest.fn();
-    renderToolbar({ onFilterColumnChange });
-
-    await user.click(screen.getByText('Name'));
-
-    const statusOption = screen.getByText('Status');
-    await user.click(statusOption);
-
-    expect(onFilterColumnChange).toHaveBeenCalledWith('availability_status');
-  });
-
   it('renders availability radios inside the status menu when opened', async () => {
     const user = userEvent.setup();
-    renderToolbar({ filterColumn: 'availability_status', filterValue: '' });
+    renderToolbar();
 
     await user.click(screen.getByRole('button', { name: 'Filter by status' }));
 
@@ -94,36 +84,36 @@ describe('SourcesToolbar', () => {
     expect(screen.getByRole('radio', { name: 'Unavailable' })).toBeInTheDocument();
   });
 
-  it('calls onFilterChange when an availability radio is selected in the menu', async () => {
+  it('calls onAvailabilityFilterChange when an availability radio is selected in the menu', async () => {
     const user = userEvent.setup();
-    const onFilterChange = jest.fn();
-    renderToolbar({ filterColumn: 'availability_status', filterValue: '', onFilterChange });
+    const onAvailabilityFilterChange = jest.fn();
+    renderToolbar({ onAvailabilityFilterChange });
 
     await user.click(screen.getByRole('button', { name: 'Filter by status' }));
     await user.click(screen.getByRole('radio', { name: 'Unavailable' }));
-    expect(onFilterChange).toHaveBeenCalledWith('unavailable');
+    expect(onAvailabilityFilterChange).toHaveBeenCalledWith('unavailable');
   });
 
-  it('submits the search filter on Enter', async () => {
+  it('submits the name filter on Enter', async () => {
     const user = userEvent.setup();
-    const onFilterChange = jest.fn();
-    renderToolbar({ onFilterChange });
+    const onNameFilterChange = jest.fn();
+    renderToolbar({ onNameFilterChange });
 
     const searchInput = screen.getByPlaceholderText('Filter by name');
     await user.type(searchInput, 'test{Enter}');
 
-    expect(onFilterChange).toHaveBeenCalledWith('test');
+    expect(onNameFilterChange).toHaveBeenCalledWith('test');
   });
 
-  it('clears the search filter', async () => {
+  it('clears the name filter', async () => {
     const user = userEvent.setup();
-    const onFilterChange = jest.fn();
-    renderToolbar({ onFilterChange, filterValue: 'existing' });
+    const onNameFilterChange = jest.fn();
+    renderToolbar({ onNameFilterChange, nameFilter: 'existing' });
 
     const clearButton = screen.getByLabelText('Reset');
     await user.click(clearButton);
 
-    expect(onFilterChange).toHaveBeenCalledWith('');
+    expect(onNameFilterChange).toHaveBeenCalledWith('');
   });
 
   it('calls onPageChange when page changes', async () => {

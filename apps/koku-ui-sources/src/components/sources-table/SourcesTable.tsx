@@ -57,7 +57,9 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
     if (source.paused) {
       return intl.formatMessage(messages.statusPaused);
     }
-    return source.active ? intl.formatMessage(messages.statusAvailable) : intl.formatMessage(messages.statusUnavailable);
+    return source.active
+      ? intl.formatMessage(messages.statusAvailable)
+      : intl.formatMessage(messages.statusUnavailable);
   };
 
   return (

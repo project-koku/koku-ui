@@ -11,7 +11,7 @@ const visitIntegrationsTab = (options?: { emptyListOk?: boolean }) => {
   cy.contains('button', 'Integrations', { timeout: 30000 }).click();
   cy.get('.pf-v6-c-spinner', { timeout: 30000 }).should('not.exist');
   cy.get('body').should($body => {
-    const hasTable = $body.find('table[aria-label="Sources table"]').length > 0;
+    const hasTable = $body.find('table[aria-label="Integrations table"]').length > 0;
     const hasEmpty = $body.text().includes('Get started by connecting your integrations');
     if (options?.emptyListOk) {
       void expect(hasTable || hasEmpty, 'integrations list or empty state').to.be.true;
@@ -83,12 +83,44 @@ describe('Settings — Integrations (Sources)', () => {
       }),
     ];
     visitIntegrationsTab();
-    cy.get('#sources-toolbar').contains('button', 'Name').click();
-    cy.contains('[role="option"]', 'Status').click();
     cy.contains('button', 'Filter by status').click();
     cy.get('#sources-filter-status-available').check({ force: true });
     cy.contains('tr', 'available-src').should('exist');
     cy.contains('tr', 'paused-src').should('not.exist');
+  });
+
+  it('combines availability and name filters (AND)', () => {
+    store.rows = [
+      makeMockSource({
+        id: 1,
+        uuid: 'd1111111-1111-4111-8111-111111111111',
+        name: 'AWS-east',
+        active: true,
+        paused: false,
+      }),
+      makeMockSource({
+        id: 2,
+        uuid: 'd2222222-2222-4222-8222-222222222222',
+        name: 'AWS-west',
+        active: true,
+        paused: true,
+      }),
+      makeMockSource({
+        id: 3,
+        uuid: 'd3333333-3333-4333-8333-333333333333',
+        name: 'GCP-main',
+        active: true,
+        paused: false,
+      }),
+    ];
+    visitIntegrationsTab();
+    cy.contains('button', 'Filter by status').click();
+    cy.get('#sources-filter-status-available').check({ force: true });
+    cy.get('[placeholder="Filter by name"]').clear();
+    cy.get('[placeholder="Filter by name"]').type('AWS{enter}');
+    cy.contains('tr', 'AWS-east').should('exist');
+    cy.contains('tr', 'AWS-west').should('not.exist');
+    cy.contains('tr', 'GCP-main').should('not.exist');
   });
 
   it('paginates the integrations table', () => {
@@ -203,7 +235,7 @@ describe('Settings — Integrations (Sources)', () => {
     });
     cy.contains('h1', 'Cost management settings', { timeout: 30000 }).should('be.visible');
     cy.contains('button', 'Integrations', { timeout: 30000 }).click();
-    cy.get('table[aria-label="Sources table"]', { timeout: 30000 }).should('be.visible');
+    cy.get('table[aria-label="Integrations table"]', { timeout: 30000 }).should('be.visible');
     openRowActions('pause-fail-src');
     cy.get('[role="menu"]').contains('Pause').click({ force: true });
     cy.wait('@pauseRequest');

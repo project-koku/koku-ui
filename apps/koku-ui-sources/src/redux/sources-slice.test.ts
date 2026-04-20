@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { SourcesService } from 'apis/sources-service';
 import type { Source } from 'apis/models/sources';
 
-import { sourcesReducer, setFilter, setSort, setPage, loadEntities, type SourcesState } from './sources-slice';
+import { sourcesReducer, setListFilters, setSort, setPage, loadEntities, type SourcesState } from './sources-slice';
 
 jest.mock('apis/sources-service', () => ({
   SourcesService: {
@@ -18,8 +18,9 @@ const initialState: SourcesState = {
   count: 0,
   loading: false,
   error: null,
-  filterColumn: 'name',
-  filterValue: '',
+  nameFilter: '',
+  typeFilter: '',
+  availabilityFilter: '',
   sortBy: 'name',
   sortDirection: 'asc',
   page: 1,
@@ -27,20 +28,20 @@ const initialState: SourcesState = {
 };
 
 describe('sourcesSlice', () => {
-  describe('setFilter', () => {
-    it('sets filterColumn, filterValue, and resets page to 1', () => {
-      const state = sourcesReducer(
-        { ...initialState, page: 3 },
-        setFilter({ filterColumn: 'source_type', filterValue: 'OCP' })
-      );
-      expect(state.filterColumn).toBe('source_type');
-      expect(state.filterValue).toBe('OCP');
+  describe('setListFilters', () => {
+    it('sets typeFilter and resets page to 1', () => {
+      const state = sourcesReducer({ ...initialState, page: 3 }, setListFilters({ typeFilter: 'OCP' }));
+      expect(state.typeFilter).toBe('OCP');
       expect(state.page).toBe(1);
     });
 
-    it('resets filterValue to empty when not provided', () => {
-      const state = sourcesReducer({ ...initialState, filterValue: 'old' }, setFilter({ filterColumn: 'name' }));
-      expect(state.filterValue).toBe('');
+    it('updates only provided filter fields', () => {
+      const state = sourcesReducer(
+        { ...initialState, nameFilter: 'keep', availabilityFilter: 'available' },
+        setListFilters({ nameFilter: 'new' })
+      );
+      expect(state.nameFilter).toBe('new');
+      expect(state.availabilityFilter).toBe('available');
     });
   });
 
@@ -144,8 +145,7 @@ describe('sourcesSlice', () => {
         preloadedState: {
           sources: {
             ...initialState,
-            filterColumn: 'availability_status',
-            filterValue: 'available',
+            availabilityFilter: 'available',
             page: 1,
             perPage: 10,
             sortBy: 'name',
@@ -164,6 +164,47 @@ describe('sourcesSlice', () => {
       expect(store.getState().sources.entities[0].id).toBe(1);
     });
 
+    it('applies name and availability filters together (intersection)', async () => {
+      // Simulates API narrowing by name; client then applies availability (mock does not re-filter by name).
+      listSourcesMock.mockResolvedValue({
+        data: [
+          mk({ id: 1, name: 'AWS Production', active: true, paused: false }),
+          mk({ id: 2, uuid: '2', name: 'AWS Sandbox', active: false, paused: false }),
+        ],
+        meta: { count: 2 },
+        links: { first: '', next: null, previous: null, last: '' },
+      });
+
+      const store = configureStore({
+        reducer: { sources: sourcesReducer },
+        preloadedState: {
+          sources: {
+            ...initialState,
+            nameFilter: 'AWS',
+            availabilityFilter: 'available',
+            page: 1,
+            perPage: 10,
+            sortBy: 'name',
+            sortDirection: 'asc',
+          },
+        },
+      });
+
+      await store.dispatch(loadEntities());
+
+      expect(listSourcesMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          offset: 0,
+          limit: 2000,
+          name: 'AWS',
+          ordering: 'name',
+        })
+      );
+      expect(store.getState().sources.count).toBe(1);
+      expect(store.getState().sources.entities).toHaveLength(1);
+      expect(store.getState().sources.entities[0].name).toBe('AWS Production');
+    });
+
     it('paginates filtered Unavailable results client-side', async () => {
       listSourcesMock.mockResolvedValue({
         data: [
@@ -179,8 +220,7 @@ describe('sourcesSlice', () => {
         preloadedState: {
           sources: {
             ...initialState,
-            filterColumn: 'availability_status',
-            filterValue: 'unavailable',
+            availabilityFilter: 'unavailable',
             page: 1,
             perPage: 1,
           },

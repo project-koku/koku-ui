@@ -74,8 +74,9 @@ const defaultState = {
   count: 0,
   loading: false,
   error: null,
-  filterColumn: 'name' as const,
-  filterValue: '',
+  nameFilter: '',
+  typeFilter: '',
+  availabilityFilter: '' as const,
   sortBy: 'name',
   sortDirection: 'asc' as const,
   page: 1,
@@ -146,7 +147,7 @@ describe('SourcesPage', () => {
     });
 
     await act(async () => {
-      renderWithProviders({ filterValue: 'nonexistent', filterColumn: 'name' });
+      renderWithProviders({ nameFilter: 'nonexistent' });
     });
 
     expect(screen.getByRole('grid')).toBeInTheDocument();
@@ -166,7 +167,7 @@ describe('SourcesPage', () => {
     });
 
     await act(async () => {
-      renderWithProviders({ filterValue: 'x', filterColumn: 'name' });
+      renderWithProviders({ nameFilter: 'x' });
     });
 
     await user.click(screen.getByRole('button', { name: 'Clear all filters' }));
@@ -257,21 +258,6 @@ describe('SourcesPage', () => {
     await user.type(searchInput, 'test{Enter}');
 
     expect(listSources).toHaveBeenCalled();
-  });
-
-  it('handles filter column change via toolbar', async () => {
-    const user = userEvent.setup();
-    const { listSources } = require('apis/sources-service').SourcesService;
-    listSources.mockReturnValue(new Promise(() => {}));
-
-    renderWithProviders({ entities: [mockSource], count: 1 });
-
-    const filterToggle = screen.getAllByRole('button').find(b => b.textContent === 'Name');
-    if (filterToggle) {
-      await user.click(filterToggle);
-      const statusOption = await screen.findByRole('option', { name: 'Status' });
-      await user.click(statusOption);
-    }
   });
 
   it('handles pagination page change', async () => {

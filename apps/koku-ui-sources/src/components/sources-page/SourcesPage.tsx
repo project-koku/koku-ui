@@ -11,10 +11,10 @@ import { SourceDetail } from 'components/sources-detail/SourceDetail';
 import { SourcesTable } from 'components/sources-table/SourcesTable';
 import { SourcesToolbar } from 'components/sources-table/SourcesToolbar';
 import { messages } from 'i18n/messages';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadEntities, setFilter, setPage, setSort } from 'redux/sources-slice';
+import { type AvailabilityFilterValue, loadEntities, setListFilters, setPage, setSort } from 'redux/sources-slice';
 import type { AppDispatch, RootState } from 'redux/store';
 
 import { ListLoadingState } from './ListLoadingState';
@@ -39,22 +39,23 @@ const NoMatchesEmptyState: React.FC = () => {
 
 NoMatchesEmptyState.displayName = 'NoMatchesEmptyState';
 
-type SourcesFilterColumn = 'name' | 'source_type' | 'availability_status';
-
 interface SourcesPageListContentProps {
   loading: boolean;
   sources: Source[];
   count: number;
-  filterValue: string;
-  filterColumn: SourcesFilterColumn;
+  nameFilter: string;
+  typeFilter: string;
+  availabilityFilter: AvailabilityFilterValue;
   page: number;
   perPage: number;
   sortBy: string;
   sortDirection: 'asc' | 'desc';
   canWrite: boolean;
   paginationAriaLabel: string;
-  onFilterChange: (value: string) => void;
-  onFilterColumnChange: (column: SourcesFilterColumn) => void;
+  hasAnyListFilter: boolean;
+  onNameFilterChange: (value: string) => void;
+  onTypeFilterChange: (value: string) => void;
+  onAvailabilityFilterChange: (value: '' | 'available' | 'unavailable') => void;
   onPageChange: (newPage: number, newPerPage: number) => void;
   onAddSource: () => void;
   onClearFilters: () => void;
@@ -68,16 +69,19 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   loading,
   sources,
   count,
-  filterValue,
-  filterColumn,
+  nameFilter,
+  typeFilter,
+  availabilityFilter,
   page,
   perPage,
   sortBy,
   sortDirection,
   canWrite,
   paginationAriaLabel,
-  onFilterChange,
-  onFilterColumnChange,
+  hasAnyListFilter,
+  onNameFilterChange,
+  onTypeFilterChange,
+  onAvailabilityFilterChange,
   onPageChange,
   onAddSource,
   onClearFilters,
@@ -86,8 +90,8 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
   onTogglePause,
   onSort,
 }) => {
-  const showFullPageEmpty = !loading && count === 0 && filterValue === '' && filterColumn === 'name';
-  const showNoMatchesInTable = !loading && count === 0 && filterValue !== '';
+  const showFullPageEmpty = !loading && count === 0 && !hasAnyListFilter;
+  const showNoMatchesInTable = !loading && count === 0 && hasAnyListFilter;
   if (showFullPageEmpty) {
     return <SourcesEmptyState onAddSource={onAddSource} canWrite={canWrite} />;
   }
@@ -103,10 +107,12 @@ const SourcesPageListContent: React.FC<SourcesPageListContentProps> = ({
         count={count}
         page={page}
         perPage={perPage}
-        filterValue={filterValue}
-        filterColumn={filterColumn}
-        onFilterChange={onFilterChange}
-        onFilterColumnChange={onFilterColumnChange}
+        nameFilter={nameFilter}
+        typeFilter={typeFilter}
+        availabilityFilter={availabilityFilter}
+        onNameFilterChange={onNameFilterChange}
+        onTypeFilterChange={onTypeFilterChange}
+        onAvailabilityFilterChange={onAvailabilityFilterChange}
         onPageChange={onPageChange}
         onAddSource={onAddSource}
         onClearAllFilters={onClearFilters}
@@ -150,29 +156,44 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const dispatch = useDispatch<AppDispatch>();
   const intl = useIntl();
   const addNotification = useAddNotification();
-  const { entities, count, loading, filterValue, filterColumn, page, perPage, sortBy, sortDirection } = useSelector(
-    (state: RootState) => state.sources
-  );
+  const { entities, count, loading, nameFilter, typeFilter, availabilityFilter, page, perPage, sortBy, sortDirection } =
+    useSelector((state: RootState) => state.sources);
   const [currentView, setCurrentView] = useState<ViewState>({ type: 'list' });
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [removeSource, setRemoveSource] = useState<Source | null>(null);
+
+  const hasAnyListFilter = useMemo(
+    () =>
+      Boolean(nameFilter) ||
+      Boolean(typeFilter) ||
+      availabilityFilter === 'available' ||
+      availabilityFilter === 'unavailable',
+    [nameFilter, typeFilter, availabilityFilter]
+  );
 
   useEffect(() => {
     if (currentView.type === 'list') {
       dispatch(loadEntities());
     }
-  }, [dispatch, currentView.type, filterValue, filterColumn, page, perPage, sortBy, sortDirection]);
+  }, [dispatch, currentView.type, nameFilter, typeFilter, availabilityFilter, page, perPage, sortBy, sortDirection]);
 
-  const handleFilterChange = useCallback(
+  const handleNameFilterChange = useCallback(
     (value: string) => {
-      dispatch(setFilter({ filterValue: value }));
+      dispatch(setListFilters({ nameFilter: value }));
     },
     [dispatch]
   );
 
-  const handleFilterColumnChange = useCallback(
-    (column: 'name' | 'source_type' | 'availability_status') => {
-      dispatch(setFilter({ filterColumn: column, filterValue: '' }));
+  const handleTypeFilterChange = useCallback(
+    (value: string) => {
+      dispatch(setListFilters({ typeFilter: value }));
+    },
+    [dispatch]
+  );
+
+  const handleAvailabilityFilterChange = useCallback(
+    (value: '' | 'available' | 'unavailable') => {
+      dispatch(setListFilters({ availabilityFilter: value }));
     },
     [dispatch]
   );
@@ -251,7 +272,7 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   }, [dispatch]);
 
   const handleClearFilters = useCallback(() => {
-    dispatch(setFilter({ filterColumn: 'name', filterValue: '' }));
+    dispatch(setListFilters({ nameFilter: '', typeFilter: '', availabilityFilter: '' }));
   }, [dispatch]);
 
   return (
@@ -263,16 +284,19 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
           loading={loading}
           sources={entities}
           count={count}
-          filterValue={filterValue}
-          filterColumn={filterColumn}
+          nameFilter={nameFilter}
+          typeFilter={typeFilter}
+          availabilityFilter={availabilityFilter}
           page={page}
           perPage={perPage}
           sortBy={sortBy}
           sortDirection={sortDirection}
           canWrite={canWrite}
           paginationAriaLabel={intl.formatMessage(messages.integrationsTableBottomPagination)}
-          onFilterChange={handleFilterChange}
-          onFilterColumnChange={handleFilterColumnChange}
+          hasAnyListFilter={hasAnyListFilter}
+          onNameFilterChange={handleNameFilterChange}
+          onTypeFilterChange={handleTypeFilterChange}
+          onAvailabilityFilterChange={handleAvailabilityFilterChange}
           onPageChange={handlePageChange}
           onAddSource={handleAddSource}
           onClearFilters={handleClearFilters}

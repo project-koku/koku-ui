@@ -8,8 +8,8 @@ export const OcpInstructions: React.FC = () => {
   return (
     <div>
       <Content component={ContentVariants.p}>
-        {intl.formatMessage(messages.ocpInstructionsP1Before)}{' '}
-        <strong>costmanagement-metrics-operator</strong> {intl.formatMessage(messages.ocpInstructionsP1After)}
+        {intl.formatMessage(messages.ocpInstructionsP1Before)} <strong>costmanagement-metrics-operator</strong>{' '}
+        {intl.formatMessage(messages.ocpInstructionsP1After)}
       </Content>
       <Content component={ContentVariants.p} style={{ marginTop: '8px' }}>
         {intl.formatMessage(messages.ocpInstructionsP2Part1)}
