@@ -38,8 +38,8 @@ const formatStatus = (source: Source): string => {
 // `ordering` query param (no OrderingFilter on SourcesViewSet), so UI sort state did not change row order.
 // To restore: add server-side ordering support on Koku (`OrderingFilter` + `ordering_fields` on sources list),
 // then uncomment `columnFields`, `activeSortIndex`, and the `sort={{...}}` props on the three `<Th>` cells
-// below (Name, Type, Date added). Revert the `_sortBy` / `_sortDirection` / `_onSort` destructuring names
-// to `sortBy`, `sortDirection`, and `onSort` when those props are used again.
+// below (Name, Type, Date added). Remove the `void sortBy` / `void sortDirection` / `void onSort` lines when
+// those props are wired back into the `sort` handlers.
 
 // const columnFields = ['name', 'source_type', 'created_timestamp'];
 
@@ -48,13 +48,16 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
   onSelectSource,
   onRemove,
   onTogglePause,
-  sortBy: _sortBy,
-  sortDirection: _sortDirection,
-  onSort: _onSort,
+  sortBy,
+  sortDirection,
+  onSort,
   canWrite = false,
   emptyTableBody,
 }) => {
   const intl = useIntl();
+  void sortBy;
+  void sortDirection;
+  void onSort;
   // const activeSortIndex = columnFields.indexOf(sortBy);
 
   return (

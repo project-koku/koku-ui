@@ -168,39 +168,6 @@ describe('SourcesTable', () => {
     expect(onTogglePause).toHaveBeenCalledWith(mockSources[1]);
   });
 
-  it('calls onSort when a sortable column header is clicked', async () => {
-    const user = userEvent.setup();
-    const onSort = jest.fn();
-    renderWithIntl(mockSources, { onSort });
-
-    const nameHeader = screen.getByText('Name');
-    await user.click(nameHeader);
-
-    expect(onSort).toHaveBeenCalled();
-  });
-
-  it('calls onSort for the Type column', async () => {
-    const user = userEvent.setup();
-    const onSort = jest.fn();
-    renderWithIntl(mockSources, { onSort });
-
-    const typeHeader = screen.getByText('Type');
-    await user.click(typeHeader);
-
-    expect(onSort).toHaveBeenCalledWith(expect.any(String), expect.any(String));
-  });
-
-  it('calls onSort for the Date added column', async () => {
-    const user = userEvent.setup();
-    const onSort = jest.fn();
-    renderWithIntl(mockSources, { onSort });
-
-    const dateHeader = screen.getByText('Date added');
-    await user.click(dateHeader);
-
-    expect(onSort).toHaveBeenCalledWith(expect.any(String), expect.any(String));
-  });
-
   it('calls onSelectSource when View details action is clicked', async () => {
     const user = userEvent.setup();
     const onSelectSource = jest.fn();

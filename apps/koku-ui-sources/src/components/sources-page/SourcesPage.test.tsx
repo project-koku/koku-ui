@@ -259,19 +259,6 @@ describe('SourcesPage', () => {
     expect(listSources).toHaveBeenCalled();
   });
 
-  it('handles sort column changes', async () => {
-    const user = userEvent.setup();
-    const { listSources } = require('apis/sources-service').SourcesService;
-    listSources.mockReturnValue(new Promise(() => {}));
-
-    renderWithProviders({ entities: [mockSource], count: 1 });
-
-    const typeHeader = screen.getByText('Type');
-    await user.click(typeHeader);
-
-    expect(listSources).toHaveBeenCalled();
-  });
-
   it('handles filter column change via toolbar', async () => {
     const user = userEvent.setup();
     const { listSources } = require('apis/sources-service').SourcesService;
