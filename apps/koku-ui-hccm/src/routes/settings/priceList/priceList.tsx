@@ -294,4 +294,4 @@ const useMapToProps = ({ query }: PriceListMapProps): PriceListStateProps => {
   };
 };
 
-export default PriceList;
+export { PriceList };

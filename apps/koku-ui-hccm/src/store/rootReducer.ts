@@ -23,7 +23,7 @@ import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDa
 import { exportReducer, exportStateKey } from 'store/export';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
-import { priceListReducer, priceListStateKey } from 'store/priceList';
+import { rateReducer, rateStateKey } from 'store/rates';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { resourceReducer, resourceStateKey } from 'store/resources';
 import { settingsReducer, settingsStateKey } from 'store/settings';
@@ -64,7 +64,7 @@ export const rootReducer = combineReducers({
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
   [orgStateKey]: orgReducer,
-  [priceListStateKey]: priceListReducer,
+  [rateStateKey]: rateReducer,
   [providersStateKey]: providersReducer,
   [rbacStateKey]: rbacReducer,
   [reportStateKey]: reportReducer,

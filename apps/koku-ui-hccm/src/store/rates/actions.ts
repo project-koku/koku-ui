@@ -1,5 +1,5 @@
 import type { Rates } from 'api/rates';
-import { fetchRate } from 'api/rates';
+import { fetchRate as apiFetchRates } from 'api/rates';
 import type { AxiosError } from 'axios';
 import type { Dispatch } from 'redux';
 import { expirationMS, FetchStatus } from 'store/common';
@@ -12,25 +12,25 @@ interface Meta {
   providerUuid: string;
 }
 
-export const fetchPriceListRequest = createAction('priceList/request')<Meta>();
+export const fetchRateRequest = createAction('priceList/request')<Meta>();
 
-export const fetchPriceListSuccess = createAction('priceList/success')<Rates, Meta>();
+export const fetchRateSuccess = createAction('priceList/success')<Rates, Meta>();
 
-export const fetchPriceListFailure = createAction('priceList/failure')<AxiosError, Meta>();
+export const fetchRateFailure = createAction('priceList/failure')<AxiosError, Meta>();
 
-export function fetchPriceList(providerUuid) {
+export function fetchRate(providerUuid) {
   const meta = { providerUuid };
   return (dispatch: Dispatch, getState) => {
     if (!isExpired(getState(), meta)) {
       return;
     }
-    dispatch(fetchPriceListRequest(meta));
-    return fetchRate(providerUuid)
+    dispatch(fetchRateRequest(meta));
+    return apiFetchRates(providerUuid)
       .then(res => {
-        dispatch(fetchPriceListSuccess(res.data, meta));
+        dispatch(fetchRateSuccess(res.data, meta));
       })
       .catch(err => {
-        dispatch(fetchPriceListFailure(err, meta));
+        dispatch(fetchRateFailure(err, meta));
       });
   };
 }
