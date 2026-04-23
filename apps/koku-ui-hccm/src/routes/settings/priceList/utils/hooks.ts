@@ -19,7 +19,7 @@ export function usePriceListEnabledToggle(item: PriceListData, onUpdateSuccess?:
     onSuccessRef.current = onUpdateSuccess;
   }, [onUpdateSuccess]);
 
-  const PriceListUpdateStatus = useSelector((state: RootState) =>
+  const priceListUpdateStatus = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListUpdateStatus(state, priceListType)
   );
   const priceListUpdateError = useSelector((state: RootState) =>
@@ -27,7 +27,7 @@ export function usePriceListEnabledToggle(item: PriceListData, onUpdateSuccess?:
   );
 
   const togglePriceListEnabled = () => {
-    if (PriceListUpdateStatus !== FetchStatus.inProgress) {
+    if (priceListUpdateStatus !== FetchStatus.inProgress) {
       setIsAwaitingUpdate(true);
       dispatch(
         priceListActions.updatePriceList(priceListType, item.uuid, {
@@ -39,7 +39,7 @@ export function usePriceListEnabledToggle(item: PriceListData, onUpdateSuccess?:
   };
 
   useEffect(() => {
-    if (!isAwaitingUpdate || PriceListUpdateStatus !== FetchStatus.complete) {
+    if (!isAwaitingUpdate || priceListUpdateStatus !== FetchStatus.complete) {
       return;
     }
     if (priceListUpdateError) {
@@ -48,7 +48,7 @@ export function usePriceListEnabledToggle(item: PriceListData, onUpdateSuccess?:
     }
     setIsAwaitingUpdate(false);
     onSuccessRef.current?.();
-  }, [isAwaitingUpdate, priceListUpdateError, PriceListUpdateStatus]);
+  }, [isAwaitingUpdate, priceListUpdateError, priceListUpdateStatus]);
 
   return { togglePriceListEnabled };
 }

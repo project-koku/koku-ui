@@ -24,7 +24,7 @@ test('updatePriceList uses DELETE for remove', () => {
 });
 
 test('updatePriceList uses PUT for update', () => {
-  const payload = { enable: false } as any;
+  const payload = { enabled: false } as any;
   updatePriceList(PriceListType.priceListUpdate, 'abc', payload);
   expect(axiosInstance.put).toHaveBeenCalledWith('price-lists/abc/', payload);
 });
