@@ -19,6 +19,7 @@ export const enum FeatureToggle {
   gpu = 'cost-management.koku-ui-hccm.gpu', // Cost model GPU metrics https://redhat.atlassian.net/browse/COST-5334
   mig = 'cost-management.koku-ui-hccm.mig', // Cost of MIG support https://redhat.atlassian.net/browse/COST-7239
   namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
+  priceList = 'cost-management.koku-ui-hccm.price-list', // Life cycle of price list https://redhat.atlassian.net/browse/COST-7330
   systems = 'cost-management.koku-ui-hccm.systems', // Systems https://redhat.atlassian.net/browse/COST-5718
 }
 
@@ -59,6 +60,10 @@ export const useIsNamespaceToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.namespace);
 };
 
+export const useIsPriceListToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.priceList);
+};
+
 export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.systems);
 };
@@ -76,6 +81,7 @@ export const useFeatureToggle = () => {
   const isGpuToggleEnabled = useIsGpuToggleEnabled();
   const isMigToggleEnabled = useIsMigToggleEnabled();
   const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
+  const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
 
   const fetchUser = callback => {
@@ -96,6 +102,7 @@ export const useFeatureToggle = () => {
         isGpuToggleEnabled,
         isMigToggleEnabled,
         isNamespaceToggleEnabled,
+        isPriceListToggleEnabled,
         isSystemsToggleEnabled,
       })
     );
@@ -112,6 +119,7 @@ export const useFeatureToggle = () => {
     isGpuToggleEnabled,
     isMigToggleEnabled,
     isNamespaceToggleEnabled,
+    isPriceListToggleEnabled,
     isSystemsToggleEnabled,
   ]);
 };
