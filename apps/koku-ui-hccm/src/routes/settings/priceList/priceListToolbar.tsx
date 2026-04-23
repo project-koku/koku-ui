@@ -21,7 +21,6 @@ interface PriceListToolbarOwnProps {
   isShowDeprecated?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelect(action: string);
   onCreate?: () => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
@@ -29,7 +28,6 @@ interface PriceListToolbarOwnProps {
   pagination?: React.ReactNode;
   query?: OcpQuery;
   selectedItems?: SettingsData[];
-  showBulkSelectAll?: boolean;
 }
 
 type PriceListToolbarProps = PriceListToolbarOwnProps;
@@ -41,7 +39,6 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
   isShowDeprecated,
   itemsPerPage,
   itemsTotal,
-  onBulkSelect,
   onCreate,
   onFilterAdded,
   onFilterRemoved,
@@ -49,7 +46,6 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
   pagination,
   query,
   selectedItems,
-  showBulkSelectAll,
 }) => {
   const intl = useIntl();
 
@@ -101,15 +97,12 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
       isReadOnly={!canWrite}
       itemsPerPage={itemsPerPage}
       itemsTotal={itemsTotal}
-      onBulkSelect={onBulkSelect}
       onFilterAdded={onFilterAdded}
       onFilterRemoved={onFilterRemoved}
       pagination={pagination}
       query={query}
       resourcePathsType={ResourcePathsType.ocp}
       selectedItems={selectedItems}
-      showBulkSelect
-      showBulkSelectAll={showBulkSelectAll}
       showFilter
     />
   );

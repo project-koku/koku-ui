@@ -38,7 +38,7 @@ describe('DeprecatePriceList', () => {
     fireEvent.click(within(dialog).getByRole('button', { name: /^deprecate$/i }));
     await waitFor(() => expect(api.updatePriceList).toHaveBeenCalled());
     const [, query, payload] = (api.updatePriceList as jest.Mock).mock.calls[0];
-    expect(payload).toEqual({ enable: false });
+    expect(payload).toEqual({ enable: false, name: 'To deprecate' });
     expect(String(query)).toContain('u-dep');
     await waitFor(() =>
       expect(

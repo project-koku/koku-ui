@@ -54,6 +54,7 @@ const DeprecatePriceList: React.FC<DeprecatePriceListProps> = ({ isOpen, item, o
       dispatch(
         priceListActions.updatePriceList(priceListType, item.uuid, {
           enable: false,
+          name: item.name,
         })
       );
     }
