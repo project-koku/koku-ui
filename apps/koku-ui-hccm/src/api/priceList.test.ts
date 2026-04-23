@@ -20,11 +20,11 @@ test('updatePriceList uses POST for add', () => {
 
 test('updatePriceList uses DELETE for remove', () => {
   updatePriceList(PriceListType.priceListRemove, 'abc');
-  expect(axiosInstance.delete).toHaveBeenCalledWith('price-lists/abc');
+  expect(axiosInstance.delete).toHaveBeenCalledWith('price-lists/abc/');
 });
 
 test('updatePriceList uses PUT for update', () => {
-  const payload = { enable: false } as any;
+  const payload = { enabled: false } as any;
   updatePriceList(PriceListType.priceListUpdate, 'abc', payload);
-  expect(axiosInstance.put).toHaveBeenCalledWith('price-lists/abc', payload);
+  expect(axiosInstance.put).toHaveBeenCalledWith('price-lists/abc/', payload);
 });

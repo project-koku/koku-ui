@@ -6,7 +6,7 @@ import { getQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -78,7 +78,6 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const queryStateName = 'efficiencyState';
   const queryState = getQueryState(location, queryStateName);
@@ -120,6 +119,11 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
       });
     }
   }, [isCurrentMonthData, query]);
+
+  // Force update
+  const forceUpdate = () => {
+    setQuery({ ...query });
+  };
 
   const handleOnDateRangeSelect = (value: string) => {
     const newQuery = {

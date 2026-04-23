@@ -11,17 +11,10 @@ import {
   ModalVariant,
 } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
-import { PriceListType } from 'api/priceList';
-import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
-import type { RootState } from 'store';
-import { FetchStatus } from 'store/common';
-import { priceListActions, priceListSelectors } from 'store/priceList';
+import { usePriceListEnabledToggle } from 'routes/settings/priceList/utils/hooks';
 
 interface DeprecatePriceListOwnProps {
   isOpen?: boolean;
@@ -29,42 +22,11 @@ interface DeprecatePriceListOwnProps {
   onClose?: () => void;
 }
 
-interface DeprecatePriceListMapProps {
-  priceListType: PriceListType;
-}
-
-interface DeprecatePriceListStateProps {
-  priceListUpdateError?: AxiosError;
-  priceListUpdateFetchStatus?: FetchStatus;
-}
-
 type DeprecatePriceListProps = DeprecatePriceListOwnProps;
 
 const DeprecatePriceList: React.FC<DeprecatePriceListProps> = ({ isOpen, item, onClose }) => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
-
-  const priceListType = PriceListType.priceListUpdate;
-  const [isFinish, setIsFinish] = useState(false);
-  const { priceListUpdateError, priceListUpdateFetchStatus } = useMapToProps({ priceListType });
-
-  const handleOnDeprecate = () => {
-    if (priceListUpdateFetchStatus !== FetchStatus.inProgress) {
-      setIsFinish(true);
-      dispatch(
-        priceListActions.updatePriceList(priceListType, item.uuid, {
-          enable: false,
-          name: item.name,
-        })
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (isFinish && priceListUpdateFetchStatus === FetchStatus.complete && !priceListUpdateError) {
-      onClose();
-    }
-  }, [isFinish, priceListUpdateError, priceListUpdateFetchStatus]);
+  const { togglePriceListEnabled } = usePriceListEnabledToggle(item, onClose);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -86,7 +48,7 @@ const DeprecatePriceList: React.FC<DeprecatePriceListProps> = ({ isOpen, item, o
         </List>
       </ModalBody>
       <ModalFooter>
-        <Button key="confirm" onClick={handleOnDeprecate}>
+        <Button key="confirm" onClick={togglePriceListEnabled}>
           {intl.formatMessage(messages.deprecate)}
         </Button>
         <Button key="cancel" onClick={onClose} variant="link">
@@ -95,20 +57,6 @@ const DeprecatePriceList: React.FC<DeprecatePriceListProps> = ({ isOpen, item, o
       </ModalFooter>
     </Modal>
   );
-};
-
-const useMapToProps = ({ priceListType }: DeprecatePriceListMapProps): DeprecatePriceListStateProps => {
-  const priceListUpdateFetchStatus = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateFetchStatus(state, priceListType)
-  );
-  const priceListUpdateError = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateError(state, priceListType)
-  );
-
-  return {
-    priceListUpdateError,
-    priceListUpdateFetchStatus,
-  };
 };
 
 export default DeprecatePriceList;
