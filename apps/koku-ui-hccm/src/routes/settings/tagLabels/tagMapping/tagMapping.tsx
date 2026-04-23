@@ -6,7 +6,7 @@ import type { Settings, SettingsData } from 'api/settings';
 import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -52,12 +52,15 @@ const baseQuery: Query = {
 const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
   const intl = useIntl();
 
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const [query, setQuery] = useState({ ...baseQuery });
-
   const { settings, settingsError, settingsStatus } = useMapToProps({
     query,
   });
+
+  // Force update
+  const forceUpdate = () => {
+    setQuery({ ...query });
+  };
 
   const getMappings = () => {
     if (settings) {

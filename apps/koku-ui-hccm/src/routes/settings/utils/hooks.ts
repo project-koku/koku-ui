@@ -10,7 +10,7 @@ import type { RootState } from 'store';
 import { accountSettingsSelectors } from 'store/accountSettings';
 import { FetchStatus } from 'store/common';
 import { settingsSelectors } from 'store/settings';
-import { resetStatus } from 'store/settings/settingsActions';
+import { resetNotification, resetStatus } from 'store/settings/settingsActions';
 
 interface AccountSettingsUpdateProps<T> {
   type: AccountSettingsType;
@@ -53,6 +53,7 @@ export const useAccountSettingsUpdate = <T>({
       }
       if (notification) {
         addNotification(notification as any);
+        dispatch(resetNotification());
         dispatch(resetStatus());
       }
     }
@@ -76,6 +77,7 @@ export const useSettingsUpdate = ({ type }: SettingsUpdateProps): SettingsNotifi
   useEffect(() => {
     if (status === FetchStatus.complete && notification) {
       addNotification(notification as any);
+      dispatch(resetNotification());
       dispatch(resetStatus());
     }
   }, [addNotification, dispatch, error, notification, status]);

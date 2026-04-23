@@ -23,15 +23,17 @@ const DeprecatePriceListAction: React.FC<DeprecatePriceListActionProps> = ({ can
   const intl = useIntl();
 
   const getActions = () => {
+    const actionMsg = !item?.enabled ? messages.restore : messages.deprecate;
+
     const getTooltip = children => {
-      const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.deprecate);
+      const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : actionMsg);
       return <Tooltip content={msg}>{children}</Tooltip>;
     };
 
     return getTooltip(
       <Button
         icon={<MinusCircleIcon />}
-        aria-label={intl.formatMessage(messages.deprecate)}
+        aria-label={intl.formatMessage(actionMsg)}
         isAriaDisabled={!canWrite || isDisabled}
         onClick={() => handleOnClick()}
         size="sm"
