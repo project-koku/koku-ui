@@ -1,12 +1,8 @@
-import t_global_font_size_2xl from '@patternfly/react-tokens/dist/js/t_global_font_size_2xl';
-import t_global_font_size_lg from '@patternfly/react-tokens/dist/js/t_global_font_size_lg';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import type React from 'react';
 
 export const styles = {
-  divider: {
-    marginTop: t_global_font_size_2xl.value,
-  },
   toolbarContainer: {
-    marginTop: t_global_font_size_lg.value,
+    marginTop: t_global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };

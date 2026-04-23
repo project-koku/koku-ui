@@ -103,62 +103,62 @@ const ratesMock: Rates = {
 test('test fetch price list action', async () => {
   fetchMock.mockReturnValueOnce(Promise.resolve({ data: ratesMock }));
   const store = createStore();
-  await store.dispatch(actions.fetchPriceList(pUuid));
+  await store.dispatch(actions.fetchRate(pUuid));
   expect(fetchMock).toHaveBeenCalled();
 });
 
 test('default state', async () => {
   const store = createStore();
-  expect(selectors.priceList(store.getState())).toMatchSnapshot();
+  expect(selectors.getRateState(store.getState())).toMatchSnapshot();
 });
 
 test('from init to fetch request', async () => {
   const store = createStore();
   expect(selectors.status(store.getState(), pUuid)).toBe(undefined);
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
-  store.dispatch(actions.fetchPriceListRequest({ providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState())).toMatchSnapshot();
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateRequest({ providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState())).toMatchSnapshot();
 });
 
 test('from fetch request to fetch success', async () => {
   const store = createStore();
-  store.dispatch(actions.fetchPriceListRequest({ providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState())).toMatchSnapshot();
-  store.dispatch(actions.fetchPriceListSuccess(ratesMock, { providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateRequest({ providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState())).toMatchSnapshot();
+  store.dispatch(actions.fetchRateSuccess(ratesMock, { providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
 });
 
 test('from fetch request to fetch error', async () => {
   const store = createStore();
-  store.dispatch(actions.fetchPriceListRequest({ providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
-  store.dispatch(actions.fetchPriceListFailure(Error('Opps!'), { providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateRequest({ providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateFailure(Error('Opps!'), { providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
 });
 
 test('from fetch success to fetch request', async () => {
   const store = createStore();
-  store.dispatch(actions.fetchPriceListSuccess(ratesMock, { providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
-  store.dispatch(actions.fetchPriceListRequest({ providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateSuccess(ratesMock, { providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateRequest({ providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
 });
 
 test('from fetch error to fetch request', async () => {
   const store = createStore();
-  store.dispatch(actions.fetchPriceListFailure(Error('Opps!'), { providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
-  store.dispatch(actions.fetchPriceListRequest({ providerUuid: pUuid }));
-  expect(selectors.priceList(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateFailure(Error('Opps!'), { providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
+  store.dispatch(actions.fetchRateRequest({ providerUuid: pUuid }));
+  expect(selectors.getRateState(store.getState(), pUuid)).toMatchSnapshot();
 });
 
 test('test selectors', async () => {
   const store = createStore();
-  store.dispatch(actions.fetchPriceListFailure(Error('Opps!'), { providerUuid: pUuid }));
+  store.dispatch(actions.fetchRateFailure(Error('Opps!'), { providerUuid: pUuid }));
   expect(selectors.error(store.getState(), pUuid)).toEqual(Error('Opps!'));
-  store.dispatch(actions.fetchPriceListSuccess(ratesMock, { providerUuid: pUuid }));
+  store.dispatch(actions.fetchRateSuccess(ratesMock, { providerUuid: pUuid }));
   expect(selectors.rates(store.getState(), pUuid)).toEqual(ratesMock.data);
-  store.dispatch(actions.fetchPriceListRequest({ providerUuid: pUuid }));
+  store.dispatch(actions.fetchRateRequest({ providerUuid: pUuid }));
   expect(selectors.status(store.getState(), pUuid)).toBe(FetchStatus.inProgress);
 });
 
@@ -170,6 +170,6 @@ test('rateFlatter flats tiers into array', () => {
 
 test('ratesPerProvider selector returns rates array by provider_uuid', () => {
   const store = createStore();
-  store.dispatch(actions.fetchPriceListSuccess(ratesMock, { providerUuid: pUuid }));
+  store.dispatch(actions.fetchRateSuccess(ratesMock, { providerUuid: pUuid }));
   expect(selectors.ratesPerProvider(store.getState(), pUuid)).toMatchSnapshot();
 });

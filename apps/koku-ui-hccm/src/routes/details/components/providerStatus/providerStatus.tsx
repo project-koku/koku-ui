@@ -11,7 +11,6 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 
-import { styles } from './providerStatus.styles';
 import { ProviderTable } from './providerTable';
 
 interface ProviderStatusOwnProps {
@@ -42,11 +41,7 @@ const ProviderStatus: React.FC<ProviderStatusProps> = ({
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {
-    return (
-      <div style={styles.loading}>
-        <LoadingState />
-      </div>
-    );
+    return <LoadingState />;
   }
 
   // Filter providers to skip an extra API request
