@@ -1,7 +1,8 @@
-import * as priceListActions from './actions';
-import type { Action as PirceListAction, State as PriceListState } from './reducer';
-import { reducer as priceListReducer, stateKey as priceListStateKey } from './reducer';
-import * as priceListSelectors from './selectors';
+import * as priceListActions from './priceListActions';
+import { priceListStateKey } from './priceListCommon';
+import type { CachedPriceList, PriceListAction, PriceListState } from './priceListReducer';
+import { priceListReducer } from './priceListReducer';
+import * as priceListSelectors from './priceListSelectors';
 
-export type { PirceListAction, PriceListState };
-export { priceListActions, priceListStateKey, priceListReducer, priceListSelectors };
+export type { PriceListAction, CachedPriceList, PriceListState };
+export { priceListActions, priceListReducer, priceListSelectors, priceListStateKey };

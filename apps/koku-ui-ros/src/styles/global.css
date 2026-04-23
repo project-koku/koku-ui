@@ -18,7 +18,7 @@ body {
 .Icon404 {
   height: 150px;
 }
-.Icon404 .cls-1 { fill:#fff; }
+.Icon404 .cls-1 { fill: var(--pf-t--global--text--color--regular); }
 .Icon404 .cls-1, .Icon404 .cls-3{ fill-rule:evenodd;}
 .Icon404 .cls-2{ opacity:0.5;}
 .Icon404 .cls-4{ mask:url(#mask); }

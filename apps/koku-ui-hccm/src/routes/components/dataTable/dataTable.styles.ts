@@ -1,4 +1,3 @@
-import t_global_background_color_100 from '@patternfly/react-tokens/dist/js/t_global_background_color_100';
 import t_global_font_size_body_sm from '@patternfly/react-tokens/dist/js/t_global_font_size_body_sm';
 import t_global_spacer_3xl from '@patternfly/react-tokens/dist/js/t_global_spacer_3xl';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
@@ -17,10 +16,9 @@ export const styles = {
     minWidth: '50px',
   },
   emptyState: {
-    backgroundColor: t_global_background_color_100.value,
     display: 'flex',
     justifyContent: 'center',
-    paddingTop: t_global_spacer_3xl.value,
+    paddingTop: t_global_spacer_3xl.var,
     height: '35vh',
     width: '100%',
   },
@@ -32,11 +30,11 @@ export const styles = {
     position: 'relative',
   },
   infoArrowDesc: {
-    bottom: t_global_spacer_xs.value,
+    bottom: t_global_spacer_xs.var,
   },
   infoDescription: {
-    color: t_global_text_color_subtle.value,
-    fontSize: t_global_font_size_body_sm.value,
+    color: t_global_text_color_subtle.var,
+    fontSize: t_global_font_size_body_sm.var,
   },
   lastItem: {
     textAlign: 'right',
