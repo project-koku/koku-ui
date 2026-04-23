@@ -154,7 +154,7 @@ describe('priceList store', () => {
     const inProgress = emptySlice();
     inProgress.status.set(getFetchId(PriceListType.priceListUpdate), FetchStatus.inProgress);
     dispatched.length = 0;
-    await (updatePriceList(PriceListType.priceListUpdate, '?uuid=1', { enable: false }) as any)(
+    await (updatePriceList(PriceListType.priceListUpdate, '?uuid=1', { enabled: false }) as any)(
       (a: any) => dispatched.push(a),
       () => makeRoot(inProgress)
     );

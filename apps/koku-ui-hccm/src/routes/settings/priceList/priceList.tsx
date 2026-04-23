@@ -36,7 +36,7 @@ export interface PriceListStateProps {
   priceList?: PriceList;
   priceListError?: AxiosError;
   priceListQueryString?: string;
-  PriceListStatus?: FetchStatus;
+  priceListStatus?: FetchStatus;
 }
 
 type PriceListProps = PriceListOwnProps;
@@ -57,7 +57,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
   const [isShowDeprecated, setIsShowDeprecated] = useState<boolean>(false);
   const [query, setQuery] = useState({ ...baseQuery });
 
-  const { priceList, priceListError, PriceListStatus } = useMapToProps({ isShowDeprecated, query });
+  const { priceList, priceListError, priceListStatus } = useMapToProps({ isShowDeprecated, query });
 
   // Force update
   const forceUpdate = () => {
@@ -104,7 +104,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
         canWrite={canWrite}
         filterBy={query.filter_by}
         isDisabled={categories.length === 0}
-        isLoading={PriceListStatus === FetchStatus.inProgress}
+        isLoading={priceListStatus === FetchStatus.inProgress}
         onClose={forceUpdate}
         orderBy={query.order_by}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -195,7 +195,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
         })}
         <div style={styles.tableContainer}>
           {getToolbar(categories)}
-          {PriceListStatus === FetchStatus.inProgress ? (
+          {priceListStatus === FetchStatus.inProgress ? (
             <LoadingState />
           ) : (
             <>
@@ -241,12 +241,12 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListMapProps): PriceLis
   const priceListError = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListError(state, PriceListType.priceList, priceListQueryString)
   );
-  const PriceListStatus = useSelector((state: RootState) =>
+  const priceListStatus = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListStatus(state, PriceListType.priceList, priceListQueryString)
   );
 
   useEffect(() => {
-    if (!priceListError && PriceListStatus !== FetchStatus.inProgress) {
+    if (!priceListError && priceListStatus !== FetchStatus.inProgress) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, priceListQueryString));
     }
   }, [isShowDeprecated, query]);
@@ -259,18 +259,18 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListMapProps): PriceLis
   );
 
   useEffect(() => {
-    if (PriceListStatus === FetchStatus.complete && priceListUpdateNotification) {
+    if (priceListStatus === FetchStatus.complete && priceListUpdateNotification) {
       addNotification(priceListUpdateNotification as any);
       dispatch(resetNotification());
       dispatch(resetStatus());
     }
-  }, [addNotification, dispatch, priceListUpdateError, priceListUpdateNotification, PriceListStatus]);
+  }, [addNotification, dispatch, priceListUpdateError, priceListUpdateNotification, priceListStatus]);
 
   return {
     priceList,
     priceListError,
     priceListQueryString,
-    PriceListStatus,
+    priceListStatus,
   };
 };
 

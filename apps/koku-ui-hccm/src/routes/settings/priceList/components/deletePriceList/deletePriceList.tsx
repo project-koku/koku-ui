@@ -26,7 +26,7 @@ interface DeletePriceListMapProps {
 
 interface DeletePriceListStateProps {
   priceListUpdateError?: AxiosError;
-  PriceListUpdateStatus?: FetchStatus;
+  priceListUpdateStatus?: FetchStatus;
 }
 
 type DeletePriceListProps = DeletePriceListOwnProps;
@@ -37,20 +37,20 @@ const DeletePriceList: React.FC<DeletePriceListProps> = ({ isOpen, item, onClose
 
   const priceListType = PriceListType.priceListRemove;
   const [isFinish, setIsFinish] = useState(false);
-  const { priceListUpdateError, PriceListUpdateStatus } = useMapToProps({ priceListType });
+  const { priceListUpdateError, priceListUpdateStatus } = useMapToProps({ priceListType });
 
   const handleOnDelete = () => {
-    if (PriceListUpdateStatus !== FetchStatus.inProgress) {
+    if (priceListUpdateStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
       dispatch(priceListActions.updatePriceList(priceListType, item.uuid));
     }
   };
 
   useEffect(() => {
-    if (isFinish && PriceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
+    if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
       onClose();
     }
-  }, [isFinish, priceListUpdateError, PriceListUpdateStatus]);
+  }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -83,13 +83,13 @@ const useMapToProps = ({ priceListType }: DeletePriceListMapProps): DeletePriceL
   const priceListUpdateError = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListUpdateError(state, priceListType)
   );
-  const PriceListUpdateStatus = useSelector((state: RootState) =>
+  const priceListUpdateStatus = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListUpdateStatus(state, priceListType)
   );
 
   return {
     priceListUpdateError,
-    PriceListUpdateStatus,
+    priceListUpdateStatus,
   };
 };
 
