@@ -4,10 +4,10 @@ import type React from 'react';
 
 export const styles = {
   tagLink: {
-    marginLeft: t_global_spacer_sm.value,
+    marginLeft: t_global_spacer_sm.var,
   },
   tagsContainer: {
-    marginRight: t_global_spacer_3xl.value,
-    marginTop: t_global_spacer_sm.value,
+    marginRight: t_global_spacer_3xl.var,
+    marginTop: t_global_spacer_sm.var,
   },
 } as { [className: string]: React.CSSProperties };

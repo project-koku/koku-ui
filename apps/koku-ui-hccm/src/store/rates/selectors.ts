@@ -31,11 +31,11 @@ export const rateFlatter = rate => {
     .map(r => r[0]);
 };
 
-export const priceList = (state: RootState) => state[stateKey];
+export const getRateState = (state: RootState) => state[stateKey];
 
 export const cachedRates = (state: RootState, providerUuid: string) => {
-  if (priceList(state)?.rates.get(providerUuid)) {
-    return priceList(state).rates.get(providerUuid);
+  if (getRateState(state)?.rates.get(providerUuid)) {
+    return getRateState(state).rates.get(providerUuid);
   }
   return null;
 };
@@ -67,7 +67,7 @@ export const ratesPerProvider = (state: RootState, providerUuid: string) =>
     }, {});
 
 export const status = (state: RootState, providerUuid: string) => {
-  return priceList(state).status.get(providerUuid);
+  return getRateState(state).status.get(providerUuid);
 };
 
-export const error = (state: RootState, providerUuid: string) => priceList(state).error.get(providerUuid);
+export const error = (state: RootState, providerUuid: string) => getRateState(state).error.get(providerUuid);

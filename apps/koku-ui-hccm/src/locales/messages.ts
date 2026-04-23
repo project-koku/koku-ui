@@ -1131,6 +1131,11 @@ export default defineMessages({
     description: 'Create a cost model',
     id: 'createCostModelTitle',
   },
+  createPriceList: {
+    defaultMessage: 'Create price list',
+    description: 'Create price list',
+    id: 'createPriceList',
+  },
   createRate: {
     defaultMessage: 'Create rate',
     description: 'Create rate',
@@ -1329,6 +1334,51 @@ export default defineMessages({
     description: 'Delete',
     id: 'delete',
   },
+  deletePriceList: {
+    defaultMessage: 'Delete price list',
+    description: 'Delete price list',
+    id: 'deletePriceList',
+  },
+  deletePriceListDesc: {
+    defaultMessage: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    description: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    id: 'deletePriceListDesc',
+  },
+  deletePriceListTitle: {
+    defaultMessage: 'Remove price list?',
+    description: 'Remove price list?',
+    id: 'deletePriceListTitle',
+  },
+  deprecate: {
+    defaultMessage: 'Deprecate',
+    description: 'Deprecate',
+    id: 'deprecate',
+  },
+  deprecatePriceListDesc: {
+    defaultMessage: 'This price list will be deprecated.',
+    description: 'This price list will be deprecated.',
+    id: 'deprecatePriceListDesc',
+  },
+  deprecatePriceListItem1: {
+    defaultMessage: 'Deprecated lists are hidden from this catalog unless "Show deprecated" is on.',
+    description: 'Deprecated lists are hidden from this catalog unless "Show deprecated" is on.',
+    id: 'deprecatePriceListItem1',
+  },
+  deprecatePriceListItem2: {
+    defaultMessage: 'They no longer appear when assigning price lists to a cost model.',
+    description: 'They no longer appear when assigning price lists to a cost model.',
+    id: 'deprecatePriceListItem2',
+  },
+  deprecatePriceListItem3: {
+    defaultMessage: 'You can restore a deprecated list later from this page or its detail view.',
+    description: 'You can restore a deprecated list later from this page or its detail view.',
+    id: 'deprecatePriceListItem3',
+  },
+  deprecatePriceListTitle: {
+    defaultMessage: 'Deprecate this price list?',
+    description: 'Deprecate this price list?',
+    id: 'deprecatePriceListTitle',
+  },
   description: {
     defaultMessage: 'Description',
     description: 'Description',
@@ -1404,7 +1454,10 @@ export default defineMessages({
       'account {Account names} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
+      'cost_models {Assigned cost models}' +
       'cpu {CPU} ' +
+      'currency {Currency} ' +
+      'end_date {End date}' +
       'gcp_project {Google Cloud project names} ' +
       'group {Group} ' +
       'instance {Instance names} ' +
@@ -1425,6 +1478,7 @@ export default defineMessages({
       'status {Status} ' +
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
+      'start_date {Start date}' +
       'storage {Storage} ' +
       'tag {Tag names} ' +
       'tags {Tags} ' +
@@ -1727,6 +1781,12 @@ export default defineMessages({
     description: 'Adding OpenShift projects',
     id: 'docsPlatformProjects',
   },
+  docsPriceList: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs',
+    description: 'Adding a price list',
+    id: 'docsPriceList',
+  },
   docsReleases: {
     defaultMessage: 'https://github.com/project-koku/koku/releases',
     description: 'Releases',
@@ -1765,6 +1825,11 @@ export default defineMessages({
     defaultMessage: 'Download',
     description: 'Download',
     id: 'download',
+  },
+  duplicatePriceList: {
+    defaultMessage: 'Duplicate price list',
+    description: 'Duplicate price list',
+    id: 'duplicatePriceList',
   },
   edit: {
     defaultMessage: 'Edit',
@@ -2742,7 +2807,7 @@ export default defineMessages({
     id: 'metricsOperatorVersion',
   },
   migColumns: {
-    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'uuid {UUID} ' + 'other {}}',
+    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'id {ID} ' + 'other {}}',
     description: 'MIG columns',
     id: 'migColumns',
   },
@@ -3317,6 +3382,23 @@ export default defineMessages({
     description: 'Price list',
     id: 'priceList',
   },
+  priceListDesc: {
+    defaultMessage:
+      'Price lists define unit rates and the dates they apply; assign them t o a cost model to drive change calculations. {learnMore}',
+    description:
+      'Price lists define unit rates and the dates they apply; assign them t o a cost model to drive change calculations. {learnMore}',
+    id: 'priceListDesc',
+  },
+  priceListAddErrorDesc: {
+    defaultMessage: 'Failed to create price list',
+    description: 'Failed to create price list',
+    id: 'priceListAddErrorDesc',
+  },
+  priceListAddErrorTitle: {
+    defaultMessage: 'Unable to create price list',
+    description: 'Unable to create price list',
+    id: 'priceListAddErrorTitle',
+  },
   priceListAddRate: {
     defaultMessage: 'Add rate',
     description: 'Add rate',
@@ -3354,6 +3436,16 @@ export default defineMessages({
     description: 'To add rates to the price list, click on the "Add" rate button above.',
     id: 'priceListEmptyRateDesc',
   },
+  priceListErrorDesc: {
+    defaultMessage: 'Failed to update price list',
+    description: 'Failed to update price list',
+    id: 'priceListErrorDesc',
+  },
+  priceListErrorTitle: {
+    defaultMessage: 'Unable to save price list settings',
+    description: 'Unable to save price list settings',
+    id: 'priceListErrorTitle',
+  },
   priceListNumberRate: {
     defaultMessage: 'Rate must be a number',
     description: 'Rate must be a number',
@@ -3363,6 +3455,31 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
+  },
+  priceListRemoveErrorDesc: {
+    defaultMessage: 'Failed to delete price list',
+    description: 'Failed to delete price list',
+    id: 'priceListRemoveErrorDesc',
+  },
+  priceListRemoveErrorTitle: {
+    defaultMessage: 'Unable to delete price list',
+    description: 'Unable to delete price list',
+    id: 'priceListRemoveErrorTitle',
+  },
+  priceListSuccess: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {price list created} ' +
+      'remove {price list deleted} ' +
+      'update {price list updated} ' +
+      'other {}}',
+    description: 'Price list created, deleted, or updated',
+    id: 'priceListSuccess',
+  },
+  priceListSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'priceListSuccessChanges',
   },
   projectKoku: {
     defaultMessage: 'Upstream project Koku',
@@ -3449,6 +3566,11 @@ export default defineMessages({
     defaultMessage: 'Requests',
     description: 'Requests',
     id: 'requests',
+  },
+  restore: {
+    defaultMessage: 'Restore',
+    description: 'Restore',
+    id: 'restore',
   },
   save: {
     defaultMessage: 'Save',
@@ -3593,6 +3715,11 @@ export default defineMessages({
     defaultMessage: 'Cost management settings',
     description: 'Cost management settings',
     id: 'settingsTitle',
+  },
+  showDeprecated: {
+    defaultMessage: 'Show deprecated',
+    description: 'Show deprecated',
+    id: 'showDeprecated',
   },
   sourcesTabTitle: {
     defaultMessage: 'Integrations',
@@ -4064,6 +4191,11 @@ export default defineMessages({
     defaultMessage: 'Various',
     description: 'Various',
     id: 'various',
+  },
+  version: {
+    defaultMessage: 'v{value}',
+    description: 'v{value}',
+    id: 'version',
   },
   vcpuTitle: {
     defaultMessage: 'vCPU',

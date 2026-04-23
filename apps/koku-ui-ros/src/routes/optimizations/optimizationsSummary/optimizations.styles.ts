@@ -3,6 +3,6 @@ import type React from 'react';
 
 export const styles = {
   infoIcon: {
-    fontSize: t_global_font_size_md.value,
+    fontSize: t_global_font_size_md.var,
   },
 } as { [className: string]: React.CSSProperties };

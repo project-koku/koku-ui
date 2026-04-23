@@ -8,12 +8,12 @@ import { chart_color_yellow_300 } from '@patternfly/react-tokens/dist/js/chart_c
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
   colorScale: [
-    chart_color_blue_300.value,
-    chart_color_yellow_300.value,
-    chart_color_green_300.value,
-    chart_color_purple_300.value,
-    chart_color_orange_300.value,
-    chart_color_teal_300.value,
+    chart_color_blue_300.var,
+    chart_color_yellow_300.var,
+    chart_color_green_300.var,
+    chart_color_purple_300.var,
+    chart_color_orange_300.var,
+    chart_color_teal_300.var,
   ],
   yAxis: {
     axisLabel: {
