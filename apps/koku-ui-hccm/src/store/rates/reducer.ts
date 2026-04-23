@@ -5,9 +5,9 @@ import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
-import { fetchPriceListFailure, fetchPriceListRequest, fetchPriceListSuccess } from './actions';
+import { fetchRateFailure, fetchRateRequest, fetchRateSuccess } from './actions';
 
-export const stateKey = 'priceList';
+export const stateKey = 'rates';
 
 export interface CachedRates extends Rates {
   timeRequested: number;
@@ -26,7 +26,7 @@ export const defaultState: State = {
 };
 
 export type Action = ActionType<
-  typeof fetchPriceListRequest | typeof fetchPriceListSuccess | typeof fetchPriceListFailure | typeof resetState
+  typeof fetchRateRequest | typeof fetchRateSuccess | typeof fetchRateFailure | typeof resetState
 >;
 
 export function reducer(state = defaultState, action: Action): State {
@@ -35,12 +35,12 @@ export function reducer(state = defaultState, action: Action): State {
       state = defaultState;
       return state;
 
-    case getType(fetchPriceListRequest):
+    case getType(fetchRateRequest):
       return {
         ...state,
         status: new Map(state.status).set(action.payload.providerUuid, FetchStatus.inProgress),
       };
-    case getType(fetchPriceListSuccess):
+    case getType(fetchRateSuccess):
       return {
         ...state,
         status: new Map(state.status).set(action.meta.providerUuid, FetchStatus.complete),
@@ -50,7 +50,7 @@ export function reducer(state = defaultState, action: Action): State {
         }),
         error: new Map(state.error).set(action.meta.providerUuid, null),
       };
-    case getType(fetchPriceListFailure):
+    case getType(fetchRateFailure):
       return {
         ...state,
         error: new Map(state.error).set(action.meta.providerUuid, action.payload),

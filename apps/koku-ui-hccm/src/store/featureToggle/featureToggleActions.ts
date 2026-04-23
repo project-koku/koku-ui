@@ -9,6 +9,7 @@ export interface FeatureToggleActionMeta {
   isGpuToggleEnabled?: boolean;
   isMigToggleEnabled?: boolean;
   isNamespaceToggleEnabled?: boolean;
+  isPriceListToggleEnabled?: boolean;
   isSystemsToggleEnabled?: boolean;
 }
 
