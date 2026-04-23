@@ -6,7 +6,7 @@ import type { Settings, SettingsData } from 'api/settings';
 import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -50,12 +50,14 @@ const baseQuery: Query = {
 };
 
 const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
+  const intl = useIntl();
+
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const [query, setQuery] = useState({ ...baseQuery });
+
   const { settings, settingsError, settingsStatus } = useMapToProps({
     query,
   });
-
-  const intl = useIntl();
 
   const getMappings = () => {
     if (settings) {
@@ -98,7 +100,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
         filterBy={query.filter_by}
         isDisabled={isDisabled}
         isLoading={settingsStatus === FetchStatus.inProgress}
-        onClose={handleOnClose}
+        onClose={forceUpdate}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         settings={settings}
@@ -115,17 +117,13 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
         isDisabled={mappings.length === 0}
         itemsPerPage={mappings.length}
         itemsTotal={itemsTotal}
-        onClose={handleOnClose}
+        onClose={forceUpdate}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination(isDisabled)}
         query={query}
       />
     );
-  };
-
-  const handleOnClose = () => {
-    refresh();
   };
 
   const handleOnFilterAdded = filter => {
@@ -154,11 +152,6 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
       newQuery.order_by.child = isSortAscending ? 'asc' : 'desc';
     }
     setQuery(newQuery);
-  };
-
-  // Force refresh
-  const refresh = () => {
-    setQuery({ ...query });
   };
 
   if (settingsError) {
@@ -192,7 +185,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
           </>
         ) : (
           <div style={styles.emptyStateContainer}>
-            <TagMappingEmptyState canWrite={canWrite} onWizardClose={refresh} />
+            <TagMappingEmptyState canWrite={canWrite} onWizardClose={forceUpdate} />
           </div>
         )}
       </div>

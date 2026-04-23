@@ -4,6 +4,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
+import { useIsPriceListToggleEnabled } from 'components/featureToggle';
 import { isSourcesSettingsTabEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
@@ -26,6 +27,7 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
+import { PriceList } from './priceList';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {
@@ -33,6 +35,7 @@ const enum SettingsTab {
   calculations = 'calculations',
   costCategory = 'cost_category',
   platformProjects = 'platform_projects',
+  priceList = 'price_list',
   tags = 'tags',
   sources = 'sources',
 }
@@ -47,6 +50,8 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
       return 'cost_category';
     case SettingsTab.platformProjects:
       return 'platform_projects';
+    case SettingsTab.priceList:
+      return 'price_list';
     case SettingsTab.tags:
       return 'tags';
     case SettingsTab.sources:
@@ -68,6 +73,7 @@ export interface SettingsMapProps {
 }
 
 export interface SettingsStateProps {
+  isPriceListToggleEnabled: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -78,7 +84,7 @@ type SettingsProps = SettingsOwnProps;
 
 const Settings: React.FC<SettingsProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
-  const { userAccess, userAccessFetchStatus } = useMapToProps();
+  const { isPriceListToggleEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
   const intl = useIntl();
 
   const canWrite = () => {
@@ -96,6 +102,14 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.costModels,
       },
+      ...(isPriceListToggleEnabled
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: SettingsTab.priceList,
+            },
+          ]
+        : []),
       {
         contentRef: React.createRef(),
         tab: SettingsTab.calculations,
@@ -172,6 +186,8 @@ const Settings: React.FC<SettingsProps> = () => {
       return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
+    } else if (currentTab === SettingsTab.priceList) {
+      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {
@@ -207,6 +223,8 @@ const Settings: React.FC<SettingsProps> = () => {
       return intl.formatMessage(messages.costModels);
     } else if (tab === SettingsTab.platformProjects) {
       return intl.formatMessage(messages.platformProjectsTitle);
+    } else if (tab === SettingsTab.priceList) {
+      return intl.formatMessage(messages.priceList);
     } else if (tab === SettingsTab.tags) {
       return intl.formatMessage(messages.tagLabelsTitle);
     } else if (tab === SettingsTab.sources) {
@@ -256,6 +274,7 @@ const useMapToProps = (): SettingsStateProps => {
   );
 
   return {
+    isPriceListToggleEnabled: useIsPriceListToggleEnabled(),
     userAccess,
     userAccessError,
     userAccessFetchStatus,
