@@ -1354,11 +1354,6 @@ export default defineMessages({
     description: 'Deprecate',
     id: 'deprecate',
   },
-  deprecatePriceList: {
-    defaultMessage: 'Deprecate price list',
-    description: 'Deprecate price list',
-    id: 'deprecatePriceList',
-  },
   deprecatePriceListDesc: {
     defaultMessage: 'This price list will be deprecated.',
     description: 'This price list will be deprecated.',
@@ -3571,6 +3566,11 @@ export default defineMessages({
     defaultMessage: 'Requests',
     description: 'Requests',
     id: 'requests',
+  },
+  restore: {
+    defaultMessage: 'Restore',
+    description: 'Restore',
+    id: 'restore',
   },
   save: {
     defaultMessage: 'Save',

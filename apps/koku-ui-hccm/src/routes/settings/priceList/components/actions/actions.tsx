@@ -1,9 +1,10 @@
 import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
+import { usePriceListEnabledToggle } from 'routes/settings/priceList/utils/hooks';
 
 import { DeletePriceList } from '../deletePriceList';
 import { DeprecatePriceList } from '../deprecatePriceList';
@@ -24,6 +25,14 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, 
   const [isDeprecateModalOpen, setIsDeprecateModalOpen] = useState(false);
   const intl = useIntl();
 
+  const handleRestoreSuccess = useCallback(() => {
+    if (onClose) {
+      onClose();
+    }
+  }, [onClose]);
+
+  const { togglePriceListEnabled } = usePriceListEnabledToggle(item, handleRestoreSuccess);
+
   const getItems = () => {
     const items: DropdownWrapperItem[] = [
       {
@@ -38,8 +47,8 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, 
       },
       {
         isDisabled: isDisabled || !canWrite,
-        onClick: handleOnDeprecateModalClick,
-        toString: () => intl.formatMessage(messages.deprecatePriceList),
+        onClick: !item?.enabled ? togglePriceListEnabled : handleOnDeprecateModalClick,
+        toString: () => intl.formatMessage(!item?.enabled ? messages.restore : messages.deprecate),
         ...(!canWrite && {
           tooltipProps: {
             content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
@@ -57,7 +66,7 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, 
         }),
       },
     ];
-    return items;
+    return items.sort((a, b) => a.toString().localeCompare(b.toString()));
   };
 
   const handleOnDeleteModalClose = () => {
