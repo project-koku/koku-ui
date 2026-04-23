@@ -2,7 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 import './priceList.scss';
 
 import { Label } from '@patternfly/react-core';
-import type { PriceList, PriceListData } from 'api/priceList';
+import type { PriceList } from 'api/priceList';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -14,15 +14,12 @@ import { styles } from './priceListTable.styles';
 interface PriceListTableOwnProps {
   canWrite?: boolean;
   filterBy?: any;
-  isAllSelected?: boolean;
   isDisabled?: boolean;
   isLoading?: boolean;
   onClose?: () => void;
-  onSelect(items: PriceListData[], isSelected: boolean);
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   priceList: PriceList;
-  selectedItems?: PriceListData[];
 }
 
 type PriceListTableProps = PriceListTableOwnProps;
@@ -30,15 +27,12 @@ type PriceListTableProps = PriceListTableOwnProps;
 const PriceListTable: React.FC<PriceListTableProps> = ({
   canWrite,
   filterBy,
-  isAllSelected,
   isDisabled,
   isLoading,
   onClose,
-  onSelect,
   onSort,
   orderBy,
   priceList,
-  selectedItems,
 }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -53,9 +47,6 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
     const computedItems = priceList?.data ? (priceList.data as any) : [];
 
     const newColumns = [
-      {
-        name: '', // Selection column
-      },
       {
         orderBy: 'name',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
@@ -86,7 +77,6 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
     computedItems.map(item => {
       newRows.push({
         cells: [
-          {}, // Empty cell for row selection
           {
             value: (
               <>
@@ -114,8 +104,6 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
           },
         ],
         item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined),
-        selectionDisabled: !canWrite || item.default,
       });
     });
 
@@ -131,19 +119,16 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [selectedItems, priceList]);
+  }, [intl, priceList]);
 
   return (
     <DataTable
       columns={columns}
       filterBy={filterBy}
       isLoading={isLoading}
-      isSelectable
-      onSelect={onSelect}
       onSort={onSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems as any}
     />
   );
 };

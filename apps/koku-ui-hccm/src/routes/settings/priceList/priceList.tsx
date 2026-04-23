@@ -16,7 +16,6 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
-import { useStateCallback } from 'utils/hooks';
 
 import { styles } from './priceList.styles';
 import { PriceListTable } from './priceListTable';
@@ -54,10 +53,8 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
   const intl = useIntl();
 
   const [, forceUpdate] = useReducer(x => x + 1, 0);
-  const [isAllSelected, setIsAllSelected] = useState(false);
   const [isShowDeprecated, setIsShowDeprecated] = useState<boolean>(false);
   const [query, setQuery] = useState({ ...baseQuery });
-  const [selectedItems, setSelectedItems] = useStateCallback([]);
 
   const { priceList, priceListError, priceListFetchStatus } = useMapToProps({ isShowDeprecated, query });
 
@@ -66,10 +63,6 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
       return priceList.data as any;
     }
     return [];
-  };
-
-  const getComputedItems = () => {
-    return priceList?.data ? (priceList.data as any) : [];
   };
 
   const getPagination = (isDisabled = false, isBottom = false) => {
@@ -104,15 +97,12 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
       <PriceListTable
         canWrite={canWrite}
         filterBy={query.filter_by}
-        isAllSelected={isAllSelected}
         isDisabled={categories.length === 0}
         isLoading={priceListFetchStatus === FetchStatus.inProgress}
         onClose={forceUpdate}
         orderBy={query.order_by}
-        onSelect={handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         priceList={priceList}
-        selectedItems={selectedItems}
       />
     );
   };
@@ -123,44 +113,22 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
     return (
       <PriceListToolbar
         canWrite={canWrite}
-        isAllSelected={isAllSelected}
         isDisabled={categories.length === 0}
         isShowDeprecated={isShowDeprecated}
         itemsPerPage={categories.length}
         itemsTotal={itemsTotal}
-        onBulkSelect={handleOnBulkSelect}
         onCreate={handleOnCreate}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         onShowDeprecated={handleOnShowDeprecated}
         pagination={getPagination(isDisabled)}
         query={query}
-        selectedItems={selectedItems}
-        showBulkSelectAll={false}
       />
     );
   };
 
   const handleOnShowDeprecated = (checked: boolean) => {
     setIsShowDeprecated(checked);
-  };
-
-  const handleOnBulkSelect = (action: string) => {
-    if (action === 'none') {
-      setIsAllSelected(false);
-      setSelectedItems([]);
-    } else if (action === 'page') {
-      const newSelectedItems = [...selectedItems];
-      getCategories().map(val => {
-        if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
-          newSelectedItems.push(val);
-        }
-      });
-      setSelectedItems(newSelectedItems);
-    } else if (action === 'all') {
-      setIsAllSelected(true);
-      setSelectedItems([]);
-    }
   };
 
   const handleOnCreate = () => {
@@ -196,21 +164,6 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, priceList, pageNumber, true);
     setQuery(newQuery);
-  };
-
-  const handleonSelect = (items: PriceListData[], isSelected: boolean = false) => {
-    let newItems = [...(isAllSelected ? getComputedItems() : selectedItems)];
-    if (items && items.length > 0) {
-      if (isSelected) {
-        items.map(item => newItems.push(item));
-      } else {
-        items.map(item => {
-          newItems = newItems.filter(val => val.uuid !== item.uuid);
-        });
-      }
-    }
-    setIsAllSelected(false);
-    setSelectedItems(newItems);
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
