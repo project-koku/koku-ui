@@ -3,11 +3,18 @@ const reactIntl = jest.requireActual('react-intl');
 const intl = {
   formatDate: jest.fn(() => ''), // Dates won't match snapshots during PR builds
   formatDateTimeRange: jest.fn(() => ''), // Dates won't match snapshots during PR builds
-  formatMessage: jest.fn(({ defaultMessage }, params?) => {
+  formatMessage: jest.fn(({ defaultMessage, id }, params?) => {
     if (!params) {
-      return defaultMessage;
+      return defaultMessage ?? id ?? '';
     }
-    return defaultMessage + JSON.stringify(params);
+    const serializable: Record<string, unknown> = {};
+    for (const [key, val] of Object.entries(params)) {
+      if (val === null || typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') {
+        serializable[key] = val;
+      }
+    }
+    const suffix = Object.keys(serializable).length ? JSON.stringify(serializable) : '';
+    return (defaultMessage ?? id ?? '') + suffix;
   }),
   formatNumber: jest.fn(v => v),
   // Used by getCurrencySymbol; mimic Intl.NumberFormat(...).formatToParts

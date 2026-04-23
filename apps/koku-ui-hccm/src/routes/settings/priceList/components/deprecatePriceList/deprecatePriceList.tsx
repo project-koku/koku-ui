@@ -12,7 +12,6 @@ import {
 } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
-import { getQuery } from 'api/queries/query';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -52,12 +51,8 @@ const DeprecatePriceList: React.FC<DeprecatePriceListProps> = ({ isOpen, item, o
   const handleOnDeprecate = () => {
     if (priceListUpdateFetchStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
-      const query = {
-        uuid: item.uuid,
-      };
-      const queryString = getQuery(query);
       dispatch(
-        priceListActions.updatePriceList(priceListType, queryString, {
+        priceListActions.updatePriceList(priceListType, item.uuid, {
           enable: false,
         })
       );

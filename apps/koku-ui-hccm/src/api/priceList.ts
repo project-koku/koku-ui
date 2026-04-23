@@ -71,15 +71,14 @@ export function fetchPriceList(priceListType: PriceListType, query?: string) {
   return axiosInstance.get<PriceList>(`${path}${queryString}`);
 }
 
-export function updatePriceList(priceListType: PriceListType, query?: string, payload?: PriceListPayload) {
+export function updatePriceList(priceListType: PriceListType, uuid: string, payload?: PriceListPayload) {
   const path = PriceListPathsType[priceListType];
-  const queryString = query ? `?${query}` : '';
 
   if (priceListType === PriceListType.priceListAdd) {
     return axiosInstance.post<PriceListPayload>(`${path}`, payload);
   } else if (priceListType === PriceListType.priceListRemove) {
-    return axiosInstance.delete<PriceListPayload>(`${path}${queryString}`);
+    return axiosInstance.delete<PriceListPayload>(`${path}${uuid}`);
   } else if (priceListType === PriceListType.priceListUpdate) {
-    return axiosInstance.put<PriceListPayload>(`${path}${queryString}`, payload);
+    return axiosInstance.put<PriceListPayload>(`${path}${uuid}`, payload);
   }
 }

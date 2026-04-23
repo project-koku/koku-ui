@@ -57,7 +57,7 @@ export function fetchPriceList(priceListType: PriceListType, priceListQueryStrin
   };
 }
 
-export function updatePriceList(priceListType: PriceListType, query?: string, payload?: PriceListPayload): ThunkAction {
+export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
     const fetchStatus = selectPriceListUpdateFetchStatus(state, priceListType);
@@ -89,7 +89,7 @@ export function updatePriceList(priceListType: PriceListType, query?: string, pa
         break;
     }
 
-    return apiUpdatePriceList(priceListType, query, payload)
+    return apiUpdatePriceList(priceListType, uuid, payload)
       .then(res => {
         dispatch(
           updatePriceListSuccess(res, {

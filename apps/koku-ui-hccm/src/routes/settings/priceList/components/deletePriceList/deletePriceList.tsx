@@ -3,7 +3,6 @@ import './deletePriceList.scss';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
-import { getQuery } from 'api/queries/query';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -43,10 +42,7 @@ const DeletePriceList: React.FC<DeletePriceListProps> = ({ isOpen, item, onClose
   const handleOnDelete = () => {
     if (priceListUpdateFetchStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
-      const query = {
-        uuid: item.uuid,
-      };
-      dispatch(priceListActions.updatePriceList(priceListType, getQuery(query)));
+      dispatch(priceListActions.updatePriceList(priceListType, item.uuid));
     }
   };
 
