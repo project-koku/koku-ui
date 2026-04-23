@@ -39,7 +39,7 @@ describe('DeletePriceList', () => {
     await waitFor(() => expect(api.updatePriceList).toHaveBeenCalled());
     await waitFor(() =>
       expect(
-        priceListSelectors.selectPriceListUpdateFetchStatus(store.getState() as any, PriceListType.priceListRemove)
+        priceListSelectors.selectPriceListUpdateStatus(store.getState() as any, PriceListType.priceListRemove)
       ).toBe(FetchStatus.complete)
     );
   });

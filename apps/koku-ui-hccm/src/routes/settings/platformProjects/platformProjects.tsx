@@ -51,10 +51,11 @@ const baseQuery: Query = {
 };
 
 const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
-  const [query, setQuery] = useState({ ...baseQuery });
-  const [selectedItems, setSelectedItems] = useStateCallback([]);
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
+
+  const [query, setQuery] = useState({ ...baseQuery });
+  const [selectedItems, setSelectedItems] = useStateCallback([]);
 
   const { settings, settingsError, settingsStatus } = useMapToProps({ query });
 

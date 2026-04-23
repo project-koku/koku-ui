@@ -31,18 +31,18 @@ describe('priceList store', () => {
 
   const emptySlice = () => ({
     byId: new Map(),
-    fetchStatus: new Map(),
     errors: new Map(),
     notification: new Map(),
+    status: new Map(),
   });
 
   test('resetState returns initial slice shape', () => {
     let state = priceListReducer(undefined as any, fetchPriceListRequest({ fetchId: 'x' } as any));
     state = priceListReducer(state, resetState());
     expect(state.byId.size).toBe(0);
-    expect(state.fetchStatus.size).toBe(0);
     expect(state.errors.size).toBe(0);
     expect(state.notification?.size).toBe(0);
+    expect(state.status.size).toBe(0);
   });
 
   test('fetch request, success, and failure update maps', () => {
@@ -50,15 +50,15 @@ describe('priceList store', () => {
     const qs = 'limit=10';
     const fid = getFetchId(type, qs);
     let state = priceListReducer(undefined as any, fetchPriceListRequest({ fetchId: fid } as any));
-    expect(state.fetchStatus.get(fid)).toBe(FetchStatus.inProgress);
+    expect(state.status.get(fid)).toBe(FetchStatus.inProgress);
     const payload: any = { data: [], meta: { count: 0, limit: 10, offset: 0 } };
     state = priceListReducer(state, fetchPriceListSuccess(payload, { fetchId: fid } as any));
-    expect(state.fetchStatus.get(fid)).toBe(FetchStatus.complete);
+    expect(state.status.get(fid)).toBe(FetchStatus.complete);
     expect(state.byId.get(fid)?.data).toEqual(payload.data);
     expect(state.errors.get(fid)).toBeNull();
     const err = new Error('oops') as any;
     state = priceListReducer(state, fetchPriceListFailure(err, { fetchId: fid } as any));
-    expect(state.fetchStatus.get(fid)).toBe(FetchStatus.complete);
+    expect(state.status.get(fid)).toBe(FetchStatus.complete);
     expect(state.errors.get(fid)).toBe(err);
   });
 
@@ -67,12 +67,12 @@ describe('priceList store', () => {
     const fid = getFetchId(type);
     let state: any = emptySlice();
     state = priceListReducer(state, updatePriceListRequest({ fetchId: fid } as any));
-    expect(selectors.selectPriceListUpdateFetchStatus(makeRoot(state), type)).toBe(FetchStatus.inProgress);
+    expect(selectors.selectPriceListUpdateStatus(makeRoot(state), type)).toBe(FetchStatus.inProgress);
     state = priceListReducer(
       state,
       updatePriceListSuccess({} as any, { fetchId: fid, notification: { t: 1 } } as any)
     );
-    expect(selectors.selectPriceListUpdateFetchStatus(makeRoot(state), type)).toBe(FetchStatus.complete);
+    expect(selectors.selectPriceListUpdateStatus(makeRoot(state), type)).toBe(FetchStatus.complete);
     expect(selectors.selectPriceListUpdateNotification(makeRoot(state), type)).toEqual({ t: 1 });
     state = priceListReducer(state, updatePriceListFailure({} as any, { fetchId: fid, notification: { e: 1 } } as any));
     expect(selectors.selectPriceListUpdateError(makeRoot(state), type)).toEqual({});
@@ -85,7 +85,7 @@ describe('priceList store', () => {
     const fid = getFetchId(type, qs);
     let state: any = emptySlice();
     state = priceListReducer(state, fetchPriceListRequest({ fetchId: fid } as any));
-    expect(selectors.selectPriceListFetchStatus(makeRoot(state), type, qs)).toBe(FetchStatus.inProgress);
+    expect(selectors.selectPriceListStatus(makeRoot(state), type, qs)).toBe(FetchStatus.inProgress);
     const payload: any = { data: [{ name: 'pl' }], meta: { count: 1 } };
     state = priceListReducer(state, fetchPriceListSuccess(payload, { fetchId: fid } as any));
     expect(selectors.selectPriceList(makeRoot(state), type, qs)).toMatchObject({
@@ -110,7 +110,7 @@ describe('priceList store', () => {
     expect(dispatched[1].payload).toBe(res.data);
 
     const inProgress = emptySlice();
-    inProgress.fetchStatus.set(fid, FetchStatus.inProgress);
+    inProgress.status.set(fid, FetchStatus.inProgress);
     dispatched.length = 0;
     getState = () => makeRoot(inProgress);
     await (fetchPriceList(type, qs) as any)((a: any) => dispatched.push(a), getState);
@@ -152,9 +152,9 @@ describe('priceList store', () => {
     expect(dispatched[1].meta.notification.title).toBe('priceListAddErrorTitle');
 
     const inProgress = emptySlice();
-    inProgress.fetchStatus.set(getFetchId(PriceListType.priceListUpdate), FetchStatus.inProgress);
+    inProgress.status.set(getFetchId(PriceListType.priceListUpdate), FetchStatus.inProgress);
     dispatched.length = 0;
-    await (updatePriceList(PriceListType.priceListUpdate, '?uuid=1', { enable: false }) as any)(
+    await (updatePriceList(PriceListType.priceListUpdate, '?uuid=1', { enabled: false }) as any)(
       (a: any) => dispatched.push(a),
       () => makeRoot(inProgress)
     );
