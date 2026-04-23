@@ -86,11 +86,12 @@ export function updatePriceList(priceListType: PriceListType, uuid?: string, pay
   const path = PriceListPathsType[priceListType];
   const id = uuid ? `${uuid}/` : '';
 
-  if (priceListType === PriceListType.priceListAdd) {
-    return axiosInstance.post<PriceListPayload>(`${path}`, payload);
-  } else if (priceListType === PriceListType.priceListRemove) {
+  if (priceListType === PriceListType.priceListRemove) {
     return axiosInstance.delete<PriceListPayload>(`${path}${id}`);
   } else if (priceListType === PriceListType.priceListUpdate) {
     return axiosInstance.put<PriceListPayload>(`${path}${id}`, payload);
+  } else {
+    // PriceListType.priceListAdd (default)
+    return axiosInstance.post<PriceListPayload>(`${path}`, payload);
   }
 }

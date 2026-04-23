@@ -558,7 +558,7 @@
   "priceListAddRate": "Add rate",
   "priceListDeleteRate": "Delete rate",
   "priceListDeleteRateDesc": "{count, plural, one {This action will remove {metric} rate from {costModel}} other {This action will remove {metric} rate from {costModel}, which is assigned to the following integrations:}}",
-  "priceListDesc": "Price lists define unit rates and the dates they apply; assign them t o a cost model to drive change calculations. {learnMore}",
+  "priceListDesc": "Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}",
   "priceListDuplicate": "This tag key is already in use",
   "priceListEditRate": "Edit rate",
   "priceListEmptyRate": "No rates are set",
