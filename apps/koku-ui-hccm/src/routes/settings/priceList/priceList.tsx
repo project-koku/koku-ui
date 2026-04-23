@@ -206,18 +206,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
 const useMapToProps = ({ isShowDeprecated, query }: PriceListMapProps): PriceListStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const flattenFilterBy = () => {
-    const result: any = {};
-
-    if (!query?.filter_by) {
-      return result;
-    }
-    Object.keys(query?.filter_by).forEach(key => {
-      result[key] = query?.filter_by[key];
-    });
-    return result;
-  };
-
+  const flattenFilterBy = () => ({ ...query?.filter_by });
   const flattenOrderBy = () => {
     const result: any = {};
 

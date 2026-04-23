@@ -53,8 +53,8 @@ const DeprecatePriceList: React.FC<DeprecatePriceListProps> = ({ isOpen, item, o
       setIsFinish(true);
       dispatch(
         priceListActions.updatePriceList(priceListType, item.uuid, {
-          enable: false,
-          name: item.name,
+          enabled: !item.enabled,
+          name: item.name, // required field
         })
       );
     }

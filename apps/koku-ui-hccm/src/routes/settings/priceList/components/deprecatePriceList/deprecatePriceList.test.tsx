@@ -24,7 +24,7 @@ describe('DeprecatePriceList', () => {
   const setupStore = () =>
     createStore(combineReducers({ [priceListStateKey]: priceListReducer }), applyMiddleware(thunk));
 
-  test('confirm dispatches update with enable false and completes in the store', async () => {
+  test('confirm dispatches update with enabled false, required name, and completes in the store', async () => {
     (api.updatePriceList as jest.Mock).mockResolvedValue({});
     const store = setupStore();
     render(
@@ -38,7 +38,7 @@ describe('DeprecatePriceList', () => {
     fireEvent.click(within(dialog).getByRole('button', { name: /^deprecate$/i }));
     await waitFor(() => expect(api.updatePriceList).toHaveBeenCalled());
     const [, query, payload] = (api.updatePriceList as jest.Mock).mock.calls[0];
-    expect(payload).toEqual({ enable: false, name: 'To deprecate' });
+    expect(payload).toEqual({ enabled: false, name: 'To deprecate' });
     expect(String(query)).toContain('u-dep');
     await waitFor(() =>
       expect(
