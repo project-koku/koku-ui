@@ -10,11 +10,7 @@ import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './priceListCommon';
-import {
-  selectPriceListError,
-  selectPriceListFetchStatus,
-  selectPriceListUpdateFetchStatus,
-} from './priceListSelectors';
+import { selectPriceListError, selectPriceListStatus, selectPriceListUpdateStatus } from './priceListSelectors';
 
 interface PriceListActionMeta {
   fetchId: string;
@@ -32,12 +28,15 @@ export const updatePriceListSuccess = createAction('priceList/update/success')<
 >();
 export const updatePriceListFailure = createAction('priceList/update/failure')<AxiosError, PriceListActionMeta>();
 
+export const resetNotification = createAction('priceList/notification/reset')();
+export const resetStatus = createAction('priceList/status/reset')();
+
 export function fetchPriceList(priceListType: PriceListType, priceListQueryString: string): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchError = selectPriceListError(state, priceListType, priceListQueryString);
-    const fetchStatus = selectPriceListFetchStatus(state, priceListType, priceListQueryString);
-    if (fetchError || fetchStatus === FetchStatus.inProgress) {
+    const error = selectPriceListError(state, priceListType, priceListQueryString);
+    const status = selectPriceListStatus(state, priceListType, priceListQueryString);
+    if (error || status === FetchStatus.inProgress) {
       return;
     }
 
@@ -60,7 +59,7 @@ export function fetchPriceList(priceListType: PriceListType, priceListQueryStrin
 export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchStatus = selectPriceListUpdateFetchStatus(state, priceListType);
+    const fetchStatus = selectPriceListUpdateStatus(state, priceListType);
 
     if (fetchStatus === FetchStatus.inProgress) {
       return;

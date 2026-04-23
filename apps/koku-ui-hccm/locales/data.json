@@ -2828,12 +2828,6 @@
         "value": "Deprecate"
       }
     ],
-    "deprecatePriceList": [
-      {
-        "type": 0,
-        "value": "Deprecate price list"
-      }
-    ],
     "deprecatePriceListDesc": [
       {
         "type": 0,
@@ -12152,6 +12146,12 @@
       {
         "type": 0,
         "value": "Requests"
+      }
+    ],
+    "restore": [
+      {
+        "type": 0,
+        "value": "Restore"
       }
     ],
     "save": [

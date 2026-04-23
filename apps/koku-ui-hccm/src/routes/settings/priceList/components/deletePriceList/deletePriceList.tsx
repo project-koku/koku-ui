@@ -26,7 +26,7 @@ interface DeletePriceListMapProps {
 
 interface DeletePriceListStateProps {
   priceListUpdateError?: AxiosError;
-  priceListUpdateFetchStatus?: FetchStatus;
+  PriceListUpdateStatus?: FetchStatus;
 }
 
 type DeletePriceListProps = DeletePriceListOwnProps;
@@ -37,20 +37,20 @@ const DeletePriceList: React.FC<DeletePriceListProps> = ({ isOpen, item, onClose
 
   const priceListType = PriceListType.priceListRemove;
   const [isFinish, setIsFinish] = useState(false);
-  const { priceListUpdateError, priceListUpdateFetchStatus } = useMapToProps({ priceListType });
+  const { priceListUpdateError, PriceListUpdateStatus } = useMapToProps({ priceListType });
 
   const handleOnDelete = () => {
-    if (priceListUpdateFetchStatus !== FetchStatus.inProgress) {
+    if (PriceListUpdateStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
       dispatch(priceListActions.updatePriceList(priceListType, item.uuid));
     }
   };
 
   useEffect(() => {
-    if (isFinish && priceListUpdateFetchStatus === FetchStatus.complete && !priceListUpdateError) {
+    if (isFinish && PriceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
       onClose();
     }
-  }, [isFinish, priceListUpdateError, priceListUpdateFetchStatus]);
+  }, [isFinish, priceListUpdateError, PriceListUpdateStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -80,16 +80,16 @@ const DeletePriceList: React.FC<DeletePriceListProps> = ({ isOpen, item, onClose
 };
 
 const useMapToProps = ({ priceListType }: DeletePriceListMapProps): DeletePriceListStateProps => {
-  const priceListUpdateFetchStatus = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateFetchStatus(state, priceListType)
-  );
   const priceListUpdateError = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListUpdateError(state, priceListType)
+  );
+  const PriceListUpdateStatus = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListUpdateStatus(state, priceListType)
   );
 
   return {
     priceListUpdateError,
-    priceListUpdateFetchStatus,
+    PriceListUpdateStatus,
   };
 };
 
