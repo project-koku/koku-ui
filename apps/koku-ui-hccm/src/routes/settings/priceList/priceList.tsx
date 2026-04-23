@@ -1,42 +1,41 @@
 import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
+import type { PriceListData } from 'api/priceList';
+import { PriceList, PriceListType } from 'api/priceList';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
-import type { Settings } from 'api/settings';
-import type { SettingsData } from 'api/settings';
-import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { useSettingsUpdate } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { settingsActions, settingsSelectors } from 'store/settings';
+import { priceListActions, priceListSelectors } from 'store/priceList';
 import { useStateCallback } from 'utils/hooks';
 
 import { styles } from './priceList.styles';
 import { PriceListTable } from './priceListTable';
-import { GroupType, PriceListToolbar } from './priceListToolbar';
+import { PriceListToolbar } from './priceListToolbar';
 
 interface PriceListOwnProps {
   canWrite?: boolean;
 }
 
 export interface PriceListMapProps {
+  isShowDeprecated?: boolean;
   query?: Query;
 }
 
 export interface PriceListStateProps {
-  settings?: Settings;
-  settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
-  settingsQueryString?: string;
+  priceList?: PriceList;
+  priceListError?: AxiosError;
+  priceListFetchStatus?: FetchStatus;
+  priceListQueryString?: string;
 }
 
 type PriceListProps = PriceListOwnProps;
@@ -46,29 +45,37 @@ const baseQuery: Query = {
   offset: 0,
   filter_by: {},
   order_by: {
-    group: 'asc',
+    name: 'asc',
   },
 };
 
 const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
-  const [query, setQuery] = useState({ ...baseQuery });
-  const [selectedItems, setSelectedItems] = useStateCallback([]);
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  // const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [isAllSelected, setIsAllSelected] = useState(false);
+  const [isShowDeprecated, setIsShowDeprecated] = useState<boolean>(false);
+  const [query, setQuery] = useState({ ...baseQuery });
+  const [selectedItems, setSelectedItems] = useStateCallback([]);
+
+  const { priceList, priceListError, priceListFetchStatus } = useMapToProps({ isShowDeprecated, query });
 
   const getCategories = () => {
-    if (settings) {
-      return settings.data as any;
+    if (priceList) {
+      return priceList.data as any;
     }
     return [];
   };
 
+  const getComputedItems = () => {
+    return priceList?.data ? (priceList.data as any) : [];
+  };
+
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = settings?.meta ? settings.meta.count : 0;
-    const limit = settings?.meta ? settings.meta.limit : baseQuery.limit;
-    const offset = settings?.meta ? settings.meta.offset : baseQuery.offset;
+    const count = priceList?.meta ? priceList.meta.count : 0;
+    const limit = priceList?.meta ? priceList.meta.limit : baseQuery.limit;
+    const offset = priceList?.meta ? priceList.meta.offset : baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -97,35 +104,35 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
       <PriceListTable
         canWrite={canWrite}
         filterBy={query.filter_by}
-        isLoading={settingsStatus === FetchStatus.inProgress}
+        isAllSelected={isAllSelected}
+        isDisabled={categories.length === 0}
+        isLoading={priceListFetchStatus === FetchStatus.inProgress}
+        onClose={forceUpdate}
         orderBy={query.order_by}
         onSelect={handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
-        settings={settings}
+        priceList={priceList}
         selectedItems={selectedItems}
       />
     );
   };
 
-  const getToolbar = (categories: SettingsData[]) => {
-    const hasEnabledPlatformGroup = selectedItems.find(item => item.group === 'Platform' && !item.default);
-    const hasDisabledPlatformGroup = selectedItems.find(item => item.group !== 'Platform' && !item.default);
-    const itemsTotal = settings?.meta ? settings.meta.count : 0;
-    const unAvailableCategories = categories.filter(item => item.default);
+  const getToolbar = (categories: PriceListData[]) => {
+    const itemsTotal = priceList?.meta ? priceList.meta.count : 0;
 
     return (
       <PriceListToolbar
         canWrite={canWrite}
+        isAllSelected={isAllSelected}
         isDisabled={categories.length === 0}
-        isPrimaryActionDisabled={!hasDisabledPlatformGroup}
-        isSecondaryActionDisabled={!hasEnabledPlatformGroup}
-        itemsPerPage={categories.length - unAvailableCategories.length}
+        isShowDeprecated={isShowDeprecated}
+        itemsPerPage={categories.length}
         itemsTotal={itemsTotal}
-        onAdd={handleOnAdd}
         onBulkSelect={handleOnBulkSelect}
+        onCreate={handleOnCreate}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
-        onRemove={handleOnRemove}
+        onShowDeprecated={handleOnShowDeprecated}
         pagination={getPagination(isDisabled)}
         query={query}
         selectedItems={selectedItems}
@@ -134,30 +141,41 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
     );
   };
 
+  const handleOnShowDeprecated = (checked: boolean) => {
+    setIsShowDeprecated(checked);
+  };
+
   const handleOnBulkSelect = (action: string) => {
     if (action === 'none') {
+      setIsAllSelected(false);
       setSelectedItems([]);
     } else if (action === 'page') {
       const newSelectedItems = [...selectedItems];
       getCategories().map(val => {
-        if (!newSelectedItems.find(item => item.project === val.project) && !val.default) {
+        if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
           newSelectedItems.push(val);
         }
       });
       setSelectedItems(newSelectedItems);
+    } else if (action === 'all') {
+      setIsAllSelected(true);
+      setSelectedItems([]);
     }
   };
 
-  const handleOnAdd = () => {
-    if (selectedItems.length > 0) {
-      const payload = selectedItems.map(item => ({
-        project: item.project,
-        group: GroupType.platform,
-      }));
-      setSelectedItems([], () => {
-        dispatch(settingsActions.updateSettings(SettingsType.platformProjectsAdd, payload as any));
-      });
-    }
+  const handleOnCreate = () => {
+    // eslint-disable-next-line no-console
+    console.log(`onCreate clicked`);
+
+    // if (selectedItems.length > 0) {
+    //   const payload = selectedItems.map(item => ({
+    //     project: item.project,
+    //     group: GroupType.platform,
+    //   }));
+    //   setSelectedItems([], () => {
+    //     dispatch(priceListActions.updatePriceList(PriceListType.priceListAdd, payload as any));
+    //   });
+    // }
   };
 
   const handleOnFilterAdded = filter => {
@@ -175,38 +193,23 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
     setQuery(newQuery);
   };
 
-  const handleOnRemove = () => {
-    if (selectedItems.length > 0) {
-      const payload = selectedItems.map(item => {
-        if (!item.default) {
-          return {
-            project: item.project,
-            group: item.group,
-          };
-        }
-      });
-      setSelectedItems([], () => {
-        dispatch(settingsActions.updateSettings(SettingsType.platformProjectsRemove, payload as any));
-      });
-    }
-  };
-
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, settings, pageNumber, true);
+    const newQuery = queryUtils.handleOnSetPage(query, priceList, pageNumber, true);
     setQuery(newQuery);
   };
 
-  const handleonSelect = (items: SettingsData[], isSelected: boolean = false) => {
-    let newItems = [...selectedItems];
+  const handleonSelect = (items: PriceListData[], isSelected: boolean = false) => {
+    let newItems = [...(isAllSelected ? getComputedItems() : selectedItems)];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
       } else {
         items.map(item => {
-          newItems = newItems.filter(val => val.project !== item.project);
+          newItems = newItems.filter(val => val.uuid !== item.uuid);
         });
       }
     }
+    setIsAllSelected(false);
     setSelectedItems(newItems);
   };
 
@@ -218,22 +221,22 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
   const categories = getCategories();
   const isDisabled = categories.length === 0;
 
-  if (settingsError) {
+  if (priceListError) {
     return <NotAvailable />;
   }
   return (
     <Card>
       <CardBody>
-        {intl.formatMessage(messages.platformProjectsDesc, {
+        {intl.formatMessage(messages.priceListDesc, {
           learnMore: (
-            <a href={intl.formatMessage(messages.docsPlatformProjects)} rel="noreferrer" target="_blank">
+            <a href={intl.formatMessage(messages.docsPriceList)} rel="noreferrer" target="_blank">
               {intl.formatMessage(messages.learnMore)}
             </a>
           ),
         })}
         <div style={styles.tableContainer}>
           {getToolbar(categories)}
-          {settingsStatus === FetchStatus.inProgress ? (
+          {priceListFetchStatus === FetchStatus.inProgress ? (
             <LoadingState />
           ) : (
             <>
@@ -247,50 +250,63 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
   );
 };
 
-const useMapToProps = ({ query }: PriceListMapProps): PriceListStateProps => {
+const useMapToProps = ({ isShowDeprecated, query }: PriceListMapProps): PriceListStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const settingsQuery = {
-    filter_by: query.filter_by,
+  const flattenFilterBy = () => {
+    const result: any = {};
+
+    if (!query?.filter_by) {
+      return result;
+    }
+    Object.keys(query?.filter_by).forEach(key => {
+      result[key] = query?.filter_by[key];
+    });
+    return result;
+  };
+
+  const flattenOrderBy = () => {
+    const result: any = {};
+
+    if (!query?.order_by) {
+      return result;
+    }
+    Object.keys(query?.order_by).forEach(key => {
+      const item = query?.order_by[key];
+      result.ordering = item === 'asc' ? key : `-${key}`;
+    });
+    return result;
+  };
+
+  const priceListQuery = {
+    enabled: !isShowDeprecated,
     limit: query.limit,
     offset: query.offset,
-    order_by: query.order_by,
+    ...flattenFilterBy(),
+    ...flattenOrderBy(),
   };
-  const settingsQueryString = getQuery(settingsQuery);
-  const settings = useSelector((state: RootState) =>
-    settingsSelectors.selectSettings(state, SettingsType.platformProjects, settingsQueryString)
+  const priceListQueryString = getQuery(priceListQuery);
+  const priceList = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceList(state, PriceListType.priceList, priceListQueryString)
   );
-  const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.platformProjects, settingsQueryString)
+  const priceListFetchStatus = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceList, priceListQueryString)
   );
-  const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.platformProjects, settingsQueryString)
+  const priceListError = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListError(state, PriceListType.priceList, priceListQueryString)
   );
-
-  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
-    type: SettingsType.platformProjectsAdd,
-  });
-
-  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
-    type: SettingsType.platformProjectsRemove,
-  });
 
   useEffect(() => {
-    if (
-      !settingsError &&
-      settingsStatus !== FetchStatus.inProgress &&
-      settingsUpdateDisableStatus !== FetchStatus.inProgress &&
-      settingsUpdateEnableStatus !== FetchStatus.inProgress
-    ) {
-      dispatch(settingsActions.fetchSettings(SettingsType.platformProjects, settingsQueryString));
+    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
+      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, priceListQueryString));
     }
-  }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+  }, [isShowDeprecated, query]);
 
   return {
-    settings,
-    settingsError,
-    settingsStatus,
-    settingsQueryString,
+    priceList,
+    priceListError,
+    priceListFetchStatus,
+    priceListQueryString,
   };
 };
 

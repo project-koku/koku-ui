@@ -2,22 +2,27 @@ import 'routes/components/dataTable/dataTable.scss';
 import './priceList.scss';
 
 import { Label } from '@patternfly/react-core';
-import type { Settings, SettingsData } from 'api/settings';
+import type { PriceList, PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Cluster } from 'routes/components/cluster';
 import { DataTable } from 'routes/components/dataTable';
+
+import { Actions } from './components/actions';
+import { styles } from './priceListTable.styles';
 
 interface PriceListTableOwnProps {
   canWrite?: boolean;
   filterBy?: any;
+  isAllSelected?: boolean;
+  isDisabled?: boolean;
   isLoading?: boolean;
-  onSelect(items: SettingsData[], isSelected: boolean);
+  onClose?: () => void;
+  onSelect(items: PriceListData[], isSelected: boolean);
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
-  selectedItems?: SettingsData[];
-  settings: Settings;
+  priceList: PriceList;
+  selectedItems?: PriceListData[];
 }
 
 type PriceListTableProps = PriceListTableOwnProps;
@@ -25,46 +30,56 @@ type PriceListTableProps = PriceListTableOwnProps;
 const PriceListTable: React.FC<PriceListTableProps> = ({
   canWrite,
   filterBy,
+  isAllSelected,
+  isDisabled,
   isLoading,
+  onClose,
   onSelect,
   onSort,
   orderBy,
+  priceList,
   selectedItems,
-  settings,
 }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
   const initDatum = () => {
-    if (!settings) {
+    if (!priceList) {
       return;
     }
 
     const newRows = [];
-    const computedItems = settings?.data ? (settings.data as any) : [];
+    const computedItems = priceList?.data ? (priceList.data as any) : [];
 
     const newColumns = [
       {
         name: '', // Selection column
       },
       {
-        orderBy: 'project', // Todo: update filter name
+        orderBy: 'name',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        name: '', // Default column
+        orderBy: 'currency',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'currency' }),
       },
       {
-        orderBy: 'group',
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'group' }),
+        orderBy: 'effective_start_date',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'start_date' }),
         ...(computedItems.length && { isSortable: true }),
       },
       {
-        orderBy: 'cluster',
-        name: intl.formatMessage(messages.clusters),
-        ...(computedItems.length && { isSortable: false }), // No sort for cluster
+        orderBy: 'effective_end_date',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'end_date' }),
+        ...(computedItems.length && { isSortable: true }),
+      },
+      {
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'cost_models' }),
+      },
+      {
+        name: '', // Actions column
       },
     ];
 
@@ -73,21 +88,33 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
         cells: [
           {}, // Empty cell for row selection
           {
-            value: item.project ? item.project : '',
+            value: (
+              <>
+                {item?.name || ''}
+                <Label isCompact style={styles.version}>
+                  {intl.formatMessage(messages.version, { value: item.version })}
+                </Label>
+              </>
+            ),
           },
           {
-            className: 'defaultColumn',
-            value: item.default ? <Label color="green">{intl.formatMessage(messages.default)}</Label> : null,
+            value: item?.currency || '',
           },
           {
-            className: 'groupColumn',
-            value:
-              item.group === 'Platform' ? <Label color="green">{intl.formatMessage(messages.platform)}</Label> : null,
+            value: item?.effective_start_date || '',
           },
-          { value: <Cluster clusters={item.clusters} groupBy="clusters" /> },
+          {
+            value: item?.effective_end_date || '',
+          },
+          {
+            value: item?.cost_models || '',
+          },
+          {
+            value: <Actions canWrite={canWrite} isDisabled={isDisabled} item={item} onClose={onClose} />,
+          },
         ],
         item,
-        selected: selectedItems && selectedItems.find(val => val.project === item.project) !== undefined,
+        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined),
         selectionDisabled: !canWrite || item.default,
       });
     });
@@ -104,7 +131,7 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [selectedItems, settings]);
+  }, [selectedItems, priceList]);
 
   return (
     <DataTable
@@ -116,7 +143,7 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
       onSort={onSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems}
+      selectedItems={selectedItems as any}
     />
   );
 };

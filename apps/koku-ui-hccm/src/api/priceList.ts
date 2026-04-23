@@ -47,7 +47,7 @@ export interface PriceList {
   data: PriceListData;
 }
 
-export interface PriceListPayload {
+export interface PriceListPayload extends PriceListData {
   // TBD...
 }
 
@@ -55,21 +55,31 @@ export const enum PriceListType {
   priceList = 'priceList',
   priceListAdd = 'priceListAdd',
   priceListRemove = 'priceListRemove',
+  priceListUpdate = 'priceListUpdate',
 }
 
-export const PriceListTypePaths: Partial<Record<PriceListType, string>> = {
-  [PriceListType.priceList]: 'priceList/',
-  [PriceListType.priceListAdd]: 'priceList/add/',
-  [PriceListType.priceListRemove]: 'priceList/remove/',
+export const PriceListPathsType: Partial<Record<PriceListType, string>> = {
+  [PriceListType.priceList]: 'price-lists/',
+  [PriceListType.priceListAdd]: 'price-lists/',
+  [PriceListType.priceListRemove]: 'price-lists/',
+  [PriceListType.priceListUpdate]: 'price-lists/',
 };
 
-export function fetchPriceList(settingsType: PriceListType, query: string) {
-  const path = PriceListTypePaths[settingsType];
+export function fetchPriceList(priceListType: PriceListType, query?: string) {
+  const path = PriceListPathsType[priceListType];
   const queryString = query ? `?${query}` : '';
   return axiosInstance.get<PriceList>(`${path}${queryString}`);
 }
 
-export function updatePriceList(settingsType: PriceListType, payload: PriceListPayload) {
-  const path = PriceListTypePaths[settingsType];
-  return axiosInstance.put(`${path}`, payload);
+export function updatePriceList(priceListType: PriceListType, query?: string, payload?: PriceListPayload) {
+  const path = PriceListPathsType[priceListType];
+  const queryString = query ? `?${query}` : '';
+
+  if (priceListType === PriceListType.priceListAdd) {
+    return axiosInstance.post<PriceListPayload>(`${path}`, payload);
+  } else if (priceListType === PriceListType.priceListRemove) {
+    return axiosInstance.delete<PriceListPayload>(`${path}${queryString}`);
+  } else if (priceListType === PriceListType.priceListUpdate) {
+    return axiosInstance.put<PriceListPayload>(`${path}${queryString}`, payload);
+  }
 }

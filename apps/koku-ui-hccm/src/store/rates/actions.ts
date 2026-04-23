@@ -13,9 +13,7 @@ interface Meta {
 }
 
 export const fetchRateRequest = createAction('priceList/request')<Meta>();
-
 export const fetchRateSuccess = createAction('priceList/success')<Rates, Meta>();
-
 export const fetchRateFailure = createAction('priceList/failure')<AxiosError, Meta>();
 
 export function fetchRate(providerUuid) {
