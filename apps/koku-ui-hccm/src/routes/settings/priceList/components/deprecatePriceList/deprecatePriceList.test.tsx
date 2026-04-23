@@ -30,7 +30,7 @@ describe('DeprecatePriceList', () => {
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <DeprecatePriceList isOpen item={{ uuid: 'u-dep', name: 'To deprecate' } as any} />
+          <DeprecatePriceList isOpen item={{ uuid: 'u-dep', name: 'To deprecate', enabled: true } as any} />
         </IntlProvider>
       </Provider>
     );
@@ -42,7 +42,7 @@ describe('DeprecatePriceList', () => {
     expect(String(query)).toContain('u-dep');
     await waitFor(() =>
       expect(
-        priceListSelectors.selectPriceListUpdateFetchStatus(store.getState() as any, PriceListType.priceListUpdate)
+        priceListSelectors.selectPriceListUpdateStatus(store.getState() as any, PriceListType.priceListUpdate)
       ).toBe(FetchStatus.complete)
     );
   });
