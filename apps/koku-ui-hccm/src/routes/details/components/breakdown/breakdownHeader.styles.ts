@@ -30,8 +30,8 @@ export const styles = {
     paddingBottom: t_global_spacer_sm.var,
   },
   description: {
-    color: t_global_text_color_subtle.value,
-    fontSize: t_global_font_size_body_sm.value,
+    color: t_global_text_color_subtle.var,
+    fontSize: t_global_font_size_body_sm.var,
     marginBottom: 0,
   },
   filterChip: {

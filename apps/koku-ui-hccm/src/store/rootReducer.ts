@@ -24,6 +24,7 @@ import { exportReducer, exportStateKey } from 'store/export';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
+import { rateReducer, rateStateKey } from 'store/rates';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { resourceReducer, resourceStateKey } from 'store/resources';
 import { settingsReducer, settingsStateKey } from 'store/settings';
@@ -66,6 +67,7 @@ export const rootReducer = combineReducers({
   [orgStateKey]: orgReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
+  [rateStateKey]: rateReducer,
   [rbacStateKey]: rbacReducer,
   [reportStateKey]: reportReducer,
   [resourceStateKey]: resourceReducer,

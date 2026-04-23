@@ -33,6 +33,7 @@ export interface ComputedReportOcpItem extends ReportItem {
   gpu_memory?: ReportValue;
   gpu_model?: string;
   gpu_vendor?: string;
+  mig_id?: string;
   memory?: ReportValue;
   persistent_volume_claim?: string;
   request?: ReportValue;
@@ -339,8 +340,8 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
   const gpu_model = val?.gpu_model;
   const gpu_vendor = val?.gpu_vendor;
   const mig_compute = val?.mig_compute; // Todo: Update MIG properties for https://redhat.atlassian.net/browse/COST-7239
+  const mig_id = val?.mig_id;
   const mig_memory = val?.mig_memory;
-  const mig_uuid = val?.mig_uuid;
   const node = val?.node;
 
   let label;
@@ -385,8 +386,8 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
       infrastructure: getCostData(val, 'infrastructure'),
       label,
       mig_compute,
+      mig_id,
       mig_memory,
-      mig_uuid,
       node,
       supplementary: getCostData(val, 'supplementary'),
       type,
@@ -420,8 +421,8 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         infrastructure: getCostData(val, 'infrastructure', item),
         label,
         mig_compute,
+        mig_id,
         mig_memory,
-        mig_uuid,
         node,
         supplementary: getCostData(val, 'supplementary', item),
         type,
@@ -443,8 +444,8 @@ export function initReportItems({ idKey, isDateMap, itemMap, report, type, val }
         infrastructure: getCostData(val, 'infrastructure'),
         label,
         mig_compute,
+        mig_id,
         mig_memory,
-        mig_uuid,
         node,
         supplementary: getCostData(val, 'supplementary'),
         type,

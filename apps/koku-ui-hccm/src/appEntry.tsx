@@ -1,6 +1,7 @@
 // Todo: Uncomment for use with non-shared PatternFly packages
 // import '@patternfly/patternfly/patternfly.css';
 import '@patternfly/patternfly/patternfly-addons.css';
+import '@patternfly/patternfly/patternfly-charts.css';
 import './styles/global.css';
 
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
