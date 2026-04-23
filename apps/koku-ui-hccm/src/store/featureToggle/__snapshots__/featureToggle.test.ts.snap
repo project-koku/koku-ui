@@ -10,6 +10,7 @@ exports[`default state 1`] = `
   "isGpuToggleEnabled": false,
   "isMigToggleEnabled": false,
   "isNamespaceToggleEnabled": false,
+  "isPriceListToggleEnabled": false,
   "isSystemsToggleEnabled": false,
 }
 `;

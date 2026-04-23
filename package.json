@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "npm exec --workspaces -- npm run build",
-    "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
+    "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-sources build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
     "check:dependencies": "npx npm-check-updates; npm exec --workspaces -- npm run check:dependencies",
     "check:dependencies:update": "npx npm-check-updates -u",
     "clean": "npm exec --workspaces -- npm run clean",
@@ -30,7 +30,7 @@
     "release:all": "node scripts/release-all.js",
     "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
-    "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS\" --prefix-colors \"yellow,cyan,magenta\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\"",
+    "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRCS\" --prefix-colors \"yellow,cyan,magenta,green\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\"",
     "start:onprem:dev": ". scripts/setup-onprem-env.sh; npm run start:onprem",
     "start:onprem:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
   },
@@ -41,6 +41,7 @@
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI",
+    "start:onprem:dev": "Runs onprem UI against a deployment made with the cost-onprem Helm chart",
     "start:onprem:koku": "Run onprem UI with local Koku API"
   },
   "devDependencies": {
@@ -53,7 +54,7 @@
     "@formatjs/icu-messageformat-parser": "^3.5.4",
     "@formatjs/intl": "^4.1.6",
     "@formatjs/intl-localematcher": "^0.8.3",
-    "@swc/core": "^1.15.24",
+    "@swc/core": "^1.15.30",
     "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -64,18 +65,18 @@
     "@types/react-dom": "^18.3.1",
     "@types/react-redux": "^7.1.34",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^8.58.2",
-    "@typescript-eslint/parser": "^8.58.2",
+    "@typescript-eslint/eslint-plugin": "^8.59.0",
+    "@typescript-eslint/parser": "^8.59.0",
     "concurrently": "^9.2.1",
     "copy-webpack-plugin": "^14.0.0",
-    "eslint": "^10.2.0",
+    "eslint": "^10.2.1",
     "eslint-plugin-formatjs": "^6.4.5",
     "eslint-plugin-jest-dom": "^5.5.0",
     "eslint-plugin-jsdoc": "^62.9.0",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-testing-library": "^7.16.2",
@@ -87,12 +88,12 @@
     "jest-mock-axios": "^4.9.0",
     "jest-transform-stub": "^2.0.0",
     "npm-run-all2": "^8.0.4",
-    "prettier": "^3.8.2",
+    "prettier": "^3.8.3",
     "rimraf": "^6.1.3",
     "swc_mut_cjs_exports": "^10.7.0",
     "ts-jest": "^29.4.9"
   },
   "overrides": {
-    "eslint": "^10.2.0"
+    "eslint": "^10.2.1"
   }
 }
