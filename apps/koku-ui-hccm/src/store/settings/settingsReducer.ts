@@ -5,8 +5,16 @@ import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
-import { resetStatus, updateSettingsFailure, updateSettingsRequest, updateSettingsSuccess } from './settingsActions';
-import { fetchSettingsFailure, fetchSettingsRequest, fetchSettingsSuccess } from './settingsActions';
+import {
+  fetchSettingsFailure,
+  fetchSettingsRequest,
+  fetchSettingsSuccess,
+  resetNotification,
+  resetStatus,
+  updateSettingsFailure,
+  updateSettingsRequest,
+  updateSettingsSuccess,
+} from './settingsActions';
 
 export type SettingsState = Readonly<{
   byId: Map<string, Settings>;
@@ -29,6 +37,7 @@ export type SettingsAction = ActionType<
   | typeof updateSettingsFailure
   | typeof updateSettingsRequest
   | typeof updateSettingsSuccess
+  | typeof resetNotification
   | typeof resetState
   | typeof resetStatus
 >;
@@ -37,6 +46,13 @@ export function settingsReducer(state = defaultState, action: SettingsAction): S
   switch (action.type) {
     case getType(resetState):
       state = defaultState;
+      return state;
+
+    case getType(resetNotification):
+      state = {
+        ...state,
+        notification: new Map(),
+      };
       return state;
 
     case getType(resetStatus):

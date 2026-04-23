@@ -8,15 +8,17 @@ export interface PriceListData {
   description?: string;
   effective_end_date?: string;
   effective_start_date?: string;
-  enable?: boolean;
+  enabled?: boolean;
   name?: string;
   rates?: [
     {
       cost_type?: string;
+      custom_name?: string;
       description?: string;
       metric?: {
         name?: string;
       };
+      rate_id?: string;
       tag_rates?: {
         tag_key?: string;
         tag_values?: [
@@ -29,6 +31,15 @@ export interface PriceListData {
           },
         ];
       };
+      tiered_rates: [
+        {
+          unit?: string;
+          usage: {
+            unit?: string;
+          };
+          value?: number;
+        },
+      ];
     },
   ];
   updated_timestamp?: string;
@@ -44,7 +55,7 @@ export interface PagedMetaDataExt extends PagedMetaData {
 export interface PriceList {
   meta: PagedMetaDataExt;
   links?: PagedLinks;
-  data: PriceListData;
+  data: PriceListData[];
 }
 
 export interface PriceListPayload extends PriceListData {
@@ -71,14 +82,15 @@ export function fetchPriceList(priceListType: PriceListType, query?: string) {
   return axiosInstance.get<PriceList>(`${path}${queryString}`);
 }
 
-export function updatePriceList(priceListType: PriceListType, uuid: string, payload?: PriceListPayload) {
+export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload) {
   const path = PriceListPathsType[priceListType];
+  const id = uuid ? `${uuid}/` : '';
 
   if (priceListType === PriceListType.priceListAdd) {
     return axiosInstance.post<PriceListPayload>(`${path}`, payload);
   } else if (priceListType === PriceListType.priceListRemove) {
-    return axiosInstance.delete<PriceListPayload>(`${path}${uuid}`);
+    return axiosInstance.delete<PriceListPayload>(`${path}${id}`);
   } else if (priceListType === PriceListType.priceListUpdate) {
-    return axiosInstance.put<PriceListPayload>(`${path}${uuid}`, payload);
+    return axiosInstance.put<PriceListPayload>(`${path}${id}`, payload);
   }
 }
