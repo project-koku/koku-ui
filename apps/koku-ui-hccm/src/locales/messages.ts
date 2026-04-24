@@ -3384,9 +3384,9 @@ export default defineMessages({
   },
   priceListDesc: {
     defaultMessage:
-      'Price lists define unit rates and the dates they apply; assign them t o a cost model to drive change calculations. {learnMore}',
+      'Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}',
     description:
-      'Price lists define unit rates and the dates they apply; assign them t o a cost model to drive change calculations. {learnMore}',
+      'Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}',
     id: 'priceListDesc',
   },
   priceListAddErrorDesc: {
