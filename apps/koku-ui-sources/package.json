@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.1.0",
-    "msw": "^2.7.0",
+    "msw": "^2.13.6",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
     "ts-loader": "^9.5.4",
     "ts-node": "^10.9.2",
