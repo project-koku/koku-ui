@@ -71,19 +71,18 @@ export function updatePriceList(priceListType: PriceListType, uuid?: string, pay
 
     dispatch(updatePriceListRequest(meta));
 
-    let msg;
     let status;
     switch (priceListType) {
       case PriceListType.priceListAdd:
-        msg = messages.priceListSuccess;
         status = 'add';
         break;
+      case PriceListType.priceListDuplicate:
+        status = 'duplicate';
+        break;
       case PriceListType.priceListRemove:
-        msg = messages.priceListSuccess;
         status = 'remove';
         break;
       case PriceListType.priceListUpdate:
-        msg = messages.priceListSuccess;
         status = 'update';
         break;
     }
@@ -96,23 +95,15 @@ export function updatePriceList(priceListType: PriceListType, uuid?: string, pay
             notification: {
               description: intl.formatMessage(messages.priceListSuccessChanges),
               dismissable: true,
-              title: intl.formatMessage(msg, { value: status }),
+              title: intl.formatMessage(messages.priceListSuccess, { value: status }),
               variant: AlertVariant.success,
             },
           })
         );
       })
       .catch(err => {
-        let description = intl.formatMessage(messages.priceListErrorDesc);
-        let title = intl.formatMessage(messages.priceListErrorTitle);
-
-        if (priceListType === PriceListType.priceListRemove) {
-          description = intl.formatMessage(messages.priceListRemoveErrorDesc);
-          title = intl.formatMessage(messages.priceListRemoveErrorTitle);
-        } else if (priceListType === PriceListType.priceListAdd) {
-          description = intl.formatMessage(messages.priceListAddErrorDesc);
-          title = intl.formatMessage(messages.priceListAddErrorTitle);
-        }
+        const description = intl.formatMessage(messages.priceListErrorDesc, { value: status });
+        const title = intl.formatMessage(messages.priceListErrorTitle, { value: status });
 
         dispatch(
           updatePriceListFailure(err, {

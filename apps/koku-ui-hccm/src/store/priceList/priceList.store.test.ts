@@ -144,12 +144,12 @@ describe('priceList store', () => {
     (api.updatePriceList as jest.Mock).mockRejectedValueOnce(new Error('fail'));
     await (updatePriceList(PriceListType.priceListRemove, '?uuid=1') as any)((a: any) => dispatched.push(a), getState);
     expect(dispatched[1].type).toBe('priceList/update/failure');
-    expect(dispatched[1].meta.notification.title).toBe('priceListRemoveErrorTitle');
+    expect(dispatched[1].meta.notification.title).toBe('priceListErrorTitle');
 
     dispatched.length = 0;
     (api.updatePriceList as jest.Mock).mockRejectedValueOnce(new Error('fail'));
     await (updatePriceList(PriceListType.priceListAdd) as any)((a: any) => dispatched.push(a), getState);
-    expect(dispatched[1].meta.notification.title).toBe('priceListAddErrorTitle');
+    expect(dispatched[1].meta.notification.title).toBe('priceListErrorTitle');
 
     const inProgress = emptySlice();
     inProgress.status.set(getFetchId(PriceListType.priceListUpdate), FetchStatus.inProgress);

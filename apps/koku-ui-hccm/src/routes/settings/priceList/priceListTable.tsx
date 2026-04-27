@@ -55,6 +55,7 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
       {
         orderBy: 'currency',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'currency' }),
+        ...(computedItems.length && { isSortable: true }),
       },
       {
         orderBy: 'effective_start_date',
@@ -67,7 +68,9 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        orderBy: 'assigned_cost_model_count',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'cost_models' }),
+        ...(computedItems.length && { isSortable: true }),
       },
       {
         name: '', // Actions column
@@ -78,26 +81,36 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
       newRows.push({
         cells: [
           {
+            style: styles.column,
             value: (
-              <>
+              <span>
                 {item?.name || ''}
-                <Label isCompact style={styles.version}>
+                {item?.enabled === false && (
+                  <Label isCompact style={styles.label}>
+                    {intl.formatMessage(messages.deprecated)}
+                  </Label>
+                )}
+                <Label isCompact style={styles.label}>
                   {intl.formatMessage(messages.version, { value: item.version })}
                 </Label>
-              </>
+              </span>
             ),
           },
           {
+            style: styles.column,
             value: item?.currency || '',
           },
           {
+            style: styles.column,
             value: item?.effective_start_date || '',
           },
           {
+            style: styles.column,
             value: item?.effective_end_date || '',
           },
           {
-            value: item?.cost_models || '',
+            style: styles.column,
+            value: item?.assigned_cost_model_count || 0,
           },
           {
             value: <Actions canWrite={canWrite} isDisabled={isDisabled} item={item} onClose={onClose} />,
@@ -125,6 +138,7 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
     <DataTable
       columns={columns}
       filterBy={filterBy}
+      isActionsCell
       isLoading={isLoading}
       onSort={onSort}
       orderBy={orderBy}

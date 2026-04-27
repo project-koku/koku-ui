@@ -3,6 +3,14 @@ import { axiosInstance } from 'api';
 import type { PagedLinks, PagedMetaData } from './api';
 
 export interface PriceListData {
+  assigned_cost_model_count?: number;
+  assigned_cost_models?: [
+    {
+      uuid?: string;
+      name?: string;
+      priority?: number;
+    },
+  ];
   created_timestamp?: string;
   currency?: string;
   description?: string;
@@ -65,6 +73,7 @@ export interface PriceListPayload extends PriceListData {
 export const enum PriceListType {
   priceList = 'priceList',
   priceListAdd = 'priceListAdd',
+  priceListDuplicate = 'priceListDuplicate',
   priceListRemove = 'priceListRemove',
   priceListUpdate = 'priceListUpdate',
 }
@@ -72,6 +81,7 @@ export const enum PriceListType {
 export const PriceListPathsType: Partial<Record<PriceListType, string>> = {
   [PriceListType.priceList]: 'price-lists/',
   [PriceListType.priceListAdd]: 'price-lists/',
+  [PriceListType.priceListDuplicate]: 'price-lists/',
   [PriceListType.priceListRemove]: 'price-lists/',
   [PriceListType.priceListUpdate]: 'price-lists/',
 };
@@ -84,14 +94,22 @@ export function fetchPriceList(priceListType: PriceListType, query?: string) {
 
 export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload) {
   const path = PriceListPathsType[priceListType];
-  const id = uuid ? `${uuid}/` : '';
+  const prefix = uuid ? `${uuid}/` : '';
+  const suffix = priceListType === PriceListType.priceListDuplicate ? 'duplicate/' : '';
+  const params = `${prefix}${suffix}`;
 
-  if (priceListType === PriceListType.priceListRemove) {
-    return axiosInstance.delete<PriceListPayload>(`${path}${id}`);
-  } else if (priceListType === PriceListType.priceListUpdate) {
-    return axiosInstance.put<PriceListPayload>(`${path}${id}`, payload);
-  } else {
-    // PriceListType.priceListAdd (default)
-    return axiosInstance.post<PriceListPayload>(`${path}`, payload);
+  let method;
+  switch (priceListType) {
+    case PriceListType.priceListRemove:
+      method = 'delete';
+      break;
+    case PriceListType.priceListUpdate:
+      method = 'put';
+      break;
+    case PriceListType.priceListAdd:
+    case PriceListType.priceListDuplicate:
+    default:
+      method = 'post';
   }
+  return axiosInstance[method]<PriceListPayload>(`${path}${params}`, payload);
 }

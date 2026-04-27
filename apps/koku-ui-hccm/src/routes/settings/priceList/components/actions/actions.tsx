@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
-import { usePriceListEnabledToggle } from 'routes/settings/priceList/utils/hooks';
+import { usePriceListDuplicate, usePriceListEnabledToggle } from 'routes/settings/priceList/utils/hooks';
 
 import { DeletePriceList } from '../deletePriceList';
 import { DeprecatePriceList } from '../deprecatePriceList';
@@ -14,13 +14,11 @@ interface ActionsOwnProps {
   isDisabled?: boolean;
   item: PriceListData;
   onClose?: () => void;
-  onDeprecate?: () => void;
-  onDuplicate?: () => void;
 }
 
 type ActionsProps = ActionsOwnProps;
 
-const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, onDuplicate }) => {
+const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeprecateModalOpen, setIsDeprecateModalOpen] = useState(false);
   const intl = useIntl();
@@ -31,6 +29,7 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, 
     }
   }, [onClose]);
 
+  const { duplicatePriceList } = usePriceListDuplicate(item, handleRestoreSuccess);
   const { togglePriceListEnabled } = usePriceListEnabledToggle(item, handleRestoreSuccess);
 
   const getItems = () => {
@@ -57,7 +56,7 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, 
       },
       {
         isDisabled: isDisabled || !canWrite,
-        onClick: handleOnDuplicate,
+        onClick: duplicatePriceList,
         toString: () => intl.formatMessage(messages.duplicatePriceList),
         ...(!canWrite && {
           tooltipProps: {
@@ -66,7 +65,7 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, 
         }),
       },
     ];
-    return items.sort((a, b) => a.toString().localeCompare(b.toString()));
+    return items;
   };
 
   const handleOnDeleteModalClose = () => {
@@ -89,14 +88,6 @@ const Actions: React.FC<ActionsProps> = ({ canWrite, isDisabled, item, onClose, 
 
   const handleOnDeprecateModalClick = () => {
     setIsDeprecateModalOpen(!isDeprecateModalOpen);
-  };
-
-  const handleOnDuplicate = () => {
-    // eslint-disable-next-line no-console
-    console.log(`onDuplicate clicked`);
-    if (onDuplicate) {
-      onDuplicate();
-    }
   };
 
   return (
