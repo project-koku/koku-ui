@@ -20,7 +20,12 @@ test('updatePriceList uses POST for add', () => {
 
 test('updatePriceList uses DELETE for remove', () => {
   updatePriceList(PriceListType.priceListRemove, 'abc');
-  expect(axiosInstance.delete).toHaveBeenCalledWith('price-lists/abc/');
+  expect(axiosInstance.delete).toHaveBeenCalledWith('price-lists/abc/', undefined);
+});
+
+test('updatePriceList uses POST for duplicate', () => {
+  updatePriceList(PriceListType.priceListDuplicate, 'abc');
+  expect(axiosInstance.post).toHaveBeenCalledWith('price-lists/abc/duplicate/', undefined);
 });
 
 test('updatePriceList uses PUT for update', () => {

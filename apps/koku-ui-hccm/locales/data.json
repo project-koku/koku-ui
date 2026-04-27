@@ -2047,12 +2047,6 @@
         "value": "CPU workload efficiency breakdown"
       }
     ],
-    "cpuEfficiencyInfoArialLabel": [
-      {
-        "type": 0,
-        "value": "A description of CPU workload efficiency"
-      }
-    ],
     "cpuEfficiencyInfoFormulaUsageScore": [
       {
         "type": 0,
@@ -2856,6 +2850,12 @@
       {
         "type": 0,
         "value": "Deprecate this price list?"
+      }
+    ],
+    "deprecated": [
+      {
+        "type": 0,
+        "value": "Deprecated"
       }
     ],
     "description": [
@@ -10766,12 +10766,6 @@
         "value": "Memory workload efficiency breakdown"
       }
     ],
-    "memoryEfficiencyInfoArialLabel": [
-      {
-        "type": 0,
-        "value": "A description of memory workload efficiency"
-      }
-    ],
     "memoryEfficiencyInfoFormulaUsageScore": [
       {
         "type": 0,
@@ -11845,18 +11839,6 @@
         "value": "Price list"
       }
     ],
-    "priceListAddErrorDesc": [
-      {
-        "type": 0,
-        "value": "Failed to create price list"
-      }
-    ],
-    "priceListAddErrorTitle": [
-      {
-        "type": 0,
-        "value": "Unable to create price list"
-      }
-    ],
     "priceListAddRate": [
       {
         "type": 0,
@@ -11959,14 +11941,88 @@
     ],
     "priceListErrorDesc": [
       {
-        "type": 0,
-        "value": "Failed to update price list"
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to create price list"
+              }
+            ]
+          },
+          "duplicate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to duplicate price list"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to delete price list"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to update price list"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "priceListErrorTitle": [
       {
-        "type": 0,
-        "value": "Unable to save price list settings"
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to create price list"
+              }
+            ]
+          },
+          "duplicate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to duplicate price list"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to delete price list"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to update price list"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
       }
     ],
     "priceListNumberRate": [
@@ -11981,18 +12037,6 @@
         "value": "Rate must be a positive number"
       }
     ],
-    "priceListRemoveErrorDesc": [
-      {
-        "type": 0,
-        "value": "Failed to delete price list"
-      }
-    ],
-    "priceListRemoveErrorTitle": [
-      {
-        "type": 0,
-        "value": "Unable to delete price list"
-      }
-    ],
     "priceListSuccess": [
       {
         "options": {
@@ -12001,6 +12045,14 @@
               {
                 "type": 0,
                 "value": "price list created"
+              }
+            ]
+          },
+          "duplicate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "price list duplicated"
               }
             ]
           },

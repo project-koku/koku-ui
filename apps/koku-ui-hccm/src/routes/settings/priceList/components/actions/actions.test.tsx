@@ -19,6 +19,11 @@ import * as api from 'api/priceList';
 describe('PriceList Actions', () => {
   const item = { uuid: 'pl-1', name: 'My list', enabled: true } as any;
 
+  beforeEach(() => {
+    (api.updatePriceList as jest.Mock).mockReset();
+    (api.updatePriceList as jest.Mock).mockResolvedValue({ data: {} });
+  });
+
   const setupStore = () =>
     createStore(combineReducers({ [priceListStateKey]: priceListReducer }), applyMiddleware(thunk));
 
@@ -47,16 +52,19 @@ describe('PriceList Actions', () => {
     expect(await screen.findByRole('heading', { name: /deprecate this price list/i })).toBeInTheDocument();
   });
 
-  test('invokes onDuplicate when duplicate is chosen', async () => {
-    const onDuplicate = jest.fn();
-    renderWithStore(<Actions canWrite isDisabled={false} item={item} onDuplicate={onDuplicate} />);
+  test('duplicate dispatches duplicate API and invokes onClose on success', async () => {
+    const onClose = jest.fn();
+    renderWithStore(<Actions canWrite isDisabled={false} item={item} onClose={onClose} />);
     fireEvent.click(screen.getByRole('button', { name: /more options/i }));
     fireEvent.click(await screen.findByRole('menuitem', { name: /duplicate price list/i }));
-    await waitFor(() => expect(onDuplicate).toHaveBeenCalled());
+    await waitFor(() =>
+      expect(api.updatePriceList).toHaveBeenCalledWith(api.PriceListType.priceListDuplicate, 'pl-1', undefined)
+    );
+    await waitFor(() => expect(onClose).toHaveBeenCalled());
   });
 
   test('restore dispatches update without opening deprecate modal', async () => {
-    (api.updatePriceList as jest.Mock).mockResolvedValue({});
+    (api.updatePriceList as jest.Mock).mockResolvedValue({ data: {} });
     const deprecatedItem = { uuid: 'pl-dep', name: 'Deprecated list', enabled: false } as any;
     const onClose = jest.fn();
     renderWithStore(<Actions canWrite isDisabled={false} item={deprecatedItem} onClose={onClose} />);

@@ -9,8 +9,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import type { RootState } from 'store';
 import { accountSettingsSelectors } from 'store/accountSettings';
 import { FetchStatus } from 'store/common';
-import { settingsSelectors } from 'store/settings';
-import { resetNotification, resetStatus } from 'store/settings/settingsActions';
+import { settingsActions, settingsSelectors } from 'store/settings';
 
 interface AccountSettingsUpdateProps<T> {
   type: AccountSettingsType;
@@ -53,8 +52,8 @@ export const useAccountSettingsUpdate = <T>({
       }
       if (notification) {
         addNotification(notification as any);
-        dispatch(resetNotification());
-        dispatch(resetStatus());
+        dispatch(settingsActions.resetNotification());
+        dispatch(settingsActions.resetStatus());
       }
     }
   }, [addNotification, dispatch, error, getSessionValue, notification, setState, status]);
@@ -77,8 +76,8 @@ export const useSettingsUpdate = ({ type }: SettingsUpdateProps): SettingsNotifi
   useEffect(() => {
     if (status === FetchStatus.complete && notification) {
       addNotification(notification as any);
-      dispatch(resetNotification());
-      dispatch(resetStatus());
+      dispatch(settingsActions.resetNotification());
+      dispatch(settingsActions.resetStatus());
     }
   }, [addNotification, dispatch, error, notification, status]);
 

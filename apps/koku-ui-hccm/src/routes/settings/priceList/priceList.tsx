@@ -1,5 +1,4 @@
 import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
-import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import type { PriceListData } from 'api/priceList';
 import { PriceList, PriceListType } from 'api/priceList';
 import type { Query } from 'api/queries/query';
@@ -17,11 +16,11 @@ import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
-import { resetNotification, resetStatus } from 'store/priceList/priceListActions';
 
 import { styles } from './priceList.styles';
 import { PriceListTable } from './priceListTable';
 import { PriceListToolbar } from './priceListToolbar';
+import { usePriceListUpdate } from './utils/hooks';
 
 interface PriceListOwnProps {
   canWrite?: boolean;
@@ -211,28 +210,15 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
 
 const useMapToProps = ({ isShowDeprecated, query }: PriceListMapProps): PriceListStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-  const addNotification = useAddNotification();
-
-  const flattenFilterBy = () => ({ ...query?.filter_by });
-  const flattenOrderBy = () => {
-    const result: any = {};
-
-    if (!query?.order_by) {
-      return result;
-    }
-    Object.keys(query?.order_by).forEach(key => {
-      const item = query?.order_by[key];
-      result.ordering = item === 'asc' ? key : `-${key}`;
-    });
-    return result;
-  };
 
   const priceListQuery = {
-    enabled: !isShowDeprecated,
+    filter: {
+      ...(!isShowDeprecated && { enabled: true }),
+    },
+    filter_by: query.filter_by,
     limit: query.limit,
     offset: query.offset,
-    ...flattenFilterBy(),
-    ...flattenOrderBy(),
+    order_by: query.order_by,
   };
   const priceListQueryString = getQuery(priceListQuery);
   const priceList = useSelector((state: RootState) =>
@@ -245,26 +231,32 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListMapProps): PriceLis
     priceListSelectors.selectPriceListStatus(state, PriceListType.priceList, priceListQueryString)
   );
 
+  // Notifications
+  const { status: priceListAddStatus } = usePriceListUpdate({
+    type: PriceListType.priceListAdd,
+  });
+  const { status: priceListDuplicateStatus } = usePriceListUpdate({
+    type: PriceListType.priceListDuplicate,
+  });
+  const { status: priceListRemoveStatus } = usePriceListUpdate({
+    type: PriceListType.priceListRemove,
+  });
+  const { status: priceListUpdateStatus } = usePriceListUpdate({
+    type: PriceListType.priceListUpdate,
+  });
+
   useEffect(() => {
-    if (!priceListError && priceListStatus !== FetchStatus.inProgress) {
+    if (
+      !priceListError &&
+      priceListStatus !== FetchStatus.inProgress &&
+      priceListAddStatus !== FetchStatus.inProgress &&
+      priceListDuplicateStatus !== FetchStatus.inProgress &&
+      priceListRemoveStatus !== FetchStatus.inProgress &&
+      priceListUpdateStatus !== FetchStatus.inProgress
+    ) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, priceListQueryString));
     }
   }, [isShowDeprecated, query]);
-
-  const priceListUpdateError = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListError(state, PriceListType.priceListUpdate, undefined)
-  );
-  const priceListUpdateNotification = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateNotification(state, PriceListType.priceListUpdate)
-  );
-
-  useEffect(() => {
-    if (priceListStatus === FetchStatus.complete && priceListUpdateNotification) {
-      addNotification(priceListUpdateNotification as any);
-      dispatch(resetNotification());
-      dispatch(resetStatus());
-    }
-  }, [addNotification, dispatch, priceListUpdateError, priceListUpdateNotification, priceListStatus]);
 
   return {
     priceList,

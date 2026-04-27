@@ -1074,11 +1074,6 @@ export default defineMessages({
     description: 'CPU workload efficiency breakdown',
     id: 'cpuEfficiencyBreakdown',
   },
-  cpuEfficiencyInfoArialLabel: {
-    defaultMessage: 'A description of CPU workload efficiency',
-    description: 'A description of CPU workload efficiency',
-    id: 'cpuEfficiencyInfoArialLabel',
-  },
   cpuEfficiencyInfoFormulaUsageScore: {
     defaultMessage: 'workload efficiency score = (usage / request) * 100)',
     description: 'workload efficiency score = (usage / request) * 100)',
@@ -1353,6 +1348,11 @@ export default defineMessages({
     defaultMessage: 'Deprecate',
     description: 'Deprecate',
     id: 'deprecate',
+  },
+  deprecated: {
+    defaultMessage: 'Deprecated',
+    description: 'Deprecated',
+    id: 'deprecated',
   },
   deprecatePriceListDesc: {
     defaultMessage: 'This price list will be deprecated.',
@@ -2756,11 +2756,6 @@ export default defineMessages({
     description: 'Memory workload efficiency breakdown',
     id: 'memoryEfficiencyBreakdown',
   },
-  memoryEfficiencyInfoArialLabel: {
-    defaultMessage: 'A description of memory workload efficiency',
-    description: 'A description of memory workload efficiency',
-    id: 'memoryEfficiencyInfoArialLabel',
-  },
   memoryEfficiencyInfoFormulaUsageScore: {
     defaultMessage: 'workload efficiency score = (usage / request) * 100)',
     description: 'workload efficiency score = (usage / request) * 100)',
@@ -3389,16 +3384,6 @@ export default defineMessages({
       'Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}',
     id: 'priceListDesc',
   },
-  priceListAddErrorDesc: {
-    defaultMessage: 'Failed to create price list',
-    description: 'Failed to create price list',
-    id: 'priceListAddErrorDesc',
-  },
-  priceListAddErrorTitle: {
-    defaultMessage: 'Unable to create price list',
-    description: 'Unable to create price list',
-    id: 'priceListAddErrorTitle',
-  },
   priceListAddRate: {
     defaultMessage: 'Add rate',
     description: 'Add rate',
@@ -3437,13 +3422,25 @@ export default defineMessages({
     id: 'priceListEmptyRateDesc',
   },
   priceListErrorDesc: {
-    defaultMessage: 'Failed to update price list',
-    description: 'Failed to update price list',
+    defaultMessage:
+      '{value, select, ' +
+      'add {Failed to create price list} ' +
+      'duplicate {Failed to duplicate price list} ' +
+      'remove {Failed to delete price list} ' +
+      'update {Failed to update price list} ' +
+      'other {}}',
+    description: 'Price list created or updated',
     id: 'priceListErrorDesc',
   },
   priceListErrorTitle: {
-    defaultMessage: 'Unable to save price list settings',
-    description: 'Unable to save price list settings',
+    defaultMessage:
+      '{value, select, ' +
+      'add {Unable to create price list} ' +
+      'duplicate {Unable to duplicate price list} ' +
+      'remove {Unable to delete price list} ' +
+      'update {Unable to update price list} ' +
+      'other {}}',
+    description: 'Price list created or updated',
     id: 'priceListErrorTitle',
   },
   priceListNumberRate: {
@@ -3456,24 +3453,15 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
-  priceListRemoveErrorDesc: {
-    defaultMessage: 'Failed to delete price list',
-    description: 'Failed to delete price list',
-    id: 'priceListRemoveErrorDesc',
-  },
-  priceListRemoveErrorTitle: {
-    defaultMessage: 'Unable to delete price list',
-    description: 'Unable to delete price list',
-    id: 'priceListRemoveErrorTitle',
-  },
   priceListSuccess: {
     defaultMessage:
       '{value, select, ' +
       'add {price list created} ' +
+      'duplicate {price list duplicated} ' +
       'remove {price list deleted} ' +
       'update {price list updated} ' +
       'other {}}',
-    description: 'Price list created, deleted, or updated',
+    description: 'Price list created or updated',
     id: 'priceListSuccess',
   },
   priceListSuccessChanges: {
