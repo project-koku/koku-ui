@@ -20,10 +20,10 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Loading } from 'routes/components/page/loading';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import DistributionCard from 'routes/settings/costModels/costModel/distribution';
-import MarkupCard from 'routes/settings/costModels/costModel/markup';
-import PriceListTable from 'routes/settings/costModels/costModel/priceListTable';
-import SourceTable from 'routes/settings/costModels/costModel/sourceTable';
+import DistributionCard from 'routes/settings/costModels/costModelBreakdown/distribution';
+import MarkupCard from 'routes/settings/costModels/costModelBreakdown/markup';
+import PriceListTable from 'routes/settings/costModels/costModelBreakdown/priceListTable';
+import SourceTable from 'routes/settings/costModels/costModelBreakdown/sourceTable';
 import { parseApiError } from 'routes/settings/costModels/costModelWizard/parseError';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -37,7 +37,7 @@ import { withRouter } from 'utils/router';
 
 import Header from './header';
 
-interface CostModelInfoOwnProps {
+interface CostModelBreakdownOwnProps {
   costModels: CostModel[];
   costModelStatus: FetchStatus;
   costModelError: AxiosError;
@@ -53,16 +53,16 @@ interface CostModelInfoOwnProps {
   rbacStatus: FetchStatus;
 }
 
-type CostModelInfoProps = CostModelInfoOwnProps &
+type CostModelBreakdownProps = CostModelBreakdownOwnProps &
   NotificationComponentProps &
   RouterComponentProps &
   WrappedComponentProps;
 
-interface CostModelInfoState {
+interface CostModelBreakdownState {
   tabIndex: number;
 }
 
-class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoState> {
+class CostModelBreakdown extends React.Component<CostModelBreakdownProps, CostModelBreakdownState> {
   public tabRefs = [React.createRef<HTMLElement>(), React.createRef<HTMLElement>(), React.createRef<HTMLElement>()];
   constructor(props) {
     super(props);
@@ -77,7 +77,7 @@ class CostModelInfo extends React.Component<CostModelInfoProps, CostModelInfoSta
     fetchCostModels(`uuid=${this.props.router.params.uuid}`);
   }
 
-  public componentDidUpdate(prevProps: CostModelInfoProps) {
+  public componentDidUpdate(prevProps: CostModelBreakdownProps) {
     const { notification, rbacError, rbacNotification, rbacStatus } = this.props;
 
     if (
@@ -216,7 +216,7 @@ export default injectIntl(
           fetchMetrics: metricsActions.fetchMetrics,
           fetchRbac: rbacActions.fetchRbac,
         }
-      )(CostModelInfo)
+      )(CostModelBreakdown)
     )
   )
 );

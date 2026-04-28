@@ -29,7 +29,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import AddSourceStep from './addSourceStep';
-import { styles } from './costModelInfo.styles';
+import { styles } from './costModelBreakdown.styles';
 import { getSourceType } from './utils/sourceType';
 
 interface AddSourceWizardOwnProps extends RouterComponentProps {

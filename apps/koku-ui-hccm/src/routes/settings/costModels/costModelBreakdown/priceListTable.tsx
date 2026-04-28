@@ -28,7 +28,7 @@ import { rbacSelectors } from 'store/rbac';
 import { unitsLookupKey } from 'utils/format';
 
 import AddRateModal from './addRateModal';
-import { styles } from './costModelInfo.styles';
+import { styles } from './costModelBreakdown.styles';
 import Dialog from './dialog';
 import UpdateRateModal from './updateRateModel';
 

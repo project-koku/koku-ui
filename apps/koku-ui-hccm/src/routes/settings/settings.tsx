@@ -27,7 +27,7 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
-import { PriceList } from './priceList';
+import { PriceListDetails } from './priceList/priceListDetails';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {
@@ -178,7 +178,7 @@ const Settings: React.FC<SettingsProps> = () => {
       return hasCostModelAccess(userAccess) ? (
         <CostModelsDetails />
       ) : (
-        <NotAuthorized pathname={formatPath(routes.costModel.path)} />
+        <NotAuthorized pathname={formatPath(routes.costModelBreakdown.path)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
       return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWrite()} /> : notAuthorized;
@@ -187,7 +187,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
-      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PriceListDetails canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {

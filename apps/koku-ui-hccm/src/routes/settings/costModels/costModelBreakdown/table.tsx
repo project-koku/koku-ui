@@ -8,7 +8,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'routes/settings/costModels/components/filterLogic';
-import SourcesTable from 'routes/settings/costModels/costModel/sourcesTable';
+import SourcesTable from 'routes/settings/costModels/costModelBreakdown/sourcesTable';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
 

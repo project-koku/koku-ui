@@ -16,7 +16,7 @@ import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
-import { styles } from './costModelInfo.styles';
+import { styles } from './costModelBreakdown.styles';
 import { getSourceType } from './utils/sourceType';
 
 interface AddSourcesStepOwnProps extends WrappedComponentProps {
