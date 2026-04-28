@@ -5,8 +5,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { RateInput } from 'routes/settings/costModels/components/inputs/rateInput';
-import { SimpleInput } from 'routes/settings/costModels/components/inputs/simpleInput';
+import { RateInput, SimpleInput } from 'routes/settings/components';
 import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
 
 import type { UseRateData } from './useRateForm';

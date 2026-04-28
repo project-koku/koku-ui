@@ -22,15 +22,16 @@ import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
-import Dialog from 'routes/settings/costModels/costModelBreakdown/dialog';
-import { styles } from 'routes/settings/costModels/costModelBreakdown/header.styles';
-import UpdateCostModelModal from 'routes/settings/costModels/costModelBreakdown/updateCostModel';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { formatPath } from 'utils/paths';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
+
+import Dialog from './dialog';
+import { styles } from './header.styles';
+import UpdateCostModelModal from './updateCostModel';
 
 interface Props extends RouterComponentProps, WrappedComponentProps {
   tabRefs: any[];

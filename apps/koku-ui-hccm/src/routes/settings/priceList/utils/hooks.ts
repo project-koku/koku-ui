@@ -11,7 +11,10 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 
 interface PriceListUpdateProps {
-  type: PriceListType;
+  isNotificationEnabled?: boolean;
+  priceListType: PriceListType;
+  uuid?: string;
+  queryString?: string;
 }
 
 interface PriceListNotificationProps {
@@ -20,7 +23,7 @@ interface PriceListNotificationProps {
   status: FetchStatus;
 }
 
-export function usePriceListDuplicate(item: PriceListData, onUpdateSuccess?: () => void) {
+export function usePriceListDuplicate(priceList: PriceListData, onUpdateSuccess?: () => void) {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const [isAwaitingUpdate, setIsAwaitingUpdate] = useState(false);
   const onSuccessRef = useRef(onUpdateSuccess);
@@ -30,16 +33,16 @@ export function usePriceListDuplicate(item: PriceListData, onUpdateSuccess?: () 
   }, [onUpdateSuccess]);
 
   const priceListUpdateStatus = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateStatus(state, PriceListType.priceListDuplicate)
+    priceListSelectors.selectPriceListUpdateStatus(state, PriceListType.priceListDuplicate, undefined)
   );
   const priceListUpdateError = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateError(state, PriceListType.priceListDuplicate)
+    priceListSelectors.selectPriceListUpdateError(state, PriceListType.priceListDuplicate, undefined)
   );
 
   const duplicatePriceList = () => {
     if (priceListUpdateStatus !== FetchStatus.inProgress) {
       setIsAwaitingUpdate(true);
-      dispatch(priceListActions.updatePriceList(PriceListType.priceListDuplicate, item.uuid));
+      dispatch(priceListActions.updatePriceList(PriceListType.priceListDuplicate, priceList?.uuid));
     }
   };
 
@@ -58,7 +61,7 @@ export function usePriceListDuplicate(item: PriceListData, onUpdateSuccess?: () 
   return { duplicatePriceList };
 }
 
-export function usePriceListEnabledToggle(item: PriceListData, onUpdateSuccess?: () => void) {
+export function usePriceListEnabledToggle(priceList: PriceListData, onUpdateSuccess?: () => void) {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const [isAwaitingUpdate, setIsAwaitingUpdate] = useState(false);
   const onSuccessRef = useRef(onUpdateSuccess);
@@ -68,21 +71,21 @@ export function usePriceListEnabledToggle(item: PriceListData, onUpdateSuccess?:
   }, [onUpdateSuccess]);
 
   const priceListUpdateStatus = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateStatus(state, PriceListType.priceListUpdate)
+    priceListSelectors.selectPriceListUpdateStatus(state, PriceListType.priceListUpdate, undefined)
   );
   const priceListUpdateError = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateError(state, PriceListType.priceListUpdate)
+    priceListSelectors.selectPriceListUpdateError(state, PriceListType.priceListUpdate, undefined)
   );
 
   const togglePriceListEnabled = () => {
     if (priceListUpdateStatus !== FetchStatus.inProgress) {
       setIsAwaitingUpdate(true);
       dispatch(
-        priceListActions.updatePriceList(PriceListType.priceListUpdate, item.uuid, {
-          name: item.name,
-          effective_end_date: item.effective_end_date,
-          effective_start_date: item.effective_start_date,
-          enabled: !item.enabled,
+        priceListActions.updatePriceList(PriceListType.priceListUpdate, priceList?.uuid, {
+          name: priceList?.name,
+          effective_end_date: priceList?.effective_end_date,
+          effective_start_date: priceList?.effective_start_date,
+          enabled: !priceList?.enabled,
         })
       );
     }
@@ -103,25 +106,33 @@ export function usePriceListEnabledToggle(item: PriceListData, onUpdateSuccess?:
   return { togglePriceListEnabled };
 }
 
-export const usePriceListUpdate = ({ type }: PriceListUpdateProps): PriceListNotificationProps => {
+export const usePriceListUpdate = ({
+  isNotificationEnabled = true,
+  priceListType,
+  queryString,
+}: PriceListUpdateProps): PriceListNotificationProps => {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const addNotification = useAddNotification();
 
-  const error = useSelector((state: RootState) => priceListSelectors.selectPriceListUpdateError(state, type)) as
-    | AxiosError
-    | undefined;
+  const error = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListUpdateError(state, priceListType, queryString)
+  ) as AxiosError | undefined;
   const notification = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateNotification(state, type)
+    priceListSelectors.selectPriceListUpdateNotification(state, priceListType, queryString)
   );
-  const status = useSelector((state: RootState) => priceListSelectors.selectPriceListUpdateStatus(state, type));
+  const status = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListUpdateStatus(state, priceListType, queryString)
+  );
 
   useEffect(() => {
     if (status === FetchStatus.complete && notification) {
-      addNotification(notification as any);
+      if (isNotificationEnabled) {
+        addNotification(notification as any);
+      }
       dispatch(priceListActions.resetNotification());
       dispatch(priceListActions.resetStatus());
     }
-  }, [addNotification, dispatch, error, notification, status]);
+  }, [addNotification, dispatch, error, isNotificationEnabled, notification, status]);
 
   return { error, notification, status };
 };

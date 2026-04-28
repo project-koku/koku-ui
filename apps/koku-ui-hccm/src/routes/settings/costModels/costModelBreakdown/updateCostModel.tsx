@@ -19,7 +19,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
-import { Selector } from 'routes/settings/costModels/components/inputs/selector';
+import { Selector } from 'routes/settings/components';
 import { styles } from 'routes/settings/costModels/costModelWizard/wizard.styles';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';

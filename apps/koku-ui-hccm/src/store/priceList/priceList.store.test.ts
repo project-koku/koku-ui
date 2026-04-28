@@ -104,7 +104,7 @@ describe('priceList store', () => {
     (api.fetchPriceList as jest.Mock).mockResolvedValue(res);
     const dispatched: any[] = [];
     let getState = () => makeRoot(emptySlice());
-    await (fetchPriceList(type, qs) as any)((a: any) => dispatched.push(a), getState);
+    await (fetchPriceList(type, undefined, qs) as any)((a: any) => dispatched.push(a), getState);
     expect(dispatched[0].type).toBe('priceList/request');
     expect(dispatched[1].type).toBe('priceList/success');
     expect(dispatched[1].payload).toBe(res.data);
@@ -113,20 +113,20 @@ describe('priceList store', () => {
     inProgress.status.set(fid, FetchStatus.inProgress);
     dispatched.length = 0;
     getState = () => makeRoot(inProgress);
-    await (fetchPriceList(type, qs) as any)((a: any) => dispatched.push(a), getState);
+    await (fetchPriceList(type, undefined, qs) as any)((a: any) => dispatched.push(a), getState);
     expect(dispatched.length).toBe(0);
 
     const withError = emptySlice();
     withError.errors.set(fid, new Error('x') as any);
     dispatched.length = 0;
     getState = () => makeRoot(withError);
-    await (fetchPriceList(type, qs) as any)((a: any) => dispatched.push(a), getState);
+    await (fetchPriceList(type, undefined, qs) as any)((a: any) => dispatched.push(a), getState);
     expect(dispatched.length).toBe(0);
 
     (api.fetchPriceList as jest.Mock).mockRejectedValueOnce(new Error('network'));
     dispatched.length = 0;
     getState = () => makeRoot(emptySlice());
-    await (fetchPriceList(type, qs) as any)((a: any) => dispatched.push(a), getState);
+    await (fetchPriceList(type, undefined, qs) as any)((a: any) => dispatched.push(a), getState);
     expect(dispatched[1].type).toBe('priceList/failure');
   });
 

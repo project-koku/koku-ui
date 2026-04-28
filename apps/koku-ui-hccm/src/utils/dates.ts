@@ -14,6 +14,20 @@ export const formatStartEndDate = (startDate, endDate, isFormatted = true) => {
   };
 };
 
+export const getDateRangeString = (startDate: string, endDate: string) => {
+  return intl.formatDateTimeRange(startDate, endDate, {
+    day: 'numeric',
+    month: 'long',
+  });
+};
+
+export const getDateString = (date: string) => {
+  return intl.formatDate(date, {
+    day: 'numeric',
+    month: 'long',
+  });
+};
+
 export const getToday = (hrs: number = 0, min: number = 0, sec: number = 0, ms: number = 0) => {
   const today = new Date();
 
@@ -188,4 +202,11 @@ export const getTimeFromNow = (lastDate: string) => {
   } else {
     return intl.formatRelativeTime(Math.trunc(-(diff % MIN_IN_MILLIS) / SEC_IN_MILLIS), 'second');
   }
+};
+
+export const getValidityPeriod = (startDate: string, endDate: string) => {
+  return intl.formatDateTimeRange(startDate, endDate, {
+    month: 'long',
+    year: 'numeric',
+  });
 };

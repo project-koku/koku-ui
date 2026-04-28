@@ -27,6 +27,9 @@ const OptimizationsBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
 );
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
+const PriceListBreakdown = lazy(
+  () => import(/* webpackChunkName: "PriceListBreakdown" */ 'routes/settings/priceList/priceListBreakdown')
+);
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
 export const routes = {
@@ -87,11 +90,11 @@ export const routes = {
     element: userAccess(Overview),
     path: '/',
   },
-  // priceListBreakdown: {
-  //   asePath: `/settings/price-list/breakdown`,
-  //   element: userAccess(PriceListBreakdown),
-  //   path: '/settings/price-list/:uuid',
-  // },
+  priceListBreakdown: {
+    basePath: `/settings/price-list`,
+    element: userAccess(PriceListBreakdown),
+    path: '/settings/price-list/:uuid',
+  },
   settings: {
     element: userAccess(Settings),
     path: '/settings',
