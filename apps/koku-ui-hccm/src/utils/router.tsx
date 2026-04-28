@@ -14,12 +14,12 @@ export interface RouterComponentProps {
 
 // See https://reactrouter.com/en/v6.3.0/faq#what-happened-to-withrouter-i-need-it
 // And http://front-end-docs-insights.apps.ocp4.prod.psi.redhat.com/blog/router-v6
-export const withRouter = Component => {
-  function ComponentWithRouterProp(props) {
+export const withRouter = <P extends RouterComponentProps>(Component: React.ComponentType<P> & { propTypes?: any }) => {
+  function ComponentWithRouterProp(props: Omit<P, keyof RouterComponentProps>) {
     const location = useLocation();
     const navigate = useNavigate();
     const params = useParams();
-    return <Component {...props} router={{ location, navigate, params }} />;
+    return <Component {...(props as P)} router={{ location, navigate, params }} />;
   }
 
   return ComponentWithRouterProp;

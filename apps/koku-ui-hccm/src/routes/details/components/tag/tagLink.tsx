@@ -22,8 +22,9 @@ import { styles } from './tag.styles';
 
 interface TagLinkOwnProps extends RouterComponentProps, WrappedComponentProps {
   id?: string;
+  queryStateName: string;
   tagData?: TagData[];
-  tagPathsType: TagPathsType;
+  tagPathsType?: TagPathsType;
   virtualMachine?: string;
 }
 
@@ -82,7 +83,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   };
 
   public render() {
-    const { id, tagData, tagReport, tagPathsType, virtualMachine } = this.props;
+    const { id, queryStateName, tagData, tagReport, tagPathsType, virtualMachine } = this.props;
     const { isOpen } = this.state;
 
     let count = 0;
@@ -108,6 +109,7 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
         <TagModal
           isOpen={isOpen}
           onClose={this.handleClose}
+          queryStateName={queryStateName}
           tagData={tagData}
           tagPathsType={tagPathsType}
           virtualMachine={virtualMachine}
@@ -117,61 +119,63 @@ class TagLinkBase extends React.Component<TagLinkProps, TagLinkState> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>((state, { router, tagPathsType }) => {
-  const queryFromRoute = parseQuery<Query>(router.location.search);
-  const queryState = getQueryState(router.location, 'details');
+const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>(
+  (state, { queryStateName, router, tagPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(router.location.search);
+    const queryState = getQueryState(router.location, queryStateName);
 
-  const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
-  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
-  const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
+    const groupByOrgValue = getGroupByOrgValue(queryFromRoute);
+    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(queryFromRoute);
+    const groupByValue = groupByOrgValue || getGroupByValue(queryFromRoute);
 
-  const isFilterByExact = groupBy && groupByValue !== '*';
-  const timeScopeValue = getTimeScopeValue(queryState);
+    const isFilterByExact = groupBy && groupByValue !== '*';
+    const timeScopeValue = getTimeScopeValue(queryState);
 
-  // Prune unsupported tag params from filter_by, but don't reset queryState
-  const filterByParams = {
-    ...(queryState?.filter_by ? queryState.filter_by : {}),
-  };
-  for (const key of Object.keys(filterByParams)) {
-    // Omit unsupported query params
-    if (
-      key.indexOf('node') !== -1 ||
-      key.indexOf('region') !== -1 ||
-      key.indexOf('resource_location') !== -1 ||
-      key.indexOf('service') !== -1 ||
-      key.indexOf(tagPrefix) !== -1
-    ) {
-      filterByParams[key] = undefined;
+    // Prune unsupported tag params from filter_by, but don't reset queryState
+    const filterByParams = {
+      ...(queryState?.filter_by ? queryState.filter_by : {}),
+    };
+    for (const key of Object.keys(filterByParams)) {
+      // Omit unsupported query params
+      if (
+        key.indexOf('node') !== -1 ||
+        key.indexOf('region') !== -1 ||
+        key.indexOf('resource_location') !== -1 ||
+        key.indexOf('service') !== -1 ||
+        key.indexOf(tagPrefix) !== -1
+      ) {
+        filterByParams[key] = undefined;
+      }
     }
+
+    const tagQuery = {
+      filter: {
+        time_scope_value: timeScopeValue,
+      },
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...filterByParams,
+        ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
+        ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
+        // Related to https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
+        ...(isFilterByExact && {
+          [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
+          [`exact:${groupBy}`]: groupByValue,
+        }),
+      },
+    };
+
+    const tagQueryString = getQuery(tagQuery);
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
+
+    return {
+      tagReport,
+      tagReportFetchStatus,
+      tagQueryString,
+    };
   }
-
-  const tagQuery = {
-    filter: {
-      time_scope_value: timeScopeValue,
-    },
-    filter_by: {
-      // Add filters here to apply logical OR/AND
-      ...filterByParams,
-      ...(queryFromRoute?.isPlatformCosts && { category: platformCategoryKey }),
-      ...(queryFromRoute?.filter?.account && { [`${logicalAndPrefix}account`]: queryFromRoute.filter.account }),
-      // Related to https://redhat.atlassian.net/browse/COST-1131 and https://redhat.atlassian.net/browse/COST-3642
-      ...(isFilterByExact && {
-        [groupBy]: undefined, // Replace with "exact:" filter below -- see https://redhat.atlassian.net/browse/COST-6659
-        [`exact:${groupBy}`]: groupByValue,
-      }),
-    },
-  };
-
-  const tagQueryString = getQuery(tagQuery);
-  const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
-
-  return {
-    tagReport,
-    tagReportFetchStatus,
-    tagQueryString,
-  };
-});
+);
 
 const mapDispatchToProps: TagLinkDispatchProps = {
   fetchTag: tagActions.fetchTag,

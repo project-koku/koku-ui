@@ -1064,6 +1064,26 @@ export default defineMessages({
     description: 'Usage cost on the day you are charged',
     id: 'costTypeUnblendedDesc',
   },
+  cpuEfficiency: {
+    defaultMessage: 'CPU workload efficiency',
+    description: 'CPU workload efficiency',
+    id: 'cpuEfficiency',
+  },
+  cpuEfficiencyBreakdown: {
+    defaultMessage: 'CPU workload efficiency breakdown',
+    description: 'CPU workload efficiency breakdown',
+    id: 'cpuEfficiencyBreakdown',
+  },
+  cpuEfficiencyInfoFormulaUsageScore: {
+    defaultMessage: 'workload efficiency score = (usage / request) * 100)',
+    description: 'workload efficiency score = (usage / request) * 100)',
+    id: 'cpuEfficiencyInfoFormulaUsageScore',
+  },
+  cpuEfficiencyInfoFormulaWastedCost: {
+    defaultMessage: 'wasted cost = (Cost -X% (% of total cost) = waste cost)',
+    description: 'wasted cost = (Cost -X% (% of total cost) = waste cost)',
+    id: 'cpuEfficiencyInfoFormulaWastedCost',
+  },
   cpuTitle: {
     defaultMessage: 'CPU',
     description: 'CPU',
@@ -1105,6 +1125,11 @@ export default defineMessages({
     defaultMessage: 'Create a cost model',
     description: 'Create a cost model',
     id: 'createCostModelTitle',
+  },
+  createPriceList: {
+    defaultMessage: 'Create price list',
+    description: 'Create price list',
+    id: 'createPriceList',
   },
   createRate: {
     defaultMessage: 'Create rate',
@@ -1304,6 +1329,56 @@ export default defineMessages({
     description: 'Delete',
     id: 'delete',
   },
+  deletePriceList: {
+    defaultMessage: 'Delete price list',
+    description: 'Delete price list',
+    id: 'deletePriceList',
+  },
+  deletePriceListDesc: {
+    defaultMessage: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    description: 'Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.',
+    id: 'deletePriceListDesc',
+  },
+  deletePriceListTitle: {
+    defaultMessage: 'Remove price list?',
+    description: 'Remove price list?',
+    id: 'deletePriceListTitle',
+  },
+  deprecate: {
+    defaultMessage: 'Deprecate',
+    description: 'Deprecate',
+    id: 'deprecate',
+  },
+  deprecated: {
+    defaultMessage: 'Deprecated',
+    description: 'Deprecated',
+    id: 'deprecated',
+  },
+  deprecatePriceListDesc: {
+    defaultMessage: 'This price list will be deprecated.',
+    description: 'This price list will be deprecated.',
+    id: 'deprecatePriceListDesc',
+  },
+  deprecatePriceListItem1: {
+    defaultMessage: 'Deprecated lists are hidden from this catalog unless "Show deprecated" is on.',
+    description: 'Deprecated lists are hidden from this catalog unless "Show deprecated" is on.',
+    id: 'deprecatePriceListItem1',
+  },
+  deprecatePriceListItem2: {
+    defaultMessage: 'They no longer appear when assigning price lists to a cost model.',
+    description: 'They no longer appear when assigning price lists to a cost model.',
+    id: 'deprecatePriceListItem2',
+  },
+  deprecatePriceListItem3: {
+    defaultMessage: 'You can restore a deprecated list later from this page or its detail view.',
+    description: 'You can restore a deprecated list later from this page or its detail view.',
+    id: 'deprecatePriceListItem3',
+  },
+  deprecatePriceListTitle: {
+    defaultMessage: 'Deprecate this price list?',
+    description: 'Deprecate this price list?',
+    id: 'deprecatePriceListTitle',
+  },
   description: {
     defaultMessage: 'Description',
     description: 'Description',
@@ -1379,7 +1454,10 @@ export default defineMessages({
       'account {Account names} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
+      'cost_models {Assigned cost models}' +
       'cpu {CPU} ' +
+      'currency {Currency} ' +
+      'end_date {End date}' +
       'gcp_project {Google Cloud project names} ' +
       'group {Group} ' +
       'instance {Instance names} ' +
@@ -1400,6 +1478,7 @@ export default defineMessages({
       'status {Status} ' +
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
+      'start_date {Start date}' +
       'storage {Storage} ' +
       'tag {Tag names} ' +
       'tags {Tags} ' +
@@ -1702,6 +1781,12 @@ export default defineMessages({
     description: 'Adding OpenShift projects',
     id: 'docsPlatformProjects',
   },
+  docsPriceList: {
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs',
+    description: 'Adding a price list',
+    id: 'docsPriceList',
+  },
   docsReleases: {
     defaultMessage: 'https://github.com/project-koku/koku/releases',
     description: 'Releases',
@@ -1741,6 +1826,11 @@ export default defineMessages({
     description: 'Download',
     id: 'download',
   },
+  duplicatePriceList: {
+    defaultMessage: 'Duplicate price list',
+    description: 'Duplicate price list',
+    id: 'duplicatePriceList',
+  },
   edit: {
     defaultMessage: 'Edit',
     description: 'Edit',
@@ -1760,6 +1850,11 @@ export default defineMessages({
     defaultMessage: 'Edit markup or discount',
     description: 'Edit markup or discount',
     id: 'editMarkupOrDiscount',
+  },
+  efficiency: {
+    defaultMessage: 'Efficiency',
+    description: 'Efficiency',
+    id: 'efficiency',
   },
   emptyFilterSourceStateSubtitle: {
     defaultMessage: 'Sorry, no source with the given filter was found.',
@@ -2251,6 +2346,11 @@ export default defineMessages({
     description: '{value} for {Jan 1-31}',
     id: 'forDate',
   },
+  formula: {
+    defaultMessage: 'Formula:',
+    description: 'Formula:',
+    id: 'formula',
+  },
   gcp: {
     defaultMessage: 'Google Cloud',
     description: 'Google Cloud',
@@ -2646,6 +2746,26 @@ export default defineMessages({
     description: 'Measurement descriptions',
     id: 'measurementValuesDesc',
   },
+  memoryEfficiency: {
+    defaultMessage: 'Memory workload efficiency',
+    description: 'Memory workload efficiency',
+    id: 'memoryEfficiency',
+  },
+  memoryEfficiencyBreakdown: {
+    defaultMessage: 'Memory workload efficiency breakdown',
+    description: 'Memory workload efficiency breakdown',
+    id: 'memoryEfficiencyBreakdown',
+  },
+  memoryEfficiencyInfoFormulaUsageScore: {
+    defaultMessage: 'workload efficiency score = (usage / request) * 100)',
+    description: 'workload efficiency score = (usage / request) * 100)',
+    id: 'memoryEfficiencyInfoFormulaUsageScore',
+  },
+  memoryEfficiencyInfoFormulaWasteCost: {
+    defaultMessage: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
+    description: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
+    id: 'memoryEfficiencyInfoFormulaWasteCost',
+  },
   memoryTitle: {
     defaultMessage: 'Memory',
     description: 'Memory',
@@ -2682,7 +2802,7 @@ export default defineMessages({
     id: 'metricsOperatorVersion',
   },
   migColumns: {
-    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'uuid {UUID} ' + 'other {}}',
+    defaultMessage: '{value, select, ' + 'compute {Compute} ' + 'memory {Memory} ' + 'id {ID} ' + 'other {}}',
     description: 'MIG columns',
     id: 'migColumns',
   },
@@ -3257,6 +3377,13 @@ export default defineMessages({
     description: 'Price list',
     id: 'priceList',
   },
+  priceListDesc: {
+    defaultMessage:
+      'Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}',
+    description:
+      'Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}',
+    id: 'priceListDesc',
+  },
   priceListAddRate: {
     defaultMessage: 'Add rate',
     description: 'Add rate',
@@ -3294,6 +3421,28 @@ export default defineMessages({
     description: 'To add rates to the price list, click on the "Add" rate button above.',
     id: 'priceListEmptyRateDesc',
   },
+  priceListErrorDesc: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {Failed to create price list} ' +
+      'duplicate {Failed to duplicate price list} ' +
+      'remove {Failed to delete price list} ' +
+      'update {Failed to update price list} ' +
+      'other {}}',
+    description: 'Price list created or updated',
+    id: 'priceListErrorDesc',
+  },
+  priceListErrorTitle: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {Unable to create price list} ' +
+      'duplicate {Unable to duplicate price list} ' +
+      'remove {Unable to delete price list} ' +
+      'update {Unable to update price list} ' +
+      'other {}}',
+    description: 'Price list created or updated',
+    id: 'priceListErrorTitle',
+  },
   priceListNumberRate: {
     defaultMessage: 'Rate must be a number',
     description: 'Rate must be a number',
@@ -3303,6 +3452,22 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
+  },
+  priceListSuccess: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {price list created} ' +
+      'duplicate {price list duplicated} ' +
+      'remove {price list deleted} ' +
+      'update {price list updated} ' +
+      'other {}}',
+    description: 'Price list created or updated',
+    id: 'priceListSuccess',
+  },
+  priceListSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'priceListSuccessChanges',
   },
   projectKoku: {
     defaultMessage: 'Upstream project Koku',
@@ -3389,6 +3554,11 @@ export default defineMessages({
     defaultMessage: 'Requests',
     description: 'Requests',
     id: 'requests',
+  },
+  restore: {
+    defaultMessage: 'Restore',
+    description: 'Restore',
+    id: 'restore',
   },
   save: {
     defaultMessage: 'Save',
@@ -3534,9 +3704,14 @@ export default defineMessages({
     description: 'Cost management settings',
     id: 'settingsTitle',
   },
+  showDeprecated: {
+    defaultMessage: 'Show deprecated',
+    description: 'Show deprecated',
+    id: 'showDeprecated',
+  },
   sourcesTabTitle: {
-    defaultMessage: 'Sources',
-    description: 'Sources',
+    defaultMessage: 'Integrations',
+    description: 'Integrations',
     id: 'sourcesTabTitle',
   },
   sinceDate: {
@@ -3923,6 +4098,7 @@ export default defineMessages({
       'byte_ms {{value} Byte-ms} ' +
       'cluster_month {cluster-month} ' +
       'core_hours {{value} core-hours} ' +
+      'g {{value} G} ' +
       'gb {{value} GB} ' +
       'gb_hours {{value} GB-hours} ' +
       'gb_month {{value} GB-month} ' +
@@ -3948,6 +4124,7 @@ export default defineMessages({
       'cluster_month {cluster-month} ' +
       'core {core} ' +
       'core_hours {core-hours} ' +
+      'g {G} ' +
       'gb {GB} ' +
       'gb_hours {GB-hours} ' +
       'gb_month {GB-month} ' +
@@ -4003,6 +4180,11 @@ export default defineMessages({
     description: 'Various',
     id: 'various',
   },
+  version: {
+    defaultMessage: 'v{value}',
+    description: 'v{value}',
+    id: 'version',
+  },
   vcpuTitle: {
     defaultMessage: 'vCPU',
     description: 'vCPU',
@@ -4043,6 +4225,11 @@ export default defineMessages({
     description: 'Volume',
     id: 'volumeTitle',
   },
+  wastedCost: {
+    defaultMessage: 'Wasted cost',
+    description: 'Wasted cost',
+    id: 'wastedCost',
+  },
   workerUnallocated: {
     defaultMessage: 'Worker unallocated',
     description: 'Worker unallocated',
@@ -4052,6 +4239,11 @@ export default defineMessages({
     defaultMessage: 'Distribute unused and non-reserved resource costs to projects',
     description: 'Distribute unused and non-reserved resource costs to projects',
     id: 'workerUnallocatedDesc',
+  },
+  workloadEfficiency: {
+    defaultMessage: 'Workload efficiency',
+    description: 'Workload efficiency',
+    id: 'workloadEfficiency',
   },
   yes: {
     defaultMessage: 'Yes',

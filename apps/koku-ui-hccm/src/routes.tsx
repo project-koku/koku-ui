@@ -12,13 +12,17 @@ const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/details/gcpDetails'));
+const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/details/ocpDetails'));
+const OcpOptimizationsBreakdown = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ './routes/details/ocpBreakdown/optimizations/ocpOptimizationsBreakdown'
+    )
+);
 const OptimizationsBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
-);
-const OptimizationsDetails = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsDetails')
 );
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
@@ -61,20 +65,20 @@ export const routes = {
     element: userAccess(OcpBreakdown),
     path: '/ocp/breakdown',
   },
-  ocpBreakdownOptimizations: {
-    element: userAccess(OptimizationsBreakdown),
-    path: '/ocp/breakdown/optimizations',
-  },
   ocpDetails: {
     element: userAccess(OcpDetails),
     path: '/ocp',
+  },
+  ocpOptimizationsBreakdown: {
+    element: userAccess(OcpOptimizationsBreakdown),
+    path: '/ocp/breakdown/optimizations',
   },
   optimizationsBreakdown: {
     element: userAccess(OptimizationsBreakdown),
     path: '/optimizations/breakdown',
   },
-  optimizationsDetails: {
-    element: userAccess(OptimizationsDetails),
+  optimizations: {
+    element: userAccess(Optimizations),
     path: '/optimizations',
   },
   overview: {

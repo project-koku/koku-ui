@@ -1,0 +1,16 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.summaryContainer {
+  margin-bottom: var(--pf-t--global--spacer--lg);
+}
+
+.wastedCost {
+  color: var(--pf-t--global--text--color--regular);
+  font-size: var(--pf-t--global--font--size--xl);
+}
+
+.workloadEfficiency {
+  color: var(--pf-t--global--text--color--regular);
+  font-size: var(--pf-t--global--font--size--4xl);
+  margin-top: -6px;
+}

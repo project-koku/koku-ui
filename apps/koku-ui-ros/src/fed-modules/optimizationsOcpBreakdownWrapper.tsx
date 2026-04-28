@@ -4,13 +4,14 @@ import { OptimizationsOcpBreakdown } from 'routes/optimizations/optimizationsOcp
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface optimizationsOcpBreakdownOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
-  cluster?: string[];
-  isClusterHidden?: boolean;
-  linkPath?: string;
-  linkState?: any;
-  project?: string[];
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  cluster?: string | string[]; // Cluster name to filter by
+  isClusterHidden?: boolean; // Hides cluster filter and column
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  project?: string | string[]; // Project name to filter by
+  queryStateName: string; // Name used to store query state
 }
 
 type optimizationsOcpBreakdownProps = optimizationsOcpBreakdownOwnProps;
@@ -23,6 +24,7 @@ const optimizationsOcpBreakdownWrapper: React.FC<optimizationsOcpBreakdownProps>
   linkPath,
   linkState,
   project,
+  queryStateName,
 }: optimizationsOcpBreakdownOwnProps) => {
   return (
     <OptimizationsWrapper>
@@ -34,6 +36,7 @@ const optimizationsOcpBreakdownWrapper: React.FC<optimizationsOcpBreakdownProps>
         linkPath={linkPath}
         linkState={linkState}
         project={project}
+        queryStateName={queryStateName}
       />
     </OptimizationsWrapper>
   );

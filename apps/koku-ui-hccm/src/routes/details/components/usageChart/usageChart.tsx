@@ -36,6 +36,7 @@ export interface ChartDatum {
 
 interface UsageChartOwnProps extends RouterComponentProps, WrappedComponentProps {
   name?: string;
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType; // cpu or memory
 }
@@ -463,9 +464,9 @@ class UsageChartBase extends React.Component<UsageChartProps, UsageChartState> {
 }
 
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
-  (state, { reportPathsType, reportType, router }) => {
+  (state, { queryStateName, reportPathsType, reportType, router }) => {
     const queryFromRoute = parseQuery<OcpQuery>(router.location.search);
-    const queryState = getQueryState(router.location, 'details');
+    const queryState = getQueryState(router.location, queryStateName);
 
     const groupBy = getGroupById(queryFromRoute);
     const groupByValue = getGroupByValue(queryFromRoute);

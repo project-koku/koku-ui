@@ -3,8 +3,9 @@ import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { ReportPathsType } from 'api/reports/report';
 import type { ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { getResizeObserver } from 'routes/components/charts/common';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { useMapToProps } from 'routes/details/components/gpuData/utils';
@@ -16,6 +17,7 @@ import { styles } from './gpuContent.styles';
 import { GpuToolbar } from './gpuToolbar';
 
 interface GpuContentOwnProps {
+  queryStateName: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -32,15 +34,19 @@ const baseQuery: OcpQuery = {
   },
 };
 
-const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) => {
+const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType, reportType }) => {
   const intl = useIntl();
 
   const [query, setQuery] = useState({ ...baseQuery });
   const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
     query,
+    queryStateName,
     reportPathsType,
     reportType,
   });
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
@@ -73,13 +79,13 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
     return (
       <GpuTable
         filterBy={query.filter_by}
+        gridBreakPoint={width < 650 ? 'grid' : undefined}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
+        queryStateName={queryStateName}
         report={report}
-        reportPathsType={reportPathsType}
-        reportType={reportType}
       />
     );
   };
@@ -117,6 +123,13 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
     setQuery(newQuery);
   };
 
+  const handleOnResize = () => {
+    const { clientWidth = 0 } = containerRef?.current || {};
+    if (clientWidth !== width) {
+      setWidth(clientWidth);
+    }
+  };
+
   const handleOnSetPage = pageNumber => {
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, false);
     setQuery(newQuery);
@@ -127,6 +140,17 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
     setQuery(newQuery);
   };
 
+  useEffect(() => {
+    if (containerRef?.current) {
+      const unobserve = getResizeObserver(containerRef?.current, handleOnResize);
+      return () => {
+        if (unobserve) {
+          unobserve();
+        }
+      };
+    }
+  }, [containerRef, handleOnResize]);
+
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
 
@@ -134,7 +158,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ reportPathsType, reportType }) 
     return <NotAvailable />;
   }
   return (
-    <div style={styles.container}>
+    <div ref={containerRef} style={styles.container}>
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
         <div style={styles.loading}>

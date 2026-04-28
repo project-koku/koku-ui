@@ -39,7 +39,7 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
         msg = messages.notAuthorizedStateOcp;
         break;
       case formatPath(routes.optimizationsBreakdown.path):
-      case formatPath(routes.optimizationsDetails.path):
+      case formatPath(routes.optimizations.path):
         msg = messages.notAuthorizedStateOptimizations;
         break;
       case formatPath(routes.settings.path):

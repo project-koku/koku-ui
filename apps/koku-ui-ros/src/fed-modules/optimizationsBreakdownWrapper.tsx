@@ -4,15 +4,21 @@ import { OptimizationsBreakdown } from 'routes/optimizations/optimizationsBreakd
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface OptimizationsBreakdownOwnProps {
-  // TBD...
+  linkState?: any; // Link state used by the link displayed in each table row
+  projectPath?: string; // Path used by project link displayed in the optimizations breakdown header
+  queryStateName: string; // Name used to store query state
 }
 
 type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
 
-const OptimizationsBreakdownWrapper: React.FC<OptimizationsBreakdownProps> = () => {
+const OptimizationsBreakdownWrapper: React.FC<OptimizationsBreakdownProps> = ({
+  linkState,
+  projectPath,
+  queryStateName,
+}: OptimizationsBreakdownOwnProps) => {
   return (
     <OptimizationsWrapper>
-      <OptimizationsBreakdown />
+      <OptimizationsBreakdown linkState={linkState} projectPath={projectPath} queryStateName={queryStateName} />
     </OptimizationsWrapper>
   );
 };

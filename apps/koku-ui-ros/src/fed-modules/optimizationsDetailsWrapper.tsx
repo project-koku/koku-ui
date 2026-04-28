@@ -4,11 +4,12 @@ import { OptimizationsDetails } from 'routes/optimizations/optimizationsDetails'
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface OptimizationsDetailsOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  isHeaderHidden?: boolean;
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  queryStateName: string; // Name used to store query state
 }
 
 type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
@@ -16,18 +17,20 @@ type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
 const OptimizationsDetailsWrapper: React.FC<OptimizationsDetailsProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
+  isHeaderHidden,
   linkPath,
   linkState,
-  projectPath,
+  queryStateName,
 }: OptimizationsDetailsOwnProps) => {
   return (
     <OptimizationsWrapper>
       <OptimizationsDetails
         breadcrumbLabel={breadcrumbLabel}
         breadcrumbPath={breadcrumbPath}
+        isHeaderHidden={isHeaderHidden}
         linkPath={linkPath}
         linkState={linkState}
-        projectPath={projectPath}
+        queryStateName={queryStateName}
       />
     </OptimizationsWrapper>
   );

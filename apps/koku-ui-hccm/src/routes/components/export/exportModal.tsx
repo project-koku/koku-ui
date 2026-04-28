@@ -1,4 +1,4 @@
-import type { MessageDescriptor } from '@formatjs/intl/src/types';
+import type { MessageDescriptor } from '@formatjs/intl';
 import {
   Alert,
   Button,
@@ -129,7 +129,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       isAllItems,
       isExportsToggleEnabled,
       isTimeScoped,
-      items,
+      items = [],
       reportPathsType,
       reportQueryString,
       reportType,

@@ -2035,6 +2035,30 @@
         "value": "Usage cost on the day you are charged"
       }
     ],
+    "cpuEfficiency": [
+      {
+        "type": 0,
+        "value": "CPU workload efficiency"
+      }
+    ],
+    "cpuEfficiencyBreakdown": [
+      {
+        "type": 0,
+        "value": "CPU workload efficiency breakdown"
+      }
+    ],
+    "cpuEfficiencyInfoFormulaUsageScore": [
+      {
+        "type": 0,
+        "value": "workload efficiency score = (usage / request) * 100)"
+      }
+    ],
+    "cpuEfficiencyInfoFormulaWastedCost": [
+      {
+        "type": 0,
+        "value": "wasted cost = (Cost -X% (% of total cost) = waste cost)"
+      }
+    ],
     "cpuTitle": [
       {
         "type": 0,
@@ -2081,6 +2105,12 @@
       {
         "type": 0,
         "value": "Create a cost model"
+      }
+    ],
+    "createPriceList": [
+      {
+        "type": 0,
+        "value": "Create price list"
       }
     ],
     "createRate": [
@@ -2760,6 +2790,74 @@
         "value": "Delete"
       }
     ],
+    "deletePriceList": [
+      {
+        "type": 0,
+        "value": "Delete price list"
+      }
+    ],
+    "deletePriceListDesc": [
+      {
+        "type": 0,
+        "value": "Removing "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " will queue a resummarization. Changes will be reflected within 24 hours."
+      }
+    ],
+    "deletePriceListTitle": [
+      {
+        "type": 0,
+        "value": "Remove price list?"
+      }
+    ],
+    "deprecate": [
+      {
+        "type": 0,
+        "value": "Deprecate"
+      }
+    ],
+    "deprecatePriceListDesc": [
+      {
+        "type": 0,
+        "value": "This price list will be deprecated."
+      }
+    ],
+    "deprecatePriceListItem1": [
+      {
+        "type": 0,
+        "value": "Deprecated lists are hidden from this catalog unless \"Show deprecated\" is on."
+      }
+    ],
+    "deprecatePriceListItem2": [
+      {
+        "type": 0,
+        "value": "They no longer appear when assigning price lists to a cost model."
+      }
+    ],
+    "deprecatePriceListItem3": [
+      {
+        "type": 0,
+        "value": "You can restore a deprecated list later from this page or its detail view."
+      }
+    ],
+    "deprecatePriceListTitle": [
+      {
+        "type": 0,
+        "value": "Deprecate this price list?"
+      }
+    ],
+    "deprecated": [
+      {
+        "type": 0,
+        "value": "Deprecated"
+      }
+    ],
     "description": [
       {
         "type": 0,
@@ -3124,11 +3222,35 @@
               }
             ]
           },
+          "cost_models": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Assigned cost models"
+              }
+            ]
+          },
           "cpu": {
             "value": [
               {
                 "type": 0,
                 "value": "CPU"
+              }
+            ]
+          },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Currency"
+              }
+            ]
+          },
+          "end_date": {
+            "value": [
+              {
+                "type": 0,
+                "value": "End date"
               }
             ]
           },
@@ -3276,6 +3398,14 @@
               {
                 "type": 0,
                 "value": "Integration"
+              }
+            ]
+          },
+          "start_date": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Start date"
               }
             ]
           },
@@ -4173,6 +4303,12 @@
         "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#adding-openshift-projects"
       }
     ],
+    "docsPriceList": [
+      {
+        "type": 0,
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs"
+      }
+    ],
     "docsReleases": [
       {
         "type": 0,
@@ -4215,6 +4351,12 @@
         "value": "Download"
       }
     ],
+    "duplicatePriceList": [
+      {
+        "type": 0,
+        "value": "Duplicate price list"
+      }
+    ],
     "edit": [
       {
         "type": 0,
@@ -4237,6 +4379,12 @@
       {
         "type": 0,
         "value": "Edit markup or discount"
+      }
+    ],
+    "efficiency": [
+      {
+        "type": 0,
+        "value": "Efficiency"
       }
     ],
     "emptyFilterSourceStateSubtitle": [
@@ -8061,6 +8209,12 @@
         "value": "dateRange"
       }
     ],
+    "formula": [
+      {
+        "type": 0,
+        "value": "Formula:"
+      }
+    ],
     "gcp": [
       {
         "type": 0,
@@ -10600,6 +10754,30 @@
         "value": "value"
       }
     ],
+    "memoryEfficiency": [
+      {
+        "type": 0,
+        "value": "Memory workload efficiency"
+      }
+    ],
+    "memoryEfficiencyBreakdown": [
+      {
+        "type": 0,
+        "value": "Memory workload efficiency breakdown"
+      }
+    ],
+    "memoryEfficiencyInfoFormulaUsageScore": [
+      {
+        "type": 0,
+        "value": "workload efficiency score = (usage / request) * 100)"
+      }
+    ],
+    "memoryEfficiencyInfoFormulaWasteCost": [
+      {
+        "type": 0,
+        "value": "waste cost = (Cost -X% (% of total cost) = waste cost)"
+      }
+    ],
     "memoryTitle": [
       {
         "type": 0,
@@ -10710,6 +10888,14 @@
               }
             ]
           },
+          "id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ID"
+              }
+            ]
+          },
           "memory": {
             "value": [
               {
@@ -10720,14 +10906,6 @@
           },
           "other": {
             "value": []
-          },
-          "uuid": {
-            "value": [
-              {
-                "type": 0,
-                "value": "UUID"
-              }
-            ]
           }
         },
         "type": 5,
@@ -11727,6 +11905,16 @@
         "value": "count"
       }
     ],
+    "priceListDesc": [
+      {
+        "type": 0,
+        "value": "Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. "
+      },
+      {
+        "type": 1,
+        "value": "learnMore"
+      }
+    ],
     "priceListDuplicate": [
       {
         "type": 0,
@@ -11751,6 +11939,92 @@
         "value": "To add rates to the price list, click on the \"Add\" rate button above."
       }
     ],
+    "priceListErrorDesc": [
+      {
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to create price list"
+              }
+            ]
+          },
+          "duplicate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to duplicate price list"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to delete price list"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to update price list"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "priceListErrorTitle": [
+      {
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to create price list"
+              }
+            ]
+          },
+          "duplicate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to duplicate price list"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to delete price list"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to update price list"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
     "priceListNumberRate": [
       {
         "type": 0,
@@ -11761,6 +12035,55 @@
       {
         "type": 0,
         "value": "Rate must be a positive number"
+      }
+    ],
+    "priceListSuccess": [
+      {
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "price list created"
+              }
+            ]
+          },
+          "duplicate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "price list duplicated"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "price list deleted"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "price list updated"
+              }
+            ]
+          }
+        },
+        "type": 5,
+        "value": "value"
+      }
+    ],
+    "priceListSuccessChanges": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected in report summarizations within 24 hours"
       }
     ],
     "projectKoku": [
@@ -11875,6 +12198,12 @@
       {
         "type": 0,
         "value": "Requests"
+      }
+    ],
+    "restore": [
+      {
+        "type": 0,
+        "value": "Restore"
       }
     ],
     "save": [
@@ -12368,6 +12697,12 @@
         "value": "Cost management settings"
       }
     ],
+    "showDeprecated": [
+      {
+        "type": 0,
+        "value": "Show deprecated"
+      }
+    ],
     "sinceDate": [
       {
         "type": 1,
@@ -12467,6 +12802,12 @@
       }
     ],
     "sources": [
+      {
+        "type": 0,
+        "value": "Integrations"
+      }
+    ],
+    "sourcesTabTitle": [
       {
         "type": 0,
         "value": "Integrations"
@@ -13067,6 +13408,18 @@
               }
             ]
           },
+          "g": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              },
+              {
+                "type": 0,
+                "value": " G"
+              }
+            ]
+          },
           "gb": {
             "value": [
               {
@@ -13279,6 +13632,14 @@
               }
             ]
           },
+          "g": {
+            "value": [
+              {
+                "type": 0,
+                "value": "G"
+              }
+            ]
+          },
           "gb": {
             "value": [
               {
@@ -13483,6 +13844,16 @@
         "value": "vCPU"
       }
     ],
+    "version": [
+      {
+        "type": 0,
+        "value": "v"
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "viewAll": [
       {
         "type": 0,
@@ -13525,6 +13896,12 @@
         "value": "Volume"
       }
     ],
+    "wastedCost": [
+      {
+        "type": 0,
+        "value": "Wasted cost"
+      }
+    ],
     "workerUnallocated": [
       {
         "type": 0,
@@ -13535,6 +13912,12 @@
       {
         "type": 0,
         "value": "Distribute unused and non-reserved resource costs to projects"
+      }
+    ],
+    "workloadEfficiency": [
+      {
+        "type": 0,
+        "value": "Workload efficiency"
       }
     ],
     "yes": [

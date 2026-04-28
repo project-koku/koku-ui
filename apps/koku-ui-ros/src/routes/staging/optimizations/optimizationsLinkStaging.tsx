@@ -20,14 +20,11 @@ const OptimizationsLinkStaging: React.FC<OptimizationsLinkStagingProps> = () => 
   const projectFilter = 'openshift';
 
   const state = {
-    ...(location.state && location.state),
-    details: {
-      breadcrumbPath: formatPath(routes.optimizationsLink.path),
-    },
+    ...(location?.state || {}),
   };
 
   const linkPath = getBreakdownPath({
-    basePath: formatPath(routes.optimizationsContainersTable.path),
+    basePath: formatPath(routes.ocpOptimizations.path),
     groupBy: 'project',
     id: 'openshift', // groupByValue
   });

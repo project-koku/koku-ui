@@ -1,4 +1,4 @@
-/* For testing only */
+/* For testing only. Not imported by the application — do not wire this into fec/webpack entry. */
 /* https://developer.mozilla.org/en-US/docs/Web/CSS/revert */
 [class*="pf-v6-c"],
 [class*="pf-v6-c"] *,
