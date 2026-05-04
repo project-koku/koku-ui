@@ -67,11 +67,11 @@ jest.mock('utils/dates', () => ({
   getSinceDateRangeString: jest.fn(() => 'Jan 1 – Dec 31'),
 }));
 
-jest.mock('./compute', () => ({
+jest.mock('./components/compute', () => ({
   ComputeCard: () => <div data-testid="compute-card" />,
 }));
 
-jest.mock('./memory', () => ({
+jest.mock('./components/memory', () => ({
   MemoryCard: () => <div data-testid="memory-card" />,
 }));
 

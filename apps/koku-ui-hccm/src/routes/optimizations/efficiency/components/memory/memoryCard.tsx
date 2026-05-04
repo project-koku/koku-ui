@@ -1,4 +1,4 @@
-import '../efficiencyCard.scss';
+import './memoryCard.scss';
 
 import {
   Button,
@@ -31,6 +31,8 @@ import { getExportButton } from 'routes/components/dataToolbar/utils/actions';
 import { ExportModal } from 'routes/components/export';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { EfficiencySummary } from 'routes/optimizations/efficiency/components/summary/efficiencySummary';
+import { EfficiencyTable } from 'routes/optimizations/efficiency/components/table/efficiencyTable';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
@@ -40,9 +42,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
-import { styles } from '../efficiency.styles';
-import { EfficiencySummary } from '../efficiencySummary';
-import { EfficiencyTable } from '../efficiencyTable';
+import { styles } from './memoryCard.styles';
 
 interface MemoryCardOwnProps {
   currency?: string;
@@ -99,6 +99,14 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
   const queryState = getQueryState(location, 'efficiencyMemory');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [prevGroupBy, setPrevGroupBy] = useState(groupBy);
+
+  // Reset order_by in the same render as a groupBy change so useMapToProps (and its fetch
+  // useEffect) never runs with a stale order_by for the new group.
+  if (groupBy !== prevGroupBy) {
+    setPrevGroupBy(groupBy);
+    setQuery({ ...query, order_by: baseQuery.order_by });
+  }
 
   const { computedItems, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     currency,
