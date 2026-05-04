@@ -80,7 +80,7 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
         style: styles.column,
       },
     ];
-  }, [computedItems, groupBy]);
+  }, [computedItems, groupBy, isWastedCostToggleEnabled]);
 
   // Rows are computed fresh on every render so the Link state always uses
   // the current location — never a stale closure from a previous useMemo run.
@@ -142,7 +142,7 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
         item,
       };
     });
-  }, [computedItems, location, groupBy]);
+  }, [computedItems, location, groupBy, isWastedCostToggleEnabled]);
 
   const filteredColumns = (columns as any[]).filter(column => !column.hidden);
   const filteredRows = rows.map(({ ...row }) => {
