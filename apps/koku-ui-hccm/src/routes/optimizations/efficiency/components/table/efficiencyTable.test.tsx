@@ -2,12 +2,13 @@ import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
-import { EfficiencyTable } from './efficiencyTable';
-
 // Capture the rows/columns/onSort that EfficiencyTable passes to DataTable
 let capturedRows: any[] = [];
 let capturedOnSort: any;
+
+jest.mock('components/featureToggle', () => ({
+  useIsWastedCostToggleEnabled: jest.fn(() => true),
+}));
 
 jest.mock('routes/components/dataTable', () => ({
   DataTable: ({ rows, columns, onSort }: any) => {
@@ -46,6 +47,9 @@ jest.mock('routes/utils/computedReport/getComputedReportItems', () => ({
     },
   ]),
 }));
+
+import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
+import { EfficiencyTable } from './efficiencyTable';
 
 // Capture the location state set by the Link's navigation
 let capturedState: any = null;

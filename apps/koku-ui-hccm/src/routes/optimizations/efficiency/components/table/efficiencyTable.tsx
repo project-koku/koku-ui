@@ -1,4 +1,5 @@
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
+import { useIsWastedCostToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
@@ -34,6 +35,7 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
 }) => {
   const intl = useIntl();
   const location = useLocation();
+  const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
   // Compute items and columns from report only (no location dependency)
   const computedItems = useMemo(() => {
@@ -49,26 +51,28 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
   const columns = useMemo(() => {
     return [
       {
-        orderBy: groupBy,
         name: intl.formatMessage(messages.detailsResourceNames, { value: groupBy }),
         ...(computedItems.length && { isSortable: true }),
+        orderBy: groupBy,
       },
       {
-        orderBy: 'usage_efficiency',
         name: intl.formatMessage(messages.workloadEfficiency),
         ...(computedItems.length && { isSortable: true }),
+        orderBy: 'usage_efficiency',
         style: styles.column,
       },
       {
-        orderBy: 'wasted_cost',
+        hidden: !isWastedCostToggleEnabled,
+
         name: intl.formatMessage(messages.wastedCost),
         ...(computedItems.length && { isSortable: true }),
+        orderBy: 'wasted_cost',
         style: styles.column,
       },
       {
-        orderBy: 'cost',
         name: intl.formatMessage(messages.totalCost),
         ...(computedItems.length && { isSortable: true }),
+        orderBy: 'cost',
         style: styles.column,
       },
       {
@@ -76,7 +80,7 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
         style: styles.column,
       },
     ];
-  }, [computedItems, groupBy]);
+  }, [computedItems, groupBy, isWastedCostToggleEnabled]);
 
   // Rows are computed fresh on every render so the Link state always uses
   // the current location — never a stale closure from a previous useMemo run.
@@ -118,29 +122,37 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
             ),
           },
           {
+            style: styles.column,
             value: intl.formatMessage(messages.percent, {
               value: formatPercentage(item.score?.usage_efficiency_percent),
             }),
-            style: styles.column,
           },
           {
+            hidden: !isWastedCostToggleEnabled,
+            style: styles.column,
+
             value: formatCurrency(item.score?.wasted_cost?.value || 0, item.score?.wasted_cost?.units || 'USD'),
-            style: styles.column,
           },
           {
-            value: formatCurrency(item.cost?.total?.value || 0, item.cost?.total?.units || 'USD'),
             style: styles.column,
+            value: formatCurrency(item.cost?.total?.value || 0, item.cost?.total?.units || 'USD'),
           },
           { value: '', style: styles.column },
         ],
         item,
       };
     });
-  }, [computedItems, location, groupBy]);
+  }, [computedItems, location, groupBy, isWastedCostToggleEnabled]);
+
+  const filteredColumns = (columns as any[]).filter(column => !column.hidden);
+  const filteredRows = rows.map(({ ...row }) => {
+    row.cells = row.cells.filter(cell => !cell.hidden);
+    return row;
+  });
 
   return (
     <DataTable
-      columns={columns}
+      columns={filteredColumns}
       exclude={exclude}
       filterBy={filterBy}
       gridBreakPoint="grid-md"
@@ -148,7 +160,7 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
       isNoWrapHeader={false}
       onSort={onSort}
       orderBy={orderBy}
-      rows={rows}
+      rows={filteredRows}
     />
   );
 };

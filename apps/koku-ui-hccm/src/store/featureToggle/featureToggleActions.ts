@@ -11,6 +11,7 @@ export interface FeatureToggleActionMeta {
   isNamespaceToggleEnabled?: boolean;
   isPriceListToggleEnabled?: boolean;
   isSystemsToggleEnabled?: boolean;
+  isWastedCostToggleEnabled?: boolean;
 }
 
 export const setFeatureToggle = createAction('feature/init_feature_toggle')<FeatureToggleActionMeta>();

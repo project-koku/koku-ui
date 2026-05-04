@@ -2,6 +2,7 @@ import './efficiencySummary.scss';
 
 import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
 import type { OcpReport } from 'api/reports/ocpReports';
+import { useIsWastedCostToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -15,6 +16,7 @@ type EfficiencySummaryProps = EfficiencySummaryOwnProps;
 
 const EfficiencySummary: React.FC<EfficiencySummaryProps> = ({ report }: EfficiencySummaryProps) => {
   const intl = useIntl();
+  const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
   return (
     <Flex className="summaryContainer">
@@ -24,17 +26,19 @@ const EfficiencySummary: React.FC<EfficiencySummaryProps> = ({ report }: Efficie
             value: formatPercentage(report?.meta?.total?.total_score?.usage_efficiency_percent || 0),
           })}
         </FlexItem>
-        <FlexItem alignSelf={{ default: 'alignSelfFlexStart' }}>
-          <Title headingLevel="h3" size={TitleSizes.lg}>
-            {intl.formatMessage(messages.wastedCost)}
-          </Title>
-          <div>
-            {formatCurrency(
-              report?.meta?.total?.total_score?.wasted_cost?.value || 0,
-              report?.meta?.total?.total_score?.wasted_cost?.units || 'USD'
-            )}
-          </div>
-        </FlexItem>
+        {isWastedCostToggleEnabled && (
+          <FlexItem alignSelf={{ default: 'alignSelfFlexStart' }}>
+            <Title headingLevel="h3" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.wastedCost)}
+            </Title>
+            <div>
+              {formatCurrency(
+                report?.meta?.total?.total_score?.wasted_cost?.value || 0,
+                report?.meta?.total?.total_score?.wasted_cost?.units || 'USD'
+              )}
+            </div>
+          </FlexItem>
+        )}
       </Flex>
     </Flex>
   );
