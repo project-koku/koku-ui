@@ -6,7 +6,7 @@ import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import * as queryUtils from 'routes/utils/query';
 
-import { renderWithProviders } from '../testUtils';
+import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
 import { ComputeCard } from './computeCard';
 
 // --- Module mocks ---
@@ -34,14 +34,14 @@ jest.mock('routes/utils/computedReport/getComputedReportItems', () => ({
 }));
 
 let capturedOnSort: any = null;
-jest.mock('../efficiencyTable', () => ({
+jest.mock('routes/optimizations/efficiency/components/table/efficiencyTable', () => ({
   EfficiencyTable: (props: any) => {
     capturedOnSort = props.onSort;
     return <div data-testid="efficiency-table" />;
   },
 }));
 
-jest.mock('../efficiencySummary', () => ({
+jest.mock('routes/optimizations/efficiency/components/summary/efficiencySummary', () => ({
   EfficiencySummary: () => <div data-testid="efficiency-summary" />,
 }));
 

@@ -7,7 +7,7 @@ jest.mock('utils/format', () => ({
   formatCurrency: jest.fn((value: number, units: string) => `${units ?? 'USD'}${value ?? 0}`),
 }));
 
-import { renderWithProviders } from './testUtils';
+import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
 import { EfficiencySummary } from './efficiencySummary';
 
 const mockReport = {

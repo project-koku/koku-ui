@@ -2,7 +2,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { renderWithProviders } from './testUtils';
+import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
 import { EfficiencyTable } from './efficiencyTable';
 
 // Capture the rows/columns/onSort that EfficiencyTable passes to DataTable

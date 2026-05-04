@@ -1,4 +1,4 @@
-import '../efficiencyCard.scss';
+import './memoryCard.scss';
 
 import {
   Button,
@@ -31,6 +31,8 @@ import { getExportButton } from 'routes/components/dataToolbar/utils/actions';
 import { ExportModal } from 'routes/components/export';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { EfficiencySummary } from 'routes/optimizations/efficiency/components/summary/efficiencySummary';
+import { EfficiencyTable } from 'routes/optimizations/efficiency/components/table/efficiencyTable';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
@@ -40,11 +42,9 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
-import { styles } from '../efficiency.styles';
-import { EfficiencySummary } from '../efficiencySummary';
-import { EfficiencyTable } from '../efficiencyTable';
+import { styles } from './memoryCard.styles';
 
-interface ComputeCardOwnProps {
+interface MemoryCardOwnProps {
   currency?: string;
   exclude?: any;
   filterBy?: any;
@@ -52,7 +52,7 @@ interface ComputeCardOwnProps {
   timeScopeValue?: number;
 }
 
-export interface ComputeCardStateProps {
+export interface MemoryCardStateProps {
   computedItems?: any;
   report: OcpReport;
   reportError: AxiosError;
@@ -60,7 +60,7 @@ export interface ComputeCardStateProps {
   reportQueryString: string;
 }
 
-export interface ComputeCardMapProps {
+export interface MemoryCardMapProps {
   currency?: string;
   exclude?: any;
   filterBy?: any;
@@ -69,7 +69,7 @@ export interface ComputeCardMapProps {
   query?: OcpQuery;
 }
 
-type ComputeCardProps = ComputeCardOwnProps;
+type MemoryCardProps = MemoryCardOwnProps;
 
 const baseQuery: OcpQuery = {
   filter: {
@@ -89,14 +89,14 @@ const baseQuery: OcpQuery = {
   },
 };
 
-const reportType = ReportType.cpu;
+const reportType = ReportType.memory;
 const reportPathsType = ReportPathsType.ocp;
 
-const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, groupBy, timeScopeValue }) => {
+const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, groupBy, timeScopeValue }) => {
   const intl = useIntl();
   const location = useLocation();
 
-  const queryState = getQueryState(location, 'efficiencyCompute');
+  const queryState = getQueryState(location, 'efficiencyMemory');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
@@ -108,6 +108,11 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
     query,
     timeScopeValue,
   });
+
+  // Reset order_by when groupBy changes
+  useEffect(() => {
+    setQuery({ ...query, order_by: { cost: 'desc' } });
+  }, [groupBy]);
 
   const getExportButtonComponent = () => {
     return getExportButton({
@@ -208,19 +213,19 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
     <Card>
       <CardTitle>
         <Title headingLevel="h2" size={TitleSizes.lg}>
-          {intl.formatMessage(messages.cpuEfficiency)}
+          {intl.formatMessage(messages.memoryEfficiency)}
           <span>
             <Popover
               aria-label={intl.formatMessage(messages.overviewInfoArialLabel)}
               bodyContent={
                 <>
-                  <Title headingLevel="h4">{intl.formatMessage(messages.cpuEfficiency)}</Title>
+                  <Title headingLevel="h4">{intl.formatMessage(messages.memoryEfficiency)}</Title>
                   <br />
                   <Title className="formula" headingLevel="h4">
                     {intl.formatMessage(messages.formula)}
                   </Title>
-                  <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaUsageScore)}</p>
-                  <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaWastedCost)}</p>
+                  <p>{intl.formatMessage(messages.memoryEfficiencyInfoFormulaUsageScore)}</p>
+                  <p>{intl.formatMessage(messages.memoryEfficiencyInfoFormulaWasteCost)}</p>
                 </>
               }
               enableFlip
@@ -240,7 +245,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
         <EfficiencySummary report={report} />
         <Divider />
         <Title headingLevel="h3" size={TitleSizes.lg} style={styles.tableTitle}>
-          {intl.formatMessage(messages.cpuEfficiencyBreakdown)}
+          {intl.formatMessage(messages.memoryEfficiencyBreakdown)}
           <div style={styles.export}>{getExportButtonComponent()}</div>
         </Title>
         {getTable()}
@@ -258,7 +263,7 @@ const useMapToProps = ({
   groupBy,
   query,
   timeScopeValue,
-}: ComputeCardMapProps): ComputeCardStateProps => {
+}: MemoryCardMapProps): MemoryCardStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const reportQuery = {
@@ -314,4 +319,4 @@ const useMapToProps = ({
   };
 };
 
-export { ComputeCard };
+export { MemoryCard };
