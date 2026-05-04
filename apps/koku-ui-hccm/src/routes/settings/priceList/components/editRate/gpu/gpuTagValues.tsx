@@ -29,7 +29,7 @@ import { FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
 import { formatCurrencyRaw, getCurrencySymbol } from 'utils/format';
 
-import { styles } from './gpuTagValues.styes';
+import { styles } from './gpuTagValues.styles';
 
 interface GpuTagValuesOwnProps {
   currency?: string;

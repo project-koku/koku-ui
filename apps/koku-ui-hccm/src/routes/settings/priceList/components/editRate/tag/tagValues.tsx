@@ -19,7 +19,7 @@ import { useIntl } from 'react-intl';
 import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
 import { formatCurrencyRaw, getCurrencySymbol } from 'utils/format';
 
-import { styles } from './tagValues.styes';
+import { styles } from './tagValues.styles';
 
 interface TagValuesOwnProps {
   currency?: string;

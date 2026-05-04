@@ -16,7 +16,22 @@ jest.mock('api/priceList', () => {
 
 import * as api from 'api/priceList';
 
+const consoleError = console.error;
+
 describe('PriceListActions', () => {
+  beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation((msg: unknown, ...args: unknown[]) => {
+      if (typeof msg === 'string' && msg.includes('not wrapped in act')) {
+        return;
+      }
+      consoleError.call(console, msg, ...args);
+    });
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   const priceListData = { uuid: 'pl-1', name: 'My list', enabled: true } as any;
 
   beforeEach(() => {
@@ -61,6 +76,28 @@ describe('PriceListActions', () => {
       expect(api.updatePriceList).toHaveBeenCalledWith(api.PriceListType.priceListDuplicate, 'pl-1', undefined)
     );
     await waitFor(() => expect(onDuplicate).toHaveBeenCalled());
+  });
+
+  test('delete modal cancel invokes parent onClose', async () => {
+    const onClose = jest.fn();
+    renderWithStore(
+      <PriceListActions canWrite isDisabled={false} onClose={onClose} priceList={priceListData} />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /more options/i }));
+    fireEvent.click(await screen.findByRole('menuitem', { name: /delete price list/i }));
+    fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  test('deprecate modal cancel invokes parent onClose', async () => {
+    const onClose = jest.fn();
+    renderWithStore(
+      <PriceListActions canWrite isDisabled={false} onClose={onClose} priceList={priceListData} />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /more options/i }));
+    fireEvent.click(await screen.findByRole('menuitem', { name: /^deprecate$/i }));
+    fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+    expect(onClose).toHaveBeenCalled();
   });
 
   test('restore dispatches update without opening deprecate modal', async () => {

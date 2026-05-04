@@ -7,7 +7,7 @@ import { thunk } from 'redux-thunk';
 import { PriceListType } from 'api/priceList';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { getFetchId } from 'store/priceList/priceListCommon';
-import { updatePriceListRequest, updatePriceListSuccess } from 'store/priceList/priceListActions';
+import { updatePriceListFailure, updatePriceListRequest, updatePriceListSuccess } from 'store/priceList/priceListActions';
 
 import { usePriceListDuplicate, usePriceListEnabledToggle, usePriceListUpdate } from './hooks';
 
@@ -81,5 +81,65 @@ describe('priceList hooks', () => {
     });
 
     await waitFor(() => expect(addNotification).toHaveBeenCalled());
+  });
+
+  test('usePriceListDuplicate does not call onDuplicate when duplicate fails', async () => {
+    const store = setupStore();
+    const onDup = jest.fn();
+    const { result } = renderHook(() => usePriceListDuplicate({ uuid: 'pl-err', name: 'E' } as any, onDup), {
+      wrapper: wrapperFor(store),
+    });
+    act(() => {
+      result.current.duplicatePriceList();
+    });
+    const fid = getFetchId(PriceListType.priceListDuplicate);
+    act(() => {
+      store.dispatch(updatePriceListFailure({ message: 'x' } as any, { fetchId: fid } as any));
+    });
+    await waitFor(() => expect(onDup).not.toHaveBeenCalled());
+  });
+
+  test('usePriceListEnabledToggle does not call onUpdateSuccess when update fails', async () => {
+    const store = setupStore();
+    const onOk = jest.fn();
+    const item = { enabled: true, name: 'N', uuid: 'pl-ue' } as any;
+    const { result } = renderHook(() => usePriceListEnabledToggle(item, onOk), { wrapper: wrapperFor(store) });
+    act(() => {
+      result.current.togglePriceListEnabled();
+    });
+    const fid = getFetchId(PriceListType.priceListUpdate);
+    act(() => {
+      store.dispatch(updatePriceListFailure({ message: 'x' } as any, { fetchId: fid } as any));
+    });
+    await waitFor(() => expect(onOk).not.toHaveBeenCalled());
+  });
+
+  test('usePriceListUpdate does not add a toast when isNotificationEnabled is false', async () => {
+    const addNotification = jest.fn();
+    const {
+      useAddNotification,
+    } = require('@redhat-cloud-services/frontend-components-notifications/hooks') as { useAddNotification: jest.Mock };
+    useAddNotification.mockReturnValue(addNotification);
+
+    const fid = getFetchId(PriceListType.priceListAdd);
+    let plState = priceListReducer(undefined as any, updatePriceListRequest({ fetchId: fid } as any));
+    plState = priceListReducer(
+      plState,
+      updatePriceListSuccess({} as any, {
+        fetchId: fid,
+        notification: { title: 'Done', variant: 'success' },
+      } as any)
+    );
+    const frozenReducer: typeof priceListReducer = ((state = plState) => state) as any;
+    const store = createStore(
+      combineReducers({ [priceListStateKey]: frozenReducer }),
+      applyMiddleware(thunk)
+    );
+
+    renderHook(() => usePriceListUpdate({ isNotificationEnabled: false, priceListType: PriceListType.priceListAdd }), {
+      wrapper: wrapperFor(store),
+    });
+
+    await waitFor(() => expect(addNotification).not.toHaveBeenCalled());
   });
 });

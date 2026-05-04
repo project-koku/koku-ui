@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -28,8 +28,18 @@ function preloadedStateForEditRateModal() {
       error: null,
       status: FetchStatus.complete,
       metrics: {
-        data: [],
-        meta: { count: 0 },
+        data: [
+          {
+            default_cost_type: 'Infrastructure',
+            label_measurement: 'Request',
+            label_measurement_unit: 'core-hours',
+            label_metric: 'CPU',
+            metric: 'cpu_core',
+            name: 'cpu_core',
+            source_type: 'ocp',
+          },
+        ],
+        meta: { count: 1 },
         links: { first: '', previous: '', next: '', last: '' },
       },
     },
@@ -129,5 +139,35 @@ describe('EditRateModal', () => {
 
     await screen.findByRole('dialog');
     expect(document.getElementById('description')).toBeInstanceOf(HTMLTextAreaElement);
+  });
+
+  test('cancel invokes onClose when provided', async () => {
+    const onClose = jest.fn();
+    const store = configureStore(preloadedStateForEditRateModal());
+    render(
+      <Provider store={store}>
+        <IntlProvider defaultLocale="en" locale="en">
+          <EditRateModal isOpen onClose={onClose} priceList={priceList} rateIndex={0} />
+        </IntlProvider>
+      </Provider>
+    );
+    await screen.findByRole('dialog');
+    fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  test('description field accepts changes in add-rate flow', async () => {
+    const store = configureStore(preloadedStateForEditRateModal());
+    render(
+      <Provider store={store}>
+        <IntlProvider defaultLocale="en" locale="en">
+          <EditRateModal isAddRate isOpen priceList={priceList} />
+        </IntlProvider>
+      </Provider>
+    );
+    await screen.findByRole('dialog');
+    const desc = document.getElementById('description') as HTMLTextAreaElement;
+    fireEvent.change(desc, { target: { value: 'Updated description text' } });
+    expect(desc.value).toBe('Updated description text');
   });
 });
