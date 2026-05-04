@@ -19,6 +19,7 @@ import { getQuery } from 'api/queries/ocpQuery';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
+import { useIsWastedCostToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -95,6 +96,7 @@ const reportPathsType = ReportPathsType.ocp;
 const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, groupBy, timeScopeValue }) => {
   const intl = useIntl();
   const location = useLocation();
+  const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
   const queryState = getQueryState(location, 'efficiencyCompute');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
@@ -228,7 +230,9 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
                     {intl.formatMessage(messages.formula)}
                   </Title>
                   <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaUsageScore)}</p>
-                  <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaWastedCost)}</p>
+                  {isWastedCostToggleEnabled && (
+                    <p>{intl.formatMessage(messages.cpuEfficiencyInfoFormulaWastedCost)}</p>
+                  )}
                 </>
               }
               enableFlip
