@@ -105,7 +105,7 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
   // useEffect) never runs with a stale order_by for the new group.
   if (groupBy !== prevGroupBy) {
     setPrevGroupBy(groupBy);
-    setQuery({ ...query, order_by: { cost: 'desc' } });
+    setQuery({ ...query, order_by: baseQuery.order_by });
   }
 
   const { computedItems, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
