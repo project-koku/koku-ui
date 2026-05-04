@@ -3,12 +3,12 @@ import { axiosInstance } from 'api';
 import { fetchPriceList, PriceListType, updatePriceList } from './priceList';
 
 test('fetchPriceList API request', () => {
-  fetchPriceList(PriceListType.priceList, '');
+  fetchPriceList(PriceListType.priceList, undefined, '');
   expect(axiosInstance.get).toHaveBeenCalledWith('price-lists/');
 });
 
 test('fetchPriceList appends query string when provided', () => {
-  fetchPriceList(PriceListType.priceList, 'limit=10&offset=0');
+  fetchPriceList(PriceListType.priceList, undefined,'limit=10&offset=0');
   expect(axiosInstance.get).toHaveBeenCalledWith('price-lists/?limit=10&offset=0');
 });
 

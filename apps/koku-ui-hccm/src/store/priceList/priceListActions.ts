@@ -31,7 +31,11 @@ export const updatePriceListFailure = createAction('priceList/update/failure')<A
 export const resetNotification = createAction('priceList/notification/reset')();
 export const resetStatus = createAction('priceList/status/reset')();
 
-export function fetchPriceList(priceListType: PriceListType, priceListQueryString: string): ThunkAction {
+export function fetchPriceList(
+  priceListType: PriceListType,
+  uuid?: string,
+  priceListQueryString?: string
+): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
     const error = selectPriceListError(state, priceListType, priceListQueryString);
@@ -46,7 +50,7 @@ export function fetchPriceList(priceListType: PriceListType, priceListQueryStrin
 
     dispatch(fetchPriceListRequest(meta));
 
-    return apiFetchPriceList(priceListType, priceListQueryString)
+    return apiFetchPriceList(priceListType, uuid, priceListQueryString)
       .then(res => {
         dispatch(fetchPriceListSuccess(res.data, meta));
       })
@@ -59,14 +63,14 @@ export function fetchPriceList(priceListType: PriceListType, priceListQueryStrin
 export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchStatus = selectPriceListUpdateStatus(state, priceListType);
+    const fetchStatus = selectPriceListUpdateStatus(state, priceListType, undefined);
 
     if (fetchStatus === FetchStatus.inProgress) {
       return;
     }
 
     const meta: PriceListActionMeta = {
-      fetchId: getFetchId(priceListType),
+      fetchId: getFetchId(priceListType, undefined),
     };
 
     dispatch(updatePriceListRequest(meta));

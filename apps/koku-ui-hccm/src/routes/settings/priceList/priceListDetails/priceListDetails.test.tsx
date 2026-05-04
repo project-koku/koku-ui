@@ -1,0 +1,153 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
+import { IntlProvider } from 'react-intl';
+import { Provider } from 'react-redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { thunk } from 'redux-thunk';
+
+import { priceListReducer, priceListStateKey } from 'store/priceList';
+
+import { PriceListDetails } from './priceListDetails';
+
+jest.mock('routes/settings/priceList/utils/hooks', () => {
+  const actual = jest.requireActual('routes/settings/priceList/utils/hooks');
+  return {
+    ...actual,
+    usePriceListUpdate: () => ({
+      error: undefined,
+      notification: null,
+      status: require('store/common').FetchStatus.complete,
+    }),
+  };
+});
+
+jest.mock('./priceListDetailsTable', () => ({
+  PriceListDetailsTable: ({
+    onDelete,
+    onDeprecate,
+    onDuplicate,
+    onSort,
+  }: {
+    onDelete?: () => void;
+    onDeprecate?: () => void;
+    onDuplicate?: () => void;
+    onSort?: (sortType: string, isSortAscending: boolean) => void;
+  }) => (
+    <div data-testid="price-list-table">
+      <button type="button" onClick={() => onDelete?.()}>
+        table-delete
+      </button>
+      <button type="button" onClick={() => onDeprecate?.()}>
+        table-deprecate
+      </button>
+      <button type="button" onClick={() => onDuplicate?.()}>
+        table-duplicate
+      </button>
+      <button type="button" onClick={() => onSort?.('name', true)}>
+        table-sort
+      </button>
+    </div>
+  ),
+}));
+
+jest.mock('./priceListDetailsToolbar', () => ({
+  PriceListDetailsToolbar: ({
+    onCreate,
+    onFilterAdded,
+    onFilterRemoved,
+    onShowDeprecated,
+    pagination,
+  }: {
+    onCreate?: () => void;
+    onFilterAdded?: (f: { type?: string; value?: string }) => void;
+    onFilterRemoved?: (f: { type?: string; value?: string }) => void;
+    onShowDeprecated?: (checked: boolean) => void;
+    pagination?: React.ReactNode;
+  }) => (
+    <div data-testid="price-list-toolbar">
+      <button type="button" onClick={() => onCreate?.()}>
+        toolbar-create
+      </button>
+      <button type="button" onClick={() => onFilterAdded?.({ type: 'name', value: 'x' })}>
+        toolbar-filter-add
+      </button>
+      <button type="button" onClick={() => onFilterRemoved?.({ type: 'name', value: 'x' })}>
+        toolbar-filter-remove
+      </button>
+      <button type="button" onClick={() => onShowDeprecated?.(true)}>
+        toolbar-show-deprecated
+      </button>
+      {pagination}
+    </div>
+  ),
+}));
+
+jest.mock('api/priceList', () => {
+  const actual = jest.requireActual('api/priceList');
+  return { __esModule: true, ...actual, fetchPriceList: jest.fn() };
+});
+
+import * as api from 'api/priceList';
+
+const consoleError = console.error;
+
+describe('settings PriceListDetails', () => {
+  jest.useRealTimers();
+
+  beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation((msg: unknown, ...args: unknown[]) => {
+      if (typeof msg === 'string' && msg.includes('not wrapped in act')) {
+        return;
+      }
+      consoleError.call(console, msg, ...args);
+    });
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
+  const setupStore = () =>
+    createStore(combineReducers({ [priceListStateKey]: priceListReducer }), applyMiddleware(thunk));
+
+  test('requests the price list on mount and records a fetch error when the API rejects', async () => {
+    (api.fetchPriceList as jest.Mock).mockRejectedValue(new Error('network'));
+    const store = setupStore();
+    render(
+      <Provider store={store}>
+        <IntlProvider defaultLocale="en" locale="en">
+          <PriceListDetails canWrite />
+        </IntlProvider>
+      </Provider>
+    );
+    await waitFor(() => expect(api.fetchPriceList).toHaveBeenCalled());
+    await waitFor(() => {
+      const errors = (store.getState() as any).priceList?.errors;
+      expect(errors && [...errors.values()].filter(Boolean).length).toBeGreaterThan(0);
+    });
+  });
+
+  test('toolbar callbacks run while list fetch is in flight (toolbar is always mounted)', async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    (api.fetchPriceList as jest.Mock).mockResolvedValue({
+      data: {
+        meta: { count: 1, limit: 10, offset: 0 },
+        data: [{ uuid: 'pl-1', name: 'One', enabled: true }],
+      },
+    });
+    render(
+      <Provider store={setupStore()}>
+        <IntlProvider defaultLocale="en" locale="en">
+          <PriceListDetails canWrite />
+        </IntlProvider>
+      </Provider>
+    );
+    await waitFor(() => expect(screen.getByTestId('price-list-toolbar')).toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: /toolbar-create/i }));
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
+    fireEvent.click(screen.getByRole('button', { name: /toolbar-filter-add/i }));
+    fireEvent.click(screen.getByRole('button', { name: /toolbar-filter-remove/i }));
+    fireEvent.click(screen.getByRole('button', { name: /toolbar-show-deprecated/i }));
+  });
+});

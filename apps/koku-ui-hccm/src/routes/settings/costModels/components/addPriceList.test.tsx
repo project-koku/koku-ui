@@ -159,7 +159,7 @@ describe('add-a-new-rate', () => {
     options = await screen.findAllByRole('option');
     await user.click(options.find(o => /"value":"memory"/i.test(o.textContent)));
 
-    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.requiredField))).not.toBeNull();
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
@@ -215,20 +215,20 @@ describe('add-a-new-rate', () => {
     // tag key is required validation
     const tagKeyInput = screen.getByPlaceholderText(qr.tagKeyPlaceHolder);
     await user.type(tagKeyInput, 'test');
-    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.requiredField))).toBeNull();
     await user.clear(tagKeyInput);
-    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.requiredField))).not.toBeNull();
     await user.type(tagKeyInput, 'openshift');
-    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.requiredField))).toBeNull();
 
     // tag value is required validation
     const tagValueInput = screen.getByPlaceholderText('Enter a tag value');
     await user.type(tagValueInput, 'test');
-    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.requiredField))).toBeNull();
     await user.clear(tagValueInput);
-    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.requiredField))).not.toBeNull();
     await user.type(tagValueInput, 'openshift');
-    expect(screen.queryByText(regExp(messages.costModelsRequiredField))).toBeNull();
+    expect(screen.queryByText(regExp(messages.requiredField))).toBeNull();
 
     // rate must be a number
     const tagRateInput = screen.getByLabelText('Assign rate');
@@ -237,7 +237,7 @@ describe('add-a-new-rate', () => {
 
     // rate is required
     await user.clear(tagRateInput);
-    expect(screen.getByText(regExp(messages.costModelsRequiredField))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.requiredField))).not.toBeNull();
 
     // rate must be positive
     await user.type(tagRateInput, '-0.23');

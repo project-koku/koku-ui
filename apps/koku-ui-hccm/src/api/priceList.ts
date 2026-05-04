@@ -18,38 +18,39 @@ export interface PriceListData {
   effective_start_date?: string;
   enabled?: boolean;
   name?: string;
-  rates?: [
-    {
-      cost_type?: string;
-      custom_name?: string;
-      description?: string;
-      metric?: {
-        name?: string;
-      };
-      rate_id?: string;
-      tag_rates?: {
-        tag_key?: string;
-        tag_values?: [
-          {
-            default?: boolean;
-            description?: string;
-            tag_value?: string;
-            unit?: string;
-            value?: number;
-          },
-        ];
-      };
-      tiered_rates: [
+  rates?: {
+    cost_type?: string;
+    custom_name?: string;
+    description?: string;
+    metric?: {
+      name?: string;
+      label_measurement?: string;
+      label_measurement_unit?: string;
+      label_metric?: string;
+    };
+    rate_id?: string;
+    tag_rates?: {
+      tag_key?: string;
+      tag_values?: [
         {
+          default?: boolean;
+          description?: string;
+          tag_value?: string;
           unit?: string;
-          usage: {
-            unit?: string;
-          };
           value?: number;
         },
       ];
-    },
-  ];
+    };
+    tiered_rates?: [
+      {
+        unit?: string;
+        usage?: {
+          unit?: string;
+        };
+        value?: number;
+      },
+    ];
+  }[];
   updated_timestamp?: string;
   uuid?: string;
   version?: number;
@@ -86,10 +87,11 @@ export const PriceListPathsType: Partial<Record<PriceListType, string>> = {
   [PriceListType.priceListUpdate]: 'price-lists/',
 };
 
-export function fetchPriceList(priceListType: PriceListType, query?: string) {
+export function fetchPriceList(priceListType: PriceListType, uuid?: string, query?: string) {
   const path = PriceListPathsType[priceListType];
+  const prefix = uuid ? `${uuid}/` : '';
   const queryString = query ? `?${query}` : '';
-  return axiosInstance.get<PriceList>(`${path}${queryString}`);
+  return axiosInstance.get<PriceList>(`${path}${prefix}${queryString}`);
 }
 
 export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload) {

@@ -45,7 +45,7 @@ export const isAzureAvailable = (userAccess: UserAccess, azureProviders: Provide
 
 // Returns true if user has access to cost models
 export const hasCostModelAccess = (userAccess: UserAccess) => {
-  return hasAccess(userAccess, UserAccessType.cost_model);
+  return hasAccess(userAccess, UserAccessType.costModel);
 };
 
 // Returns true if user has access to GCP
