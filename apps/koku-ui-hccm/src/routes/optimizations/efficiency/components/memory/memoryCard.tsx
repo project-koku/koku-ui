@@ -99,6 +99,14 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
   const queryState = getQueryState(location, 'efficiencyMemory');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [prevGroupBy, setPrevGroupBy] = useState(groupBy);
+
+  // Reset order_by in the same render as a groupBy change so useMapToProps (and its fetch
+  // useEffect) never runs with a stale order_by for the new group.
+  if (groupBy !== prevGroupBy) {
+    setPrevGroupBy(groupBy);
+    setQuery({ ...query, order_by: { cost: 'desc' } });
+  }
 
   const { computedItems, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     currency,
@@ -108,11 +116,6 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
     query,
     timeScopeValue,
   });
-
-  // Reset order_by when groupBy changes
-  useEffect(() => {
-    setQuery({ ...query, order_by: { cost: 'desc' } });
-  }, [groupBy]);
 
   const getExportButtonComponent = () => {
     return getExportButton({

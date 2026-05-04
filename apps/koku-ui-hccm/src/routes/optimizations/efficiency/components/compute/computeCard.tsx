@@ -99,6 +99,14 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
   const queryState = getQueryState(location, 'efficiencyCompute');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [prevGroupBy, setPrevGroupBy] = useState(groupBy);
+
+  // Reset order_by in the same render as a groupBy change so useMapToProps (and its fetch
+  // useEffect) never runs with a stale order_by for the new group.
+  if (groupBy !== prevGroupBy) {
+    setPrevGroupBy(groupBy);
+    setQuery({ ...query, order_by: { cost: 'desc' } });
+  }
 
   const { computedItems, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     currency,
@@ -132,11 +140,6 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
       />
     );
   };
-
-  // Reset order_by when groupBy changes
-  useEffect(() => {
-    setQuery({ ...query, order_by: { cost: 'desc' } });
-  }, [groupBy]);
 
   const getPagination = (isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
