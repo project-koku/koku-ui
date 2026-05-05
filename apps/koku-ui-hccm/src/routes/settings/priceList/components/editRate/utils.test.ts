@@ -150,7 +150,7 @@ describe('editRate utils', () => {
         },
       ];
       const byName: any = { cpu_core: { label_metric: 'CPU' } };
-      expect(validateTagKeyDuplicate(rate, priceListRates, byName)).toBe(messages.priceListDuplicate);
+      expect(validateTagKeyDuplicate(rate, priceListRates, byName)).toBe(messages.priceListDuplicateTag);
     });
 
     test('returns null when no duplicate', () => {

@@ -131,7 +131,16 @@ export const validateTagKeyDuplicate = (rate, priceListRates, metricsHashByName:
   });
 
   if (isDuplicate) {
-    return messages.priceListDuplicate;
+    return messages.priceListDuplicateTag;
+  }
+  return null;
+};
+
+export const validateTagValue = (value: string, tagValues: TagValue[]) => {
+  const isDuplicate = tagValues?.find(item => item?.tag_value === value);
+
+  if (isDuplicate) {
+    return messages.priceListDuplicateValue;
   }
   return null;
 };
