@@ -4,7 +4,7 @@ import type { Settings } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ExpandableTable } from 'routes/components/dataTable';
+import { ExpandTable } from 'routes/components/dataTable';
 import { Actions } from 'routes/settings/tagLabels/tagMapping/components/actions';
 import { DeleteTagMappingAction } from 'routes/settings/tagLabels/tagMapping/components/deleteTagMapping';
 
@@ -121,7 +121,7 @@ const TagMappingTable: React.FC<TagMappingTableProps> = ({
   }, [settings]);
 
   return (
-    <ExpandableTable
+    <ExpandTable
       columns={columns}
       filterBy={filterBy}
       gridBreakPoint="grid-2xl"

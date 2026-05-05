@@ -8,9 +8,10 @@ import { useIsPriceListToggleEnabled } from 'components/featureToggle';
 import { isSourcesSettingsTabEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -18,6 +19,7 @@ import { Calculations } from 'routes/settings/calculations';
 import { CostModelsDetails } from 'routes/settings/costModels';
 import { PlatformProjects } from 'routes/settings/platformProjects';
 import { TagLabels } from 'routes/settings/tagLabels';
+import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
@@ -27,7 +29,7 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
-import { PriceList } from './priceList';
+import { PriceListDetails } from './priceList/priceListDetails';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {
@@ -73,6 +75,7 @@ export interface SettingsMapProps {
 }
 
 export interface SettingsStateProps {
+  activeTabKey?: number;
   isPriceListToggleEnabled: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
@@ -83,9 +86,19 @@ export interface SettingsStateProps {
 type SettingsProps = SettingsOwnProps;
 
 const Settings: React.FC<SettingsProps> = () => {
-  const [activeTabKey, setActiveTabKey] = useState(0);
-  const { isPriceListToggleEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
   const intl = useIntl();
+  const [activeTabKey, setActiveTabKey] = useState(0);
+
+  const {
+    activeTabKey: activeTabKeyState,
+    isPriceListToggleEnabled,
+    userAccess,
+    userAccessFetchStatus,
+  } = useMapToProps();
+
+  useEffect(() => {
+    setActiveTabKey(activeTabKeyState ?? 0);
+  }, [activeTabKeyState]);
 
   const canWrite = () => {
     let result = false;
@@ -178,7 +191,7 @@ const Settings: React.FC<SettingsProps> = () => {
       return hasCostModelAccess(userAccess) ? (
         <CostModelsDetails />
       ) : (
-        <NotAuthorized pathname={formatPath(routes.costModel.path)} />
+        <NotAuthorized pathname={formatPath(routes.costModelBreakdown.path)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
       return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWrite()} /> : notAuthorized;
@@ -187,7 +200,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
-      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PriceListDetails canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {
@@ -262,6 +275,9 @@ const Settings: React.FC<SettingsProps> = () => {
 };
 
 const useMapToProps = (): SettingsStateProps => {
+  const location = useLocation();
+  const queryState = getQueryState(location, 'settingsState');
+
   const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = useSelector((state: RootState) =>
     userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString)
@@ -274,6 +290,7 @@ const useMapToProps = (): SettingsStateProps => {
   );
 
   return {
+    activeTabKey: queryState?.activeTabKey,
     isPriceListToggleEnabled: useIsPriceListToggleEnabled(),
     userAccess,
     userAccessError,

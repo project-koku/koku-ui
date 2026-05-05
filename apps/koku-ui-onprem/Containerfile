@@ -9,6 +9,7 @@ COPY tsconfig.json ./
 COPY apps/koku-ui-onprem/package.json ./apps/koku-ui-onprem/
 COPY apps/koku-ui-hccm/package.json ./apps/koku-ui-hccm/
 COPY apps/koku-ui-ros/package.json ./apps/koku-ui-ros/
+COPY apps/koku-ui-sources/package.json ./apps/koku-ui-sources/
 COPY libs ./libs
 
 RUN npm ci
@@ -22,6 +23,9 @@ RUN npm run build:onprem --workspace=@koku-ui/koku-ui-hccm
 COPY apps/koku-ui-ros ./apps/koku-ui-ros/
 RUN npm run build:onprem --workspace=@koku-ui/koku-ui-ros
 
+COPY apps/koku-ui-sources ./apps/koku-ui-sources/
+RUN npm run build:onprem --workspace=@koku-ui/koku-ui-sources
+
 USER 1001
 
 FROM registry.access.redhat.com/ubi10/nginx-126
@@ -29,6 +33,7 @@ FROM registry.access.redhat.com/ubi10/nginx-126
 COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
 COPY --from=builder /app/apps/koku-ui-hccm/dist ./costManagement
 COPY --from=builder /app/apps/koku-ui-ros/dist ./costManagementRos
+COPY --from=builder /app/apps/koku-ui-sources/dist ./sources
 
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

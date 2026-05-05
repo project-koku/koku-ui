@@ -24,7 +24,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Form } from 'routes/settings/costModels/components/forms/form';
-import { styles as costCalcStyles } from 'routes/settings/costModels/costModel/costCalc.styles';
+import { styles as costCalcStyles } from 'routes/settings/costModels/costModelBreakdown/costCalc.styles';
 import { createMapStateToProps } from 'store/common';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';
 

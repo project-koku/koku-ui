@@ -35,7 +35,7 @@ describe('utils/userAccess', () => {
   test('has*Access with array-shaped data', () => {
     expect(hasAwsAccess(arrayShapeAccess(UserAccessType.aws))).toBe(true);
     expect(hasAzureAccess(arrayShapeAccess(UserAccessType.azure))).toBe(true);
-    expect(hasCostModelAccess(arrayShapeAccess(UserAccessType.cost_model))).toBe(true);
+    expect(hasCostModelAccess(arrayShapeAccess(UserAccessType.costModel))).toBe(true);
     expect(hasGcpAccess(arrayShapeAccess(UserAccessType.gcp))).toBe(true);
     expect(hasOcpAccess(arrayShapeAccess(UserAccessType.ocp))).toBe(true);
     expect(hasSettingsAccess(arrayShapeAccess(UserAccessType.settings))).toBe(true);
