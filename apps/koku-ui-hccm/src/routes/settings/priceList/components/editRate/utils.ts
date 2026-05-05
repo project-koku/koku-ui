@@ -136,8 +136,8 @@ export const validateTagKeyDuplicate = (rate, priceListRates, metricsHashByName:
   return null;
 };
 
-export const validateTagValue = (value: string, tagValues: TagValue[]) => {
-  const isDuplicate = tagValues?.find(item => item?.tag_value === value);
+export const validateTagValue = (value: string, tagValues: TagValue[], index: number) => {
+  const isDuplicate = tagValues?.find((item, i) => i !== index && item?.tag_value === value);
 
   if (isDuplicate) {
     return messages.priceListDuplicateValue;

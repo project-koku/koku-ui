@@ -395,8 +395,9 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     const newTagValues = cloneDeep(gpuTagValues ?? []);
     newTagValues[index].tag_value = value;
     setGpuTagValues(newTagValues);
-    updateGpuTagValuesErrors('tag_value', validateTagKey(value, true), index);
-    updateGpuTagValuesErrors('tag_value', validateTagValue(value, gpuTagValues), index);
+
+    const error = validateTagKey(value, true) || validateTagValue(value, gpuTagValues, index);
+    updateGpuTagValuesErrors('tag_value', error, index);
   };
 
   const handleOnMeasurementSelect = (value: string) => {
@@ -575,8 +576,9 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     const newTagValues = cloneDeep(tagValues ?? []);
     newTagValues[index].tag_value = value;
     setTagValues(newTagValues);
-    updateTagValuesErrors('tag_value', validateTagKey(value, isSubmitModeGpuValues), index);
-    updateTagValuesErrors('tag_value', validateTagValue(value, tagValues), index);
+
+    const error = validateTagKey(value, isSubmitModeGpuValues) || validateTagValue(value, tagValues, index);
+    updateTagValuesErrors('tag_value', error, index);
   };
 
   const handleOnTierdRatesChange = (value: string) => {
@@ -631,7 +633,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       setIsSubmitModeGpuValues(false);
       setIsSubmitModeTagValues(true);
       setIsSubmitModeTierdValue(false);
-      setIsTagRatesChecked(false);
+      setIsTagRatesChecked(true);
       setIsTagRatesDisabled(true);
     } else {
       setIsSubmitModeGpuValues(false);
@@ -853,18 +855,17 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
                 />
               </StackItem>
             )}
-            {isSubmitModeGpuValues ||
-              (isSubmitModeTagValues && (
-                <Button
-                  icon={<PlusCircleIcon />}
-                  onClick={isSubmitModeGpuValues ? handleOnGpuTagValuesAdd : handleOnTagValuesAdd}
-                  variant={ButtonVariant.link}
-                >
-                  {intl.formatMessage(
-                    isSubmitModeGpuValues ? messages.costModelsAddGpu : messages.costModelsAddTagValues
-                  )}
-                </Button>
-              ))}
+            {(isSubmitModeGpuValues || isSubmitModeTagValues) && (
+              <Button
+                icon={<PlusCircleIcon />}
+                onClick={isSubmitModeGpuValues ? handleOnGpuTagValuesAdd : handleOnTagValuesAdd}
+                variant={ButtonVariant.link}
+              >
+                {intl.formatMessage(
+                  isSubmitModeGpuValues ? messages.costModelsAddGpu : messages.costModelsAddTagValues
+                )}
+              </Button>
+            )}
           </Stack>
         </Form>
       </ModalBody>
