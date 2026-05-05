@@ -4,7 +4,7 @@ jest.mock('utils/format', () => ({ __esModule: true, countDecimals: (v: string) 
 
 describe('cost model wizard steps validators', () => {
   test.each([
-    ['', 'costModelsRequiredField'],
+    ['', 'requiredField'],
     [new Array(102).join('a'), 'costModelsInfoTooLong'],
     ['ok', null],
   ])('nameErrors(%p) => %p', (name, expectedKey) => {
