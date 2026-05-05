@@ -12097,10 +12097,16 @@
         "value": "learnMore"
       }
     ],
-    "priceListDuplicate": [
+    "priceListDuplicateTag": [
       {
         "type": 0,
         "value": "This tag key is already in use"
+      }
+    ],
+    "priceListDuplicateValue": [
+      {
+        "type": 0,
+        "value": "This tag value is already in use"
       }
     ],
     "priceListEditRate": [

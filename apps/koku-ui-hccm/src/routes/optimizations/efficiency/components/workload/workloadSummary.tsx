@@ -1,4 +1,4 @@
-import './efficiencySummary.scss';
+import './workloadSummary.scss';
 
 import { Flex, FlexItem, Title, TitleSizes } from '@patternfly/react-core';
 import type { OcpReport } from 'api/reports/ocpReports';
@@ -8,13 +8,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { formatCurrency, formatPercentage } from 'utils/format';
 
-interface EfficiencySummaryOwnProps {
+interface WorkloadSummaryOwnProps {
   report: OcpReport;
 }
 
-type EfficiencySummaryProps = EfficiencySummaryOwnProps;
+type WorkloadSummaryProps = WorkloadSummaryOwnProps;
 
-const EfficiencySummary: React.FC<EfficiencySummaryProps> = ({ report }: EfficiencySummaryProps) => {
+const WorkloadSummary: React.FC<WorkloadSummaryProps> = ({ report }: WorkloadSummaryProps) => {
   const intl = useIntl();
   const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
@@ -44,4 +44,4 @@ const EfficiencySummary: React.FC<EfficiencySummaryProps> = ({ report }: Efficie
   );
 };
 
-export { EfficiencySummary };
+export { WorkloadSummary };

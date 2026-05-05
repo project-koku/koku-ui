@@ -286,26 +286,26 @@ describe('add-a-new-rate', () => {
     // tag key is duplicated
     const tagKeyInput = screen.getByPlaceholderText(qr.tagKeyPlaceHolder);
     await user.type(tagKeyInput, 'app');
-    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicateTag))).not.toBeNull();
 
     await user.type(tagKeyInput, '1');
-    expect(screen.queryByText(regExp(messages.priceListDuplicate))).toBeNull();
+    expect(screen.queryByText(regExp(messages.priceListDuplicateTag))).toBeNull();
 
     // change measurement will set tag key as not duplicate
     await user.type(tagKeyInput, '{backspace}');
-    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicateTag))).not.toBeNull();
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options.find(o => /"value":"request"/i.test(o.textContent)));
 
-    expect(screen.queryByText(regExp(messages.priceListDuplicate))).toBeNull();
+    expect(screen.queryByText(regExp(messages.priceListDuplicateTag))).toBeNull();
 
     await user.click(screen.getByLabelText('Select measurement'));
     options = await screen.findAllByRole('option');
     await user.click(options.find(o => /"value":"usage"/i.test(o.textContent)));
 
-    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicateTag))).not.toBeNull();
   });
 
   test('hide "enter tag rates" switch on Cluster metric', async () => {

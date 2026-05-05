@@ -12,7 +12,7 @@ jest.mock('components/featureToggle', () => ({
 }));
 
 import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
-import { EfficiencySummary } from './efficiencySummary';
+import { WorkloadSummary } from './workloadSummary';
 
 const mockReport = {
   meta: {
@@ -28,34 +28,34 @@ const mockReport = {
   },
 } as any;
 
-describe('EfficiencySummary', () => {
+describe('WorkloadSummary', () => {
   describe('rendering', () => {
     it('renders the usage efficiency percentage from report', () => {
-      renderWithProviders(<EfficiencySummary report={mockReport} />);
+      renderWithProviders(<WorkloadSummary report={mockReport} />);
       // messages.percent template is '{value} %', so formatPercentage(75) → '75%' → '75% %'
       expect(screen.getByText(/75%/)).toBeInTheDocument();
     });
 
     it('renders the wasted cost value from report', () => {
-      renderWithProviders(<EfficiencySummary report={mockReport} />);
+      renderWithProviders(<WorkloadSummary report={mockReport} />);
       // formatCurrency(100, 'USD') → 'USD100'; then '% %' template wraps it
       expect(screen.getByText(/USD100/)).toBeInTheDocument();
     });
 
     it('renders the Wasted Cost section heading', () => {
-      renderWithProviders(<EfficiencySummary report={mockReport} />);
+      renderWithProviders(<WorkloadSummary report={mockReport} />);
       // messages.wastedCost.defaultMessage = 'Wasted cost'
       expect(screen.getByRole('heading', { name: 'Wasted cost' })).toBeInTheDocument();
     });
 
     it('renders 0% without crashing when report is null', () => {
-      renderWithProviders(<EfficiencySummary report={null as any} />);
+      renderWithProviders(<WorkloadSummary report={null as any} />);
       // formatPercentage(0) → '0%'; rendered as '0% %'
       expect(screen.getByText(/0%/)).toBeInTheDocument();
     });
 
     it('renders USD0 without crashing when report has no score data', () => {
-      renderWithProviders(<EfficiencySummary report={{} as any} />);
+      renderWithProviders(<WorkloadSummary report={{} as any} />);
       // formatCurrency(0, 'USD') → 'USD0'
       expect(screen.getByText(/USD0/)).toBeInTheDocument();
     });

@@ -32,8 +32,7 @@ import { getExportButton } from 'routes/components/dataToolbar/utils/actions';
 import { ExportModal } from 'routes/components/export';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { EfficiencySummary } from 'routes/optimizations/efficiency/components/summary/efficiencySummary';
-import { EfficiencyTable } from 'routes/optimizations/efficiency/components/table/efficiencyTable';
+import { WorkloadSummary, WorkloadTable } from 'routes/optimizations/efficiency/components/workload';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
@@ -172,7 +171,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
 
   const getTable = () => {
     return (
-      <EfficiencyTable
+      <WorkloadTable
         basePath={formatPath(routes.optimizations.path)}
         exclude={exclude}
         filterBy={filterBy}
@@ -249,7 +248,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
         <p className="subtitle">{getSinceDateRangeString(undefined, timeScopeValue === -2 ? 1 : 0, true)}</p>
       </CardTitle>
       <CardBody>
-        <EfficiencySummary report={report} />
+        <WorkloadSummary report={report} />
         <Divider />
         <Title headingLevel="h3" size={TitleSizes.lg} style={styles.tableTitle}>
           {intl.formatMessage(messages.cpuEfficiencyBreakdown)}

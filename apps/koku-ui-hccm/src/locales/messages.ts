@@ -3476,10 +3476,15 @@ export default defineMessages({
       'This action will remove {metric} rate from {costModel}, which is assigned to the following integrations:',
     id: 'priceListDeleteRateDesc',
   },
-  priceListDuplicate: {
+  priceListDuplicateTag: {
     defaultMessage: 'This tag key is already in use',
     description: 'This tag key is already in use',
-    id: 'priceListDuplicate',
+    id: 'priceListDuplicateTag',
+  },
+  priceListDuplicateValue: {
+    defaultMessage: 'This tag value is already in use',
+    description: 'This tag value is already in use',
+    id: 'priceListDuplicateValue',
   },
   priceListEditRate: {
     defaultMessage: 'Edit rate',

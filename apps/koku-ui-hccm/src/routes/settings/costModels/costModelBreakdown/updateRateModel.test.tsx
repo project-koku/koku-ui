@@ -393,7 +393,7 @@ describe('update-rate', () => {
     await act(async () =>
       user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift_region_1')
     );
-    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicateTag))).not.toBeNull();
   });
 
   test('duplicate tag key from tag rate', async () => {
@@ -402,6 +402,6 @@ describe('update-rate', () => {
     const filterTagInput = screen.getByLabelText(regExp(messages.costModelsFilterTagKey));
     await user.clear(filterTagInput);
     await user.type(filterTagInput, 'openshift_region_1');
-    expect(screen.getByText(regExp(messages.priceListDuplicate))).not.toBeNull();
+    expect(screen.getByText(regExp(messages.priceListDuplicateTag))).not.toBeNull();
   });
 });

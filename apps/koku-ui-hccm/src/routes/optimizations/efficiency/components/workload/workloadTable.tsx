@@ -8,9 +8,9 @@ import { DataTable } from 'routes/components/dataTable';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatCurrency, formatPercentage } from 'utils/format';
 
-import { styles } from './efficiencyTable.styles';
+import { styles } from './workloadTable.styles';
 
-interface EfficiencyTableOwnProps {
+interface WorkloadTableOwnProps {
   basePath?: string;
   exclude?: any;
   filterBy?: any;
@@ -21,9 +21,9 @@ interface EfficiencyTableOwnProps {
   report: OcpReport;
 }
 
-type EfficiencyTableProps = EfficiencyTableOwnProps;
+type WorkloadTableProps = WorkloadTableOwnProps;
 
-const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
+const WorkloadTable: React.FC<WorkloadTableProps> = ({
   basePath,
   exclude,
   filterBy,
@@ -165,4 +165,4 @@ const EfficiencyTable: React.FC<EfficiencyTableProps> = ({
   );
 };
 
-export { EfficiencyTable };
+export { WorkloadTable };
