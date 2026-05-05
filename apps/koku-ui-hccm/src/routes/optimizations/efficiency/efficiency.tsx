@@ -36,10 +36,10 @@ import {
   setOperatorAvailable,
 } from 'utils/sessionStorage';
 
-import { ComputeCard } from './compute';
+import { ComputeCard } from './components/compute';
+import { MemoryCard } from './components/memory';
 import { styles } from './efficiency.styles';
 import { EfficiencyHeader } from './efficiencyHeader';
-import { MemoryCard } from './memory';
 
 interface EfficiencyOwnProps {
   // TBD...
@@ -156,9 +156,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: undefined, // Clear sort
-      category: undefined, // Only applies to projects
-      delta: undefined,
+      // category and order_by are set in compute and memory cards
     };
     setQuery(newQuery);
   };

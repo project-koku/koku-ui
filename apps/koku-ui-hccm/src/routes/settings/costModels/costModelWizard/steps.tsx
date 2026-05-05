@@ -4,7 +4,7 @@ import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 export const nameErrors = (name: string): MessageDescriptor | null => {
   if (name.length === 0) {
-    return messages.costModelsRequiredField;
+    return messages.requiredField;
   }
   if (name.length > 100) {
     return messages.costModelsInfoTooLong;

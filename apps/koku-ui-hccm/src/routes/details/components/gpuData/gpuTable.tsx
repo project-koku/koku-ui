@@ -4,7 +4,7 @@ import type { OcpReportItem } from 'api/reports/ocpReports';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { DataTable, ExpandableTable } from 'routes/components/dataTable';
+import { DataTable, ExpandTable } from 'routes/components/dataTable';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatUnits, unitsLookupKey } from 'utils/format';
 
@@ -166,7 +166,7 @@ const GpuTable: React.FC<GpuTableProps> = ({
   }, [report]);
 
   return isMigToggleEnabled ? (
-    <ExpandableTable
+    <ExpandTable
       columns={columns}
       filterBy={filterBy}
       gridBreakPoint={gridBreakPoint}
