@@ -80,7 +80,7 @@
     "@redhat-cloud-services/frontend-components": "^7.4.1",
     "@redhat-cloud-services/frontend-components-notifications": "^6.6.1",
     "@redhat-cloud-services/frontend-components-utilities": "^7.3.1",
-    "@redhat-cloud-services/rbac-client": "^9.0.0",
+    "@redhat-cloud-services/rbac-client": "^9.0.1",
     "@reduxjs/toolkit": "^2.11.2",
     "@unleash/proxy-client-react": "^5.0.1",
     "axios": "^1.16.0",
@@ -101,7 +101,7 @@
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
-    "@redhat-cloud-services/frontend-components-config": "^6.9.1",
+    "@redhat-cloud-services/frontend-components-config": "^6.9.2",
     "@redhat-cloud-services/tsc-transform-imports": "^1.1.1",
     "ts-patch": "^4.0.1",
     "typescript": "^5.9.3"
