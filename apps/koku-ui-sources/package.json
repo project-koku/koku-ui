@@ -14,6 +14,8 @@
   "scripts": {
     "build": "npm run build:onprem",
     "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack.config.ts --mode=production --color --progress",
+    "check:dependencies": "npx npm-check-updates",
+    "check:dependencies:update": "npx npm-check-updates -u",
     "clean": "rimraf dist .cache",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
@@ -24,17 +26,17 @@
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "dependencies": {
-    "@data-driven-forms/common": "^4.1.13",
-    "@data-driven-forms/react-form-renderer": "^4.1.13",
+    "@data-driven-forms/common": "^4.1.15",
+    "@data-driven-forms/react-form-renderer": "^4.1.14",
     "@patternfly/patternfly": "6.4.0",
     "@patternfly/react-component-groups": "6.4.0",
-    "@patternfly/react-core": "6.4.1",
+    "@patternfly/react-core": "6.4.3",
     "@patternfly/react-icons": "6.4.0",
-    "@patternfly/react-table": "6.4.1",
+    "@patternfly/react-table": "6.4.3",
     "@patternfly/react-tokens": "6.4.0",
-    "@redhat-cloud-services/frontend-components-notifications": "^6.2.1",
+    "@redhat-cloud-services/frontend-components-notifications": "^6.6.1",
     "@reduxjs/toolkit": "^2.11.2",
-    "axios": "^1.13.6",
+    "axios": "^1.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intl": "^7.1.14",
@@ -43,10 +45,10 @@
     "redux": "^5.0.1"
   },
   "devDependencies": {
-    "@openshift/dynamic-plugin-sdk-webpack": "^5.1.0",
-    "msw": "^2.7.0",
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
+    "msw": "^2.14.3",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
-    "ts-loader": "^9.5.4",
+    "ts-loader": "^9.5.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

@@ -111,7 +111,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     const defaultIndex = item.tag_values.findIndex(tvalue => tvalue.default);
     tagRates.defaultTag = defaultIndex === -1 ? null : defaultIndex;
     tagRates.tagValues = item.tag_values.map(tvalue => {
-      const value = formatCurrencyRateRaw(tvalue.value, tvalue.unit);
+      const value = formatCurrencyRateRaw(Number(tvalue.value), tvalue.unit);
       return {
         description: tvalue.description,
         isDirty: false,

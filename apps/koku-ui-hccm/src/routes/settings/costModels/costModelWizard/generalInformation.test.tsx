@@ -18,7 +18,7 @@ jest.mock('react-intl', () => {
   return { __esModule: true, ...actual, injectIntl: (Comp: any) => (props: any) => <Comp {...props} intl={{ formatMessage: () => 'x' }} /> };
 });
 
-jest.mock('routes/settings/costModels/components/inputs/selector', () => ({
+jest.mock('routes/settings/components/selector', () => ({
   __esModule: true,
   Selector: (props: any) => (
     <button data-testid={props.id || 'selector'} onClick={() => props.onSelect({}, props.options?.[0]?.value || 'AWS')}>
