@@ -3,6 +3,14 @@ import { axiosInstance } from 'api';
 import type { PagedLinks, PagedMetaData } from './api';
 
 export interface PriceListData {
+  assigned_cost_model_count?: number;
+  assigned_cost_models?: [
+    {
+      uuid?: string;
+      name?: string;
+      priority?: number;
+    },
+  ];
   created_timestamp?: string;
   currency?: string;
   description?: string;
@@ -10,38 +18,39 @@ export interface PriceListData {
   effective_start_date?: string;
   enabled?: boolean;
   name?: string;
-  rates?: [
-    {
-      cost_type?: string;
-      custom_name?: string;
-      description?: string;
-      metric?: {
-        name?: string;
-      };
-      rate_id?: string;
-      tag_rates?: {
-        tag_key?: string;
-        tag_values?: [
-          {
-            default?: boolean;
-            description?: string;
-            tag_value?: string;
-            unit?: string;
-            value?: number;
-          },
-        ];
-      };
-      tiered_rates: [
+  rates?: {
+    cost_type?: string;
+    custom_name?: string;
+    description?: string;
+    metric?: {
+      name?: string;
+      label_measurement?: string;
+      label_measurement_unit?: string;
+      label_metric?: string;
+    };
+    rate_id?: string;
+    tag_rates?: {
+      tag_key?: string;
+      tag_values?: [
         {
+          default?: boolean;
+          description?: string;
+          tag_value?: string;
           unit?: string;
-          usage: {
-            unit?: string;
-          };
           value?: number;
         },
       ];
-    },
-  ];
+    };
+    tiered_rates?: [
+      {
+        unit?: string;
+        usage?: {
+          unit?: string;
+        };
+        value?: number;
+      },
+    ];
+  }[];
   updated_timestamp?: string;
   uuid?: string;
   version?: number;
@@ -65,6 +74,7 @@ export interface PriceListPayload extends PriceListData {
 export const enum PriceListType {
   priceList = 'priceList',
   priceListAdd = 'priceListAdd',
+  priceListDuplicate = 'priceListDuplicate',
   priceListRemove = 'priceListRemove',
   priceListUpdate = 'priceListUpdate',
 }
@@ -72,25 +82,36 @@ export const enum PriceListType {
 export const PriceListPathsType: Partial<Record<PriceListType, string>> = {
   [PriceListType.priceList]: 'price-lists/',
   [PriceListType.priceListAdd]: 'price-lists/',
+  [PriceListType.priceListDuplicate]: 'price-lists/',
   [PriceListType.priceListRemove]: 'price-lists/',
   [PriceListType.priceListUpdate]: 'price-lists/',
 };
 
-export function fetchPriceList(priceListType: PriceListType, query?: string) {
+export function fetchPriceList(priceListType: PriceListType, uuid?: string, query?: string) {
   const path = PriceListPathsType[priceListType];
+  const prefix = uuid ? `${uuid}/` : '';
   const queryString = query ? `?${query}` : '';
-  return axiosInstance.get<PriceList>(`${path}${queryString}`);
+  return axiosInstance.get<PriceList>(`${path}${prefix}${queryString}`);
 }
 
 export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload) {
   const path = PriceListPathsType[priceListType];
-  const id = uuid ? `${uuid}/` : '';
+  const prefix = uuid ? `${uuid}/` : '';
+  const suffix = priceListType === PriceListType.priceListDuplicate ? 'duplicate/' : '';
+  const params = `${prefix}${suffix}`;
 
-  if (priceListType === PriceListType.priceListAdd) {
-    return axiosInstance.post<PriceListPayload>(`${path}`, payload);
-  } else if (priceListType === PriceListType.priceListRemove) {
-    return axiosInstance.delete<PriceListPayload>(`${path}${id}`);
-  } else if (priceListType === PriceListType.priceListUpdate) {
-    return axiosInstance.put<PriceListPayload>(`${path}${id}`, payload);
+  let method;
+  switch (priceListType) {
+    case PriceListType.priceListRemove:
+      method = 'delete';
+      break;
+    case PriceListType.priceListUpdate:
+      method = 'put';
+      break;
+    case PriceListType.priceListAdd:
+    case PriceListType.priceListDuplicate:
+    default:
+      method = 'post';
   }
+  return axiosInstance[method]<PriceListPayload>(`${path}${params}`, payload);
 }

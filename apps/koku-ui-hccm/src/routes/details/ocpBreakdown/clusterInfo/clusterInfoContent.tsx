@@ -84,7 +84,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
                 clusterProvider.cost_models.map((cm, index) => (
                   <React.Fragment key={index}>
                     <span style={styles.spacingRight}>{intl.formatMessage(messages.costModel)}</span>
-                    <a href={`${formatPath(routes.costModel.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
+                    <a href={`${formatPath(routes.costModelBreakdown.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
                   </React.Fragment>
                 ))
               ) : (
