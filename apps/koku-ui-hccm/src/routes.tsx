@@ -8,7 +8,9 @@ const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'r
 const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'routes/details/awsDetails'));
 const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" */ 'routes/details/azureBreakdown'));
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/details/azureDetails'));
-const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/settings/costModels/costModel'));
+const CostModelBreakdown = lazy(
+  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelBreakdown')
+);
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/details/gcpDetails'));
@@ -25,6 +27,9 @@ const OptimizationsBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
 );
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
+const PriceListBreakdown = lazy(
+  () => import(/* webpackChunkName: "PriceListBreakdown" */ 'routes/settings/priceList/priceListBreakdown')
+);
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
 export const routes = {
@@ -44,9 +49,9 @@ export const routes = {
     element: userAccess(AzureDetails),
     path: '/azure',
   },
-  costModel: {
+  costModelBreakdown: {
     basePath: `/settings/cost-model`,
-    element: userAccess(CostModel),
+    element: userAccess(CostModelBreakdown),
     path: `/settings/cost-model/:uuid`, // Note: Order matters (i.e., dynamic segment must be defined after costModelsDetails)
   },
   explorer: {
@@ -84,6 +89,11 @@ export const routes = {
   overview: {
     element: userAccess(Overview),
     path: '/',
+  },
+  priceListBreakdown: {
+    basePath: `/settings/price-list`,
+    element: userAccess(PriceListBreakdown),
+    path: '/settings/price-list/:uuid',
   },
   settings: {
     element: userAccess(Settings),

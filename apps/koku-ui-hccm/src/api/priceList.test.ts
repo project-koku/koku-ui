@@ -3,12 +3,12 @@ import { axiosInstance } from 'api';
 import { fetchPriceList, PriceListType, updatePriceList } from './priceList';
 
 test('fetchPriceList API request', () => {
-  fetchPriceList(PriceListType.priceList, '');
+  fetchPriceList(PriceListType.priceList, undefined, '');
   expect(axiosInstance.get).toHaveBeenCalledWith('price-lists/');
 });
 
 test('fetchPriceList appends query string when provided', () => {
-  fetchPriceList(PriceListType.priceList, 'limit=10&offset=0');
+  fetchPriceList(PriceListType.priceList, undefined,'limit=10&offset=0');
   expect(axiosInstance.get).toHaveBeenCalledWith('price-lists/?limit=10&offset=0');
 });
 
@@ -20,7 +20,12 @@ test('updatePriceList uses POST for add', () => {
 
 test('updatePriceList uses DELETE for remove', () => {
   updatePriceList(PriceListType.priceListRemove, 'abc');
-  expect(axiosInstance.delete).toHaveBeenCalledWith('price-lists/abc/');
+  expect(axiosInstance.delete).toHaveBeenCalledWith('price-lists/abc/', undefined);
+});
+
+test('updatePriceList uses POST for duplicate', () => {
+  updatePriceList(PriceListType.priceListDuplicate, 'abc');
+  expect(axiosInstance.post).toHaveBeenCalledWith('price-lists/abc/duplicate/', undefined);
 });
 
 test('updatePriceList uses PUT for update', () => {

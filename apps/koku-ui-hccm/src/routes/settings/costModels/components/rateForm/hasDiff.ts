@@ -40,7 +40,7 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
     const hasTagValuesDiff = tr.tag_values.some((tvalue, ix) => {
       const cur = rateFormData.taggingRates.tagValues[ix];
       const isCurDefault = rateFormData.taggingRates.defaultTag === ix;
-      const value = formatCurrencyRateRaw(tvalue.value, tvalue.unit);
+      const value = formatCurrencyRateRaw(Number(tvalue.value), tvalue.unit);
       return (
         tvalue.tag_value !== cur.tagValue ||
         value !== cur.value ||

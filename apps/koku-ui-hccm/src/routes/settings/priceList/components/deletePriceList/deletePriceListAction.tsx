@@ -1,24 +1,22 @@
-import './deletePriceList.scss';
-
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
-import type { SettingsData } from 'api/settings';
+import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import DeletePriceList from './deletePriceList';
+import { DeletePriceListModal } from './deletePriceListModal';
 
 interface DeletePriceListActionOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
-  item: SettingsData;
   onClose?: () => void;
+  priceList: PriceListData;
 }
 
 type DeletePriceListActionProps = DeletePriceListActionOwnProps;
 
-const DeletePriceListAction: React.FC<DeletePriceListActionProps> = ({ canWrite, isDisabled, item, onClose }) => {
+const DeletePriceListAction: React.FC<DeletePriceListActionProps> = ({ canWrite, isDisabled, onClose, priceList }) => {
   const [isOpen, setIsOpen] = useState(false);
   const intl = useIntl();
 
@@ -42,9 +40,7 @@ const DeletePriceListAction: React.FC<DeletePriceListActionProps> = ({ canWrite,
 
   const handleOnClose = () => {
     setIsOpen(false);
-    if (onClose) {
-      onClose();
-    }
+    onClose?.();
   };
 
   const handleOnClick = () => {
@@ -57,9 +53,9 @@ const DeletePriceListAction: React.FC<DeletePriceListActionProps> = ({ canWrite,
   return (
     <>
       {getActions()}
-      <DeletePriceList isOpen={isOpen} item={item} onClose={handleOnClose} />
+      <DeletePriceListModal isOpen={isOpen} onClose={handleOnClose} priceList={priceList} />
     </>
   );
 };
 
-export default DeletePriceListAction;
+export { DeletePriceListAction };

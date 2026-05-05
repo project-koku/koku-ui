@@ -4,7 +4,7 @@ const md = (id: string) => ({ id, defaultMessage: id } as any);
 jest.mock('locales/messages', () => ({
   __esModule: true,
   default: {
-    costModelsRequiredField: { id: 'required' },
+    requiredField: { id: 'required' },
     costModelsInfoTooLong: { id: 'name-too-long' },
     costModelsDescTooLong: { id: 'desc-too-long' },
   },
