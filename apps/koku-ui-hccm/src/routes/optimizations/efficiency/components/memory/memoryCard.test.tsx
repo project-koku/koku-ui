@@ -33,15 +33,12 @@ jest.mock('routes/utils/computedReport/getComputedReportItems', () => ({
 }));
 
 let capturedOnSort: any = null;
-jest.mock('routes/optimizations/efficiency/components/table/efficiencyTable', () => ({
-  EfficiencyTable: (props: any) => {
+jest.mock('routes/optimizations/efficiency/components/workload', () => ({
+  WorkloadTable: (props: any) => {
     capturedOnSort = props.onSort;
     return <div data-testid="efficiency-table" />;
   },
-}));
-
-jest.mock('routes/optimizations/efficiency/components/summary/efficiencySummary', () => ({
-  EfficiencySummary: () => <div data-testid="efficiency-summary" />,
+  WorkloadSummary: () => <div data-testid="efficiency-summary" />,
 }));
 
 jest.mock('routes/components/state/loadingState', () => ({

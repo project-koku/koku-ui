@@ -2,7 +2,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Capture the rows/columns/onSort that EfficiencyTable passes to DataTable
+// Capture the rows/columns/onSort that WorkloadTable passes to DataTable
 let capturedRows: any[] = [];
 let capturedOnSort: any;
 
@@ -49,7 +49,7 @@ jest.mock('routes/utils/computedReport/getComputedReportItems', () => ({
 }));
 
 import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
-import { EfficiencyTable } from './efficiencyTable';
+import { WorkloadTable } from './workloadTable';
 
 // Capture the location state set by the Link's navigation
 let capturedState: any = null;
@@ -69,7 +69,7 @@ const defaultProps = {
   report: {} as any,
 };
 
-describe('EfficiencyTable', () => {
+describe('WorkloadTable', () => {
   beforeEach(() => {
     capturedRows = [];
     capturedState = null;
@@ -77,22 +77,22 @@ describe('EfficiencyTable', () => {
 
   describe('rendering', () => {
     it('renders DataTable without crashing when report is undefined', () => {
-      renderWithProviders(<EfficiencyTable {...defaultProps} report={undefined as any} />);
+      renderWithProviders(<WorkloadTable {...defaultProps} report={undefined as any} />);
       expect(screen.getByTestId('data-table')).toBeInTheDocument();
     });
 
     it('renders 5 column headers', () => {
-      renderWithProviders(<EfficiencyTable {...defaultProps} />);
+      renderWithProviders(<WorkloadTable {...defaultProps} />);
       expect(screen.getAllByTestId(/^column-/)).toHaveLength(5);
     });
 
     it('renders one row per computed item', () => {
-      renderWithProviders(<EfficiencyTable {...defaultProps} />);
+      renderWithProviders(<WorkloadTable {...defaultProps} />);
       expect(screen.getAllByTestId(/^row-/)).toHaveLength(2);
     });
 
     it('renders item labels as links', () => {
-      renderWithProviders(<EfficiencyTable {...defaultProps} />);
+      renderWithProviders(<WorkloadTable {...defaultProps} />);
       expect(screen.getByRole('link', { name: 'cluster-1' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'cluster-2' })).toBeInTheDocument();
     });
@@ -103,7 +103,7 @@ describe('EfficiencyTable', () => {
       renderWithProviders(
         <>
           <LocationCapture />
-          <EfficiencyTable {...defaultProps} />
+          <WorkloadTable {...defaultProps} />
         </>
       );
       fireEvent.click(screen.getByRole('link', { name: 'cluster-1' }));
@@ -114,7 +114,7 @@ describe('EfficiencyTable', () => {
       renderWithProviders(
         <>
           <LocationCapture />
-          <EfficiencyTable {...defaultProps} groupBy="cluster" />
+          <WorkloadTable {...defaultProps} groupBy="cluster" />
         </>
       );
       fireEvent.click(screen.getByRole('link', { name: 'cluster-1' }));
@@ -125,7 +125,7 @@ describe('EfficiencyTable', () => {
       renderWithProviders(
         <>
           <LocationCapture />
-          <EfficiencyTable {...defaultProps} />
+          <WorkloadTable {...defaultProps} />
         </>
       );
       fireEvent.click(screen.getByRole('link', { name: 'cluster-2' }));
@@ -137,12 +137,12 @@ describe('EfficiencyTable', () => {
 
   describe('sorting', () => {
     it('passes the onSort callback directly to DataTable', () => {
-      renderWithProviders(<EfficiencyTable {...defaultProps} />);
+      renderWithProviders(<WorkloadTable {...defaultProps} />);
       expect(capturedOnSort).toBe(mockOnSort);
     });
 
     it('calling capturedOnSort invokes the onSort prop', () => {
-      renderWithProviders(<EfficiencyTable {...defaultProps} />);
+      renderWithProviders(<WorkloadTable {...defaultProps} />);
       capturedOnSort('cost', true);
       expect(mockOnSort).toHaveBeenCalledWith('cost', true);
     });
