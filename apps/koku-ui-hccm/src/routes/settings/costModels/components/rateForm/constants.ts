@@ -2,11 +2,11 @@ import messages from 'locales/messages';
 
 export const textHelpers = {
   description_too_long: messages.costModelsDescTooLong,
-  duplicate: messages.priceListDuplicate,
+  duplicate: messages.priceListDuplicateTag,
   not_number: messages.priceListNumberRate,
   not_positive: messages.priceListPosNumberRate,
   rate_too_long: messages.costModelsRateTooLong,
-  required: messages.costModelsRequiredField,
+  required: messages.requiredField,
   tag_too_long: messages.costModelsInfoTooLong,
   unsupported_tag_chars: messages.costModelsUnsupportedTagChars,
 };

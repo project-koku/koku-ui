@@ -17,6 +17,7 @@ export type FeatureToggleState = Readonly<{
   isNamespaceToggleEnabled: boolean;
   isPriceListToggleEnabled: boolean;
   isSystemsToggleEnabled: boolean;
+  isWastedCostToggleEnabled: boolean;
 }>;
 
 export const defaultState: FeatureToggleState = {
@@ -30,6 +31,7 @@ export const defaultState: FeatureToggleState = {
   isNamespaceToggleEnabled: false,
   isPriceListToggleEnabled: false,
   isSystemsToggleEnabled: false,
+  isWastedCostToggleEnabled: false,
 };
 
 export const stateKey = 'FeatureToggle';
@@ -49,6 +51,7 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         isNamespaceToggleEnabled: action.payload.isNamespaceToggleEnabled,
         isPriceListToggleEnabled: action.payload.isPriceListToggleEnabled,
         isSystemsToggleEnabled: action.payload.isSystemsToggleEnabled,
+        isWastedCostToggleEnabled: action.payload.isWastedCostToggleEnabled,
       };
 
     default:

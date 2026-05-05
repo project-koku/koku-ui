@@ -64,7 +64,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.azureBreakdown.path):
       case formatPath(routes.azureDetails.path):
         return azure;
-      case formatPath(routes.costModel.basePath):
+      case formatPath(routes.costModelBreakdown.basePath):
         return costModel;
       case formatPath(routes.gcpBreakdown.path):
       case formatPath(routes.gcpDetails.path):
@@ -75,6 +75,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.optimizationsBreakdown.path):
       case formatPath(routes.optimizations.path):
         return ocp;
+      case formatPath(routes.priceListBreakdown.basePath):
       case formatPath(routes.settings.path):
         return settings;
       default:

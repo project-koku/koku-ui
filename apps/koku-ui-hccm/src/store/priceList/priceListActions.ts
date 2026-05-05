@@ -31,7 +31,11 @@ export const updatePriceListFailure = createAction('priceList/update/failure')<A
 export const resetNotification = createAction('priceList/notification/reset')();
 export const resetStatus = createAction('priceList/status/reset')();
 
-export function fetchPriceList(priceListType: PriceListType, priceListQueryString: string): ThunkAction {
+export function fetchPriceList(
+  priceListType: PriceListType,
+  uuid?: string,
+  priceListQueryString?: string
+): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
     const error = selectPriceListError(state, priceListType, priceListQueryString);
@@ -46,7 +50,7 @@ export function fetchPriceList(priceListType: PriceListType, priceListQueryStrin
 
     dispatch(fetchPriceListRequest(meta));
 
-    return apiFetchPriceList(priceListType, priceListQueryString)
+    return apiFetchPriceList(priceListType, uuid, priceListQueryString)
       .then(res => {
         dispatch(fetchPriceListSuccess(res.data, meta));
       })
@@ -59,31 +63,30 @@ export function fetchPriceList(priceListType: PriceListType, priceListQueryStrin
 export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchStatus = selectPriceListUpdateStatus(state, priceListType);
+    const fetchStatus = selectPriceListUpdateStatus(state, priceListType, undefined);
 
     if (fetchStatus === FetchStatus.inProgress) {
       return;
     }
 
     const meta: PriceListActionMeta = {
-      fetchId: getFetchId(priceListType),
+      fetchId: getFetchId(priceListType, undefined),
     };
 
     dispatch(updatePriceListRequest(meta));
 
-    let msg;
     let status;
     switch (priceListType) {
       case PriceListType.priceListAdd:
-        msg = messages.priceListSuccess;
         status = 'add';
         break;
+      case PriceListType.priceListDuplicate:
+        status = 'duplicate';
+        break;
       case PriceListType.priceListRemove:
-        msg = messages.priceListSuccess;
         status = 'remove';
         break;
       case PriceListType.priceListUpdate:
-        msg = messages.priceListSuccess;
         status = 'update';
         break;
     }
@@ -96,23 +99,15 @@ export function updatePriceList(priceListType: PriceListType, uuid?: string, pay
             notification: {
               description: intl.formatMessage(messages.priceListSuccessChanges),
               dismissable: true,
-              title: intl.formatMessage(msg, { value: status }),
+              title: intl.formatMessage(messages.priceListSuccess, { value: status }),
               variant: AlertVariant.success,
             },
           })
         );
       })
       .catch(err => {
-        let description = intl.formatMessage(messages.priceListErrorDesc);
-        let title = intl.formatMessage(messages.priceListErrorTitle);
-
-        if (priceListType === PriceListType.priceListRemove) {
-          description = intl.formatMessage(messages.priceListRemoveErrorDesc);
-          title = intl.formatMessage(messages.priceListRemoveErrorTitle);
-        } else if (priceListType === PriceListType.priceListAdd) {
-          description = intl.formatMessage(messages.priceListAddErrorDesc);
-          title = intl.formatMessage(messages.priceListAddErrorTitle);
-        }
+        const description = intl.formatMessage(messages.priceListErrorDesc, { value: status });
+        const title = intl.formatMessage(messages.priceListErrorTitle, { value: status });
 
         dispatch(
           updatePriceListFailure(err, {

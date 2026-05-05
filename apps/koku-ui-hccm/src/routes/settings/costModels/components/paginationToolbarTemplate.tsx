@@ -4,7 +4,7 @@ import { Pagination, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/re
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { styles } from 'routes/settings/costModels/costModel/costModelInfo.styles';
+import { styles } from 'routes/settings/costModels/costModelBreakdown/costModelBreakdown.styles';
 
 interface PaginationToolbarTemplateProps extends PaginationProps, WrappedComponentProps {
   id?: string;
