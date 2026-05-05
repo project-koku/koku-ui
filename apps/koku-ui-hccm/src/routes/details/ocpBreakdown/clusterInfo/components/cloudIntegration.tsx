@@ -34,7 +34,7 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ provider }: CloudIn
             provider.cost_models.map(cm => (
               <>
                 <span style={styles.spacingRight}>{intl.formatMessage(messages.costModel)}</span>
-                <a href={`${formatPath(routes.costModel.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
+                <a href={`${formatPath(routes.costModelBreakdown.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
               </>
             ))
           ) : (

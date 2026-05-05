@@ -1,29 +1,32 @@
-import './deprecatePriceList.scss';
-
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
-import type { SettingsData } from 'api/settings';
+import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import DeprecatePriceList from './deprecatePriceList';
+import { DeprecatePriceListModal } from './deprecatePriceListModal';
 
 interface DeprecatePriceListActionOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
-  item: SettingsData;
   onClose?: () => void;
+  priceList: PriceListData;
 }
 
 type DeprecatePriceListActionProps = DeprecatePriceListActionOwnProps;
 
-const DeprecatePriceListAction: React.FC<DeprecatePriceListActionProps> = ({ canWrite, isDisabled, item, onClose }) => {
+const DeprecatePriceListAction: React.FC<DeprecatePriceListActionProps> = ({
+  canWrite,
+  isDisabled,
+  onClose,
+  priceList,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const intl = useIntl();
 
   const getActions = () => {
-    const actionMsg = !item?.enabled ? messages.restore : messages.deprecate;
+    const actionMsg = !priceList?.enabled ? messages.restore : messages.deprecate;
 
     const getTooltip = children => {
       const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : actionMsg);
@@ -44,9 +47,7 @@ const DeprecatePriceListAction: React.FC<DeprecatePriceListActionProps> = ({ can
 
   const handleOnClose = () => {
     setIsOpen(false);
-    if (onClose) {
-      onClose();
-    }
+    onClose?.();
   };
 
   const handleOnClick = () => {
@@ -59,9 +60,9 @@ const DeprecatePriceListAction: React.FC<DeprecatePriceListActionProps> = ({ can
   return (
     <>
       {getActions()}
-      <DeprecatePriceList isOpen={isOpen} item={item} onClose={handleOnClose} />
+      <DeprecatePriceListModal isOpen={isOpen} onClose={handleOnClose} priceList={priceList} />
     </>
   );
 };
 
-export default DeprecatePriceListAction;
+export { DeprecatePriceListAction };

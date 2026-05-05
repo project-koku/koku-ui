@@ -16,6 +16,11 @@ export default defineMessages({
     description: 'Assign cost model',
     id: 'assignCostModel',
   },
+  assignedCostModels: {
+    defaultMessage: 'Assigned cost models',
+    description: 'Assigned cost models',
+    id: 'assignedCostModels',
+  },
   aws: {
     defaultMessage: 'Amazon Web Services',
     description: 'Amazon Web Services',
@@ -423,6 +428,22 @@ export default defineMessages({
     description: 'Clusters',
     id: 'clusters',
   },
+  continue: {
+    defaultMessage: 'Continue',
+    description: 'Continue',
+    id: 'continue',
+  },
+  continueConfirm: {
+    defaultMessage: 'Do you want to continue?',
+    description: 'Do you want to continue?',
+    id: 'continueConfirm',
+  },
+  continueConfirmDesc: {
+    defaultMessage:
+      'I understand that saving this change can trigger recalculation and adjustments as described above.',
+    description: 'I understand that saving this change can trigger recalculation and adjustments as described above.',
+    id: 'continueConfirmDesc',
+  },
   copied: {
     defaultMessage: 'Copied',
     description: 'Copied',
@@ -714,6 +735,11 @@ export default defineMessages({
     description: 'Filter by tag key',
     id: 'costModelsFilterTagKey',
   },
+  costModelsGoTo: {
+    defaultMessage: 'Go to Cost models',
+    description: 'Go to Cost models',
+    id: 'costModelsGoTo',
+  },
   costModelsGpuDesc: {
     defaultMessage: 'Rate of GPU models will apply to all the same models in your cluster.',
     description: 'Rate of GPU models will apply to all the same models in your cluster.',
@@ -763,11 +789,6 @@ export default defineMessages({
     defaultMessage: 'Remove tag value',
     description: 'Remove tag value',
     id: 'costModelsRemoveTagLabel',
-  },
-  costModelsRequiredField: {
-    defaultMessage: 'This field is required',
-    description: 'This field is required',
-    id: 'costModelsRequiredField',
   },
   costModelsRouterErrorTitle: {
     defaultMessage: 'Fail routing to cost model',
@@ -1074,11 +1095,6 @@ export default defineMessages({
     description: 'CPU workload efficiency breakdown',
     id: 'cpuEfficiencyBreakdown',
   },
-  cpuEfficiencyInfoArialLabel: {
-    defaultMessage: 'A description of CPU workload efficiency',
-    description: 'A description of CPU workload efficiency',
-    id: 'cpuEfficiencyInfoArialLabel',
-  },
   cpuEfficiencyInfoFormulaUsageScore: {
     defaultMessage: 'workload efficiency score = (usage / request) * 100)',
     description: 'workload efficiency score = (usage / request) * 100)',
@@ -1349,10 +1365,27 @@ export default defineMessages({
     description: 'Remove price list?',
     id: 'deletePriceListTitle',
   },
+  deleteRateDesc: {
+    defaultMessage:
+      '{count, plural, one {This action will remove {metric} rate from {priceList}} other {This action will remove {metric} rate from {priceList}, which is assigned to the following integrations:}}',
+    description:
+      'This action will remove {metric} rate from {priceList}, which is assigned to the following integrations:',
+    id: 'deleteRateDesc',
+  },
+  deleteRateTitle: {
+    defaultMessage: 'Delete rate',
+    description: 'Delete rate',
+    id: 'deleteRateTitle',
+  },
   deprecate: {
     defaultMessage: 'Deprecate',
     description: 'Deprecate',
     id: 'deprecate',
+  },
+  deprecated: {
+    defaultMessage: 'Deprecated',
+    description: 'Deprecated',
+    id: 'deprecated',
   },
   deprecatePriceListDesc: {
     defaultMessage: 'This price list will be deprecated.',
@@ -1383,6 +1416,11 @@ export default defineMessages({
     defaultMessage: 'Description',
     description: 'Description',
     id: 'description',
+  },
+  descriptionOptional: {
+    defaultMessage: 'Description (optional)',
+    description: 'Description (optional)',
+    id: 'descriptionOptional',
   },
   deselectTags: {
     defaultMessage:
@@ -1455,14 +1493,19 @@ export default defineMessages({
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'cost_models {Assigned cost models}' +
+      'cost_type {Calculation type} ' +
       'cpu {CPU} ' +
       'currency {Currency} ' +
+      'description {Description} ' +
+      'end {End}' +
       'end_date {End date}' +
       'gcp_project {Google Cloud project names} ' +
       'group {Group} ' +
       'instance {Instance names} ' +
       'instance_type {Instance type} ' +
+      'measurement {Measurement} ' +
       'memory {Memory} ' +
+      'metric {Metric} ' +
       'name {Name} ' +
       'node {Node names} ' +
       'org_unit_id {Organizational unit names} ' +
@@ -1471,6 +1514,7 @@ export default defineMessages({
       'payer_tenant_id {Account names} ' +
       'product_service {Service names} ' +
       'project {Project names} ' +
+      'rate {Rate} ' +
       'region {Region names} ' +
       'resource_location {Region names} ' +
       'service {Service names} ' +
@@ -1478,6 +1522,7 @@ export default defineMessages({
       'status {Status} ' +
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
+      'start {Start}' +
       'start_date {Start date}' +
       'storage {Storage} ' +
       'tag {Tag names} ' +
@@ -1841,6 +1886,11 @@ export default defineMessages({
     description: 'Edit cost model',
     id: 'editCostModel',
   },
+  editDetails: {
+    defaultMessage: 'Edit details',
+    description: 'Edit details',
+    id: 'editDetails',
+  },
   editMarkup: {
     defaultMessage: 'Edit markup',
     description: 'Edit markup',
@@ -1855,6 +1905,16 @@ export default defineMessages({
     defaultMessage: 'Efficiency',
     description: 'Efficiency',
     id: 'efficiency',
+  },
+  editPriceListTitle: {
+    defaultMessage: 'Edit price list details',
+    description: 'Edit price list details',
+    id: 'editPriceListTitle',
+  },
+  editRateTitle: {
+    defaultMessage: 'Review impact before you change rates',
+    description: 'Review impact before you change rates',
+    id: 'editRateTitle',
   },
   emptyFilterSourceStateSubtitle: {
     defaultMessage: 'Sorry, no source with the given filter was found.',
@@ -2756,11 +2816,6 @@ export default defineMessages({
     description: 'Memory workload efficiency breakdown',
     id: 'memoryEfficiencyBreakdown',
   },
-  memoryEfficiencyInfoArialLabel: {
-    defaultMessage: 'A description of memory workload efficiency',
-    description: 'A description of memory workload efficiency',
-    id: 'memoryEfficiencyInfoArialLabel',
-  },
   memoryEfficiencyInfoFormulaUsageScore: {
     defaultMessage: 'workload efficiency score = (usage / request) * 100)',
     description: 'workload efficiency score = (usage / request) * 100)',
@@ -3296,6 +3351,11 @@ export default defineMessages({
     description: 'Overview - Cost management | OpenShift',
     id: 'pageTitleOverview',
   },
+  pageTitlePriceList: {
+    defaultMessage: 'Price list - Cost management | OpenShift',
+    description: 'Overview - Cost management | OpenShift',
+    id: 'pageTitlePriceList',
+  },
   pageTitleSettings: {
     defaultMessage: 'Settings - Cost management | OpenShift',
     description: 'Settings - Cost management | OpenShift',
@@ -3384,25 +3444,25 @@ export default defineMessages({
   },
   priceListDesc: {
     defaultMessage:
-      'Price lists define unit rates and the dates they apply; assign them t o a cost model to drive change calculations. {learnMore}',
+      'Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}',
     description:
-      'Price lists define unit rates and the dates they apply; assign them t o a cost model to drive change calculations. {learnMore}',
+      'Price lists define unit rates and the dates they apply; assign them to a cost model to drive change calculations. {learnMore}',
     id: 'priceListDesc',
-  },
-  priceListAddErrorDesc: {
-    defaultMessage: 'Failed to create price list',
-    description: 'Failed to create price list',
-    id: 'priceListAddErrorDesc',
-  },
-  priceListAddErrorTitle: {
-    defaultMessage: 'Unable to create price list',
-    description: 'Unable to create price list',
-    id: 'priceListAddErrorTitle',
   },
   priceListAddRate: {
     defaultMessage: 'Add rate',
     description: 'Add rate',
     id: 'priceListAddRate',
+  },
+  priceListAssignedTo: {
+    defaultMessage: 'This price list is assigned to:',
+    description: 'This price list is assigned to:',
+    id: 'priceListAssignedTo',
+  },
+  priceListCurrencyReadOnly: {
+    defaultMessage: 'Currency is read only. You must create a new price list to change it.',
+    description: 'Currency is read only. You must create a new price list to change it.',
+    id: 'priceListCurrencyReadOnly',
   },
   priceListDeleteRate: {
     defaultMessage: 'Delete rate',
@@ -3416,15 +3476,32 @@ export default defineMessages({
       'This action will remove {metric} rate from {costModel}, which is assigned to the following integrations:',
     id: 'priceListDeleteRateDesc',
   },
-  priceListDuplicate: {
+  priceListDuplicateTag: {
     defaultMessage: 'This tag key is already in use',
     description: 'This tag key is already in use',
-    id: 'priceListDuplicate',
+    id: 'priceListDuplicateTag',
+  },
+  priceListDuplicateValue: {
+    defaultMessage: 'This tag value is already in use',
+    description: 'This tag value is already in use',
+    id: 'priceListDuplicateValue',
   },
   priceListEditRate: {
     defaultMessage: 'Edit rate',
     description: 'Edit rate',
     id: 'priceListEditRate',
+  },
+  priceListEmptyCostModel: {
+    defaultMessage: 'No cost models are assigned',
+    description: 'No cost models are assigned',
+    id: 'priceListEmptyCostModel',
+  },
+  priceListEmptyCostModelDesc: {
+    defaultMessage:
+      'Cost models are assigned from the Cost model settings page. Edit a cost model there to use this price list.',
+    description:
+      'Cost models are assigned from the Cost model settings page. Edit a cost model there to use this price list.',
+    id: 'priceListEmptyCostModelDesc',
   },
   priceListEmptyRate: {
     defaultMessage: 'No rates are set',
@@ -3432,18 +3509,50 @@ export default defineMessages({
     id: 'priceListEmptyRate',
   },
   priceListEmptyRateDesc: {
-    defaultMessage: 'To add rates to the price list, click on the "Add" rate button above.',
-    description: 'To add rates to the price list, click on the "Add" rate button above.',
+    defaultMessage: 'To add rates to the price list, click on the "Add rate" button above.',
+    description: 'To add rates to the price list, click on the "Add rate" button above.',
     id: 'priceListEmptyRateDesc',
   },
+  priceListEnterDescription: {
+    defaultMessage: 'Enter a description',
+    description: 'Enter a description',
+    id: 'priceListEnterDescription',
+  },
+  priceListEnterTagDescription: {
+    defaultMessage: 'Enter a tag description',
+    description: 'Enter a tag description',
+    id: 'priceListEnterTagDescription',
+  },
+  priceListEnterTagKey: {
+    defaultMessage: 'Enter a tag key',
+    description: 'Enter a tag key',
+    id: 'priceListEnterTagKey',
+  },
+  priceListEnterTagValue: {
+    defaultMessage: 'Enter a tag value',
+    description: 'Enter a tag value',
+    id: 'priceListEnterTagValue',
+  },
   priceListErrorDesc: {
-    defaultMessage: 'Failed to update price list',
-    description: 'Failed to update price list',
+    defaultMessage:
+      '{value, select, ' +
+      'add {Failed to create price list} ' +
+      'duplicate {Failed to duplicate price list} ' +
+      'remove {Failed to delete price list} ' +
+      'update {Failed to update price list} ' +
+      'other {}}',
+    description: 'Price list created or updated',
     id: 'priceListErrorDesc',
   },
   priceListErrorTitle: {
-    defaultMessage: 'Unable to save price list settings',
-    description: 'Unable to save price list settings',
+    defaultMessage:
+      '{value, select, ' +
+      'add {Unable to create price list} ' +
+      'duplicate {Unable to duplicate price list} ' +
+      'remove {Unable to delete price list} ' +
+      'update {Unable to update price list} ' +
+      'other {}}',
+    description: 'Price list created or updated',
     id: 'priceListErrorTitle',
   },
   priceListNumberRate: {
@@ -3456,30 +3565,51 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
-  priceListRemoveErrorDesc: {
-    defaultMessage: 'Failed to delete price list',
-    description: 'Failed to delete price list',
-    id: 'priceListRemoveErrorDesc',
+  priceListRemoveTag: {
+    defaultMessage: 'Remove tag value',
+    description: 'Remove tag value',
+    id: 'priceListRemoveTag',
   },
-  priceListRemoveErrorTitle: {
-    defaultMessage: 'Unable to delete price list',
-    description: 'Unable to delete price list',
-    id: 'priceListRemoveErrorTitle',
+  priceListSelectCostType: {
+    defaultMessage: 'Select calculation type',
+    description: 'Select calculation type',
+    id: 'priceListSelectCostType',
+  },
+  priceListSelectMetric: {
+    defaultMessage: 'Select metric',
+    description: 'Select metric',
+    id: 'priceListSelectMetric',
+  },
+  priceListSelectMeasurement: {
+    defaultMessage: 'Select measurement',
+    description: 'Select measurement',
+    id: 'priceListSelectMeasurement',
   },
   priceListSuccess: {
     defaultMessage:
       '{value, select, ' +
       'add {price list created} ' +
+      'duplicate {price list duplicated} ' +
       'remove {price list deleted} ' +
       'update {price list updated} ' +
       'other {}}',
-    description: 'Price list created, deleted, or updated',
+    description: 'Price list created or updated',
     id: 'priceListSuccess',
   },
   priceListSuccessChanges: {
     defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
     description: 'Changes will be reflected in report summarizations within 24 hours',
     id: 'priceListSuccessChanges',
+  },
+  priceListTagKey: {
+    defaultMessage: 'Tag key',
+    description: 'Tag key',
+    id: 'priceListTagKey',
+  },
+  priceListTagValue: {
+    defaultMessage: 'Tag value',
+    description: 'Tag value',
+    id: 'priceListTagValue',
   },
   projectKoku: {
     defaultMessage: 'Upstream project Koku',
@@ -3495,6 +3625,11 @@ export default defineMessages({
     defaultMessage: 'Rate',
     description: 'Rate',
     id: 'rate',
+  },
+  rates: {
+    defaultMessage: 'Rates',
+    description: 'Rates',
+    id: 'rates',
   },
   rawCostDesc: {
     defaultMessage: 'The costs reported by a cloud provider without any cost model calculations applied.',
@@ -3526,6 +3661,18 @@ export default defineMessages({
     defaultMessage: 'You have read only permissions',
     description: 'You have read only permissions',
     id: 'readOnlyPermissions',
+  },
+  recalculateCurrentMonthDesc: {
+    defaultMessage: 'This month — OpenShift chargeback may be recalculated using today’s data.',
+    description: 'This month — OpenShift chargeback may be recalculated using today’s data.',
+    id: 'recalculateCurrentMonthDesc',
+  },
+  recalculatePreviousMonthDesc: {
+    defaultMessage:
+      'Past months — adjustment entries may be created for a Cost Management administrator to approve or reject.',
+    description:
+      'Past months — adjustment entries may be created for a Cost Management administrator to approve or reject.',
+    id: 'recalculatePreviousMonthDesc',
   },
   redHatIntegration: {
     defaultMessage: 'Red Hat integration',
@@ -3566,6 +3713,11 @@ export default defineMessages({
     defaultMessage: 'Requests',
     description: 'Requests',
     id: 'requests',
+  },
+  requiredField: {
+    defaultMessage: 'This field is required',
+    description: 'This field is required',
+    id: 'requiredField',
   },
   restore: {
     defaultMessage: 'Restore',
@@ -4181,6 +4333,11 @@ export default defineMessages({
     defaultMessage: '{value} {units} maximum',
     description: '{value} {units} maximum',
     id: 'usageSubtitle',
+  },
+  validityPeriod: {
+    defaultMessage: 'Validity period',
+    description: 'Validity period',
+    id: 'validityPeriod',
   },
   valueUnits: {
     defaultMessage: '{value} {units}',
