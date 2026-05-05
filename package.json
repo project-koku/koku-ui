@@ -54,7 +54,7 @@
     "@formatjs/icu-messageformat-parser": "^3.5.6",
     "@formatjs/intl": "^4.1.8",
     "@formatjs/intl-localematcher": "^0.8.5",
-    "@swc/core": "^1.15.32",
+    "@swc/core": "^1.15.33",
     "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -65,11 +65,11 @@
     "@types/react-dom": "^18.3.1",
     "@types/react-redux": "^7.1.34",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^8.59.1",
-    "@typescript-eslint/parser": "^8.59.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
     "concurrently": "^9.2.1",
     "copy-webpack-plugin": "^14.0.0",
-    "eslint": "^10.2.1",
+    "eslint": "^10.3.0",
     "eslint-plugin-formatjs": "^6.4.7",
     "eslint-plugin-jest-dom": "^5.5.0",
     "eslint-plugin-jsdoc": "^62.9.0",
@@ -94,6 +94,6 @@
     "ts-jest": "^29.4.9"
   },
   "overrides": {
-    "eslint": "^10.2.1"
+    "eslint": "^10.3.0"
   }
 }

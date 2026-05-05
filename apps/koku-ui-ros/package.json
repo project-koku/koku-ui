@@ -95,7 +95,7 @@
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
-    "@redhat-cloud-services/frontend-components-config": "^6.9.1",
+    "@redhat-cloud-services/frontend-components-config": "^6.9.2",
     "@redhat-cloud-services/tsc-transform-imports": "^1.1.1",
     "jws": "^4.0.1",
     "ts-patch": "^4.0.1",
