@@ -226,7 +226,9 @@ const useMapToProps = ({ query }: RatesMapProps): RatesStateProps => {
     if (
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
-      priceListUpdateStatus !== FetchStatus.inProgress
+      priceListStatus !== FetchStatus.complete &&
+      priceListUpdateStatus !== FetchStatus.inProgress &&
+      priceListUpdateStatus !== FetchStatus.complete
     ) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }

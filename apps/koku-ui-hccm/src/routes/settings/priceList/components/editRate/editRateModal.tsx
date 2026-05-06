@@ -124,7 +124,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const [gpuTagValuesErrors, setGpuTagValuesErrors] = useState<TagValueRowErrors[]>([]);
   const [isSubmitModeGpuValues, setIsSubmitModeGpuValues] = useState<boolean>(false);
   const [isSubmitModeTagValues, setIsSubmitModeTagValues] = useState<boolean>(false);
-  const [isSubmitModeTierdValue, setIsSubmitModeTierdValue] = useState<boolean>(false);
+  const [isSubmitModeTieredValue, setIsSubmitModeTieredValue] = useState<boolean>(false);
   const [isTagRatesChecked, setIsTagRatesChecked] = useState<boolean>(false);
   const [isTagRatesDisabled, setIsTagRatesDisabled] = useState<boolean>(false);
   const [measurement, setMeasurement] = useState<string>();
@@ -140,9 +140,9 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const [tagValues, setTagValues] = useState<TagValue[]>();
   const [tagValuesBaseline, setTagValuesBaseline] = useState<TagValue[]>();
   const [tagValuesErrors, setTagValuesErrors] = useState<TagValueRowErrors[]>([]);
-  const [tierdRates, setTierdRates] = useState<string | number>();
-  const [tierdRatesBaseline, setTierdRatesBaseline] = useState<string | number>();
-  const [tierdRatesError, setTierdRatesError] = useState<MessageDescriptor>();
+  const [tieredRates, setTieredRates] = useState<string | number>();
+  const [tieredRatesBaseline, setTieredRatesBaseline] = useState<string | number>();
+  const [tieredRatesError, setTieredRatesError] = useState<MessageDescriptor>();
 
   // Dirty checks
   const isCostTypeDirty = costType !== costTypeBaseline;
@@ -154,7 +154,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const isNameDirty = name !== nameBaseline;
   const isTagKeyDirty = tagKey !== tagKeyBaseline;
   const isTagValuesDirty = hasDirtyTagValues(tagValues, tagValuesBaseline);
-  const isTierdRatesDirty = Number(tierdRates) !== Number(tierdRatesBaseline);
+  const isTieredRatesDirty = Number(tieredRates) !== Number(tieredRatesBaseline);
 
   // Validation checks
 
@@ -170,10 +170,10 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     isSubmitModeTagValues &&
     isTagValuesDirty &&
     (hasInvalidTagValues(tagValues) !== undefined || hasTagValuesErrors(tagValuesErrors));
-  const isTierdRatesInvalid =
-    isSubmitModeTierdValue &&
-    isTierdRatesDirty &&
-    (!tierdRates || Number(tierdRates) <= 0 || tierdRatesError !== undefined);
+  const isTieredRatesInvalid =
+    isSubmitModeTieredValue &&
+    isTieredRatesDirty &&
+    (tieredRates === undefined || tieredRates === '' || Number(tieredRates) < 0 || tieredRatesError !== undefined);
 
   // Unsaved changes checks
   const hasAddRateChanges =
@@ -184,7 +184,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       isNameDirty &&
       ((isSubmitModeGpuValues && isGpuTagKeyDirty && isGpuTagValuesDirty) ||
         (isSubmitModeTagValues && isTagKeyDirty && isTagValuesDirty) ||
-        (isSubmitModeTierdValue && isTierdRatesDirty)));
+        (isSubmitModeTieredValue && isTieredRatesDirty)));
 
   const hasEditRateChanges =
     isCostTypeDirty ||
@@ -194,7 +194,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     isNameDirty ||
     (isSubmitModeGpuValues && (isGpuTagKeyDirty || isGpuTagValuesDirty)) ||
     (isSubmitModeTagValues && (isTagKeyDirty || isTagValuesDirty)) ||
-    (isSubmitModeTierdValue && isTierdRatesDirty);
+    (isSubmitModeTieredValue && isTieredRatesDirty);
 
   const hasUnsavedChanges = isAddRate ? hasAddRateChanges : hasEditRateChanges;
 
@@ -206,7 +206,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     isMeasurementInvalid ||
     isTagKeyInvalid ||
     isTagValuesInvalid ||
-    isTierdRatesInvalid ||
+    isTieredRatesInvalid ||
     priceListUpdateStatus === FetchStatus.inProgress;
 
   // useState only uses `priceList` on the first mount. Sync when the loaded entity changes.
@@ -229,6 +229,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       setDescription(priceList?.rates?.[rateIndex]?.description ?? '');
       setDescriptionBaseline(priceList?.rates?.[rateIndex]?.description ?? '');
       setDescriptionError(undefined);
+      setIsFinish(false);
       setGpuTagKey(priceList?.rates?.[rateIndex]?.tag_rates?.tag_key ?? '');
       setGpuTagKeyBaseline(priceList?.rates?.[rateIndex]?.tag_rates?.tag_key ?? '');
       setGpuTagKeyError(undefined);
@@ -248,9 +249,9 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       setTagValues(cloneDeep(initialTagValues));
       setTagValuesBaseline(cloneDeep(initialTagValues));
       setTagValuesErrors(initialTagValues?.map(() => ({})));
-      setTierdRates(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
-      setTierdRatesBaseline(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
-      setTierdRatesError(undefined);
+      setTieredRates(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
+      setTieredRatesBaseline(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
+      setTieredRatesError(undefined);
 
       updateSubmitMode(labelMetric, priceList?.rates?.[rateIndex]?.tag_rates?.tag_key !== undefined);
     }
@@ -425,22 +426,6 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     setMeasurement(undefined);
     setMetric(value);
     updateSubmitMode(value, isTagRatesChecked);
-
-    const duplicateTagKeyError = validateTagKeyDuplicate(
-      {
-        costType,
-        measurement,
-        metric: value,
-        tagKey,
-      },
-      priceList?.rates,
-      metricsHashByName
-    );
-    if (duplicateTagKeyError) {
-      setTagKeyError(duplicateTagKeyError);
-    } else {
-      setTagKeyError(undefined);
-    }
   };
 
   const handleOnNameChange = (value: string) => {
@@ -472,7 +457,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
           tag_values: tagValues,
         },
       };
-    } else if (isSubmitModeTierdValue) {
+    } else if (isSubmitModeTieredValue) {
       newRates = {
         tiered_rates: [
           {
@@ -480,7 +465,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
             usage: {
               unit: currency,
             },
-            value: tierdRates,
+            value: tieredRates,
           },
         ],
       };
@@ -581,14 +566,14 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     updateTagValuesErrors('tag_value', error, index);
   };
 
-  const handleOnTierdRatesChange = (value: string) => {
-    setTierdRates(value);
+  const handleOnTieredRatesChange = (value: string) => {
+    setTieredRates(value);
 
     const error = validateRate(value);
     if (error) {
-      setTierdRatesError(error);
+      setTieredRatesError(error);
     } else {
-      setTierdRatesError(undefined);
+      setTieredRatesError(undefined);
     }
   };
 
@@ -620,25 +605,25 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     if (value?.toLowerCase() === 'cluster') {
       setIsSubmitModeGpuValues(false);
       setIsSubmitModeTagValues(false);
-      setIsSubmitModeTierdValue(true);
+      setIsSubmitModeTieredValue(true);
       setIsTagRatesChecked(false);
       setIsTagRatesDisabled(true);
     } else if (value?.toLowerCase() === 'gpu') {
       setIsSubmitModeGpuValues(true);
       setIsSubmitModeTagValues(false);
-      setIsSubmitModeTierdValue(false);
+      setIsSubmitModeTieredValue(false);
       setIsTagRatesChecked(false);
       setIsTagRatesDisabled(false);
     } else if (value?.toLowerCase() === 'project') {
       setIsSubmitModeGpuValues(false);
       setIsSubmitModeTagValues(true);
-      setIsSubmitModeTierdValue(false);
+      setIsSubmitModeTieredValue(false);
       setIsTagRatesChecked(true);
       setIsTagRatesDisabled(true);
     } else {
       setIsSubmitModeGpuValues(false);
       setIsSubmitModeTagValues(checked);
-      setIsSubmitModeTierdValue(!checked);
+      setIsSubmitModeTieredValue(!checked);
       setIsTagRatesChecked(checked);
       setIsTagRatesDisabled(false);
     }
@@ -750,14 +735,14 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
                   />
                 </SplitItem>
                 <SplitItem style={styles.splitItem}>
-                  {isSubmitModeTierdValue ? (
+                  {isSubmitModeTieredValue ? (
                     <RateInput
                       currencyUnits={currency}
                       fieldId="tiered-rate"
-                      helperTextInvalid={tierdRatesError}
-                      onChange={(_evt, value) => handleOnTierdRatesChange(value)}
-                      validated={tierdRatesError ? 'error' : 'default'}
-                      value={tierdRates}
+                      helperTextInvalid={tieredRatesError}
+                      onChange={(_evt, value) => handleOnTieredRatesChange(value)}
+                      validated={tieredRatesError ? 'error' : 'default'}
+                      value={tieredRates}
                     />
                   ) : (
                     <FormGroup fieldId="tiered-rate" label={intl.formatMessage(messages.rate)}>
@@ -779,7 +764,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
                       tagKey={gpuTagKey}
                     />
                   )}
-                  {(isSubmitModeTagValues || isSubmitModeTierdValue) && (
+                  {(isSubmitModeTagValues || isSubmitModeTieredValue) && (
                     <FormGroup
                       fieldId="tag-key"
                       isRequired={isTagRatesChecked}
