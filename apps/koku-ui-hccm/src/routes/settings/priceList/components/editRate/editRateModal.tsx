@@ -140,9 +140,9 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const [tagValues, setTagValues] = useState<TagValue[]>();
   const [tagValuesBaseline, setTagValuesBaseline] = useState<TagValue[]>();
   const [tagValuesErrors, setTagValuesErrors] = useState<TagValueRowErrors[]>([]);
-  const [tieredRates, setTieredRates] = useState<string | number>();
-  const [tieredRatesBaseline, setTieredRatesBaseline] = useState<string | number>();
-  const [tieredRatesError, setTieredRatesError] = useState<MessageDescriptor>();
+  const [tieredRateValue, setTieredRateValue] = useState<string | number>();
+  const [tieredRateValueBaseline, setTieredRateValueBaseline] = useState<string | number>();
+  const [tieredRateValueError, setTieredRateValueError] = useState<MessageDescriptor>();
 
   // Dirty checks
   const isCostTypeDirty = costType !== costTypeBaseline;
@@ -154,7 +154,8 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const isNameDirty = name !== nameBaseline;
   const isTagKeyDirty = tagKey !== tagKeyBaseline;
   const isTagValuesDirty = hasDirtyTagValues(tagValues, tagValuesBaseline);
-  const isTieredRatesDirty = tieredRates !== tieredRatesBaseline && Number(tieredRates) !== Number(tieredRatesBaseline);
+  const isTieredRateValueDirty =
+    tieredRateValue !== tieredRateValueBaseline && Number(tieredRateValue) !== Number(tieredRateValueBaseline);
 
   // Validation checks
 
@@ -170,10 +171,13 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     isSubmitModeTagValues &&
     isTagValuesDirty &&
     (hasInvalidTagValues(tagValues) !== undefined || hasTagValuesErrors(tagValuesErrors));
-  const isTieredRatesInvalid =
+  const isTieredRateValueInvalid =
     isSubmitModeTieredValue &&
-    isTieredRatesDirty &&
-    (tieredRates === undefined || tieredRates === '' || Number(tieredRates) < 0 || tieredRatesError !== undefined);
+    isTieredRateValueDirty &&
+    (tieredRateValue === undefined ||
+      tieredRateValue === '' ||
+      Number(tieredRateValue) < 0 ||
+      tieredRateValueError !== undefined);
 
   // Unsaved changes checks
   const hasAddRateChanges =
@@ -184,7 +188,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       isNameDirty &&
       ((isSubmitModeGpuValues && isGpuTagKeyDirty && isGpuTagValuesDirty) ||
         (isSubmitModeTagValues && isTagKeyDirty && isTagValuesDirty) ||
-        (isSubmitModeTieredValue && isTieredRatesDirty)));
+        (isSubmitModeTieredValue && isTieredRateValueDirty)));
 
   const hasEditRateChanges =
     isCostTypeDirty ||
@@ -194,7 +198,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     isNameDirty ||
     (isSubmitModeGpuValues && (isGpuTagKeyDirty || isGpuTagValuesDirty)) ||
     (isSubmitModeTagValues && (isTagKeyDirty || isTagValuesDirty)) ||
-    (isSubmitModeTieredValue && isTieredRatesDirty);
+    (isSubmitModeTieredValue && isTieredRateValueDirty);
 
   const hasUnsavedChanges = isAddRate ? hasAddRateChanges : hasEditRateChanges;
 
@@ -206,7 +210,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     isMeasurementInvalid ||
     isTagKeyInvalid ||
     isTagValuesInvalid ||
-    isTieredRatesInvalid ||
+    isTieredRateValueInvalid ||
     priceListUpdateStatus === FetchStatus.inProgress;
 
   // useState only uses `priceList` on the first mount. Sync when the loaded entity changes.
@@ -249,9 +253,9 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       setTagValues(cloneDeep(initialTagValues));
       setTagValuesBaseline(cloneDeep(initialTagValues));
       setTagValuesErrors(initialTagValues?.map(() => ({})));
-      setTieredRates(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
-      setTieredRatesBaseline(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
-      setTieredRatesError(undefined);
+      setTieredRateValue(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
+      setTieredRateValueBaseline(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
+      setTieredRateValueError(undefined);
 
       updateSubmitMode(labelMetric, priceList?.rates?.[rateIndex]?.tag_rates?.tag_key !== undefined);
     }
@@ -465,7 +469,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
             usage: {
               unit: currency,
             },
-            value: tieredRates,
+            value: tieredRateValue,
           },
         ],
       };
@@ -566,14 +570,14 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     updateTagValuesErrors('tag_value', error, index);
   };
 
-  const handleOnTieredRatesChange = (value: string) => {
-    setTieredRates(value);
+  const handleOnTieredRateValueChange = (value: string) => {
+    setTieredRateValue(value);
 
     const error = validateRate(value);
     if (error) {
-      setTieredRatesError(error);
+      setTieredRateValueError(error);
     } else {
-      setTieredRatesError(undefined);
+      setTieredRateValueError(undefined);
     }
   };
 
@@ -739,10 +743,10 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
                     <RateInput
                       currencyUnits={currency}
                       fieldId="tiered-rate"
-                      helperTextInvalid={tieredRatesError}
-                      onChange={(_evt, value) => handleOnTieredRatesChange(value)}
-                      validated={tieredRatesError ? 'error' : 'default'}
-                      value={tieredRates}
+                      helperTextInvalid={tieredRateValueError}
+                      onChange={(_evt, value) => handleOnTieredRateValueChange(value)}
+                      validated={tieredRateValueError ? 'error' : 'default'}
+                      value={tieredRateValue}
                     />
                   ) : (
                     <FormGroup fieldId="tiered-rate" label={intl.formatMessage(messages.rate)}>
