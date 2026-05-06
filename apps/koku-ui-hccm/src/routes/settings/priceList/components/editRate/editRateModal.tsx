@@ -154,7 +154,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const isNameDirty = name !== nameBaseline;
   const isTagKeyDirty = tagKey !== tagKeyBaseline;
   const isTagValuesDirty = hasDirtyTagValues(tagValues, tagValuesBaseline);
-  const isTieredRatesDirty = Number(tieredRates) !== Number(tieredRatesBaseline);
+  const isTieredRatesDirty = tieredRates !== tieredRatesBaseline && Number(tieredRates) !== Number(tieredRatesBaseline);
 
   // Validation checks
 
