@@ -19,7 +19,10 @@ jest.mock('./tag/tagValues', () => ({ TagValues: () => null }));
 jest.mock('./gpu/gpuTagKey', () => ({ GpuTagKey: () => null }));
 jest.mock('./gpu/gpuTagValues', () => ({ GpuTagValues: () => null }));
 
-/** Avoid async Redux updates after render (act warnings) by skipping initial metrics / GPU vendor fetches. */
+/**
+ * Avoid async Redux updates after render (act warnings) by skipping initial metrics / GPU vendor fetches.
+ * Add-rate tests pass `rateIndex={0}` so the sync effect maps `tiered_rates` from `priceList.rates[0]`.
+ */
 function preloadedStateForEditRateModal() {
   const vendorQueryString = getQuery({ limit: 100 });
   const vendorFetchId = getFetchId(ResourcePathsType.ocp, ResourceType.gpuVendor, vendorQueryString);
@@ -107,7 +110,7 @@ describe('EditRateModal', () => {
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <EditRateModal isAddRate isOpen priceList={priceList} />
+          <EditRateModal isAddRate isOpen priceList={priceList} rateIndex={0} />
         </IntlProvider>
       </Provider>
     );
@@ -132,7 +135,7 @@ describe('EditRateModal', () => {
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <EditRateModal isAddRate isOpen priceList={priceList} />
+          <EditRateModal isAddRate isOpen priceList={priceList} rateIndex={0} />
         </IntlProvider>
       </Provider>
     );
@@ -161,7 +164,7 @@ describe('EditRateModal', () => {
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <EditRateModal isAddRate isOpen priceList={priceList} />
+          <EditRateModal isAddRate isOpen priceList={priceList} rateIndex={0} />
         </IntlProvider>
       </Provider>
     );

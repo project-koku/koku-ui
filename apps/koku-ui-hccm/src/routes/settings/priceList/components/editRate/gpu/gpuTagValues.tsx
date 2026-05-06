@@ -12,7 +12,6 @@ import {
 import { MinusCircleIcon } from '@patternfly/react-icons';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { getQuery } from 'api/queries/query';
-import type { TagValue } from 'api/rates';
 import { type Resource, ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -24,6 +23,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
 import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import type { TagValueExt } from 'routes/settings/priceList/components/editRate/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
@@ -39,7 +39,7 @@ interface GpuTagValuesOwnProps {
   onRateChange?: (value, index) => void;
   onValueChange?: (value, index) => void;
   tagKey: string;
-  tagValues?: TagValue[];
+  tagValues?: TagValueExt[];
 }
 
 export interface GpuTagValuesStateProps {
@@ -152,7 +152,7 @@ const GpuTagValues: React.FC<GpuTagValuesProps> = ({
                       })}
                       type="text"
                       validated={errors?.[index]?.value ? 'error' : 'default'}
-                      value={item.value}
+                      value={item.valueInput ?? ''}
                     />
                   </InputGroupItem>
                 </InputGroup>
