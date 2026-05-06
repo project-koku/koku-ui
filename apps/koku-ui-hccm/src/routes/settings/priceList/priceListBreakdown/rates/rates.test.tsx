@@ -13,12 +13,14 @@ const consoleError = console.error;
 
 jest.mock('routes/settings/priceList/utils/hooks', () => {
   const actual = jest.requireActual('routes/settings/priceList/utils/hooks');
+  const { FetchStatus } = require('store/common');
   return {
     ...actual,
     usePriceListUpdate: () => ({
       error: undefined,
       notification: null,
-      status: require('store/common').FetchStatus.complete,
+      // Rates waits to fetch until update flow is idle; `complete` blocks dispatch.
+      status: FetchStatus.none,
     }),
   };
 });
