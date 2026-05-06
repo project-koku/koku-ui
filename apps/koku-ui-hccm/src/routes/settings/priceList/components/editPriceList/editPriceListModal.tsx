@@ -91,11 +91,11 @@ const EditPriceListModal: React.FC<EditPriceListModalProps> = ({ isOpen, onClose
     const nextEnd = cloneMonthDate(getEffectiveDate(priceList?.effective_end_date));
     const nextStart = cloneMonthDate(getEffectiveDate(priceList?.effective_start_date));
 
-    setIsFinish(false);
     setDescription(priceList?.description ?? '');
     setDescriptionBaseline(priceList?.description ?? '');
     setEndDate(nextEnd);
     setEndDateBaseline(cloneMonthDate(nextEnd));
+    setIsFinish(false);
     setName(priceList?.name ?? '');
     setNameBaseline(priceList?.name ?? '');
     setStartDate(nextStart);

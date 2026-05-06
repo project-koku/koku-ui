@@ -252,6 +252,7 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListDetailsMapProps): P
     if (
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
+      priceListStatus !== FetchStatus.complete &&
       priceListAddStatus !== FetchStatus.inProgress &&
       priceListDuplicateStatus !== FetchStatus.inProgress &&
       priceListRemoveStatus !== FetchStatus.inProgress &&
