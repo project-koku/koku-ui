@@ -14,7 +14,7 @@ export interface RateRequest {
 export interface TagValue {
   tag_value?: string;
   unit?: string;
-  value?: number | string;
+  value?: number;
   description?: string;
   default?: boolean;
 }
@@ -39,7 +39,7 @@ export interface TieredRate {
   usage?: {
     usage_start?: string;
     usage_end?: string;
-    unit: string;
+    unit?: string;
   };
 }
 

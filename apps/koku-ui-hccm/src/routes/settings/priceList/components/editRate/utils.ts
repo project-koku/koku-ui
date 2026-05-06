@@ -1,5 +1,5 @@
 import type { Metric, MetricHash } from 'api/metrics';
-import type { TagValue } from 'api/rates';
+import type { TagValue, TieredRate } from 'api/rates';
 import messages from 'locales/messages';
 import type { MessageDescriptor } from 'react-intl';
 import { countDecimals, isCurrencyFormatValid } from 'utils/format';
@@ -9,6 +9,16 @@ interface TagRate {
   measurement: string;
   costType: string;
   tagKey: string;
+}
+
+// Use separate value property to avoid converting bad user input to a number
+export interface TieredRateExt extends TieredRate {
+  valueInput?: string;
+}
+
+// Use separate value property to avoid converting bad user input to a number
+export interface TagValueExt extends TagValue {
+  valueInput?: string;
 }
 
 /** Per-row validation messages for tag value / rate / description fields (matches EditTagValues `errors[index]`). */
@@ -37,7 +47,7 @@ export const hasTagValuesErrors = (errors: TagValueRowErrors[]): boolean => {
  */
 export const hasDirtyTagValues = (
   tagValues: TagValue[] | undefined,
-  tagValuesBaseline: TagValue[] | undefined
+  tagValuesBaseline: TagValueExt[] | undefined
 ): boolean => {
   const current = tagValues ?? [];
   const baseline = tagValuesBaseline ?? [];
@@ -51,7 +61,7 @@ export const hasDirtyTagValues = (
       t.description !== b?.description ||
       t.tag_value !== b?.tag_value ||
       t.unit !== b?.unit ||
-      Number(t.value ?? 0) !== Number(b?.value ?? 0)
+      t.value !== b?.value
     );
   });
 };

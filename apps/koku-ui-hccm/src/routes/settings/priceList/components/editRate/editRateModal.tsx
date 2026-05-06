@@ -24,7 +24,6 @@ import type { PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
-import type { TagValue } from 'api/rates';
 import type { Resource } from 'api/resources/resource';
 import { ResourcePathsType, ResourceType } from 'api/resources/resource';
 import type { AxiosError } from 'axios';
@@ -52,7 +51,7 @@ import { styles } from './editRateModal.styles';
 import { GpuTagKey } from './gpu/gpuTagKey';
 import { GpuTagValues } from './gpu/gpuTagValues';
 import { TagValues } from './tag/tagValues';
-import type { TagValueRowErrors } from './utils';
+import type { TagValueExt, TagValueRowErrors, TieredRateExt } from './utils';
 import {
   getDefaultCostType,
   hasDirtyTagValues,
@@ -119,8 +118,8 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const [gpuTagKey, setGpuTagKey] = useState<string>();
   const [gpuTagKeyBaseline, setGpuTagKeyBaseline] = useState<string>();
   const [gpuTagKeyError, setGpuTagKeyError] = useState<MessageDescriptor>();
-  const [gpuTagValues, setGpuTagValues] = useState<TagValue[]>();
-  const [gpuTagValuesBaseline, setGpuTagValuesBaseline] = useState<TagValue[]>();
+  const [gpuTagValues, setGpuTagValues] = useState<TagValueExt[]>();
+  const [gpuTagValuesBaseline, setGpuTagValuesBaseline] = useState<TagValueExt[]>();
   const [gpuTagValuesErrors, setGpuTagValuesErrors] = useState<TagValueRowErrors[]>([]);
   const [isSubmitModeGpuValues, setIsSubmitModeGpuValues] = useState<boolean>(false);
   const [isSubmitModeTagValues, setIsSubmitModeTagValues] = useState<boolean>(false);
@@ -137,11 +136,11 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const [tagKey, setTagKey] = useState<string>();
   const [tagKeyBaseline, setTagKeyBaseline] = useState<string>();
   const [tagKeyError, setTagKeyError] = useState<MessageDescriptor>();
-  const [tagValues, setTagValues] = useState<TagValue[]>();
-  const [tagValuesBaseline, setTagValuesBaseline] = useState<TagValue[]>();
+  const [tagValues, setTagValues] = useState<TagValueExt[]>();
+  const [tagValuesBaseline, setTagValuesBaseline] = useState<TagValueExt[]>();
   const [tagValuesErrors, setTagValuesErrors] = useState<TagValueRowErrors[]>([]);
-  const [tieredRateValue, setTieredRateValue] = useState<string | number>();
-  const [tieredRateValueBaseline, setTieredRateValueBaseline] = useState<string | number>();
+  const [tieredRateValue, setTieredRateValue] = useState<TieredRateExt>();
+  const [tieredRateValueBaseline, setTieredRateValueBaseline] = useState<TieredRateExt>();
   const [tieredRateValueError, setTieredRateValueError] = useState<MessageDescriptor>();
 
   // Dirty checks
@@ -154,8 +153,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const isNameDirty = name !== nameBaseline;
   const isTagKeyDirty = tagKey !== tagKeyBaseline;
   const isTagValuesDirty = hasDirtyTagValues(tagValues, tagValuesBaseline);
-  const isTieredRateValueDirty =
-    tieredRateValue !== tieredRateValueBaseline && Number(tieredRateValue) !== Number(tieredRateValueBaseline);
+  const isTieredRateValueDirty = tieredRateValue?.value !== tieredRateValueBaseline?.value;
 
   // Validation checks
 
@@ -174,10 +172,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const isTieredRateValueInvalid =
     isSubmitModeTieredValue &&
     isTieredRateValueDirty &&
-    (tieredRateValue === undefined ||
-      tieredRateValue === '' ||
-      Number(tieredRateValue) < 0 ||
-      tieredRateValueError !== undefined);
+    (tieredRateValue === undefined || tieredRateValue?.value < 0 || tieredRateValueError !== undefined);
 
   // Unsaved changes checks
   const hasAddRateChanges =
@@ -224,7 +219,16 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       const defaultCostType = metricsHash?.[metricName]?.default_cost_type ?? '';
       const defaultCurrency = priceList?.currency ?? 'USD';
       const defaultTagValue = { default: false, description: '', unit: defaultCurrency };
-      const initialTagValues = priceList?.rates?.[rateIndex]?.tag_rates?.tag_values ?? [defaultTagValue];
+
+      const initialTagValues = priceList?.rates?.[rateIndex]?.tag_rates?.tag_values?.map(rate => ({
+        ...rate,
+        valueInput: rate?.value?.toString() ?? '',
+      })) ?? [defaultTagValue];
+      const initialTieredRates =
+        priceList?.rates?.[rateIndex]?.tiered_rates?.map(rate => ({
+          ...rate,
+          valueInput: rate?.value?.toString() ?? '',
+        })) ?? undefined;
 
       // State management
       setCostType((priceList?.rates?.[rateIndex]?.cost_type ?? defaultCostType) as string);
@@ -253,8 +257,8 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       setTagValues(cloneDeep(initialTagValues));
       setTagValuesBaseline(cloneDeep(initialTagValues));
       setTagValuesErrors(initialTagValues?.map(() => ({})));
-      setTieredRateValue(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
-      setTieredRateValueBaseline(cloneDeep(priceList?.rates?.[rateIndex]?.tiered_rates?.[0]?.value ?? undefined));
+      setTieredRateValue(initialTieredRates?.[0] ?? undefined);
+      setTieredRateValueBaseline(initialTieredRates?.[0] ?? undefined);
       setTieredRateValueError(undefined);
 
       updateSubmitMode(labelMetric, priceList?.rates?.[rateIndex]?.tag_rates?.tag_key !== undefined);
@@ -280,7 +284,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
 
   const getMetricLabel = m => {
     // Match message descriptor or default to API string
-    const value = m.replace(/ /g, '_').toLowerCase();
+    const value = m?.replace(/ /g, '_').toLowerCase();
     return intl.formatMessage(messages.metricValues, { value }) || m;
   };
 
@@ -291,7 +295,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     }
     return Object.keys(metricsHash)
       ?.map(m => ({
-        isDisabled: m.toLowerCase() === 'gpu' && !hasGpuVendor,
+        isDisabled: m?.toLowerCase() === 'gpu' && !hasGpuVendor,
         toString: () => getMetricLabel(m),
         value: m,
       }))
@@ -304,7 +308,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     // Match message descriptor or default to API string
     const units = intl.formatMessage(messages.units, { units: unitsLookupKey(u) }) || u;
     const desc = intl.formatMessage(messages.measurementValuesDesc, {
-      value: o.toLowerCase().replace('-', '_'),
+      value: o?.toLowerCase().replace('-', '_'),
       units: units ? units : u,
     });
     return desc ? desc : o;
@@ -313,23 +317,23 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   const getMeasurementLabel = (m, u) => {
     // Match message descriptor or default to API string
     const units = intl.formatMessage(messages.units, { units: unitsLookupKey(u) }) || u;
-    const value = m.toLowerCase().replace('-', '_');
+    const value = m?.toLowerCase().replace('-', '_');
     return intl.formatMessage(messages.measurementValues, { value, units, count: 2 }) || m;
   };
 
   const measurementOptions: SelectWrapperOption[] = React.useMemo(() => {
-    if (!metricOptions.find(m => m.value === metric)) {
+    if (!metricOptions.find(m => m?.value === metric)) {
       return [];
     }
     return Object.keys(metricsHash?.[metric])
       ?.map(opt => {
-        const m = metricsHash[metric][opt];
-        const unit = m.label_measurement_unit;
+        const m = metricsHash?.[metric]?.[opt];
+        const unit = m?.label_measurement_unit;
         return {
-          description: getMeasurementDescription(m.label_measurement, unit),
+          description: getMeasurementDescription(m?.label_measurement, unit),
           isDisabled: false,
-          toString: () => getMeasurementLabel(m.label_measurement, unit),
-          value: m.metric,
+          toString: () => getMeasurementLabel(m?.label_measurement, unit),
+          value: m?.metric,
         };
       })
       .sort((a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? ''));
@@ -390,10 +394,13 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   };
 
   const handleOnGpuTagValuesRateChange = (value: string, index: number) => {
+    const error = validateRate(value);
+    updateTagValuesErrors('value', error, index);
+
     const newTagValues = cloneDeep(gpuTagValues ?? []);
-    newTagValues[index].value = value;
-    setGpuTagValues(newTagValues);
-    updateGpuTagValuesErrors('value', validateRate(value), index);
+    newTagValues[index].valueInput = value;
+    newTagValues[index].value = error ? undefined : Number(value);
+    setTagValues(newTagValues);
   };
 
   const handleOnGpuTagValuesValueChange = (value: string, index: number) => {
@@ -451,14 +458,16 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       newRates = {
         tag_rates: {
           tag_key: gpuTagKey,
-          tag_values: gpuTagValues,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          tag_values: gpuTagValues.map(({ valueInput, ...rest }) => rest),
         },
       };
     } else if (isSubmitModeTagValues) {
       newRates = {
         tag_rates: {
           tag_key: tagKey,
-          tag_values: tagValues,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          tag_values: tagValues.map(({ valueInput, ...rest }) => rest),
         },
       };
     } else if (isSubmitModeTieredValue) {
@@ -469,7 +478,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
             usage: {
               unit: currency,
             },
-            value: tieredRateValue,
+            value: tieredRateValue?.value ?? undefined,
           },
         ],
       };
@@ -555,10 +564,13 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   };
 
   const handleOnTagValuesRateChange = (value: string, index: number) => {
+    const error = validateRate(value);
+    updateTagValuesErrors('value', error, index);
+
     const newTagValues = cloneDeep(tagValues ?? []);
-    newTagValues[index].value = value;
+    newTagValues[index].valueInput = value;
+    newTagValues[index].value = error ? undefined : Number(value);
     setTagValues(newTagValues);
-    updateTagValuesErrors('value', validateRate(value), index);
   };
 
   const handleOnTagValuesValueChange = (value: string, index: number) => {
@@ -571,14 +583,9 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   };
 
   const handleOnTieredRateValueChange = (value: string) => {
-    setTieredRateValue(value);
-
     const error = validateRate(value);
-    if (error) {
-      setTieredRateValueError(error);
-    } else {
-      setTieredRateValueError(undefined);
-    }
+    setTieredRateValueError(error || undefined);
+    setTieredRateValue({ value: error ? undefined : Number(value), valueInput: value });
   };
 
   // Update functions
@@ -746,7 +753,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
                       helperTextInvalid={tieredRateValueError}
                       onChange={(_evt, value) => handleOnTieredRateValueChange(value)}
                       validated={tieredRateValueError ? 'error' : 'default'}
-                      value={tieredRateValue}
+                      value={tieredRateValue?.valueInput ?? ''}
                     />
                   ) : (
                     <FormGroup fieldId="tiered-rate" label={intl.formatMessage(messages.rate)}>

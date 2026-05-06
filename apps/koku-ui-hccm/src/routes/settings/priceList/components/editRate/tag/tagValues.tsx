@@ -12,11 +12,11 @@ import {
 } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import type { TagValue } from 'api/rates';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import type { TagValueExt } from 'routes/settings/priceList/components/editRate/utils';
 import { formatCurrencyRaw, getCurrencySymbol } from 'utils/format';
 
 import { styles } from './tagValues.styles';
@@ -29,7 +29,7 @@ interface TagValuesOwnProps {
   onDescriptionChange?: (value, index) => void;
   onRateChange?: (value, index) => void;
   onValueChange?: (value, index) => void;
-  tagValues?: TagValue[];
+  tagValues?: TagValueExt[];
 }
 
 type TagValuesProps = TagValuesOwnProps;
@@ -111,7 +111,7 @@ const TagValues: React.FC<TagValuesProps> = ({
                       })}
                       type="text"
                       validated={errors?.[index]?.value ? 'error' : 'default'}
-                      value={item.value}
+                      value={item.valueInput ?? ''}
                     />
                   </InputGroupItem>
                 </InputGroup>
