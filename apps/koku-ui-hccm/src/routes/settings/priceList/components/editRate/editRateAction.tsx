@@ -22,14 +22,14 @@ const EditRateAction: React.FC<EditRateActionProps> = ({ canWrite, isDisabled, o
 
   const getActions = () => {
     const getTooltip = children => {
-      const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.tagMappingRemove);
+      const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.delete);
       return <Tooltip content={msg}>{children}</Tooltip>;
     };
 
     return getTooltip(
       <Button
         icon={<MinusCircleIcon />}
-        aria-label={intl.formatMessage(messages.tagMappingRemove)}
+        aria-label={intl.formatMessage(messages.delete)}
         isAriaDisabled={!canWrite || isDisabled}
         onClick={() => handleOnClick()}
         size="sm"

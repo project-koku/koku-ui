@@ -17,7 +17,7 @@ describe('EditRateAction', () => {
         <EditRateAction canWrite priceList={{ uuid: 'p1' } as any} onClose={onClose} />
       </IntlProvider>
     );
-    const btn = screen.getByRole('button', { name: /remove child tag/i });
+    const btn = screen.getByRole('button', { name: /delete/i });
     fireEvent.click(btn);
     expect(screen.getByTestId('edit-rate-modal-open')).toBeInTheDocument();
     fireEvent.click(btn);
@@ -30,6 +30,6 @@ describe('EditRateAction', () => {
         <EditRateAction canWrite={false} priceList={{ uuid: 'p1' } as any} />
       </IntlProvider>
     );
-    expect(screen.getByRole('button', { name: /remove child tag/i })).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('button', { name: /delete/i })).toHaveAttribute('aria-disabled', 'true');
   });
 });

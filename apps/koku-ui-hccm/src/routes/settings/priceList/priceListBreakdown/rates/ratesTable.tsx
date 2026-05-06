@@ -116,7 +116,7 @@ const RatesTable: React.FC<RatesTableProps> = ({
       const isTieredRates = item?.tiered_rates?.length > 0;
       const isGpuRates = item?.metric?.label_metric
         ? item?.metric?.label_metric?.toLowerCase() === 'gpu'
-        : item?.metric?.name?.toLowerCase().indexOf('gpu_') !== -1; // name looks like"gpu_cost_per_month"
+        : (item?.metric?.name?.toLowerCase()?.includes('gpu_') ?? false); // name looks like "gpu_cost_per_month"
 
       if (isTagRates) {
         if (isGpuRates) {
@@ -191,7 +191,7 @@ const RatesTable: React.FC<RatesTableProps> = ({
           {
             style: styles.column,
             value: intl.formatMessage(messages.measurementValues, {
-              value: item?.metric?.label_measurement || ''.toLowerCase().replace('-', '_'),
+              value: (item?.metric?.label_measurement || '').toLowerCase().replace('-', '_'),
               units: item?.metric?.label_measurement_unit || '',
               count: 2,
             }),
