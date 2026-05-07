@@ -6,14 +6,6 @@ import { createStore } from 'redux';
 
 import { RatesToolbar } from './ratesToolbar';
 
-jest.mock('routes/settings/priceList/components/editRate', () => {
-  const actual = jest.requireActual('routes/settings/priceList/components/editRate');
-  return {
-    ...actual,
-    EditRateModal: () => null,
-  };
-});
-
 describe('RatesToolbar', () => {
   const dummyReducer = (state: Record<string, unknown> = {}) => state;
 
@@ -39,7 +31,7 @@ describe('RatesToolbar', () => {
         isDisabled={false}
         itemsPerPage={3}
         itemsTotal={3}
-        onAddRate={noop}
+        onAdd={noop}
         onFilterAdded={noop}
         onFilterRemoved={noop}
         pagination={<div data-testid="pagination-stub" />}
@@ -57,7 +49,7 @@ describe('RatesToolbar', () => {
         isDisabled={false}
         itemsPerPage={1}
         itemsTotal={1}
-        onAddRate={noop}
+        onAdd={noop}
         onFilterAdded={noop}
         onFilterRemoved={noop}
         priceList={priceList}

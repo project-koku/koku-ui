@@ -172,11 +172,6 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     }
   };
 
-  const handleOnCreate = () => {
-    // eslint-disable-next-line no-console
-    console.log(`onCreate clicked`);
-  };
-
   const handleOnDelete = () => {
     navigate(`${formatPath(routes.settings.path)}`, {
       replace: true,
@@ -208,7 +203,6 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
             canWrite={canWrite()}
             isDisabled={priceListStatus === FetchStatus.inProgress}
             onClose={() => void 0}
-            onCreate={handleOnCreate}
             onDelete={handleOnDelete}
             onDeprecate={forceUpdate}
             onDuplicate={forceUpdate}

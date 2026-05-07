@@ -1,5 +1,6 @@
 import type { PriceListData } from 'api/priceList';
 import type { OcpQuery } from 'api/queries/ocpQuery';
+import type { Rate } from 'api/rates';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
@@ -7,7 +8,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import { AddRateAction } from 'routes/settings/priceList/components/actions';
+import { AddRate } from 'routes/settings/priceList/components/rates';
 import type { Filter } from 'routes/utils/filter';
 
 interface RatesToolbarOwnProps {
@@ -16,10 +17,12 @@ interface RatesToolbarOwnProps {
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onAddRate?: () => void;
+  onAdd?: (rates: Rate[]) => void;
+  onAddSuccess?: () => void;
   onClose?: () => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
+  onSuccess?: () => void;
   pagination?: React.ReactNode;
   priceList: PriceListData;
   query?: OcpQuery;
@@ -34,7 +37,8 @@ const RatesToolbar: React.FC<RatesToolbarProps> = ({
   isDisabled,
   itemsPerPage,
   itemsTotal,
-  onAddRate,
+  onAdd,
+  onAddSuccess,
   onClose,
   onFilterAdded,
   onFilterRemoved,
@@ -47,10 +51,11 @@ const RatesToolbar: React.FC<RatesToolbarProps> = ({
 
   const getActions = () => {
     return (
-      <AddRateAction
+      <AddRate
         canWrite={canWrite}
         isDisabled={isDisabled}
-        onAddRate={onAddRate}
+        onAdd={onAdd}
+        onAddSuccess={onAddSuccess}
         onClose={onClose}
         priceList={priceList}
       />

@@ -4,10 +4,8 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
+import { DeletePriceListModal, DeprecatePriceListModal } from 'routes/settings/priceList/components/priceList';
 import { usePriceListDuplicate, usePriceListEnabledToggle } from 'routes/settings/priceList/utils/hooks';
-
-import { DeletePriceListModal } from '../deletePriceList';
-import { DeprecatePriceListModal } from '../deprecatePriceList';
 
 interface PriceListActionsOwnProps {
   canWrite?: boolean;
@@ -107,13 +105,13 @@ const PriceListActions: React.FC<PriceListActionsProps> = ({
       <DeletePriceListModal
         isOpen={isDeleteModalOpen}
         onClose={handleOnDeleteModalClose}
-        onUpdateSuccess={handleOnDeleteModalUpdateSuccess}
+        onSuccess={handleOnDeleteModalUpdateSuccess}
         priceList={priceList}
       />
       <DeprecatePriceListModal
         isOpen={isDeprecateModalOpen}
         onClose={handleOnDeprecateModalClose}
-        onUpdateSuccess={handleOnDeprecateModalUpdateSuccess}
+        onSuccess={handleOnDeprecateModalUpdateSuccess}
         priceList={priceList}
       />
       <DropdownWrapper isKebab items={getItems()} position="right" />
