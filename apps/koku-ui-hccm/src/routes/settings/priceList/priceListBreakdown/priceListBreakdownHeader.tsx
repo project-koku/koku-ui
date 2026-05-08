@@ -19,7 +19,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { PriceListActions } from 'routes/settings/priceList/components/actions';
-import { EditPriceListModal } from 'routes/settings/priceList/components/editPriceList';
+import { EditDetailsModal } from 'routes/settings/priceList/components/details';
 import { getDateString, getValidityPeriod } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
@@ -29,7 +29,6 @@ interface PriceListBreakdownHeaderOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   onClose?: () => void;
-  onCreate?: () => void;
   onDelete?: () => void;
   onDeprecate?: () => void;
   onDuplicate?: () => void;
@@ -62,17 +61,17 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
     setIsEditModalOpen(false);
   };
 
-  const handleOnEditModalUpdateSuccess = () => {
+  const handleOnEditModalSuccess = () => {
     setIsEditModalOpen(false);
     onEdit?.();
   };
 
   return (
     <>
-      <EditPriceListModal
+      <EditDetailsModal
         isOpen={isEditModalOpen}
         onClose={handleOnEditModalClose}
-        onUpdateSuccess={handleOnEditModalUpdateSuccess}
+        onSuccess={handleOnEditModalSuccess}
         priceList={priceList}
       />
       <div style={styles.headerContent}>

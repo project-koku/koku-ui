@@ -1,20 +1,21 @@
 import type { PriceListData } from 'api/priceList';
+import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
-
-import { ConfirmEditRateModal } from '../confirmEditRate';
-import { DeleteRateModal } from '../deleteRate';
-import { EditRateModal } from '../editRate';
+import type { DeleteRateHandle, EditRateHandle } from 'routes/settings/priceList/components/rates';
+import { DeleteRate, EditRate } from 'routes/settings/priceList/components/rates';
 
 interface RateActionsOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   onClose?: () => void;
-  onDelete?: () => void;
-  onEdit?: () => void;
+  onDelete?: (rates: Rate[]) => void;
+  onDeleteSuccess?: () => void;
+  onEdit?: (rates: Rate[]) => void;
+  onEditSuccess?: () => void;
   priceList: PriceListData;
   rateIndex: number;
 }
@@ -26,21 +27,32 @@ const RateActions: React.FC<RateActionsProps> = ({
   isDisabled,
   onClose,
   onDelete,
+  onDeleteSuccess,
   onEdit,
+  onEditSuccess,
   priceList,
   rateIndex,
 }) => {
   const intl = useIntl();
+  const editRateRef = useRef<EditRateHandle>(null);
+  const deleteRateRef = useRef<DeleteRateHandle>(null);
 
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  /** Bridges imperative refs without closing over them in objects built during render (react-hooks/refs). */
+  const menuDispatchRef = useRef<{ openDelete: () => void; openEdit: () => void }>({
+    openDelete: () => {},
+    openEdit: () => {},
+  });
 
-  const getItems = () => {
-    const items: DropdownWrapperItem[] = [
+  useLayoutEffect(() => {
+    menuDispatchRef.current.openEdit = () => editRateRef.current?.open();
+    menuDispatchRef.current.openDelete = () => deleteRateRef.current?.open();
+  });
+
+  const menuItems: DropdownWrapperItem[] = useMemo(
+    () => [
       {
         isDisabled: isDisabled || !canWrite,
-        onClick: priceList?.assigned_cost_model_count > 0 ? handleOnConfirmModalClick : handleOnEditModalClick,
+        onClick: () => menuDispatchRef.current.openEdit(),
         toString: () => intl.formatMessage(messages.priceListEditRate),
         ...(!canWrite && {
           tooltipProps: {
@@ -50,7 +62,7 @@ const RateActions: React.FC<RateActionsProps> = ({
       },
       {
         isDisabled: isDisabled || !canWrite,
-        onClick: handleOnDeleteModalClick,
+        onClick: () => menuDispatchRef.current.openDelete(),
         toString: () => intl.formatMessage(messages.delete),
         ...(!canWrite && {
           tooltipProps: {
@@ -58,74 +70,29 @@ const RateActions: React.FC<RateActionsProps> = ({
           },
         }),
       },
-    ];
-    return items;
-  };
-
-  const handleOnConfirmModalClick = () => {
-    setIsConfirmModalOpen(true);
-  };
-
-  const handleOnConfirmModalClose = () => {
-    setIsConfirmModalOpen(false);
-  };
-
-  const handleOnConfirmModalContinue = () => {
-    setIsConfirmModalOpen(false);
-    setIsEditModalOpen(true);
-  };
-
-  const handleOnDeleteModalClick = () => {
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleOnDeleteModalClose = () => {
-    setIsDeleteModalOpen(false);
-    onClose?.();
-  };
-
-  const handleOnDeleteModalUpdateSuccess = () => {
-    setIsDeleteModalOpen(false);
-    onDelete?.();
-  };
-
-  const handleOnEditModalClick = () => {
-    setIsEditModalOpen(true);
-  };
-
-  const handleOnEditModalClose = () => {
-    setIsEditModalOpen(false);
-    onClose?.();
-  };
-
-  const handleOnEditModalUpdateSuccess = () => {
-    setIsEditModalOpen(false);
-    onEdit?.();
-  };
+    ],
+    [canWrite, intl, isDisabled]
+  );
 
   return (
     <>
-      <ConfirmEditRateModal
-        isOpen={isConfirmModalOpen}
-        onClose={handleOnConfirmModalClose}
-        onContinue={handleOnConfirmModalContinue}
-        priceList={priceList}
-      />
-      <DeleteRateModal
-        isOpen={isDeleteModalOpen}
-        onClose={handleOnDeleteModalClose}
-        onUpdateSuccess={handleOnDeleteModalUpdateSuccess}
+      <EditRate
+        ref={editRateRef}
+        onClose={onClose}
+        onEdit={onEdit}
+        onEditSuccess={onEditSuccess}
         priceList={priceList}
         rateIndex={rateIndex}
       />
-      <EditRateModal
-        isOpen={isEditModalOpen}
-        onClose={handleOnEditModalClose}
-        onUpdateSuccess={handleOnEditModalUpdateSuccess}
+      <DeleteRate
+        ref={deleteRateRef}
+        onClose={onClose}
+        onDelete={onDelete}
+        onDeleteSuccess={onDeleteSuccess}
         priceList={priceList}
         rateIndex={rateIndex}
       />
-      <DropdownWrapper isKebab items={getItems()} position="right" />
+      <DropdownWrapper isKebab items={menuItems} position="right" />
     </>
   );
 };

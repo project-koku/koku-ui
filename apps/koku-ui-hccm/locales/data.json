@@ -4539,12 +4539,6 @@
         "value": "Edit price list details"
       }
     ],
-    "editRateTitle": [
-      {
-        "type": 0,
-        "value": "Review impact before you change rates"
-      }
-    ],
     "efficiency": [
       {
         "type": 0,
@@ -12021,6 +12015,12 @@
         "value": "This price list is assigned to:"
       }
     ],
+    "priceListCreateRate": [
+      {
+        "type": 0,
+        "value": "Create rate"
+      }
+    ],
     "priceListCurrencyReadOnly": [
       {
         "type": 0,
@@ -12095,6 +12095,12 @@
       {
         "type": 1,
         "value": "learnMore"
+      }
+    ],
+    "priceListDuplicateName": [
+      {
+        "type": 0,
+        "value": "This custom name is already in use"
       }
     ],
     "priceListDuplicateTag": [
@@ -12247,6 +12253,12 @@
         },
         "type": 5,
         "value": "value"
+      }
+    ],
+    "priceListImpactReview": [
+      {
+        "type": 0,
+        "value": "Review impact before you change rates"
       }
     ],
     "priceListNumberRate": [
@@ -14106,6 +14118,24 @@
       {
         "type": 0,
         "value": "Validity period"
+      }
+    ],
+    "validityPeriodEndDateError": [
+      {
+        "type": 0,
+        "value": "End period must be >= start period"
+      }
+    ],
+    "validityPeriodStartDateError": [
+      {
+        "type": 0,
+        "value": "Start period must be <= end period"
+      }
+    ],
+    "validityPeriodWarning": [
+      {
+        "type": 0,
+        "value": "The start period must be the same as or before the end period. Adjust the month and year so the list does not end before it begins."
       }
     ],
     "valueUnits": [

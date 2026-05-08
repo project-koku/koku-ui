@@ -14,8 +14,8 @@ jest.mock('routes/settings/priceList/components/actions', () => ({
   PriceListActions: () => <div data-testid="actions-stub" />,
 }));
 
-jest.mock('routes/settings/priceList/components/editPriceList', () => ({
-  EditPriceListModal: ({ isOpen }: { isOpen?: boolean }) =>
+jest.mock('routes/settings/priceList/components/details', () => ({
+  EditDetailsModal: ({ isOpen }: { isOpen?: boolean }) =>
     isOpen ? <div data-testid="edit-price-list-modal-open" /> : null,
 }));
 

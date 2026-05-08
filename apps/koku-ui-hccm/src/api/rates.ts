@@ -4,7 +4,8 @@ import type { PagedResponse } from './api';
 import type { Metric } from './metrics';
 
 export interface RateRequest {
-  metric?: { name: string };
+  /** Same shape as GET `Rate.metric`; API accepts full metric rows on PUT. */
+  metric?: Metric;
   tiered_rates?: TieredRate[];
   tag_rates?: TagRates;
   cost_type?: string;
@@ -26,11 +27,12 @@ export interface TagRates {
 
 export interface Rate {
   stateIndex?: any;
+  custom_name?: string;
   description?: string;
   metric?: Metric;
   tiered_rates?: TieredRate[];
   tag_rates?: TagRates;
-  cost_type: string;
+  cost_type?: string;
 }
 
 export interface TieredRate {

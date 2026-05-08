@@ -104,8 +104,8 @@ const Rates: React.FC<RatesProps> = ({ canWrite }) => {
         isDisabled={categories.length === 0}
         isLoading={priceListStatus === FetchStatus.inProgress}
         onClose={() => void 0}
-        onDelete={forceUpdate}
-        onEdit={forceUpdate}
+        onDeleteSuccess={forceUpdate}
+        onEditSuccess={forceUpdate}
         orderBy={query.order_by}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         priceList={priceList}
@@ -122,7 +122,7 @@ const Rates: React.FC<RatesProps> = ({ canWrite }) => {
         isDisabled={categories.length === 0}
         itemsPerPage={categories.length}
         itemsTotal={itemsTotal}
-        onAddRate={forceUpdate}
+        onAddSuccess={forceUpdate}
         onClose={() => void 0}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}

@@ -149,7 +149,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
               {col.title}
             </Th>
           ))}
-          {!!actions.length && <Th></Th>}
+          {!!actions.length && <Th aria-hidden="true"></Th>}
         </Tr>
       </Thead>
       {sortedRows.map((row, rowIndex) => {
