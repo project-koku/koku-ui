@@ -88,14 +88,16 @@ export const validateDescription = (value: string) => {
   return null;
 };
 
-export const validateName = (value: string, rates: Rate[]) => {
+export const validateName = (value: string, rates: Rate[], rateIndex: number) => {
   if (value?.trim()?.length === 0) {
     return messages.requiredField;
   }
   if (value.length > 500) {
     return messages.costModelsDescTooLong;
   }
-  if (rates?.find(rate => rate.custom_name === value) !== undefined) {
+
+  const isDuplicate = rates?.find((item, i) => i !== rateIndex && item?.custom_name === value);
+  if (isDuplicate) {
     return messages.priceListDuplicateName;
   }
   return null;

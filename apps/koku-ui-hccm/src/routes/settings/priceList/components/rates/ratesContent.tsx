@@ -400,7 +400,7 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
     const handleOnNameChange = (value: string) => {
       setName(value);
 
-      const error = validateName(value, priceList?.rates ?? []);
+      const error = validateName(value, priceList?.rates ?? [], rateIndex);
       if (error) {
         setNameError(error);
       } else {

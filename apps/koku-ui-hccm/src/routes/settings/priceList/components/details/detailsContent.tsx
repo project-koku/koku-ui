@@ -14,7 +14,7 @@ import {
 } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
-import { clone } from 'lodash';
+import { isEqual } from 'lodash';
 import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
@@ -24,7 +24,15 @@ import { SimpleArea } from 'routes/settings/components/simpleArea';
 import { formatDate } from 'utils/dates';
 
 import { styles } from './detailsContent.styles';
-import { validateDescription, validateEndDate, validateName, validateStartDate } from './utils';
+import {
+  getEffectiveDate,
+  getEffectiveEndDate,
+  getEffectiveStartDate,
+  validateDescription,
+  validateEndDate,
+  validateName,
+  validateStartDate,
+} from './utils';
 
 interface DetailsContentOwnProps {
   isEditDetails?: boolean;
@@ -33,12 +41,12 @@ interface DetailsContentOwnProps {
   priceList: PriceListData;
 }
 
-type DetailsContentProps = DetailsContentOwnProps;
-
 export interface DetailsContentHandle {
   // Builds the rate from form state and invokes onSave
   save: () => void;
 }
+
+type DetailsContentProps = DetailsContentOwnProps;
 
 const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
   ({ isEditDetails, onDisabled, onSave, priceList }, ref) => {
@@ -47,30 +55,29 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
     /** Latest save handler for imperative `save()` — updated in layout effect (not during render). */
     const saveHandlerRef = useRef<() => void>(() => {});
 
-    const getEffectiveDate = (date: string | undefined) => (date ? new Date(date + 'T00:00:00') : undefined);
-    const nextEnd = clone(getEffectiveDate(priceList?.effective_end_date));
-    const nextStart = clone(getEffectiveDate(priceList?.effective_start_date));
+    const effectiveEnd = getEffectiveEndDate(getEffectiveDate(priceList?.effective_end_date));
+    const effectiveStart = getEffectiveStartDate(getEffectiveDate(priceList?.effective_start_date));
 
     const [currency, setCurrency] = useState<string>(priceList?.currency ?? 'USD');
     const [currencyBaseline] = useState<string>(priceList?.currency ?? 'USD');
     const [description, setDescription] = useState<string>(priceList?.description ?? '');
     const [descriptionBaseline] = useState<string>(priceList?.description ?? '');
     const [descriptionError, setDescriptionError] = useState<MessageDescriptor>();
-    const [endDate, setEndDate] = useState<Date>(nextEnd);
-    const [endDateBaseline] = useState<Date>(nextEnd);
+    const [endDate, setEndDate] = useState<Date | undefined>(effectiveEnd);
+    const [endDateBaseline] = useState<Date | undefined>(effectiveEnd);
     const [endDateError, setEndDateError] = useState<MessageDescriptor>();
     const [name, setName] = useState<string>(priceList?.name ?? '');
     const [nameBaseline] = useState<string>(priceList?.name ?? '');
     const [nameError, setNameError] = useState<MessageDescriptor>();
-    const [startDate, setStartDate] = useState<Date>(nextStart);
-    const [startDateBaseline] = useState<Date>(nextStart);
+    const [startDate, setStartDate] = useState<Date | undefined>(effectiveStart);
+    const [startDateBaseline] = useState<Date | undefined>(effectiveStart);
     const [startDateError, setStartDateError] = useState<MessageDescriptor>();
 
     const isCurrencyDirty = currency !== currencyBaseline && !isEditDetails;
     const isNameDirty = name !== nameBaseline;
     const isDescriptionDirty = description !== descriptionBaseline;
-    const isEndDateDirty = endDate !== endDateBaseline;
-    const isStartDateDirty = startDate !== startDateBaseline;
+    const isEndDateDirty = !isEqual(endDate, endDateBaseline);
+    const isStartDateDirty = !isEqual(startDate, startDateBaseline);
 
     const isCurrencyInvalid = !currency && isCurrencyDirty;
     const isNameInvalid = (!name && isNameDirty) || nameError !== undefined;
@@ -110,7 +117,7 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
       return (
         <CalendarMonth
           className="calendarOverride"
-          date={isStartDate ? startDate : endDate}
+          date={(isStartDate ? startDate : endDate) ?? new Date()}
           id={isStartDate ? 'start-date' : 'end-date'}
           inlineProps={inlineProps}
           onMonthChange={(_event, date: Date) =>
@@ -118,27 +125,6 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
           }
         />
       );
-    };
-
-    // effective_end_date must be on the last day of the month.
-    const getFormattedEndDate = (date: Date | undefined) => {
-      if (!date) {
-        return undefined;
-      }
-      const newDate = new Date(date);
-      const lastDayOfMonth = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0);
-      newDate.setDate(lastDayOfMonth.getDate());
-      return formatDate(newDate);
-    };
-
-    // effective_start_date must be on the first day of the month
-    const getFormattedStartDate = (date: Date | undefined) => {
-      if (!date) {
-        return undefined;
-      }
-      const newDate = new Date(date);
-      newDate.setDate(1);
-      return formatDate(newDate);
     };
 
     // Handlers
@@ -155,9 +141,10 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
     };
 
     const handleOnEndMonthChange = (date: Date) => {
-      setEndDate(date);
+      const newDate = getEffectiveEndDate(date);
+      setEndDate(newDate);
 
-      const error = validateEndDate(date, startDate);
+      const error = validateEndDate(newDate, startDate);
       if (error) {
         setEndDateError(error);
       } else {
@@ -180,16 +167,21 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
       onSave?.({
         currency,
         description,
-        effective_end_date: getFormattedEndDate(endDate),
-        effective_start_date: getFormattedStartDate(startDate),
+        ...(endDate !== undefined && {
+          effective_end_date: formatDate(endDate),
+        }),
+        ...(startDate !== undefined && {
+          effective_start_date: formatDate(startDate),
+        }),
         name,
       });
     };
 
     const handleOnStartMonthChange = (date: Date) => {
-      setStartDate(date);
+      const newDate = getEffectiveStartDate(date);
+      setStartDate(newDate);
 
-      const error = validateStartDate(date, endDate);
+      const error = validateStartDate(newDate, endDate);
       if (error) {
         setStartDateError(error);
       } else {
