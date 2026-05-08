@@ -62,4 +62,14 @@ describe('PriceListBreakdownHeader', () => {
     renderHeader(<PriceListBreakdownHeader priceList={{ ...baseItem, enabled: false }} />);
     expect(screen.getByText(/^deprecated$/i)).toBeInTheDocument();
   });
+
+  test('shows recalculation info alert when isRecalculating and close invokes onDismiss', () => {
+    const onDismiss = jest.fn();
+    renderHeader(
+      <PriceListBreakdownHeader canWrite isRecalculating onDismiss={onDismiss} priceList={baseItem} />
+    );
+    expect(screen.getByText(/recalculating charges/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /close info alert/i }));
+    expect(onDismiss).toHaveBeenCalled();
+  });
 });

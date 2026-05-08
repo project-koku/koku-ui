@@ -1,4 +1,5 @@
 {
+  "actionsColumn": "Actions column",
   "addProjects": "Add projects",
   "allOtherProjectCosts": "Project (All other costs)",
   "assignCostModel": "Assign cost model",
@@ -577,6 +578,8 @@
   "priceListEmptyCostModelDesc": "Cost models are assigned from the Cost model settings page. Edit a cost model there to use this price list.",
   "priceListEmptyRate": "No rates are set",
   "priceListEmptyRateDesc": "To add rates to the price list, click on the \"Add rate\" button above.",
+  "priceListEmptyRates": "No rates added yet",
+  "priceListEmptyRatesDesc": "Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in {currency}.",
   "priceListEnterDescription": "Enter a description",
   "priceListEnterTagDescription": "Enter a tag description",
   "priceListEnterTagKey": "Enter a tag key",
@@ -586,6 +589,8 @@
   "priceListImpactReview": "Review impact before you change rates",
   "priceListNumberRate": "Rate must be a number",
   "priceListPosNumberRate": "Rate must be a positive number",
+  "priceListRecalculate": "Recalculating charges",
+  "priceListRecalculateDesc": "This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.",
   "priceListRemoveTag": "Remove tag value",
   "priceListSelectCostType": "Select calculation type",
   "priceListSelectMeasurement": "Select measurement",

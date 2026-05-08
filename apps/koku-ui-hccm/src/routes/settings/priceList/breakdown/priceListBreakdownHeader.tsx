@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertActionCloseButton,
   Breadcrumb,
   BreadcrumbItem,
   Button,
@@ -28,9 +30,11 @@ import { styles } from './priceListBreakdownHeader.styles';
 interface PriceListBreakdownHeaderOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
+  isRecalculating?: boolean;
   onClose?: () => void;
   onDelete?: () => void;
   onDeprecate?: () => void;
+  onDismiss?: () => void;
   onDuplicate?: () => void;
   onEdit?: () => void;
   priceList?: PriceListData;
@@ -41,10 +45,12 @@ type PriceListBreakdownHeaderProps = PriceListBreakdownHeaderOwnProps;
 const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
   canWrite,
   isDisabled,
+  isRecalculating,
   onClose,
   onDelete,
   onDeprecate,
   onDuplicate,
+  onDismiss,
   onEdit,
   priceList,
 }) => {
@@ -68,12 +74,6 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
 
   return (
     <>
-      <EditDetailsModal
-        isOpen={isEditModalOpen}
-        onClose={handleOnEditModalClose}
-        onSuccess={handleOnEditModalSuccess}
-        priceList={priceList}
-      />
       <div style={styles.headerContent}>
         <Breadcrumb style={styles.breadcrumb}>
           <BreadcrumbItem
@@ -94,6 +94,18 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           <BreadcrumbItem isActive>{priceList?.name}</BreadcrumbItem>
         </Breadcrumb>
       </div>
+      {isRecalculating && (
+        <div style={styles.alertContainer}>
+          <Alert
+            isInline
+            actionClose={<AlertActionCloseButton onClose={onDismiss} />}
+            title={intl.formatMessage(messages.priceListRecalculate)}
+            variant="info"
+          >
+            <p>{intl.formatMessage(messages.priceListRecalculateDesc)}</p>
+          </Alert>
+        </div>
+      )}
       <Split>
         <SplitItem style={styles.headerDescription}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
@@ -126,21 +138,29 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           </span>
         </SplitItem>
       </Split>
-      <Content style={styles.currency}>
-        <Content component={ContentVariants.dl}>
-          <Content component={ContentVariants.dt}>{intl.formatMessage(messages.validityPeriod)}</Content>
-          <Content component={ContentVariants.dd}>
-            {getValidityPeriod(
-              priceList?.effective_start_date ? priceList.effective_start_date + 'T00:00:00' : '',
-              priceList?.effective_end_date ? priceList.effective_end_date + 'T00:00:00' : ''
-            )}
+      <SplitItem>
+        <div style={styles.currency}>
+          <Content component={ContentVariants.dl}>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.validityPeriod)}</Content>
+            <Content component={ContentVariants.dd}>
+              {getValidityPeriod(
+                priceList?.effective_start_date ? priceList.effective_start_date + 'T00:00:00' : '',
+                priceList?.effective_end_date ? priceList.effective_end_date + 'T00:00:00' : ''
+              )}
+            </Content>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.lastUpdated)}</Content>
+            <Content component={ContentVariants.dd}>{getDateString(priceList?.updated_timestamp || '')}</Content>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
+            <Content component={ContentVariants.dd}>{getCurrencyLabel(priceList?.currency)}</Content>
           </Content>
-          <Content component={ContentVariants.dt}>{intl.formatMessage(messages.lastUpdated)}</Content>
-          <Content component={ContentVariants.dd}>{getDateString(priceList?.updated_timestamp || '')}</Content>
-          <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
-          <Content component={ContentVariants.dd}>{getCurrencyLabel(priceList?.currency)}</Content>
-        </Content>
-      </Content>
+        </div>
+      </SplitItem>
+      <EditDetailsModal
+        isOpen={isEditModalOpen}
+        onClose={handleOnEditModalClose}
+        onSuccess={handleOnEditModalSuccess}
+        priceList={priceList}
+      />
     </>
   );
 };

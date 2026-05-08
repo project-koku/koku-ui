@@ -2,10 +2,22 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { thunk } from 'redux-thunk';
 
 import { priceListReducer, priceListStateKey } from 'store/priceList';
+
+/** Used by react-router-dom mock below (Jest `mock*` hoist rule). */
+const mockNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => {
+  const actual = jest.requireActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
 
 import { PriceListDetails } from './priceListDetails';
 
@@ -89,10 +101,17 @@ jest.mock('api/priceList', () => {
 
 import * as api from 'api/priceList';
 
+/** Opt into React Router v7 behavior in tests to avoid future-flag console warnings. */
+const routerFuture = { v7_relativeSplatPath: true, v7_startTransition: true } as const;
+
 const consoleError = console.error;
 
 describe('settings PriceListDetails', () => {
   jest.useRealTimers();
+
+  beforeEach(() => {
+    mockNavigate.mockClear();
+  });
 
   beforeAll(() => {
     jest.spyOn(console, 'error').mockImplementation((msg: unknown, ...args: unknown[]) => {
@@ -115,9 +134,11 @@ describe('settings PriceListDetails', () => {
     const store = setupStore();
     render(
       <Provider store={store}>
-        <IntlProvider defaultLocale="en" locale="en">
-          <PriceListDetails canWrite />
-        </IntlProvider>
+        <MemoryRouter future={routerFuture}>
+          <IntlProvider defaultLocale="en" locale="en">
+            <PriceListDetails canWrite />
+          </IntlProvider>
+        </MemoryRouter>
       </Provider>
     );
     await waitFor(() => expect(api.fetchPriceList).toHaveBeenCalled());
@@ -128,7 +149,6 @@ describe('settings PriceListDetails', () => {
   });
 
   test('toolbar callbacks run while list fetch is in flight (toolbar is always mounted)', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     (api.fetchPriceList as jest.Mock).mockResolvedValue({
       data: {
         meta: { count: 1, limit: 10, offset: 0 },
@@ -137,15 +157,16 @@ describe('settings PriceListDetails', () => {
     });
     render(
       <Provider store={setupStore()}>
-        <IntlProvider defaultLocale="en" locale="en">
-          <PriceListDetails canWrite />
-        </IntlProvider>
+        <MemoryRouter future={routerFuture}>
+          <IntlProvider defaultLocale="en" locale="en">
+            <PriceListDetails canWrite />
+          </IntlProvider>
+        </MemoryRouter>
       </Provider>
     );
     await waitFor(() => expect(screen.getByTestId('price-list-toolbar')).toBeInTheDocument());
     fireEvent.click(screen.getByRole('button', { name: /toolbar-create/i }));
-    expect(consoleSpy).toHaveBeenCalled();
-    consoleSpy.mockRestore();
+    expect(mockNavigate).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({ replace: true }));
     fireEvent.click(screen.getByRole('button', { name: /toolbar-filter-add/i }));
     fireEvent.click(screen.getByRole('button', { name: /toolbar-filter-remove/i }));
     fireEvent.click(screen.getByRole('button', { name: /toolbar-show-deprecated/i }));

@@ -26,10 +26,6 @@ interface DeleteRateModalOwnProps {
   rateIndex: number;
 }
 
-interface DeleteRateModalMapProps {
-  priceListType: PriceListType;
-}
-
 interface DeleteRateModalStateProps {
   priceListUpdateError?: AxiosError;
   priceListUpdateStatus?: FetchStatus;
@@ -48,11 +44,10 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const priceListType = PriceListType.priceListUpdate;
-  const rateContentRef = useRef<DeleteRateContentHandle>(null);
-
+  const contentRef = useRef<DeleteRateContentHandle>(null);
   const [isFinish, setIsFinish] = useState(false);
-  const { priceListUpdateError, priceListUpdateStatus } = useMapToProps({ priceListType });
+
+  const { priceListUpdateError, priceListUpdateStatus } = useMapToProps();
 
   const handleOnDelete = (rates: Rate[]) => {
     if (priceListUpdateStatus !== FetchStatus.inProgress) {
@@ -61,7 +56,7 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
         onDelete?.(rates);
       } else {
         dispatch(
-          priceListActions.updatePriceList(priceListType, priceList?.uuid, {
+          priceListActions.updatePriceList(PriceListType.priceListUpdate, priceList?.uuid, {
             ...(priceList ?? {}),
             rates,
           })
@@ -87,12 +82,12 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
         titleIconVariant="warning"
       />
       <ModalBody>
-        <DeleteRateContent onDelete={handleOnDelete} priceList={priceList} ref={rateContentRef} rateIndex={rateIndex} />
+        <DeleteRateContent onDelete={handleOnDelete} priceList={priceList} ref={contentRef} rateIndex={rateIndex} />
       </ModalBody>
       <ModalFooter>
         <Button
           isAriaDisabled={priceListUpdateStatus === FetchStatus.inProgress}
-          onClick={() => rateContentRef.current?.submit()}
+          onClick={() => contentRef.current?.submit()}
           variant="danger"
         >
           {intl.formatMessage(messages.delete)}
@@ -105,12 +100,12 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
   );
 };
 
-const useMapToProps = ({ priceListType }: DeleteRateModalMapProps): DeleteRateModalStateProps => {
+const useMapToProps = (): DeleteRateModalStateProps => {
   const priceListUpdateError = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateError(state, priceListType, undefined)
+    priceListSelectors.selectPriceListUpdateError(state, PriceListType.priceListUpdate, undefined)
   );
   const priceListUpdateStatus = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListUpdateStatus(state, priceListType, undefined)
+    priceListSelectors.selectPriceListUpdateStatus(state, PriceListType.priceListUpdate, undefined)
   );
 
   return {

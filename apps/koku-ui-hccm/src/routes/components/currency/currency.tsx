@@ -14,6 +14,7 @@ import { getCurrencyOptions } from './utils';
 
 interface CurrencyOwnProps {
   currency?: string;
+  id?: string;
   isDisabled?: boolean;
   isSessionStorage?: boolean;
   onSelect?: (value: string) => void;
@@ -41,14 +42,14 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
   public state: CurrencyState = { ...this.defaultState };
 
   private getSelect = () => {
-    const { currency, isDisabled, showLabel = true } = this.props;
+    const { currency, id = 'currency-select', isDisabled, showLabel = true } = this.props;
 
     const selectOptions = getCurrencyOptions();
     const selection = selectOptions.find(option => option.value === currency);
 
     return (
       <SelectWrapper
-        id="currency-select"
+        id={id}
         isDisabled={isDisabled}
         onSelect={this.handleOnSelect}
         options={selectOptions}

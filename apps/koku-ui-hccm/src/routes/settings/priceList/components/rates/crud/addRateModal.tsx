@@ -25,10 +25,6 @@ interface AddRateModalOwnProps {
   rateIndex?: number;
 }
 
-// interface AddRateModalMapProps {
-//   // TBD...
-// }
-
 interface AddRateModalStateProps {
   priceListUpdateError?: AxiosError;
   priceListUpdateStatus?: FetchStatus;
@@ -51,7 +47,7 @@ const AddRateModal: React.FC<AddRateModalProps> = ({
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const rateContentRef = useRef<RatesContentHandle>(null);
+  const contentRef = useRef<RatesContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
 
@@ -103,13 +99,13 @@ const AddRateModal: React.FC<AddRateModalProps> = ({
           onSave={handleOnSave}
           priceList={priceList}
           rateIndex={rateIndex}
-          ref={rateContentRef}
+          ref={contentRef}
         />
       </ModalBody>
       <ModalFooter>
         <Button
           isAriaDisabled={isDisabled || priceListUpdateStatus === FetchStatus.inProgress}
-          onClick={() => rateContentRef.current?.save()}
+          onClick={() => contentRef.current?.save()}
           variant="primary"
         >
           {intl.formatMessage(messages.priceListAddRate)}

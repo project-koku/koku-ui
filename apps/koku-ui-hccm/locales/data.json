@@ -1,5 +1,11 @@
 {
   "en": {
+    "actionsColumn": [
+      {
+        "type": 0,
+        "value": "Actions column"
+      }
+    ],
     "addProjects": [
       {
         "type": 0,
@@ -12145,6 +12151,26 @@
         "value": "To add rates to the price list, click on the \"Add rate\" button above."
       }
     ],
+    "priceListEmptyRates": [
+      {
+        "type": 0,
+        "value": "No rates added yet"
+      }
+    ],
+    "priceListEmptyRatesDesc": [
+      {
+        "type": 0,
+        "value": "Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in "
+      },
+      {
+        "type": 1,
+        "value": "currency"
+      },
+      {
+        "type": 0,
+        "value": "."
+      }
+    ],
     "priceListEnterDescription": [
       {
         "type": 0,
@@ -12271,6 +12297,18 @@
       {
         "type": 0,
         "value": "Rate must be a positive number"
+      }
+    ],
+    "priceListRecalculate": [
+      {
+        "type": 0,
+        "value": "Recalculating charges"
+      }
+    ],
+    "priceListRecalculateDesc": [
+      {
+        "type": 0,
+        "value": "This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review."
       }
     ],
     "priceListRemoveTag": [

@@ -16,11 +16,22 @@ const setCalendarOverride = (value: CalendarPickOverride | undefined) => {
 };
 
 jest.mock('routes/components/currency', () => ({
-  Currency: ({ currency, onSelect }: { currency?: string; onSelect?: (c: string) => void }) => (
-    <button type="button" data-testid="currency-picker" onClick={() => onSelect?.('EUR')}>
-      {currency}
-    </button>
-  ),
+  Currency: ({
+    currency,
+    isDisabled,
+    onSelect,
+  }: {
+    currency?: string;
+    isDisabled?: boolean;
+    onSelect?: (c: string) => void;
+  }) =>
+    isDisabled ? (
+      <span data-testid="currency-readonly">{currency}</span>
+    ) : (
+      <button type="button" data-testid="currency-picker" onClick={() => onSelect?.('EUR')}>
+        {currency}
+      </button>
+    ),
 }));
 
 jest.mock('@patternfly/react-core', () => {
@@ -76,7 +87,7 @@ describe('DetailsContent', () => {
   test('renders currency as read-only text with tooltip in edit mode', () => {
     renderDetails(<DetailsContent isEditDetails priceList={basePriceList} />);
     expect(screen.queryByTestId('currency-picker')).not.toBeInTheDocument();
-    expect(screen.getByText('USD')).toBeInTheDocument();
+    expect(screen.getByTestId('currency-readonly')).toHaveTextContent('USD');
   });
 
   test('renders currency picker when not editing existing details (add flow)', () => {
@@ -188,7 +199,7 @@ describe('DetailsContent', () => {
     expect(nameInput()).toHaveValue('N');
   });
 
-  test('save omits effective dates when optional dates were never set', async () => {
+  test('save includes default validity dates when API omitted effective_start/end', async () => {
     const minimal = { currency: 'USD', name: 'Only', uuid: 'u' } as PriceListData;
     const onSave = jest.fn();
     const ref = createRef<DetailsContentHandle>();
@@ -199,7 +210,9 @@ describe('DetailsContent', () => {
     await waitFor(() => expect(ref.current).not.toBeNull());
     ref.current?.save();
     await waitFor(() => expect(onSave).toHaveBeenCalled());
-    expect(onSave.mock.calls[0][0].effective_start_date).toBeUndefined();
-    expect(onSave.mock.calls[0][0].effective_end_date).toBeUndefined();
+    const payload = onSave.mock.calls[0][0];
+    // getEffectiveDate() fills “today” when dates are absent, so save still sends month bounds.
+    expect(payload.effective_start_date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(payload.effective_end_date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });

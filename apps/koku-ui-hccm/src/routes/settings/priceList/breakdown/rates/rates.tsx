@@ -1,5 +1,13 @@
-import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
-import type { PriceList, PriceListData } from 'api/priceList';
+import {
+  Card,
+  CardBody,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateFooter,
+  Pagination,
+  PaginationVariant,
+} from '@patternfly/react-core';
+import type { PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
@@ -8,37 +16,41 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { AddRate } from 'routes/settings/priceList/components';
 import { usePriceListUpdate } from 'routes/settings/priceList/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 
-import { styles } from './priceListDetails.styles';
-import { PriceListDetailsTable } from './priceListDetailsTable';
-import { PriceListDetailsToolbar } from './priceListDetailsToolbar';
+import { styles } from './rates.styles';
+import { RatesTable } from './ratesTable';
+import { RatesToolbar } from './ratesToolbar';
 
-interface PriceListDetailsOwnProps {
+interface RatesOwnProps {
   canWrite?: boolean;
+  onAddSuccess?: () => void;
+  onDeleteSuccess?: () => void;
+  onEditSuccess?: () => void;
 }
 
-export interface PriceListDetailsMapProps {
-  isShowDeprecated?: boolean;
+export interface RatesMapProps {
   query?: Query;
 }
 
-export interface PriceListDetailsStateProps {
-  priceList?: PriceList;
+export interface RatesStateProps {
+  priceList?: PriceListData | any; // TODO: remove any once we have a paginated API
   priceListError?: AxiosError;
   priceListQueryString?: string;
   priceListStatus?: FetchStatus;
 }
 
-type PriceListDetailsProps = PriceListDetailsOwnProps;
+type RatesProps = RatesOwnProps;
 
 const baseQuery: Query = {
   limit: 10,
@@ -49,14 +61,12 @@ const baseQuery: Query = {
   },
 };
 
-const PriceListDetails: React.FC<PriceListDetailsProps> = ({ canWrite }) => {
-  // const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+const Rates: React.FC<RatesProps> = ({ canWrite, onAddSuccess, onDeleteSuccess, onEditSuccess }) => {
   const intl = useIntl();
 
-  const [isShowDeprecated, setIsShowDeprecated] = useState<boolean>(false);
   const [query, setQuery] = useState({ ...baseQuery });
 
-  const { priceList, priceListError, priceListStatus } = useMapToProps({ isShowDeprecated, query });
+  const { priceList, priceListError, priceListStatus } = useMapToProps({ query });
 
   // Force update
   const forceUpdate = () => {
@@ -65,7 +75,7 @@ const PriceListDetails: React.FC<PriceListDetailsProps> = ({ canWrite }) => {
 
   const getCategories = () => {
     if (priceList) {
-      return priceList.data as any;
+      return priceList.rates as any;
     }
     return [];
   };
@@ -81,8 +91,8 @@ const PriceListDetails: React.FC<PriceListDetailsProps> = ({ canWrite }) => {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(perPage)}
-        onSetPage={(event, pageNumber) => handleOnSetPage(pageNumber)}
+        onPerPageSelect={(_event, perPage) => handleOnPerPageSelect(perPage)}
+        onSetPage={(_event, pageNumber) => handleOnSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -99,15 +109,14 @@ const PriceListDetails: React.FC<PriceListDetailsProps> = ({ canWrite }) => {
 
   const getTable = () => {
     return (
-      <PriceListDetailsTable
+      <RatesTable
         canWrite={canWrite}
         filterBy={query.filter_by}
         isDisabled={categories.length === 0}
         isLoading={priceListStatus === FetchStatus.inProgress}
         onClose={() => void 0}
-        onDelete={forceUpdate}
-        onDeprecate={forceUpdate}
-        onDuplicate={forceUpdate}
+        onDeleteSuccess={handleOnDeleteSuccess}
+        onEditSuccess={handleOnEditSuccess}
         orderBy={query.order_by}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         priceList={priceList}
@@ -119,39 +128,37 @@ const PriceListDetails: React.FC<PriceListDetailsProps> = ({ canWrite }) => {
     const itemsTotal = priceList?.meta ? priceList.meta.count : 0;
 
     return (
-      <PriceListDetailsToolbar
+      <RatesToolbar
         canWrite={canWrite}
         isDisabled={categories.length === 0}
-        isShowDeprecated={isShowDeprecated}
         itemsPerPage={categories.length}
         itemsTotal={itemsTotal}
-        onCreate={handleOnCreate}
+        onAddSuccess={handleOnAddSuccess}
+        onClose={() => void 0}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
-        onShowDeprecated={handleOnShowDeprecated}
         pagination={getPagination(categories.length === 0)}
+        priceList={priceList}
         query={query}
       />
     );
   };
 
-  const handleOnShowDeprecated = (checked: boolean) => {
-    setIsShowDeprecated(checked);
+  // Handlers
+
+  const handleOnAddSuccess = () => {
+    forceUpdate();
+    onAddSuccess?.();
   };
 
-  const handleOnCreate = () => {
-    // eslint-disable-next-line no-console
-    console.log(`onCreate clicked`);
+  const handleOnDeleteSuccess = () => {
+    forceUpdate();
+    onDeleteSuccess?.();
+  };
 
-    // if (selectedItems.length > 0) {
-    //   const payload = selectedItems.map(item => ({
-    //     project: item.project,
-    //     group: GroupType.platform,
-    //   }));
-    //   setSelectedItems([], () => {
-    //     dispatch(priceListActions.updatePriceList(PriceListType.priceListAdd, payload as any));
-    //   });
-    // }
+  const handleOnEditSuccess = () => {
+    forceUpdate();
+    onEditSuccess?.();
   };
 
   const handleOnFilterAdded = filter => {
@@ -185,39 +192,51 @@ const PriceListDetails: React.FC<PriceListDetailsProps> = ({ canWrite }) => {
   if (priceListError) {
     return <NotAvailable />;
   }
+
   return (
-    <Card>
-      <CardBody>
-        {intl.formatMessage(messages.priceListDesc, {
-          learnMore: (
-            <a href={intl.formatMessage(messages.docsPriceList)} rel="noreferrer" target="_blank">
-              {intl.formatMessage(messages.learnMore)}
-            </a>
-          ),
-        })}
-        <div style={styles.tableContainer}>
-          {getToolbar(categories)}
-          {priceListStatus === FetchStatus.inProgress ? (
-            <LoadingState />
-          ) : (
-            <>
-              {getTable()}
-              <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>
-            </>
-          )}
-        </div>
-      </CardBody>
-    </Card>
+    <>
+      {priceList?.rates?.length > 0 || priceListStatus === FetchStatus.inProgress ? (
+        <Card>
+          <CardBody>
+            {intl.formatMessage(messages.priceListDesc, {
+              learnMore: (
+                <a href={intl.formatMessage(messages.docsPriceList)} rel="noreferrer" target="_blank">
+                  {intl.formatMessage(messages.learnMore)}
+                </a>
+              ),
+            })}
+            <div style={styles.tableContainer}>
+              {getToolbar(categories)}
+              {priceListStatus === FetchStatus.inProgress ? (
+                <LoadingState />
+              ) : (
+                <>
+                  {getTable()}
+                  <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>
+                </>
+              )}
+            </div>
+          </CardBody>
+        </Card>
+      ) : (
+        <EmptyState titleText={intl.formatMessage(messages.priceListEmptyRates)}>
+          <EmptyStateBody>
+            {intl.formatMessage(messages.priceListEmptyRatesDesc, { currency: priceList?.currency ?? 'USD' })}
+          </EmptyStateBody>
+          <EmptyStateFooter>
+            <AddRate canWrite={canWrite} onAddSuccess={forceUpdate} onClose={() => void 0} priceList={priceList} />
+          </EmptyStateFooter>
+        </EmptyState>
+      )}
+    </>
   );
 };
 
-const useMapToProps = ({ isShowDeprecated, query }: PriceListDetailsMapProps): PriceListDetailsStateProps => {
+const useMapToProps = ({ query }: RatesMapProps): RatesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const { uuid } = useParams();
 
   const priceListQuery = {
-    filter: {
-      ...(!isShowDeprecated && { enabled: true }),
-    },
     filter_by: query.filter_by,
     limit: query.limit,
     offset: query.offset,
@@ -226,7 +245,7 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListDetailsMapProps): P
   const priceListQueryString = getQuery(priceListQuery);
   const priceList = useSelector((state: RootState) =>
     priceListSelectors.selectPriceList(state, PriceListType.priceList, priceListQueryString)
-  );
+  ) as PriceListData;
   const priceListError = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListError(state, PriceListType.priceList, priceListQueryString)
   );
@@ -235,16 +254,8 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListDetailsMapProps): P
   );
 
   // Notifications
-  const { status: priceListAddStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListAdd,
-  });
-  const { status: priceListDuplicateStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListDuplicate,
-  });
-  const { status: priceListRemoveStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListRemove,
-  });
   const { status: priceListUpdateStatus } = usePriceListUpdate({
+    isNotificationEnabled: false,
     priceListType: PriceListType.priceListUpdate,
   });
 
@@ -253,14 +264,12 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListDetailsMapProps): P
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
       priceListStatus !== FetchStatus.complete &&
-      priceListAddStatus !== FetchStatus.inProgress &&
-      priceListDuplicateStatus !== FetchStatus.inProgress &&
-      priceListRemoveStatus !== FetchStatus.inProgress &&
-      priceListUpdateStatus !== FetchStatus.inProgress
+      priceListUpdateStatus !== FetchStatus.inProgress &&
+      priceListUpdateStatus !== FetchStatus.complete
     ) {
-      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, undefined, priceListQueryString));
+      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [isShowDeprecated, query]);
+  }, [query]);
 
   return {
     priceList,
@@ -270,4 +279,4 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListDetailsMapProps): P
   };
 };
 
-export { PriceListDetails };
+export { Rates };
