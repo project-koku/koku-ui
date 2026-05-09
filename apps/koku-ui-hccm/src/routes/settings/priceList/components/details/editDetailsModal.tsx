@@ -24,10 +24,6 @@ interface EditDetailsModalOwnProps {
   priceList: PriceListData;
 }
 
-// interface EditDetailsModalMapProps {
-//   // TBD...
-// }
-
 interface EditDetailsModalStateProps {
   priceListUpdateError?: AxiosError;
   priceListUpdateStatus?: FetchStatus;
@@ -39,7 +35,7 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({ isOpen, onClose, on
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const rateContentRef = useRef<DetailsContentHandle>(null);
+  const contentRef = useRef<DetailsContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
 
@@ -87,13 +83,13 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({ isOpen, onClose, on
           onDisabled={setIsDisabled}
           onSave={handleOnSave}
           priceList={priceList}
-          ref={rateContentRef}
+          ref={contentRef}
         />
       </ModalBody>
       <ModalFooter>
         <Button
           isAriaDisabled={isDisabled || priceListUpdateStatus === FetchStatus.inProgress}
-          onClick={() => rateContentRef.current?.save()}
+          onClick={() => contentRef.current?.save()}
           variant="primary"
         >
           {intl.formatMessage(messages.save)}

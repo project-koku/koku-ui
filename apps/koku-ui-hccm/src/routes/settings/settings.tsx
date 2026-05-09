@@ -29,7 +29,7 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
-import { PriceListDetails } from './priceList/priceListDetails';
+import { PriceListDetails } from './priceList/details';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {

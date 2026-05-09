@@ -38,6 +38,7 @@ const DeletePriceListModal: React.FC<DeletePriceListModalProps> = ({ isOpen, onC
 
   const priceListType = PriceListType.priceListRemove;
   const [isFinish, setIsFinish] = useState(false);
+
   const { priceListUpdateError, priceListUpdateStatus } = useMapToProps({ priceListType });
 
   const handleOnDelete = () => {

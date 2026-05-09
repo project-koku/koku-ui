@@ -67,10 +67,6 @@ interface RatesContentOwnProps {
   rateIndex?: number;
 }
 
-// interface RatesContentMapProps {
-//   // TBD...
-// }
-
 interface RatesContentStateProps {
   metricsHash: MetricHash;
   metricsHashByName: MetricHash;

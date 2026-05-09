@@ -142,7 +142,7 @@ describe('Rates', () => {
         </IntlProvider>
       </Provider>
     );
-    expect(await screen.findByText(/no rates are set/i)).toBeInTheDocument();
+    expect(await screen.findByText(/no rates added yet/i)).toBeInTheDocument();
   });
 
   test('renders table when rates exist', async () => {

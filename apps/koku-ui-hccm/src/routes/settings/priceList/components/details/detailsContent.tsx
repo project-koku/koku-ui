@@ -5,11 +5,10 @@ import {
   Alert,
   CalendarMonth,
   Content,
-  ContentVariants,
+  Form,
+  FormGroup,
   HelperText,
   HelperTextItem,
-  Stack,
-  StackItem,
   Tooltip,
 } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
@@ -86,8 +85,7 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
     const isStartDateInvalid = (!startDate && isStartDateDirty) || startDateError !== undefined;
 
     // Unsaved changes checks
-    const hasAddDetailsChanges =
-      isCurrencyDirty && isNameDirty && isDescriptionDirty && isEndDateDirty && isStartDateDirty;
+    const hasAddDetailsChanges = isNameDirty; // Other fields all have default values
 
     const hasEditDetailsChanges =
       isCurrencyDirty || isDescriptionDirty || isEndDateDirty || isNameDirty || isStartDateDirty;
@@ -104,7 +102,7 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
 
     // Getters
 
-    const getCalendar = (isStartDate: boolean) => {
+    const getCalendar = (id: string, isStartDate: boolean) => {
       const inlineProps: CalendarMonthInlineProps = {
         title: (
           <Content id={isStartDate ? 'start-date' : 'end-date'} style={styles.calendarContent}>
@@ -116,9 +114,8 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
 
       return (
         <CalendarMonth
-          className="calendarOverride"
           date={(isStartDate ? startDate : endDate) ?? new Date()}
-          id={isStartDate ? 'start-date' : 'end-date'}
+          id={id}
           inlineProps={inlineProps}
           onMonthChange={(_event, date: Date) =>
             isStartDate ? handleOnStartMonthChange(date) : handleOnEndMonthChange(date)
@@ -210,75 +207,61 @@ const DetailsContent = forwardRef<DetailsContentHandle, DetailsContentProps>(
     });
 
     return (
-      <Stack hasGutter>
-        <StackItem>
-          <Content>
-            <Content component={ContentVariants.dl}>
-              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.names, { count: 1 })}</Content>
-              <Content component={ContentVariants.dd}>
-                <SimpleInput
-                  helperTextInvalid={nameError}
-                  id="name"
-                  isRequired
-                  label={intl.formatMessage(messages.names, { count: 1 })}
-                  onChange={(_evt, value) => handleOnNameChange(value)}
-                  validated={nameError ? 'error' : 'default'}
-                  value={name}
-                />
-              </Content>
-              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.descriptionOptional)}</Content>
-              <Content component={ContentVariants.dd}>
-                <SimpleArea
-                  helperTextInvalid={descriptionError}
-                  id="description"
-                  label={intl.formatMessage(messages.descriptionOptional)}
-                  onChange={(_evt, value) => handleOnDescriptionChange(value)}
-                  validated={descriptionError ? 'error' : 'default'}
-                  value={description}
-                />
-              </Content>
-              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
-              <Content component={ContentVariants.dd}>
-                {isEditDetails ? (
-                  <Tooltip content={intl.formatMessage(messages.priceListCurrencyReadOnly)}>
-                    <span>{priceList?.currency || ''}</span>
-                  </Tooltip>
-                ) : (
-                  <Currency currency={currency} onSelect={setCurrency} />
+      <>
+        <Form isHorizontal onSubmit={event => event.preventDefault()}>
+          <SimpleInput
+            helperTextInvalid={nameError}
+            id="name"
+            isRequired
+            label={intl.formatMessage(messages.names, { count: 1 })}
+            onChange={(_evt, value) => handleOnNameChange(value)}
+            validated={nameError ? 'error' : 'default'}
+            value={name}
+          />
+          <SimpleArea
+            helperTextInvalid={descriptionError}
+            id="description"
+            label={intl.formatMessage(messages.descriptionOptional)}
+            onChange={(_evt, value) => handleOnDescriptionChange(value)}
+            validated={descriptionError ? 'error' : 'default'}
+            value={description}
+          />
+          <FormGroup isRequired fieldId="currency" label={intl.formatMessage(messages.currency)}>
+            {isEditDetails ? (
+              <Tooltip content={intl.formatMessage(messages.priceListCurrencyReadOnly)}>
+                <Currency currency={currency} id="currency" isDisabled showLabel={false} />
+              </Tooltip>
+            ) : (
+              <Currency currency={currency} id="currency" onSelect={setCurrency} showLabel={false} />
+            )}
+          </FormGroup>
+          <FormGroup isRequired fieldId="start-date" label={intl.formatMessage(messages.validityPeriod)}>
+            <div className="calendarOverride">
+              <div style={styles.calendarContainer}>
+                {getCalendar('start-date', true)}
+                {startDateError && (
+                  <HelperText>
+                    <HelperTextItem variant="error">
+                      {intl.formatMessage(messages.validityPeriodStartMonthError)}
+                    </HelperTextItem>
+                  </HelperText>
                 )}
-              </Content>
-              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.validityPeriod)}</Content>
-              <Content component={ContentVariants.dd} className="calendarOverride">
-                <div style={styles.calendar}>
-                  <div style={styles.calendarContainer}>
-                    {getCalendar(true)}
-                    {startDateError && (
-                      <HelperText>
-                        <HelperTextItem variant="error">
-                          {intl.formatMessage(messages.validityPeriodStartMonthError)}
-                        </HelperTextItem>
-                      </HelperText>
-                    )}
-                  </div>
-                  <div style={styles.calendarContainer}>
-                    {getCalendar(false)}
-                    {endDateError && (
-                      <HelperText>
-                        <HelperTextItem variant="error">
-                          {intl.formatMessage(messages.validityPeriodEndMonthError)}
-                        </HelperTextItem>
-                      </HelperText>
-                    )}
-                  </div>
-                </div>
-              </Content>
-            </Content>
-          </Content>
-        </StackItem>
-        <StackItem>
-          <Alert variant="warning" isInline title={intl.formatMessage(messages.validityPeriodWarning)} />
-        </StackItem>
-      </Stack>
+              </div>
+              <div style={styles.calendarContainer}>
+                {getCalendar('end-date', false)}
+                {endDateError && (
+                  <HelperText>
+                    <HelperTextItem variant="error">
+                      {intl.formatMessage(messages.validityPeriodEndMonthError)}
+                    </HelperTextItem>
+                  </HelperText>
+                )}
+              </div>
+            </div>
+          </FormGroup>
+        </Form>
+        <Alert id="warning" isInline title={intl.formatMessage(messages.validityPeriodWarning)} variant="warning" />
+      </>
     );
   }
 );

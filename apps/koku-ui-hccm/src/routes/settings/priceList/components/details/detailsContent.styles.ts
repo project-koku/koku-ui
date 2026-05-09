@@ -3,10 +3,8 @@ import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer
 import type React from 'react';
 
 export const styles = {
-  calendar: {
-    display: 'flex',
-  },
   calendarContainer: {
+    marginBottom: t_global_spacer_lg.var,
     marginRight: t_global_spacer_lg.var,
   },
   calendarContent: {

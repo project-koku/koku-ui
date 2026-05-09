@@ -3523,6 +3523,18 @@ export default defineMessages({
     description: 'To add rates to the price list, click on the "Add rate" button above.',
     id: 'priceListEmptyRateDesc',
   },
+  priceListEmptyRates: {
+    defaultMessage: 'No rates added yet',
+    description: 'No rates added yet',
+    id: 'priceListEmptyRates',
+  },
+  priceListEmptyRatesDesc: {
+    defaultMessage:
+      'Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in {currency}.',
+    description:
+      'Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in USD.',
+    id: 'priceListEmptyRatesDesc',
+  },
   priceListEnterDescription: {
     defaultMessage: 'Enter a description',
     description: 'Enter a description',
@@ -3579,6 +3591,18 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
+  },
+  priceListRecalculate: {
+    defaultMessage: 'Recalculating charges',
+    description: 'Recalculating charges',
+    id: 'priceListRecalculate',
+  },
+  priceListRecalculateDesc: {
+    defaultMessage:
+      'This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+    description:
+      'This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+    id: 'priceListRecalculateDesc',
   },
   priceListRemoveTag: {
     defaultMessage: 'Remove tag value',

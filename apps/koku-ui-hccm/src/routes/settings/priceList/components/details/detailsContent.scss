@@ -1,4 +1,7 @@
 .calendarOverride {
+  @media only screen and (min-width: 850px) {
+    display: flex;
+  }
   article {
     display: flex;
   }

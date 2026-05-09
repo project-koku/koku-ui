@@ -1,6 +1,13 @@
 import messages from 'locales/messages';
 
-export const getEffectiveDate = (date: string) => (date ? new Date(date + 'T00:00:00') : undefined);
+export const getEffectiveDate = (date: string) => {
+  let newDate = date ? new Date(date + 'T00:00:00') : undefined;
+  if (!newDate) {
+    newDate = new Date();
+    newDate.setHours(0, 0, 0, 0);
+  }
+  return newDate;
+};
 
 // effective_end_date must be on the last day of the month.
 export const getEffectiveEndDate = (date: Date) => {
