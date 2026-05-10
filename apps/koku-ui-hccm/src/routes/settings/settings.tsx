@@ -29,7 +29,7 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
-import { PriceListDetails } from './priceList/details';
+import { PriceList } from './priceList';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {
@@ -200,7 +200,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
-      return hasSettingsAccess(userAccess) ? <PriceListDetails canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {

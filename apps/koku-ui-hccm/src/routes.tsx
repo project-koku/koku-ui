@@ -28,10 +28,10 @@ const OptimizationsBreakdown = lazy(
 );
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
 const PriceListBreakdown = lazy(
-  () => import(/* webpackChunkName: "PriceListBreakdown" */ 'routes/settings/priceList/breakdown')
+  () => import(/* webpackChunkName: "PriceListBreakdown" */ 'routes/settings/priceList/priceListBreakdown')
 );
 const PriceListCreate = lazy(
-  () => import(/* webpackChunkName: "PriceListCreate" */ 'routes/settings/priceList/create')
+  () => import(/* webpackChunkName: "PriceListCreate" */ 'routes/settings/priceList/priceListCreate')
 );
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
