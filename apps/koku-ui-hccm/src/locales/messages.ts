@@ -1377,6 +1377,11 @@ export default defineMessages({
       'This action will remove {metric} rate from {priceList}, which is assigned to the following integrations:',
     id: 'deleteRateDesc',
   },
+  deleteRateCurrentPriceListDesc: {
+    defaultMessage: 'This action will remove {metric} rate from the current price list.',
+    description: 'This action will remove {metric} rate from the current price lis.',
+    id: 'deleteRateCurrentPriceListDesc',
+  },
   deleteRateTitle: {
     defaultMessage: 'Delete rate',
     description: 'Delete rate',
@@ -2995,6 +3000,11 @@ export default defineMessages({
     description: 'Tags must be enabled to be mapped.',
     id: 'noMappedTagsWarning',
   },
+  noPriceListDelete: {
+    defaultMessage: 'Cannot delete price list when assigned to a cost model.',
+    description: 'Cannot delete price list when assigned to a cost model.',
+    id: 'noPriceListDelete',
+  },
   noProvidersCloudCost: {
     defaultMessage: 'Include cloud provider (AWS, Google Cloud, Azure) cost',
     description: 'Include cloud provider (AWS, Google Cloud, Azure) cost',
@@ -3577,10 +3587,15 @@ export default defineMessages({
     description: 'Price list created or updated',
     id: 'priceListErrorTitle',
   },
-  priceListImpactReview: {
+  priceListReview: {
     defaultMessage: 'Review impact before you change rates',
     description: 'Review impact before you change rates',
-    id: 'priceListImpactReview',
+    id: 'priceListReview',
+  },
+  priceListNameTooLong: {
+    defaultMessage: 'Should not exceed 50 characters',
+    description: 'Should not exceed 50 characters',
+    id: 'priceListNameTooLong',
   },
   priceListNumberRate: {
     defaultMessage: 'Rate must be a number',

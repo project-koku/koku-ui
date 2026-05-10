@@ -2846,6 +2846,20 @@
         "value": "Remove price list?"
       }
     ],
+    "deleteRateCurrentPriceListDesc": [
+      {
+        "type": 0,
+        "value": "This action will remove "
+      },
+      {
+        "type": 1,
+        "value": "metric"
+      },
+      {
+        "type": 0,
+        "value": " rate from the current price list."
+      }
+    ],
     "deleteRateDesc": [
       {
         "offset": 0,
@@ -11280,6 +11294,12 @@
         "value": "Tags must be enabled to be mapped."
       }
     ],
+    "noPriceListDelete": [
+      {
+        "type": 0,
+        "value": "Cannot delete price list when assigned to a cost model."
+      }
+    ],
     "noProvidersCloudCost": [
       {
         "type": 0,
@@ -12281,10 +12301,10 @@
         "value": "value"
       }
     ],
-    "priceListImpactReview": [
+    "priceListNameTooLong": [
       {
         "type": 0,
-        "value": "Review impact before you change rates"
+        "value": "Should not exceed 50 characters"
       }
     ],
     "priceListNumberRate": [
@@ -12315,6 +12335,12 @@
       {
         "type": 0,
         "value": "Remove tag value"
+      }
+    ],
+    "priceListReview": [
+      {
+        "type": 0,
+        "value": "Review impact before you change rates"
       }
     ],
     "priceListSelectCostType": [
