@@ -1,3 +1,4 @@
+import t_global_spacer_2xl from '@patternfly/react-tokens/dist/js/t_global_spacer_2xl';
 import t_global_spacer_lg from '@patternfly/react-tokens/dist/js/t_global_spacer_lg';
 import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer_sm';
@@ -7,6 +8,10 @@ export const styles = {
   actions: {
     display: 'flex',
   },
+  alertContainer: {
+    marginBottom: t_global_spacer_lg.var,
+    marginTop: t_global_spacer_sm.var,
+  },
   breadcrumb: {
     paddingBottom: t_global_spacer_md.var,
   },
@@ -15,12 +20,13 @@ export const styles = {
     wordWrap: 'break-word',
   },
   currency: {
-    paddingBottom: t_global_spacer_md.var,
+    paddingBottom: t_global_spacer_2xl.var,
     paddingTop: t_global_spacer_lg.var,
   },
   headerContent: {
     display: 'flex',
     justifyContent: 'space-between',
+    paddingTop: t_global_spacer_sm.var,
   },
   label: {
     marginLeft: t_global_spacer_sm.var,

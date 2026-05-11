@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertActionCloseButton,
   Breadcrumb,
   BreadcrumbItem,
   Button,
@@ -18,8 +20,8 @@ import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
-import { PriceListActions } from 'routes/settings/priceList/components/actions';
-import { EditPriceListModal } from 'routes/settings/priceList/components/editPriceList';
+import { PriceListActions } from 'routes/settings/priceList/priceList/actions';
+import { EditDetailsModal } from 'routes/settings/priceList/priceList/details';
 import { getDateString, getValidityPeriod } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
@@ -28,8 +30,9 @@ import { styles } from './priceListBreakdownHeader.styles';
 interface PriceListBreakdownHeaderOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
+  isRecalculating?: boolean;
+  onAlertClose?: () => void;
   onClose?: () => void;
-  onCreate?: () => void;
   onDelete?: () => void;
   onDeprecate?: () => void;
   onDuplicate?: () => void;
@@ -42,6 +45,8 @@ type PriceListBreakdownHeaderProps = PriceListBreakdownHeaderOwnProps;
 const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
   canWrite,
   isDisabled,
+  isRecalculating,
+  onAlertClose,
   onClose,
   onDelete,
   onDeprecate,
@@ -62,19 +67,13 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
     setIsEditModalOpen(false);
   };
 
-  const handleOnEditModalUpdateSuccess = () => {
+  const handleOnEditModalSuccess = () => {
     setIsEditModalOpen(false);
     onEdit?.();
   };
 
   return (
     <>
-      <EditPriceListModal
-        isOpen={isEditModalOpen}
-        onClose={handleOnEditModalClose}
-        onUpdateSuccess={handleOnEditModalUpdateSuccess}
-        priceList={priceList}
-      />
       <div style={styles.headerContent}>
         <Breadcrumb style={styles.breadcrumb}>
           <BreadcrumbItem
@@ -95,6 +94,18 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           <BreadcrumbItem isActive>{priceList?.name}</BreadcrumbItem>
         </Breadcrumb>
       </div>
+      {isRecalculating && (
+        <div style={styles.alertContainer}>
+          <Alert
+            isInline
+            actionClose={<AlertActionCloseButton onClose={onAlertClose} />}
+            title={intl.formatMessage(messages.priceListRecalculate)}
+            variant="info"
+          >
+            <p>{intl.formatMessage(messages.priceListRecalculateDesc)}</p>
+          </Alert>
+        </div>
+      )}
       <Split>
         <SplitItem style={styles.headerDescription}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
@@ -127,21 +138,29 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           </span>
         </SplitItem>
       </Split>
-      <Content style={styles.currency}>
-        <Content component={ContentVariants.dl}>
-          <Content component={ContentVariants.dt}>{intl.formatMessage(messages.validityPeriod)}</Content>
-          <Content component={ContentVariants.dd}>
-            {getValidityPeriod(
-              priceList?.effective_start_date ? priceList.effective_start_date + 'T00:00:00' : '',
-              priceList?.effective_end_date ? priceList.effective_end_date + 'T00:00:00' : ''
-            )}
+      <SplitItem>
+        <div style={styles.currency}>
+          <Content component={ContentVariants.dl}>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.validityPeriod)}</Content>
+            <Content component={ContentVariants.dd}>
+              {getValidityPeriod(
+                priceList?.effective_start_date ? priceList.effective_start_date + 'T00:00:00' : '',
+                priceList?.effective_end_date ? priceList.effective_end_date + 'T00:00:00' : ''
+              )}
+            </Content>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.lastUpdated)}</Content>
+            <Content component={ContentVariants.dd}>{getDateString(priceList?.updated_timestamp || '')}</Content>
+            <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
+            <Content component={ContentVariants.dd}>{getCurrencyLabel(priceList?.currency)}</Content>
           </Content>
-          <Content component={ContentVariants.dt}>{intl.formatMessage(messages.lastUpdated)}</Content>
-          <Content component={ContentVariants.dd}>{getDateString(priceList?.updated_timestamp || '')}</Content>
-          <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
-          <Content component={ContentVariants.dd}>{getCurrencyLabel(priceList?.currency)}</Content>
-        </Content>
-      </Content>
+        </div>
+      </SplitItem>
+      <EditDetailsModal
+        isOpen={isEditModalOpen}
+        onClose={handleOnEditModalClose}
+        onSuccess={handleOnEditModalSuccess}
+        priceList={priceList}
+      />
     </>
   );
 };
