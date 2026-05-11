@@ -93,13 +93,15 @@ const AddRateModal: React.FC<AddRateModalProps> = ({
     >
       <ModalHeader title={intl.formatMessage(messages.priceListAddRate)} />
       <ModalBody>
-        <RatesContent
-          isAddRate
-          onDisabled={setIsDisabled}
-          onSave={handleOnSave}
-          priceList={priceList}
-          ref={contentRef}
-        />
+        {isOpen && (
+          <RatesContent
+            isAddRate
+            onDisabled={setIsDisabled}
+            onSave={handleOnSave}
+            priceList={priceList}
+            ref={contentRef}
+          />
+        )}
       </ModalBody>
       <ModalFooter>
         <Button

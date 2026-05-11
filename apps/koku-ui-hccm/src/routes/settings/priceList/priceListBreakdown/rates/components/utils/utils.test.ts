@@ -97,13 +97,23 @@ describe('rates/utils', () => {
 
   describe('validateName', () => {
     const rates = [{ custom_name: 'Taken' } as Rate];
+    /** No in-list row to exclude (e.g. add-rate); all indices participate in duplicate detection. */
+    const addNewIndex = -1;
 
     test('required, length, duplicate', () => {
-      expect(validateName('', rates)).toBe(messages.requiredField);
-      expect(validateName('   ', rates)).toBe(messages.requiredField);
-      expect(validateName('x'.repeat(501), rates)).toBe(messages.costModelsDescTooLong);
-      expect(validateName('Taken', rates)).toBe(messages.priceListDuplicateName);
-      expect(validateName('Unique', rates)).toBeNull();
+      expect(validateName('', rates, addNewIndex)).toBe(messages.requiredField);
+      expect(validateName('   ', rates, addNewIndex)).toBe(messages.requiredField);
+      expect(validateName('x'.repeat(51), rates, addNewIndex)).toBe(messages.priceListNameTooLong);
+      expect(validateName('Taken', rates, addNewIndex)).toBe(messages.priceListDuplicateName);
+      expect(validateName('Unique', rates, addNewIndex)).toBeNull();
+    });
+
+    test('excludes current row from duplicate check when editing', () => {
+      // Same name as rate at index 0 is allowed when editing that row; another index would still conflict.
+      expect(validateName('Taken', rates, 0)).toBeNull();
+      const two = [{ custom_name: 'A' } as Rate, { custom_name: 'B' } as Rate];
+      expect(validateName('B', two, 1)).toBeNull();
+      expect(validateName('B', two, 0)).toBe(messages.priceListDuplicateName);
     });
   });
 
