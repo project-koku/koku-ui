@@ -20,7 +20,7 @@ jest.mock('routes/components/dataTable', () => ({
   ),
 }));
 
-jest.mock('routes/settings/priceList/components/actions', () => ({
+jest.mock('routes/settings/priceList/priceListBreakdown/rates/components/actions', () => ({
   RateActions: () => <span>actions</span>,
 }));
 
@@ -59,6 +59,7 @@ describe('RatesTable', () => {
             onSort={jest.fn()}
             orderBy={{ name: 'asc' }}
             priceList={null as any}
+            rates={[]}
           />
         </IntlProvider>
       </Provider>
@@ -83,6 +84,7 @@ describe('RatesTable', () => {
             onSort={jest.fn()}
             orderBy={{ name: 'asc' }}
             priceList={priceList}
+            rates={priceList.rates}
           />
         </IntlProvider>
       </Provider>
@@ -126,6 +128,7 @@ describe('RatesTable', () => {
             onSort={jest.fn()}
             orderBy={{ name: 'asc' }}
             priceList={pl}
+            rates={pl.rates}
           />
         </IntlProvider>
       </Provider>
@@ -167,6 +170,7 @@ describe('RatesTable', () => {
             onSort={jest.fn()}
             orderBy={{ name: 'asc' }}
             priceList={pl}
+            rates={pl.rates}
           />
         </IntlProvider>
       </Provider>

@@ -36,7 +36,7 @@ jest.mock('routes/settings/costModels/components/rateTable', () => ({
   __esModule: true,
   RateTable: (props: any) => (
     <div>
-      <button onClick={() => props.actions[0].onClick(null, null, { data: { stateIndex: 0 } })}>delete-row</button>
+      <button onClick={() => props.actions[0].onClick(null, null, { data: { rateIndex: 0 } })}>delete-row</button>
     </div>
   ),
 }));

@@ -135,7 +135,7 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: R
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
-        router.navigate(`${formatPath(routes.costModel.basePath)}/${uuid}`);
+        router.navigate(`${formatPath(routes.costModelBreakdown.basePath)}/${uuid}`);
         dispatch(redirectSuccess());
       })
       .catch(err => {
