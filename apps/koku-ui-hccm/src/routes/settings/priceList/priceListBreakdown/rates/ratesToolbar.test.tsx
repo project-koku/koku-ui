@@ -4,21 +4,25 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import { RatesToolbar } from './ratesToolbar';
-
-jest.mock('routes/settings/priceList/components/editRate', () => {
-  const actual = jest.requireActual('routes/settings/priceList/components/editRate');
+jest.mock('store/metrics', () => {
+  const actual = jest.requireActual('store/metrics');
+  const { FetchStatus } = require('store/common');
+  const stableMetricsHash = {};
   return {
     ...actual,
-    EditRateModal: () => null,
+    metricsSelectors: {
+      ...actual.metricsSelectors,
+      metrics: () => stableMetricsHash,
+      status: () => FetchStatus.complete,
+    },
   };
 });
 
-describe('RatesToolbar', () => {
-  const dummyReducer = (state: Record<string, unknown> = {}) => state;
+import { RatesToolbar } from './ratesToolbar';
 
+describe('RatesToolbar', () => {
   const renderToolbar = (ui: React.ReactElement) => {
-    const store = createStore(dummyReducer as any);
+    const store = createStore(() => ({}));
     return render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
@@ -39,7 +43,7 @@ describe('RatesToolbar', () => {
         isDisabled={false}
         itemsPerPage={3}
         itemsTotal={3}
-        onAddRate={noop}
+        onAdd={noop}
         onFilterAdded={noop}
         onFilterRemoved={noop}
         pagination={<div data-testid="pagination-stub" />}
@@ -57,7 +61,7 @@ describe('RatesToolbar', () => {
         isDisabled={false}
         itemsPerPage={1}
         itemsTotal={1}
-        onAddRate={noop}
+        onAdd={noop}
         onFilterAdded={noop}
         onFilterRemoved={noop}
         priceList={priceList}

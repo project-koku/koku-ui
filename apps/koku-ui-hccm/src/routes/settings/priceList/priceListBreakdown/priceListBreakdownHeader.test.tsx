@@ -10,12 +10,12 @@ import { priceListReducer, priceListStateKey } from 'store/priceList';
 
 import { PriceListBreakdownHeader } from './priceListBreakdownHeader';
 
-jest.mock('routes/settings/priceList/components/actions', () => ({
+jest.mock('routes/settings/priceList/priceList/actions', () => ({
   PriceListActions: () => <div data-testid="actions-stub" />,
 }));
 
-jest.mock('routes/settings/priceList/components/editPriceList', () => ({
-  EditPriceListModal: ({ isOpen }: { isOpen?: boolean }) =>
+jest.mock('routes/settings/priceList/priceList/details', () => ({
+  EditDetailsModal: ({ isOpen }: { isOpen?: boolean }) =>
     isOpen ? <div data-testid="edit-price-list-modal-open" /> : null,
 }));
 
@@ -61,5 +61,15 @@ describe('PriceListBreakdownHeader', () => {
   test('shows deprecated label when the price list is disabled', () => {
     renderHeader(<PriceListBreakdownHeader priceList={{ ...baseItem, enabled: false }} />);
     expect(screen.getByText(/^deprecated$/i)).toBeInTheDocument();
+  });
+
+  test('shows recalculation info alert when isRecalculating and close invokes onAlertClose', () => {
+    const onAlertClose = jest.fn();
+    renderHeader(
+      <PriceListBreakdownHeader canWrite isRecalculating onAlertClose={onAlertClose} priceList={baseItem} />
+    );
+    expect(screen.getByText(/recalculating charges/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /close info alert/i }));
+    expect(onAlertClose).toHaveBeenCalled();
   });
 });

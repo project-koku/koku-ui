@@ -16,31 +16,19 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
-import { usePriceListUpdate } from 'routes/settings/priceList/utils/hooks';
+import { LoadingState } from 'routes/components/state/loadingState';
+import { usePriceListUpdate } from 'routes/settings/priceList/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
+import { hasSettingsAccess } from 'utils/userAccess';
 
 import { CostModels } from './costModels';
 import { styles } from './priceListBreakdown.styles';
 import { PriceListBreakdownHeader } from './priceListBreakdownHeader';
 import { Rates } from './rates';
-
-const enum PriceListBreakdownTab {
-  costModels = 'costModels',
-  rates = 'rates',
-}
-
-export const getIdKeyForTab = (tab: PriceListBreakdownTab) => {
-  switch (tab) {
-    case PriceListBreakdownTab.costModels:
-      return 'costModels';
-    case PriceListBreakdownTab.rates:
-      return 'rates';
-  }
-};
 
 interface AvailableTab {
   contentRef: RefObject<any>;
@@ -74,23 +62,33 @@ const baseQuery: Query = {
   filter_by: {},
 };
 
+const enum PriceListBreakdownTab {
+  costModels = 'costModels',
+  rates = 'rates',
+}
+
+const getIdKeyForTab = (tab: PriceListBreakdownTab) => {
+  switch (tab) {
+    case PriceListBreakdownTab.costModels:
+      return 'costModels';
+    case PriceListBreakdownTab.rates:
+      return 'rates';
+  }
+};
+
 const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
 
   const [activeTabKey, setActiveTabKey] = useState(0);
+  const [isRecalculating, setIsRecalculating] = useState(false);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { priceList, priceListError, priceListStatus, userAccess } = useMapToProps({ query });
+  const { priceList, priceListError, priceListStatus, userAccess, userAccessFetchStatus } = useMapToProps({ query });
 
   const canWrite = () => {
-    let result = false;
-    if (userAccess) {
-      const data = (userAccess.data as any).find(d => d.type === 'settings');
-      result = data?.access && data?.write;
-    }
-    return result;
+    return hasSettingsAccess(userAccess);
   };
 
   // Force update
@@ -150,7 +148,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     if (currentTab === PriceListBreakdownTab.costModels) {
       return <CostModels />;
     } else if (currentTab === PriceListBreakdownTab.rates) {
-      return <Rates canWrite={canWrite()} />;
+      return <Rates canWrite={canWrite()} onSuccess={handleOnSuccess} />;
     } else {
       return emptyTab;
     }
@@ -172,9 +170,10 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     }
   };
 
-  const handleOnCreate = () => {
-    // eslint-disable-next-line no-console
-    console.log(`onCreate clicked`);
+  // Handlers
+
+  const handleOnAlertClose = () => {
+    setIsRecalculating(false);
   };
 
   const handleOnDelete = () => {
@@ -189,7 +188,11 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     });
   };
 
-  const handleTabClick = (event, tabIndex) => {
+  const handleOnSuccess = () => {
+    setIsRecalculating(true);
+  };
+
+  const handleTabClick = (_event, tabIndex) => {
     if (activeTabKey !== tabIndex) {
       setActiveTabKey(tabIndex);
     }
@@ -207,15 +210,19 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
           <PriceListBreakdownHeader
             canWrite={canWrite()}
             isDisabled={priceListStatus === FetchStatus.inProgress}
-            onClose={() => void 0}
-            onCreate={handleOnCreate}
+            isRecalculating={isRecalculating && priceList?.assigned_cost_model_count > 0}
+            onAlertClose={handleOnAlertClose}
             onDelete={handleOnDelete}
             onDeprecate={forceUpdate}
             onDuplicate={forceUpdate}
             onEdit={forceUpdate}
             priceList={priceList}
           />
-          {getTabs(availableTabs)}
+          {userAccessFetchStatus === FetchStatus.inProgress ? (
+            <LoadingState />
+          ) : (
+            <div style={styles.tabs}>{getTabs(availableTabs)}</div>
+          )}
         </header>
       </PageSection>
       <PageSection>{getTabContent(availableTabs)}</PageSection>
@@ -259,6 +266,7 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps):
     if (
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
+      priceListStatus !== FetchStatus.complete &&
       priceListAddStatus !== FetchStatus.inProgress &&
       priceListDuplicateStatus !== FetchStatus.inProgress &&
       priceListRemoveStatus !== FetchStatus.inProgress &&

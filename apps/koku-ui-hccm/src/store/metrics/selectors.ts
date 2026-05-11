@@ -26,7 +26,7 @@ export const metrics = (state: RootState): MetricHash => {
   }
   const isGpuToggleEnabled = FeatureToggleSelectors.selectIsGpuToggleEnabled(state);
 
-  return metricsPayload.data.reduce((acc, curr) => {
+  return metricsPayload.data.reduce<MetricHash>((acc, curr) => {
     if (!isGpuToggleEnabled && curr.label_metric.toLowerCase() === 'gpu') {
       return acc;
     }
@@ -43,7 +43,7 @@ export const metricsByName = (state: RootState): MetricHash => {
   if (metricsPayload === null) {
     return {};
   }
-  return metricsPayload.data.reduce((acc, curr) => {
+  return metricsPayload.data.reduce<MetricHash>((acc, curr) => {
     const prev = acc[curr.metric] ? { ...acc[curr.metric] } : {};
     return {
       ...acc,
