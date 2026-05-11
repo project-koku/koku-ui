@@ -1,6 +1,6 @@
 import messages from 'locales/messages';
 
-import { validateDescription, validateEndDate, validateName, validateStartDate } from './utils';
+import { validateDescription, validateEndDate, validateName, validateStartDate } from '.';
 
 describe('details/utils', () => {
   describe('validateDescription', () => {

@@ -84,7 +84,9 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
         titleIconVariant="warning"
       />
       <ModalBody>
-        <DeleteRateContent onDelete={handleOnDelete} priceList={priceList} ref={contentRef} rateIndex={rateIndex} />
+        {isOpen && (
+          <DeleteRateContent onDelete={handleOnDelete} priceList={priceList} ref={contentRef} rateIndex={rateIndex} />
+        )}
       </ModalBody>
       <ModalFooter>
         <Button

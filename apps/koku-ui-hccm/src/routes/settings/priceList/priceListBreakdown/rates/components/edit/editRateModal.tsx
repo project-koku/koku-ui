@@ -98,13 +98,15 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
     >
       <ModalHeader title={intl.formatMessage(messages.priceListEditRate)} />
       <ModalBody>
-        <RatesContent
-          onDisabled={setIsDisabled}
-          onSave={handleOnSave}
-          priceList={priceList}
-          rateIndex={rateIndex}
-          ref={contentRef}
-        />
+        {isOpen && (
+          <RatesContent
+            onDisabled={setIsDisabled}
+            onSave={handleOnSave}
+            priceList={priceList}
+            rateIndex={rateIndex}
+            ref={contentRef}
+          />
+        )}
       </ModalBody>
       <ModalFooter>
         <Button

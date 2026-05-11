@@ -101,7 +101,7 @@ describe('rates/utils', () => {
     test('required, length, duplicate', () => {
       expect(validateName('', rates)).toBe(messages.requiredField);
       expect(validateName('   ', rates)).toBe(messages.requiredField);
-      expect(validateName('x'.repeat(501), rates)).toBe(messages.costModelsDescTooLong);
+      expect(validateName('x'.repeat(51), rates)).toBe(messages.priceListNameTooLong);
       expect(validateName('Taken', rates)).toBe(messages.priceListDuplicateName);
       expect(validateName('Unique', rates)).toBeNull();
     });

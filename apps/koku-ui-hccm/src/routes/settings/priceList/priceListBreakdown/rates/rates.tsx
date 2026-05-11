@@ -252,12 +252,11 @@ const useMapToProps = ({ pageNumber, perPage, query }: RatesMapProps): RatesStat
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
       priceListStatus !== FetchStatus.complete &&
-      priceListUpdateStatus !== FetchStatus.inProgress &&
-      priceListUpdateStatus !== FetchStatus.complete
+      priceListUpdateStatus !== FetchStatus.inProgress
     ) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [query]);
+  }, [query, priceListUpdateStatus]);
 
   // Add index,labels, filter, and paginate
   const indexedRates = getIndexedRates(priceList?.rates);

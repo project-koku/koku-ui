@@ -78,13 +78,15 @@ const EditDetailsModal: React.FC<EditDetailsModalProps> = ({ isOpen, onClose, on
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.medium}>
       <ModalHeader title={intl.formatMessage(messages.editPriceListTitle)} />
       <ModalBody className="modalBodyOverride">
-        <DetailsContent
-          isEditDetails
-          onDisabled={setIsDisabled}
-          onSave={handleOnSave}
-          priceList={priceList}
-          ref={contentRef}
-        />
+        {isOpen && (
+          <DetailsContent
+            isEditDetails
+            onDisabled={setIsDisabled}
+            onSave={handleOnSave}
+            priceList={priceList}
+            ref={contentRef}
+          />
+        )}
       </ModalBody>
       <ModalFooter>
         <Button
