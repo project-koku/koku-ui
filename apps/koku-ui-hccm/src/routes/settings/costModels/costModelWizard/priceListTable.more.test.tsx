@@ -39,7 +39,7 @@ jest.mock('routes/settings/costModels/components/rateTable', () => ({
 	__esModule: true,
 	RateTable: ({ actions, sortCallback }: any) => {
 		lastSortCallback = sortCallback;
-		return <div id="rate-table" onClick={() => actions[0].onClick(null, 0, { data: { stateIndex: 0 } })} />;
+		return <div id="rate-table" onClick={() => actions[0].onClick(null, 0, { data: { rateIndex: 0 } })} />;
 	},
 }));
 
