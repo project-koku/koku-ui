@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  actionsColumn: {
+    defaultMessage: 'Actions column',
+    description: 'Actions column',
+    id: 'actionsColumn',
+  },
   addProjects: {
     defaultMessage: 'Add projects',
     description: 'Add projects',
@@ -1372,6 +1377,11 @@ export default defineMessages({
       'This action will remove {metric} rate from {priceList}, which is assigned to the following integrations:',
     id: 'deleteRateDesc',
   },
+  deleteRateCurrentPriceListDesc: {
+    defaultMessage: 'This action will remove {metric} rate from the current price list.',
+    description: 'This action will remove {metric} rate from the current price lis.',
+    id: 'deleteRateCurrentPriceListDesc',
+  },
   deleteRateTitle: {
     defaultMessage: 'Delete rate',
     description: 'Delete rate',
@@ -1911,11 +1921,6 @@ export default defineMessages({
     description: 'Edit price list details',
     id: 'editPriceListTitle',
   },
-  editRateTitle: {
-    defaultMessage: 'Review impact before you change rates',
-    description: 'Review impact before you change rates',
-    id: 'editRateTitle',
-  },
   emptyFilterSourceStateSubtitle: {
     defaultMessage: 'Sorry, no source with the given filter was found.',
     description: 'Sorry, no source with the given filter was found.',
@@ -2354,6 +2359,7 @@ export default defineMessages({
       'gpu_vendor {GPU vendor} ' +
       'group {Group} ' +
       'instance {Instance} ' +
+      'metric {Metric} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
@@ -2995,6 +3001,11 @@ export default defineMessages({
     description: 'Tags must be enabled to be mapped.',
     id: 'noMappedTagsWarning',
   },
+  noPriceListDelete: {
+    defaultMessage: 'Cannot delete price list when assigned to a cost model.',
+    description: 'Cannot delete price list when assigned to a cost model.',
+    id: 'noPriceListDelete',
+  },
   noProvidersCloudCost: {
     defaultMessage: 'Include cloud provider (AWS, Google Cloud, Azure) cost',
     description: 'Include cloud provider (AWS, Google Cloud, Azure) cost',
@@ -3459,6 +3470,11 @@ export default defineMessages({
     description: 'This price list is assigned to:',
     id: 'priceListAssignedTo',
   },
+  priceListCreateRate: {
+    defaultMessage: 'Create rate',
+    description: 'Create rate',
+    id: 'priceListCreateRate',
+  },
   priceListCurrencyReadOnly: {
     defaultMessage: 'Currency is read only. You must create a new price list to change it.',
     description: 'Currency is read only. You must create a new price list to change it.',
@@ -3475,6 +3491,11 @@ export default defineMessages({
     description:
       'This action will remove {metric} rate from {costModel}, which is assigned to the following integrations:',
     id: 'priceListDeleteRateDesc',
+  },
+  priceListDuplicateName: {
+    defaultMessage: 'This custom name is already in use',
+    description: 'This custom name is already in use',
+    id: 'priceListDuplicateName',
   },
   priceListDuplicateTag: {
     defaultMessage: 'This tag key is already in use',
@@ -3512,6 +3533,18 @@ export default defineMessages({
     defaultMessage: 'To add rates to the price list, click on the "Add rate" button above.',
     description: 'To add rates to the price list, click on the "Add rate" button above.',
     id: 'priceListEmptyRateDesc',
+  },
+  priceListEmptyRates: {
+    defaultMessage: 'No rates added yet',
+    description: 'No rates added yet',
+    id: 'priceListEmptyRates',
+  },
+  priceListEmptyRatesDesc: {
+    defaultMessage:
+      'Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in {currency}.',
+    description:
+      'Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in USD.',
+    id: 'priceListEmptyRatesDesc',
   },
   priceListEnterDescription: {
     defaultMessage: 'Enter a description',
@@ -3555,6 +3588,16 @@ export default defineMessages({
     description: 'Price list created or updated',
     id: 'priceListErrorTitle',
   },
+  priceListReview: {
+    defaultMessage: 'Review impact before you change rates',
+    description: 'Review impact before you change rates',
+    id: 'priceListReview',
+  },
+  priceListNameTooLong: {
+    defaultMessage: 'Should not exceed 50 characters',
+    description: 'Should not exceed 50 characters',
+    id: 'priceListNameTooLong',
+  },
   priceListNumberRate: {
     defaultMessage: 'Rate must be a number',
     description: 'Rate must be a number',
@@ -3564,6 +3607,18 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
+  },
+  priceListRecalculate: {
+    defaultMessage: 'Recalculating charges',
+    description: 'Recalculating charges',
+    id: 'priceListRecalculate',
+  },
+  priceListRecalculateDesc: {
+    defaultMessage:
+      'This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+    description:
+      'This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+    id: 'priceListRecalculateDesc',
   },
   priceListRemoveTag: {
     defaultMessage: 'Remove tag value',
@@ -4338,6 +4393,23 @@ export default defineMessages({
     defaultMessage: 'Validity period',
     description: 'Validity period',
     id: 'validityPeriod',
+  },
+  validityPeriodEndMonthError: {
+    defaultMessage: 'End period must be >= start period',
+    description: 'End period must be >= start period',
+    id: 'validityPeriodEndDateError',
+  },
+  validityPeriodStartMonthError: {
+    defaultMessage: 'Start period must be <= end period',
+    description: 'Start periodmust be <= end period',
+    id: 'validityPeriodStartDateError',
+  },
+  validityPeriodWarning: {
+    defaultMessage:
+      'The start period must be the same as or before the end period. Adjust the month and year so the list does not end before it begins.',
+    description:
+      'The start period must be the same as or before the end period. Adjust the month and year so the list does not end before it begins.',
+    id: 'validityPeriodWarning',
   },
   valueUnits: {
     defaultMessage: '{value} {units}',

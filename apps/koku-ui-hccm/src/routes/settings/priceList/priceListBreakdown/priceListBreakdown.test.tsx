@@ -6,7 +6,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import { configureStore } from 'store/store';
 
-import PriceListBreakdown, { getIdKeyForTab } from './priceListBreakdown';
+import PriceListBreakdown from './priceListBreakdown';
 
 jest.mock('./rates', () => ({
   Rates: ({ canWrite }: { canWrite?: boolean }) => (
@@ -18,8 +18,8 @@ jest.mock('./costModels', () => ({
   CostModels: () => <div data-testid="cost-models-panel" />,
 }));
 
-jest.mock('routes/settings/priceList/utils/hooks', () => {
-  const actual = jest.requireActual('routes/settings/priceList/utils/hooks');
+jest.mock('routes/settings/priceList/utils', () => {
+  const actual = jest.requireActual('routes/settings/priceList/utils');
   return {
     ...actual,
     usePriceListUpdate: () => ({
@@ -60,11 +60,6 @@ describe('priceListBreakdown', () => {
         data: [{ name: 'PL', uuid: 'u1' }],
       },
     });
-  });
-
-  test('getIdKeyForTab maps breakdown tabs to stable ids', () => {
-    expect(getIdKeyForTab('costModels' as any)).toBe('costModels');
-    expect(getIdKeyForTab('rates' as any)).toBe('rates');
   });
 
   test('renders rates tab by default and switches to cost models tab', async () => {
