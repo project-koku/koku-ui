@@ -91,7 +91,7 @@
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0",
     "victory": "^37.3.6",
-    "yaml": "^2.8.4"
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
