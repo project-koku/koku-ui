@@ -1,5 +1,11 @@
 {
   "en": {
+    "actionsColumn": [
+      {
+        "type": 0,
+        "value": "Actions column"
+      }
+    ],
     "addProjects": [
       {
         "type": 0,
@@ -2840,6 +2846,20 @@
         "value": "Remove price list?"
       }
     ],
+    "deleteRateCurrentPriceListDesc": [
+      {
+        "type": 0,
+        "value": "This action will remove "
+      },
+      {
+        "type": 1,
+        "value": "metric"
+      },
+      {
+        "type": 0,
+        "value": " rate from the current price list."
+      }
+    ],
     "deleteRateDesc": [
       {
         "offset": 0,
@@ -4537,12 +4557,6 @@
       {
         "type": 0,
         "value": "Edit price list details"
-      }
-    ],
-    "editRateTitle": [
-      {
-        "type": 0,
-        "value": "Review impact before you change rates"
       }
     ],
     "efficiency": [
@@ -8143,6 +8157,14 @@
               }
             ]
           },
+          "metric": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Metric"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -11280,6 +11302,12 @@
         "value": "Tags must be enabled to be mapped."
       }
     ],
+    "noPriceListDelete": [
+      {
+        "type": 0,
+        "value": "Cannot delete price list when assigned to a cost model."
+      }
+    ],
     "noProvidersCloudCost": [
       {
         "type": 0,
@@ -12021,6 +12049,12 @@
         "value": "This price list is assigned to:"
       }
     ],
+    "priceListCreateRate": [
+      {
+        "type": 0,
+        "value": "Create rate"
+      }
+    ],
     "priceListCurrencyReadOnly": [
       {
         "type": 0,
@@ -12097,6 +12131,12 @@
         "value": "learnMore"
       }
     ],
+    "priceListDuplicateName": [
+      {
+        "type": 0,
+        "value": "This custom name is already in use"
+      }
+    ],
     "priceListDuplicateTag": [
       {
         "type": 0,
@@ -12137,6 +12177,26 @@
       {
         "type": 0,
         "value": "To add rates to the price list, click on the \"Add rate\" button above."
+      }
+    ],
+    "priceListEmptyRates": [
+      {
+        "type": 0,
+        "value": "No rates added yet"
+      }
+    ],
+    "priceListEmptyRatesDesc": [
+      {
+        "type": 0,
+        "value": "Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in "
+      },
+      {
+        "type": 1,
+        "value": "currency"
+      },
+      {
+        "type": 0,
+        "value": "."
       }
     ],
     "priceListEnterDescription": [
@@ -12249,6 +12309,12 @@
         "value": "value"
       }
     ],
+    "priceListNameTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 50 characters"
+      }
+    ],
     "priceListNumberRate": [
       {
         "type": 0,
@@ -12261,10 +12327,28 @@
         "value": "Rate must be a positive number"
       }
     ],
+    "priceListRecalculate": [
+      {
+        "type": 0,
+        "value": "Recalculating charges"
+      }
+    ],
+    "priceListRecalculateDesc": [
+      {
+        "type": 0,
+        "value": "This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review."
+      }
+    ],
     "priceListRemoveTag": [
       {
         "type": 0,
         "value": "Remove tag value"
+      }
+    ],
+    "priceListReview": [
+      {
+        "type": 0,
+        "value": "Review impact before you change rates"
       }
     ],
     "priceListSelectCostType": [
@@ -14106,6 +14190,24 @@
       {
         "type": 0,
         "value": "Validity period"
+      }
+    ],
+    "validityPeriodEndDateError": [
+      {
+        "type": 0,
+        "value": "End period must be >= start period"
+      }
+    ],
+    "validityPeriodStartDateError": [
+      {
+        "type": 0,
+        "value": "Start period must be <= end period"
+      }
+    ],
+    "validityPeriodWarning": [
+      {
+        "type": 0,
+        "value": "The start period must be the same as or before the end period. Adjust the month and year so the list does not end before it begins."
       }
     ],
     "valueUnits": [

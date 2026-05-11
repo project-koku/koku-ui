@@ -99,14 +99,15 @@ class CompoundExpandTable extends React.Component<CompoundExpandTableProps, Comp
   };
 
   private handleOnToggle = (item: any) => {
-    const { expandedRows } = this.state;
-
-    if (expandedRows.has(item)) {
-      expandedRows.delete(item);
-    } else {
-      expandedRows.add(item);
-    }
-    this.setState({ expandedRows });
+    this.setState(prevState => {
+      const expandedRows = new Set(prevState.expandedRows);
+      if (expandedRows.has(item)) {
+        expandedRows.delete(item);
+      } else {
+        expandedRows.add(item);
+      }
+      return { expandedRows };
+    });
   };
 
   public render() {
@@ -204,7 +205,7 @@ class CompoundExpandTable extends React.Component<CompoundExpandTableProps, Comp
                                 <Tr isExpanded={isExpanded} key={`child-row-${rowId}-${rowIndex}-${childRowIndex}`}>
                                   {childRow?.cells?.map((childCell, childCellIndex) => (
                                     <Td
-                                      dataLabel={row?.children?.columns[childRowIndex]?.name}
+                                      dataLabel={row?.children?.columns[childCellIndex]?.name}
                                       key={`child-cell-${rowId}-${rowIndex}-${childRowIndex}-${childCellIndex}`}
                                       isActionCell={childCell?.isActionsCell}
                                       style={{

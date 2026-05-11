@@ -11,14 +11,16 @@ import { Rates } from './rates';
 const consoleWarn = console.warn;
 const consoleError = console.error;
 
-jest.mock('routes/settings/priceList/utils/hooks', () => {
-  const actual = jest.requireActual('routes/settings/priceList/utils/hooks');
+jest.mock('routes/settings/priceList/utils', () => {
+  const actual = jest.requireActual('routes/settings/priceList/utils');
+  const { FetchStatus } = require('store/common');
   return {
     ...actual,
     usePriceListUpdate: () => ({
       error: undefined,
       notification: null,
-      status: require('store/common').FetchStatus.complete,
+      // Rates waits to fetch until update flow is idle; `complete` blocks dispatch.
+      status: FetchStatus.none,
     }),
   };
 });
@@ -140,7 +142,7 @@ describe('Rates', () => {
         </IntlProvider>
       </Provider>
     );
-    expect(await screen.findByText(/no rates are set/i)).toBeInTheDocument();
+    expect(await screen.findByText(/no rates added yet/i)).toBeInTheDocument();
   });
 
   test('renders table when rates exist', async () => {
