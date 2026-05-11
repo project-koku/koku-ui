@@ -72,8 +72,8 @@
     "@patternfly/react-icons": "6.4.0",
     "@patternfly/react-table": "6.4.3",
     "@patternfly/react-tokens": "6.4.0",
-    "@redhat-cloud-services/frontend-components": "^7.4.1",
-    "@redhat-cloud-services/frontend-components-notifications": "^6.6.1",
+    "@redhat-cloud-services/frontend-components": "^7.4.2",
+    "@redhat-cloud-services/frontend-components-notifications": "^6.6.2",
     "@redhat-cloud-services/frontend-components-utilities": "^7.3.1",
     "@reduxjs/toolkit": "^2.11.2",
     "@unleash/proxy-client-react": "^5.0.1",
@@ -91,11 +91,11 @@
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0",
     "victory": "^37.3.6",
-    "yaml": "^2.8.4"
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
-    "@redhat-cloud-services/frontend-components-config": "^6.9.2",
+    "@redhat-cloud-services/frontend-components-config": "^6.10.1",
     "@redhat-cloud-services/tsc-transform-imports": "^1.1.1",
     "jws": "^4.0.1",
     "ts-patch": "^4.0.1",
