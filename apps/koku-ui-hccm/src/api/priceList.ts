@@ -1,6 +1,7 @@
 import { axiosInstance } from 'api';
 
 import type { PagedLinks, PagedMetaData } from './api';
+import type { Rate } from './rates';
 
 export interface PriceListData {
   assigned_cost_model_count?: number;
@@ -18,39 +19,7 @@ export interface PriceListData {
   effective_start_date?: string;
   enabled?: boolean;
   name?: string;
-  rates?: {
-    cost_type?: string;
-    custom_name?: string;
-    description?: string;
-    metric?: {
-      name?: string;
-      label_measurement?: string;
-      label_measurement_unit?: string;
-      label_metric?: string;
-    };
-    rate_id?: string;
-    tag_rates?: {
-      tag_key?: string;
-      tag_values?: [
-        {
-          default?: boolean;
-          description?: string;
-          tag_value?: string;
-          unit?: string;
-          value?: number;
-        },
-      ];
-    };
-    tiered_rates?: [
-      {
-        unit?: string;
-        usage?: {
-          unit?: string;
-        };
-        value?: number;
-      },
-    ];
-  }[];
+  rates?: Rate[];
   updated_timestamp?: string;
   uuid?: string;
   version?: number;

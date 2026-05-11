@@ -7,7 +7,6 @@ import {
   EmptyStateBody,
   EmptyStateFooter,
 } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons';
 import type { PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
 import type { Query } from 'api/queries/query';
@@ -118,27 +117,27 @@ const CostModels: React.FC<CostModelsProps> = () => {
   }
 
   return (
-    <Card>
-      <CardBody>
-        <>
-          {getToolbar()}
-          {priceListStatus === FetchStatus.inProgress ? (
-            <LoadingState />
-          ) : priceList?.assigned_cost_model_count === 0 ? (
-            <EmptyState icon={PlusCircleIcon} titleText={intl.formatMessage(messages.priceListEmptyCostModel)}>
-              <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyCostModelDesc)}</EmptyStateBody>
-              <EmptyStateFooter>
-                <Button onClick={handleGoToCostModels} variant={ButtonVariant.primary}>
-                  {intl.formatMessage(messages.costModelsGoTo)}
-                </Button>
-              </EmptyStateFooter>
-            </EmptyState>
-          ) : (
-            <>{getTable()}</>
-          )}
-        </>
-      </CardBody>
-    </Card>
+    <>
+      {priceList?.assigned_cost_model_count > 0 || priceListStatus === FetchStatus.inProgress ? (
+        <Card>
+          <CardBody>
+            <>
+              {getToolbar()}
+              {priceListStatus === FetchStatus.inProgress ? <LoadingState /> : <>{getTable()}</>}
+            </>
+          </CardBody>
+        </Card>
+      ) : (
+        <EmptyState titleText={intl.formatMessage(messages.priceListEmptyCostModel)}>
+          <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyCostModelDesc)}</EmptyStateBody>
+          <EmptyStateFooter>
+            <Button onClick={handleGoToCostModels} variant={ButtonVariant.primary}>
+              {intl.formatMessage(messages.costModelsGoTo)}
+            </Button>
+          </EmptyStateFooter>
+        </EmptyState>
+      )}
+    </>
   );
 };
 

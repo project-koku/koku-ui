@@ -182,7 +182,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
 
             let res = this.props.current.rates
               .map((r, i) => {
-                return { ...r, stateIndex: i };
+                return { ...r, rateIndex: i };
               })
               .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
               .filter(
@@ -326,7 +326,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                           onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
                               deleteRate: null,
-                              index: rowData.data.stateIndex,
+                              index: rowData.data.rateIndex,
                             });
                             this.props.setDialogOpen({
                               name: 'updateRate',
@@ -345,7 +345,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                             },
                           }),
                           onClick: (_evt, _rowIndex, rowData) => {
-                            const rowIndex = rowData.data.stateIndex;
+                            const rowIndex = rowData.data.rateIndex;
                             this.setState({
                               deleteRate: filtered[rowIndex],
                               index: rowIndex + from,

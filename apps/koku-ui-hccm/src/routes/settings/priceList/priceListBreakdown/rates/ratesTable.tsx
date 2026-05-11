@@ -1,11 +1,12 @@
 import 'routes/components/dataTable/dataTable.scss';
 
 import type { PriceListData } from 'api/priceList';
+import type { Rate, TagValue } from 'api/rates';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CompoundExpandTable } from 'routes/components/dataTable';
-import { RateActions } from 'routes/settings/priceList/components/actions';
+import { RateActions } from 'routes/settings/priceList/priceListBreakdown/rates/components/actions';
 import { formatCurrencyRate } from 'utils/format';
 
 import { styles } from './ratesTable.styles';
@@ -14,13 +15,16 @@ interface RatesTableOwnProps {
   canWrite?: boolean;
   filterBy?: any;
   isDisabled?: boolean;
+  isDispatch?: boolean;
   isLoading?: boolean;
   onClose?: () => void;
-  onDelete?: () => void;
-  onEdit?: () => void;
+  onDelete?: (rates: Rate[]) => void;
+  onEdit?: (rates: Rate[]) => void;
   onSort(sortType: string, isSortAscending: boolean);
+  onSuccess?: () => void;
   orderBy?: any;
-  priceList: PriceListData;
+  priceList: PriceListData; // Price list without filters and pagination for editing
+  rates: Rate[]; // Filtered and paginated rates
 }
 
 type RatesTableProps = RatesTableOwnProps;
@@ -29,25 +33,28 @@ const RatesTable: React.FC<RatesTableProps> = ({
   canWrite,
   filterBy,
   isDisabled,
+  isDispatch,
   isLoading,
   onClose,
   onDelete,
   onEdit,
   onSort,
+  onSuccess,
   orderBy,
   priceList,
+  rates,
 }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
   const initDatum = () => {
-    if (!priceList) {
+    if (!rates) {
       return;
     }
 
     const newRows = [];
-    const computedItems = priceList.rates ?? [];
+    const computedItems = rates ?? [];
 
     const newColumns = [
       {
@@ -116,7 +123,7 @@ const RatesTable: React.FC<RatesTableProps> = ({
       const isTieredRates = item?.tiered_rates?.length > 0;
       const isGpuRates = item?.metric?.label_metric
         ? item?.metric?.label_metric?.toLowerCase() === 'gpu'
-        : item?.metric?.name?.toLowerCase().indexOf('gpu_') !== -1; // name looks like"gpu_cost_per_month"
+        : (item?.metric?.name?.toLowerCase()?.includes('gpu_') ?? false); // name looks like "gpu_cost_per_month"
 
       if (isTagRates) {
         if (isGpuRates) {
@@ -124,20 +131,20 @@ const RatesTable: React.FC<RatesTableProps> = ({
             columns: gpuColumns,
             rows: [],
           };
-          item?.tag_rates?.tag_values?.map((tagValues, tagValuesIndex) => {
+          item?.tag_rates?.tag_values?.map((tagValue: TagValue, tagValuesIndex: number) => {
             children.rows.push({
               cells: [
                 {
                   value: tagValuesIndex === 0 ? item?.tag_rates?.tag_key : '',
                 },
                 {
-                  value: tagValues.tag_value,
+                  value: tagValue.tag_value,
                 },
                 {
-                  value: formatCurrencyRate(tagValues.value || 0, tagValues.unit || 'USD'),
+                  value: formatCurrencyRate(Number(tagValue.value || 0), tagValue.unit || 'USD'),
                 },
                 {
-                  value: tagValues.description,
+                  value: tagValue.description,
                 },
                 {
                   value: '',
@@ -150,23 +157,23 @@ const RatesTable: React.FC<RatesTableProps> = ({
             columns: tagColumns,
             rows: [],
           };
-          item?.tag_rates?.tag_values?.map((tagValues, tagValuesIndex) => {
+          item?.tag_rates?.tag_values?.map((tagValue, tagValuesIndex) => {
             children.rows.push({
               cells: [
                 {
                   value: tagValuesIndex === 0 ? item?.tag_rates?.tag_key : '',
                 },
                 {
-                  value: tagValues.tag_value,
+                  value: tagValue.tag_value,
                 },
                 {
-                  value: formatCurrencyRate(tagValues.value || 0, tagValues.unit || 'USD'),
+                  value: formatCurrencyRate(Number(tagValue.value || 0), tagValue.unit || 'USD'),
                 },
                 {
-                  value: tagValues.description,
+                  value: tagValue.description,
                 },
                 {
-                  value: tagValues.default ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no),
+                  value: tagValue.default ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no),
                 },
               ],
             });
@@ -186,12 +193,12 @@ const RatesTable: React.FC<RatesTableProps> = ({
           },
           {
             style: styles.column,
-            value: item?.metric?.name || '',
+            value: item?.metric?.label_metric || '',
           },
           {
             style: styles.column,
             value: intl.formatMessage(messages.measurementValues, {
-              value: item?.metric?.label_measurement || ''.toLowerCase().replace('-', '_'),
+              value: (item?.metric?.label_measurement || '').toLowerCase().replace('-', '_'),
               units: item?.metric?.label_measurement_unit || '',
               count: 2,
             }),
@@ -215,11 +222,13 @@ const RatesTable: React.FC<RatesTableProps> = ({
               <RateActions
                 canWrite={canWrite}
                 isDisabled={isDisabled}
+                isDispatch={isDispatch}
                 priceList={priceList}
                 onClose={onClose}
                 onDelete={onDelete}
                 onEdit={onEdit}
-                rateIndex={index}
+                onSuccess={onSuccess}
+                rateIndex={item?.rateIndex ?? index}
               />
             ),
           },
@@ -235,7 +244,7 @@ const RatesTable: React.FC<RatesTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [intl, priceList]);
+  }, [intl, priceList, rates]);
 
   return (
     <CompoundExpandTable
