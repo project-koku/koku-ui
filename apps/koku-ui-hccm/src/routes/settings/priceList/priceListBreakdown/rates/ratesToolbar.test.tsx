@@ -4,13 +4,25 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
+jest.mock('store/metrics', () => {
+  const actual = jest.requireActual('store/metrics');
+  const { FetchStatus } = require('store/common');
+  const stableMetricsHash = {};
+  return {
+    ...actual,
+    metricsSelectors: {
+      ...actual.metricsSelectors,
+      metrics: () => stableMetricsHash,
+      status: () => FetchStatus.complete,
+    },
+  };
+});
+
 import { RatesToolbar } from './ratesToolbar';
 
 describe('RatesToolbar', () => {
-  const dummyReducer = (state: Record<string, unknown> = {}) => state;
-
   const renderToolbar = (ui: React.ReactElement) => {
-    const store = createStore(dummyReducer as any);
+    const store = createStore(() => ({}));
     return render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">

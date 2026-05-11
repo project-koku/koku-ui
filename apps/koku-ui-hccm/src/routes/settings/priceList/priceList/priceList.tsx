@@ -14,7 +14,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { usePriceListUpdate } from 'routes/settings/priceList/utils/hooks';
+import { usePriceListUpdate } from 'routes/settings/priceList/utils';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';

@@ -60,7 +60,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
           hasChildren: isTagRates,
           metric: tier.metric.label_metric,
           tag_rates: tier.tag_rates,
-          stateIndex: tier.stateIndex,
+          rateIndex: tier.rateIndex,
         },
         cells: [
           getMetric(tier.metric.label_metric),

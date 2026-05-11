@@ -6,7 +6,7 @@ import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 import { DeletePriceListModal } from 'routes/settings/priceList/priceList/delete';
 import { DeprecatePriceListModal } from 'routes/settings/priceList/priceList/deprecate';
-import { usePriceListDuplicate, usePriceListEnabledToggle } from 'routes/settings/priceList/utils/hooks';
+import { usePriceListDuplicate, usePriceListEnabledToggle } from 'routes/settings/priceList/utils';
 
 interface PriceListActionsOwnProps {
   canWrite?: boolean;

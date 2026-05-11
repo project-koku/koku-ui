@@ -1,4 +1,4 @@
-import { t_global_spacer_lg, t_global_spacer_xl } from '@patternfly/react-tokens';
+import { t_global_spacer_sm } from '@patternfly/react-tokens';
 import type React from 'react';
 
 export const styles = {
@@ -6,8 +6,8 @@ export const styles = {
     width: '75%',
   },
   divider: {
-    marginBottom: t_global_spacer_lg.var,
-    marginTop: t_global_spacer_xl.var,
+    marginBottom: t_global_spacer_sm.var,
+    marginTop: t_global_spacer_sm.var,
   },
   headerContainer: {
     paddingBottom: 0,
