@@ -45,7 +45,7 @@
     "start:onprem:koku": "Run onprem UI with local Koku API"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.0.5",
+    "@eslint/compat": "^2.1.0",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "@formatjs/cli": "^6.14.4",
@@ -70,7 +70,7 @@
     "concurrently": "^9.2.1",
     "copy-webpack-plugin": "^14.0.0",
     "eslint": "^10.3.0",
-    "eslint-plugin-formatjs": "^6.4.7",
+    "eslint-plugin-formatjs": "^6.4.8",
     "eslint-plugin-jest-dom": "^5.5.0",
     "eslint-plugin-jsdoc": "^62.9.0",
     "eslint-plugin-markdown": "^5.1.0",
