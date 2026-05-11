@@ -23,7 +23,6 @@ interface AddRateModalOwnProps {
   onClose?: () => void;
   onSuccess?: () => void;
   priceList: PriceListData;
-  rateIndex?: number;
 }
 
 interface AddRateModalStateProps {
@@ -44,7 +43,6 @@ const AddRateModal: React.FC<AddRateModalProps> = ({
   onClose,
   onSuccess,
   priceList,
-  rateIndex,
 }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
@@ -100,7 +98,6 @@ const AddRateModal: React.FC<AddRateModalProps> = ({
           onDisabled={setIsDisabled}
           onSave={handleOnSave}
           priceList={priceList}
-          rateIndex={rateIndex}
           ref={contentRef}
         />
       </ModalBody>

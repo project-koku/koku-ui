@@ -83,7 +83,7 @@ export interface RatesContentHandle {
 type RatesContentProps = RatesContentOwnProps;
 
 const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
-  ({ isAddRate = false, onDisabled, onSave, priceList, rateIndex }, ref) => {
+  ({ isAddRate, onDisabled, onSave, priceList, rateIndex }, ref) => {
     const intl = useIntl();
 
     /** Latest save handler for imperative `save()` — updated in layout effect (not during render). */
@@ -92,37 +92,34 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
     const { metricsHash, metricsHashByName, resource, resourceFetchStatus } = useMapToProps();
 
     // Todo: Replace with label_metric when available in price-lists API
-    const metricName = priceList?.rates?.[rateIndex]?.metric?.name ?? undefined;
-    const labelMetric = (metricsHashByName?.[metricName]?.label_metric ?? '') as string;
+    const rate = priceList?.rates?.[rateIndex];
+    const metricName = rate?.metric?.name ?? undefined;
+    const labelMetric = rate?.metric?.label_metric ?? undefined;
 
     // Defaults
     const defaultCostType = metricsHash?.[metricName]?.default_cost_type ?? '';
     const defaultCurrency = priceList?.currency ?? 'USD';
     const defaultTagValue = { default: false, description: '', unit: defaultCurrency };
 
-    const initialTagValues = priceList?.rates?.[rateIndex]?.tag_rates?.tag_values?.map(rate => ({
-      ...rate,
-      valueInput: rate?.value?.toString() ?? '',
+    const initialTagValues = rate?.tag_rates?.tag_values?.map(tagValue => ({
+      ...tagValue,
+      valueInput: tagValue?.value?.toString() ?? '',
     })) ?? [defaultTagValue];
     const initialTieredRates =
-      priceList?.rates?.[rateIndex]?.tiered_rates?.map(rate => ({
-        ...rate,
-        valueInput: rate?.value?.toString() ?? '',
+      rate?.tiered_rates?.map(tieredRate => ({
+        ...tieredRate,
+        valueInput: tieredRate?.value?.toString() ?? '',
       })) ?? undefined;
 
     // State management
-    const [costType, setCostType] = useState<string>(
-      (priceList?.rates?.[rateIndex]?.cost_type ?? defaultCostType) as string
-    );
-    const [costTypeBaseline] = useState<string>(
-      (priceList?.rates?.[rateIndex]?.cost_type ?? defaultCostType) as string
-    );
+    const [costType, setCostType] = useState<string>((rate?.cost_type ?? defaultCostType) as string);
+    const [costTypeBaseline] = useState<string>((rate?.cost_type ?? defaultCostType) as string);
     const [currency] = useState<string>(defaultCurrency);
-    const [description, setDescription] = useState<string>(priceList?.rates?.[rateIndex]?.description ?? '');
-    const [descriptionBaseline] = useState<string>(priceList?.rates?.[rateIndex]?.description ?? '');
+    const [description, setDescription] = useState<string>(rate?.description ?? '');
+    const [descriptionBaseline] = useState<string>(rate?.description ?? '');
     const [descriptionError, setDescriptionError] = useState<MessageDescriptor>();
-    const [gpuTagKey, setGpuTagKey] = useState<string>(priceList?.rates?.[rateIndex]?.tag_rates?.tag_key ?? '');
-    const [gpuTagKeyBaseline] = useState<string>(priceList?.rates?.[rateIndex]?.tag_rates?.tag_key ?? '');
+    const [gpuTagKey, setGpuTagKey] = useState<string>(rate?.tag_rates?.tag_key ?? '');
+    const [gpuTagKeyBaseline] = useState<string>(rate?.tag_rates?.tag_key ?? '');
     const [gpuTagKeyError, setGpuTagKeyError] = useState<MessageDescriptor>();
     const [gpuTagValues, setGpuTagValues] = useState<TagValueExt[]>(cloneDeep(initialTagValues));
     const [gpuTagValuesBaseline] = useState<TagValueExt[]>(cloneDeep(initialTagValues));
@@ -136,13 +133,13 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
     const [isTagRatesDisabled, setIsTagRatesDisabled] = useState<boolean>(false);
     const [measurement, setMeasurement] = useState<string>(metricName ?? '');
     const [measurementBaseline] = useState<string>(metricName ?? '');
-    const [metric, setMetric] = useState<string>(labelMetric);
-    const [metricBaseline] = useState<string>(labelMetric);
-    const [name, setName] = useState<string>(priceList?.rates?.[rateIndex]?.custom_name ?? '');
-    const [nameBaseline] = useState<string>(priceList?.rates?.[rateIndex]?.custom_name ?? '');
+    const [metric, setMetric] = useState<string>(labelMetric ?? '');
+    const [metricBaseline] = useState<string>(labelMetric ?? '');
+    const [name, setName] = useState<string>(rate?.custom_name ?? '');
+    const [nameBaseline] = useState<string>(rate?.custom_name ?? '');
     const [nameError, setNameError] = useState<MessageDescriptor>();
-    const [tagKey, setTagKey] = useState<string>(priceList?.rates?.[rateIndex]?.tag_rates?.tag_key ?? '');
-    const [tagKeyBaseline] = useState<string>(priceList?.rates?.[rateIndex]?.tag_rates?.tag_key ?? '');
+    const [tagKey, setTagKey] = useState<string>(rate?.tag_rates?.tag_key ?? '');
+    const [tagKeyBaseline] = useState<string>(rate?.tag_rates?.tag_key ?? '');
     const [tagKeyError, setTagKeyError] = useState<MessageDescriptor>();
     const [tagValues, setTagValues] = useState<TagValueExt[]>(cloneDeep(initialTagValues));
     const [tagValuesBaseline] = useState<TagValueExt[]>(cloneDeep(initialTagValues));
@@ -389,7 +386,7 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
       setCostType(getDefaultCostType(metricsHash, value));
       setMeasurement(undefined);
       setMetric(value);
-      updateSubmitMode(value, isTagRatesChecked);
+      updateSubmitMode(value, false);
     };
 
     const handleOnNameChange = (value: string) => {
@@ -404,57 +401,54 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
     };
 
     const handleOnSave = () => {
-      let newRates = {};
+      let values = {};
       if (isSubmitModeGpuValues) {
-        newRates = {
+        values = {
           tag_rates: {
             tag_key: gpuTagKey,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            tag_values: gpuTagValues.map(({ valueInput, ...rest }) => rest),
+            tag_values: gpuTagValues.map(({ valueInput, ...rest }) => ({ ...rest, unit: currency })),
           },
         };
       } else if (isSubmitModeTagValues) {
-        newRates = {
+        values = {
           tag_rates: {
             tag_key: tagKey,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            tag_values: tagValues.map(({ valueInput, ...rest }) => rest),
+            tag_values: tagValues.map(({ valueInput, ...rest }) => ({ ...rest, unit: currency })),
           },
         };
       } else if (isSubmitModeTieredValue) {
-        newRates = {
+        values = {
           tiered_rates: [
             {
               unit: currency,
-              usage: {
-                unit: currency,
-              },
               value: tieredRateValue?.value ?? undefined,
             },
           ],
         };
       }
 
-      const rate = {
+      const newRate = {
         cost_type: costType,
         custom_name: name,
         description,
         metric: {
           name: measurement,
         },
-        ...newRates,
+        ...values,
       };
 
       const existingRates: any = [...(priceList?.rates ?? [])];
-      let rates;
+      let newRates;
 
       if (isAddRate) {
-        rates = [...existingRates, rate];
+        newRates = [...existingRates, newRate];
       } else {
-        rates = [...existingRates];
-        rates[rateIndex] = rate;
+        newRates = [...existingRates];
+        newRates[rateIndex] = newRate;
       }
-      onSave?.(rates);
+      onSave?.(newRates);
     };
 
     const handleOnTagKeyChange = (value: string) => {
@@ -481,8 +475,8 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
       }
     };
 
-    const handleOnTagRatesChange = (value: boolean) => {
-      updateSubmitMode(metric, value);
+    const handleOnTagRatesChange = (checked: boolean) => {
+      updateSubmitMode(metric, checked);
     };
 
     const handleOnTagValuesAdd = () => {
@@ -490,9 +484,11 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
       setTagValuesErrors(prev => [...prev, {}]);
     };
 
-    const handleOnTagValuesDefaultChange = (value: boolean, index: number) => {
-      const newTagValues = cloneDeep(tagValues ?? []);
-      newTagValues[index].default = value;
+    const handleOnTagValuesDefaultChange = (value: boolean, indexToChange: number) => {
+      const newTagValues = (tagValues ?? []).map((tagValue, index) => ({
+        ...tagValue,
+        default: index === indexToChange ? value : false,
+      }));
       setTagValues(newTagValues);
     };
 
@@ -558,19 +554,21 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
     };
 
     const updateSubmitMode = (value: string, checked: boolean) => {
-      if (value?.toLowerCase() === 'cluster') {
+      const metricKey = value?.toLowerCase() ?? '';
+
+      if (metricKey === 'cluster') {
         setIsSubmitModeGpuValues(false);
         setIsSubmitModeTagValues(false);
         setIsSubmitModeTieredValue(true);
         setIsTagRatesChecked(false);
         setIsTagRatesDisabled(true);
-      } else if (value?.toLowerCase() === 'gpu') {
+      } else if (metricKey === 'gpu') {
         setIsSubmitModeGpuValues(true);
         setIsSubmitModeTagValues(false);
         setIsSubmitModeTieredValue(false);
         setIsTagRatesChecked(false);
         setIsTagRatesDisabled(false);
-      } else if (value?.toLowerCase() === 'project') {
+      } else if (metricKey === 'project') {
         setIsSubmitModeGpuValues(false);
         setIsSubmitModeTagValues(true);
         setIsSubmitModeTieredValue(false);
@@ -610,7 +608,7 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
     // Effects
 
     useEffect(() => {
-      updateSubmitMode(labelMetric, priceList?.rates?.[rateIndex]?.tag_rates?.tag_key !== undefined);
+      updateSubmitMode(metric || labelMetric, rate?.tag_rates?.tag_key !== undefined);
     }, [priceList, rateIndex]);
 
     useEffect(() => {

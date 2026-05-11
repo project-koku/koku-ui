@@ -11,8 +11,8 @@ import { Rates } from './rates';
 const consoleWarn = console.warn;
 const consoleError = console.error;
 
-jest.mock('routes/settings/priceList/utils/hooks', () => {
-  const actual = jest.requireActual('routes/settings/priceList/utils/hooks');
+jest.mock('routes/settings/priceList/utils', () => {
+  const actual = jest.requireActual('routes/settings/priceList/utils');
   const { FetchStatus } = require('store/common');
   return {
     ...actual,

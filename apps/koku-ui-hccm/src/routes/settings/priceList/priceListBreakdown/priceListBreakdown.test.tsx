@@ -18,8 +18,8 @@ jest.mock('./costModels', () => ({
   CostModels: () => <div data-testid="cost-models-panel" />,
 }));
 
-jest.mock('routes/settings/priceList/utils/hooks', () => {
-  const actual = jest.requireActual('routes/settings/priceList/utils/hooks');
+jest.mock('routes/settings/priceList/utils', () => {
+  const actual = jest.requireActual('routes/settings/priceList/utils');
   return {
     ...actual,
     usePriceListUpdate: () => ({

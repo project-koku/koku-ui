@@ -2359,6 +2359,7 @@ export default defineMessages({
       'gpu_vendor {GPU vendor} ' +
       'group {Group} ' +
       'instance {Instance} ' +
+      'metric {Metric} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +

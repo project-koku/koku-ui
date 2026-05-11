@@ -23,7 +23,8 @@ interface RatesTableOwnProps {
   onSort(sortType: string, isSortAscending: boolean);
   onSuccess?: () => void;
   orderBy?: any;
-  priceList: PriceListData;
+  priceList: PriceListData; // Price list without filters and pagination for editing
+  rates: Rate[]; // Filtered and paginated rates
 }
 
 type RatesTableProps = RatesTableOwnProps;
@@ -41,18 +42,19 @@ const RatesTable: React.FC<RatesTableProps> = ({
   onSuccess,
   orderBy,
   priceList,
+  rates,
 }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
   const initDatum = () => {
-    if (!priceList) {
+    if (!rates) {
       return;
     }
 
     const newRows = [];
-    const computedItems = priceList.rates ?? [];
+    const computedItems = rates ?? [];
 
     const newColumns = [
       {
@@ -191,7 +193,7 @@ const RatesTable: React.FC<RatesTableProps> = ({
           },
           {
             style: styles.column,
-            value: item?.metric?.name || '',
+            value: item?.metric?.label_metric || '',
           },
           {
             style: styles.column,
@@ -226,7 +228,7 @@ const RatesTable: React.FC<RatesTableProps> = ({
                 onDelete={onDelete}
                 onEdit={onEdit}
                 onSuccess={onSuccess}
-                rateIndex={index}
+                rateIndex={item?.rateIndex ?? index}
               />
             ),
           },
@@ -242,7 +244,7 @@ const RatesTable: React.FC<RatesTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [intl, priceList]);
+  }, [intl, priceList, rates]);
 
   return (
     <CompoundExpandTable

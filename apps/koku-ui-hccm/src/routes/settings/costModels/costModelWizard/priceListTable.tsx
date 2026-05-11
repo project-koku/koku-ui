@@ -158,7 +158,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                       .map((item, index) => {
                         return {
                           ...item,
-                          stateIndex: index,
+                          rateIndex: index,
                         };
                       })
                       .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
@@ -264,7 +264,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                               {
                                 title: intl.formatMessage(messages.remove),
                                 onClick: (_evt, _rowId, rowData) => {
-                                  deleteRateAction(rowData.data.stateIndex);
+                                  deleteRateAction(rowData.data.rateIndex);
                                 },
                               } as any,
                             ]}

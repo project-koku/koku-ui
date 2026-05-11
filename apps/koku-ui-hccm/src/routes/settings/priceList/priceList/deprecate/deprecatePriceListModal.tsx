@@ -12,7 +12,7 @@ import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { usePriceListEnabledToggle } from 'routes/settings/priceList/utils/hooks';
+import { usePriceListEnabledToggle } from 'routes/settings/priceList/utils';
 
 interface DeprecatePriceListModalOwnProps {
   isOpen?: boolean;

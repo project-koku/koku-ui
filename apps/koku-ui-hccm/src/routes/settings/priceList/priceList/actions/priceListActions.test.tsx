@@ -11,7 +11,7 @@ import { priceListReducer, priceListSelectors, priceListStateKey } from 'store/p
 
 import { PriceListActions } from './priceListActions';
 
-jest.mock('routes/settings/priceList/utils/hooks', () => ({
+jest.mock('routes/settings/priceList/utils', () => ({
   usePriceListDuplicate: (priceList: unknown, onDuplicate?: () => void) => ({
     duplicatePriceList: () => onDuplicate?.(),
   }),

@@ -67,10 +67,31 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const handleOnSave = (payload: PriceListData) => {
     setIsFinish(true);
 
+    // Update rates with latest currency
+    const newRates = rates?.map(rate => ({
+      ...rate,
+      ...(rate?.tag_rates && {
+        tag_rates: {
+          ...rate?.tag_rates,
+          tag_values: rate?.tag_rates?.tag_values.map(tagValue => ({
+            ...tagValue,
+            unit: payload?.currency,
+          })),
+        },
+      }),
+      ...(rate?.tiered_rates && {
+        tiered_rates: rate?.tiered_rates?.map(tieredRate => ({
+          ...tieredRate,
+          unit: payload?.currency,
+        })),
+      }),
+    }));
+
     dispatch(
       priceListActions.updatePriceList(PriceListType.priceListAdd, undefined, {
         ...(priceList ?? {}),
-        ...payload,
+        ...(payload ?? {}),
+        ...(newRates && { rates: newRates }),
       })
     );
   };
@@ -124,7 +145,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
           <StackItem style={styles.divider}>
             <Divider />
           </StackItem>
-          <StackItem style={styles.ratesContainer}>
+          <StackItem>
             <PriceListRates
               canWrite={canWrite()}
               onAdd={setRates}

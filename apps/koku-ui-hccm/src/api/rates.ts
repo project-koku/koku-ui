@@ -26,10 +26,10 @@ export interface TagRates {
 }
 
 export interface Rate {
-  stateIndex?: any;
   custom_name?: string;
   description?: string;
   metric?: Metric;
+  rateIndex?: number;
   tiered_rates?: TieredRate[];
   tag_rates?: TagRates;
   cost_type?: string;

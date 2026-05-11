@@ -8157,6 +8157,14 @@
               }
             ]
           },
+          "metric": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Metric"
+              }
+            ]
+          },
           "name": {
             "value": [
               {

@@ -10,11 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { Selector } from 'routes/settings/components';
+import { hasDuplicateTagRates } from 'routes/settings/priceList/priceListBreakdown/rates/components/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { resourceActions, resourceSelectors } from 'store/resources';
-
-import { hasDuplicateTagRates } from '../utils';
 
 interface GpuTagKeyOwnProps {
   costType?: string;
