@@ -80,10 +80,6 @@ const PriceListRates: React.FC<PriceListRatesProps> = ({ canWrite, onAdd, onDele
   const isDisabled = rates?.length === 0 && !hasFilters;
 
   const getPagination = (isBottom = false) => {
-    // TODO: update once we have a paginated API
-    // const count = priceList?.meta ? priceList.meta.count : 0;
-    // const limit = priceList?.meta ? priceList.meta.limit : baseQuery.limit;
-    // const offset = priceList?.meta ? priceList.meta.offset : baseQuery.offset;
     const offset = pageNumber * perPage - perPage;
     const page = Math.trunc(offset / perPage + 1);
 

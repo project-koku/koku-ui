@@ -2,43 +2,27 @@ import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
 
 // Filter rates by name and metric
-export const getFilteredRates = (rates: Rate[], filterBy): Rate[] => {
-  const hasNameFilter = filterBy?.name?.length > 0;
-  const hasMetricFilter = filterBy?.metrics?.length > 0;
+export const getFilteredRates = (rates: Rate[], filterBy: any): Rate[] => {
+  if (!rates) {
+    return [];
+  }
 
-  if (!hasNameFilter && !hasMetricFilter) {
+  const nameFilters = filterBy?.name || [];
+  const metricFilters = filterBy?.metrics || [];
+
+  if (nameFilters.length === 0 && metricFilters.length === 0) {
     return rates;
   }
 
-  const newRates = [];
-  rates?.map(rate => {
-    if (hasNameFilter && !hasMetricFilter) {
-      filterBy?.name?.map(name => {
-        if (rate?.custom_name?.toLowerCase()?.includes(name?.toLowerCase())) {
-          newRates.push(rate);
-        }
-      });
-    } else if (!hasNameFilter && hasMetricFilter) {
-      filterBy?.metrics?.map(metric => {
-        if (rate?.metric?.label_metric?.toLowerCase()?.includes(metric?.toLowerCase())) {
-          newRates.push(rate);
-        }
-      });
-    } else if (hasNameFilter && hasMetricFilter) {
-      filterBy?.name?.map(name => {
-        if (rate?.custom_name?.toLowerCase()?.includes(name?.toLowerCase())) {
-          filterBy?.metrics?.filter(metric => {
-            if (rate?.metric?.label_metric?.toLowerCase()?.includes(metric?.toLowerCase())) {
-              newRates.push(rate);
-            }
-          });
-        }
-      });
-    } else {
-      newRates.push(rate);
-    }
+  return rates.filter(rate => {
+    const matchesName =
+      nameFilters.length === 0 ||
+      nameFilters.some(item => rate?.custom_name?.toLowerCase().includes(item.toLowerCase()));
+    const matchesMetric =
+      metricFilters.length === 0 ||
+      metricFilters.some(item => rate?.metric?.label_metric?.toLowerCase().includes(item.toLowerCase()));
+    return matchesName && matchesMetric;
   });
-  return newRates;
 };
 
 // Add rate indexes to rates for editing

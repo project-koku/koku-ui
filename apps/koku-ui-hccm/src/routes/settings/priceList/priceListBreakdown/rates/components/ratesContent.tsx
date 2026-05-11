@@ -485,10 +485,10 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
     };
 
     const handleOnTagValuesDefaultChange = (value: boolean, indexToChange: number) => {
-      const newTagValues = cloneDeep(tagValues ?? []);
-      newTagValues?.map((tagValue, index) => {
-        tagValue.default = index === indexToChange ? value : false;
-      });
+      const newTagValues = (tagValues ?? []).map((tagValue, index) => ({
+        ...tagValue,
+        default: index === indexToChange ? value : false,
+      }));
       setTagValues(newTagValues);
     };
 
