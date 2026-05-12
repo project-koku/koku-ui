@@ -2258,6 +2258,7 @@ export default defineMessages({
       'account {Input for account name} ' +
       'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
+      'description {Input for description} ' +
       'gcp_project {Input for Google Cloud project name} ' +
       'gpu_model {Input for GPU model} ' +
       'gpu_vendor {Input for GPU vendor} ' +
@@ -2271,6 +2272,7 @@ export default defineMessages({
       'resource_location {Input for region name} ' +
       'service {Input for service name} ' +
       'service_name {Input for service_name} ' +
+      'source_type {Input for integration} ' +
       'subscription_guid {Input for account name} ' +
       'status {Input for status value} ' +
       'tag {Input for tag name} ' +
@@ -2354,6 +2356,7 @@ export default defineMessages({
       'cluster {Cluster} ' +
       'container {Container} ' +
       'default {Default} ' +
+      'description {Description} ' +
       'gcp_project {Google Cloud project} ' +
       'gpu_model {GPU model} ' +
       'gpu_vendor {GPU vendor} ' +

@@ -266,7 +266,6 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps):
     if (
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
-      priceListStatus !== FetchStatus.complete &&
       priceListAddStatus !== FetchStatus.inProgress &&
       priceListDuplicateStatus !== FetchStatus.inProgress &&
       priceListRemoveStatus !== FetchStatus.inProgress &&

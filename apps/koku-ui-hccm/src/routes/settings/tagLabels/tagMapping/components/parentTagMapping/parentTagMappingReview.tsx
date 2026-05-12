@@ -5,7 +5,7 @@ import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { parseApiError } from 'routes/settings/tagLabels/tagMapping/utils/parseApiError';
+import { parseApiError } from 'routes/settings/utils';
 import { FetchStatus } from 'store/common';
 
 import { styles } from './parentTagMapping.styles';

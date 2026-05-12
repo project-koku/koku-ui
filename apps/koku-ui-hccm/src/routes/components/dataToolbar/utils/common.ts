@@ -22,6 +22,8 @@ export interface Filters {
 
 export interface ToolbarChipGroupExt extends ToolbarLabelGroup {
   ariaLabelKey?: string;
+  hasCheckbox?: boolean;
+  isMultiSelect?: boolean;
   placeholderKey?: string;
   resourceKey?: string;
   selectClassName?: string; // A selector from routes/components/dataToolbar/dataToolbar.scss

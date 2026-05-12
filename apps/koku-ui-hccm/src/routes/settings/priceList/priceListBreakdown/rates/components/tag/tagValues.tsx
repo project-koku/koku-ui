@@ -15,7 +15,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'routes/settings/costModelsDeprecated/components/readOnlyTooltip';
 import type { TagValueExt } from 'routes/settings/priceList/priceListBreakdown/rates/components/utils';
 import { formatCurrencyRaw, getCurrencySymbol } from 'utils/format';
 

@@ -13,8 +13,8 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { LoadingState } from 'routes/components/state/loadingState';
-import type { DetailsContentHandle } from 'routes/settings/priceList/priceList/details';
-import { DetailsContent } from 'routes/settings/priceList/priceList/details';
+import type { DetailsContentHandle } from 'routes/settings/priceList/priceLists/details';
+import { DetailsContent } from 'routes/settings/priceList/priceLists/details';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
@@ -73,7 +73,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
       ...(rate?.tag_rates && {
         tag_rates: {
           ...rate?.tag_rates,
-          tag_values: rate?.tag_rates?.tag_values.map(tagValue => ({
+          tag_values: rate?.tag_rates?.tag_values?.map(tagValue => ({
             ...tagValue,
             unit: payload?.currency,
           })),

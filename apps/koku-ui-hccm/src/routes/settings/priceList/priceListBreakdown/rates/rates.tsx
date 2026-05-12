@@ -251,7 +251,6 @@ const useMapToProps = ({ pageNumber, perPage, query }: RatesMapProps): RatesStat
     if (
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
-      priceListStatus !== FetchStatus.complete &&
       priceListUpdateStatus !== FetchStatus.inProgress
     ) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));

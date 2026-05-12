@@ -1,6 +1,6 @@
 import type { MetricHash } from 'api/metrics';
 import type { AxiosError } from 'axios';
-import { parseApiError } from 'routes/settings/costModels/costModelWizard/parseError';
+import { parseApiError } from 'routes/settings/utils';
 import type { FetchStatus } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import type { RootState } from 'store/rootReducer';

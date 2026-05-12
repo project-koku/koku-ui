@@ -1,7 +1,7 @@
 jest.mock('api/costModels');
 
 import { waitFor } from '@testing-library/react';
-import type { CostModel, CostModelProvider, CostModels } from 'api/costModels';
+import type { CostModel, CostModelProvider, CostModelRequest, CostModels } from 'api/costModels';
 import { deleteCostModel, fetchCostModels, updateCostModel } from 'api/costModels';
 import type { Rate } from 'api/rates';
 import { FetchStatus } from 'store/common';
@@ -15,6 +15,7 @@ const costmodel1: CostModel = {
   created_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
   currency: 'USD',
   description: 'testing',
+  markup: { value: '0', unit: 'percent' },
   name: 'cost-model-1',
   rates: [] as Rate[],
   sources: [] as CostModelProvider[],
@@ -27,6 +28,15 @@ const updated_costmodel1: CostModel = {
   ...costmodel1,
   updated_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
   name: 'cost-model-1-updated',
+};
+
+const costModelRequestForUpdate: CostModelRequest = {
+  description: costmodel1.description,
+  markup: costmodel1.markup,
+  name: updated_costmodel1.name,
+  rates: [],
+  source_type: costmodel1.source_type,
+  source_uuids: [],
 };
 
 const costmodels: CostModels = {
@@ -91,12 +101,12 @@ test('select a cost model and reset', async () => {
 test('fetching cost models succeeded', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve({ data: costmodels }));
   const store = createCostModelsStore();
-  expect(selectors.costModels(store.getState())).toEqual([]);
+  expect(selectors.costModels(store.getState())).toBeNull();
   expect(selectors.error(store.getState())).toEqual(null);
   store.dispatch(actions.fetchCostModels());
   expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.status(store.getState())).toBe(FetchStatus.complete));
-  expect(selectors.costModels(store.getState())).toEqual([costmodel1]);
+  expect(selectors.costModels(store.getState())).toEqual(costmodels);
   expect(selectors.error(store.getState())).toEqual(null);
   expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
 });
@@ -109,12 +119,12 @@ test('fetching cost models failed', async () => {
   };
   mockfetcher.mockReturnValueOnce(Promise.reject(error));
   const store = createCostModelsStore();
-  expect(selectors.costModels(store.getState())).toEqual([]);
+  expect(selectors.costModels(store.getState())).toBeNull();
   expect(selectors.error(store.getState())).toEqual(null);
   store.dispatch(actions.fetchCostModels());
   expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
   await waitFor(() => expect(selectors.status(store.getState())).toBe(FetchStatus.complete));
-  expect(selectors.costModels(store.getState())).toEqual([]);
+  expect(selectors.costModels(store.getState())).toBeNull();
   expect(selectors.error(store.getState())).toEqual(error);
   expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
 });
@@ -145,7 +155,7 @@ test('updating a cost model succeeded', async () => {
   store.dispatch(actions.selectCostModel(costmodel1));
   expect(selectors.selected(store.getState())).toEqual(costmodel1);
   expect(selectors.updateError(store.getState())).toBe('');
-  store.dispatch(actions.updateCostModel());
+  store.dispatch(actions.updateCostModel(costmodel1.uuid, costModelRequestForUpdate));
   expect(selectors.updateProcessing(store.getState())).toBe(true);
   await waitFor(() => expect(selectors.updateProcessing(store.getState())).toBe(false));
   expect(selectors.selected(store.getState())).toEqual(updated_costmodel1);
@@ -160,7 +170,9 @@ test('updating a cost model failed', async () => {
   expect(selectors.selected(store.getState())).toEqual(costmodel1);
   expect(selectors.updateError(store.getState())).toBe('');
   expect(selectors.updateProcessing(store.getState())).toBe(false);
-  store.dispatch(actions.updateCostModel());
+  store.dispatch(
+    actions.updateCostModel(costmodel1.uuid, { ...costModelRequestForUpdate, name: costmodel1.name })
+  );
   expect(selectors.updateProcessing(store.getState())).toBe(true);
   await waitFor(() => expect(selectors.updateProcessing(store.getState())).toBe(false));
   expect(selectors.selected(store.getState())).toEqual(costmodel1);

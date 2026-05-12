@@ -90,6 +90,7 @@ export const onCategoryInput = ({
   currentCriteria,
   currentFilters,
   event,
+  isMultiSelect = true,
   key,
 }: {
   categoryInput?: string;
@@ -97,6 +98,7 @@ export const onCategoryInput = ({
   currentCriteria?: string;
   currentFilters?: Filters;
   event: any;
+  isMultiSelect?: boolean;
   key?: string;
 }) => {
   if (event && event.key && event.key !== 'Enter') {
@@ -111,18 +113,26 @@ export const onCategoryInput = ({
   const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
-  return {
-    filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]:
-        newFilters && newFilters.find(item => item.value === val)
-          ? newFilters
-          : newFilters
-            ? [...newFilters, filter]
-            : [filter],
-    },
-  };
+  return !isMultiSelect
+    ? {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]: [filter],
+        },
+      }
+    : {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]:
+            newFilters && newFilters.find(item => item.value === val)
+              ? newFilters
+              : newFilters
+                ? [...newFilters, filter]
+                : [filter],
+        },
+      };
 };
 
 export const onCategoryInputSelect = ({
@@ -130,12 +140,14 @@ export const onCategoryInputSelect = ({
   currentCriteria,
   currentFilters,
   key,
+  isMultiSelect = true,
   value,
 }: {
   currentCategory?: string;
   currentCriteria?: string;
   currentFilters?: Filters;
   key?: string;
+  isMultiSelect?: boolean;
   value: string;
 }) => {
   const val = cleanInput(value);
@@ -146,18 +158,26 @@ export const onCategoryInputSelect = ({
   const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
-  return {
-    filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]:
-        newFilters && newFilters.find(item => item.value === val)
-          ? newFilters
-          : newFilters
-            ? [...newFilters, filter]
-            : [filter],
-    },
-  };
+  return !isMultiSelect
+    ? {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]: [filter],
+        },
+      }
+    : {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]:
+            newFilters && newFilters.find(item => item.value === val)
+              ? newFilters
+              : newFilters
+                ? [...newFilters, filter]
+                : [filter],
+        },
+      };
 };
 
 // Category select
@@ -176,7 +196,7 @@ export const getCategorySelect = ({
   onCategorySelect?: (event, selection: SelectWrapperOption) => void;
   onCategoryToggle?: (isOpen: boolean) => void;
 }) => {
-  if (!categoryOptions) {
+  if (!categoryOptions || categoryOptions.length === 1) {
     return null;
   }
 
