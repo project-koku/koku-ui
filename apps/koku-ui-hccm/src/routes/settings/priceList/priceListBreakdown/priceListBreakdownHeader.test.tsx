@@ -10,11 +10,11 @@ import { priceListReducer, priceListStateKey } from 'store/priceList';
 
 import { PriceListBreakdownHeader } from './priceListBreakdownHeader';
 
-jest.mock('routes/settings/priceList/priceList/actions', () => ({
+jest.mock('routes/settings/priceList/priceLists/actions', () => ({
   PriceListActions: () => <div data-testid="actions-stub" />,
 }));
 
-jest.mock('routes/settings/priceList/priceList/details', () => ({
+jest.mock('routes/settings/priceList/priceLists/details', () => ({
   EditDetailsModal: ({ isOpen }: { isOpen?: boolean }) =>
     isOpen ? <div data-testid="edit-price-list-modal-open" /> : null,
 }));

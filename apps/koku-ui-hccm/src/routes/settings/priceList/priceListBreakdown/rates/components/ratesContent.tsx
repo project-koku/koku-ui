@@ -430,6 +430,7 @@ const RatesContent = forwardRef<RatesContentHandle, RatesContentProps>(
       }
 
       const newRate = {
+        ...rate,
         cost_type: costType,
         custom_name: name,
         description,
@@ -846,7 +847,11 @@ const useMapToProps = (): RatesContentStateProps => {
   );
 
   useEffect(() => {
-    if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress) {
+    if (
+      !resourceError &&
+      resourceFetchStatus !== FetchStatus.inProgress &&
+      resourceFetchStatus !== FetchStatus.complete
+    ) {
       dispatch(resourceActions.fetchResource(ResourcePathsType.ocp, ResourceType.gpuVendor, reportQueryString));
     }
   }, [reportQueryString, resourceError, resourceFetchStatus, ResourcePathsType.ocp, ResourceType.gpuVendor]);

@@ -16,6 +16,7 @@ export const getCustomSelect = ({
   currentCategory,
   filters,
   isDisabled,
+  isMultiSelect,
   onDelete,
   onSelect,
   selectClassName,
@@ -25,6 +26,7 @@ export const getCustomSelect = ({
   currentCategory?: string;
   filters?: Filters;
   isDisabled?: boolean;
+  isMultiSelect?: boolean;
   onDelete?: (type: any, chip: any) => void;
   onSelect?: (event: any, selection) => void;
   selectOptions?: ToolbarChipGroupExt[];
@@ -48,6 +50,7 @@ export const getCustomSelect = ({
         className={selectClassName}
         filters={filters[categoryOption.key] as Filter[]}
         isDisabled={isDisabled && !hasFilters(filters)}
+        isMultiSelect={isMultiSelect}
         onSelect={onSelect}
         options={selectOptions}
       />
@@ -59,14 +62,16 @@ export const onCustomSelect = ({
   currentCategory,
   currentFilters,
   event,
+  isMultiSelect = true,
   selection,
 }: {
   currentCategory?: string;
   currentFilters?: Filters;
   event?: any;
+  isMultiSelect?: boolean;
   selection: SelectWrapperOption;
 }) => {
-  const checked = event.target.checked;
+  const checked = isMultiSelect ? event?.target?.checked : true;
   let filter;
   if (checked) {
     filter = getFilter(currentCategory, selection.value, false, selection.toString);
@@ -78,10 +83,15 @@ export const onCustomSelect = ({
 
   const result = {
     filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]: checked ? [...newFilters, filter] : newFilters.filter(item => item.value !== filter.value),
-    },
+    filters: !isMultiSelect
+      ? {
+          ...currentFilters,
+          [currentCategory]: checked ? [filter] : newFilters.filter(item => item.value !== filter.value),
+        }
+      : {
+          ...currentFilters,
+          [currentCategory]: checked ? [...newFilters, filter] : newFilters.filter(item => item.value !== filter.value),
+        },
   };
   return result;
 };

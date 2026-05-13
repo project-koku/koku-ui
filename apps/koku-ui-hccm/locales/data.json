@@ -7609,6 +7609,14 @@
               }
             ]
           },
+          "description": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for description"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -7713,6 +7721,14 @@
               {
                 "type": 0,
                 "value": "Input for service_name"
+              }
+            ]
+          },
+          "source_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for integration"
               }
             ]
           },
@@ -8114,6 +8130,14 @@
               {
                 "type": 0,
                 "value": "Default"
+              }
+            ]
+          },
+          "description": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Description"
               }
             ]
           },

@@ -22,7 +22,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
-import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'routes/settings/costModelsDeprecated/components/readOnlyTooltip';
 import type { TagValueExt } from 'routes/settings/priceList/priceListBreakdown/rates/components/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -201,6 +201,7 @@ const GpuTagValues: React.FC<GpuTagValuesProps> = ({
 const useMapToProps = ({ tagKey }: GpuTagValuesMapProps): GpuTagValuesStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
+  // Fetch GPU models
   const reportQuery = {
     limit: 100,
     vendor_name: tagKey,

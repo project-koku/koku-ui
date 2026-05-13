@@ -24,7 +24,7 @@ jest.mock('utils/userAccess', () => ({
   hasSettingsAccess: () => true,
 }));
 
-jest.mock('routes/settings/priceList/priceList/details', () => {
+jest.mock('routes/settings/priceList/priceLists/details', () => {
   const React = require('react');
   return {
     DetailsContent: React.forwardRef((props: { onDisabled?: (v: boolean) => void; onSave?: (p: unknown) => void }, ref: unknown) => {

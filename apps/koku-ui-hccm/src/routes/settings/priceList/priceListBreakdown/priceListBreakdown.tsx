@@ -45,7 +45,6 @@ export interface PriceListBreakdownMapProps {
 }
 
 export interface PriceListBreakdownStateProps {
-  canWrite?: boolean;
   priceList?: PriceListData;
   priceListError?: AxiosError;
   priceListQueryString?: string;
@@ -288,7 +287,6 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps):
   );
 
   return {
-    canWrite: false,
     priceList,
     priceListError,
     priceListQueryString,

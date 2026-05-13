@@ -16,7 +16,7 @@ import { routes } from 'routes';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { Calculations } from 'routes/settings/calculations';
-import { CostModelsDetails } from 'routes/settings/costModels';
+import { CostModelsDetails } from 'routes/settings/costModelsDeprecated';
 import { PlatformProjects } from 'routes/settings/platformProjects';
 import { TagLabels } from 'routes/settings/tagLabels';
 import { getQueryState } from 'routes/utils/queryState';
@@ -29,7 +29,8 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
-import { PriceList } from './priceList';
+import { CostModels } from './costModel';
+import { PriceLists } from './priceList';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {
@@ -189,7 +190,11 @@ const Settings: React.FC<SettingsProps> = () => {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === SettingsTab.costModels) {
       return hasCostModelAccess(userAccess) ? (
-        <CostModelsDetails />
+        isPriceListToggleEnabled ? (
+          <CostModels canWrite={canWrite()} />
+        ) : (
+          <CostModelsDetails />
+        )
       ) : (
         <NotAuthorized pathname={formatPath(routes.costModelBreakdown.path)} />
       );
@@ -200,7 +205,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
-      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PriceLists canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {

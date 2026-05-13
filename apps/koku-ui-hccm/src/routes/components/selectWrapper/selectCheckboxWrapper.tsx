@@ -11,6 +11,7 @@ interface SelectCheckboxWrapperOwnProps {
   className?: string;
   id?: string;
   isDisabled?: boolean;
+  isMultiSelect?: boolean;
   onSelect?: (event, value: SelectWrapperOption) => void;
   options?: SelectWrapperOption[];
   placeholder?: string;
@@ -24,6 +25,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
   className,
   id,
   isDisabled,
+  isMultiSelect = true,
   onSelect = () => {},
   options,
   placeholder = null,
@@ -42,7 +44,7 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
     return (
       <SelectOption
         description={option.description}
-        hasCheckbox
+        hasCheckbox={isMultiSelect}
         key={`${option.value}-${index}`}
         isDisabled={option.isDisabled}
         isSelected={isSelected}
@@ -75,8 +77,14 @@ const SelectCheckboxWrapper: React.FC<SelectCheckboxWrapperProps> = ({
 
   const toggle = toggleRef => (
     <MenuToggle isDisabled={isDisabled} isExpanded={isOpen} onClick={handleOnToggle} ref={toggleRef}>
-      {placeholder}
-      {getBadge()}
+      {isMultiSelect ? (
+        <>
+          {placeholder}
+          {getBadge()}
+        </>
+      ) : (
+        selections?.[0]?.toString() || placeholder
+      )}
     </MenuToggle>
   );
 

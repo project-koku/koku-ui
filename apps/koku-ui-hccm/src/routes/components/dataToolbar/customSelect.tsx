@@ -15,6 +15,7 @@ interface CustomSelectOwnProps extends RouterComponentProps, WrappedComponentPro
   className?: string;
   filters?: Filter[];
   isDisabled?: boolean;
+  isMultiSelect?: boolean;
   onSelect(event, selection);
   options: ToolbarChipGroupExt[];
 }
@@ -54,7 +55,7 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
   };
 
   public render() {
-    const { className, filters, intl, isDisabled, onSelect } = this.props;
+    const { className, filters, intl, isDisabled, isMultiSelect, onSelect } = this.props;
 
     const selectOptions = this.getSelectOptions();
     const selections = filters?.map(filter => {
@@ -67,6 +68,7 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
         className={className}
         id="custom-select"
         isDisabled={isDisabled}
+        isMultiSelect={isMultiSelect}
         onSelect={onSelect}
         options={selectOptions}
         placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}

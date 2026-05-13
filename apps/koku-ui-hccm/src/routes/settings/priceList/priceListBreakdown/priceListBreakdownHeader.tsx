@@ -20,8 +20,8 @@ import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
-import { PriceListActions } from 'routes/settings/priceList/priceList/actions';
-import { EditDetailsModal } from 'routes/settings/priceList/priceList/details';
+import { PriceListActions } from 'routes/settings/priceList/priceLists/actions';
+import { EditDetailsModal } from 'routes/settings/priceList/priceLists/details';
 import { getDateString, getValidityPeriod } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
