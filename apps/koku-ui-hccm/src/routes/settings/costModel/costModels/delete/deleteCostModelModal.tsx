@@ -49,6 +49,8 @@ const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
+  const costModel = costModelsIndex < costModels?.data?.length ? costModels?.data?.[costModelsIndex] : undefined;
+  const hasSources = costModel?.sources?.length > 0;
   const [isFinish, setIsFinish] = useState(false);
 
   const { costModelsError, costModelsStatus } = useMapToProps();
@@ -56,7 +58,9 @@ const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
   const handleOnDelete = () => {
     if (costModelsStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
-      dispatch(costModelsActions.deleteCostModel(costModels?.data?.[costModelsIndex]?.uuid));
+      if (costModelsIndex <= costModels?.data?.length - 1) {
+        dispatch(costModelsActions.deleteCostModel(costModel?.uuid));
+      }
     }
   };
 
@@ -68,8 +72,6 @@ const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
-
-  const hasSources = costModels?.data?.[costModelsIndex]?.sources?.length > 0;
 
   return (
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.small}>
@@ -85,12 +87,12 @@ const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
               <StackItem>{intl.formatMessage(messages.costModelsDeleteSource)}</StackItem>
               <StackItem>
                 {intl.formatMessage(messages.costModelsCanNotDelete, {
-                  name: <b>{costModels?.data?.[costModelsIndex]?.name}</b>,
+                  name: <b>{costModel?.name}</b>,
                 })}
               </StackItem>
               <StackItem>
                 <Content component={ContentVariants.ol}>
-                  {costModels?.data?.[costModelsIndex]?.sources?.map((source, index) => (
+                  {costModel?.sources?.map((source, index) => (
                     <Content component={ContentVariants.li} key={`cost-model-${index}`}>
                       {source?.name || ''}
                     </Content>
@@ -101,7 +103,7 @@ const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
           ) : (
             <StackItem>
               {intl.formatMessage(messages.costModelsDeleteDesc, {
-                costModel: <b>{costModels?.data?.[costModelsIndex]?.name}</b>,
+                costModel: <b>{costModel?.name}</b>,
               })}
             </StackItem>
           )}

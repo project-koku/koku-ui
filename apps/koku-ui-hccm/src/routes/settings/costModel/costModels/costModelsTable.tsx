@@ -77,7 +77,7 @@ const CostModelsTable: React.FC<CostModelsTableProps> = ({
       },
     ];
 
-    computedItems.map((item, index) => {
+    computedItems.forEach((item, index) => {
       newRows.push({
         cells: [
           {

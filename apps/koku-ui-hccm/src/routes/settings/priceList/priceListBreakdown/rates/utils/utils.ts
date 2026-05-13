@@ -20,9 +20,7 @@ export const getFilteredRates = (rates: Rate[], filterBy: any): Rate[] => {
       nameFilters.some(item => rate?.custom_name?.toLowerCase()?.includes(item.toLowerCase()));
     const matchesMetric =
       metricFilters.length === 0 ||
-      metricFilters.some(item =>
-        rate?.metric?.label_metric?.toLowerCase()?.includes(item.toLowerCase())
-      );
+      metricFilters.some(item => rate?.metric?.label_metric?.toLowerCase()?.includes(item.toLowerCase()));
     return matchesName && matchesMetric;
   });
 };

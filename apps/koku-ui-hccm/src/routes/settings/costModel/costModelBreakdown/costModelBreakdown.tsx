@@ -42,7 +42,6 @@ export interface CostModelBreakdownMapProps {
 }
 
 export interface CostModelBreakdownStateProps {
-  canWrite?: boolean;
   priceList?: PriceListData;
   priceListError?: AxiosError;
   priceListQueryString?: string;
@@ -282,7 +281,6 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
   );
 
   return {
-    canWrite: false,
     priceList,
     priceListError,
     priceListQueryString,

@@ -45,7 +45,6 @@ export interface PriceListBreakdownMapProps {
 }
 
 export interface PriceListBreakdownStateProps {
-  canWrite?: boolean;
   priceList?: PriceListData;
   priceListError?: AxiosError;
   priceListQueryString?: string;
@@ -266,6 +265,7 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps):
     if (
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
+      priceListStatus !== FetchStatus.complete &&
       priceListAddStatus !== FetchStatus.inProgress &&
       priceListDuplicateStatus !== FetchStatus.inProgress &&
       priceListRemoveStatus !== FetchStatus.inProgress &&
@@ -287,7 +287,6 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps):
   );
 
   return {
-    canWrite: false,
     priceList,
     priceListError,
     priceListQueryString,
