@@ -48,11 +48,10 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
 
   const contentRef = useRef<DetailsContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isFinish, setIsFinish] = useState(false);
   const [priceList, setPriceList] = useState<PriceListData>({});
   const [rates, setRates] = useState<Rate[]>([]);
 
-  const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessFetchStatus } = useMapToProps();
+  const { userAccess, userAccessFetchStatus } = useMapToProps();
 
   const canWrite = () => {
     return hasSettingsAccess(userAccess);
@@ -61,12 +60,10 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   // Handlers
 
   const handleOnCancel = () => {
-    navigateToPriceListDetails();
+    navigateToPriceLists();
   };
 
   const handleOnSave = (payload: PriceListData) => {
-    setIsFinish(true);
-
     // Update rates with latest currency
     const newRates = rates?.map(rate => ({
       ...rate,
@@ -94,9 +91,10 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
         ...(newRates && { rates: newRates }),
       })
     );
+    navigateToPriceLists();
   };
 
-  const navigateToPriceListDetails = () => {
+  const navigateToPriceLists = () => {
     navigate(formatPath(routes.settings.path), {
       replace: true,
       state: {
@@ -116,12 +114,6 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
       rates,
     });
   }, [rates]);
-
-  useEffect(() => {
-    if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
-      navigateToPriceListDetails();
-    }
-  }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
   return (
     <>

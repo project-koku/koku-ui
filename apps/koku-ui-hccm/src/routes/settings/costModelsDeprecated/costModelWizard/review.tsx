@@ -109,7 +109,9 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isGpuToggleEnab
                   <Content component={ContentVariants.dd}>{getCurrencyLabel(currencyUnits)}</Content>
                   {type === 'OCP' && (
                     <>
-                      <Content component={ContentVariants.dt}>{intl.formatMessage(messages.priceList)}</Content>
+                      <Content component={ContentVariants.dt}>
+                        {intl.formatMessage(messages.priceList, { count: 1 })}
+                      </Content>
                       <Content component={ContentVariants.dd}>
                         {tiers.length > 0 ? (
                           <RateTable tiers={tiers} />

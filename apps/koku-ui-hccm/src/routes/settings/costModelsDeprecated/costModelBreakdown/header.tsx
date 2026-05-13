@@ -180,7 +180,7 @@ const Header: React.FC<Props> = ({
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
               eventKey={0}
-              title={<TabTitleText>{intl.formatMessage(messages.priceList)}</TabTitleText>}
+              title={<TabTitleText>{intl.formatMessage(messages.priceList, { count: 1 })}</TabTitleText>}
               tabContentId="refPriceList"
               tabContentRef={tabRefs[0]}
             />

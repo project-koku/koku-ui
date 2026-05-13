@@ -23,10 +23,17 @@ export interface CostModel {
   };
   markup: { value: string; unit: string };
   name: string;
+  price_lists?: [
+    {
+      name?: string;
+      priority?: number;
+      uuid?: string;
+    },
+  ];
   rates: Rate[];
   sources?: CostModelProvider[];
   source_type: string;
-  updated_timestamp?: Date;
+  updated_timestamp?: string;
   uuid?: string;
 }
 

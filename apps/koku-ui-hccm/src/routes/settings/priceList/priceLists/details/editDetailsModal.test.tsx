@@ -76,7 +76,18 @@ describe('EditDetailsModal', () => {
     (api.updatePriceList as jest.Mock).mockResolvedValue({ data: {} });
   });
 
-  test('save invokes onEdit when provided', async () => {
+  test('save invokes onEdit when isDispatch false without calling API', async () => {
+    const onEdit = jest.fn();
+    renderModal(<EditDetailsModal isDispatch={false} isOpen onEdit={onEdit} priceList={basePriceList} />);
+    const dialog = screen.getByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: /^save$/i }));
+    await waitFor(() =>
+      expect(onEdit).toHaveBeenCalledWith(expect.objectContaining({ currency: 'USD', name: 'Updated PL' }))
+    );
+    expect(api.updatePriceList).not.toHaveBeenCalled();
+  });
+
+  test('save invokes onEdit and dispatches API when isDispatch true (default)', async () => {
     const onEdit = jest.fn();
     renderModal(<EditDetailsModal isOpen onEdit={onEdit} priceList={basePriceList} />);
     const dialog = screen.getByRole('dialog');
@@ -84,7 +95,7 @@ describe('EditDetailsModal', () => {
     await waitFor(() =>
       expect(onEdit).toHaveBeenCalledWith(expect.objectContaining({ currency: 'USD', name: 'Updated PL' }))
     );
-    expect(api.updatePriceList).not.toHaveBeenCalled();
+    await waitFor(() => expect(api.updatePriceList).toHaveBeenCalled());
   });
 
   test('save calls API update when onEdit is omitted', async () => {
@@ -101,14 +112,7 @@ describe('EditDetailsModal', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  test('onSuccess runs after async update completes when using API path', async () => {
-    const onSuccess = jest.fn();
-    renderModal(<EditDetailsModal isOpen onSuccess={onSuccess} priceList={basePriceList} />);
-    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: /^save$/i }));
-    await waitFor(() => expect(onSuccess).toHaveBeenCalled());
-  });
-
-  test('resets finish tracking when modal opens', () => {
+  test('renders dialog when isOpen becomes true', () => {
     const { rerender } = renderModal(<EditDetailsModal isOpen={false} priceList={basePriceList} />);
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     rerender(

@@ -26,10 +26,10 @@ interface PriceListNotificationProps {
 export function usePriceListDuplicate(priceList: PriceListData, onUpdateSuccess?: () => void) {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const [isAwaitingUpdate, setIsAwaitingUpdate] = useState(false);
-  const onSuccessRef = useRef(onUpdateSuccess);
+  const currentRef = useRef(onUpdateSuccess);
 
   useLayoutEffect(() => {
-    onSuccessRef.current = onUpdateSuccess;
+    currentRef.current = onUpdateSuccess;
   }, [onUpdateSuccess]);
 
   const priceListUpdateStatus = useSelector((state: RootState) =>
@@ -55,20 +55,20 @@ export function usePriceListDuplicate(priceList: PriceListData, onUpdateSuccess?
       return;
     }
     setIsAwaitingUpdate(false);
-    onSuccessRef.current?.();
+    currentRef.current?.();
   }, [isAwaitingUpdate, priceListUpdateError, priceListUpdateStatus]);
 
   return { duplicatePriceList };
 }
 
-export function usePriceListEnabledToggle(priceList: PriceListData, onUpdateSuccess?: () => void) {
+export function usePriceListEnabledToggle(priceList: PriceListData, onDeprecate?: () => void) {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const [isAwaitingUpdate, setIsAwaitingUpdate] = useState(false);
-  const onSuccessRef = useRef(onUpdateSuccess);
+  const currentRef = useRef(onDeprecate);
 
   useLayoutEffect(() => {
-    onSuccessRef.current = onUpdateSuccess;
-  }, [onUpdateSuccess]);
+    currentRef.current = onDeprecate;
+  }, [onDeprecate]);
 
   const priceListUpdateStatus = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListUpdateStatus(state, PriceListType.priceListUpdate, undefined)
@@ -100,7 +100,7 @@ export function usePriceListEnabledToggle(priceList: PriceListData, onUpdateSucc
       return;
     }
     setIsAwaitingUpdate(false);
-    onSuccessRef.current?.();
+    currentRef.current?.();
   }, [isAwaitingUpdate, priceListUpdateError, priceListUpdateStatus]);
 
   return { togglePriceListEnabled };

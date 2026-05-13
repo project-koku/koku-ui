@@ -83,7 +83,7 @@ const PriceListActions: React.FC<PriceListActionsProps> = ({
     onClose?.();
   };
 
-  const handleOnDeleteModalUpdateSuccess = () => {
+  const handleOnDeleteModalDelete = () => {
     setIsDeleteModalOpen(false);
     onDelete?.();
   };
@@ -97,7 +97,7 @@ const PriceListActions: React.FC<PriceListActionsProps> = ({
     onClose?.();
   };
 
-  const handleOnDeprecateModalUpdateSuccess = () => {
+  const handleOnDeprecateModalDeprecate = () => {
     setIsDeprecateModalOpen(false);
     onDeprecate?.();
   };
@@ -111,13 +111,13 @@ const PriceListActions: React.FC<PriceListActionsProps> = ({
       <DeletePriceListModal
         isOpen={isDeleteModalOpen}
         onClose={handleOnDeleteModalClose}
-        onSuccess={handleOnDeleteModalUpdateSuccess}
+        onDelete={handleOnDeleteModalDelete}
         priceList={priceList}
       />
       <DeprecatePriceListModal
         isOpen={isDeprecateModalOpen}
         onClose={handleOnDeprecateModalClose}
-        onSuccess={handleOnDeprecateModalUpdateSuccess}
+        onDeprecate={handleOnDeprecateModalDeprecate}
         priceList={priceList}
       />
       <DropdownWrapper isKebab items={getItems()} position="right" />

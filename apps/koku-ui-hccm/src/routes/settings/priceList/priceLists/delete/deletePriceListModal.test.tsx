@@ -22,25 +22,25 @@ describe('DeletePriceListModal', () => {
   const setupStore = () =>
     createStore(combineReducers({ [priceListStateKey]: priceListReducer }), applyMiddleware(thunk));
 
-  test('delete dispatches remove and calls onSuccess when complete', async () => {
+  test('delete dispatches remove and calls onDelete; completes when API succeeds', async () => {
     (api.updatePriceList as jest.Mock).mockResolvedValue({});
     const store = setupStore();
-    const onSuccess = jest.fn();
+    const onDelete = jest.fn();
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <DeletePriceListModal isOpen onSuccess={onSuccess} priceList={{ name: 'Z', uuid: 'del-1' } as any} />
+          <DeletePriceListModal isOpen onDelete={onDelete} priceList={{ name: 'Z', uuid: 'del-1' } as any} />
         </IntlProvider>
       </Provider>
     );
     fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: /^delete$/i }));
+    expect(onDelete).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(api.updatePriceList).toHaveBeenCalled());
     await waitFor(() =>
       expect(
         priceListSelectors.selectPriceListUpdateStatus(store.getState() as any, PriceListType.priceListRemove)
       ).toBe(FetchStatus.complete)
     );
-    await waitFor(() => expect(onSuccess).toHaveBeenCalled());
   });
 
   test('cancel invokes onClose', () => {

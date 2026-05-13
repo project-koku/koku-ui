@@ -17,15 +17,20 @@ import { usePriceListEnabledToggle } from 'routes/settings/priceList/utils';
 interface DeprecatePriceListModalOwnProps {
   isOpen?: boolean;
   onClose?: () => void;
-  onSuccess?: () => void;
+  onDeprecate?: () => void;
   priceList: PriceListData;
 }
 
 type DeprecatePriceListModalProps = DeprecatePriceListModalOwnProps;
 
-const DeprecatePriceListModal: React.FC<DeprecatePriceListModalProps> = ({ isOpen, onClose, onSuccess, priceList }) => {
+const DeprecatePriceListModal: React.FC<DeprecatePriceListModalProps> = ({
+  isOpen,
+  onClose,
+  onDeprecate,
+  priceList,
+}) => {
   const intl = useIntl();
-  const { togglePriceListEnabled } = usePriceListEnabledToggle(priceList, onSuccess);
+  const { togglePriceListEnabled } = usePriceListEnabledToggle(priceList, onDeprecate);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree

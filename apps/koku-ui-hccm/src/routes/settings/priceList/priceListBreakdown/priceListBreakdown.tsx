@@ -7,7 +7,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { type UserAccess, UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { type RefObject, useState } from 'react';
+import React, { type RefObject, useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -91,9 +91,9 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   };
 
   // Force update
-  const forceUpdate = () => {
-    setQuery({ ...query });
-  };
+  const forceUpdate = useCallback(() => {
+    setQuery(prev => ({ ...prev }));
+  }, []);
 
   const getAvailableTabs = () => {
     const availableTabs: AvailableTab[] = [
@@ -147,7 +147,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     if (currentTab === PriceListBreakdownTab.costModels) {
       return <CostModels />;
     } else if (currentTab === PriceListBreakdownTab.rates) {
-      return <Rates canWrite={canWrite()} onSuccess={handleOnSuccess} />;
+      return <Rates canWrite={canWrite()} onAdd={forceUpdate} onEdit={handleOnEdit} onDelete={handleOnDelete} />;
     } else {
       return emptyTab;
     }
@@ -187,7 +187,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     });
   };
 
-  const handleOnSuccess = () => {
+  const handleOnEdit = () => {
     setIsRecalculating(true);
   };
 
@@ -214,7 +214,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
             onDelete={handleOnDelete}
             onDeprecate={forceUpdate}
             onDuplicate={forceUpdate}
-            onEdit={forceUpdate}
+            onEdit={handleOnEdit}
             priceList={priceList}
           />
           {userAccessFetchStatus === FetchStatus.inProgress ? (

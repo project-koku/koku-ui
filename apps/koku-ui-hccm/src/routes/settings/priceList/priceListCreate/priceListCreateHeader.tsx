@@ -44,7 +44,7 @@ const PriceListCreateHeader: React.FC<PriceListCreateHeaderProps> = ({
                   },
                 }}
               >
-                {intl.formatMessage(messages.priceList)}
+                {intl.formatMessage(messages.priceList, { count: 1 })}
               </Link>
             )}
           />

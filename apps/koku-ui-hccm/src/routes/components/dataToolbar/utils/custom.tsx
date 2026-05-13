@@ -53,6 +53,7 @@ export const getCustomSelect = ({
         isMultiSelect={isMultiSelect}
         onSelect={onSelect}
         options={selectOptions}
+        placeholderKey={categoryOption.placeholderKey}
       />
     </ToolbarFilter>
   );

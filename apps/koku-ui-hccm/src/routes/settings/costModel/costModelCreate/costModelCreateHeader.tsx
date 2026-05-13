@@ -44,7 +44,7 @@ const CostModelCreateHeader: React.FC<CostModelCreateHeaderProps> = ({
                   },
                 }}
               >
-                {intl.formatMessage(messages.priceList)}
+                {intl.formatMessage(messages.costModels)}
               </Link>
             )}
           />

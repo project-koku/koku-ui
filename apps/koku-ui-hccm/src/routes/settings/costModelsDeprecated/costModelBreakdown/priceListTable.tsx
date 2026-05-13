@@ -283,7 +283,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                       onPerPageSelect={(_evt, perPage) => this.setState({ pagination: { page: 1, perPage } })}
                       titles={{
                         paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-                          title: intl.formatMessage(messages.priceList),
+                          title: intl.formatMessage(messages.priceList, { count: 1 }),
                           placement: 'top',
                         }),
                       }}
@@ -382,7 +382,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                       style={styles.pagination}
                       titles={{
                         paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-                          title: intl.formatMessage(messages.priceList),
+                          title: intl.formatMessage(messages.priceList, { count: 1 }),
                           placement: 'bottom',
                         }),
                       }}

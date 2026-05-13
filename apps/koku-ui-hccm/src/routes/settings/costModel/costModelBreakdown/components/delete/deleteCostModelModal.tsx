@@ -1,21 +1,10 @@
 import './deleteCostModelModal.scss';
 
-import {
-  Button,
-  Content,
-  ContentVariants,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalVariant,
-  Stack,
-  StackItem,
-} from '@patternfly/react-core';
-import type { CostModels } from 'api/costModels';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
+import type { CostModel } from 'api/costModels';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -24,12 +13,15 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
+import type { DeleteCostModelContentHandle } from './deleteCostModelContent';
+import { DeleteCostModelContent } from './deleteCostModelContent';
+
 interface DeleteCostModelModalOwnProps {
-  costModels: CostModels;
-  costModelsIndex?: number;
+  costModel: CostModel;
+  isDispatch?: boolean;
   isOpen?: boolean;
   onClose?: () => void;
-  onSuccess?: () => void;
+  onDelete?: (costModel: CostModel) => void;
 }
 
 interface DeleteCostModelModalStateProps {
@@ -40,35 +32,27 @@ interface DeleteCostModelModalStateProps {
 type DeleteCostModelModalProps = DeleteCostModelModalOwnProps;
 
 const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
-  costModels,
-  costModelsIndex,
+  costModel,
+  isDispatch = true,
   isOpen,
   onClose,
-  onSuccess,
+  onDelete,
 }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const costModel = costModelsIndex < costModels?.data?.length ? costModels?.data?.[costModelsIndex] : undefined;
-  const hasSources = costModel?.sources?.length > 0;
-  const [isFinish, setIsFinish] = useState(false);
+  const contentRef = useRef<DeleteCostModelContentHandle>(null);
+  const { costModelsStatus } = useMapToProps();
 
-  const { costModelsError, costModelsStatus } = useMapToProps();
-
-  const handleOnDelete = () => {
+  const handleOnDelete = (costModelToDelete: CostModel) => {
     if (costModelsStatus !== FetchStatus.inProgress) {
-      setIsFinish(true);
-      if (costModelsIndex <= costModels?.data?.length - 1) {
+      onDelete?.(costModelToDelete);
+
+      if (isDispatch) {
         dispatch(costModelsActions.deleteCostModel(costModel?.uuid));
       }
     }
   };
-
-  useEffect(() => {
-    if (isFinish && costModelsStatus === FetchStatus.complete && !costModelsError) {
-      onSuccess?.();
-    }
-  }, [isFinish, costModelsError, costModelsStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -81,37 +65,11 @@ const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
         titleIconVariant="warning"
       />
       <ModalBody>
-        <Stack hasGutter>
-          {hasSources ? (
-            <>
-              <StackItem>{intl.formatMessage(messages.costModelsDeleteSource)}</StackItem>
-              <StackItem>
-                {intl.formatMessage(messages.costModelsCanNotDelete, {
-                  name: <b>{costModel?.name}</b>,
-                })}
-              </StackItem>
-              <StackItem>
-                <Content component={ContentVariants.ol}>
-                  {costModel?.sources?.map((source, index) => (
-                    <Content component={ContentVariants.li} key={`cost-model-${index}`}>
-                      {source?.name || ''}
-                    </Content>
-                  ))}
-                </Content>
-              </StackItem>
-            </>
-          ) : (
-            <StackItem>
-              {intl.formatMessage(messages.costModelsDeleteDesc, {
-                costModel: <b>{costModel?.name}</b>,
-              })}
-            </StackItem>
-          )}
-        </Stack>
+        {isOpen && <DeleteCostModelContent costModel={costModel} onDelete={handleOnDelete} ref={contentRef} />}
       </ModalBody>
       <ModalFooter>
-        {!hasSources && (
-          <Button onClick={handleOnDelete} variant="danger">
+        {costModel?.sources?.length === 0 && (
+          <Button onClick={() => contentRef.current?.delete()} variant="danger">
             {intl.formatMessage(messages.costModelsDelete)}
           </Button>
         )}

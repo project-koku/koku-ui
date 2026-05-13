@@ -33,7 +33,10 @@ describe('PriceListCreateHeader', () => {
     renderHeader();
     expect(screen.getByRole('heading', { name: /create price list/i })).toBeInTheDocument();
     expect(screen.getByText('Test description')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /price list/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /price list/i })).toHaveAttribute(
+      'href',
+      expect.stringMatching(/\/settings$/)
+    );
   });
 
   test('invokes onCreate when primary button clicked', () => {

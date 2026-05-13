@@ -14,21 +14,12 @@ interface AddRateOwnProps {
   isDispatch?: boolean;
   onAdd?: (rates: Rate[]) => void;
   onClose?: () => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
 }
 
 type AddRateProps = AddRateOwnProps;
 
-const AddRate: React.FC<AddRateProps> = ({
-  canWrite,
-  isDisabled,
-  isDispatch,
-  onAdd,
-  onClose,
-  onSuccess,
-  priceList,
-}) => {
+const AddRate: React.FC<AddRateProps> = ({ canWrite, isDisabled, isDispatch, onAdd, onClose, priceList }) => {
   const intl = useIntl();
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -50,11 +41,6 @@ const AddRate: React.FC<AddRateProps> = ({
   const handleOnAddModalClose = () => {
     setIsAddModalOpen(false);
     onClose?.();
-  };
-
-  const handleOnAddModalSuccess = () => {
-    setIsAddModalOpen(false);
-    onSuccess?.();
   };
 
   const handleOnReviewModalClick = () => {
@@ -83,7 +69,6 @@ const AddRate: React.FC<AddRateProps> = ({
         isOpen={isAddModalOpen}
         onAdd={handleOnAddModalAdd}
         onClose={handleOnAddModalClose}
-        onSuccess={handleOnAddModalSuccess}
         priceList={priceList}
       />
       <Button
