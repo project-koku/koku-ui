@@ -2,10 +2,16 @@ import messages from 'locales/messages';
 
 export const getSourceType = (value: string) => {
   switch (value) {
+    case 'Amazon Web Services':
+      return 'AWS';
+    case 'Google Cloud':
+      return 'GCP';
+    case 'Microsoft Azure':
+      return 'Azure';
     case 'OpenShift Container Platform':
       return 'OCP';
     default:
-      return 'AWS';
+      return undefined;
   }
 };
 

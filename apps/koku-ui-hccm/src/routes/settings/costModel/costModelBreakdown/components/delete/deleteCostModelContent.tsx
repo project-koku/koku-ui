@@ -58,7 +58,7 @@ const DeleteCostModelContent = forwardRef<DeleteCostModelContentHandle, DeleteCo
             <StackItem>
               <Content component={ContentVariants.ol}>
                 {costModel?.sources?.map((source, index) => (
-                  <Content component={ContentVariants.li} key={`cost-model-${index}`}>
+                  <Content component={ContentVariants.li} key={`sources-${index}`}>
                     {source?.name || ''}
                   </Content>
                 ))}

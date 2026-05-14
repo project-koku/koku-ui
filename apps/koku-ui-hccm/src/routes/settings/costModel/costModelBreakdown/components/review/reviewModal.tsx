@@ -38,7 +38,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ costModel, isOpen, onClose })
             <Content>{intl.formatMessage(messages.costModelsDeleteSource)}</Content>
           </StackItem>
           <StackItem>
-            <Content>{intl.formatMessage(messages.costModelsCanNotDelete, { name: <b>costModel?.name</b> })}</Content>
+            <Content>{intl.formatMessage(messages.costModelsCanNotDelete, { name: <b>{costModel?.name}</b> })}</Content>
           </StackItem>
           <StackItem>
             <Content component={ContentVariants.ol}>
