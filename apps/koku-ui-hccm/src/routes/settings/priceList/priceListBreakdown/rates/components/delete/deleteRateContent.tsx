@@ -13,7 +13,7 @@ interface DeleteRateContentOwnProps {
 
 export interface DeleteRateContentHandle {
   // Builds the rate from form state and invokes onSave
-  submit: () => void;
+  delete: () => void;
 }
 
 type DeleteRateContentProps = DeleteRateContentOwnProps;
@@ -23,7 +23,7 @@ const DeleteRateContent = forwardRef<DeleteRateContentHandle, DeleteRateContentP
     const intl = useIntl();
 
     /** Latest save handler for imperative `submit()` — updated in layout effect (not during render). */
-    const deleteHandlerRef = useRef<() => void>(() => {});
+    const currentHandlerRef = useRef<() => void>(() => {});
 
     // Handlers
 
@@ -36,15 +36,15 @@ const DeleteRateContent = forwardRef<DeleteRateContentHandle, DeleteRateContentP
     useImperativeHandle(
       ref,
       () => ({
-        submit: () => {
-          deleteHandlerRef.current();
+        delete: () => {
+          currentHandlerRef.current();
         },
       }),
       []
     );
 
     useLayoutEffect(() => {
-      deleteHandlerRef.current = handleOnDelete;
+      currentHandlerRef.current = handleOnDelete;
     });
 
     return (

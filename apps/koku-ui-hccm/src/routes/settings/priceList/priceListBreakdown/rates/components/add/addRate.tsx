@@ -4,7 +4,7 @@ import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ReviewModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
+import { ReviewImpactModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
 
 import { AddRateModal } from './addRateModal';
 
@@ -58,7 +58,7 @@ const AddRate: React.FC<AddRateProps> = ({ canWrite, isDisabled, isDispatch, onA
 
   return (
     <>
-      <ReviewModal
+      <ReviewImpactModal
         isOpen={isReviewModalOpen}
         onClose={handleOnReviewModalClose}
         onConfirm={handleOnReviewModalConfirm}

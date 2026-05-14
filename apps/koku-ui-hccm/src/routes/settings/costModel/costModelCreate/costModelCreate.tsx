@@ -13,8 +13,8 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { LoadingState } from 'routes/components/state/loadingState';
-import type { DetailsContentHandle } from 'routes/settings/priceList/priceLists/details';
-import { DetailsContent } from 'routes/settings/priceList/priceLists/details';
+import type { DetailContentHandle } from 'routes/settings/priceList/priceLists/components/details';
+import { DetailContent } from 'routes/settings/priceList/priceLists/components/details';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
@@ -45,7 +45,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const contentRef = useRef<DetailsContentHandle>(null);
+  const contentRef = useRef<DetailContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
   const [priceList, setPriceList] = useState<PriceListData>({});
@@ -60,7 +60,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
   // Handlers
 
   const handleOnCancel = () => {
-    navigateToPriceListDetails();
+    navigateToPriceListDetail();
   };
 
   const handleOnSave = (payload: PriceListData) => {
@@ -95,7 +95,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
     );
   };
 
-  const navigateToPriceListDetails = () => {
+  const navigateToPriceListDetail = () => {
     navigate(formatPath(routes.settings.path), {
       replace: true,
       state: {
@@ -118,7 +118,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
 
   useEffect(() => {
     if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
-      navigateToPriceListDetails();
+      navigateToPriceListDetail();
     }
   }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
@@ -139,7 +139,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
       <PageSection>
         <Stack hasGutter>
           <StackItem style={styles.detailsContent}>
-            <DetailsContent onDisabled={setIsDisabled} onSave={handleOnSave} priceList={priceList} ref={contentRef} />
+            <DetailContent onDisabled={setIsDisabled} onSave={handleOnSave} priceList={priceList} ref={contentRef} />
           </StackItem>
           <StackItem style={styles.divider}>
             <Divider />

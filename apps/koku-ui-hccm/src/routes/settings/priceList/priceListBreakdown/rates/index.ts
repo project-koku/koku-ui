@@ -1,3 +1,3 @@
-export * from './rates';
-export * from './ratesTable';
-export * from './ratesToolbar';
+export * from './rate';
+export * from './rateTable';
+export * from './rateToolbar';

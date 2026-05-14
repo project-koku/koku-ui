@@ -1,7 +1,7 @@
 import type { PriceListData } from 'api/priceList';
 import type { Rate } from 'api/rates';
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
-import { ReviewModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
+import { ReviewImpactModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
 
 import { EditRateModal } from './editRateModal';
 
@@ -61,7 +61,7 @@ const EditRate = forwardRef<EditRateHandle, EditRateProps>((props, ref) => {
 
   return (
     <>
-      <ReviewModal
+      <ReviewImpactModal
         isOpen={isReviewModalOpen}
         onClose={handleOnReviewModalClose}
         onConfirm={handleOnReviewModalConfirm}

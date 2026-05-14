@@ -25,6 +25,7 @@ import { hasSettingsAccess } from 'utils/userAccess';
 
 import { styles } from './costModelBreakdown.styles';
 import { CostModelBreakdownHeader } from './costModelBreakdownHeader';
+import { PriceList } from './priceLists';
 
 interface AvailableTab {
   contentRef: RefObject<any>;
@@ -145,7 +146,15 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
 
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === CostModelBreakdownTab.priceLists) {
-      return <span>TBD...</span>;
+      return (
+        <PriceList
+          canWrite={canWrite()}
+          costModel={costModel}
+          onAdd={forceUpdate}
+          onRemove={forceUpdate}
+          onSave={forceUpdate}
+        />
+      );
     } else if (currentTab === CostModelBreakdownTab.costCalculations) {
       return <span>TBD...</span>;
     } else if (currentTab === CostModelBreakdownTab.integrations) {
@@ -206,7 +215,6 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
             canWrite={canWrite()}
             costModel={costModel}
             isDisabled={costModelsStatus === FetchStatus.inProgress}
-            onAlertClose={forceUpdate}
             onDelete={handleOnDelete}
             onEdit={forceUpdate}
           />

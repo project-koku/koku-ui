@@ -23,7 +23,7 @@ describe('DeleteRateContent', () => {
       </IntlProvider>
     );
 
-    act(() => ref.current?.submit());
+    act(() => ref.current?.delete());
     expect(onDelete).toHaveBeenCalledWith([priceList.rates[1]]);
   });
 

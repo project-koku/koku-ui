@@ -20,8 +20,8 @@ import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
-import { PriceListActions } from 'routes/settings/priceList/priceLists/actions';
-import { EditDetailsModal } from 'routes/settings/priceList/priceLists/details';
+import { PriceListActions } from 'routes/settings/priceList/priceLists/components/actions';
+import { EditDetailModal } from 'routes/settings/priceList/priceLists/components/details';
 import { getDateString, getValidityPeriod } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
@@ -155,7 +155,7 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           </Content>
         </div>
       </SplitItem>
-      <EditDetailsModal
+      <EditDetailModal
         isOpen={isEditModalOpen}
         onClose={handleOnEditModalClose}
         onEdit={handleOnEditModalEdit}

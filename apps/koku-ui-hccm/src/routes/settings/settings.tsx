@@ -29,8 +29,8 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
-import { CostModels } from './costModel';
-import { PriceLists } from './priceList';
+import { CostModel } from './costModel';
+import { PriceList } from './priceList';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {
@@ -191,7 +191,7 @@ const Settings: React.FC<SettingsProps> = () => {
     if (currentTab === SettingsTab.costModels) {
       return hasCostModelAccess(userAccess) ? (
         isPriceListToggleEnabled ? (
-          <CostModels canWrite={canWrite()} />
+          <CostModel canWrite={canWrite()} />
         ) : (
           <CostModelsDetails />
         )
@@ -205,7 +205,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
-      return hasSettingsAccess(userAccess) ? <PriceLists canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {

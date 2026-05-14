@@ -24,6 +24,18 @@
         "value": "Assign cost model"
       }
     ],
+    "assignPriceLists": [
+      {
+        "type": 0,
+        "value": "Assign price lists"
+      }
+    ],
+    "assignPriceListsDesc": [
+      {
+        "type": 0,
+        "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed."
+      }
+    ],
     "assignedCostModels": [
       {
         "type": 0,
@@ -685,6 +697,12 @@
       {
         "type": 0,
         "value": "Cancel"
+      }
+    ],
+    "cancelOrdering": [
+      {
+        "type": 0,
+        "value": "Cancel ordering"
       }
     ],
     "capacity": [
@@ -2152,7 +2170,7 @@
     "createPriceList": [
       {
         "type": 0,
-        "value": "Create price list"
+        "value": "Create a price list"
       }
     ],
     "createRate": [
@@ -3528,6 +3546,14 @@
               {
                 "type": 0,
                 "value": "Rate"
+              }
+            ]
+          },
+          "rates": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Rates"
               }
             ]
           },
@@ -11756,6 +11782,12 @@
         "value": "Optimizations"
       }
     ],
+    "orderPriceLists": [
+      {
+        "type": 0,
+        "value": "Order price lists"
+      }
+    ],
     "overhead": [
       {
         "type": 0,
@@ -12187,6 +12219,12 @@
         "value": "learnMore"
       }
     ],
+    "priceListDragRowsDesc": [
+      {
+        "type": 0,
+        "value": "Drag rows to set priority. Save ordering to apply or Cancel to discard changes."
+      }
+    ],
     "priceListDuplicateName": [
       {
         "type": 0,
@@ -12211,16 +12249,28 @@
         "value": "Edit rate"
       }
     ],
-    "priceListEmptyCostModel": [
+    "priceListEmptyCostModels": [
       {
         "type": 0,
         "value": "No cost models are assigned"
       }
     ],
-    "priceListEmptyCostModelDesc": [
+    "priceListEmptyCostModelsDesc": [
       {
         "type": 0,
         "value": "Cost models are assigned from the Cost model settings page. Edit a cost model there to use this price list."
+      }
+    ],
+    "priceListEmptyPriceLists": [
+      {
+        "type": 0,
+        "value": "No price lists are assigned"
+      }
+    ],
+    "priceListEmptyPriceListsDesc": [
+      {
+        "type": 0,
+        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
       }
     ],
     "priceListEmptyRate": [
@@ -12365,6 +12415,12 @@
         "value": "value"
       }
     ],
+    "priceListImpactReview": [
+      {
+        "type": 0,
+        "value": "Review impact before you change rates"
+      }
+    ],
     "priceListNameTooLong": [
       {
         "type": 0,
@@ -12389,6 +12445,12 @@
         "value": "This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review."
       }
     ],
+    "priceListRefresh": [
+      {
+        "type": 0,
+        "value": "Refresh list"
+      }
+    ],
     "priceListRemoveTag": [
       {
         "type": 0,
@@ -12398,7 +12460,35 @@
     "priceListReview": [
       {
         "type": 0,
-        "value": "Review impact before you change rates"
+        "value": "This change may affect cost models"
+      }
+    ],
+    "priceListReviewChange": [
+      {
+        "type": 0,
+        "value": "Changing the order of price lists for "
+      },
+      {
+        "type": 1,
+        "value": "costModel"
+      },
+      {
+        "type": 0,
+        "value": " allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?"
+      }
+    ],
+    "priceListReviewUpdate": [
+      {
+        "type": 0,
+        "value": "Updating price lists for "
+      },
+      {
+        "type": 1,
+        "value": "costModel"
+      },
+      {
+        "type": 0,
+        "value": " allocation changes which rates are used for chargeback. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?"
       }
     ],
     "priceListSelectCostType": [
@@ -12634,6 +12724,12 @@
       {
         "type": 0,
         "value": "Save"
+      }
+    ],
+    "saveOrdering": [
+      {
+        "type": 0,
+        "value": "Save ordering"
       }
     ],
     "seeDocumentation": [
@@ -13795,6 +13891,18 @@
       {
         "type": 0,
         "value": "Clear button and input"
+      }
+    ],
+    "unassignPriceList": [
+      {
+        "type": 0,
+        "value": "Unassign from cost model"
+      }
+    ],
+    "unassignSelected": [
+      {
+        "type": 0,
+        "value": "Unassign selected"
       }
     ],
     "unitTooltips": [

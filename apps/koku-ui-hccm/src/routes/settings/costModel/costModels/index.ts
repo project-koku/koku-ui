@@ -1,1 +1,1 @@
-export * from './costModels';
+export * from './costModel';
