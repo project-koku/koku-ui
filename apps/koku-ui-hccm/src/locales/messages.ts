@@ -648,6 +648,11 @@ export default defineMessages({
     description: 'Should not exceed 500 characters',
     id: 'costModelsDescTooLong',
   },
+  costModelsNameTooLong: {
+    defaultMessage: 'Should not exceed 100 characters',
+    description: 'Should not exceed 100 characters',
+    id: 'costModelsNameTooLong',
+  },
   costModelsDetailsTitle: {
     defaultMessage: 'Cost model details',
     description: 'Cost model details',
@@ -779,6 +784,12 @@ export default defineMessages({
     defaultMessage: 'Should not exceed 10 decimals',
     description: 'Should not exceed 10 decimals',
     id: 'costModelsRateTooLong',
+  },
+  costModelsRecalculateDesc: {
+    defaultMessage:
+      'This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+    description: 'Recalculating charges',
+    id: 'costModelsRecalculateDesc',
   },
   costModelsRefreshDialog: {
     defaultMessage: 'Refresh this dialog',
@@ -3452,7 +3463,7 @@ export default defineMessages({
     id: 'platformProjectsTitle',
   },
   priceList: {
-    defaultMessage: 'Price list',
+    defaultMessage: '{count, plural, one {Price list} other {Price lists}}',
     description: 'Price list',
     id: 'priceList',
   },
@@ -3611,11 +3622,6 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
-  priceListRecalculate: {
-    defaultMessage: 'Recalculating charges',
-    description: 'Recalculating charges',
-    id: 'priceListRecalculate',
-  },
   priceListRecalculateDesc: {
     defaultMessage:
       'This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
@@ -3719,6 +3725,11 @@ export default defineMessages({
     defaultMessage: 'You have read only permissions',
     description: 'You have read only permissions',
     id: 'readOnlyPermissions',
+  },
+  recalculateCharges: {
+    defaultMessage: 'Recalculating charges',
+    description: 'Recalculating charges',
+    id: 'recalculateCharges',
   },
   recalculateCurrentMonthDesc: {
     defaultMessage: 'This month — OpenShift chargeback may be recalculated using today’s data.',

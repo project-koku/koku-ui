@@ -36,7 +36,9 @@ import { getFilteredRates, getIndexedRates, getPaginatedRates } from './utils';
 
 interface RatesOwnProps {
   canWrite?: boolean;
-  onSuccess?: () => void;
+  onAdd?: (rates: Rate[]) => void;
+  onDelete?: (rates: Rate[]) => void;
+  onEdit?: (rates: Rate[]) => void;
 }
 
 export interface RatesMapProps {
@@ -66,7 +68,7 @@ const baseQuery: Query = {
   },
 };
 
-const Rates: React.FC<RatesProps> = ({ canWrite, onSuccess }) => {
+const Rates: React.FC<RatesProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   const intl = useIntl();
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -82,10 +84,7 @@ const Rates: React.FC<RatesProps> = ({ canWrite, onSuccess }) => {
   const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.metrics?.length > 0;
   const isDisabled = rates?.length === 0 && !hasFilters;
 
-  // Force update
-  const forceUpdate = () => {
-    setQuery({ ...query });
-  };
+  // Getters
 
   const getPagination = (isBottom = false) => {
     const offset = pageNumber * perPage - perPage;
@@ -120,8 +119,9 @@ const Rates: React.FC<RatesProps> = ({ canWrite, onSuccess }) => {
         isDisabled={isDisabled}
         isLoading={priceListStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
+        onDelete={onDelete}
+        onEdit={onEdit}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
-        onSuccess={handleOnSuccess}
         priceList={priceList}
         rates={rates}
       />
@@ -133,9 +133,9 @@ const Rates: React.FC<RatesProps> = ({ canWrite, onSuccess }) => {
       <RatesToolbar
         canWrite={canWrite}
         isDisabled={isDisabled}
+        onAdd={onAdd}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
-        onSuccess={handleOnSuccess}
         pagination={getPagination()}
         priceList={priceList}
         query={query}
@@ -169,11 +169,6 @@ const Rates: React.FC<RatesProps> = ({ canWrite, onSuccess }) => {
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
-  };
-
-  const handleOnSuccess = () => {
-    forceUpdate();
-    onSuccess?.();
   };
 
   if (priceListError) {
@@ -211,7 +206,7 @@ const Rates: React.FC<RatesProps> = ({ canWrite, onSuccess }) => {
             {intl.formatMessage(messages.priceListEmptyRatesDesc, { currency: priceList?.currency ?? 'USD' })}
           </EmptyStateBody>
           <EmptyStateFooter>
-            <AddRate canWrite={canWrite} onSuccess={forceUpdate} priceList={priceList} />
+            <AddRate canWrite={canWrite} onAdd={onAdd} priceList={priceList} />
           </EmptyStateFooter>
         </EmptyState>
       )}

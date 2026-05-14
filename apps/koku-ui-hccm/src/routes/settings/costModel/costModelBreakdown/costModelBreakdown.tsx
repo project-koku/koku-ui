@@ -1,13 +1,12 @@
 import { PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
-import type { PriceListData } from 'api/priceList';
-import { PriceListType } from 'api/priceList';
+import type { CostModel } from 'api/costModels';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { type UserAccess, UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { type RefObject, useState } from 'react';
+import React, { type RefObject, useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,10 +16,9 @@ import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { usePriceListUpdate } from 'routes/settings/priceList/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { priceListActions, priceListSelectors } from 'store/priceList';
+import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
 import { hasSettingsAccess } from 'utils/userAccess';
@@ -42,10 +40,9 @@ export interface CostModelBreakdownMapProps {
 }
 
 export interface CostModelBreakdownStateProps {
-  priceList?: PriceListData;
-  priceListError?: AxiosError;
-  priceListQueryString?: string;
-  priceListStatus?: FetchStatus;
+  costModel?: CostModel;
+  costModelsError?: AxiosError;
+  costModelsStatus?: FetchStatus;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -59,16 +56,19 @@ const baseQuery: Query = {
 };
 
 const enum CostModelBreakdownTab {
-  costModels = 'costModels',
-  rates = 'rates',
+  costCalculations = 'cost_calculations',
+  integrations = 'integrations',
+  priceLists = 'price_lists',
 }
 
 const getIdKeyForTab = (tab: CostModelBreakdownTab) => {
   switch (tab) {
-    case CostModelBreakdownTab.costModels:
-      return 'costModels';
-    case CostModelBreakdownTab.rates:
-      return 'rates';
+    case CostModelBreakdownTab.priceLists:
+      return 'price_lists';
+    case CostModelBreakdownTab.costCalculations:
+      return 'cost_calculations';
+    case CostModelBreakdownTab.integrations:
+      return 'integrations';
   }
 };
 
@@ -78,29 +78,32 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const navigate = useNavigate();
 
   const [activeTabKey, setActiveTabKey] = useState(0);
-  const [isRecalculating, setIsRecalculating] = useState(false);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { priceList, priceListError, priceListStatus, userAccess, userAccessFetchStatus } = useMapToProps({ query });
+  const { costModel, costModelsError, costModelsStatus, userAccess, userAccessFetchStatus } = useMapToProps({ query });
 
   const canWrite = () => {
     return hasSettingsAccess(userAccess);
   };
 
   // Force update
-  const forceUpdate = () => {
-    setQuery({ ...query });
-  };
+  const forceUpdate = useCallback(() => {
+    setQuery(prev => ({ ...prev }));
+  }, []);
 
   const getAvailableTabs = () => {
     const availableTabs: AvailableTab[] = [
       {
         contentRef: React.createRef(),
-        tab: CostModelBreakdownTab.rates,
+        tab: CostModelBreakdownTab.priceLists,
       },
       {
         contentRef: React.createRef(),
-        tab: CostModelBreakdownTab.costModels,
+        tab: CostModelBreakdownTab.costCalculations,
+      },
+      {
+        contentRef: React.createRef(),
+        tab: CostModelBreakdownTab.integrations,
       },
     ];
     return availableTabs;
@@ -141,9 +144,11 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     }
 
     const currentTab = getIdKeyForTab(tab);
-    if (currentTab === CostModelBreakdownTab.costModels) {
+    if (currentTab === CostModelBreakdownTab.priceLists) {
       return <span>TBD...</span>;
-    } else if (currentTab === CostModelBreakdownTab.rates) {
+    } else if (currentTab === CostModelBreakdownTab.costCalculations) {
+      return <span>TBD...</span>;
+    } else if (currentTab === CostModelBreakdownTab.integrations) {
       return <span>TBD...</span>;
     } else {
       return emptyTab;
@@ -159,18 +164,16 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   };
 
   const getTabTitle = (tab: CostModelBreakdownTab) => {
-    if (tab === CostModelBreakdownTab.costModels) {
-      return intl.formatMessage(messages.assignedCostModels);
-    } else if (tab === CostModelBreakdownTab.rates) {
-      return intl.formatMessage(messages.rates);
+    if (tab === CostModelBreakdownTab.priceLists) {
+      return intl.formatMessage(messages.priceList, { count: 2 });
+    } else if (tab === CostModelBreakdownTab.costCalculations) {
+      return intl.formatMessage(messages.costCalculations);
+    } else if (tab === CostModelBreakdownTab.integrations) {
+      return intl.formatMessage(messages.sources);
     }
   };
 
   // Handlers
-
-  const handleOnAlertClose = () => {
-    setIsRecalculating(false);
-  };
 
   const handleOnDelete = () => {
     navigate(`${formatPath(routes.settings.path)}`, {
@@ -178,7 +181,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
       state: {
         ...(location?.state || {}),
         settingsState: {
-          activeTabKey: 1,
+          activeTabKey: 0,
         },
       },
     });
@@ -192,7 +195,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
 
   const availableTabs = getAvailableTabs();
 
-  if (priceListError) {
+  if (costModelsError) {
     return <NotAvailable />;
   }
   return (
@@ -201,14 +204,11 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
         <header>
           <CostModelBreakdownHeader
             canWrite={canWrite()}
-            isDisabled={priceListStatus === FetchStatus.inProgress}
-            isRecalculating={isRecalculating && priceList?.assigned_cost_model_count > 0}
-            onAlertClose={handleOnAlertClose}
+            costModel={costModel}
+            isDisabled={costModelsStatus === FetchStatus.inProgress}
+            onAlertClose={forceUpdate}
             onDelete={handleOnDelete}
-            onDeprecate={forceUpdate}
-            onDuplicate={forceUpdate}
             onEdit={forceUpdate}
-            priceList={priceList}
           />
           {userAccessFetchStatus === FetchStatus.inProgress ? (
             <LoadingState />
@@ -227,47 +227,20 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
 
   const { uuid } = useParams();
 
-  const priceListQuery = {
-    filter_by: query.filter_by,
-  };
-  const priceListQueryString = getQuery(priceListQuery);
-  const priceList = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceList(state, PriceListType.priceList, priceListQueryString)
-  ) as PriceListData;
-  const priceListError = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListError(state, PriceListType.priceList, priceListQueryString)
-  );
-  const priceListStatus = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListStatus(state, PriceListType.priceList, priceListQueryString)
-  );
+  const costModelsQuery = {
+    uuid: uuid ?? undefined,
+  } as Query;
+  const costModelsQueryString = getQuery(costModelsQuery);
 
-  // Notifications
-  const { status: priceListAddStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListAdd,
-  });
-  const { status: priceListDuplicateStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListDuplicate,
-  });
-  const { status: priceListRemoveStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListRemove,
-  });
-  const { status: priceListUpdateStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListUpdate,
-  });
+  const costModels = useSelector((state: RootState) => costModelsSelectors.costModels(state));
+  const costModelsError = useSelector((state: RootState) => costModelsSelectors.error(state));
+  const costModelsStatus = useSelector((state: RootState) => costModelsSelectors.status(state));
 
   useEffect(() => {
-    if (
-      !priceListError &&
-      priceListStatus !== FetchStatus.inProgress &&
-      priceListStatus !== FetchStatus.complete &&
-      priceListAddStatus !== FetchStatus.inProgress &&
-      priceListDuplicateStatus !== FetchStatus.inProgress &&
-      priceListRemoveStatus !== FetchStatus.inProgress &&
-      priceListUpdateStatus !== FetchStatus.inProgress
-    ) {
-      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
+    if (!costModelsError && costModelsStatus !== FetchStatus.inProgress) {
+      dispatch(costModelsActions.fetchCostModels(costModelsQueryString));
     }
-  }, [query]);
+  }, [costModelsQueryString, costModelsError, dispatch, query]);
 
   const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = useSelector((state: RootState) =>
@@ -281,10 +254,9 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
   );
 
   return {
-    priceList,
-    priceListError,
-    priceListQueryString,
-    priceListStatus,
+    costModel: costModels?.data?.[0],
+    costModelsError,
+    costModelsStatus,
     userAccess,
     userAccessError,
     userAccessFetchStatus,

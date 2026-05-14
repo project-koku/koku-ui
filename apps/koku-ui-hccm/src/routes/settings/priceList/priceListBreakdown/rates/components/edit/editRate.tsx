@@ -14,7 +14,6 @@ interface EditRateOwnProps {
   isDispatch?: boolean;
   onClose?: () => void;
   onEdit?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex?: number;
 }
@@ -22,7 +21,7 @@ interface EditRateOwnProps {
 type EditRateProps = EditRateOwnProps;
 
 const EditRate = forwardRef<EditRateHandle, EditRateProps>((props, ref) => {
-  const { isDispatch, onClose, onEdit, onSuccess, priceList, rateIndex } = props;
+  const { isDispatch, onClose, onEdit, priceList, rateIndex } = props;
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -51,11 +50,6 @@ const EditRate = forwardRef<EditRateHandle, EditRateProps>((props, ref) => {
     onEdit?.(rates);
   };
 
-  const handleOnEditModalSuccess = () => {
-    setIsEditModalOpen(false);
-    onSuccess?.();
-  };
-
   const handleOnReviewModalClose = () => {
     setIsReviewModalOpen(false);
   };
@@ -78,7 +72,6 @@ const EditRate = forwardRef<EditRateHandle, EditRateProps>((props, ref) => {
         isOpen={isEditModalOpen}
         onEdit={handleOnEditModalEdit}
         onClose={handleOnEditModalClose}
-        onSuccess={handleOnEditModalSuccess}
         priceList={priceList}
         rateIndex={rateIndex}
       />

@@ -375,7 +375,7 @@ class CostModelWizardBase extends React.Component<CostModelWizardProps, CostMode
         },
         {
           id: 1,
-          name: intl.formatMessage(messages.priceList),
+          name: intl.formatMessage(messages.priceList, { count: 1 }),
           component: <PriceList />,
         },
         {

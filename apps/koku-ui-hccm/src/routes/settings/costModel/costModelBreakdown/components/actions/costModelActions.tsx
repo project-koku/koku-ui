@@ -1,41 +1,38 @@
-import type { PriceListData } from 'api/priceList';
-import type { Rate } from 'api/rates';
+import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React, { useLayoutEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
-import type { DeleteRateHandle } from 'routes/settings/priceList/priceListBreakdown/rates/components/delete';
-import { DeleteRate } from 'routes/settings/priceList/priceListBreakdown/rates/components/delete';
-import type { EditRateHandle } from 'routes/settings/priceList/priceListBreakdown/rates/components/edit';
-import { EditRate } from 'routes/settings/priceList/priceListBreakdown/rates/components/edit';
+import type { DeleteCostModelHandle } from 'routes/settings/costModel/costModelBreakdown/components/delete';
+import { DeleteCostModel } from 'routes/settings/costModel/costModelBreakdown/components/delete';
+import type { EditCostModelHandle } from 'routes/settings/costModel/costModelBreakdown/components/edit';
+import { EditCostModel } from 'routes/settings/costModel/costModelBreakdown/components/edit';
 
-interface RateActionsOwnProps {
+interface CostModelActionsOwnProps {
   canWrite?: boolean;
+  costModel: CostModel;
   isDisabled?: boolean;
   isDispatch?: boolean;
   onClose?: () => void;
-  onDelete?: (rates: Rate[]) => void;
-  onEdit?: (rates: Rate[]) => void;
-  priceList: PriceListData;
-  rateIndex: number;
+  onDelete?: (costModel: CostModel) => void;
+  onEdit?: (costModel: CostModel) => void;
 }
 
-type RateActionsProps = RateActionsOwnProps;
+type CostModelActionsProps = CostModelActionsOwnProps;
 
-const RateActions: React.FC<RateActionsProps> = ({
+const CostModelActions: React.FC<CostModelActionsProps> = ({
   canWrite,
+  costModel,
   isDisabled,
   isDispatch,
   onClose,
   onDelete,
   onEdit,
-  priceList,
-  rateIndex,
 }) => {
   const intl = useIntl();
-  const editRateRef = useRef<EditRateHandle>(null);
-  const deleteRateRef = useRef<DeleteRateHandle>(null);
+  const editCostModelRef = useRef<EditCostModelHandle>(null);
+  const deleteCostModelRef = useRef<DeleteCostModelHandle>(null);
 
   /** Bridges imperative refs without closing over them in objects built during render (react-hooks/refs). */
   const menuDispatchRef = useRef<{ openDelete: () => void; openEdit: () => void }>({
@@ -44,8 +41,8 @@ const RateActions: React.FC<RateActionsProps> = ({
   });
 
   useLayoutEffect(() => {
-    menuDispatchRef.current.openEdit = () => editRateRef.current?.open();
-    menuDispatchRef.current.openDelete = () => deleteRateRef.current?.open();
+    menuDispatchRef.current.openEdit = () => editCostModelRef.current?.open();
+    menuDispatchRef.current.openDelete = () => deleteCostModelRef.current?.open();
   });
 
   const menuItems: DropdownWrapperItem[] = useMemo(
@@ -53,7 +50,7 @@ const RateActions: React.FC<RateActionsProps> = ({
       {
         isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.openEdit(),
-        toString: () => intl.formatMessage(messages.priceListEditRate),
+        toString: () => intl.formatMessage(messages.edit),
         ...(!canWrite && {
           tooltipProps: {
             content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
@@ -76,25 +73,23 @@ const RateActions: React.FC<RateActionsProps> = ({
 
   return (
     <>
-      <EditRate
+      <EditCostModel
+        costModel={costModel}
         isDispatch={isDispatch}
         onClose={onClose}
-        onEdit={onEdit}
-        priceList={priceList}
-        rateIndex={rateIndex}
-        ref={editRateRef}
+        onSave={onEdit}
+        ref={editCostModelRef}
       />
-      <DeleteRate
+      <DeleteCostModel
+        costModel={costModel}
         isDispatch={isDispatch}
         onClose={onClose}
         onDelete={onDelete}
-        priceList={priceList}
-        rateIndex={rateIndex}
-        ref={deleteRateRef}
+        ref={deleteCostModelRef}
       />
       <DropdownWrapper isKebab items={menuItems} position="right" />
     </>
   );
 };
 
-export { RateActions };
+export { CostModelActions };

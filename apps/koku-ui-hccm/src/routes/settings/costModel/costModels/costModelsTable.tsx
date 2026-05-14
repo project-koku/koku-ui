@@ -7,11 +7,11 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { DataTable } from 'routes/components/dataTable';
+import { DeleteCostModelAction } from 'routes/settings/costModel/costModels/components/actions';
+import { NoCostModelsState } from 'routes/settings/costModel/costModels/components/state';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './costModelsTable.styles';
-import { DeleteCostModelAction } from './delete/deleteCostModelAction';
-import { NoCostModelsState } from './state/noCostModelsState';
 
 interface CostModelsTableOwnProps {
   canWrite?: boolean;
@@ -48,7 +48,7 @@ const CostModelsTable: React.FC<CostModelsTableProps> = ({
     }
 
     const newRows = [];
-    const computedItems = costModels?.data ? (costModels.data as any) : [];
+    const computedItems = costModels?.data ? costModels.data : [];
 
     const newColumns = [
       {
@@ -77,7 +77,7 @@ const CostModelsTable: React.FC<CostModelsTableProps> = ({
       },
     ];
 
-    computedItems.forEach((item, index) => {
+    computedItems.forEach(item => {
       newRows.push({
         cells: [
           {
@@ -112,9 +112,8 @@ const CostModelsTable: React.FC<CostModelsTableProps> = ({
           {
             value: (
               <DeleteCostModelAction
+                costModel={item}
                 canWrite={canWrite}
-                costModels={costModels}
-                costModelsIndex={index}
                 isDisabled={isDisabled}
                 onClose={onClose}
                 onDelete={onDelete}

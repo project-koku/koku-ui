@@ -242,7 +242,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (tab === SettingsTab.platformProjects) {
       return intl.formatMessage(messages.platformProjectsTitle);
     } else if (tab === SettingsTab.priceList) {
-      return intl.formatMessage(messages.priceList);
+      return intl.formatMessage(messages.priceList, { count: 1 });
     } else if (tab === SettingsTab.tags) {
       return intl.formatMessage(messages.tagLabelsTitle);
     } else if (tab === SettingsTab.sources) {

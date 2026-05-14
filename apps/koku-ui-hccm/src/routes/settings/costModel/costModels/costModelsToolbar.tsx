@@ -56,20 +56,20 @@ const CostModelsToolbar: React.FC<CostModelsToolbarProps> = ({
         ariaLabelKey: 'name',
         key: 'name',
         name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
-        placeholderKey: 'name',
+        placeholderKey: 'name', // place holder key for category input
       },
       {
         ariaLabelKey: 'description',
         key: 'description',
         name: intl.formatMessage(messages.filterByValues, { value: 'description' }),
-        placeholderKey: 'description',
+        placeholderKey: 'description', // place holder key for category input
       },
       {
         ariaLabelKey: 'source_type',
         isMultiSelect: false,
         key: 'source_type',
         name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
-        placeholderKey: 'source_type',
+        placeholderKey: 'source_type', // place holder key for category input
         selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
         selectOptions: [
           {

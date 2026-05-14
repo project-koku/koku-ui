@@ -29,7 +29,6 @@ interface RatesToolbarOwnProps {
   onClose?: () => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
-  onSuccess?: () => void;
   pagination?: React.ReactNode;
   priceList: PriceListData; // Price list without filters and pagination for editing
   query?: OcpQuery;
@@ -54,7 +53,6 @@ const RatesToolbar: React.FC<RatesToolbarProps> = ({
   onClose,
   onFilterAdded,
   onFilterRemoved,
-  onSuccess,
   pagination,
   priceList,
   query,
@@ -72,7 +70,6 @@ const RatesToolbar: React.FC<RatesToolbarProps> = ({
         isDispatch={isDispatch}
         onAdd={onAdd}
         onClose={onClose}
-        onSuccess={onSuccess}
         priceList={priceList}
       />
     );

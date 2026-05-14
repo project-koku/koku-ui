@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -69,26 +69,18 @@ describe('DeleteRateModal', () => {
     expect(dispatchSpy).toHaveBeenCalled();
   });
 
-  test('calls onSuccess when update completes', async () => {
-    const onSuccess = jest.fn();
+  test('invokes onDelete when isDispatch false (parent refresh path)', () => {
     const onDelete = jest.fn();
     const store = makeStoreWithUpdateStatus(FetchStatus.complete);
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <DeleteRateModal
-            isDispatch={false}
-            isOpen
-            onDelete={onDelete}
-            onSuccess={onSuccess}
-            priceList={priceList}
-            rateIndex={0}
-          />
+          <DeleteRateModal isDispatch={false} isOpen onDelete={onDelete} priceList={priceList} rateIndex={0} />
         </IntlProvider>
       </Provider>
     );
     fireEvent.click(screen.getByRole('button', { name: /^delete$/i }));
-    await waitFor(() => expect(onSuccess).toHaveBeenCalled());
+    expect(onDelete).toHaveBeenCalledTimes(1);
     expect(onDelete).toHaveBeenCalledWith([]);
   });
 

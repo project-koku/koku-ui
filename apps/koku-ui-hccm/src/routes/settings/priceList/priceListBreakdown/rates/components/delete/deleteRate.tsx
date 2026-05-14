@@ -16,7 +16,6 @@ interface DeleteRateOwnProps {
   isDispatch?: boolean;
   onClose?: () => void;
   onDelete?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex?: number;
 }
@@ -24,7 +23,7 @@ interface DeleteRateOwnProps {
 type DeleteRateProps = DeleteRateOwnProps;
 
 const DeleteRate = forwardRef<DeleteRateHandle, DeleteRateProps>((props, ref) => {
-  const { isDispatch, onClose, onDelete, onSuccess, priceList, rateIndex } = props;
+  const { isDispatch, onClose, onDelete, priceList, rateIndex } = props;
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -62,11 +61,6 @@ const DeleteRate = forwardRef<DeleteRateHandle, DeleteRateProps>((props, ref) =>
     onDelete?.(rates);
   };
 
-  const handleOnDeleteModalSuccess = () => {
-    setIsDeleteModalOpen(false);
-    onSuccess?.();
-  };
-
   return (
     <>
       <ReviewModal
@@ -80,7 +74,6 @@ const DeleteRate = forwardRef<DeleteRateHandle, DeleteRateProps>((props, ref) =>
         isOpen={isDeleteModalOpen}
         onClose={handleOnDeleteModalClose}
         onDelete={handleOnDeleteModalDelete}
-        onSuccess={handleOnDeleteModalSuccess}
         priceList={priceList}
         rateIndex={rateIndex}
       />

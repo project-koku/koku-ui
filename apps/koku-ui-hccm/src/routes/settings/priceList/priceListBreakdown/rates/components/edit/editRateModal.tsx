@@ -4,7 +4,7 @@ import { PriceListType } from 'api/priceList';
 import type { Rate } from 'api/rates';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -21,7 +21,6 @@ interface EditRateModalOwnProps {
   isOpen?: boolean;
   onClose?: () => void;
   onEdit?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex?: number;
 }
@@ -42,7 +41,6 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   isOpen = false,
   onClose,
   onEdit,
-  onSuccess,
   priceList,
   rateIndex,
 }) => {
@@ -51,14 +49,12 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
 
   const contentRef = useRef<RatesContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isFinish, setIsFinish] = useState(false);
 
-  const { priceListUpdateError, priceListUpdateStatus } = useMapToProps();
+  const { priceListUpdateStatus } = useMapToProps();
 
   // Handlers
 
   const handleOnSave = (rates: Rate[]) => {
-    setIsFinish(true);
     onEdit?.(rates);
 
     if (isDispatch) {
@@ -70,20 +66,6 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       );
     }
   };
-
-  // Effects
-
-  useEffect(() => {
-    if (isOpen) {
-      setIsFinish(false);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
-      onSuccess?.();
-    }
-  }, [isFinish, onSuccess, priceListUpdateError, priceListUpdateStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree

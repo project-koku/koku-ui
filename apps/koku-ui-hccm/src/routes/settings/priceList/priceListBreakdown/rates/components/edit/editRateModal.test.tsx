@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -93,27 +93,21 @@ describe('EditRateModal', () => {
     expect(dispatchSpy).toHaveBeenCalled();
   });
 
-  test('calls onSuccess when update completes', async () => {
-    const onSuccess = jest.fn();
+  test('invokes onEdit when isDispatch false (parent refresh path)', () => {
     const onEdit = jest.fn();
     const store = makeStoreWithUpdateStatus(FetchStatus.complete);
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <EditRateModal
-            isDispatch={false}
-            isOpen
-            onEdit={onEdit}
-            onSuccess={onSuccess}
-            priceList={priceList}
-            rateIndex={0}
-          />
+          <EditRateModal isDispatch={false} isOpen onEdit={onEdit} priceList={priceList} rateIndex={0} />
         </IntlProvider>
       </Provider>
     );
     fireEvent.click(screen.getByRole('button', { name: /edit rate/i }));
-    await waitFor(() => expect(onSuccess).toHaveBeenCalled());
-    expect(onEdit).toHaveBeenCalled();
+    expect(onEdit).toHaveBeenCalledTimes(1);
+    expect(onEdit).toHaveBeenCalledWith(
+      expect.arrayContaining([expect.objectContaining({ custom_name: 'Edited', metric: { name: 'cpu_core_request' } })])
+    );
   });
 
   test('cancel invokes onClose', () => {

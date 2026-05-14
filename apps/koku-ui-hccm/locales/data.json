@@ -1602,10 +1602,22 @@
         "value": "Last updated"
       }
     ],
+    "costModelsNameTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 100 characters"
+      }
+    ],
     "costModelsRateTooLong": [
       {
         "type": 0,
         "value": "Should not exceed 10 decimals"
+      }
+    ],
+    "costModelsRecalculateDesc": [
+      {
+        "type": 0,
+        "value": "This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review."
       }
     ],
     "costModelsRefreshDialog": [
@@ -12057,8 +12069,28 @@
     ],
     "priceList": [
       {
-        "type": 0,
-        "value": "Price list"
+        "offset": 0,
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Price list"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Price lists"
+              }
+            ]
+          }
+        },
+        "pluralType": "cardinal",
+        "type": 6,
+        "value": "count"
       }
     ],
     "priceListAddRate": [
@@ -12351,12 +12383,6 @@
         "value": "Rate must be a positive number"
       }
     ],
-    "priceListRecalculate": [
-      {
-        "type": 0,
-        "value": "Recalculating charges"
-      }
-    ],
     "priceListRecalculateDesc": [
       {
         "type": 0,
@@ -12512,6 +12538,12 @@
       {
         "type": 0,
         "value": "You have read only permissions"
+      }
+    ],
+    "recalculateCharges": [
+      {
+        "type": 0,
+        "value": "Recalculating charges"
       }
     ],
     "recalculateCurrentMonthDesc": [

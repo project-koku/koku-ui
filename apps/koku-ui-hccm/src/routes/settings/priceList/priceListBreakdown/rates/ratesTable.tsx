@@ -21,7 +21,6 @@ interface RatesTableOwnProps {
   onDelete?: (rates: Rate[]) => void;
   onEdit?: (rates: Rate[]) => void;
   onSort(sortType: string, isSortAscending: boolean);
-  onSuccess?: () => void;
   orderBy?: any;
   priceList: PriceListData; // Price list without filters and pagination for editing
   rates: Rate[]; // Filtered and paginated rates
@@ -39,7 +38,6 @@ const RatesTable: React.FC<RatesTableProps> = ({
   onDelete,
   onEdit,
   onSort,
-  onSuccess,
   orderBy,
   priceList,
   rates,
@@ -227,7 +225,6 @@ const RatesTable: React.FC<RatesTableProps> = ({
                 onClose={onClose}
                 onDelete={onDelete}
                 onEdit={onEdit}
-                onSuccess={onSuccess}
                 rateIndex={item?.rateIndex ?? index}
               />
             ),

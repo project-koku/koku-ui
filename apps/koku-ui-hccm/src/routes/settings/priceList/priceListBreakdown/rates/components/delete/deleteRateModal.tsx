@@ -6,7 +6,7 @@ import { PriceListType } from 'api/priceList';
 import type { Rate } from 'api/rates';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -22,7 +22,6 @@ interface DeleteRateModalOwnProps {
   isOpen?: boolean;
   onClose?: () => void;
   onDelete?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex: number;
 }
@@ -39,7 +38,6 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
   isOpen,
   onClose,
   onDelete,
-  onSuccess,
   priceList,
   rateIndex,
 }) => {
@@ -47,13 +45,11 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
   const intl = useIntl();
 
   const contentRef = useRef<DeleteRateContentHandle>(null);
-  const [isFinish, setIsFinish] = useState(false);
 
-  const { priceListUpdateError, priceListUpdateStatus } = useMapToProps();
+  const { priceListUpdateStatus } = useMapToProps();
 
   const handleOnDelete = (rates: Rate[]) => {
     if (priceListUpdateStatus !== FetchStatus.inProgress) {
-      setIsFinish(true);
       onDelete?.(rates);
 
       if (isDispatch) {
@@ -66,12 +62,6 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
       }
     }
   };
-
-  useEffect(() => {
-    if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
-      onSuccess?.();
-    }
-  }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree

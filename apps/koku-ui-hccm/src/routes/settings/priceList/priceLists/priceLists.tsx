@@ -5,7 +5,7 @@ import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -65,9 +65,9 @@ const PriceLists: React.FC<PriceListsProps> = ({ canWrite }) => {
   const isDisabled = priceList?.data?.length === 0;
 
   // Force update
-  const forceUpdate = () => {
-    setQuery({ ...query });
-  };
+  const forceUpdate = useCallback(() => {
+    setQuery(prev => ({ ...prev }));
+  }, []);
 
   const getPagination = (isBottom = false) => {
     const count = priceList?.meta?.count ?? 0;

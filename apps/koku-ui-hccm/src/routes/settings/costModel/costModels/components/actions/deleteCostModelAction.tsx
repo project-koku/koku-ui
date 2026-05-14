@@ -1,16 +1,14 @@
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons';
-import type { CostModels } from 'api/costModels';
+import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-
-import { DeleteCostModelModal } from './deleteCostModelModal';
+import { DeleteCostModelModal } from 'routes/settings/costModel/costModelBreakdown/components/delete';
 
 interface DeleteCostModelActionOwnProps {
+  costModel: CostModel;
   canWrite?: boolean;
-  costModels: CostModels;
-  costModelsIndex?: number;
   isDisabled?: boolean;
   onClose?: () => void;
   onDelete?: () => void;
@@ -19,9 +17,8 @@ interface DeleteCostModelActionOwnProps {
 type DeleteCostModelActionProps = DeleteCostModelActionOwnProps;
 
 const DeleteCostModelAction: React.FC<DeleteCostModelActionProps> = ({
+  costModel,
   canWrite,
-  costModels,
-  costModelsIndex,
   isDisabled,
   onClose,
   onDelete,
@@ -66,11 +63,10 @@ const DeleteCostModelAction: React.FC<DeleteCostModelActionProps> = ({
   return (
     <>
       <DeleteCostModelModal
-        costModels={costModels}
-        costModelsIndex={costModelsIndex}
+        costModel={costModel}
         isOpen={isModalOpen}
         onClose={handleOnModalClose}
-        onSuccess={handleOnModalDelete}
+        onDelete={handleOnModalDelete}
       />
       {getActions()}
     </>
