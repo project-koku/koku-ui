@@ -3450,6 +3450,14 @@
               }
             ]
           },
+          "last_updated": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last updates"
+              }
+            ]
+          },
           "measurement": {
             "value": [
               {
@@ -12305,13 +12313,19 @@
         "value": "."
       }
     ],
-    "priceListEnterDescription": [
+    "priceListEmptySelections": [
       {
         "type": 0,
-        "value": "Enter a description"
+        "value": "No price lists selected"
       }
     ],
-    "priceListEnterTagDescription": [
+    "priceListEmptySelectionsDesc": [
+      {
+        "type": 0,
+        "value": "Select one or more price lists below to preview how their effective dates overlap."
+      }
+    ],
+    "priceListEnterTagDesc": [
       {
         "type": 0,
         "value": "Enter a tag description"
@@ -12570,6 +12584,32 @@
         "value": "Tag value"
       }
     ],
+    "priceListTimeline": [
+      {
+        "type": 0,
+        "value": "Coverage timeline"
+      }
+    ],
+    "priceListTimelineEndDate": [
+      {
+        "type": 0,
+        "value": "End date: "
+      },
+      {
+        "type": 1,
+        "value": "endDate"
+      }
+    ],
+    "priceListTimelineTooltip": [
+      {
+        "type": 0,
+        "value": "Start date: "
+      },
+      {
+        "type": 1,
+        "value": "startDate"
+      }
+    ],
     "projectKoku": [
       {
         "type": 0,
@@ -12712,6 +12752,12 @@
       {
         "type": 0,
         "value": "This field is required"
+      }
+    ],
+    "reset": [
+      {
+        "type": 0,
+        "value": "Reset"
       }
     ],
     "restore": [

@@ -81,6 +81,11 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
         ...(computedItems.length && { isSortable: true }),
       },
       {
+        orderBy: 'updated_timestamp',
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'last_updated' }),
+        ...(computedItems.length && { isSortable: true }),
+      },
+      {
         name: '', // Actions column
       },
     ];
@@ -121,6 +126,19 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
           {
             style: styles.column,
             value: item?.assigned_cost_model_count || 0,
+          },
+          {
+            style: styles.column,
+            value: intl.formatDate(item.updated_timestamp, {
+              day: 'numeric',
+              hour: 'numeric',
+              hour12: false,
+              minute: 'numeric',
+              month: 'short',
+              timeZone: 'UTC',
+              timeZoneName: 'short',
+              year: 'numeric',
+            }),
           },
           {
             value: (

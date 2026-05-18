@@ -1540,6 +1540,7 @@ export default defineMessages({
       'group {Group} ' +
       'instance {Instance names} ' +
       'instance_type {Instance type} ' +
+      'last_updated {Last updates} ' +
       'measurement {Measurement} ' +
       'memory {Memory} ' +
       'metric {Metric} ' +
@@ -3599,15 +3600,20 @@ export default defineMessages({
       'Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in USD.',
     id: 'priceListEmptyRatesDesc',
   },
-  priceListEnterDescription: {
-    defaultMessage: 'Enter a description',
-    description: 'Enter a description',
-    id: 'priceListEnterDescription',
+  priceListEmptySelections: {
+    defaultMessage: 'No price lists selected',
+    description: 'No price lists selected',
+    id: 'priceListEmptySelections',
   },
-  priceListEnterTagDescription: {
+  priceListEmptySelectionsDesc: {
+    defaultMessage: 'Select one or more price lists below to preview how their effective dates overlap.',
+    description: 'Select one or more price lists below to preview how their effective dates overlap.',
+    id: 'priceListEmptySelectionsDesc',
+  },
+  priceListEnterTagDesc: {
     defaultMessage: 'Enter a tag description',
     description: 'Enter a tag description',
-    id: 'priceListEnterTagDescription',
+    id: 'priceListEnterTagDesc',
   },
   priceListEnterTagKey: {
     defaultMessage: 'Enter a tag key',
@@ -3738,6 +3744,21 @@ export default defineMessages({
     description: 'Tag value',
     id: 'priceListTagValue',
   },
+  priceListTimeline: {
+    defaultMessage: 'Coverage timeline',
+    description: 'Coverage timeline',
+    id: 'priceListTimeline',
+  },
+  priceListTimelineEndDate: {
+    defaultMessage: 'End date: {endDate}',
+    description: 'End date: {endDate}',
+    id: 'priceListTimelineEndDate',
+  },
+  priceListTimelineStartDate: {
+    defaultMessage: 'Start date: {startDate}',
+    description: 'Start date: {startDate}',
+    id: 'priceListTimelineTooltip',
+  },
   projectKoku: {
     defaultMessage: 'Upstream project Koku',
     description: 'Upstream project Koku',
@@ -3850,6 +3871,11 @@ export default defineMessages({
     defaultMessage: 'This field is required',
     description: 'This field is required',
     id: 'requiredField',
+  },
+  reset: {
+    defaultMessage: 'Reset',
+    description: 'Reset',
+    id: 'reset',
   },
   restore: {
     defaultMessage: 'Restore',

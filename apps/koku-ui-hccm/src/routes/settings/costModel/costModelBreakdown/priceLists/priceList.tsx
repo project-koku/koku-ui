@@ -17,6 +17,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 
+import { TimelineChart } from './components/charts';
 import { NoPriceListState } from './components/state';
 import { styles } from './priceList.styles';
 import { PriceListTable } from './priceListTable';
@@ -70,7 +71,6 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(baseQuery.limit);
   const [isDraggable, setIsDraggable] = useState(false);
-  const [isAllSelected, setIsAllSelected] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [selectedItems, setSelectedItems] = useState<PriceListDataExt[]>([]);
@@ -131,7 +131,6 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
         canWrite={canWrite}
         costModel={costModel}
         filterBy={query.filter_by}
-        isAllSelected={isAllSelected}
         isDisabled={hasNoPriceLists}
         isDraggable={isDraggable}
         isLoading={priceListsStatus === FetchStatus.inProgress}
@@ -150,7 +149,6 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
       <PriceListToolbar
         canWrite={canWrite}
         costModel={costModel}
-        isAllSelected={isAllSelected}
         isDisabled={hasNoPriceLists}
         isDraggable={isDraggable}
         isOrderDisabled={costModel?.price_lists?.length === 0} // Todo: set to 1 after testing
@@ -184,7 +182,6 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
 
   const handleOnBulkSelect = (action: string) => {
     if (action === 'none') {
-      setIsAllSelected(false);
       setSelectedItems([]);
     } else if (action === 'page') {
       const newSelectedItems = [...selectedItems];
@@ -193,11 +190,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
           newSelectedItems.push(val);
         }
       });
-      setIsAllSelected(false);
       setSelectedItems(newSelectedItems);
-    } else if (action === 'all') {
-      setIsAllSelected(!isAllSelected);
-      setSelectedItems([]);
     }
   };
 
@@ -265,7 +258,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
   };
 
   const handleOnSelect = (items: PriceListData[], isSelected: boolean = false) => {
-    let newItems = [...(isAllSelected ? (orderedPriceLists ?? []) : selectedItems)];
+    let newItems = [...selectedItems];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
@@ -275,7 +268,6 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
         });
       }
     }
-    setIsAllSelected(false);
     setSelectedItems(newItems);
   };
 
@@ -314,21 +306,24 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
         </div>
       )}
       {!hasNoPriceLists || priceListsStatus === FetchStatus.inProgress ? (
-        <Card>
-          <CardBody>
-            <div style={styles.tableContainer}>
-              {getToolbar()}
-              {priceListsStatus === FetchStatus.inProgress ? (
-                <LoadingState />
-              ) : (
-                <>
-                  {getTable()}
-                  <div style={styles.paginationContainer}>{getPagination(true)}</div>
-                </>
-              )}
-            </div>
-          </CardBody>
-        </Card>
+        <>
+          <TimelineChart priceLists={[...priceLists].sort((a, b) => b.priority - a.priority)} />
+          <Card>
+            <CardBody>
+              <div style={styles.tableContainer}>
+                {getToolbar()}
+                {priceListsStatus === FetchStatus.inProgress ? (
+                  <LoadingState />
+                ) : (
+                  <>
+                    {getTable()}
+                    <div style={styles.paginationContainer}>{getPagination(true)}</div>
+                  </>
+                )}
+              </div>
+            </CardBody>
+          </Card>
+        </>
       ) : (
         <Card>
           <CardBody>
@@ -357,15 +352,39 @@ const useMapToProps = ({
   const paginatedPriceLists = getPaginatedPriceLists(filteredPriceLists, pageNumber, perPage);
 
   const test = [
-    { uuid: '69384708-087f-4013-88dd-a38157473f47', name: 'TEST prices', priority: 1 },
-    { uuid: 'c5e5093d-3dd8-4070-af13-6f63e863e8eb', name: 'currency demo prices', priority: 2 },
-    { uuid: 'b81c45ee-2c94-47aa-842d-09bb2cc80042', name: 'dnakabaa-invalid-json-path prices', priority: 3 },
-    { uuid: '4e4e855e-9e3f-4e86-9fcd-f44d269494e7', name: 'ee prices', priority: 4 },
+    {
+      effective_end_date: '2026-04-30',
+      effective_start_date: '2026-03-01',
+      name: 'TEST prices',
+      priority: 1,
+      uuid: '69384708-087f-4013-88dd-a38157473f47',
+    },
+    {
+      effective_end_date: '2026-05-31',
+      effective_start_date: '2026-04-01',
+      name: 'currency demo prices',
+      priority: 2,
+      uuid: 'c5e5093d-3dd8-4070-af13-6f63e863e8eb',
+    },
+    {
+      effective_end_date: '2026-06-30',
+      effective_start_date: '2026-05-01',
+      name: 'dnakabaa-invalid-json-path prices',
+      priority: 3,
+      uuid: 'b81c45ee-2c94-47aa-842d-09bb2cc80042',
+    },
+    {
+      effective_end_date: '2026-07-31',
+      effective_start_date: '2026-06-01',
+      name: 'ee prices',
+      priority: 4,
+      uuid: '4e4e855e-9e3f-4e86-9fcd-f44d269494e7',
+    },
   ];
   return {
     costModelsError,
     costModelsStatus,
-    priceLists: test ?? paginatedPriceLists,
+    priceLists: test ? test.sort((a, b) => a.priority - b.priority) : paginatedPriceLists,
     priceListsTotal: filteredPriceLists?.length ?? 0,
   };
 };

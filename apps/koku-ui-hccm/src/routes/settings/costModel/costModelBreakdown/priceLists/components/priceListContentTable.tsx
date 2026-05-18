@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import { DataTable } from 'routes/components/dataTable';
 import { PriceListActions } from 'routes/settings/priceList/priceLists/components/actions';
+import { formatDate } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './priceListContentTable.styles';
@@ -106,11 +107,11 @@ const PriceListContentTable: React.FC<PriceListContentTableProps> = ({
           },
           {
             style: styles.column,
-            value: item?.effective_start_date || '',
+            value: formatDate(item?.effective_start_date ? `${item.effective_start_date}T00:00:00` : ''),
           },
           {
             style: styles.column,
-            value: item?.effective_end_date || '',
+            value: formatDate(item?.effective_end_date ? `${item.effective_end_date}T00:00:00` : ''),
           },
           {
             style: styles.column,

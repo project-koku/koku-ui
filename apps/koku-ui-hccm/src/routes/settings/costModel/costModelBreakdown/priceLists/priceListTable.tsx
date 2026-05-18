@@ -102,11 +102,11 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
           },
           {
             style: styles.column,
-            value: formatDate(item?.effective_start_date ?? ''), // Todo: fetch date from price list API
+            value: formatDate(item?.effective_start_date ? `${item.effective_start_date}T00:00:00` : ''),
           },
           {
             style: styles.column,
-            value: formatDate(item?.effective_end_date ?? ''), // Todo: fetch date from price list API
+            value: formatDate(item?.effective_end_date ? `${item.effective_end_date}T00:00:00` : ''),
           },
           {
             value: (

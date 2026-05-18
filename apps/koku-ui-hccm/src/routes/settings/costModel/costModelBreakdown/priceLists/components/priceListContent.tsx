@@ -28,9 +28,14 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 
+import { TimelineChart } from './charts';
 import { styles } from './priceListContent.styles';
 import { PriceListContentTable } from './priceListContentTable';
 import { PriceListContentToolbar } from './priceListContentToolbar';
+
+interface PriceListDataExt extends PriceListData {
+  priority?: number;
+}
 
 interface PriceListContentOwnProps {
   canWrite?: boolean;
@@ -73,9 +78,8 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
     /** Latest save handler for imperative `submit()` — updated in layout effect (not during render). */
     const currentHandlerRef = useRef<() => void>(() => {});
 
-    const [isAllSelected, setIsAllSelected] = useState(false);
     const [query, setQuery] = useState({ ...baseQuery });
-    const [selectedItems, setSelectedItems] = useState<PriceListData[]>([]);
+    const [selectedItems, setSelectedItems] = useState<PriceListDataExt[]>([]);
     const [selectedItemsBaseline, setSelectedItemsBaseline] = useState<PriceListData[]>([]);
 
     const { priceList, priceListError, priceListStatus } = useMapToProps({ query });
@@ -124,7 +128,6 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
         <PriceListContentTable
           canWrite={canWrite}
           filterBy={query.filter_by}
-          isAllSelected={isAllSelected}
           isDisabled={priceList?.data?.length === 0}
           isLoading={priceListStatus === FetchStatus.inProgress}
           onDelete={handleOnDelete}
@@ -143,7 +146,6 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
       return (
         <PriceListContentToolbar
           canWrite={canWrite}
-          isAllSelected={isAllSelected}
           isDisabled={hasNoPriceLists}
           itemsPerPage={priceList?.meta?.limit ?? baseQuery.limit}
           itemsTotal={priceList?.meta?.count ?? 0}
@@ -166,7 +168,6 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
 
     const handleOnBulkSelect = (action: string) => {
       if (action === 'none') {
-        setIsAllSelected(false);
         setSelectedItems([]);
       } else if (action === 'page') {
         const newSelectedItems = [...selectedItems];
@@ -175,11 +176,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
             newSelectedItems.push(val);
           }
         });
-        setIsAllSelected(false);
         setSelectedItems(newSelectedItems);
-      } else if (action === 'all') {
-        setIsAllSelected(!isAllSelected);
-        setSelectedItems([]);
       }
     };
 
@@ -203,18 +200,24 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
       setQuery(newQuery);
     };
 
+    const handleOnResetClick = () => {
+      setSelectedItems(selectedItemsBaseline);
+    };
+
     const handleOnSelect = (items: PriceListData[], isSelected: boolean = false) => {
-      let newItems = [...(isAllSelected ? (priceList?.data ?? []) : selectedItems)];
+      let newItems = [...selectedItems];
       if (items && items.length > 0) {
         if (isSelected) {
-          items.map(item => newItems.push(item));
+          items.map(item => newItems.push({ ...item, priority: newItems.length + 1 }));
         } else {
           items.map(item => {
             newItems = newItems.filter(val => val.uuid !== item.uuid);
           });
+
+          // Reprioritize items
+          newItems = newItems.map((item, index) => ({ ...item, priority: index + 1 }));
         }
       }
-      setIsAllSelected(false);
       setSelectedItems(newItems);
     };
 
@@ -264,9 +267,14 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
       <>
         {!hasNoPriceLists || priceListStatus === FetchStatus.inProgress ? (
           <>
-            {intl.formatMessage(messages.assignPriceListsDesc)}
+            <TimelineChart
+              isReset
+              onResetClick={handleOnResetClick}
+              priceLists={[...selectedItems].sort((a, b) => b.priority - a.priority)}
+            />
             <div style={styles.tableContainer}>
               {getToolbar()}
+              {intl.formatMessage(messages.assignPriceListsDesc)}
               {priceListStatus === FetchStatus.inProgress ? (
                 <LoadingState />
               ) : (
