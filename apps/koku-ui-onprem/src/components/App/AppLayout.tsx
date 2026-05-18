@@ -7,6 +7,7 @@ import {
   MastheadMain,
   MastheadToggle,
   Nav,
+  NavExpandable,
   NavItem as PFNavItem,
   NavList,
   Page,
@@ -16,10 +17,22 @@ import {
   PageToggleButton,
   Spinner,
 } from '@patternfly/react-core';
+import navStyles from '@patternfly/react-styles/css/components/Nav/nav.mjs';
+import { css } from '@patternfly/react-styles';
 import { ScalprumComponent } from '@scalprum/react-core';
 import openshiftLogo from 'assets/openshift-logo.svg';
 import React from 'react';
-import { Link, Navigate, Route, Routes, useMatch } from 'react-router-dom';
+
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+
+import {
+  IAM_NAV_ITEMS,
+  isOnpremIamBasename,
+  RBAC_IAM_ROUTE_PREFIX,
+  RBAC_MY_USER_ACCESS_PATH,
+  RBAC_ONPREM_REMOTE,
+  toIamHostNavPath,
+} from '../../onpremRemotes';
 
 import AppToolbar from './AppToolbar';
 
@@ -61,12 +74,64 @@ export const routes = [
 interface NavItemProps {
   to: string;
   children: React.ReactNode;
+  onLeaveIam: (to: string) => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ to, children }) => {
-  const isMatch = useMatch(`${to}/*`);
-  const isMatchExact = useMatch(to);
-  const isActive = to === '/openshift/cost-management' ? isMatchExact : isMatch;
+const isIamRoute = (pathname: string, iamBasename: boolean) =>
+  iamBasename || pathname.startsWith(RBAC_IAM_ROUTE_PREFIX);
+
+const isCostNavTarget = (to: string) => !to.startsWith(RBAC_IAM_ROUTE_PREFIX);
+
+const isIamNavTarget = (to: string) => to.startsWith(RBAC_IAM_ROUTE_PREFIX);
+
+/** Match active state: `useLocation().pathname` is basename-relative on `/iam/*`. */
+const isNavActive = (pathname: string, to: string) => {
+  if (to === '/openshift/cost-management') {
+    return pathname === to;
+  }
+  if (isIamNavTarget(to)) {
+    const rel = to.slice(RBAC_IAM_ROUTE_PREFIX.length) || '/';
+    return pathname === rel || pathname.startsWith(`${rel}/`);
+  }
+  return pathname === to || pathname.startsWith(`${to}/`);
+};
+
+const NavItem: React.FC<NavItemProps & { iamBasename: boolean }> = ({
+  to,
+  children,
+  onLeaveIam,
+  iamBasename,
+}) => {
+  const location = useLocation();
+  const isActive = isNavActive(location.pathname, to);
+  const onIam = isIamRoute(location.pathname, iamBasename);
+  const leaveIamForCost = onIam && isCostNavTarget(to);
+
+  if (leaveIamForCost) {
+    return (
+      <li className={css(navStyles.navItem)}>
+        <button
+          type="button"
+          className={css(navStyles.navLink, isActive && navStyles.modifiers.current)}
+          onClick={() => onLeaveIam(to)}
+        >
+          {children}
+        </button>
+      </li>
+    );
+  }
+
+  // Full-page `/iam/...` navigation — avoids basename-relative `<Link>` dropping `/iam` from the URL.
+  if (isIamNavTarget(to)) {
+    return (
+      <li className={css(navStyles.navItem)}>
+        <a href={to} className={css(navStyles.navLink, isActive && navStyles.modifiers.current)}>
+          {children}
+        </a>
+      </li>
+    );
+  }
+
   return (
     <PFNavItem id={to} isActive={!!isActive}>
       <Link to={to}>{children}</Link>
@@ -74,8 +139,29 @@ const NavItem: React.FC<NavItemProps> = ({ to, children }) => {
   );
 };
 
+const costManagementFallback = (
+  <Bullseye>
+    <Spinner size="lg" />
+  </Bullseye>
+);
+
+const iamFallback = (
+  <Bullseye>
+    <Spinner size="lg" />
+  </Bullseye>
+);
+
 const AppLayout = () => {
+  const location = useLocation();
+  const iamBasename = isOnpremIamBasename();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const onIamSection = isIamRoute(location.pathname, iamBasename);
+  const remoteKey = onIamSection ? 'iam' : 'cost';
+
+  const handleLeaveIam = React.useCallback((to: string) => {
+    window.location.assign(to);
+  }, []);
+
   const masthead = (
     <Masthead>
       <MastheadMain>
@@ -106,10 +192,31 @@ const AppLayout = () => {
         <Nav>
           <NavList>
             {routes.map(route => (
-              <NavItem key={route.path} to={route.path || ''}>
+              <NavItem
+                key={route.path}
+                to={route.path || ''}
+                onLeaveIam={handleLeaveIam}
+                iamBasename={iamBasename}
+              >
                 {route.title}
               </NavItem>
             ))}
+            <NavExpandable
+              title="Identity and Access Management"
+              isExpanded={onIamSection}
+              isActive={onIamSection}
+            >
+              {IAM_NAV_ITEMS.map(({ label, segment }) => (
+                <NavItem
+                  key={segment}
+                  to={toIamHostNavPath(segment)}
+                  onLeaveIam={handleLeaveIam}
+                  iamBasename={iamBasename}
+                >
+                  {label}
+                </NavItem>
+              ))}
+            </NavExpandable>
           </NavList>
         </Nav>
       </PageSidebarBody>
@@ -128,21 +235,51 @@ const AppLayout = () => {
     >
       <PageSection isFilled padding={{ default: 'noPadding' }}>
         <Routes>
-          <Route path="/" element={<Navigate to="/openshift/cost-management" replace />} />
-          <Route
-            path="/openshift/cost-management/*"
-            element={
-              <ScalprumComponent
-                scope="costManagement"
-                module="./RootApp"
-                fallback={
-                  <Bullseye>
-                    <Spinner size="lg" />
-                  </Bullseye>
+          {iamBasename ? (
+            <Route
+              path="/*"
+              element={
+                <ScalprumComponent
+                  key={remoteKey}
+                  scope={RBAC_ONPREM_REMOTE.scope}
+                  module={RBAC_ONPREM_REMOTE.module}
+                  fallback={iamFallback}
+                />
+              }
+            />
+          ) : (
+            <>
+              <Route path="/" element={<Navigate to="/openshift/cost-management" replace />} />
+              <Route
+                path="/openshift/cost-management/*"
+                element={
+                  <ScalprumComponent
+                    key={remoteKey}
+                    scope="costManagement"
+                    module="./RootApp"
+                    fallback={costManagementFallback}
+                  />
                 }
               />
-            }
-          />
+              <Route
+                path="/openshift/cost-management/rbac/*"
+                element={
+                  <Navigate to={`${RBAC_IAM_ROUTE_PREFIX}${RBAC_MY_USER_ACCESS_PATH}`} replace />
+                }
+              />
+              <Route
+                path={`${RBAC_IAM_ROUTE_PREFIX}/*`}
+                element={
+                  <ScalprumComponent
+                    key={remoteKey}
+                    scope={RBAC_ONPREM_REMOTE.scope}
+                    module={RBAC_ONPREM_REMOTE.module}
+                    fallback={iamFallback}
+                  />
+                }
+              />
+            </>
+          )}
         </Routes>
       </PageSection>
     </Page>

@@ -1,7 +1,16 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useAddNotification = () => (args: any) => {};
+import { useContext } from 'react';
 
-export const useClearNotifications = () => () => {};
+import { NotificationContext } from './NotificationsProvider';
+
+export const useAddNotification = () => {
+  const ctx = useContext(NotificationContext);
+  return ctx.addNotification;
+};
+
+export const useClearNotifications = () => {
+  const ctx = useContext(NotificationContext);
+  return ctx.clearNotifications;
+};
 
 export const useNotifications = () => ({
   notifications: [],

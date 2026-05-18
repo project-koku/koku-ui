@@ -64,11 +64,57 @@ token in the background before it expires.
 
 From the root of the repo, run
 ```
+npm run start:onprem:dev
+```
+
+`start:onprem:dev` sources `scripts/setup-onprem-env.sh` (requires `oc` login and a
+`CostManagementMetricsConfig` CR on the cluster), then starts the full on-prem stack.
+All remotes share `libs/onprem-cloud-deps` (feat shims; Unleash stub uses lazy init to avoid HCCM TDZ).
+
+Equivalent manual flow:
+
+```
+source scripts/setup-onprem-env.sh
 npm run start:onprem
 ```
 
-This script will run concurrent dev builds of hccm, ros and onprem applications.
+This runs concurrent dev builds of the host, HCCM, ROS, Sources, and RBAC remotes.
 After the successful build, navigate to http://localhost:9001
+
+### RBAC IAM remote (FLPATH-4164)
+
+| Item | Value |
+|------|--------|
+| Static assets | `/rbac/` (`apps/rbac-ui-onprem/dist`) |
+| Federated scope | `insightsRbac` / module `./Iam` |
+| Host route | `/iam/*` (POC entry: `/iam/my-user-access`) |
+| API (dev proxy) | `/api/rbac` → gateway origin derived from `API_PROXY_URL` |
+
+Production image: `apps/koku-ui-onprem/Containerfile` copies `rbac-ui-onprem/dist` to nginx `./rbac`.
+
+### Cypress E2E
+
+| Suite | Path | Command |
+|-------|------|---------|
+| Integration (mocked APIs) | [`cypress/e2e/integration/`](cypress/e2e/integration/) | `npm run test:cypress` |
+| E2E (cluster-backed) | [`cypress/e2e/live/`](cypress/e2e/live/) | `npm run test:cypress:live` |
+
+Live e2e is **not** run in CI. From koku-ui root: `npm run start:onprem:dev`, then `npm run test:cypress:live` (16 tests: loads + host ↔ IAM nav + IAM sidebar incl. `/iam` prefix regression). Use `npm run verify:onprem` for automatable manifest/build checks.
+
+Details: [`cypress/README.md`](cypress/README.md).
+
+### Feature flags (Unleash stub)
+
+On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. All flags default to **off**.
+
+To enable specific flags locally, set a comma-separated list before starting the dev server:
+
+```
+export ONPREM_UNLEASH_FLAGS=some.flag.name,another.flag
+npm run start:onprem:dev
+```
+
+The host wraps the app in `FlagProvider` from the stub so federated remotes share the same context.
 
 
 [Jira]: https://redhat.atlassian.net/projects/COST/

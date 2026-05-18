@@ -1,0 +1,5 @@
+{
+  "repo": "RedHatInsights/insights-rbac-ui",
+  "ref": "b4ca374603344a60ea3260433a4c913f1ff93ae3",
+  "description": "Pinned upstream RBAC UI for on-prem MFE build. Bump ref + run npm install at koku-ui root; commit package-lock.json and IMPLEMENTATION_LOG.md."
+}

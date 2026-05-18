@@ -1,33 +1,50 @@
 import { ScalprumProvider } from '@scalprum/react-core';
+import { FlagProvider } from '@unleash/proxy-client-react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import { getOnpremRouterBasename, RBAC_ONPREM_REMOTE } from '../../onpremRemotes';
 import AppLayout from './AppLayout';
 
-(window as any).insights = {
-  chrome: {
-    auth: {
-      getUser: async () => ({
-        identity: {
-          user: {
-            is_org_admin: true,
-            email: '',
-            first_name: '',
-            is_active: true,
-            is_internal: false,
-            last_name: '',
-            locale: 'en',
-            username: '',
-          },
-          org_id: '',
-          type: '',
+const chromeStub = {
+  auth: {
+    getToken: async () => '',
+    getUser: async () => ({
+      identity: {
+        user: {
+          is_org_admin: true,
+          email: 'dev@example.com',
+          first_name: 'Dev',
+          is_active: true,
+          is_internal: false,
+          last_name: 'User',
+          locale: 'en',
+          username: 'dev-user',
         },
-        entitlements: {},
-      }),
-    } as any,
-    getUserPermissions: async () => [],
-    on: () => {},
-  } as any,
+        org_id: 'dev-org',
+        type: 'User',
+      },
+      entitlements: {
+        openshift: { is_entitled: true, is_trial: false },
+        settings: { is_entitled: true, is_trial: false },
+      },
+    }),
+  },
+  getUserPermissions: async (_applicationName?: string, _disableCache?: boolean) => [],
+  getEnvironment: () => 'prod',
+  getEnvironmentDetails: async () => ({}),
+  on: () => {},
+  appNavClick: () => {},
+  updateDocumentTitle: () => {},
+  quickStarts: {
+    set: () => {},
+    toggle: () => {},
+    Catalog: () => null,
+  },
+};
+
+(window as Window & { insights?: { chrome: typeof chromeStub } }).insights = {
+  chrome: chromeStub,
 };
 
 const config = {
@@ -43,14 +60,20 @@ const config = {
     name: 'sources',
     manifestLocation: '/sources/plugin-manifest.json',
   },
+  [RBAC_ONPREM_REMOTE.scope]: {
+    name: RBAC_ONPREM_REMOTE.scope,
+    manifestLocation: RBAC_ONPREM_REMOTE.manifestLocation,
+  },
 };
 
 const App = () => {
   return (
     <ScalprumProvider config={config} api={{}}>
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <AppLayout />
-      </BrowserRouter>
+      <FlagProvider>
+        <BrowserRouter basename={getOnpremRouterBasename()}>
+          <AppLayout />
+        </BrowserRouter>
+      </FlagProvider>
     </ScalprumProvider>
   );
 };

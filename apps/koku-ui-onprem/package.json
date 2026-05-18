@@ -24,6 +24,7 @@
     "test": "",
     "test:cypress": "cypress run --config-file ./cypress/cypress.config.ts",
     "test:cypress:open": "cypress open --config-file ./cypress/cypress.config.ts",
+    "test:cypress:live": "env -u ELECTRON_RUN_AS_NODE cypress run --config-file ./cypress/cypress.config.ts --config specPattern='cypress/e2e/live/**/*.cy.ts'",
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "dependencies": {

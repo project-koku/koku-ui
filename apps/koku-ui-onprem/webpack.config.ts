@@ -1,15 +1,16 @@
 import { createDevServerProxy, createKeycloakFetcher, TokenRefresher } from '@koku-ui/token-refresher';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
-import { container } from 'webpack';
+import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 let setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = undefined;
-let proxyHeaders: Record<string, string> = undefined;
+let proxyHeaders: Record<string, string> | undefined = undefined;
 
 if (process.env.API_TOKEN !== 'false') {
   setupMiddlewares = (middlewares, devServer) => {
@@ -27,6 +28,16 @@ if (process.env.API_TOKEN !== 'false') {
 }
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
+
+/** Gateway origin for `/api/rbac` when `API_PROXY_URL` targets Koku under `/api/cost-management/v1`. */
+const rbacProxyTarget = (() => {
+  const proxyUrl = process.env.API_PROXY_URL;
+  if (!proxyUrl) {
+    return undefined;
+  }
+  const match = proxyUrl.match(/^(.*)\/api\/cost-management\/v1\/?$/);
+  return match ? match[1] : proxyUrl;
+})();
 
 let refresher: TokenRefresher | undefined;
 
@@ -94,6 +105,11 @@ const config: Configuration & {
         publicPath: '/sources/',
         watch: true,
       },
+      {
+        directory: path.resolve(__dirname, '../rbac-ui-onprem/dist'),
+        publicPath: '/rbac/',
+        watch: true,
+      },
     ],
     client: {
       overlay: true,
@@ -115,6 +131,23 @@ const config: Configuration & {
             pathRewrite: { '^/api/cost-management/v1': '' },
             ...(proxyHeaders && { headers: proxyHeaders }),
           },
+      ...(rbacProxyTarget
+        ? [
+            refresher
+              ? createDevServerProxy(refresher, {
+                  context: ['/api/rbac'],
+                  target: rbacProxyTarget,
+                  secure: false,
+                })
+              : {
+                  context: ['/api/rbac'],
+                  target: rbacProxyTarget,
+                  changeOrigin: true,
+                  secure: false,
+                  ...(proxyHeaders && { headers: proxyHeaders }),
+                },
+          ]
+        : []),
     ],
   },
   module: {
@@ -173,6 +206,17 @@ const config: Configuration & {
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/assets/technology-icons'),
+          to: path.resolve(__dirname, 'dist/apps/frontend-assets/technology-icons'),
+        },
+      ],
+    }),
+    new DefinePlugin({
+      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
+    }),
     new container.ModuleFederationPlugin({
       name: 'onprem',
       shared: {
@@ -183,6 +227,9 @@ const config: Configuration & {
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
         '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
+        '@patternfly/react-core': { singleton: true, requiredVersion: '*' },
+        '@patternfly/react-table': { singleton: true, requiredVersion: '*' },
+        '@patternfly/react-component-groups': { singleton: true, requiredVersion: '*' },
       },
     }),
     new HtmlWebpackPlugin({
@@ -196,6 +243,10 @@ const config: Configuration & {
     cacheWithContext: false,
     alias: {
       '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
+      '@unleash/proxy-client-react': path.resolve(
+        __dirname,
+        '../../libs/onprem-cloud-deps/src/unleash/proxy-client-react.ts'
+      ),
     },
   },
   optimization: {
