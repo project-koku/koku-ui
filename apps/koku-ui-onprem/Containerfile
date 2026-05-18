@@ -10,7 +10,10 @@ COPY apps/koku-ui-onprem/package.json ./apps/koku-ui-onprem/
 COPY apps/koku-ui-hccm/package.json ./apps/koku-ui-hccm/
 COPY apps/koku-ui-ros/package.json ./apps/koku-ui-ros/
 COPY apps/koku-ui-sources/package.json ./apps/koku-ui-sources/
+COPY apps/rbac-ui-onprem/package.json ./apps/rbac-ui-onprem/
+COPY apps/rbac-ui-onprem/rbac-ui.version.json ./apps/rbac-ui-onprem/
 COPY libs ./libs
+COPY scripts/verify-onprem-rbac.sh ./scripts/verify-onprem-rbac.sh
 
 RUN npm ci
 
@@ -26,6 +29,9 @@ RUN npm run build:onprem --workspace=@koku-ui/koku-ui-ros
 COPY apps/koku-ui-sources ./apps/koku-ui-sources/
 RUN npm run build:onprem --workspace=@koku-ui/koku-ui-sources
 
+COPY apps/rbac-ui-onprem ./apps/rbac-ui-onprem/
+RUN npm run build:onprem --workspace=@koku-ui/rbac-ui-onprem
+
 USER 1001
 
 FROM registry.access.redhat.com/ubi10/nginx-126
@@ -34,6 +40,7 @@ COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
 COPY --from=builder /app/apps/koku-ui-hccm/dist ./costManagement
 COPY --from=builder /app/apps/koku-ui-ros/dist ./costManagementRos
 COPY --from=builder /app/apps/koku-ui-sources/dist ./sources
+COPY --from=builder /app/apps/rbac-ui-onprem/dist ./rbac
 
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

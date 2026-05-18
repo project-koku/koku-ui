@@ -5,17 +5,21 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
-import { DefinePlugin } from 'webpack';
+import { DefinePlugin, NormalModuleReplacementPlugin } from 'webpack';
+
+import { insightsRbacModuleReplacements, rbacUiOnpremShims } from './src/shims/webpack-paths';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
+const distDir = path.resolve(__dirname, './dist');
+const srcDir = path.resolve(__dirname, './src');
+
+const rbacPkgRoot = path.dirname(require.resolve('insights-rbac-frontend/package.json'));
+const rbacSrcDir = path.join(rbacPkgRoot, 'src');
 const onpremDepsSrc = path.resolve(__dirname, '../../libs/onprem-cloud-deps/src');
 
-const srcDir = path.resolve(__dirname, './src');
-const distDir = path.resolve(__dirname, './dist');
-
 const exposedModules = {
-  './RootApp': './src/appEntry.tsx',
+  './Iam': './src/onprem-entry.tsx',
 };
 
 const config: Configuration = {
@@ -26,13 +30,14 @@ const config: Configuration = {
     rules: [
       {
         test: /\.(jsx?|tsx?)$/,
-        exclude: /node_modules\/(?!@koku-ui)/,
+        exclude: /node_modules\/(?!insights-rbac-frontend)/,
         use: [
           {
             loader: 'ts-loader',
             options: {
               configFile: 'tsconfig-onprem.json',
               allowTsInNodeModules: true,
+              transpileOnly: true,
             },
           },
         ],
@@ -46,14 +51,11 @@ const config: Configuration = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.svg$/,
-        type: 'asset/resource',
-      },
-      {
-        test: /\.(ttf|eot|woff|woff2)$/,
+        test: /\.(svg|ttf|eot|woff|woff2)$/,
         type: 'asset/resource',
         include: [
-          path.resolve(__dirname, 'src'),
+          srcDir,
+          rbacSrcDir,
           path.resolve(__dirname, '../../node_modules/patternfly/dist/fonts'),
           path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
           path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
@@ -65,7 +67,8 @@ const config: Configuration = {
         test: /\.(jpg|jpeg|png|gif)$/i,
         type: 'asset/resource',
         include: [
-          path.resolve(__dirname, 'src'),
+          srcDir,
+          rbacSrcDir,
           path.resolve(__dirname, '../../node_modules/patternfly'),
           path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/images'),
           path.resolve(__dirname, '../../node_modules/@patternfly/react-styles/css/assets/images'),
@@ -77,15 +80,16 @@ const config: Configuration = {
   output: {
     filename: '[name].bundle-[contenthash].js',
     path: distDir,
-    publicPath: '/costManagement/',
+    publicPath: '/rbac/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.join(srcDir, 'locales'),
+          from: path.join(rbacSrcDir, 'locales'),
           to: path.join(distDir, 'locales'),
+          noErrorOnMissing: true,
         },
       ],
     }),
@@ -98,35 +102,63 @@ const config: Configuration = {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
-        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
+        '@patternfly/react-core': { singleton: true, requiredVersion: '*' },
+        '@patternfly/react-table': { singleton: true, requiredVersion: '*' },
+        // Do not share component-groups — cluster loads real SkeletonTable / ThBase (see shims/README.md).
       },
       pluginMetadata: {
-        name: 'costManagement',
-        version: '1.0.0',
+        name: 'insightsRbac',
+        version: '0.0.1',
         exposedModules,
       },
     }),
     new DefinePlugin({
-      'process.env.KOKU_UI_COMMITHASH': undefined,
-      'process.env.KOKU_UI_PKGNAME': undefined,
-      'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('true'),
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
       'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
     }),
+    ...insightsRbacModuleReplacements.map(
+      ({ match, replacement }) => new NormalModuleReplacementPlugin(match, replacement)
+    ),
+    new NormalModuleReplacementPlugin(
+      /^@patternfly\/react-component-groups$/,
+      rbacUiOnpremShims.patternflyComponentGroups
+    ),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
     cacheWithContext: false,
-    modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
+    modules: [
+      srcDir,
+      rbacSrcDir,
+      path.join(rbacPkgRoot, 'node_modules'),
+      path.resolve(__dirname, '../../node_modules'),
+    ],
     alias: {
-      '@redhat-cloud-services': onpremDepsSrc,
-      '@unleash': path.join(onpremDepsSrc, 'unleash'),
+      '@rbac-ui-onprem/shims': path.join(srcDir, 'shims'),
+      'insights-rbac-frontend': rbacPkgRoot,
+      [path.join(rbacSrcDir, 'shared/hooks/useAppLink.ts')]: rbacUiOnpremShims.useAppLink,
+      [path.join(rbacSrcDir, 'shared/hooks/useAppLink')]: rbacUiOnpremShims.useAppLink,
+      '@redhat-cloud-services/frontend-components/useChrome': path.join(onpremDepsSrc, 'frontend-components/useChrome.ts'),
+      '@redhat-cloud-services/frontend-components/AsyncComponent': path.join(
+        onpremDepsSrc,
+        'frontend-components/AsyncComponent.tsx'
+      ),
+      '@redhat-cloud-services/frontend-components-utilities/RBACHook': path.join(
+        onpremDepsSrc,
+        'frontend-components-utilities/RBACHook.ts'
+      ),
+      '@unleash/proxy-client-react': path.join(onpremDepsSrc, 'unleash/proxy-client-react.ts'),
+      '@patternfly/react-component-groups/dist/dynamic/SkeletonTable$': rbacUiOnpremShims.patternflySkeletonTable,
+      '@patternfly/react-component-groups/dist/esm/SkeletonTable$': rbacUiOnpremShims.patternflySkeletonTable,
+      '@patternfly/react-component-groups/dist/esm/SkeletonTableHead$': rbacUiOnpremShims.patternflySkeletonTableHead,
+      '@patternfly/react-component-groups/dist/esm/SkeletonTableBody$': rbacUiOnpremShims.patternflySkeletonTableBody,
     },
   },
 };
 
-/* Production settings */
 if (NODE_ENV === 'production') {
   config.optimization = {
+    splitChunks: false,
     minimizer: [
       new TerserJSPlugin({}),
       new CssMinimizerPlugin({
