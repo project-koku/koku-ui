@@ -16,7 +16,7 @@ jest.mock('./deleteRateContent', () => {
   return {
     DeleteRateContent: React.forwardRef((props: any, ref: any) => {
       React.useImperativeHandle(ref, () => ({
-        submit: () => props.onDelete?.([]),
+        delete: () => props.onDelete?.([]),
       }));
       return <div data-testid="delete-content-mock" />;
     }),

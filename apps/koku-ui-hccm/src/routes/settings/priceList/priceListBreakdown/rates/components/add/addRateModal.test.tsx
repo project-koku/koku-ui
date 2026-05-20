@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -9,12 +9,20 @@ import { PriceListType } from 'api/priceList';
 import { FetchStatus } from 'store/common';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 
+jest.mock('api/priceList', () => {
+  const actual = jest.requireActual('api/priceList');
+  return {
+    ...actual,
+    updatePriceList: jest.fn(() => Promise.resolve({ data: {} })),
+  };
+});
+
 import { AddRateModal } from './addRateModal';
 
-jest.mock('../ratesContent', () => {
+jest.mock('../rateContent', () => {
   const React = require('react');
   return {
-    RatesContent: React.forwardRef((props: any, ref: any) => {
+    RateContent: React.forwardRef((props: any, ref: any) => {
       React.useImperativeHandle(ref, () => ({
         save: () =>
           props.onSave?.([
@@ -52,7 +60,7 @@ function makeStoreWithUpdateStatus(status: FetchStatus, error?: unknown) {
 }
 
 describe('AddRateModal', () => {
-  test('invokes onAdd when primary button triggers RatesContent save', () => {
+  test('invokes onAdd when primary button triggers RatesContent save', async () => {
     const onAdd = jest.fn();
     const store = makeStoreWithUpdateStatus(FetchStatus.none);
     render(
@@ -63,10 +71,12 @@ describe('AddRateModal', () => {
       </Provider>
     );
     fireEvent.click(screen.getByRole('button', { name: /add rate/i }));
-    expect(onAdd).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({ custom_name: 'Rate', metric: { name: 'cpu_core_request' } }),
-      ])
+    await waitFor(() =>
+      expect(onAdd).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({ custom_name: 'Rate', metric: { name: 'cpu_core_request' } }),
+        ])
+      )
     );
   });
 

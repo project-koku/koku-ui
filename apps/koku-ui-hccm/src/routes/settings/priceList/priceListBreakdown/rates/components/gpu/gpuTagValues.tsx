@@ -162,12 +162,12 @@ const GpuTagValues: React.FC<GpuTagValuesProps> = ({
                   </HelperText>
                 )}
               </Td>
-              <Td dataLabel={intl.formatMessage(messages.priceListEnterDescription)}>
+              <Td dataLabel={intl.formatMessage(messages.priceListEnterTagDesc)}>
                 <TextArea
-                  aria-label={intl.formatMessage(messages.priceListEnterDescription)}
+                  aria-label={intl.formatMessage(messages.priceListEnterTagDesc)}
                   id={`gpu-tag-values-description-${index}`}
                   onChange={(_evt, value) => onDescriptionChange(value, index)}
-                  placeholder={intl.formatMessage(messages.priceListEnterDescription)}
+                  placeholder={intl.formatMessage(messages.priceListEnterTagDesc)}
                   resizeOrientation="vertical"
                   rows={1}
                   validated={errors?.[index]?.description ? 'error' : 'default'}

@@ -12,7 +12,7 @@ export interface CostModelProvider {
 export interface CostModel {
   created_timestamp?: Date;
   currency?: string;
-  description: string;
+  description?: string;
   distribution_info?: {
     distribution_type?: string;
     gpu_unallocated?: boolean;
@@ -21,16 +21,16 @@ export interface CostModel {
     storage_unattributed?: boolean;
     worker_cost?: boolean;
   };
-  markup: { value: string; unit: string };
-  name: string;
-  price_lists?: [
-    {
-      name?: string;
-      priority?: number;
-      uuid?: string;
-    },
-  ];
-  rates: Rate[];
+  markup?: { value: string; unit: string };
+  name?: string;
+  price_lists?: {
+    effective_end_date?: string;
+    effective_start_date?: string;
+    name?: string;
+    priority?: number;
+    uuid?: string;
+  }[];
+  rates?: Rate[];
   sources?: CostModelProvider[];
   source_type: string;
   updated_timestamp?: string;
@@ -39,7 +39,7 @@ export interface CostModel {
 
 export interface CostModelRequest {
   currency?: string;
-  description: string;
+  description?: string;
   distribution_info?: {
     distribution_type?: string;
     gpu_unallocated?: boolean;
@@ -48,11 +48,18 @@ export interface CostModelRequest {
     storage_unattributed?: boolean;
     worker_cost?: boolean;
   };
-  markup: { value: string; unit: string };
-  name: string;
-  rates: RateRequest[];
-  source_type: string;
-  source_uuids: string[];
+  markup?: { value: string; unit: string };
+  name?: string;
+  price_lists?: {
+    effective_end_date?: string;
+    effective_start_date?: string;
+    name?: string;
+    priority?: number;
+    uuid?: string;
+  }[];
+  rates?: RateRequest[];
+  source_type?: string;
+  source_uuids?: string[];
 }
 
 export type CostModels = PagedResponse<CostModel>;

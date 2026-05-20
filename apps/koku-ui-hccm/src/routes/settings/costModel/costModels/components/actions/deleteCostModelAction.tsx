@@ -4,7 +4,7 @@ import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { DeleteCostModelModal } from 'routes/settings/costModel/costModelBreakdown/components/delete';
+import { DeleteCostModelModal } from 'routes/settings/costModel/costModels/components/delete';
 
 interface DeleteCostModelActionOwnProps {
   costModel: CostModel;

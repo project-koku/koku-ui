@@ -6,7 +6,7 @@ import { PriceListType } from 'api/priceList';
 import type { Rate } from 'api/rates';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -45,23 +45,40 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
   const intl = useIntl();
 
   const contentRef = useRef<DeleteRateContentHandle>(null);
+  const [isFinish, setIsFinish] = useState(false);
+  const [rates, setRates] = useState<Rate[]>([]);
 
-  const { priceListUpdateStatus } = useMapToProps();
+  const { priceListUpdateError, priceListUpdateStatus } = useMapToProps();
 
-  const handleOnDelete = (rates: Rate[]) => {
+  const handleOnDelete = (items: Rate[]) => {
     if (priceListUpdateStatus !== FetchStatus.inProgress) {
-      onDelete?.(rates);
-
       if (isDispatch) {
+        setIsFinish(true);
+        setRates(items);
+
         dispatch(
           priceListActions.updatePriceList(PriceListType.priceListUpdate, priceList?.uuid, {
             ...(priceList ?? {}),
-            rates,
+            rates: items,
           })
         );
+      } else {
+        onDelete?.(items);
       }
     }
   };
+
+  // Effects
+
+  useEffect(() => {
+    if (isFinish && priceListUpdateStatus === FetchStatus.complete) {
+      setIsFinish(false);
+
+      if (!priceListUpdateError) {
+        onDelete?.(rates);
+      }
+    }
+  }, [isFinish, onDelete, priceListUpdateError, priceListUpdateStatus, rates]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -81,7 +98,7 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
       <ModalFooter>
         <Button
           isAriaDisabled={priceListUpdateStatus === FetchStatus.inProgress}
-          onClick={() => contentRef.current?.submit()}
+          onClick={() => contentRef.current?.delete()}
           variant="danger"
         >
           {intl.formatMessage(messages.delete)}

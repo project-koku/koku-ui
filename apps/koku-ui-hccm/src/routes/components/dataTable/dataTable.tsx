@@ -1,17 +1,11 @@
-import './dataTable.scss';
-
 import { Bullseye, EmptyState, EmptyStateBody, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/esm/icons/calculator-icon';
 import type { ThProps } from '@patternfly/react-table';
 import { SortByDirection, Table, TableVariant, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
-import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
-import type { RouterComponentProps } from 'utils/router';
-import { withRouter } from 'utils/router';
 
 import { styles } from './dataTable.styles';
 
@@ -32,16 +26,33 @@ interface DataTableOwnProps {
   onSort?(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   rows?: any[];
-  selectedItems?: ComputedReportItem[];
   variant?: 'checkbox' | 'radio';
 }
 
-type DataTableProps = DataTableOwnProps & RouterComponentProps & WrappedComponentProps;
+type DataTableProps = DataTableOwnProps;
 
-class DataTable extends React.Component<DataTableProps, any> {
-  private getEmptyState = () => {
-    const { emptyState, exclude, filterBy, intl } = this.props;
+const DataTable: React.FC<DataTableProps> = ({
+  ariaLabel,
+  columns,
+  emptyState,
+  exclude,
+  filterBy,
+  gridBreakPoint = 'grid-2xl',
+  isActionsCell,
+  isLoading,
+  isNoPadding,
+  isNoWrapCell = true,
+  isNoWrapHeader = true,
+  isSelectable,
+  onSort,
+  onSelect,
+  orderBy,
+  rows,
+  variant,
+}) => {
+  const intl = useIntl();
 
+  const getEmptyState = () => {
     if (filterBy) {
       for (const val of Object.values(filterBy)) {
         if (val !== '*') {
@@ -65,9 +76,7 @@ class DataTable extends React.Component<DataTableProps, any> {
     );
   };
 
-  private getSortBy = index => {
-    const { columns, orderBy } = this.props;
-
+  const getSortBy = index => {
     const direction = orderBy && orderBy[columns[index].orderBy];
 
     return direction
@@ -78,17 +87,15 @@ class DataTable extends React.Component<DataTableProps, any> {
       : {};
   };
 
-  private getSortParams = (index: number): ThProps['sort'] => {
+  const getSortParams = (index: number): ThProps['sort'] => {
     return {
-      sortBy: this.getSortBy(index),
-      onSort: (_evt, i, direction) => this.handleOnSort(i, direction),
+      sortBy: getSortBy(index),
+      onSort: (_evt, i, direction) => handleOnSort(i, direction),
       columnIndex: index,
     };
   };
 
-  private handleOnSelect = (isSelected, rowId) => {
-    const { onSelect, rows } = this.props;
-
+  const handleOnSelect = (isSelected, rowId) => {
     let newRows;
     let items = [];
     if (rowId !== -1) {
@@ -96,115 +103,91 @@ class DataTable extends React.Component<DataTableProps, any> {
       newRows[rowId].selected = isSelected;
       items = [newRows[rowId].item];
     }
-    this.setState({ rows }, () => {
-      if (onSelect) {
-        onSelect(items, isSelected);
-      }
-    });
+    onSelect?.(items, isSelected);
   };
 
-  private handleOnSort = (index, direction) => {
-    const { columns, onSort } = this.props;
-
+  const handleOnSort = (index, direction) => {
     if (onSort) {
-      const orderBy = columns[index].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
-      onSort(orderBy, isSortAscending);
+      onSort(columns[index].orderBy, isSortAscending);
     }
   };
 
-  public render() {
-    const {
-      ariaLabel,
-      columns,
-      gridBreakPoint = 'grid-2xl',
-      intl,
-      isActionsCell,
-      isLoading,
-      isNoPadding,
-      isNoWrapCell = true,
-      isNoWrapHeader = true,
-      isSelectable,
-      rows,
-      variant,
-    } = this.props;
-
-    return (
-      <>
-        <Table
-          aria-label={ariaLabel ? ariaLabel : intl.formatMessage(messages.dataTableAriaLabel)}
-          className="tableOverride"
-          gridBreakPoint={gridBreakPoint}
-          variant={TableVariant.compact}
-        >
-          <Thead>
+  return (
+    <>
+      <Table
+        aria-label={ariaLabel ? ariaLabel : intl.formatMessage(messages.dataTableAriaLabel)}
+        className="tableOverride"
+        gridBreakPoint={gridBreakPoint}
+        variant={TableVariant.compact}
+      >
+        <Thead>
+          <Tr>
+            {columns.map((col, index) => (
+              <Th
+                key={`col-${index}-${col.value}`}
+                modifier={isNoWrapHeader ? 'nowrap' : undefined}
+                sort={col.isSortable ? getSortParams(index) : undefined}
+                style={col.style}
+              >
+                {col.name}
+              </Th>
+            ))}
+          </Tr>
+        </Thead>
+        <Tbody>
+          {isLoading ? (
             <Tr>
-              {columns.map((col, index) => (
-                <Th
-                  key={`col-${index}-${col.value}`}
-                  modifier={isNoWrapHeader ? 'nowrap' : undefined}
-                  sort={col.isSortable ? this.getSortParams(index) : undefined}
-                  style={col.style}
-                >
-                  {col.name}
-                </Th>
-              ))}
+              <Td colSpan={100}>
+                <Bullseye>
+                  <div style={{ textAlign: 'center' }}>
+                    <Spinner size="xl" />
+                  </div>
+                </Bullseye>
+              </Td>
             </Tr>
-          </Thead>
-          <Tbody>
-            {isLoading ? (
-              <Tr>
-                <Td colSpan={100}>
-                  <Bullseye>
-                    <div style={{ textAlign: 'center' }}>
-                      <Spinner size="xl" />
-                    </div>
-                  </Bullseye>
-                </Td>
+          ) : (
+            rows.map((row, rowIndex) => (
+              <Tr key={`row-${rowIndex}`}>
+                {row.cells.map((item, cellIndex) =>
+                  cellIndex === 0 && isSelectable ? (
+                    <Td
+                      className={item.className}
+                      dataLabel={columns[cellIndex].name}
+                      key={`cell-${cellIndex}-${rowIndex}`}
+                      modifier={isNoWrapCell ? 'nowrap' : undefined}
+                      noPadding={isNoPadding}
+                      select={{
+                        isDisabled: row.selectionDisabled, // Disable select for "no-project"
+                        isSelected: row.selected,
+                        onSelect: (_evt, isSelected) => handleOnSelect(isSelected, rowIndex),
+                        rowIndex,
+                        variant,
+                      }}
+                      style={item.style}
+                    />
+                  ) : (
+                    <Td
+                      className={item.className}
+                      dataLabel={columns[cellIndex].name}
+                      key={`cell-${rowIndex}-${cellIndex}`}
+                      modifier={isNoWrapCell ? 'nowrap' : undefined}
+                      noPadding={isNoPadding}
+                      isActionCell={isActionsCell && cellIndex === row.cells.length - 1}
+                      style={item.style}
+                    >
+                      {item.value}
+                    </Td>
+                  )
+                )}
               </Tr>
-            ) : (
-              rows.map((row, rowIndex) => (
-                <Tr key={`row-${rowIndex}`}>
-                  {row.cells.map((item, cellIndex) =>
-                    cellIndex === 0 && isSelectable ? (
-                      <Td
-                        className={item.className}
-                        dataLabel={columns[cellIndex].name}
-                        key={`cell-${cellIndex}-${rowIndex}`}
-                        modifier={isNoWrapCell ? 'nowrap' : undefined}
-                        noPadding={isNoPadding}
-                        select={{
-                          isDisabled: row.selectionDisabled, // Disable select for "no-project"
-                          isSelected: row.selected,
-                          onSelect: (_evt, isSelected) => this.handleOnSelect(isSelected, rowIndex),
-                          rowIndex,
-                          variant,
-                        }}
-                        style={item.style}
-                      />
-                    ) : (
-                      <Td
-                        className={item.className}
-                        dataLabel={columns[cellIndex].name}
-                        key={`cell-${rowIndex}-${cellIndex}`}
-                        modifier={isNoWrapCell ? 'nowrap' : undefined}
-                        noPadding={isNoPadding}
-                        isActionCell={isActionsCell && cellIndex === row.cells.length - 1}
-                        style={item.style}
-                      >
-                        {item.value}
-                      </Td>
-                    )
-                  )}
-                </Tr>
-              ))
-            )}
-          </Tbody>
-        </Table>
-        {rows.length === 0 && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
-      </>
-    );
-  }
-}
+            ))
+          )}
+        </Tbody>
+      </Table>
+      {rows.length === 0 && <div style={styles.emptyState}>{getEmptyState()}</div>}
+    </>
+  );
+};
 
-export default injectIntl(withRouter(DataTable));
+export default DataTable;

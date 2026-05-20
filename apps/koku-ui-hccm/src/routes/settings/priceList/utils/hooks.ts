@@ -130,7 +130,7 @@ export const usePriceListUpdate = ({
         addNotification(notification as any);
       }
       dispatch(priceListActions.resetNotification());
-      dispatch(priceListActions.resetStatus());
+      // dispatch(priceListActions.resetStatus());
     }
   }, [addNotification, dispatch, error, isNotificationEnabled, notification, status]);
 

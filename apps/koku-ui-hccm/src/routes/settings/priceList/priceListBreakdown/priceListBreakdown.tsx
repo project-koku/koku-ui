@@ -28,7 +28,7 @@ import { hasSettingsAccess } from 'utils/userAccess';
 import { CostModels } from './costModels';
 import { styles } from './priceListBreakdown.styles';
 import { PriceListBreakdownHeader } from './priceListBreakdownHeader';
-import { Rates } from './rates';
+import { Rate } from './rates';
 
 interface AvailableTab {
   contentRef: RefObject<any>;
@@ -40,7 +40,6 @@ export interface PriceListBreakdownOwnProps {
 }
 
 export interface PriceListBreakdownMapProps {
-  isShowDeprecated?: boolean;
   query?: Query;
 }
 
@@ -147,7 +146,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     if (currentTab === PriceListBreakdownTab.costModels) {
       return <CostModels />;
     } else if (currentTab === PriceListBreakdownTab.rates) {
-      return <Rates canWrite={canWrite()} onAdd={forceUpdate} onEdit={handleOnEdit} onDelete={handleOnDelete} />;
+      return <Rate canWrite={canWrite()} onAdd={forceUpdate} onDelete={forceUpdate} onEdit={handleOnEdit} />;
     } else {
       return emptyTab;
     }
@@ -175,7 +174,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     setIsRecalculating(false);
   };
 
-  const handleOnDelete = () => {
+  const handleOnDeletePriceList = () => {
     navigate(`${formatPath(routes.settings.path)}`, {
       replace: true,
       state: {
@@ -211,7 +210,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
             isDisabled={priceListStatus === FetchStatus.inProgress}
             isRecalculating={isRecalculating && priceList?.assigned_cost_model_count > 0}
             onAlertClose={handleOnAlertClose}
-            onDelete={handleOnDelete}
+            onDelete={handleOnDeletePriceList}
             onDeprecate={forceUpdate}
             onDuplicate={forceUpdate}
             onEdit={handleOnEdit}
@@ -229,7 +228,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   );
 };
 
-const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps): PriceListBreakdownStateProps => {
+const useMapToProps = ({ query }: PriceListBreakdownMapProps): PriceListBreakdownStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const { uuid } = useParams();
 
@@ -248,24 +247,15 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps):
   );
 
   // Notifications
-  const { status: priceListAddStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListAdd,
-  });
-  const { status: priceListDuplicateStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListDuplicate,
-  });
-  const { status: priceListRemoveStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListRemove,
-  });
-  const { status: priceListUpdateStatus } = usePriceListUpdate({
-    priceListType: PriceListType.priceListUpdate,
-  });
+  const { status: priceListAddStatus } = usePriceListUpdate({ priceListType: PriceListType.priceListAdd });
+  const { status: priceListDuplicateStatus } = usePriceListUpdate({ priceListType: PriceListType.priceListDuplicate });
+  const { status: priceListRemoveStatus } = usePriceListUpdate({ priceListType: PriceListType.priceListRemove });
+  const { status: priceListUpdateStatus } = usePriceListUpdate({ priceListType: PriceListType.priceListUpdate });
 
   useEffect(() => {
     if (
       !priceListError &&
       priceListStatus !== FetchStatus.inProgress &&
-      priceListStatus !== FetchStatus.complete &&
       priceListAddStatus !== FetchStatus.inProgress &&
       priceListDuplicateStatus !== FetchStatus.inProgress &&
       priceListRemoveStatus !== FetchStatus.inProgress &&
@@ -273,7 +263,16 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListBreakdownMapProps):
     ) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [isShowDeprecated, query]);
+  }, [
+    dispatch,
+    priceListError,
+    priceListQueryString,
+    priceListAddStatus,
+    priceListDuplicateStatus,
+    priceListRemoveStatus,
+    priceListUpdateStatus,
+    query,
+  ]);
 
   const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = useSelector((state: RootState) =>

@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertActionCloseButton,
   Breadcrumb,
   BreadcrumbItem,
   Content,
@@ -17,7 +15,7 @@ import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
-import { CostModelActions } from 'routes/settings/costModel/costModelBreakdown/components/actions';
+import { CostModelActions } from 'routes/settings/costModel/costModels/components/actions';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './costModelBreakdownHeader.styles';
@@ -26,8 +24,6 @@ interface CostModelBreakdownHeaderOwnProps {
   canWrite?: boolean;
   costModel?: CostModel;
   isDisabled?: boolean;
-  isRecalculating?: boolean;
-  onAlertClose?: () => void;
   onClose?: () => void;
   onDelete?: (costModel: CostModel) => void;
   onEdit?: (costModel: CostModel) => void;
@@ -39,8 +35,6 @@ const CostModelBreakdownHeader: React.FC<CostModelBreakdownHeaderProps> = ({
   canWrite,
   costModel,
   isDisabled,
-  isRecalculating,
-  onAlertClose,
   onClose,
   onDelete,
   onEdit,
@@ -70,18 +64,6 @@ const CostModelBreakdownHeader: React.FC<CostModelBreakdownHeaderProps> = ({
           <BreadcrumbItem isActive>{costModel?.name}</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      {isRecalculating && (
-        <div style={styles.alertContainer}>
-          <Alert
-            isInline
-            actionClose={<AlertActionCloseButton onClose={onAlertClose} />}
-            title={intl.formatMessage(messages.recalculateCharges)}
-            variant="info"
-          >
-            <p>{intl.formatMessage(messages.costModelsRecalculateDesc)}</p>
-          </Alert>
-        </div>
-      )}
       <Split>
         <SplitItem style={styles.headerDescription}>
           <Title headingLevel="h1" style={styles.title} size={TitleSizes['2xl']}>
