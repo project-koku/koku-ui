@@ -1,4 +1,6 @@
-import { PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import { PageHeader } from '@patternfly/react-component-groups';
+import { EmptyState, EmptyStateBody, PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import { ErrorCircleOIcon } from '@patternfly/react-icons';
 import type { CostModel } from 'api/costModels';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
@@ -14,8 +16,10 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
+import { Loading } from 'routes/components/page/loading';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -49,6 +53,7 @@ export interface CostModelBreakdownStateProps {
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
   userAccessQueryString: string;
+  uuid: string;
 }
 
 type CostModelBreakdownProps = CostModelBreakdownOwnProps;
@@ -82,7 +87,9 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { costModel, costModelsError, costModelsStatus, userAccess, userAccessFetchStatus } = useMapToProps({ query });
+  const { costModel, costModelsError, costModelsStatus, userAccess, userAccessFetchStatus, uuid } = useMapToProps({
+    query,
+  });
 
   const canWrite = () => {
     return hasSettingsAccess(userAccess);
@@ -204,10 +211,35 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   };
 
   const availableTabs = getAvailableTabs();
+  const isLoading = costModelsStatus === FetchStatus.inProgress;
 
-  if (costModelsError) {
-    return <NotAvailable />;
+  if (costModelsStatus === FetchStatus.inProgress) {
+    return <Loading title={intl.formatMessage(messages.costModels)} />;
   }
+  if (costModelsError) {
+    const costModelErrMessage = parseApiError(costModelsError);
+    if (costModelErrMessage === 'detail: Invalid provider uuid') {
+      return (
+        <>
+          <PageHeader title={intl.formatMessage(messages.costModels)} />
+          <EmptyState
+            headingLevel="h2"
+            icon={ErrorCircleOIcon}
+            titleText={intl.formatMessage(messages.costModelsUUIDEmptyState)}
+          >
+            <EmptyStateBody>
+              {intl.formatMessage(messages.costModelsUUIDEmptyStateDesc, {
+                uuid,
+              })}
+            </EmptyStateBody>
+          </EmptyState>
+        </>
+      );
+    } else {
+      return <NotAvailable title={intl.formatMessage(messages.costModels)} />;
+    }
+  }
+
   return (
     <>
       <PageSection style={styles.headerContainer}>
@@ -215,7 +247,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
           <CostModelBreakdownHeader
             canWrite={canWrite()}
             costModel={costModel}
-            isDisabled={costModelsStatus === FetchStatus.inProgress}
+            isDisabled={isLoading}
             onDelete={handleOnDelete}
             onEdit={forceUpdate}
           />
@@ -270,6 +302,7 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
     userAccessError,
     userAccessFetchStatus,
     userAccessQueryString,
+    uuid,
   };
 };
 
