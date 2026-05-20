@@ -76,6 +76,7 @@ const MarkupModal: React.FC<MarkupModalProps> = ({
   const [isDiscount, setIsDiscount] = useState(isNegative);
   const [isFinish, setIsFinish] = useState(false);
   const [markup, setMarkup] = useState(formatPercentageMarkup(Number(markupValue)));
+  const [payload, setPayload] = useState<CostModel>();
 
   const { costModelsError, costModelsStatus } = useMapToProps();
 
@@ -95,20 +96,22 @@ const MarkupModal: React.FC<MarkupModalProps> = ({
 
   const handleOnSave = () => {
     if (costModelsStatus !== FetchStatus.inProgress) {
-      const newMarkup = {
+      const items = {
         ...costModel,
-        source_uuids: costModel.sources.map(provider => provider.uuid),
+        source_uuids: costModel?.sources?.map(provider => provider.uuid),
         source_type: getSourceType(costModel?.source_type),
         markup: {
           value: unFormat(markupOrDiscount),
           unit: 'percent',
         },
       };
+
       if (isDispatch) {
         setIsFinish(true);
-        dispatch(costModelsActions.updateCostModel(costModel?.uuid, newMarkup));
+        setPayload(items);
+        dispatch(costModelsActions.updateCostModel(costModel?.uuid, items));
       } else {
-        onSave?.(newMarkup);
+        onSave?.(items);
       }
     }
   };
@@ -139,10 +142,10 @@ const MarkupModal: React.FC<MarkupModalProps> = ({
       setIsFinish(false);
 
       if (!costModelsError) {
-        onSave?.(costModel);
+        onSave?.(payload);
       }
     }
-  }, [isFinish, costModel, costModelsError, costModelsStatus, onSave]);
+  }, [isFinish, costModelsError, costModelsStatus, onSave, payload]);
 
   const helpText = markupValidator();
   const isLoading = costModelsStatus === FetchStatus.inProgress;

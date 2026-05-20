@@ -25,7 +25,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { getSourceType } from 'routes/settings/costModelsDeprecated/costModelBreakdown/utils/sourceType';
+import { getSourceType } from 'routes/settings/costModel/costModels/components/edit/utils';
 import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -61,7 +61,7 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
   const intl = useIntl();
   const isGpuToggleEnabled = useIsGpuToggleEnabled();
 
-  const [distribution, setDistribution] = useState(costModel?.distribution_info?.distribution_type ?? 'CPU');
+  const [distribution, setDistribution] = useState(costModel?.distribution_info?.distribution_type ?? 'cpu');
   const [distributeGpu, setDistributeGpu] = useState(costModel?.distribution_info?.gpu_unallocated === true);
   const [distributeNetwork, setDistributeNetwork] = useState(
     costModel?.distribution_info?.network_unattributed === true
@@ -112,7 +112,7 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
     if (costModelsStatus !== FetchStatus.inProgress) {
       const items = {
         ...costModel,
-        source_uuids: costModel.sources.map(provider => provider.uuid),
+        source_uuids: costModel?.sources?.map(provider => provider.uuid),
         source_type: getSourceType(costModel?.source_type), // will always be OCP
         distribution_info: {
           distribution_type: distribution,
@@ -123,10 +123,10 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
           worker_cost: distributeWorkerUnallocated,
         },
       };
-      setPayload(items);
 
       if (isDispatch) {
         setIsFinish(true);
+        setPayload(items);
         dispatch(costModelsActions.updateCostModel(costModel?.uuid, items));
       } else {
         onSave?.(items);
