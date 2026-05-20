@@ -23,6 +23,7 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
 import { hasSettingsAccess } from 'utils/userAccess';
 
+import { CostCalculations } from './costCalculations';
 import { styles } from './costModelBreakdown.styles';
 import { CostModelBreakdownHeader } from './costModelBreakdownHeader';
 import { PriceList } from './priceLists';
@@ -156,7 +157,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
         />
       );
     } else if (currentTab === CostModelBreakdownTab.costCalculations) {
-      return <span>TBD...</span>;
+      return <CostCalculations canWrite={canWrite()} costModel={costModel} onSave={forceUpdate} />;
     } else if (currentTab === CostModelBreakdownTab.integrations) {
       return <span>TBD...</span>;
     } else {
