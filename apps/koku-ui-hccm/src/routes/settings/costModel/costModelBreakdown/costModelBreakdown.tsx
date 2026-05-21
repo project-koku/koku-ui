@@ -221,7 +221,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   };
 
   const availableTabs = getAvailableTabs();
-  const isUpdating = costModelsUpdateStatus === FetchStatus.inProgress;
+  const isLoading = costModelsUpdateStatus === FetchStatus.inProgress;
   const isInitialLoad = costModelsFetchStatus === FetchStatus.inProgress && !costModel;
 
   if (isInitialLoad) {
@@ -258,7 +258,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
           <CostModelBreakdownHeader
             canWrite={canWrite()}
             costModel={costModel}
-            isDisabled={isUpdating}
+            isDisabled={isLoading}
             onDelete={handleOnDelete}
             onEdit={forceUpdate}
           />
