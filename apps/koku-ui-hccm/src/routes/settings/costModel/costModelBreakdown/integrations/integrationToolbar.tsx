@@ -1,4 +1,4 @@
-import type { CostModel, CostModelProvider } from 'api/costModels';
+import type { CostModel } from 'api/costModels';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
@@ -21,7 +21,6 @@ interface IntegrationToolbarOwnProps {
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: OcpQuery;
-  sources?: CostModelProvider[];
 }
 
 type IntegrationToolbarProps = IntegrationToolbarOwnProps;
@@ -37,7 +36,6 @@ const IntegrationToolbar: React.FC<IntegrationToolbarProps> = ({
   onFilterRemoved,
   pagination,
   query,
-  sources,
 }) => {
   const intl = useIntl();
 

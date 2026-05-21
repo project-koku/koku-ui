@@ -131,7 +131,6 @@ const Integration: React.FC<IntegrationProps> = ({ canWrite, costModel, onAdd, o
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination()}
         query={query}
-        sources={sources}
       />
     );
   };
