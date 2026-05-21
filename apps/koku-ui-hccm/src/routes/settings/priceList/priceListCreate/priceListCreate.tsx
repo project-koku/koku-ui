@@ -13,8 +13,8 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { LoadingState } from 'routes/components/state/loadingState';
-import type { DetailsContentHandle } from 'routes/settings/priceList/priceList/details';
-import { DetailsContent } from 'routes/settings/priceList/priceList/details';
+import type { DetailContentHandle } from 'routes/settings/priceList/priceLists/components/details';
+import { DetailContent } from 'routes/settings/priceList/priceLists/components/details';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
@@ -24,7 +24,7 @@ import { hasSettingsAccess } from 'utils/userAccess';
 
 import { styles } from './priceListCreate.styles';
 import { PriceListCreateHeader } from './priceListCreateHeader';
-import { PriceListRates } from './priceListRates';
+import { PriceListRate } from './priceListRate';
 
 interface PriceListCreateOwnProps {
   // TBD...
@@ -46,7 +46,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const contentRef = useRef<DetailsContentHandle>(null);
+  const contentRef = useRef<DetailContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
   const [priceList, setPriceList] = useState<PriceListData>({});
@@ -61,7 +61,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   // Handlers
 
   const handleOnCancel = () => {
-    navigateToPriceListDetails();
+    navigateToPriceListDetail();
   };
 
   const handleOnSave = (payload: PriceListData) => {
@@ -73,7 +73,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
       ...(rate?.tag_rates && {
         tag_rates: {
           ...rate?.tag_rates,
-          tag_values: rate?.tag_rates?.tag_values.map(tagValue => ({
+          tag_values: rate?.tag_rates?.tag_values?.map(tagValue => ({
             ...tagValue,
             unit: payload?.currency,
           })),
@@ -96,7 +96,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
     );
   };
 
-  const navigateToPriceListDetails = () => {
+  const navigateToPriceListDetail = () => {
     navigate(formatPath(routes.settings.path), {
       replace: true,
       state: {
@@ -119,7 +119,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
 
   useEffect(() => {
     if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
-      navigateToPriceListDetails();
+      navigateToPriceListDetail();
     }
   }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
@@ -140,13 +140,13 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
       <PageSection>
         <Stack hasGutter>
           <StackItem style={styles.detailsContent}>
-            <DetailsContent onDisabled={setIsDisabled} onSave={handleOnSave} priceList={priceList} ref={contentRef} />
+            <DetailContent onDisabled={setIsDisabled} onSave={handleOnSave} priceList={priceList} ref={contentRef} />
           </StackItem>
           <StackItem style={styles.divider}>
             <Divider />
           </StackItem>
           <StackItem>
-            <PriceListRates
+            <PriceListRate
               canWrite={canWrite()}
               onAdd={setRates}
               onDelete={setRates}

@@ -9,7 +9,7 @@ import { configureStore } from 'store/store';
 import PriceListBreakdown from './priceListBreakdown';
 
 jest.mock('./rates', () => ({
-  Rates: ({ canWrite }: { canWrite?: boolean }) => (
+  Rate: ({ canWrite }: { canWrite?: boolean }) => (
     <div data-testid="rates-panel">{canWrite ? 'write' : 'read'}</div>
   ),
 }));

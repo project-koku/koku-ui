@@ -88,7 +88,13 @@ export interface Provider {
   uuid?: string;
 }
 
-export type Providers = PagedResponse<Provider, PagedMetaData>;
+export interface ProvidersMeta extends PagedMetaData {
+  count: number;
+  limit?: number;
+  offset?: number;
+}
+
+export type Providers = PagedResponse<Provider, ProvidersMeta>;
 
 export const enum ProviderType {
   all = 'all',

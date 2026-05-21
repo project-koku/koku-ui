@@ -207,6 +207,12 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
     setQuery(newQuery);
   };
 
+  // Effects — reset to page 1 when group or time scope changes (do not depend on handleOnSetPage:
+  // it updates query, which would retrigger the effect and cause an infinite render loop).
+  useEffect(() => {
+    setQuery(prev => queryUtils.handleOnSetPage(prev, report, 1, false));
+  }, [groupBy, timeScopeValue]);
+
   if (reportError) {
     return <NotAvailable title={intl.formatMessage(messages.ocpDetailsTitle)} />;
   } else if (reportFetchStatus === FetchStatus.inProgress) {

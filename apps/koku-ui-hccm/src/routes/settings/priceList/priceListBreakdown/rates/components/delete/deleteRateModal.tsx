@@ -22,7 +22,6 @@ interface DeleteRateModalOwnProps {
   isOpen?: boolean;
   onClose?: () => void;
   onDelete?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex: number;
 }
@@ -39,7 +38,6 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
   isOpen,
   onClose,
   onDelete,
-  onSuccess,
   priceList,
   rateIndex,
 }) => {
@@ -48,30 +46,39 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
 
   const contentRef = useRef<DeleteRateContentHandle>(null);
   const [isFinish, setIsFinish] = useState(false);
+  const [rates, setRates] = useState<Rate[]>([]);
 
   const { priceListUpdateError, priceListUpdateStatus } = useMapToProps();
 
-  const handleOnDelete = (rates: Rate[]) => {
+  const handleOnDelete = (items: Rate[]) => {
     if (priceListUpdateStatus !== FetchStatus.inProgress) {
-      setIsFinish(true);
-      onDelete?.(rates);
-
       if (isDispatch) {
+        setIsFinish(true);
+        setRates(items);
+
         dispatch(
           priceListActions.updatePriceList(PriceListType.priceListUpdate, priceList?.uuid, {
             ...(priceList ?? {}),
-            rates,
+            rates: items,
           })
         );
+      } else {
+        onDelete?.(items);
       }
     }
   };
 
+  // Effects
+
   useEffect(() => {
-    if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
-      onSuccess?.();
+    if (isFinish && priceListUpdateStatus === FetchStatus.complete) {
+      setIsFinish(false);
+
+      if (!priceListUpdateError) {
+        onDelete?.(rates);
+      }
     }
-  }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
+  }, [isFinish, onDelete, priceListUpdateError, priceListUpdateStatus, rates]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -91,7 +98,7 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
       <ModalFooter>
         <Button
           isAriaDisabled={priceListUpdateStatus === FetchStatus.inProgress}
-          onClick={() => contentRef.current?.submit()}
+          onClick={() => contentRef.current?.delete()}
           variant="danger"
         >
           {intl.formatMessage(messages.delete)}

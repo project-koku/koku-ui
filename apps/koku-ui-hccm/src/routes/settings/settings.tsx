@@ -16,7 +16,7 @@ import { routes } from 'routes';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { Calculations } from 'routes/settings/calculations';
-import { CostModelsDetails } from 'routes/settings/costModels';
+import { CostModelsDetails } from 'routes/settings/costModelsDeprecated';
 import { PlatformProjects } from 'routes/settings/platformProjects';
 import { TagLabels } from 'routes/settings/tagLabels';
 import { getQueryState } from 'routes/utils/queryState';
@@ -29,6 +29,7 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
+import { CostModel } from './costModel';
 import { PriceList } from './priceList';
 import { styles } from './settings.styles';
 
@@ -189,7 +190,11 @@ const Settings: React.FC<SettingsProps> = () => {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === SettingsTab.costModels) {
       return hasCostModelAccess(userAccess) ? (
-        <CostModelsDetails />
+        isPriceListToggleEnabled ? (
+          <CostModel canWrite={canWrite()} />
+        ) : (
+          <CostModelsDetails />
+        )
       ) : (
         <NotAuthorized pathname={formatPath(routes.costModelBreakdown.path)} />
       );
@@ -237,7 +242,7 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (tab === SettingsTab.platformProjects) {
       return intl.formatMessage(messages.platformProjectsTitle);
     } else if (tab === SettingsTab.priceList) {
-      return intl.formatMessage(messages.priceList);
+      return intl.formatMessage(messages.priceList, { count: 1 });
     } else if (tab === SettingsTab.tags) {
       return intl.formatMessage(messages.tagLabelsTitle);
     } else if (tab === SettingsTab.sources) {
