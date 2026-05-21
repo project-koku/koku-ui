@@ -139,7 +139,7 @@ const Integration: React.FC<IntegrationProps> = ({ canWrite, costModel, onAdd, o
 
   const handleOnAdd = (uuids: string[]) => {
     setPageNumber(1);
-    onAdd(uuids);
+    onAdd?.(uuids);
   };
 
   const handleOnFilterAdded = filter => {

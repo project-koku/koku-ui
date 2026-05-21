@@ -16,7 +16,7 @@ interface CostCalculationsOwnProps {
 type CostCalculationsProps = CostCalculationsOwnProps;
 
 const CostCalculations: React.FC<CostCalculationsProps> = ({ canWrite, costModel, onSave }) => {
-  const showDistribution = getSourceType(costModel.source_type) === ProviderType.ocp;
+  const showDistribution = getSourceType(costModel?.source_type) === ProviderType.ocp;
 
   return showDistribution ? (
     <Grid hasGutter>
