@@ -210,7 +210,7 @@ const TimelineChart: React.FC<TimelineChartProps> = ({ isReset, onResetClick, pr
   const getMonthlyTickValues = () => {
     const result = [];
 
-    for (let date = minDate; date <= maxDate; date.setMonth(date.getMonth() + 1)) {
+    for (let date = startOfMonth(minDate); date <= maxDate; date.setMonth(date.getMonth() + 1)) {
       result.push(new Date(date));
     }
     return result;
