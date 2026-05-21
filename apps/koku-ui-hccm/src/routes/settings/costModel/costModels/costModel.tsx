@@ -223,8 +223,8 @@ const useMapToProps = ({ query }: CostModelMapProps): CostModelStateProps => {
   const costModelsQueryString = getQuery(costModelsQuery);
 
   const costModels = useSelector((state: RootState) => costModelsSelectors.costModels(state));
-  const costModelsError = useSelector((state: RootState) => costModelsSelectors.error(state));
-  const costModelsStatus = useSelector((state: RootState) => costModelsSelectors.status(state));
+  const costModelsError = useSelector((state: RootState) => state.costModels.update.error);
+  const costModelsStatus = useSelector((state: RootState) => state.costModels.update.status);
 
   useEffect(() => {
     if (!costModelsError && costModelsStatus !== FetchStatus.inProgress) {

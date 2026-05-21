@@ -49,7 +49,7 @@ const AddPriceListAction: React.FC<AddPriceListActionProps> = ({ canWrite, costM
     onAdd?.(items);
   };
 
-  const handleonAddModalClose = () => {
+  const handleOnAddModalClose = () => {
     setIsAddModalOpen(false);
     onClose?.();
   };
@@ -80,7 +80,7 @@ const AddPriceListAction: React.FC<AddPriceListActionProps> = ({ canWrite, costM
         costModel={costModel}
         isOpen={isAddModalOpen}
         onAdd={handleOnAddModalAdd}
-        onClose={handleonAddModalClose}
+        onClose={handleOnAddModalClose}
       />
       {getActions()}
     </>

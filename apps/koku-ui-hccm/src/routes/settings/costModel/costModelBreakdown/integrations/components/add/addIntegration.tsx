@@ -1,25 +1,24 @@
 import type { CostModel } from 'api/costModels';
-import type { PriceListData } from 'api/priceList';
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 
-import { AddPriceListModal } from './addPriceListModal';
+import { AddIntegrationModal } from './addIntegrationModal';
 
-export interface AddPriceListHandle {
+export interface AddIntegrationHandle {
   /** Opens confirm (when cost models Added) or the Add modal. Same as the primary button. */
   open: () => void;
 }
 
-interface AddPriceListOwnProps {
+interface AddIntegrationOwnProps {
   canWrite?: boolean;
   costModel: CostModel;
   isDispatch?: boolean;
-  onAdd?: (priceLists: PriceListData[]) => void;
+  onAdd?: (uuids: string[]) => void;
   onClose?: () => void;
 }
 
-type AddPriceListProps = AddPriceListOwnProps;
+type AddIntegrationProps = AddIntegrationOwnProps;
 
-const AddPriceList = forwardRef<AddPriceListHandle, AddPriceListProps>((props, ref) => {
+const AddIntegration = forwardRef<AddIntegrationHandle, AddIntegrationProps>((props, ref) => {
   const { canWrite, costModel, isDispatch, onAdd, onClose } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,9 +31,9 @@ const AddPriceList = forwardRef<AddPriceListHandle, AddPriceListProps>((props, r
 
   // Handlers
 
-  const handleOnModalAdd = (items: PriceListData[]) => {
+  const handleOnModalAdd = (uuids: string[]) => {
     setIsModalOpen(false);
-    onAdd?.(items);
+    onAdd?.(uuids);
   };
 
   const handleonModalClose = () => {
@@ -43,7 +42,7 @@ const AddPriceList = forwardRef<AddPriceListHandle, AddPriceListProps>((props, r
   };
 
   return (
-    <AddPriceListModal
+    <AddIntegrationModal
       canWrite={canWrite}
       costModel={costModel}
       isDispatch={isDispatch}
@@ -54,6 +53,6 @@ const AddPriceList = forwardRef<AddPriceListHandle, AddPriceListProps>((props, r
   );
 });
 
-AddPriceList.displayName = 'AddPriceList';
+AddIntegration.displayName = 'AddIntegration';
 
-export { AddPriceList };
+export { AddIntegration };

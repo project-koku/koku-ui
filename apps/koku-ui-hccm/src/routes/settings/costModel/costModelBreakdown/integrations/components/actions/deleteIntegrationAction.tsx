@@ -1,30 +1,31 @@
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons';
-import type { CostModel } from 'api/costModels';
-import type { PriceListData } from 'api/priceList';
+import type { CostModel, CostModelProvider } from 'api/costModels';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { RemovePriceListModal } from 'routes/settings/costModel/costModelBreakdown/priceLists/components/remove';
+import { DeleteIntegrationModal } from 'routes/settings/costModel/costModelBreakdown/integrations/components/delete';
 
-interface RemovePriceListActionOwnProps {
+interface DeleteIntegrationActionOwnProps {
   canWrite?: boolean;
   costModel: CostModel;
   isDisabled?: boolean;
   onClose?: () => void;
-  onRemove?: (priceList: PriceListData[]) => void;
-  priceList: PriceListData;
+  onDelete?: (uuids: string[]) => void;
+  sources?: CostModelProvider[];
+  uuid?: string;
 }
 
-type RemovePriceListActionProps = RemovePriceListActionOwnProps;
+type DeleteIntegrationActionProps = DeleteIntegrationActionOwnProps;
 
-const RemovePriceListAction: React.FC<RemovePriceListActionProps> = ({
+const DeleteIntegrationAction: React.FC<DeleteIntegrationActionProps> = ({
   canWrite,
   costModel,
   isDisabled,
   onClose,
-  onRemove,
-  priceList,
+  onDelete,
+  sources,
+  uuid,
 }) => {
   const intl = useIntl();
 
@@ -32,14 +33,14 @@ const RemovePriceListAction: React.FC<RemovePriceListActionProps> = ({
 
   const getActions = () => {
     const getTooltip = children => {
-      const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.unassignPriceList);
+      const msg = intl.formatMessage(!canWrite ? messages.readOnlyPermissions : messages.costModelsSourceDeleteSource);
       return <Tooltip content={msg}>{children}</Tooltip>;
     };
 
     return getTooltip(
       <Button
         icon={<MinusCircleIcon />}
-        aria-label={intl.formatMessage(messages.unassignPriceList)}
+        aria-label={intl.formatMessage(messages.costModelsSourceDeleteSource)}
         isAriaDisabled={!canWrite || isDisabled}
         onClick={() => handleOnModalClick()}
         size="sm"
@@ -47,7 +48,6 @@ const RemovePriceListAction: React.FC<RemovePriceListActionProps> = ({
       ></Button>
     );
   };
-
   // Handlers
 
   const handleOnModalClick = () => {
@@ -59,23 +59,24 @@ const RemovePriceListAction: React.FC<RemovePriceListActionProps> = ({
     onClose?.();
   };
 
-  const handleOnModalConfirm = () => {
+  const handleOnModalDelete = (uuids: string[]) => {
     setIsModalOpen(false);
-    onRemove?.([priceList]);
+    onDelete?.(uuids);
   };
 
   return (
     <>
-      <RemovePriceListModal
+      <DeleteIntegrationModal
         costModel={costModel}
         isOpen={isModalOpen}
         onClose={handleOnModalClose}
-        onRemove={handleOnModalConfirm}
-        selectedItems={[priceList]}
+        onDelete={handleOnModalDelete}
+        sources={sources}
+        uuid={uuid}
       />
       {getActions()}
     </>
   );
 };
 
-export { RemovePriceListAction };
+export { DeleteIntegrationAction };

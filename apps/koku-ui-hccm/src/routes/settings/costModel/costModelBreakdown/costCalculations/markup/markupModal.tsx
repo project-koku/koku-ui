@@ -33,7 +33,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { getSourceType } from 'routes/settings/costModel/costModels/components/edit/utils';
+import { getSourceType } from 'routes/settings/costModel/costModels/utils';
 import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';

@@ -7,9 +7,10 @@ import { useIntl } from 'react-intl';
 import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
 import { Selector, SimpleInput } from 'routes/settings/components';
 import { SimpleArea } from 'routes/settings/components/simpleArea';
+import { getSourceType } from 'routes/settings/costModel/costModels/utils';
 
 import { styles } from './editCostModelContent.styles';
-import { getSourceType, validateDescription, validateName } from './utils';
+import { validateDescription, validateName } from './utils';
 
 interface EditCostModelContentOwnProps {
   costModel: CostModel;
