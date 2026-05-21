@@ -65,7 +65,7 @@ const DraggableTable: React.FC<DraggableTableProps> = ({
   const [itemOrder, setItemOrder] = useState<string[]>([]);
   const [tempItemOrder, setTempItemOrder] = useState<string[]>([]);
 
-  const bodyRef = useRef<HTMLTableSectionElement>(undefined);
+  const bodyRef = useRef<HTMLTableSectionElement>(null);
 
   const prefixColumnCount = (isDraggable ? 1 : 0) + (isSelectable ? 1 : 0);
 
@@ -117,7 +117,10 @@ const DraggableTable: React.FC<DraggableTableProps> = ({
   // Drag and drop
 
   const isValidDrop = (evt: React.DragEvent<HTMLTableSectionElement | HTMLTableRowElement>) => {
-    const ulRect = bodyRef.current.getBoundingClientRect();
+    const ulRect = bodyRef.current?.getBoundingClientRect();
+    if (!ulRect) {
+      return false;
+    }
     return (
       evt.clientX > ulRect.x &&
       evt.clientX < ulRect.x + ulRect.width &&
@@ -247,7 +250,7 @@ const DraggableTable: React.FC<DraggableTableProps> = ({
   // Effects
 
   useEffect(() => {
-    setItemOrder(rows.map((row, i) => String(row.id ?? `row-${i}`)));
+    setItemOrder(rows?.map((row, i) => String(row.id ?? 'row-' + i)) || []);
   }, [rows]);
 
   return (

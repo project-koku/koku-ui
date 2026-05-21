@@ -47,7 +47,7 @@ const TimelineChart: React.FC<TimelineChartProps> = ({ isReset, onResetClick, pr
     const effectiveStartDate = item?.effective_start_date
       ? new Date(`${item.effective_start_date}T00:00:00`)
       : new Date();
-    const effectiveEndDate = item?.effective_start_date ? new Date(`${item.effective_end_date}T00:00:00`) : new Date();
+    const effectiveEndDate = item?.effective_end_date ? new Date(`${item.effective_end_date}T00:00:00`) : new Date();
 
     // Dates must start on the first day of the month for tick labels to align correctly
     const startDate = startOfMonth(effectiveStartDate);

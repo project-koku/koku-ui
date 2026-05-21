@@ -295,7 +295,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       isDisabled,
       isMultiSelect,
       onDelete: this.handleOnDelete,
-      onSelect: (_event, selection) => this.handleOnCustomSelect(event, selection, isMultiSelect),
+      onSelect: (event, selection) => this.handleOnCustomSelect(event, selection, isMultiSelect),
       selectClassName: categoryOption.selectClassName,
       selectOptions: categoryOption.selectOptions,
     });

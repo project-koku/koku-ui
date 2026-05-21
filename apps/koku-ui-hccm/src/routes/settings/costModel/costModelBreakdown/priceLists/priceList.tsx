@@ -179,7 +179,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
   const handleOnAdd = (items: PriceListDataExt[]) => {
     setIsRecalculating(true);
     setPageNumber(1);
-    onAdd(items);
+    onAdd?.(items);
   };
 
   const handleOnBulkSelect = (action: string) => {
