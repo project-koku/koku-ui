@@ -11,7 +11,7 @@ jest.mock('./deleteRateModal', () => ({
 }));
 
 jest.mock('routes/settings/priceList/priceListBreakdown/rates/components/review', () => ({
-  ReviewModal: ({ isOpen }: { isOpen?: boolean }) =>
+  ReviewImpactModal: ({ isOpen }: { isOpen?: boolean }) =>
     isOpen ? <div data-testid="impact-modal-open" /> : null,
 }));
 

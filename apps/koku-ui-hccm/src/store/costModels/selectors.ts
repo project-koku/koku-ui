@@ -1,4 +1,5 @@
-import { parseApiError } from 'routes/settings/costModels/costModelWizard/parseError';
+import type { CostModels } from 'api/costModels';
+import { parseApiError } from 'routes/settings/utils';
 import { FetchStatus } from 'store/common';
 import { selectPagination } from 'store/djangoUtils/pagination';
 import { selectQuery } from 'store/djangoUtils/query';
@@ -8,7 +9,9 @@ import { stateKey } from './reducer';
 
 export const costModelsState = (state: RootState) => state[stateKey];
 
-export const costModels = (state: RootState) => {
+export const costModels = (state: RootState): CostModels => costModelsState(state).costModels;
+
+export const costModelsData = (state: RootState) => {
   const cms = costModelsState(state).costModels;
   if (cms) {
     return cms.data;
@@ -57,7 +60,7 @@ export const redirectStatus = (state: RootState) => costModelsState(state).redir
 export const stateName = (state: RootState) => {
   const costStatus = status(state);
   const costError = error(state);
-  const costData = costModels(state);
+  const costData = costModelsData(state);
   const costQuery = query(state);
 
   if (costStatus !== FetchStatus.complete) {

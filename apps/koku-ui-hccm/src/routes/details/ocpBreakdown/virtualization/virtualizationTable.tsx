@@ -265,7 +265,6 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
       onSort={handleOnSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems}
     />
   );
 };

@@ -31,9 +31,12 @@ describe('PriceListCreateHeader', () => {
 
   test('renders title, description, and breadcrumb', () => {
     renderHeader();
-    expect(screen.getByRole('heading', { name: /create price list/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/create a price list/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('Test description')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /price list/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /price list/i })).toHaveAttribute(
+      'href',
+      expect.stringMatching(/\/settings$/)
+    );
   });
 
   test('invokes onCreate when primary button clicked', () => {
