@@ -103,7 +103,6 @@ const CostCategoryTable: React.FC<CostCategoryTableProps> = ({
       onSort={onSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems}
     />
   );
 };

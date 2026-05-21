@@ -51,6 +51,9 @@ export const styles = {
   nameColumn: {
     width: '1%',
   },
+  selectColumn: {
+    paddingTop: '12px',
+  },
   warningIcon: {
     paddingLeft: t_global_spacer_sm.var,
   },

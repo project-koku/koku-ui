@@ -1,7 +1,7 @@
 import type { PriceListData } from 'api/priceList';
 import type { Rate } from 'api/rates';
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
-import { ReviewModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
+import { ReviewImpactModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
 
 import { DeleteRateModal } from './deleteRateModal';
 
@@ -16,7 +16,6 @@ interface DeleteRateOwnProps {
   isDispatch?: boolean;
   onClose?: () => void;
   onDelete?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex?: number;
 }
@@ -24,7 +23,7 @@ interface DeleteRateOwnProps {
 type DeleteRateProps = DeleteRateOwnProps;
 
 const DeleteRate = forwardRef<DeleteRateHandle, DeleteRateProps>((props, ref) => {
-  const { isDispatch, onClose, onDelete, onSuccess, priceList, rateIndex } = props;
+  const { isDispatch, onClose, onDelete, priceList, rateIndex } = props;
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -62,14 +61,9 @@ const DeleteRate = forwardRef<DeleteRateHandle, DeleteRateProps>((props, ref) =>
     onDelete?.(rates);
   };
 
-  const handleOnDeleteModalSuccess = () => {
-    setIsDeleteModalOpen(false);
-    onSuccess?.();
-  };
-
   return (
     <>
-      <ReviewModal
+      <ReviewImpactModal
         isOpen={isReviewModalOpen}
         onClose={handleOnReviewModalClose}
         onConfirm={handleOnReviewModalConfirm}
@@ -80,7 +74,6 @@ const DeleteRate = forwardRef<DeleteRateHandle, DeleteRateProps>((props, ref) =>
         isOpen={isDeleteModalOpen}
         onClose={handleOnDeleteModalClose}
         onDelete={handleOnDeleteModalDelete}
-        onSuccess={handleOnDeleteModalSuccess}
         priceList={priceList}
         rateIndex={rateIndex}
       />

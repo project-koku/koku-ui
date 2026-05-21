@@ -20,8 +20,8 @@ import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
-import { PriceListActions } from 'routes/settings/priceList/priceList/actions';
-import { EditDetailsModal } from 'routes/settings/priceList/priceList/details';
+import { PriceListActions } from 'routes/settings/priceList/priceLists/components/actions';
+import { EditDetailModal } from 'routes/settings/priceList/priceLists/components/details';
 import { getDateString, getValidityPeriod } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
@@ -36,7 +36,7 @@ interface PriceListBreakdownHeaderOwnProps {
   onDelete?: () => void;
   onDeprecate?: () => void;
   onDuplicate?: () => void;
-  onEdit?: () => void;
+  onEdit?: (payload: PriceListData) => void;
   priceList?: PriceListData;
 }
 
@@ -67,9 +67,9 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
     setIsEditModalOpen(false);
   };
 
-  const handleOnEditModalSuccess = () => {
+  const handleOnEditModalEdit = (payload: PriceListData) => {
     setIsEditModalOpen(false);
-    onEdit?.();
+    onEdit?.(payload);
   };
 
   return (
@@ -87,7 +87,7 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
                   },
                 }}
               >
-                {intl.formatMessage(messages.priceList)}
+                {intl.formatMessage(messages.priceList, { count: 1 })}
               </Link>
             )}
           />
@@ -99,7 +99,7 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           <Alert
             isInline
             actionClose={<AlertActionCloseButton onClose={onAlertClose} />}
-            title={intl.formatMessage(messages.priceListRecalculate)}
+            title={intl.formatMessage(messages.recalculateCharges)}
             variant="info"
           >
             <p>{intl.formatMessage(messages.priceListRecalculateDesc)}</p>
@@ -155,10 +155,10 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           </Content>
         </div>
       </SplitItem>
-      <EditDetailsModal
+      <EditDetailModal
         isOpen={isEditModalOpen}
         onClose={handleOnEditModalClose}
-        onSuccess={handleOnEditModalSuccess}
+        onEdit={handleOnEditModalEdit}
         priceList={priceList}
       />
     </>

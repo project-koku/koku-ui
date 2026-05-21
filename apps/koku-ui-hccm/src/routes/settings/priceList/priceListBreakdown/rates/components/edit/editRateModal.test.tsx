@@ -9,12 +9,20 @@ import { PriceListType } from 'api/priceList';
 import { FetchStatus } from 'store/common';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 
+jest.mock('api/priceList', () => {
+  const actual = jest.requireActual('api/priceList');
+  return {
+    ...actual,
+    updatePriceList: jest.fn(() => Promise.resolve({ data: {} })),
+  };
+});
+
 import { EditRateModal } from './editRateModal';
 
-jest.mock('../ratesContent', () => {
+jest.mock('../rateContent', () => {
   const React = require('react');
   return {
-    RatesContent: React.forwardRef((props: any, ref: any) => {
+    RateContent: React.forwardRef((props: any, ref: any) => {
       React.useImperativeHandle(ref, () => ({
         save: () =>
           props.onSave?.([
@@ -63,7 +71,7 @@ function makeStoreWithUpdateStatus(status: FetchStatus, error?: unknown) {
 }
 
 describe('EditRateModal', () => {
-  test('invokes onEdit when save clicked', () => {
+  test('invokes onEdit when save clicked', async () => {
     const onEdit = jest.fn();
     const store = makeStoreWithUpdateStatus(FetchStatus.none);
     render(
@@ -74,7 +82,7 @@ describe('EditRateModal', () => {
       </Provider>
     );
     fireEvent.click(screen.getByRole('button', { name: /edit rate/i }));
-    expect(onEdit).toHaveBeenCalled();
+    await waitFor(() => expect(onEdit).toHaveBeenCalled());
   });
 
   test('dispatches update when onEdit omitted', () => {
@@ -93,27 +101,21 @@ describe('EditRateModal', () => {
     expect(dispatchSpy).toHaveBeenCalled();
   });
 
-  test('calls onSuccess when update completes', async () => {
-    const onSuccess = jest.fn();
+  test('invokes onEdit when isDispatch false (parent refresh path)', () => {
     const onEdit = jest.fn();
     const store = makeStoreWithUpdateStatus(FetchStatus.complete);
     render(
       <Provider store={store}>
         <IntlProvider defaultLocale="en" locale="en">
-          <EditRateModal
-            isDispatch={false}
-            isOpen
-            onEdit={onEdit}
-            onSuccess={onSuccess}
-            priceList={priceList}
-            rateIndex={0}
-          />
+          <EditRateModal isDispatch={false} isOpen onEdit={onEdit} priceList={priceList} rateIndex={0} />
         </IntlProvider>
       </Provider>
     );
     fireEvent.click(screen.getByRole('button', { name: /edit rate/i }));
-    await waitFor(() => expect(onSuccess).toHaveBeenCalled());
-    expect(onEdit).toHaveBeenCalled();
+    expect(onEdit).toHaveBeenCalledTimes(1);
+    expect(onEdit).toHaveBeenCalledWith(
+      expect.arrayContaining([expect.objectContaining({ custom_name: 'Edited', metric: { name: 'cpu_core_request' } })])
+    );
   });
 
   test('cancel invokes onClose', () => {

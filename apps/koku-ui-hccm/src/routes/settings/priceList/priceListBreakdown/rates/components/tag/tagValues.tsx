@@ -15,7 +15,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'routes/settings/costModelsDeprecated/components/readOnlyTooltip';
 import type { TagValueExt } from 'routes/settings/priceList/priceListBreakdown/rates/components/utils';
 import { formatCurrencyRaw, getCurrencySymbol } from 'utils/format';
 
@@ -121,12 +121,12 @@ const TagValues: React.FC<TagValuesProps> = ({
                   </HelperText>
                 )}
               </Td>
-              <Td dataLabel={intl.formatMessage(messages.priceListEnterTagDescription)}>
+              <Td dataLabel={intl.formatMessage(messages.priceListEnterTagDesc)}>
                 <TextArea
-                  aria-label={intl.formatMessage(messages.priceListEnterTagDescription)}
+                  aria-label={intl.formatMessage(messages.priceListEnterTagDesc)}
                   id={`tag-values-description-${index}`}
                   onChange={(_evt, value) => onDescriptionChange(value, index)}
-                  placeholder={intl.formatMessage(messages.priceListEnterTagDescription)}
+                  placeholder={intl.formatMessage(messages.priceListEnterTagDesc)}
                   resizeOrientation="vertical"
                   rows={1}
                   validated={errors?.[index]?.description ? 'error' : 'default'}

@@ -13,7 +13,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 
-import { RatesContent, type RatesContentHandle } from '../ratesContent';
+import { RateContent, type RateContentHandle } from '../rateContent';
 import { styles } from './editRateModal.styles';
 
 interface EditRateModalOwnProps {
@@ -21,7 +21,6 @@ interface EditRateModalOwnProps {
   isOpen?: boolean;
   onClose?: () => void;
   onEdit?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex?: number;
 }
@@ -34,7 +33,7 @@ interface EditRateModalStateProps {
 type EditRateModalProps = EditRateModalOwnProps;
 
 /**
- * Modal shell around {@link RatesContent}: footer Save calls `RateContent`’s `submit()` imperatively;
+ * Modal shell around {@link RateContent}: footer Save calls `RateContent`’s `submit()` imperatively;
  * `RateContent` builds merged `rates[]` and reports them via `onCommitRates` for the PUT payload.
  */
 const EditRateModal: React.FC<EditRateModalProps> = ({
@@ -42,48 +41,50 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   isOpen = false,
   onClose,
   onEdit,
-  onSuccess,
   priceList,
   rateIndex,
 }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const contentRef = useRef<RatesContentHandle>(null);
+  const contentRef = useRef<RateContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
+  const [rates, setRates] = useState<Rate[]>([]);
 
   const { priceListUpdateError, priceListUpdateStatus } = useMapToProps();
 
   // Handlers
 
-  const handleOnSave = (rates: Rate[]) => {
-    setIsFinish(true);
-    onEdit?.(rates);
+  const handleOnSave = (items: Rate[]) => {
+    if (priceListUpdateStatus !== FetchStatus.inProgress) {
+      if (isDispatch) {
+        setIsFinish(true);
+        setRates(items);
 
-    if (isDispatch) {
-      dispatch(
-        priceListActions.updatePriceList(PriceListType.priceListUpdate, priceList?.uuid, {
-          ...(priceList ?? {}),
-          rates,
-        })
-      );
+        dispatch(
+          priceListActions.updatePriceList(PriceListType.priceListUpdate, priceList?.uuid, {
+            ...(priceList ?? {}),
+            rates: items,
+          })
+        );
+      } else {
+        onEdit?.(items);
+      }
     }
   };
 
   // Effects
 
   useEffect(() => {
-    if (isOpen) {
+    if (isFinish && priceListUpdateStatus === FetchStatus.complete) {
       setIsFinish(false);
-    }
-  }, [isOpen]);
 
-  useEffect(() => {
-    if (isFinish && priceListUpdateStatus === FetchStatus.complete && !priceListUpdateError) {
-      onSuccess?.();
+      if (!priceListUpdateError) {
+        onEdit?.(rates);
+      }
     }
-  }, [isFinish, onSuccess, priceListUpdateError, priceListUpdateStatus]);
+  }, [isFinish, onEdit, priceListUpdateError, priceListUpdateStatus, rates]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -99,7 +100,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       <ModalHeader title={intl.formatMessage(messages.priceListEditRate)} />
       <ModalBody>
         {isOpen && (
-          <RatesContent
+          <RateContent
             onDisabled={setIsDisabled}
             onSave={handleOnSave}
             priceList={priceList}

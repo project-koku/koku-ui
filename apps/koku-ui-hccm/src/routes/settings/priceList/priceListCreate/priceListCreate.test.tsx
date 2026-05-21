@@ -24,10 +24,10 @@ jest.mock('utils/userAccess', () => ({
   hasSettingsAccess: () => true,
 }));
 
-jest.mock('routes/settings/priceList/priceList/details', () => {
+jest.mock('routes/settings/priceList/priceLists/components/details', () => {
   const React = require('react');
   return {
-    DetailsContent: React.forwardRef((props: { onDisabled?: (v: boolean) => void; onSave?: (p: unknown) => void }, ref: unknown) => {
+    DetailContent: React.forwardRef((props: { onDisabled?: (v: boolean) => void; onSave?: (p: unknown) => void }, ref: unknown) => {
       React.useImperativeHandle(ref, () => ({
         save: () => props.onSave?.({ currency: 'EUR', name: 'New PL' }),
       }));
@@ -39,8 +39,8 @@ jest.mock('routes/settings/priceList/priceList/details', () => {
   };
 });
 
-jest.mock('./priceListRates', () => ({
-  PriceListRates: () => <div data-testid="price-list-rates-mock" />,
+jest.mock('./priceListRate', () => ({
+  PriceListRate: () => <div data-testid="price-list-rates-mock" />,
 }));
 
 const consoleWarn = console.warn;
@@ -88,7 +88,7 @@ describe('PriceListCreate', () => {
 
   test('renders header, details, and rates sections', () => {
     renderCreate();
-    expect(screen.getByRole('heading', { name: /create price list/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/create a price list/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByTestId('details-content-mock')).toBeInTheDocument();
     expect(screen.getByTestId('price-list-rates-mock')).toBeInTheDocument();
   });

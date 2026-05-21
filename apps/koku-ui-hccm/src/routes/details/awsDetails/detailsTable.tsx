@@ -316,7 +316,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   };
 
   public render() {
-    const { exclude, filterBy, isLoading, onSelect, onSort, orderBy, selectedItems } = this.props;
+    const { exclude, filterBy, isLoading, onSelect, onSort, orderBy } = this.props;
     const { columns, rows } = this.state;
 
     return (
@@ -331,7 +331,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         onSort={onSort}
         orderBy={orderBy}
         rows={rows}
-        selectedItems={selectedItems}
       />
     );
   }

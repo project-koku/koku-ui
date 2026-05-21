@@ -241,7 +241,6 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
       onSort={handleOnSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems}
     />
   );
 };

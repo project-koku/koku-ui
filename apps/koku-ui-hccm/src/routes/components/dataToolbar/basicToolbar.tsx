@@ -202,6 +202,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
   public getCategoryInputComponent = (categoryOption: ToolbarChipGroupExt) => {
     const { isDisabled, resourcePathsType } = this.props;
     const { categoryInput, currentCategory, filters } = this.state;
+    const isMultiSelect = categoryOption.isMultiSelect ?? true;
 
     if (categoryOption.selectOptions) {
       return null;
@@ -212,9 +213,9 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       currentCategory,
       filters,
       isDisabled,
-      onCategoryInput: this.handleOnCategoryInput,
+      onCategoryInput: (event, key) => this.handleOnCategoryInput(event, key, isMultiSelect),
       onCategoryInputChange: this.handleOnCategoryInputChange,
-      onCategoryInputSelect: this.handleOnCategoryInputSelect,
+      onCategoryInputSelect: (event, key) => this.handleOnCategoryInputSelect(event, key, isMultiSelect),
       onDelete: this.handleOnDelete,
       resourcePathsType,
     });
@@ -225,7 +226,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     this.setState({ categoryInput: val });
   };
 
-  private handleOnCategoryInput = (event, key) => {
+  private handleOnCategoryInput = (event, key, isMultiSelect) => {
     const { onFilterAdded } = this.props;
     const { categoryInput, currentCategory, filters: currentFilters } = this.state;
 
@@ -234,6 +235,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       currentCategory,
       currentFilters,
       event,
+      isMultiSelect,
       key,
     });
 
@@ -252,7 +254,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     }
   };
 
-  private handleOnCategoryInputSelect = (value, key) => {
+  private handleOnCategoryInputSelect = (value, key, isMultiSelect) => {
     const { onFilterAdded } = this.props;
     const { currentCategory, filters: currentFilters } = this.state;
 
@@ -260,6 +262,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       currentCategory,
       currentFilters,
       key,
+      isMultiSelect,
       value,
     });
 
@@ -280,6 +283,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
   public getCustomSelectComponent = (categoryOption: ToolbarChipGroupExt) => {
     const { isDisabled } = this.props;
     const { currentCategory, filters } = this.state;
+    const isMultiSelect = categoryOption.isMultiSelect ?? true;
 
     if (!categoryOption.selectOptions) {
       return null;
@@ -289,22 +293,24 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
       currentCategory,
       filters,
       isDisabled,
+      isMultiSelect,
       onDelete: this.handleOnDelete,
-      onSelect: this.handleOnCustomSelect,
+      onSelect: (_event, selection) => this.handleOnCustomSelect(event, selection, isMultiSelect),
       selectClassName: categoryOption.selectClassName,
       selectOptions: categoryOption.selectOptions,
     });
   };
 
-  private handleOnCustomSelect = (event, selection) => {
+  private handleOnCustomSelect = (event, selection, isMultiSelect) => {
     const { onFilterAdded, onFilterRemoved } = this.props;
     const { currentCategory, filters: currentFilters } = this.state;
 
-    const checked = event.target.checked;
+    const checked = isMultiSelect ? event?.target?.checked : true;
     const { filter, filters } = onCustomSelect({
       currentCategory,
       currentFilters,
       event,
+      isMultiSelect,
       selection,
     });
 
@@ -340,8 +346,8 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
               <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
                 <ToolbarGroup variant="filter-group">
                   {this.getCategorySelectComponent()}
-                  {options && options.map(option => this.getCategoryInputComponent(option))}
-                  {options && options.map(option => this.getCustomSelectComponent(option))}
+                  {options?.map(option => this.getCategoryInputComponent(option))}
+                  {options?.map(option => this.getCustomSelectComponent(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}
