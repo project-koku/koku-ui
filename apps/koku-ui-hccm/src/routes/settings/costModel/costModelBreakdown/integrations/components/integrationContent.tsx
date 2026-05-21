@@ -149,7 +149,7 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
         providers?.data?.map(val => {
           const isAssigned =
             val.cost_models?.length > 0 &&
-            val.cost_models?.find(source => source.uuid === costModel.uuid) === undefined;
+            val.cost_models?.find(source => source.uuid === costModel?.uuid) === undefined;
           if (!newSelectedItems.find(item => item.uuid === val.uuid) && !isAssigned) {
             newSelectedItems.push(val);
           }
