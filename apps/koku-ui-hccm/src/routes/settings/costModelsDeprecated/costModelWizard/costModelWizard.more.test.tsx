@@ -22,20 +22,23 @@ jest.mock('react-redux', () => ({ __esModule: true, connect: () => (C: any) => C
 
 // Silence noisy React warnings from mocked PF components
 const originalConsoleError = console.error;
+let consoleErrorSpy: jest.SpyInstance;
+
 beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation((...args: any[]) => {
+  consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation((...args: any[]) => {
     const msg = String(args[0] || '');
     if (
       msg.includes('Functions are not valid as a React child') ||
-      msg.includes('An update to') && msg.includes('was not wrapped in act')
+      (msg.includes('An update to') && msg.includes('was not wrapped in act'))
     ) {
       return;
     }
     originalConsoleError(...(args as any));
   });
 });
+
 afterAll(() => {
-  (console.error as jest.Mock).mockRestore();
+  consoleErrorSpy?.mockRestore();
 });
 
 // Minimal mocks for PF core to expose needed callbacks
