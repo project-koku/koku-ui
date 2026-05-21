@@ -1,8 +1,8 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
-import type { CostModel } from 'api/costModels';
+import type { CostModel, CostModelProvider } from 'api/costModels';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -12,54 +12,59 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 
-import { EditCostModelContent, type EditCostModelContentHandle } from './editCostModelContent';
-
-interface EditCostModelModalOwnProps {
+interface DeleteIntegrationModalOwnProps {
   costModel: CostModel;
   isDispatch?: boolean;
   isOpen?: boolean;
   onClose?: () => void;
-  onSave?: (costModel: CostModel) => void;
+  onDelete?: (uuids: string[]) => void;
+  sources?: CostModelProvider[];
+  uuid?: string;
 }
 
-interface EditCostModelModalStateProps {
+interface DeleteIntegrationModalStateProps {
   costModelsError: AxiosError;
   costModelsStatus: FetchStatus;
 }
 
-type EditCostModelModalProps = EditCostModelModalOwnProps;
+type DeleteIntegrationModalProps = DeleteIntegrationModalOwnProps;
 
-const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
+const DeleteIntegrationModal: React.FC<DeleteIntegrationModalProps> = ({
   costModel,
   isDispatch = true,
   isOpen = false,
   onClose,
-  onSave,
+  onDelete,
+  sources,
+  uuid,
 }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const contentRef = useRef<EditCostModelContentHandle>(null);
-  const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
+  const [payload, setPayload] = useState<string[]>([]);
 
   const { costModelsError, costModelsStatus } = useMapToProps();
 
   // Handlers
 
-  const handleOnSave = (item: CostModel) => {
+  const handleOnDelete = () => {
     if (costModelsStatus !== FetchStatus.inProgress) {
+      const newSources = sources?.filter(item => item.uuid !== uuid);
+      const uuids = newSources?.map(item => item.uuid);
+      setPayload(uuids);
+
       if (isDispatch) {
         setIsFinish(true);
         dispatch(
           costModelsActions.updateCostModel(costModel?.uuid, {
             ...(costModel ?? {}),
-            ...item,
             source_type: getSourceType(costModel?.source_type),
+            source_uuids: uuids,
           })
         );
       } else {
-        onSave?.(item);
+        onDelete?.(uuids);
       }
     }
   };
@@ -71,34 +76,30 @@ const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
       setIsFinish(false);
 
       if (!costModelsError) {
-        onSave?.(costModel);
+        onDelete?.(payload);
       }
     }
-  }, [isFinish, costModel, costModelsError, costModelsStatus, onSave]);
+  }, [isFinish, costModel, costModelsError, costModelsStatus, onDelete, payload]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
 
   return (
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.small}>
-      <ModalHeader title={intl.formatMessage(messages.editCostModel)} />
+      <ModalHeader
+        className="iconOverride"
+        title={intl.formatMessage(messages.costModelsSourceDeleteSource)}
+        titleIconVariant="warning"
+      />
       <ModalBody>
-        {isOpen && (
-          <EditCostModelContent
-            costModel={costModel}
-            onDisabled={setIsDisabled}
-            onSave={handleOnSave}
-            ref={contentRef}
-          />
-        )}
+        {intl.formatMessage(messages.costModelsSourceDeleteSourceDesc, {
+          source: <b>{sources?.find(item => item?.uuid === uuid)?.name ?? ''}</b>,
+          costModel: <b>{costModel?.name ?? ''}</b>,
+        })}
       </ModalBody>
       <ModalFooter>
-        <Button
-          isAriaDisabled={isDisabled || costModelsStatus === FetchStatus.inProgress}
-          onClick={() => contentRef.current?.save()}
-          variant="primary"
-        >
-          {intl.formatMessage(messages.save)}
+        <Button onClick={handleOnDelete} variant="danger">
+          {intl.formatMessage(messages.delete)}
         </Button>
         <Button onClick={onClose} variant="link">
           {intl.formatMessage(messages.cancel)}
@@ -108,7 +109,7 @@ const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
   );
 };
 
-const useMapToProps = (): EditCostModelModalStateProps => {
+const useMapToProps = (): DeleteIntegrationModalStateProps => {
   const costModelsError = useSelector((state: RootState) => state.costModels.update.error);
   const costModelsStatus = useSelector((state: RootState) => state.costModels.update.status);
 
@@ -118,4 +119,4 @@ const useMapToProps = (): EditCostModelModalStateProps => {
   };
 };
 
-export { EditCostModelModal };
+export { DeleteIntegrationModal };

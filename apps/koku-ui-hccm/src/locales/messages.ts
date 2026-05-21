@@ -1529,6 +1529,7 @@ export default defineMessages({
       'account {Account names} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
+      'cost_model {Cost model assigned} ' +
       'cost_models {Assigned cost models}' +
       'cost_type {Calculation type} ' +
       'cpu {CPU} ' +
@@ -1546,9 +1547,10 @@ export default defineMessages({
       'metric {Metric} ' +
       'name {Name} ' +
       'node {Node names} ' +
+      'operating_system {Operating system} ' +
+      'operator_version {Operator version} ' +
       'org_unit_id {Organizational unit names} ' +
       'os {OS} ' +
-      'operating_system {Operating system} ' +
       'payer_tenant_id {Account names} ' +
       'product_service {Service names} ' +
       'project {Project names} ' +

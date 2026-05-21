@@ -30,6 +30,7 @@ import { hasSettingsAccess } from 'utils/userAccess';
 import { CostCalculations } from './costCalculations';
 import { styles } from './costModelBreakdown.styles';
 import { CostModelBreakdownHeader } from './costModelBreakdownHeader';
+import { Integration } from './integrations';
 import { PriceList } from './priceLists';
 
 interface AvailableTab {
@@ -48,7 +49,8 @@ export interface CostModelBreakdownMapProps {
 export interface CostModelBreakdownStateProps {
   costModel?: CostModel;
   costModelsError?: AxiosError;
-  costModelsStatus?: FetchStatus;
+  costModelsFetchStatus?: FetchStatus;
+  costModelsUpdateStatus?: FetchStatus;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -87,7 +89,15 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { costModel, costModelsError, costModelsStatus, userAccess, userAccessFetchStatus, uuid } = useMapToProps({
+  const {
+    costModel,
+    costModelsError,
+    costModelsFetchStatus,
+    costModelsUpdateStatus,
+    userAccess,
+    userAccessFetchStatus,
+    uuid,
+  } = useMapToProps({
     query,
   });
 
@@ -166,7 +176,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     } else if (currentTab === CostModelBreakdownTab.costCalculations) {
       return <CostCalculations canWrite={canWrite()} costModel={costModel} onSave={forceUpdate} />;
     } else if (currentTab === CostModelBreakdownTab.integrations) {
-      return <span>TBD...</span>;
+      return <Integration canWrite={canWrite()} costModel={costModel} onAdd={forceUpdate} onDelete={forceUpdate} />;
     } else {
       return emptyTab;
     }
@@ -211,9 +221,10 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   };
 
   const availableTabs = getAvailableTabs();
-  const isLoading = costModelsStatus === FetchStatus.inProgress;
+  const isUpdating = costModelsUpdateStatus === FetchStatus.inProgress;
+  const isInitialLoad = costModelsFetchStatus === FetchStatus.inProgress && !costModel;
 
-  if (costModelsStatus === FetchStatus.inProgress) {
+  if (isInitialLoad) {
     return <Loading title={intl.formatMessage(messages.costModels)} />;
   }
   if (costModelsError) {
@@ -247,7 +258,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
           <CostModelBreakdownHeader
             canWrite={canWrite()}
             costModel={costModel}
-            isDisabled={isLoading}
+            isDisabled={isUpdating}
             onDelete={handleOnDelete}
             onEdit={forceUpdate}
           />
@@ -275,13 +286,18 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
 
   const costModels = useSelector((state: RootState) => costModelsSelectors.costModels(state));
   const costModelsError = useSelector((state: RootState) => costModelsSelectors.error(state));
-  const costModelsStatus = useSelector((state: RootState) => costModelsSelectors.status(state));
+  const costModelsFetchStatus = useSelector((state: RootState) => costModelsSelectors.status(state));
+  const costModelsUpdateStatus = useSelector((state: RootState) => state.costModels.update.status);
 
   useEffect(() => {
-    if (!costModelsError && costModelsStatus !== FetchStatus.inProgress) {
+    if (
+      !costModelsError &&
+      costModelsFetchStatus !== FetchStatus.inProgress &&
+      costModelsUpdateStatus !== FetchStatus.inProgress
+    ) {
       dispatch(costModelsActions.fetchCostModels(costModelsQueryString));
     }
-  }, [costModelsQueryString, costModelsError, dispatch, query]);
+  }, [costModelsQueryString, costModelsError, costModelsUpdateStatus, dispatch, query]);
 
   const userAccessQueryString = getUserAccessQuery(userAccessQuery);
   const userAccess = useSelector((state: RootState) =>
@@ -297,7 +313,8 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
   return {
     costModel: costModels?.data?.[0],
     costModelsError,
-    costModelsStatus,
+    costModelsFetchStatus,
+    costModelsUpdateStatus,
     userAccess,
     userAccessError,
     userAccessFetchStatus,

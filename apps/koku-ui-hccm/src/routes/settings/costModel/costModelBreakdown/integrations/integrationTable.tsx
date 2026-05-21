@@ -1,77 +1,70 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import type { CostModels } from 'api/costModels';
+import type { CostModel, CostModelProvider } from 'api/costModels';
+import { type Provider, ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
-import { routes } from 'routes';
 import { DataTable } from 'routes/components/dataTable';
-import { DeleteCostModelAction } from 'routes/settings/costModel/costModels/components/actions';
-import { formatPath } from 'utils/paths';
+import { DeleteIntegrationAction } from 'routes/settings/costModel/costModelBreakdown/integrations/components/actions';
+import { getSourceType } from 'routes/settings/costModel/costModels/utils';
 
-import { styles } from './costModelTable.styles';
+import { styles } from './integrationTable.styles';
+import { getOperatorStatus } from './utils/operatorStatus';
 
-interface CostModelTableOwnProps {
+interface IntegrationTableOwnProps {
   canWrite?: boolean;
-  costModels: CostModels;
+  costModel: CostModel;
   filterBy?: any;
   isDisabled?: boolean;
   isLoading?: boolean;
   onClose?: () => void;
-  onDelete?: () => void;
-  onSort(sortType: string, isSortAscending: boolean);
+  onDelete?: (uuids: string[]) => void;
   orderBy?: any;
+  providers: Provider[];
+  sources: CostModelProvider[];
 }
 
-type CostModelTableProps = CostModelTableOwnProps;
+type IntegrationTableProps = IntegrationTableOwnProps;
 
-const CostModelTable: React.FC<CostModelTableProps> = ({
+const IntegrationTable: React.FC<IntegrationTableProps> = ({
   canWrite,
-  costModels,
+  costModel,
   filterBy,
   isDisabled,
   isLoading,
   onClose,
   onDelete,
-  onSort,
   orderBy,
+  providers,
+  sources,
 }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
   const initDatum = () => {
-    if (!costModels) {
+    if (!sources) {
       return;
     }
 
     const newRows = [];
-    const computedItems = costModels?.data ? costModels.data : [];
+    const computedItems = sources ?? [];
+    const showOperatorVersion = getSourceType(costModel.source_type) === ProviderType.ocp;
 
     const newColumns = [
       {
-        orderBy: 'name',
-        name: intl.formatMessage(messages.names, { count: 1 }),
-        ...(computedItems.length && { isSortable: true }),
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
       },
       {
-        name: intl.formatMessage(messages.description),
+        hidden: !showOperatorVersion,
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'operator_version' }),
       },
       {
-        orderBy: 'source_type',
-        name: intl.formatMessage(messages.sourceType),
-        ...(computedItems.length && { isSortable: true }),
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'last_processed' }),
       },
       {
-        name: intl.formatMessage(messages.costModelsAssignedSources),
-      },
-      {
-        orderBy: 'updated_timestamp',
-        name: intl.formatMessage(messages.costModelsLastUpdated),
-        ...(computedItems.length && { isSortable: true }),
-      },
-      {
+        isActionsCell: true,
         name: '', // Actions column
       },
     ];
@@ -81,24 +74,19 @@ const CostModelTable: React.FC<CostModelTableProps> = ({
         cells: [
           {
             style: styles.column,
-            value: <Link to={`${formatPath(routes.costModelBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>,
+            value: item?.name ?? '',
+          },
+          {
+            hidden: !showOperatorVersion,
+            style: styles.column,
+            value: getOperatorStatus(
+              providers?.find(p => p.uuid === item.uuid)?.additional_context?.operator_update_available
+            ),
           },
           {
             style: styles.column,
-            value: item?.description || '',
-          },
-          {
-            style: styles.column,
-            value: item?.source_type || '',
-          },
-          {
-            style: styles.column,
-            value: item?.sources?.length || 0,
-          },
-          {
-            style: styles.column,
-            value: item?.updated_timestamp
-              ? intl.formatDate(item?.updated_timestamp, {
+            value: item?.last_processed
+              ? intl.formatDate(item?.last_processed, {
                   day: 'numeric',
                   hour: 'numeric',
                   hour12: false,
@@ -112,16 +100,19 @@ const CostModelTable: React.FC<CostModelTableProps> = ({
           },
           {
             value: (
-              <DeleteCostModelAction
-                costModel={item}
+              <DeleteIntegrationAction
+                costModel={costModel}
                 canWrite={canWrite}
                 isDisabled={isDisabled}
                 onClose={onClose}
                 onDelete={onDelete}
+                sources={sources}
+                uuid={item?.uuid}
               />
             ),
           },
         ],
+        id: item?.uuid,
         item,
       });
     });
@@ -138,7 +129,7 @@ const CostModelTable: React.FC<CostModelTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [intl, costModels]);
+  }, [costModel, providers, sources]);
 
   return (
     <DataTable
@@ -146,11 +137,10 @@ const CostModelTable: React.FC<CostModelTableProps> = ({
       filterBy={filterBy}
       isActionsCell
       isLoading={isLoading}
-      onSort={onSort}
       orderBy={orderBy}
       rows={rows}
     />
   );
 };
 
-export { CostModelTable };
+export { IntegrationTable };

@@ -11,7 +11,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { getSourceType } from 'routes/settings/costModel/costModels/components/edit/utils';
+import { getSourceType } from 'routes/settings/costModel/costModels/utils';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -88,6 +88,8 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
 
   const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.metrics?.length > 0;
   const hasNoPriceLists = priceLists?.length === 0 && !hasFilters;
+  const isLoading = priceListsStatus === FetchStatus.inProgress;
+
   const [orderedPriceLists, setOrderedPriceLists] = useState<PriceListDataExt[]>(priceLists ?? []);
   const [unorderedPriceLists, setUnorderedPriceLists] = useState<PriceListDataExt[]>(priceLists ?? []);
 
@@ -133,7 +135,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
         filterBy={query.filter_by}
         isDisabled={hasNoPriceLists}
         isDraggable={isDraggable}
-        isLoading={priceListsStatus === FetchStatus.inProgress}
+        isLoading={isLoading}
         orderBy={query.order_by}
         onDrop={handleOnDrop}
         onRemove={handleOnRemove}
@@ -305,14 +307,14 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
           </Alert>
         </div>
       )}
-      {!hasNoPriceLists || priceListsStatus === FetchStatus.inProgress ? (
+      {!hasNoPriceLists || isLoading ? (
         <>
           <TimelineChart priceLists={[...priceLists].sort((a, b) => b.priority - a.priority)} />
           <Card>
             <CardBody>
               <div style={styles.tableContainer}>
                 {getToolbar()}
-                {priceListsStatus === FetchStatus.inProgress ? (
+                {isLoading ? (
                   <LoadingState />
                 ) : (
                   <>

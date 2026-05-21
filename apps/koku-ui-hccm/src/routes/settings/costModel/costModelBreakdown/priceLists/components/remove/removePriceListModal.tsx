@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { ReviewChangeModal } from 'routes/settings/costModel/costModelBreakdown/priceLists/components/review';
-import { getSourceType } from 'routes/settings/costModelsDeprecated/costModelBreakdown/utils/sourceType';
+import { getSourceType } from 'routes/settings/costModel/costModels/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';

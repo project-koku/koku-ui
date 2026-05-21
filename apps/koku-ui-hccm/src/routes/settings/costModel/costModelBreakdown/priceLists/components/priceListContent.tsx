@@ -63,7 +63,7 @@ export interface PriceListContentHandle {
 type PriceListContentProps = PriceListContentOwnProps;
 
 const baseQuery: Query = {
-  limit: 4,
+  limit: 5,
   offset: 0,
   filter_by: {},
   order_by: {
@@ -89,6 +89,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
       selectedItems.some((item, index) => item.uuid !== selectedItemsBaseline[index].uuid);
     const hasNoPriceLists = priceList?.data?.length === 0;
     const hasUnsavedChanges = isSelectedItemsDirty;
+    const isLoading = priceListStatus === FetchStatus.inProgress;
     const isSaveDisabled = !hasUnsavedChanges || hasNoPriceLists;
 
     // Force update
@@ -129,7 +130,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
           canWrite={canWrite}
           filterBy={query.filter_by}
           isDisabled={priceList?.data?.length === 0}
-          isLoading={priceListStatus === FetchStatus.inProgress}
+          isLoading={isLoading}
           onDelete={handleOnDelete}
           onDeprecate={forceUpdate}
           onDuplicate={forceUpdate}
@@ -265,7 +266,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
 
     return (
       <>
-        {!hasNoPriceLists || priceListStatus === FetchStatus.inProgress ? (
+        {!hasNoPriceLists || isLoading ? (
           <>
             <TimelineChart
               isReset
@@ -275,7 +276,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
             <div style={styles.tableContainer}>
               {getToolbar()}
               {intl.formatMessage(messages.assignPriceListsDesc)}
-              {priceListStatus === FetchStatus.inProgress ? (
+              {isLoading ? (
                 <LoadingState />
               ) : (
                 <>
