@@ -1,4 +1,5 @@
 import { Bullseye, Spinner } from '@patternfly/react-core';
+import { useIsPriceListToggleEnabled } from 'components/featureToggle';
 import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
@@ -9,7 +10,16 @@ const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'route
 const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" */ 'routes/details/azureBreakdown'));
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/details/azureDetails'));
 const CostModelBreakdown = lazy(
-  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelBreakdown')
+  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModel/costModelBreakdown')
+);
+const CostModelBreakdownDeprecated = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "CostModelBreakdownDeprecated" */ 'routes/settings/costModelsDeprecated/costModelBreakdown'
+    )
+);
+const CostModelCreate = lazy(
+  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModel/costModelCreate')
 );
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
@@ -35,6 +45,11 @@ const PriceListCreate = lazy(
 );
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 
+const CostModelsBreakdownWrapper: React.FC = () => {
+  const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
+  return isPriceListToggleEnabled ? <CostModelBreakdown /> : <CostModelBreakdownDeprecated />;
+};
+
 export const routes = {
   awsBreakdown: {
     element: userAccess(AwsBreakdown),
@@ -54,8 +69,12 @@ export const routes = {
   },
   costModelBreakdown: {
     basePath: `/settings/cost-model`,
-    element: userAccess(CostModelBreakdown),
+    element: userAccess(CostModelsBreakdownWrapper),
     path: `/settings/cost-model/:uuid`, // Note: Order matters (i.e., dynamic segment must be defined after costModelsDetails)
+  },
+  costModelCreate: {
+    element: userAccess(CostModelCreate),
+    path: '/settings/cost-model/create',
   },
   explorer: {
     element: userAccess(Explorer),

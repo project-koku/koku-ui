@@ -45,9 +45,9 @@ export const handleOnCostDistributionSelect = (query: Query) => {
   });
 };
 
-export const handleOnFilterAdded = (query: Query, filter: Filter) => {
+export const handleOnFilterAdded = (query: Query, filter: Filter, isMultiSelect = true) => {
   const newQuery = initQuery(query, true);
-  return addFilterToQuery(newQuery, filter);
+  return addFilterToQuery(newQuery, filter, isMultiSelect);
 };
 
 export const handleOnFilterRemoved = (query: Query, filter: Filter) => {

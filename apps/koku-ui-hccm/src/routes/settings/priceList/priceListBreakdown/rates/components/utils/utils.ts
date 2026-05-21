@@ -96,7 +96,9 @@ export const validateName = (value: string, rates: Rate[], rateIndex: number) =>
     return messages.priceListNameTooLong;
   }
 
-  const isDuplicate = rates?.find((item, i) => i !== rateIndex && item?.custom_name === value);
+  const isDuplicate = rates?.find(
+    (item, i) => i !== rateIndex && item?.custom_name?.trim().toLowerCase() === value?.trim().toLowerCase()
+  );
   if (isDuplicate) {
     return messages.priceListDuplicateName;
   }
