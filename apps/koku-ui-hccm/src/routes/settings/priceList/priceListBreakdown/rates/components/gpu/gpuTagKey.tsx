@@ -108,6 +108,7 @@ const GpuTagKey: React.FC<GpuTagKeyProps> = ({
 const useMapToProps = (): GpuTagKeyStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
+  // Fetch GPU vendors
   const reportQuery = {
     limit: 100,
   };

@@ -6,7 +6,7 @@ import type { Settings, SettingsData } from 'api/settings';
 import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -58,9 +58,9 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
   });
 
   // Force update
-  const forceUpdate = () => {
-    setQuery({ ...query });
-  };
+  const forceUpdate = useCallback(() => {
+    setQuery(prev => ({ ...prev }));
+  }, []);
 
   const getMappings = () => {
     if (settings) {
