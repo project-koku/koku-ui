@@ -16,7 +16,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import type { PriceListContentHandle } from 'routes/settings/costModel/costModelBreakdown/priceLists/components';
+import type { IntegrationContentHandle } from 'routes/settings/costModel/costModelBreakdown/integrations/components';
 import { getSourceType } from 'routes/settings/costModel/costModels/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -51,7 +51,7 @@ const AddIntegrationModal: React.FC<AddIntegrationModalProps> = ({
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const contentRef = useRef<PriceListContentHandle>(null);
+  const contentRef = useRef<IntegrationContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
   const [payload, setPayload] = useState<string[]>();
@@ -95,7 +95,7 @@ const AddIntegrationModal: React.FC<AddIntegrationModalProps> = ({
 
   return (
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.large}>
-      <ModalHeader title={intl.formatMessage(messages.assignPriceLists)} />
+      <ModalHeader title={intl.formatMessage(messages.costModelsAssignSources, { count: 2 })} />
       <ModalBody>
         {isOpen && (
           <IntegrationContent

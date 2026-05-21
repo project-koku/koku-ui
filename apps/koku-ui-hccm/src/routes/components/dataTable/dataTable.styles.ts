@@ -6,10 +6,6 @@ import t_global_text_color_subtle from '@patternfly/react-tokens/dist/js/t_globa
 import type React from 'react';
 
 export const styles = {
-  checkboxTooltip: {
-    marginLeft: '24px',
-    marginTop: '13px',
-  },
   costColumn: {
     textAlign: 'right',
     display: 'flex',

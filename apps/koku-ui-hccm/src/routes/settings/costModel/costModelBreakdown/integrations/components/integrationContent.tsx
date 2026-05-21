@@ -284,7 +284,7 @@ const useMapToProps = ({ costModel, query }: IntegrationContentMapProps): Integr
     if (!providersError && providersFetchStatus !== FetchStatus.inProgress) {
       dispatch(providersActions.fetchProviders(providerType, providersQueryString));
     }
-  }, [providersError, providersQueryString, dispatch, query]);
+  }, [providersError, providersQueryString, providerType, dispatch, query]);
 
   return {
     providers,

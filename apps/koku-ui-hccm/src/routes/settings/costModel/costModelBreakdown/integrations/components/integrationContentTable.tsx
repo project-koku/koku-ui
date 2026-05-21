@@ -45,7 +45,7 @@ const IntegrationContentTable: React.FC<IntegrationContentTableProps> = ({
 
     const newRows = [];
     const computedItems = providers?.data ?? [];
-    const showOperatorVersion = getSourceType(costModel.source_type) === ProviderType.ocp;
+    const showOperatorVersion = getSourceType(costModel?.source_type) === ProviderType.ocp;
 
     const newColumns = [
       {
@@ -108,7 +108,7 @@ const IntegrationContentTable: React.FC<IntegrationContentTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [intl, providers, selectedItems]);
+  }, [costModel, providers, selectedItems]);
 
   return (
     <DataTable

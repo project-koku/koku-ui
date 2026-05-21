@@ -10,9 +10,7 @@ export const getFilteredSources = (sources: CostModelProvider[], filterBy: any):
     return sources;
   }
   return sources.filter(source => {
-    return (
-      nameFilters.length === 0 || nameFilters.some(item => source?.name?.toLowerCase()?.includes(item.toLowerCase()))
-    );
+    return nameFilters.some(item => source?.name?.toLowerCase()?.includes(item.toLowerCase()));
   });
 };
 

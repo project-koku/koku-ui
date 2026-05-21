@@ -153,16 +153,24 @@ const DataTable: React.FC<DataTableProps> = ({
                   cellIndex === 0 && isSelectable ? (
                     <>
                       {row.selectionTooltip ? (
-                        <Tooltip content={row.selectionTooltip}>
-                          <Checkbox
-                            checked={row.selected}
-                            id={`cell-${cellIndex}-${rowIndex}`}
-                            isDisabled={row.selectionDisabled}
-                            key={`cell-${cellIndex}-${rowIndex}`}
-                            onChange={(_event, checked) => handleOnSelect(checked, rowIndex)}
-                            style={item.style ?? styles.checkboxTooltip}
-                          />
-                        </Tooltip>
+                        <Td
+                          className={item.className}
+                          dataLabel={columns[cellIndex].name}
+                          key={`cell-${cellIndex}-${rowIndex}`}
+                          modifier={isNoWrapCell ? 'nowrap' : undefined}
+                          noPadding={isNoPadding}
+                          style={item.style}
+                        >
+                          <Tooltip content={row.selectionTooltip}>
+                            <Checkbox
+                              checked={row.selected}
+                              id={`cell-${cellIndex}-${rowIndex}`}
+                              isDisabled={row.selectionDisabled}
+                              key={`cell-${cellIndex}-${rowIndex}`}
+                              onChange={(_event, checked) => handleOnSelect(checked, rowIndex)}
+                            />
+                          </Tooltip>
+                        </Td>
                       ) : (
                         <Td
                           className={item.className}
