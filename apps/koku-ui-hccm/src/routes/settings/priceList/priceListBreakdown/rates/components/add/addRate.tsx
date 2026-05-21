@@ -4,7 +4,7 @@ import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ReviewModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
+import { ReviewImpactModal } from 'routes/settings/priceList/priceListBreakdown/rates/components/review';
 
 import { AddRateModal } from './addRateModal';
 
@@ -14,21 +14,12 @@ interface AddRateOwnProps {
   isDispatch?: boolean;
   onAdd?: (rates: Rate[]) => void;
   onClose?: () => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
 }
 
 type AddRateProps = AddRateOwnProps;
 
-const AddRate: React.FC<AddRateProps> = ({
-  canWrite,
-  isDisabled,
-  isDispatch,
-  onAdd,
-  onClose,
-  onSuccess,
-  priceList,
-}) => {
+const AddRate: React.FC<AddRateProps> = ({ canWrite, isDisabled, isDispatch, onAdd, onClose, priceList }) => {
   const intl = useIntl();
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -52,11 +43,6 @@ const AddRate: React.FC<AddRateProps> = ({
     onClose?.();
   };
 
-  const handleOnAddModalSuccess = () => {
-    setIsAddModalOpen(false);
-    onSuccess?.();
-  };
-
   const handleOnReviewModalClick = () => {
     setIsReviewModalOpen(true);
   };
@@ -72,7 +58,7 @@ const AddRate: React.FC<AddRateProps> = ({
 
   return (
     <>
-      <ReviewModal
+      <ReviewImpactModal
         isOpen={isReviewModalOpen}
         onClose={handleOnReviewModalClose}
         onConfirm={handleOnReviewModalConfirm}
@@ -83,7 +69,6 @@ const AddRate: React.FC<AddRateProps> = ({
         isOpen={isAddModalOpen}
         onAdd={handleOnAddModalAdd}
         onClose={handleOnAddModalClose}
-        onSuccess={handleOnAddModalSuccess}
         priceList={priceList}
       />
       <Button

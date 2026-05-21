@@ -21,6 +21,17 @@ export default defineMessages({
     description: 'Assign cost model',
     id: 'assignCostModel',
   },
+  assignPriceLists: {
+    defaultMessage: 'Assign price lists',
+    description: 'Assign price lists',
+    id: 'assignPriceLists',
+  },
+  assignPriceListsDesc: {
+    defaultMessage:
+      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed.',
+    description: 'Price lists shown are in the currency selected in the previous step. Go back to change it if needed.',
+    id: 'assignPriceListsDesc',
+  },
   assignedCostModels: {
     defaultMessage: 'Assigned cost models',
     description: 'Assigned cost models',
@@ -222,6 +233,11 @@ export default defineMessages({
     defaultMessage: 'Cancel',
     description: 'Cancel',
     id: 'cancel',
+  },
+  cancelOrdering: {
+    defaultMessage: 'Cancel ordering',
+    description: 'Cancel ordering',
+    id: 'cancelOrdering',
   },
   capacity: {
     defaultMessage: 'Capacity',
@@ -648,6 +664,11 @@ export default defineMessages({
     description: 'Should not exceed 500 characters',
     id: 'costModelsDescTooLong',
   },
+  costModelsNameTooLong: {
+    defaultMessage: 'Should not exceed 100 characters',
+    description: 'Should not exceed 100 characters',
+    id: 'costModelsNameTooLong',
+  },
   costModelsDetailsTitle: {
     defaultMessage: 'Cost model details',
     description: 'Cost model details',
@@ -779,6 +800,12 @@ export default defineMessages({
     defaultMessage: 'Should not exceed 10 decimals',
     description: 'Should not exceed 10 decimals',
     id: 'costModelsRateTooLong',
+  },
+  costModelsRecalculateDesc: {
+    defaultMessage:
+      'This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+    description: 'Recalculating charges',
+    id: 'costModelsRecalculateDesc',
   },
   costModelsRefreshDialog: {
     defaultMessage: 'Refresh this dialog',
@@ -1153,8 +1180,8 @@ export default defineMessages({
     id: 'createCostModelTitle',
   },
   createPriceList: {
-    defaultMessage: 'Create price list',
-    description: 'Create price list',
+    defaultMessage: 'Create a price list',
+    description: 'Create a price list',
     id: 'createPriceList',
   },
   createRate: {
@@ -1502,6 +1529,7 @@ export default defineMessages({
       'account {Account names} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
+      'cost_model {Cost model assigned} ' +
       'cost_models {Assigned cost models}' +
       'cost_type {Calculation type} ' +
       'cpu {CPU} ' +
@@ -1513,18 +1541,21 @@ export default defineMessages({
       'group {Group} ' +
       'instance {Instance names} ' +
       'instance_type {Instance type} ' +
+      'last_updated {Last updates} ' +
       'measurement {Measurement} ' +
       'memory {Memory} ' +
       'metric {Metric} ' +
       'name {Name} ' +
       'node {Node names} ' +
+      'operating_system {Operating system} ' +
+      'operator_version {Operator version} ' +
       'org_unit_id {Organizational unit names} ' +
       'os {OS} ' +
-      'operating_system {Operating system} ' +
       'payer_tenant_id {Account names} ' +
       'product_service {Service names} ' +
       'project {Project names} ' +
       'rate {Rate} ' +
+      'rates {Rates} ' +
       'region {Region names} ' +
       'resource_location {Region names} ' +
       'service {Service names} ' +
@@ -2258,6 +2289,7 @@ export default defineMessages({
       'account {Input for account name} ' +
       'aws_category {Input for cost category name} ' +
       'cluster {Input for cluster name} ' +
+      'description {Input for description} ' +
       'gcp_project {Input for Google Cloud project name} ' +
       'gpu_model {Input for GPU model} ' +
       'gpu_vendor {Input for GPU vendor} ' +
@@ -2271,6 +2303,7 @@ export default defineMessages({
       'resource_location {Input for region name} ' +
       'service {Input for service name} ' +
       'service_name {Input for service_name} ' +
+      'source_type {Input for integration} ' +
       'subscription_guid {Input for account name} ' +
       'status {Input for status value} ' +
       'tag {Input for tag name} ' +
@@ -2354,6 +2387,7 @@ export default defineMessages({
       'cluster {Cluster} ' +
       'container {Container} ' +
       'default {Default} ' +
+      'description {Description} ' +
       'gcp_project {Google Cloud project} ' +
       'gpu_model {GPU model} ' +
       'gpu_vendor {GPU vendor} ' +
@@ -3292,6 +3326,11 @@ export default defineMessages({
     description: 'Optimizations',
     id: 'optimizations',
   },
+  orderPriceLists: {
+    defaultMessage: 'Order price lists',
+    description: 'Order price lists',
+    id: 'orderPriceLists',
+  },
   overhead: {
     defaultMessage: 'Includes overhead',
     description: 'Includes overhead',
@@ -3449,7 +3488,7 @@ export default defineMessages({
     id: 'platformProjectsTitle',
   },
   priceList: {
-    defaultMessage: 'Price list',
+    defaultMessage: '{count, plural, one {Price list} other {Price lists}}',
     description: 'Price list',
     id: 'priceList',
   },
@@ -3492,6 +3531,11 @@ export default defineMessages({
       'This action will remove {metric} rate from {costModel}, which is assigned to the following integrations:',
     id: 'priceListDeleteRateDesc',
   },
+  priceListDragRowsDesc: {
+    defaultMessage: 'Drag rows to set priority. Save ordering to apply or Cancel to discard changes.',
+    description: 'Drag rows to set priority. Save ordering to apply or Cancel to discard changes.',
+    id: 'priceListDragRowsDesc',
+  },
   priceListDuplicateName: {
     defaultMessage: 'This custom name is already in use',
     description: 'This custom name is already in use',
@@ -3512,17 +3556,29 @@ export default defineMessages({
     description: 'Edit rate',
     id: 'priceListEditRate',
   },
-  priceListEmptyCostModel: {
+  priceListEmptyCostModels: {
     defaultMessage: 'No cost models are assigned',
     description: 'No cost models are assigned',
-    id: 'priceListEmptyCostModel',
+    id: 'priceListEmptyCostModels',
   },
-  priceListEmptyCostModelDesc: {
+  priceListEmptyCostModelsDesc: {
     defaultMessage:
       'Cost models are assigned from the Cost model settings page. Edit a cost model there to use this price list.',
     description:
       'Cost models are assigned from the Cost model settings page. Edit a cost model there to use this price list.',
-    id: 'priceListEmptyCostModelDesc',
+    id: 'priceListEmptyCostModelsDesc',
+  },
+  priceListEmptyPriceLists: {
+    defaultMessage: 'No price lists are assigned',
+    description: 'No price lists are assigned',
+    id: 'priceListEmptyPriceLists',
+  },
+  priceListEmptyPriceListsDesc: {
+    defaultMessage:
+      'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
+    description:
+      'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
+    id: 'priceListEmptyPriceListsDesc',
   },
   priceListEmptyRate: {
     defaultMessage: 'No rates are set',
@@ -3546,15 +3602,20 @@ export default defineMessages({
       'Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in USD.',
     id: 'priceListEmptyRatesDesc',
   },
-  priceListEnterDescription: {
-    defaultMessage: 'Enter a description',
-    description: 'Enter a description',
-    id: 'priceListEnterDescription',
+  priceListEmptySelections: {
+    defaultMessage: 'No price lists selected',
+    description: 'No price lists selected',
+    id: 'priceListEmptySelections',
   },
-  priceListEnterTagDescription: {
+  priceListEmptySelectionsDesc: {
+    defaultMessage: 'Select one or more price lists below to preview how their effective dates overlap.',
+    description: 'Select one or more price lists below to preview how their effective dates overlap.',
+    id: 'priceListEmptySelectionsDesc',
+  },
+  priceListEnterTagDesc: {
     defaultMessage: 'Enter a tag description',
     description: 'Enter a tag description',
-    id: 'priceListEnterTagDescription',
+    id: 'priceListEnterTagDesc',
   },
   priceListEnterTagKey: {
     defaultMessage: 'Enter a tag key',
@@ -3588,10 +3649,10 @@ export default defineMessages({
     description: 'Price list created or updated',
     id: 'priceListErrorTitle',
   },
-  priceListReview: {
+  priceListImpactReview: {
     defaultMessage: 'Review impact before you change rates',
     description: 'Review impact before you change rates',
-    id: 'priceListReview',
+    id: 'priceListImpactReview',
   },
   priceListNameTooLong: {
     defaultMessage: 'Should not exceed 50 characters',
@@ -3608,11 +3669,6 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
-  priceListRecalculate: {
-    defaultMessage: 'Recalculating charges',
-    description: 'Recalculating charges',
-    id: 'priceListRecalculate',
-  },
   priceListRecalculateDesc: {
     defaultMessage:
       'This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
@@ -3620,10 +3676,34 @@ export default defineMessages({
       'This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
     id: 'priceListRecalculateDesc',
   },
+  priceListRefresh: {
+    defaultMessage: 'Refresh list',
+    description: 'Refresh list',
+    id: 'priceListRefresh',
+  },
   priceListRemoveTag: {
     defaultMessage: 'Remove tag value',
     description: 'Remove tag value',
     id: 'priceListRemoveTag',
+  },
+  priceListReview: {
+    defaultMessage: 'This change may affect cost models',
+    description: 'This change may affect cost models',
+    id: 'priceListReview',
+  },
+  priceListReviewChange: {
+    defaultMessage:
+      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+    description:
+      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+    id: 'priceListReviewChange',
+  },
+  priceListReviewUpdate: {
+    defaultMessage:
+      'Updating price lists for {costModel} allocation changes which rates are used for chargeback. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+    description:
+      'Updating price lists for {costModel} allocation changes which rates are used for chargeback. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+    id: 'priceListReviewUpdate',
   },
   priceListSelectCostType: {
     defaultMessage: 'Select calculation type',
@@ -3665,6 +3745,21 @@ export default defineMessages({
     defaultMessage: 'Tag value',
     description: 'Tag value',
     id: 'priceListTagValue',
+  },
+  priceListTimeline: {
+    defaultMessage: 'Coverage timeline',
+    description: 'Coverage timeline',
+    id: 'priceListTimeline',
+  },
+  priceListTimelineEndDate: {
+    defaultMessage: 'End date: {endDate}',
+    description: 'End date: {endDate}',
+    id: 'priceListTimelineEndDate',
+  },
+  priceListTimelineStartDate: {
+    defaultMessage: 'Start date: {startDate}',
+    description: 'Start date: {startDate}',
+    id: 'priceListTimelineTooltip',
   },
   projectKoku: {
     defaultMessage: 'Upstream project Koku',
@@ -3716,6 +3811,11 @@ export default defineMessages({
     defaultMessage: 'You have read only permissions',
     description: 'You have read only permissions',
     id: 'readOnlyPermissions',
+  },
+  recalculateCharges: {
+    defaultMessage: 'Recalculating charges',
+    description: 'Recalculating charges',
+    id: 'recalculateCharges',
   },
   recalculateCurrentMonthDesc: {
     defaultMessage: 'This month — OpenShift chargeback may be recalculated using today’s data.',
@@ -3774,6 +3874,11 @@ export default defineMessages({
     description: 'This field is required',
     id: 'requiredField',
   },
+  reset: {
+    defaultMessage: 'Reset',
+    description: 'Reset',
+    id: 'reset',
+  },
   restore: {
     defaultMessage: 'Restore',
     description: 'Restore',
@@ -3783,6 +3888,11 @@ export default defineMessages({
     defaultMessage: 'Save',
     description: 'Save',
     id: 'save',
+  },
+  saveOrdering: {
+    defaultMessage: 'Save ordering',
+    description: 'Save ordering',
+    id: 'saveOrdering',
   },
   seeDocumentation: {
     defaultMessage: 'see documentation',
@@ -4311,6 +4421,11 @@ export default defineMessages({
     description: 'Clear button and input',
     id: 'typeaheadAriaClear',
   },
+  unassignSelected: {
+    defaultMessage: 'Unassign selected',
+    description: 'Unassign selected',
+    id: 'unassignSelected',
+  },
   unitTooltips: {
     defaultMessage:
       '{units, select, ' +
@@ -4388,6 +4503,11 @@ export default defineMessages({
     defaultMessage: '{value} {units} maximum',
     description: '{value} {units} maximum',
     id: 'usageSubtitle',
+  },
+  unassignPriceList: {
+    defaultMessage: 'Unassign from cost model',
+    description: 'Unassign from cost model',
+    id: 'unassignPriceList',
   },
   validityPeriod: {
     defaultMessage: 'Validity period',

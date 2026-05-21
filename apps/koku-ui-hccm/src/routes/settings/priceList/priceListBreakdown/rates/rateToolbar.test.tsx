@@ -1,0 +1,73 @@
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { IntlProvider } from 'react-intl';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+jest.mock('store/metrics', () => {
+  const actual = jest.requireActual('store/metrics');
+  const { FetchStatus } = require('store/common');
+  const stableMetricsHash = {};
+  return {
+    ...actual,
+    metricsSelectors: {
+      ...actual.metricsSelectors,
+      metrics: () => stableMetricsHash,
+      status: () => FetchStatus.complete,
+    },
+  };
+});
+
+import { RateToolbar } from './rateToolbar';
+
+describe('RateToolbar', () => {
+  const renderToolbar = (ui: React.ReactElement) => {
+    const store = createStore(() => ({}));
+    return render(
+      <Provider store={store}>
+        <IntlProvider defaultLocale="en" locale="en">
+          {ui}
+        </IntlProvider>
+      </Provider>
+    );
+  };
+
+  const noop = jest.fn();
+  const baseQuery = { filter_by: {}, limit: 10, offset: 0, order_by: { name: 'asc' } } as any;
+  const priceList = {} as any;
+
+  test('renders Add rate action when writable', () => {
+    renderToolbar(
+      <RateToolbar
+        canWrite
+        isDisabled={false}
+        itemsPerPage={3}
+        itemsTotal={3}
+        onAdd={noop}
+        onFilterAdded={noop}
+        onFilterRemoved={noop}
+        pagination={<div data-testid="pagination-stub" />}
+        priceList={priceList}
+        query={baseQuery}
+      />
+    );
+    expect(screen.getByRole('button', { name: /^add rate$/i })).toBeInTheDocument();
+  });
+
+  test('disables Add rate when not writable', () => {
+    renderToolbar(
+      <RateToolbar
+        canWrite={false}
+        isDisabled={false}
+        itemsPerPage={1}
+        itemsTotal={1}
+        onAdd={noop}
+        onFilterAdded={noop}
+        onFilterRemoved={noop}
+        priceList={priceList}
+        query={baseQuery}
+      />
+    );
+    expect(screen.getByRole('button', { name: /^add rate$/i })).toHaveAttribute('aria-disabled', 'true');
+  });
+});

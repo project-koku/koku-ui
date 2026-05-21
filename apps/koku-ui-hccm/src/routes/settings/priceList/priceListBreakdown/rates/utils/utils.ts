@@ -17,10 +17,10 @@ export const getFilteredRates = (rates: Rate[], filterBy: any): Rate[] => {
   return rates.filter(rate => {
     const matchesName =
       nameFilters.length === 0 ||
-      nameFilters.some(item => rate?.custom_name?.toLowerCase().includes(item.toLowerCase()));
+      nameFilters.some(item => rate?.custom_name?.toLowerCase()?.includes(item.toLowerCase()));
     const matchesMetric =
       metricFilters.length === 0 ||
-      metricFilters.some(item => rate?.metric?.label_metric?.toLowerCase().includes(item.toLowerCase()));
+      metricFilters.some(item => rate?.metric?.label_metric?.toLowerCase()?.includes(item.toLowerCase()));
     return matchesName && matchesMetric;
   });
 };
@@ -51,9 +51,9 @@ export const getLabeledRates = (rates: Rate[], metricsHashByName: MetricHash): R
       ...rate,
       metric: {
         ...(rate?.metric ?? {}),
-        label_metric: metric?.label_metric ?? undefined,
-        label_measurement: metric?.label_measurement ?? undefined,
-        label_measurement_unit: metric?.label_measurement_unit ?? undefined,
+        label_metric: metric?.label_metric ?? rate?.metric?.label_metric,
+        label_measurement: metric?.label_measurement ?? rate?.metric?.label_measurement,
+        label_measurement_unit: metric?.label_measurement_unit ?? rate?.metric?.label_measurement_unit,
       },
     } as Rate;
   });

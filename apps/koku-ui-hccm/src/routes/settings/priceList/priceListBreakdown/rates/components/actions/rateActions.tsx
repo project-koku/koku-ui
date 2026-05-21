@@ -17,7 +17,6 @@ interface RateActionsOwnProps {
   onClose?: () => void;
   onDelete?: (rates: Rate[]) => void;
   onEdit?: (rates: Rate[]) => void;
-  onSuccess?: () => void;
   priceList: PriceListData;
   rateIndex: number;
 }
@@ -31,7 +30,6 @@ const RateActions: React.FC<RateActionsProps> = ({
   onClose,
   onDelete,
   onEdit,
-  onSuccess,
   priceList,
   rateIndex,
 }) => {
@@ -82,7 +80,6 @@ const RateActions: React.FC<RateActionsProps> = ({
         isDispatch={isDispatch}
         onClose={onClose}
         onEdit={onEdit}
-        onSuccess={onSuccess}
         priceList={priceList}
         rateIndex={rateIndex}
         ref={editRateRef}
@@ -91,7 +88,6 @@ const RateActions: React.FC<RateActionsProps> = ({
         isDispatch={isDispatch}
         onClose={onClose}
         onDelete={onDelete}
-        onSuccess={onSuccess}
         priceList={priceList}
         rateIndex={rateIndex}
         ref={deleteRateRef}

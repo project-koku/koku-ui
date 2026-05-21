@@ -128,8 +128,8 @@ const CostModels: React.FC<CostModelsProps> = () => {
           </CardBody>
         </Card>
       ) : (
-        <EmptyState titleText={intl.formatMessage(messages.priceListEmptyCostModel)}>
-          <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyCostModelDesc)}</EmptyStateBody>
+        <EmptyState titleText={intl.formatMessage(messages.priceListEmptyCostModels)}>
+          <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyCostModelsDesc)}</EmptyStateBody>
           <EmptyStateFooter>
             <Button onClick={handleGoToCostModels} variant={ButtonVariant.primary}>
               {intl.formatMessage(messages.costModelsGoTo)}
