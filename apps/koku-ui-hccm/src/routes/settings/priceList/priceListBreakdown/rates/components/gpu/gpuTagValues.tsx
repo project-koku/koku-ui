@@ -82,7 +82,7 @@ const GpuTagValues: React.FC<GpuTagValuesProps> = ({
       return [];
     }
     return resource?.data?.map((option: any) => {
-      // Vendor selection must be unique for a given metric/measurement/cost type
+      // Don't allow duplicate tags -- vendor selection must be unique for a given metric/measurement/cost type
       const isDisabled = tagValues.some((val, valIx) => {
         return valIx !== index && val.tag_value === option.value;
       });
