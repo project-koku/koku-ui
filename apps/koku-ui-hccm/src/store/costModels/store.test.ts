@@ -150,7 +150,9 @@ test('display and hide dialogs', async () => {
 
 test('updating a cost model succeeded', async () => {
   mockupdater.mockReturnValue(Promise.resolve({ data: updated_costmodel1 }));
-  mockfetcher.mockReturnValueOnce(Promise.resolve({ data: costmodels }));
+  mockfetcher.mockReturnValue(
+    Promise.resolve({ data: { ...costmodels, data: [updated_costmodel1] } })
+  );
   const store = createCostModelsStore();
   store.dispatch(actions.selectCostModel(costmodel1));
   expect(selectors.selected(store.getState())).toEqual(costmodel1);
