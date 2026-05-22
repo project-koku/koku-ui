@@ -5,6 +5,8 @@ import {
   fetchCostModels as apiGetCostModels,
   updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
+import type { Query } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
 import type { AxiosResponse } from 'axios';
 import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
@@ -85,8 +87,8 @@ export const updateCostModel = (uuid: string, request: CostModelRequest, dialog:
     return apiUpdateCostModel(uuid, request)
       .then((res: any) => {
         dispatch(updateCostModelsSuccess(res));
+        fetchCostModels(getQuery({ uuid } as Query))(dispatch);
         if (dialog !== null) {
-          fetchCostModels(`uuid=${uuid}`)(dispatch);
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
       })

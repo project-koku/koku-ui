@@ -134,7 +134,7 @@ const PriceListContentTable: React.FC<PriceListContentTableProps> = ({
           },
         ],
         item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined),
+        selected: isAllSelected || selectedItems?.some(val => val.uuid === item.uuid),
       });
     });
 
