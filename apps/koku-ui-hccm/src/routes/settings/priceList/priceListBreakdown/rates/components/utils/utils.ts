@@ -96,7 +96,7 @@ export const validateName = (value: string, rates: Rate[], rateIndex: number) =>
     return messages.priceListNameTooLong;
   }
 
-  const isDuplicate = rates?.find(
+  const isDuplicate = rates?.some(
     (item, i) => i !== rateIndex && item?.custom_name?.trim().toLowerCase() === value?.trim().toLowerCase()
   );
   if (isDuplicate) {
@@ -140,7 +140,7 @@ export const validateTagKey = (value: string, isGpuMetric = false) => {
 };
 
 export const validateTagKeyDuplicate = (rate, priceListRates, metricsHashByName: MetricHash) => {
-  const isDuplicate = priceListRates?.find(item => {
+  const isDuplicate = priceListRates?.some(item => {
     const metricName = item?.metric?.name ?? undefined;
     return hasDuplicateTagRates(rate, {
       costType: item?.cost_type,
@@ -157,7 +157,7 @@ export const validateTagKeyDuplicate = (rate, priceListRates, metricsHashByName:
 };
 
 export const validateTagValue = (value: string, tagValues: TagValue[], index: number) => {
-  const isDuplicate = tagValues?.find((item, i) => i !== index && item?.tag_value === value);
+  const isDuplicate = tagValues?.some((item, i) => i !== index && item?.tag_value === value);
 
   if (isDuplicate) {
     return messages.priceListDuplicateValue;

@@ -123,7 +123,7 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
         ],
         id: item?.uuid,
         item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined),
+        selected: isAllSelected || selectedItems?.some(val => val.uuid === item.uuid),
       });
     });
 
