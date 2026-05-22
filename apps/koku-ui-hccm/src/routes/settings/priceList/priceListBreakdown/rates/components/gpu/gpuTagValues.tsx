@@ -83,10 +83,9 @@ const GpuTagValues: React.FC<GpuTagValuesProps> = ({
     }
     return resource?.data?.map((option: any) => {
       // Vendor selection must be unique for a given metric/measurement/cost type
-      const duplicateTag = tagValues.find((val, valIx) => {
+      const isDisabled = tagValues.some((val, valIx) => {
         return valIx !== index && val.tag_value === option.value;
       });
-      const isDisabled = duplicateTag !== undefined;
       return {
         ...(isDisabled && { description: intl.formatMessage(messages.gpuModelDuplicate) }),
         isDisabled,
