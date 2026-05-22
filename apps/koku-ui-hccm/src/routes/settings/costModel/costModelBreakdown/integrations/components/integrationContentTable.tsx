@@ -85,7 +85,7 @@ const IntegrationContentTable: React.FC<IntegrationContentTableProps> = ({
           },
         ],
         item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined),
+        selected: isAllSelected || selectedItems?.some(val => val.uuid === item.uuid),
         selectionDisabled: isAssigned,
         selectionTooltip: isAssigned
           ? intl.formatMessage(messages.costModelsWizardSourceWarning, {

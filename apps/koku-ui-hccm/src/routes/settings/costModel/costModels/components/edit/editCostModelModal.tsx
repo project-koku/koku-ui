@@ -42,6 +42,7 @@ const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
   const contentRef = useRef<EditCostModelContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
+  const [payload, setPayload] = useState<CostModel>();
 
   const { costModelsError, costModelsStatus } = useMapToProps();
 
@@ -49,17 +50,18 @@ const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
 
   const handleOnSave = (item: CostModel) => {
     if (costModelsStatus !== FetchStatus.inProgress) {
+      const newCostModel = {
+        ...(costModel ?? {}),
+        ...item,
+        source_type: getSourceType(costModel?.source_type),
+      };
+      setPayload(newCostModel);
+
       if (isDispatch) {
         setIsFinish(true);
-        dispatch(
-          costModelsActions.updateCostModel(costModel?.uuid, {
-            ...(costModel ?? {}),
-            ...item,
-            source_type: getSourceType(costModel?.source_type),
-          })
-        );
+        dispatch(costModelsActions.updateCostModel(costModel?.uuid, newCostModel));
       } else {
-        onSave?.(item);
+        onSave?.(newCostModel);
       }
     }
   };
@@ -71,10 +73,10 @@ const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
       setIsFinish(false);
 
       if (!costModelsError) {
-        onSave?.(costModel);
+        onSave?.(payload);
       }
     }
-  }, [isFinish, costModel, costModelsError, costModelsStatus, onSave]);
+  }, [isFinish, costModel, costModelsError, costModelsStatus, onSave, payload]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
