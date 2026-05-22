@@ -64,8 +64,7 @@ const IntegrationContentTable: React.FC<IntegrationContentTableProps> = ({
     ];
 
     computedItems.map(item => {
-      const isAssigned =
-        item.cost_models?.length > 0 && item.cost_models?.find(val => val.uuid === costModel?.uuid) === undefined;
+      const isAssigned = item.cost_models?.length > 0 && !item.cost_models?.some(val => val.uuid === costModel?.uuid);
       const assignedCostModel = item?.cost_models?.[0]?.name ?? '';
 
       newRows.push({
@@ -86,7 +85,7 @@ const IntegrationContentTable: React.FC<IntegrationContentTableProps> = ({
           },
         ],
         item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.uuid === item.uuid) !== undefined),
+        selected: isAllSelected || selectedItems?.some(val => val.uuid === item.uuid),
         selectionDisabled: isAssigned,
         selectionTooltip: isAssigned
           ? intl.formatMessage(messages.costModelsWizardSourceWarning, {

@@ -173,7 +173,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
       } else if (action === 'page') {
         const newSelectedItems = [...selectedItems];
         priceList?.data?.map(val => {
-          if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
+          if (!newSelectedItems.some(item => item.uuid === val.uuid)) {
             newSelectedItems.push(val);
           }
         });

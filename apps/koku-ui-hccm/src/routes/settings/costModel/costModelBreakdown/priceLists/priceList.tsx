@@ -188,7 +188,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite, costModel, onAdd, onRem
     } else if (action === 'page') {
       const newSelectedItems = [...selectedItems];
       priceLists?.map(val => {
-        if (!newSelectedItems.find(item => item.uuid === val.uuid)) {
+        if (!newSelectedItems.some(item => item.uuid === val.uuid)) {
           newSelectedItems.push(val);
         }
       });

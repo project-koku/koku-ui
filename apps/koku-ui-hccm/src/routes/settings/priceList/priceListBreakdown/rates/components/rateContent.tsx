@@ -272,7 +272,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     };
 
     const measurementOptions: SelectWrapperOption[] = React.useMemo(() => {
-      if (!metricOptions.find(m => m.value === metric)) {
+      if (!metricOptions.some(m => m.value === metric)) {
         return [];
       }
       return Object.keys(metricsHash?.[metric])

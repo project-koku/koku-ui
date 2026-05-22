@@ -49,7 +49,7 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
         setIsFinish(true);
 
         const newPriceLists = costModel?.price_lists?.filter(val => {
-          return !selectedItems.find(item => item.uuid === val.uuid);
+          return !selectedItems.some(item => item.uuid === val.uuid);
         });
         dispatch(
           costModelsActions.updateCostModel(costModel?.uuid, {
