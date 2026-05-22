@@ -148,9 +148,8 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
         const newSelectedItems = [...selectedItems];
         providers?.data?.map(val => {
           const isAssigned =
-            val.cost_models?.length > 0 &&
-            val.cost_models?.find(source => source.uuid === costModel?.uuid) === undefined;
-          if (!newSelectedItems.find(item => item.uuid === val.uuid) && !isAssigned) {
+            val.cost_models?.length > 0 && !val.cost_models?.some(source => source.uuid === costModel?.uuid);
+          if (!newSelectedItems.some(item => item.uuid === val.uuid) && !isAssigned) {
             newSelectedItems.push(val);
           }
         });
