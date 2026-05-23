@@ -105,6 +105,27 @@ jobs:
           path: apps/*/coverage/
           retention-days: 10
 
+  detect-cypress:
+    name: Detect Cypress changes
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.filter.outputs.cypress }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Check paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            cypress:
+              - 'apps/koku-ui-onprem/**'
+              - 'apps/koku-ui-sources/**'
+              - 'libs/onprem-cloud-deps/**'
+              - 'libs/token-refresher/**'
+              - 'libs/ui-lib/**'
+
   coverage:
     name: Coverage
     needs: [units]
@@ -131,8 +152,11 @@ jobs:
 
   cypress:
     name: Cypress E2E Tests
-    needs: [build, units]
-    if: always()
+    needs: [build, units, detect-cypress]
+    if: |
+      needs.detect-cypress.outputs.run == 'true' &&
+      needs.units.result == 'success' &&
+      (github.event_name != 'pull_request' || needs.build.result == 'success')
     runs-on: ubuntu-latest
 
     steps:
