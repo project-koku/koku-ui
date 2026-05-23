@@ -169,14 +169,14 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const isGpuTagValuesInvalid =
       isSubmitModeGpuValues &&
       isGpuTagValuesDirty &&
-      (hasInvalidTagValues(gpuTagValues) !== undefined || hasTagValuesErrors(gpuTagValuesErrors));
+      (hasInvalidTagValues(gpuTagValues) || hasTagValuesErrors(gpuTagValuesErrors));
     const isNameInvalid = (!name && isNameDirty) || nameError !== undefined;
     const isMeasurementInvalid = !measurement && isMeasurementDirty;
     const isTagKeyInvalid = (!tagKey && isTagKeyDirty) || tagKeyError !== undefined;
     const isTagValuesInvalid =
       isSubmitModeTagValues &&
       isTagValuesDirty &&
-      (hasInvalidTagValues(tagValues) !== undefined || hasTagValuesErrors(tagValuesErrors));
+      (hasInvalidTagValues(tagValues) || hasTagValuesErrors(tagValuesErrors));
     const isTieredRateValueInvalid =
       isSubmitModeTieredValue &&
       isTieredRateValueDirty &&
