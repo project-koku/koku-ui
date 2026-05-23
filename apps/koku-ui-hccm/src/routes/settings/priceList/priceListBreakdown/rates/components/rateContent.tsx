@@ -437,6 +437,8 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
         metric: {
           name: measurement,
         },
+        tag_rates: undefined, // Set either 'tiered_rates' or 'tag_rates' but not both
+        tiered_rates: undefined,
         ...values,
       };
 
