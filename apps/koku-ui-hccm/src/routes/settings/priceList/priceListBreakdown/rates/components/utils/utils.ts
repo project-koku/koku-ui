@@ -76,7 +76,7 @@ export const hasDuplicateTagRates = (a: TagRate, b: TagRate) => {
 };
 
 export const hasInvalidTagValues = (tagValues: TagValue[]) => {
-  return tagValues?.find(t => {
+  return tagValues?.some(t => {
     return !(t.tag_value && t.value && Number(t.value ?? 0) > 0);
   });
 };
