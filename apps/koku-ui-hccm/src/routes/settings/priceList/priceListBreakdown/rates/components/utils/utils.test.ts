@@ -79,14 +79,19 @@ describe('rates/utils', () => {
   });
 
   describe('hasInvalidTagValues', () => {
-    test('returns true when any row is missing tag_value, value, or has non-positive rate', () => {
-      expect(hasInvalidTagValues([{ tag_value: '', unit: 'USD', value: 1 } as TagValue])).toBe(true);
-      expect(hasInvalidTagValues([{ tag_value: 'k', unit: 'USD', value: 0 } as TagValue])).toBe(true);
-      expect(hasInvalidTagValues([{ tag_value: 'k', unit: 'USD', value: 1 } as TagValue])).toBe(false);
+    test('returns the first invalid row when tag_value, value, or rate is missing or non-positive', () => {
+      const missingTagValue = { tag_value: '', unit: 'USD', value: 1 } as TagValue;
+      const nonPositiveRate = { tag_value: 'k', unit: 'USD', value: 0 } as TagValue;
+
+      expect(hasInvalidTagValues([missingTagValue])).toEqual(missingTagValue);
+      expect(hasInvalidTagValues([nonPositiveRate])).toEqual(nonPositiveRate);
+      expect(
+        hasInvalidTagValues([{ tag_value: 'k', unit: 'USD', value: 1 } as TagValue])
+      ).toBeUndefined();
     });
 
-    test('returns false for empty list', () => {
-      expect(hasInvalidTagValues([])).toBe(false);
+    test('returns undefined when the list is empty or all rows are valid', () => {
+      expect(hasInvalidTagValues([])).toBeUndefined();
     });
   });
 
