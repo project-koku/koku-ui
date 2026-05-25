@@ -1,14 +1,14 @@
-export type NotificationStore = {
+export interface NotificationStore {
   addNotification: (config: Record<string, unknown>) => void;
   removeNotification: (id: string) => void;
   clearNotifications: () => void;
-};
+}
 
 export const createStore = (): NotificationStore => {
-  const notifications: Array<Record<string, unknown>> = [];
+  const notifications: Record<string, unknown>[] = [];
 
   return {
-    addNotification: (config) => {
+    addNotification: config => {
       notifications.push(config);
     },
     removeNotification: () => {},

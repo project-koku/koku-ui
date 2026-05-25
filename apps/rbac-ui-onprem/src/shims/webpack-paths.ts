@@ -13,7 +13,7 @@ export const rbacUiOnpremShims = {
 } as const;
 
 /** Upstream module paths → on-prem shim (insights-rbac-frontend). */
-export const insightsRbacModuleReplacements: ReadonlyArray<{ match: RegExp; replacement: string }> = [
+export const insightsRbacModuleReplacements: readonly { match: RegExp; replacement: string }[] = [
   {
     match: /[/\\]insights-rbac-frontend[/\\]src[/\\]shared[/\\]components[/\\]ui-states[/\\]LoaderPlaceholders\.tsx$/,
     replacement: rbacUiOnpremShims.loaderPlaceholders,

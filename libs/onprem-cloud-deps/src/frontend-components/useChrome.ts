@@ -1,5 +1,5 @@
 /** Minimal chrome shape from host `window.insights.chrome` (no global Window augmentation required). */
-type InsightsChrome = {
+interface InsightsChrome {
   updateDocumentTitle?: (title?: string) => void;
   auth?: {
     getUser?: () => Promise<unknown>;
@@ -15,7 +15,7 @@ type InsightsChrome = {
     toggle?: (...args: unknown[]) => void;
     Catalog?: () => null;
   };
-};
+}
 
 const getInsightsChrome = (): InsightsChrome | undefined =>
   (window as Window & { insights?: { chrome?: InsightsChrome } }).insights?.chrome;

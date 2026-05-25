@@ -2,9 +2,8 @@
  * insights-rbac-frontend/shared/components/ui-states/LoaderPlaceholders
  * Upstream AppPlaceholder uses SkeletonTable → ThBase infinite re-render in host shell.
  */
-import React from 'react';
-
 import { OnpremIamSkeletonBox, OnpremIamSpinner } from '@rbac-ui-onprem/shims/placeholders';
+import React from 'react';
 
 export const AppPlaceholder: React.FC = () => <OnpremIamSpinner />;
 

@@ -1,11 +1,11 @@
-import React, { createContext } from 'react';
+import React, { createContext, useMemo } from 'react';
 
 import type { NotificationStore } from './state';
 
-export type NotificationContextValue = {
+export interface NotificationContextValue {
   addNotification: NotificationStore['addNotification'];
   clearNotifications: NotificationStore['clearNotifications'];
-};
+}
 
 export const NotificationContext = createContext<NotificationContextValue>({
   addNotification: () => {},
@@ -16,18 +16,16 @@ interface NotificationsProviderProps {
   store: NotificationStore;
 }
 
-const NotificationsProvider: React.FC<React.PropsWithChildren<NotificationsProviderProps>> = ({
-  children,
-  store,
-}) => (
-  <NotificationContext.Provider
-    value={{
+const NotificationsProvider: React.FC<React.PropsWithChildren<NotificationsProviderProps>> = ({ children, store }) => {
+  const value = useMemo(
+    () => ({
       addNotification: store.addNotification.bind(store),
       clearNotifications: store.clearNotifications.bind(store),
-    }}
-  >
-    {children}
-  </NotificationContext.Provider>
-);
+    }),
+    [store]
+  );
+
+  return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
+};
 
 export default NotificationsProvider;

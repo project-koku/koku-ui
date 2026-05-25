@@ -1,9 +1,9 @@
 import { ScalprumProvider } from '@scalprum/react-core';
 import { FlagProvider } from '@unleash/proxy-client-react';
+import { getOnpremRouterBasename, RBAC_ONPREM_REMOTE } from 'onpremRemotes';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { getOnpremRouterBasename, RBAC_ONPREM_REMOTE } from '../../onpremRemotes';
 import AppLayout from './AppLayout';
 
 const chromeStub = {
@@ -30,7 +30,7 @@ const chromeStub = {
       },
     }),
   },
-  getUserPermissions: async (_applicationName?: string, _disableCache?: boolean) => [],
+  getUserPermissions: async () => [],
   getEnvironment: () => 'prod',
   getEnvironmentDetails: async () => ({}),
   on: () => {},

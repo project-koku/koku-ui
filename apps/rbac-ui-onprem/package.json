@@ -9,10 +9,14 @@
     "npm": ">=11.6.2"
   },
   "scripts": {
+    "build": "npm run build:onprem",
     "prebuild:onprem": "npm run verify:onprem -- --require-entry-only",
-    "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack-onprem.config.ts --mode=production --color --progress",
-    "start:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack-onprem.config.ts --watch --mode=development --color --progress",
+    "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --mode=production --color --progress",
+    "start:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --watch --mode=development --color --progress",
     "verify:onprem": "bash ../../scripts/verify-onprem-rbac.sh",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "",
     "clean": "rimraf dist",
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },

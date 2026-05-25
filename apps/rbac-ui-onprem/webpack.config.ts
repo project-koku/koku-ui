@@ -35,7 +35,6 @@ const config: Configuration = {
           {
             loader: 'ts-loader',
             options: {
-              configFile: 'tsconfig-onprem.json',
               allowTsInNodeModules: true,
               transpileOnly: true,
             },
@@ -104,7 +103,7 @@ const config: Configuration = {
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
         '@patternfly/react-core': { singleton: true, requiredVersion: '*' },
         '@patternfly/react-table': { singleton: true, requiredVersion: '*' },
-        // Do not share component-groups — cluster loads real SkeletonTable / ThBase (see shims/README.md).
+        // Do not share component-groups — RolesTable barrel → PF chunk 6658 / SkeletonTable ThBase loop on cluster.
       },
       pluginMetadata: {
         name: 'insightsRbac',
