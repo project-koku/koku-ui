@@ -391,21 +391,21 @@ Cypress.Commands.add('waitForFederatedModule', () => {
   cy.get('.pf-v6-c-spinner', { timeout: 15000 }).should('not.exist');
 });
 
-type LiveWindow = Cypress.AUTWindow & { __liveDepthErrors?: string[] };
+/** Survives full-page reloads during host↔IAM live e2e (window state is reset on navigation). */
+const liveDepthErrors: string[] = [];
 
 /**
  * Live e2e: capture console.error for React "Maximum update depth" (FLPATH-4164 nav gate).
  * Call in beforeEach before cy.visit. Pair with assertNoDepthConsoleErrors in afterEach.
  */
 Cypress.Commands.add('setupLiveConsoleGuard', () => {
+  liveDepthErrors.length = 0;
   cy.on('window:before:load', (win) => {
-    const liveWin = win as LiveWindow;
-    liveWin.__liveDepthErrors = [];
     const originalError = win.console.error.bind(win.console);
     win.console.error = (...args: unknown[]) => {
       const text = args.map(String).join(' ');
       if (/maximum update depth/i.test(text)) {
-        liveWin.__liveDepthErrors!.push(text);
+        liveDepthErrors.push(text);
       }
       return originalError(...args);
     };
@@ -413,10 +413,7 @@ Cypress.Commands.add('setupLiveConsoleGuard', () => {
 });
 
 Cypress.Commands.add('assertNoDepthConsoleErrors', () => {
-  cy.window().then((win) => {
-    const errs = (win as LiveWindow).__liveDepthErrors ?? [];
-    expect(errs, 'Maximum update depth console errors').to.have.length(0);
-  });
+  expect(liveDepthErrors, 'Maximum update depth console errors').to.have.length(0);
 });
 
 /** Live parity: full-page screenshot (written under cypress/screenshots/; copy to pipeline via workspace script). */

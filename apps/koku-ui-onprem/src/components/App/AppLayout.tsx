@@ -17,14 +17,10 @@ import {
   PageToggleButton,
   Spinner,
 } from '@patternfly/react-core';
-import navStyles from '@patternfly/react-styles/css/components/Nav/nav.mjs';
 import { css } from '@patternfly/react-styles';
+import navStyles from '@patternfly/react-styles/css/components/Nav/nav.mjs';
 import { ScalprumComponent } from '@scalprum/react-core';
 import openshiftLogo from 'assets/openshift-logo.svg';
-import React from 'react';
-
-import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
-
 import {
   IAM_NAV_ITEMS,
   isOnpremIamBasename,
@@ -32,7 +28,9 @@ import {
   RBAC_MY_USER_ACCESS_PATH,
   RBAC_ONPREM_REMOTE,
   toIamHostNavPath,
-} from '../../onpremRemotes';
+} from 'onpremRemotes';
+import React from 'react';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import AppToolbar from './AppToolbar';
 
@@ -96,12 +94,7 @@ const isNavActive = (pathname: string, to: string) => {
   return pathname === to || pathname.startsWith(`${to}/`);
 };
 
-const NavItem: React.FC<NavItemProps & { iamBasename: boolean }> = ({
-  to,
-  children,
-  onLeaveIam,
-  iamBasename,
-}) => {
+const NavItem: React.FC<NavItemProps & { iamBasename: boolean }> = ({ to, children, onLeaveIam, iamBasename }) => {
   const location = useLocation();
   const isActive = isNavActive(location.pathname, to);
   const onIam = isIamRoute(location.pathname, iamBasename);
@@ -121,8 +114,18 @@ const NavItem: React.FC<NavItemProps & { iamBasename: boolean }> = ({
     );
   }
 
-  // Full-page `/iam/...` navigation — avoids basename-relative `<Link>` dropping `/iam` from the URL.
   if (isIamNavTarget(to)) {
+    if (iamBasename) {
+      const relTo = to.slice(RBAC_IAM_ROUTE_PREFIX.length) || '/';
+      return (
+        <li className={css(navStyles.navItem)}>
+          <Link to={relTo} className={css(navStyles.navLink, isActive && navStyles.modifiers.current)}>
+            {children}
+          </Link>
+        </li>
+      );
+    }
+    // Full-page `/iam/...` when host router has no basename (Cost → IAM entry).
     return (
       <li className={css(navStyles.navItem)}>
         <a href={to} className={css(navStyles.navLink, isActive && navStyles.modifiers.current)}>
@@ -192,20 +195,11 @@ const AppLayout = () => {
         <Nav>
           <NavList>
             {routes.map(route => (
-              <NavItem
-                key={route.path}
-                to={route.path || ''}
-                onLeaveIam={handleLeaveIam}
-                iamBasename={iamBasename}
-              >
+              <NavItem key={route.path} to={route.path || ''} onLeaveIam={handleLeaveIam} iamBasename={iamBasename}>
                 {route.title}
               </NavItem>
             ))}
-            <NavExpandable
-              title="Identity and Access Management"
-              isExpanded={onIamSection}
-              isActive={onIamSection}
-            >
+            <NavExpandable title="Identity and Access Management" isExpanded={onIamSection} isActive={onIamSection}>
               {IAM_NAV_ITEMS.map(({ label, segment }) => (
                 <NavItem
                   key={segment}
@@ -263,9 +257,7 @@ const AppLayout = () => {
               />
               <Route
                 path="/openshift/cost-management/rbac/*"
-                element={
-                  <Navigate to={`${RBAC_IAM_ROUTE_PREFIX}${RBAC_MY_USER_ACCESS_PATH}`} replace />
-                }
+                element={<Navigate to={`${RBAC_IAM_ROUTE_PREFIX}${RBAC_MY_USER_ACCESS_PATH}`} replace />}
               />
               <Route
                 path={`${RBAC_IAM_ROUTE_PREFIX}/*`}

@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 
+// eslint-disable-next-line no-restricted-imports -- sibling module under onprem-cloud-deps/src; webpack cannot resolve baseUrl-style paths here
 import useChrome from '../frontend-components/useChrome';
 
-export type PermissionsResult = {
+export interface PermissionsResult {
   isLoading: boolean;
   hasAccess: boolean;
   isOrgAdmin: boolean;
   permissions: string[];
-};
+}
 
 /**
  * On-prem stub for Chrome RBAC permission checks.
@@ -17,8 +18,7 @@ export function usePermissions(
   appName: string,
   permissionsList: string[] = [],
   _disableCache = false,
-  _checkAll = false,
-  _checkResourceDefinitions = false
+  _checkAll = false
 ): PermissionsResult {
   const chrome = useChrome();
   const [permissions, setPermissions] = useState<PermissionsResult>({
@@ -37,7 +37,7 @@ export function usePermissions(
       const isOrgAdmin = Boolean(
         (user as { identity?: { user?: { is_org_admin?: boolean } } })?.identity?.user?.is_org_admin
       );
-      const userPermissions = (await chrome.getUserPermissions(appName, _disableCache)) ?? [];
+      const userPermissions = ((await chrome.getUserPermissions()) ?? []) as string[];
 
       if (ignore) {
         return;
@@ -46,9 +46,9 @@ export function usePermissions(
       setPermissions({
         isLoading: false,
         isOrgAdmin,
-        permissions: userPermissions as string[],
-        // POC: allow access when org admin or no explicit permissions requested
-        hasAccess: isOrgAdmin || permissionsList.length === 0,
+        permissions: userPermissions,
+        hasAccess:
+          isOrgAdmin || permissionsList.length === 0 || permissionsList.every(p => userPermissions.includes(p)),
       });
     })();
 
