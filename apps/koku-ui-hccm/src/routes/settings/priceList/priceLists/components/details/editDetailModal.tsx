@@ -1,5 +1,3 @@
-import './editDetailModal.scss';
-
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
@@ -80,7 +78,7 @@ const EditDetailModal: React.FC<EditDetailModalProps> = ({ isDispatch = true, is
   return (
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.medium}>
       <ModalHeader title={intl.formatMessage(messages.editPriceListTitle)} />
-      <ModalBody className="modalBodyOverride">
+      <ModalBody>
         {isOpen && (
           <DetailContent
             isEditDetails
