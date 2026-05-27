@@ -3,7 +3,6 @@ export const RBAC_ONPREM_REMOTE = {
   scope: 'insightsRbac',
   manifestLocation: '/rbac/plugin-manifest.json',
   module: './Iam',
-  publicPath: '/rbac/',
 } as const;
 
 /** Upstream IAM app uses `/iam` as router basename (see insights-rbac-frontend useAppLink). */

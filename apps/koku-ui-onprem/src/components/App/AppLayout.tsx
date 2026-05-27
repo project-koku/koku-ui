@@ -25,7 +25,6 @@ import {
   IAM_NAV_ITEMS,
   isOnpremIamBasename,
   RBAC_IAM_ROUTE_PREFIX,
-  RBAC_MY_USER_ACCESS_PATH,
   RBAC_ONPREM_REMOTE,
   toIamHostNavPath,
 } from 'onpremRemotes';
@@ -142,13 +141,7 @@ const NavItem: React.FC<NavItemProps & { iamBasename: boolean }> = ({ to, childr
   );
 };
 
-const costManagementFallback = (
-  <Bullseye>
-    <Spinner size="lg" />
-  </Bullseye>
-);
-
-const iamFallback = (
+const remoteLoadingFallback = (
   <Bullseye>
     <Spinner size="lg" />
   </Bullseye>
@@ -237,7 +230,7 @@ const AppLayout = () => {
                   key={remoteKey}
                   scope={RBAC_ONPREM_REMOTE.scope}
                   module={RBAC_ONPREM_REMOTE.module}
-                  fallback={iamFallback}
+                  fallback={remoteLoadingFallback}
                 />
               }
             />
@@ -251,13 +244,9 @@ const AppLayout = () => {
                     key={remoteKey}
                     scope="costManagement"
                     module="./RootApp"
-                    fallback={costManagementFallback}
+                    fallback={remoteLoadingFallback}
                   />
                 }
-              />
-              <Route
-                path="/openshift/cost-management/rbac/*"
-                element={<Navigate to={`${RBAC_IAM_ROUTE_PREFIX}${RBAC_MY_USER_ACCESS_PATH}`} replace />}
               />
               <Route
                 path={`${RBAC_IAM_ROUTE_PREFIX}/*`}
@@ -266,7 +255,7 @@ const AppLayout = () => {
                     key={remoteKey}
                     scope={RBAC_ONPREM_REMOTE.scope}
                     module={RBAC_ONPREM_REMOTE.module}
-                    fallback={iamFallback}
+                    fallback={remoteLoadingFallback}
                   />
                 }
               />
