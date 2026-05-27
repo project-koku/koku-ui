@@ -3,6 +3,7 @@ import './detailContent.scss';
 import type { CalendarMonthInlineProps } from '@patternfly/react-core';
 import {
   Alert,
+  AlertActionCloseButton,
   CalendarMonth,
   Content,
   Form,
@@ -64,6 +65,7 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
     const [endDate, setEndDate] = useState<Date | undefined>(effectiveEnd);
     const [endDateBaseline] = useState<Date | undefined>(effectiveEnd);
     const [endDateError, setEndDateError] = useState<MessageDescriptor>();
+    const [isInfoAlertOpen, setIsInfoAlertOpen] = useState(true);
     const [name, setName] = useState<string>(priceList?.name ?? '');
     const [nameBaseline] = useState<string>(priceList?.name ?? '');
     const [nameError, setNameError] = useState<MessageDescriptor>();
@@ -259,7 +261,15 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
             </div>
           </FormGroup>
         </Form>
-        <Alert id="warning" isInline title={intl.formatMessage(messages.validityPeriodWarning)} variant="warning" />
+        {isInfoAlertOpen && (
+          <Alert
+            actionClose={<AlertActionCloseButton onClose={() => setIsInfoAlertOpen(false)} />}
+            id="info"
+            isInline
+            title={intl.formatMessage(messages.validityPeriodWarning)}
+            variant="info"
+          />
+        )}
       </>
     );
   }

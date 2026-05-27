@@ -15,13 +15,13 @@ const query = {
 
 test('getQuery filter_by props are converted', () => {
   expect(getQuery(query)).toEqual(
-    'filter[and:project]=test&filter[or:node]=test&group_by[and:project]=test&group_by[or:node]=test'
+    'filter%5Band%3Aproject%5D=test&filter%5Bor%3Anode%5D=test&group_by%5Band%3Aproject%5D=test&group_by%5Bor%3Anode%5D=test'
   );
 });
 
 test('getQueryRoute filter_by props are not converted', () => {
   expect(getQueryRoute(query)).toEqual(
-    'filter_by[and:project]=test&filter_by[or:node]=test&group_by[and:project]=test&group_by[or:node]=test'
+    'filter_by%5Band%3Aproject%5D=test&filter_by%5Bor%3Anode%5D=test&group_by%5Band%3Aproject%5D=test&group_by%5Bor%3Anode%5D=test'
   );
 });
 

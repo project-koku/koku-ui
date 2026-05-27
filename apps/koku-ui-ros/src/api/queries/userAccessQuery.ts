@@ -7,7 +7,7 @@ export interface UserAccessQuery {
 }
 
 export function getUserAccessQuery(query: UserAccessQuery) {
-  return stringify(query, { encode: false, indices: false });
+  return stringify(query, { encode: true, indices: false });
 }
 
 export function parseUserAccessQuery<T = any>(query: string): T {

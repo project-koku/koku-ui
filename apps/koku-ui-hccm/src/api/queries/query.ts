@@ -73,12 +73,12 @@ function alphabeticalSort(a, b) {
 
 // filter_by props are converted
 export function getQuery(query: Query) {
-  return stringify(convertFilterBy(query), { encode: false, indices: false, sort: alphabeticalSort });
+  return stringify(convertFilterBy(query), { encode: true, indices: false, sort: alphabeticalSort });
 }
 
 // filter_by props are not converted
 export function getQueryRoute(query: Query) {
-  return stringify(query, { encode: false, indices: false, sort: alphabeticalSort });
+  return stringify(query, { encode: true, indices: false, sort: alphabeticalSort });
 }
 
 // Returns given key without logical OR/AND prefix
