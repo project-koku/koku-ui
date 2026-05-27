@@ -1,5 +1,5 @@
 /**
- * On-prem federated entry — lazy-load upstream Iam to avoid webpack TDZ across exposed chunks.
+ * Federated entry — lazy-load upstream Iam to avoid webpack TDZ across exposed chunks.
  *
  * Routing: host BrowserRouter uses basename `/iam` on IAM URLs (see onpremRemotes.ts).
  * Do not wrap Iam in a second Router here — that causes "Router inside Router" errors.

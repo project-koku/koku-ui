@@ -6,15 +6,16 @@ USER 0
 COPY package.json ./
 COPY package-lock.json ./
 COPY tsconfig.json ./
+COPY vendor ./vendor
 COPY apps/koku-ui-onprem/package.json ./apps/koku-ui-onprem/
 COPY apps/koku-ui-hccm/package.json ./apps/koku-ui-hccm/
 COPY apps/koku-ui-ros/package.json ./apps/koku-ui-ros/
 COPY apps/koku-ui-sources/package.json ./apps/koku-ui-sources/
 COPY apps/rbac-ui-onprem/package.json ./apps/rbac-ui-onprem/
-COPY apps/rbac-ui-onprem/rbac-ui.version.json ./apps/rbac-ui-onprem/
 COPY libs ./libs
-COPY scripts/verify-onprem-rbac.sh ./scripts/verify-onprem-rbac.sh
 
+# Upstream insights-rbac-ui prepare (husky) fails without .git in image context
+ENV HUSKY=0
 RUN npm ci
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/

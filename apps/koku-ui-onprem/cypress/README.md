@@ -15,9 +15,9 @@ Live specs: `01`–`04` (**21** tests) for local `start:onprem:dev`. The `test:c
 
 1. `oc login` to a cluster with Cost Management deployed
 2. `npm run start:onprem:dev` from koku-ui root (sources `scripts/setup-onprem-env.sh` and starts the full on-prem stack)
-3. In another terminal: `npm run test:cypress:live`
+3. In another terminal: `npm run test:cypress:live` (from `apps/koku-ui-onprem`, or `-w @koku-ui/koku-ui-onprem` from koku-ui root)
 
-Automatable pre-merge check: `npm run verify:onprem` (RBAC manifest/build only).
+Automatable pre-merge check: `npm run build:onprem` in `@koku-ui/rbac-ui-onprem` (after `git submodule update --init vendor/insights-rbac-ui` and `npm ci`).
 
 ## Integration tests
 

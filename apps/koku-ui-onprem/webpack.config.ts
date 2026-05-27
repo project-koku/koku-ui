@@ -29,6 +29,8 @@ if (process.env.API_TOKEN !== 'false') {
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
+const rbacStaticDirectory = path.resolve(__dirname, '../rbac-ui-onprem/dist');
+
 /** Gateway origin for `/api/rbac` when `API_PROXY_URL` targets Koku under `/api/cost-management/v1`. */
 const rbacProxyTarget = (() => {
   const proxyUrl = process.env.API_PROXY_URL;
@@ -106,7 +108,7 @@ const config: Configuration & {
         watch: true,
       },
       {
-        directory: path.resolve(__dirname, '../rbac-ui-onprem/dist'),
+        directory: rbacStaticDirectory,
         publicPath: '/rbac/',
         watch: true,
       },

@@ -85,12 +85,12 @@ After the successful build, navigate to http://localhost:9001
 
 | Item | Value |
 |------|--------|
-| Static assets | `/rbac/` (`apps/rbac-ui-onprem/dist`) |
+| Static assets | `/rbac/` (`apps/rbac-ui-onprem/dist`, webpack at image build; upstream from `vendor/insights-rbac-ui` submodule) |
 | Federated scope | `insightsRbac` / module `./Iam` |
 | Host route | `/iam/*` (POC entry: `/iam/my-user-access`) |
 | API (dev proxy) | `/api/rbac` → gateway origin derived from `API_PROXY_URL` |
 
-Production image: `apps/koku-ui-onprem/Containerfile` copies `rbac-ui-onprem/dist` to nginx `./rbac`.
+Production image: `apps/koku-ui-onprem/Containerfile` runs `build:onprem` for RBAC and copies `apps/rbac-ui-onprem/dist` to nginx `./rbac`.
 
 ### Cypress E2E
 
@@ -99,7 +99,7 @@ Production image: `apps/koku-ui-onprem/Containerfile` copies `rbac-ui-onprem/dis
 | Integration (mocked APIs) | [`cypress/e2e/integration/`](cypress/e2e/integration/) | `npm run test:cypress` |
 | E2E (cluster-backed) | [`cypress/e2e/live/`](cypress/e2e/live/) | `npm run test:cypress:live` |
 
-Live e2e is **not** run in CI. From koku-ui root: `npm run start:onprem:dev`, then `npm run test:cypress:live` (16 tests: loads + host ↔ IAM nav + IAM sidebar incl. `/iam` prefix regression). Use `npm run verify:onprem` for automatable manifest/build checks.
+Live e2e is **not** run in CI. From koku-ui root: `npm run start:onprem:dev`, then `npm run test:cypress:live -w @koku-ui/koku-ui-onprem` (21 tests in `cypress/e2e/live/`). RBAC federated build: `npm run build:onprem -w @koku-ui/rbac-ui-onprem`.
 
 Details: [`cypress/README.md`](cypress/README.md).
 

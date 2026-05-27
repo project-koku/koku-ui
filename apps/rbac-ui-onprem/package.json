@@ -10,19 +10,18 @@
   },
   "scripts": {
     "build": "npm run build:onprem",
-    "prebuild:onprem": "npm run verify:onprem -- --require-entry-only",
-    "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --mode=production --color --progress",
-    "start:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --watch --mode=development --color --progress",
-    "verify:onprem": "bash ../../scripts/verify-onprem-rbac.sh",
+    "build:onprem": "npm run ts-webpack -- --color --progress --mode=production",
+    "start:onprem": "npm run ts-webpack -- --color --progress --mode=development --watch",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "",
     "clean": "rimraf dist",
-    "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
+    "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'",
+    "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
-    "insights-rbac-frontend": "github:RedHatInsights/insights-rbac-ui#b4ca374603344a60ea3260433a4c913f1ff93ae3",
+    "insights-rbac-frontend": "file:../../vendor/insights-rbac-ui",
     "typescript": "^5.9.3"
   }
 }
