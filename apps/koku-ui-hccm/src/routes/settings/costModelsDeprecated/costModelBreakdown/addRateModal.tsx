@@ -105,7 +105,7 @@ const mapStateToProps = createMapStateToProps<AddRateModalOwnProps, AddRateModal
     isOpen: (costModelsSelectors.isDialogOpen(state)('rate') as any).addRate,
     isProcessing: costModelsSelectors.updateProcessing(state),
     metricsHash: metricsSelectors.metrics(state),
-    updateError: costModelsSelectors.updateError(state),
+    updateError: costModelsSelectors.selectCostModelsUpdateError(state),
   };
 });
 
@@ -118,7 +118,7 @@ const mapDispatchToProps = (dispatch): AddRateModalDispatchProps => {
           isOpen: false,
         })
       );
-      dispatch(costModelsActions.resetCostModelErrors());
+      dispatch(costModelsActions.resetErrors());
     },
     updateCostModel: (uuid: string, request: CostModelRequest) =>
       costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),

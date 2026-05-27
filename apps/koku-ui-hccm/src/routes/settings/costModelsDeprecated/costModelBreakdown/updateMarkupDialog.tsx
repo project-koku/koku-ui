@@ -251,7 +251,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
 const mapStateToProps = createMapStateToProps<UpdateMarkupDialogOwnProps, UpdateMarkupDialogStateProps>(state => {
   return {
     isLoading: costModelsSelectors.updateProcessing(state),
-    error: costModelsSelectors.updateError(state),
+    error: costModelsSelectors.selectCostModelsUpdateError(state),
   };
 });
 

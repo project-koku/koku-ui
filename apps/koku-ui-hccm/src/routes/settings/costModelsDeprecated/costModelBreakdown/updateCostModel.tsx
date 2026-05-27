@@ -174,7 +174,7 @@ const mapStateToProps = createMapStateToProps<UpdateCostModelOwnProps, UpdateCos
   return {
     costModel: costModelsSelectors.costModelsData(state),
     isProcessing: costModelsSelectors.updateProcessing(state),
-    updateError: costModelsSelectors.updateError(state),
+    updateError: costModelsSelectors.selectCostModelsUpdateError(state),
   };
 });
 

@@ -33,8 +33,7 @@ interface MappingsMapProps {
 interface MappingsStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
-  settingsQueryString?: string;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type MappingsProps = MappingsOwnProps;
@@ -53,7 +52,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
   const intl = useIntl();
 
   const [query, setQuery] = useState({ ...baseQuery });
-  const { settings, settingsError, settingsStatus } = useMapToProps({
+  const { settings, settingsError, settingsFetchStatus } = useMapToProps({
     query,
   });
 
@@ -102,7 +101,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
         canWrite={canWrite}
         filterBy={query.filter_by}
         isDisabled={isDisabled}
-        isLoading={settingsStatus === FetchStatus.inProgress}
+        isLoading={settingsFetchStatus === FetchStatus.inProgress}
         onClose={forceUpdate}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -179,7 +178,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
       </div>
       <div style={styles.tableContainer}>
         {hasMappings && getToolbar(mappings)}
-        {settingsStatus === FetchStatus.inProgress ? (
+        {settingsFetchStatus === FetchStatus.inProgress ? (
           <LoadingState />
         ) : hasMappings ? (
           <>
@@ -209,24 +208,23 @@ const useMapToProps = ({ query }: MappingsMapProps): MappingsStateProps => {
   const settings = useSelector((state: RootState) =>
     settingsSelectors.selectSettings(state, SettingsType.tagsMappings, settingsQueryString)
   );
-  const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.tagsMappings, settingsQueryString)
-  );
   const settingsError = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsError(state, SettingsType.tagsMappings, settingsQueryString)
   );
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.tagsMappings, settingsQueryString)
+  );
 
   useEffect(() => {
-    if (!settingsError && settingsStatus !== FetchStatus.inProgress) {
+    if (!settingsError && settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(settingsActions.fetchSettings(SettingsType.tagsMappings, settingsQueryString));
     }
-  }, [query]);
+  }, [query, settingsError, settingsQueryString]);
 
   return {
     settings,
     settingsError,
-    settingsStatus,
-    settingsQueryString,
+    settingsFetchStatus,
   };
 };
 

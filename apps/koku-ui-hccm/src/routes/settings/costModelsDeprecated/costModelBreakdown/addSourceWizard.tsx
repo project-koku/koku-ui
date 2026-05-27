@@ -181,7 +181,7 @@ const mapStateToProps = createMapStateToProps<AddSourceWizardOwnProps, AddSource
     pagination: sourcesSelectors.pagination(state),
     providers: sourcesSelectors.sources(state),
     query: sourcesSelectors.query(state),
-    updateApiError: costModelsSelectors.updateError(state),
+    updateApiError: costModelsSelectors.selectCostModelsUpdateError(state),
   };
 });
 

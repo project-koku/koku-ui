@@ -29,8 +29,8 @@ import { formatPath } from 'utils/paths';
 import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
-import { CostModel } from './costModel';
-import { PriceList } from './priceList';
+import { CostModel } from './costModels';
+import { PriceList } from './priceLists';
 import { styles } from './settings.styles';
 
 const enum SettingsTab {

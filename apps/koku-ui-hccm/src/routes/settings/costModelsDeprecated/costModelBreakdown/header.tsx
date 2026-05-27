@@ -224,7 +224,7 @@ export default injectIntl(
       createMapStateToProps(state => ({
         isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
         isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
-        deleteError: costModelsSelectors.deleteError(state),
+        deleteError: costModelsSelectors.selectCostModelsDeleteError(state),
         isWritePermission: rbacSelectors.isCostModelWritePermission(state),
       })),
       {

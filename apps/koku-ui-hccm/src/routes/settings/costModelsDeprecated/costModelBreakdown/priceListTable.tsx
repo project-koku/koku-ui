@@ -403,9 +403,9 @@ export default injectIntl(
   connect(
     createMapStateToProps(state => ({
       costTypes: metricsSelectors.costTypes(state),
-      error: costModelsSelectors.updateError(state),
-      fetchError: costModelsSelectors.error(state),
-      fetchStatus: costModelsSelectors.status(state),
+      error: costModelsSelectors.selectCostModelsUpdateError(state),
+      fetchError: costModelsSelectors.selectCostModelsFetchError(state),
+      fetchStatus: costModelsSelectors.selectCostModelsFetchStatus(state),
       isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
       isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
       isLoading: costModelsSelectors.updateProcessing(state),

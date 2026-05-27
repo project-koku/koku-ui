@@ -10,7 +10,7 @@ const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'route
 const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" */ 'routes/details/azureBreakdown'));
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/details/azureDetails'));
 const CostModelBreakdown = lazy(
-  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModel/costModelBreakdown')
+  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelBreakdown')
 );
 const CostModelBreakdownDeprecated = lazy(
   () =>
@@ -19,7 +19,7 @@ const CostModelBreakdownDeprecated = lazy(
     )
 );
 const CostModelCreate = lazy(
-  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModel/costModelCreate')
+  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelCreate')
 );
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
@@ -38,10 +38,10 @@ const OptimizationsBreakdown = lazy(
 );
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
 const PriceListBreakdown = lazy(
-  () => import(/* webpackChunkName: "PriceListBreakdown" */ 'routes/settings/priceList/priceListBreakdown')
+  () => import(/* webpackChunkName: "PriceListBreakdown" */ 'routes/settings/priceLists/priceListBreakdown')
 );
 const PriceListCreate = lazy(
-  () => import(/* webpackChunkName: "PriceListCreate" */ 'routes/settings/priceList/priceListCreate')
+  () => import(/* webpackChunkName: "PriceListCreate" */ 'routes/settings/priceLists/priceListCreate')
 );
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
 

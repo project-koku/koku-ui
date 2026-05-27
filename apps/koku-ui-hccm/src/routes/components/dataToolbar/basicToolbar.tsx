@@ -32,6 +32,7 @@ interface BasicToolbarOwnProps {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
   isDisabled?: boolean;
+  isFilterDisabled?: boolean;
   isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;

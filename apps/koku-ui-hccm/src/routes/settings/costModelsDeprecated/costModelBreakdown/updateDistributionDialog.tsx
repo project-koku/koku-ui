@@ -243,7 +243,7 @@ const mapStateToProps = createMapStateToProps<UpdateDistributionDialogOwnProps, 
     return {
       isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
       isLoading: costModelsSelectors.updateProcessing(state),
-      error: costModelsSelectors.updateError(state),
+      error: costModelsSelectors.selectCostModelsUpdateError(state),
     };
   }
 );

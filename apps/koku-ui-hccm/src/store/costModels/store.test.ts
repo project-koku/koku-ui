@@ -7,9 +7,9 @@ import type { Rate } from 'api/rates';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 
-import * as actions from './actions';
-import { reducer as costModelsReducer, stateKey } from './reducer';
-import * as selectors from './selectors';
+import * as actions from './costModelActions';
+import { reducer as costModelsReducer, stateKey } from './costModelReducer';
+import * as selectors from './costModelSelectors';
 
 const costmodel1: CostModel = {
   created_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
@@ -102,13 +102,13 @@ test('fetching cost models succeeded', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve({ data: costmodels }));
   const store = createCostModelsStore();
   expect(selectors.costModels(store.getState())).toBeNull();
-  expect(selectors.error(store.getState())).toEqual(null);
+  expect(selectors.selectCostModelsFetchError(store.getState())).toEqual('');
   store.dispatch(actions.fetchCostModels());
-  expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.status(store.getState())).toBe(FetchStatus.complete));
+  expect(selectors.selectCostModelsFetchStatus(store.getState())).toBe(FetchStatus.inProgress);
+  await waitFor(() => expect(selectors.selectCostModelsFetchStatus(store.getState())).toBe(FetchStatus.complete));
   expect(selectors.costModels(store.getState())).toEqual(costmodels);
-  expect(selectors.error(store.getState())).toEqual(null);
-  expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
+  expect(selectors.selectCostModelsFetchError(store.getState())).toEqual('');
+  expect(selectors.selectCostModelsFetchStatus(store.getState())).toBe(FetchStatus.complete);
 });
 
 test('fetching cost models failed', async () => {
@@ -120,13 +120,13 @@ test('fetching cost models failed', async () => {
   mockfetcher.mockReturnValueOnce(Promise.reject(error));
   const store = createCostModelsStore();
   expect(selectors.costModels(store.getState())).toBeNull();
-  expect(selectors.error(store.getState())).toEqual(null);
+  expect(selectors.selectCostModelsFetchError(store.getState())).toEqual('');
   store.dispatch(actions.fetchCostModels());
-  expect(selectors.status(store.getState())).toBe(FetchStatus.inProgress);
-  await waitFor(() => expect(selectors.status(store.getState())).toBe(FetchStatus.complete));
+  expect(selectors.selectCostModelsFetchStatus(store.getState())).toBe(FetchStatus.inProgress);
+  await waitFor(() => expect(selectors.selectCostModelsFetchStatus(store.getState())).toBe(FetchStatus.complete));
   expect(selectors.costModels(store.getState())).toBeNull();
-  expect(selectors.error(store.getState())).toEqual(error);
-  expect(selectors.status(store.getState())).toBe(FetchStatus.complete);
+  expect(selectors.selectCostModelsFetchError(store.getState())).toEqual('name: is already taken');
+  expect(selectors.selectCostModelsFetchStatus(store.getState())).toBe(FetchStatus.complete);
 });
 
 test('display and hide dialogs', async () => {
@@ -156,12 +156,12 @@ test('updating a cost model succeeded', async () => {
   const store = createCostModelsStore();
   store.dispatch(actions.selectCostModel(costmodel1));
   expect(selectors.selected(store.getState())).toEqual(costmodel1);
-  expect(selectors.updateError(store.getState())).toBe('');
+  expect(selectors.selectCostModelsUpdateError(store.getState())).toBe('');
   store.dispatch(actions.updateCostModel(costmodel1.uuid, costModelRequestForUpdate));
   expect(selectors.updateProcessing(store.getState())).toBe(true);
   await waitFor(() => expect(selectors.updateProcessing(store.getState())).toBe(false));
   expect(selectors.selected(store.getState())).toEqual(updated_costmodel1);
-  expect(selectors.updateError(store.getState())).toEqual('');
+  expect(selectors.selectCostModelsUpdateError(store.getState())).toEqual('');
   expect(selectors.updateProcessing(store.getState())).toBe(false);
 });
 
@@ -170,7 +170,7 @@ test('updating a cost model failed', async () => {
   const store = createCostModelsStore();
   store.dispatch(actions.selectCostModel(costmodel1));
   expect(selectors.selected(store.getState())).toEqual(costmodel1);
-  expect(selectors.updateError(store.getState())).toBe('');
+  expect(selectors.selectCostModelsUpdateError(store.getState())).toBe('');
   expect(selectors.updateProcessing(store.getState())).toBe(false);
   store.dispatch(
     actions.updateCostModel(costmodel1.uuid, { ...costModelRequestForUpdate, name: costmodel1.name })
@@ -178,7 +178,7 @@ test('updating a cost model failed', async () => {
   expect(selectors.updateProcessing(store.getState())).toBe(true);
   await waitFor(() => expect(selectors.updateProcessing(store.getState())).toBe(false));
   expect(selectors.selected(store.getState())).toEqual(costmodel1);
-  expect(selectors.updateError(store.getState())).toEqual('oops');
+  expect(selectors.selectCostModelsUpdateError(store.getState())).toEqual('oops');
   expect(selectors.updateProcessing(store.getState())).toBe(false);
 });
 
@@ -187,12 +187,12 @@ test('deleting a cost model succeeded', async () => {
   mockdeleter.mockReturnValueOnce(Promise.resolve({}));
   const store = createCostModelsStore();
   store.dispatch(actions.setCostModelDialog({ isOpen: true, name: 'deleteCostModel' }));
-  expect(selectors.deleteError(store.getState())).toBe('');
+  expect(selectors.selectCostModelsDeleteError(store.getState())).toBe('');
   store.dispatch(actions.deleteCostModel('11123', 'deleteCostModel'));
   expect(selectors.deleteProcessing(store.getState())).toBe(true);
   expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(true);
   await waitFor(() => expect(selectors.deleteProcessing(store.getState())).toBe(false));
-  expect(selectors.deleteError(store.getState())).toEqual('');
+  expect(selectors.selectCostModelsDeleteError(store.getState())).toEqual('');
   expect(selectors.deleteProcessing(store.getState())).toBe(false);
   expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(false);
 });
@@ -202,12 +202,12 @@ test('deleting a cost model failed', async () => {
   mockdeleter.mockReturnValue(new Promise((s, r) => r(new Error('oops'))));
   store.dispatch(actions.setCostModelDialog({ isOpen: true, name: 'deleteCostModel' }));
   expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(true);
-  expect(selectors.deleteError(store.getState())).toBe('');
+  expect(selectors.selectCostModelsDeleteError(store.getState())).toBe('');
   expect(selectors.deleteProcessing(store.getState())).toBe(false);
   store.dispatch(actions.deleteCostModel('111', 'deleteCostModel'));
   expect(selectors.deleteProcessing(store.getState())).toBe(true);
   await waitFor(() => expect(selectors.deleteProcessing(store.getState())).toBe(false));
-  expect(selectors.deleteError(store.getState())).toEqual('oops');
+  expect(selectors.selectCostModelsDeleteError(store.getState())).toEqual('oops');
   expect(selectors.deleteProcessing(store.getState())).toBe(false);
   expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(true);
 });

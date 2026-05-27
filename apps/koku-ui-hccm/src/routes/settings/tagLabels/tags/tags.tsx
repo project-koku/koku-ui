@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { useSettingsUpdate } from 'routes/settings/utils/hooks';
+import { useSettingsNotifications } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -34,8 +34,7 @@ interface TagsMapProps {
 interface TagsStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
-  settingsQueryString?: string;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type TagsProps = TagsOwnProps;
@@ -55,7 +54,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
+  const { settings, settingsError, settingsFetchStatus } = useMapToProps({ query });
 
   const getTags = () => {
     if (settings) {
@@ -75,8 +74,8 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(perPage)}
-        onSetPage={(event, pageNumber) => handleOnSetPage(pageNumber)}
+        onPerPageSelect={(_event, perPage) => handleOnPerPageSelect(perPage)}
+        onSetPage={(_event, pageNumber) => handleOnSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -96,7 +95,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
       <TagsTable
         canWrite={canWrite}
         filterBy={query.filter_by}
-        isLoading={settingsStatus === FetchStatus.inProgress}
+        isLoading={settingsFetchStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
         onSelect={handleOnSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -233,7 +232,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
       })}
       <div style={styles.tableContainer}>
         {getToolbar(tags)}
-        {settingsStatus === FetchStatus.inProgress ? (
+        {settingsFetchStatus === FetchStatus.inProgress ? (
           <LoadingState />
         ) : (
           <>
@@ -259,37 +258,42 @@ const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
   const settings = useSelector((state: RootState) =>
     settingsSelectors.selectSettings(state, SettingsType.tags, settingsQueryString)
   );
-  const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.tags, settingsQueryString)
-  );
   const settingsError = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsError(state, SettingsType.tags, settingsQueryString)
   );
-
-  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
-    type: SettingsType.tagsDisable,
-  });
-
-  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
-    type: SettingsType.tagsEnable,
-  });
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.tags, settingsQueryString)
+  );
+  const settingsDisableStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.tagsDisable, undefined)
+  );
+  const settingsEnableStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.tagsEnable, undefined)
+  );
 
   useEffect(() => {
     if (
       !settingsError &&
-      settingsStatus !== FetchStatus.inProgress &&
-      settingsUpdateDisableStatus !== FetchStatus.inProgress &&
-      settingsUpdateEnableStatus !== FetchStatus.inProgress
+      settingsFetchStatus !== FetchStatus.inProgress &&
+      settingsDisableStatus !== FetchStatus.inProgress &&
+      settingsEnableStatus !== FetchStatus.inProgress
     ) {
       dispatch(settingsActions.fetchSettings(SettingsType.tags, settingsQueryString));
     }
-  }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+  }, [query, settingsDisableStatus, settingsEnableStatus, settingsError, settingsQueryString]);
+
+  // Notifications
+  useSettingsNotifications({
+    type: SettingsType.tagsEnable,
+  });
+  useSettingsNotifications({
+    type: SettingsType.tagsDisable,
+  });
 
   return {
     settings,
     settingsError,
-    settingsStatus,
-    settingsQueryString,
+    settingsFetchStatus,
   };
 };
 

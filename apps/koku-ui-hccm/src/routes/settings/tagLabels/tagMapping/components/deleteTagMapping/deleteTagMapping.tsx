@@ -27,21 +27,21 @@ interface DeleteTagMappingMapProps {
 }
 
 interface DeleteTagMappingStateProps {
-  settingsUpdateError?: AxiosError;
-  settingsUpdateStatus?: FetchStatus;
+  settingsError?: AxiosError;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type DeleteTagMappingProps = DeleteTagMappingOwnProps;
 
 const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, isChild, item, onClose, settingsType }) => {
   const [isFinish, setIsFinish] = useState(false);
-  const { settingsUpdateError, settingsUpdateStatus } = useMapToProps({ settingsType });
+  const { settingsError, settingsFetchStatus } = useMapToProps({ settingsType });
 
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
   const handleOnDelete = () => {
-    if (settingsUpdateStatus !== FetchStatus.inProgress) {
+    if (settingsFetchStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
       dispatch(
         settingsActions.updateSettings(settingsType, {
@@ -52,10 +52,10 @@ const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, isChild, it
   };
 
   useEffect(() => {
-    if (isFinish && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
+    if (isFinish && settingsFetchStatus === FetchStatus.complete && !settingsError) {
       onClose();
     }
-  }, [isFinish, settingsUpdateError, settingsUpdateStatus]);
+  }, [isFinish, settingsError, settingsFetchStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -85,16 +85,16 @@ const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, isChild, it
 };
 
 const useMapToProps = ({ settingsType }: DeleteTagMappingMapProps): DeleteTagMappingStateProps => {
-  const settingsUpdateStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, settingsType)
+  const settingsError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsError(state, settingsType, undefined)
   );
-  const settingsUpdateError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateError(state, settingsType)
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, settingsType, undefined)
   );
 
   return {
-    settingsUpdateError,
-    settingsUpdateStatus,
+    settingsError,
+    settingsFetchStatus,
   };
 };
 

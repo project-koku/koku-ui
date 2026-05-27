@@ -44,7 +44,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     isOpen: costModelsSelectors.isDialogOpen(state)('costmodel').deleteCostModel,
     isLoading: costModelsSelectors.deleteProcessing(state),
-    deleteError: costModelsSelectors.deleteError(state),
+    deleteError: costModelsSelectors.selectCostModelsDeleteError(state),
     dialogData: costModelsSelectors.dialogData(state),
   };
 };

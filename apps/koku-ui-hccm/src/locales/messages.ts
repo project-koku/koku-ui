@@ -28,14 +28,25 @@ export default defineMessages({
   },
   assignPriceListsDesc: {
     defaultMessage:
-      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed.',
-    description: 'Price lists shown are in the currency selected in the previous step. Go back to change it if needed.',
+      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list.',
+    description:
+      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list.',
     id: 'assignPriceListsDesc',
   },
   assignedCostModels: {
     defaultMessage: 'Assigned cost models',
     description: 'Assigned cost models',
     id: 'assignedCostModels',
+  },
+  assignedPriceLists: {
+    defaultMessage: 'Assigned price lists (priority order)',
+    description: 'Assigned price lists (priority order)',
+    id: 'assignedPriceLists',
+  },
+  assignedPriceListsDesc: {
+    defaultMessage: 'Only price lists you assigned on Assign price lists are shown. Drag rows to set priority.',
+    description: 'Only price lists you assigned on Assign price lists are shown. Drag rows to set priority.',
+    id: 'assignedPriceListsDesc',
   },
   aws: {
     defaultMessage: 'Amazon Web Services',
@@ -728,6 +739,26 @@ export default defineMessages({
     description: 'Enter a tag value',
     id: 'costModelsEnterTagValue',
   },
+  costModelsErrorDesc: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {Failed to create cost model} ' +
+      'remove {Failed to delete cost model} ' +
+      'update {Failed to update cost model} ' +
+      'other {}}',
+    description: 'Cost model created or updated',
+    id: 'costModelsErrorDesc',
+  },
+  costModelsErrorTitle: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {Unable to create cost model} ' +
+      'remove {Unable to delete cost model} ' +
+      'update {Unable to update cost model} ' +
+      'other {}}',
+    description: 'Cost model created or updated',
+    id: 'costModelsErrorTitle',
+  },
   costModelsExamplesDoubleMarkup: {
     defaultMessage: 'A markup rate of (+) 100% doubles the base costs of your integrations.',
     description: 'A markup rate of (+) 100% doubles the base costs of your integrations.',
@@ -874,6 +905,22 @@ export default defineMessages({
     description: 'Integrations table',
     id: 'costModelsSourceTableAriaLabel',
   },
+  costModelsSuccess: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {Cost model created} ' +
+      'fetch {Cost models fetched} ' +
+      'remove {Cost model deleted} ' +
+      'update {Cost model updated} ' +
+      'other {}}',
+    description: 'Cost model created or updated',
+    id: 'costModelsSuccess',
+  },
+  costModelsSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'costModelsSuccessChanges',
+  },
   costModelsTableAriaLabel: {
     defaultMessage: 'Cost models table',
     description: 'Cost models table',
@@ -953,6 +1000,11 @@ export default defineMessages({
     defaultMessage: 'Red Hat OpenShift Container Platform',
     description: 'Red Hat OpenShift Container Platform',
     id: 'costModelsWizardOnboardOcp',
+  },
+  costModelsWizardPriceLists: {
+    defaultMessage: 'Price lists (optional)',
+    description: 'Price lists (optional)',
+    id: 'costModelsWizardPriceLists',
   },
   costModelsWizardPriceListMetric: {
     defaultMessage:
@@ -3519,6 +3571,11 @@ export default defineMessages({
     description: 'Currency is read only. You must create a new price list to change it.',
     id: 'priceListCurrencyReadOnly',
   },
+  priceListCurrencyUnassign: {
+    defaultMessage: 'You must unassign any price lists before you can edit this currency.',
+    description: 'You must unassign any price lists before you can edit this currency.',
+    id: 'priceListCurrencyUnassign',
+  },
   priceListDeleteRate: {
     defaultMessage: 'Delete rate',
     description: 'Delete rate',
@@ -3723,10 +3780,10 @@ export default defineMessages({
   priceListSuccess: {
     defaultMessage:
       '{value, select, ' +
-      'add {price list created} ' +
-      'duplicate {price list duplicated} ' +
-      'remove {price list deleted} ' +
-      'update {price list updated} ' +
+      'add {Price list created} ' +
+      'duplicate {Price list duplicated} ' +
+      'remove {Price list deleted} ' +
+      'update {Price list updated} ' +
       'other {}}',
     description: 'Price list created or updated',
     id: 'priceListSuccess',
@@ -3848,6 +3905,11 @@ export default defineMessages({
     defaultMessage: 'Remove',
     description: 'Remove',
     id: 'remove',
+  },
+  removePriceList: {
+    defaultMessage: 'Remove from this cost model',
+    description: 'Remove from this cost model',
+    id: 'removePriceList',
   },
   removeProjects: {
     defaultMessage: 'Remove projects',
@@ -4565,6 +4627,11 @@ export default defineMessages({
     defaultMessage: 'View all OpenShift learning resources',
     description: 'View all OpenShift learning resources',
     id: 'viewLearningResources',
+  },
+  viewPriceList: {
+    defaultMessage: 'View price list',
+    description: 'View price list',
+    id: 'viewPriceList',
   },
   viewReleaseNotes: {
     defaultMessage: 'View release notes',
