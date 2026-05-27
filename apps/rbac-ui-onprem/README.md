@@ -54,4 +54,4 @@ test -f apps/rbac-ui-onprem/dist/plugin-manifest.json
 
 From koku-ui root: `npm run start:onprem:dev` runs RBAC webpack watch with the host and other remotes.
 
-See [wiki/topics/rbac-ui-onprem-vendor.md](../../../../wiki/topics/rbac-ui-onprem-vendor.md) in the workspace for Konflux notes.
+Host integration (routes, proxy, Cypress): [`apps/koku-ui-onprem/README.md`](../koku-ui-onprem/README.md).
