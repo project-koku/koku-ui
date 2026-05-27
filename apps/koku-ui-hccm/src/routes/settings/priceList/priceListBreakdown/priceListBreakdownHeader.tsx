@@ -22,7 +22,7 @@ import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { PriceListActions } from 'routes/settings/priceList/priceLists/components/actions';
 import { EditDetailModal } from 'routes/settings/priceList/priceLists/components/details';
-import { getDateString, getValidityPeriod } from 'utils/dates';
+import { getValidityPeriod } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './priceListBreakdownHeader.styles';
@@ -149,7 +149,20 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
               )}
             </Content>
             <Content component={ContentVariants.dt}>{intl.formatMessage(messages.lastUpdated)}</Content>
-            <Content component={ContentVariants.dd}>{getDateString(priceList?.updated_timestamp || '')}</Content>
+            <Content component={ContentVariants.dd}>
+              {priceList?.updated_timestamp
+                ? intl.formatDate(priceList?.updated_timestamp, {
+                    day: 'numeric',
+                    hour: 'numeric',
+                    hour12: false,
+                    minute: 'numeric',
+                    month: 'short',
+                    timeZone: 'UTC',
+                    timeZoneName: 'short',
+                    year: 'numeric',
+                  })
+                : null}
+            </Content>
             <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
             <Content component={ContentVariants.dd}>{getCurrencyLabel(priceList?.currency)}</Content>
           </Content>

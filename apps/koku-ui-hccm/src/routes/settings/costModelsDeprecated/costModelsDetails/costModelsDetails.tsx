@@ -84,7 +84,7 @@ const mapStateToProps = (state: RootState, ownProps: RouterComponentProps) => {
     tabKey: undefined,
   };
   return {
-    search: stringify(searchQuery, { encode: false, indices: false }),
+    search: stringify(searchQuery, { encode: true, indices: false }),
   };
 };
 
