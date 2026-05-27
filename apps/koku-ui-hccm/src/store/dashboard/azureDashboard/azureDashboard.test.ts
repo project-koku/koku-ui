@@ -107,10 +107,10 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[resolution]=daily&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[subscription_guid]=*',
+      'filter%5Bresolution%5D=daily&filter%5Btime_scope_units%5D=month&filter%5Btime_scope_value%5D=-1&group_by%5Bsubscription_guid%5D=%2A',
     ],
-    [{}, 'group_by[subscription_guid]=*'],
-    [{ limit: 3 }, 'filter[limit]=3&group_by[subscription_guid]=*'],
+    [{}, 'group_by%5Bsubscription_guid%5D=%2A'],
+    [{ limit: 3 }, 'filter%5Blimit%5D=3&group_by%5Bsubscription_guid%5D=%2A'],
   ].forEach(value => {
     expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });

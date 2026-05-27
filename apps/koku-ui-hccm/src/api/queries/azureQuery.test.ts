@@ -10,11 +10,11 @@ const query = {
 };
 
 test('getQuery filter_by props are converted', () => {
-  expect(getQuery(query)).toEqual('filter[subscription_guid]=test&order_by[subscription_guid]=asc');
+  expect(getQuery(query)).toEqual('filter%5Bsubscription_guid%5D=test&order_by%5Bsubscription_guid%5D=asc');
 });
 
 test('getQueryRoute filter_by props are not converted', () => {
-  expect(getQueryRoute(query)).toEqual('filter_by[subscription_guid]=test&order_by[subscription_guid]=asc');
+  expect(getQueryRoute(query)).toEqual('filter_by%5Bsubscription_guid%5D=test&order_by%5Bsubscription_guid%5D=asc');
 });
 
 test('parseQuery to convert query string to JSON', () => {
