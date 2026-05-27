@@ -7,19 +7,40 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin, NormalModuleReplacementPlugin } from 'webpack';
 
-import { insightsRbacModuleReplacements, rbacUiOnpremShims } from './src/shims/webpack-paths';
-
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
 const distDir = path.resolve(__dirname, './dist');
 const srcDir = path.resolve(__dirname, './src');
+const shimsDir = path.join(srcDir, 'shims');
+
+/** Absolute paths for webpack aliases and NormalModuleReplacementPlugin targets. */
+const rbacUiOnpremShims = {
+  loaderPlaceholders: path.join(shimsDir, 'insights-rbac/LoaderPlaceholders.tsx'),
+  useAppLink: path.join(shimsDir, 'insights-rbac/useAppLink.ts'),
+  patternflyComponentGroups: path.join(shimsDir, 'patternfly/component-groups.ts'),
+  patternflySkeletonTable: path.join(shimsDir, 'patternfly/SkeletonTable.tsx'),
+  patternflySkeletonTableHead: path.join(shimsDir, 'patternfly/SkeletonTableHead.tsx'),
+  patternflySkeletonTableBody: path.join(shimsDir, 'patternfly/SkeletonTableBody.tsx'),
+} as const;
+
+/** Upstream module paths → on-prem shim (insights-rbac-frontend). */
+const insightsRbacModuleReplacements: readonly { match: RegExp; replacement: string }[] = [
+  {
+    match: /[/\\]insights-rbac-frontend[/\\]src[/\\]shared[/\\]components[/\\]ui-states[/\\]LoaderPlaceholders\.tsx$/,
+    replacement: rbacUiOnpremShims.loaderPlaceholders,
+  },
+  {
+    match: /[/\\]insights-rbac-frontend[/\\]src[/\\]shared[/\\]hooks[/\\]useAppLink\.ts$/,
+    replacement: rbacUiOnpremShims.useAppLink,
+  },
+];
 
 const rbacPkgRoot = path.dirname(require.resolve('insights-rbac-frontend/package.json'));
 const rbacSrcDir = path.join(rbacPkgRoot, 'src');
 const onpremDepsSrc = path.resolve(__dirname, '../../libs/onprem-cloud-deps/src');
 
 const exposedModules = {
-  './Iam': './src/onprem-entry.tsx',
+  './Iam': './src/entry.tsx',
 };
 
 const config: Configuration = {

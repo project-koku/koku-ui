@@ -17,8 +17,6 @@
   "scripts": {
     "build": "npm exec --workspaces -- npm run build",
     "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-sources build:onprem && npm run -w @koku-ui/rbac-ui-onprem build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
-    "verify:onprem": "npm run -w @koku-ui/rbac-ui-onprem verify:onprem",
-    "test:cypress:live": "npm run -w @koku-ui/koku-ui-onprem test:cypress:live",
     "check:dependencies": "npx npm-check-updates; npm exec --workspaces -- npm run check:dependencies",
     "check:dependencies:update": "npx npm-check-updates -u",
     "clean": "npm exec --workspaces -- npm run clean",
