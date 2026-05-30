@@ -28,7 +28,7 @@ interface GeneralInfoOwnProps {
   onCurrencyChange: (value: string) => void;
   onDescriptionChange: (value: string) => void;
   onNameChange: (value: string) => void;
-  onSuorceTypeChange: (value: string) => void;
+  onSourceTypeChange: (value: string) => void;
   sourceType?: string;
 }
 
@@ -62,7 +62,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
   onCurrencyChange,
   onDescriptionChange,
   onNameChange,
-  onSuorceTypeChange,
+  onSourceTypeChange,
   sourceType,
 }: GeneralInfoProps) => {
   const intl = useIntl();
@@ -132,7 +132,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
             maxMenuHeight={styles.selector.maxHeight as string}
             placeholderText={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
             toggleAriaLabel={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
-            onSelect={(_evt, value) => onSuorceTypeChange(value)}
+            onSelect={(_evt, value) => onSourceTypeChange(value)}
             options={sourceTypeOptions}
             value={getValueLabel(sourceType, sourceTypeOptions)}
           />

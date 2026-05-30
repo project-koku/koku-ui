@@ -112,7 +112,6 @@ const OrderPriceListToolbar: React.FC<OrderPriceListToolbarProps> = ({
         isAllSelected={isAllSelected}
         isBulkSelectDisabled={isDisabled || isDraggable}
         isDisabled={isDisabled || isDraggable}
-        isFilterDisabled={isFilterDisabled}
         isReadOnly={!canWrite}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}

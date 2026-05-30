@@ -201,7 +201,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
             onCurrencyChange={setCurrency}
             onDescriptionChange={handleOnDescriptionChange}
             onNameChange={handleOnNameChange}
-            onSuorceTypeChange={handleOnSourceTypeChange}
+            onSourceTypeChange={handleOnSourceTypeChange}
             sourceType={sourceType}
           />
         </WizardStep>

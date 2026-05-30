@@ -106,7 +106,7 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
               <span>
                 <Link to={`${formatPath(routes.priceListBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>
                 <Label isCompact style={styles.label}>
-                  {intl.formatMessage(messages.version, { value: version })}
+                  {intl.formatMessage(messages.version, { value: version ?? '' })}
                 </Label>
               </span>
             ),
