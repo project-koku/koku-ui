@@ -1,11 +1,3 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import React from 'react';
-import { IntlProvider } from 'react-intl';
-
-import { FetchStatus } from 'store/common';
-
-import { OrderPriceListTable } from './orderPriceListTable';
-
 jest.mock('./utils', () => ({
   useFetchPriceLists: () => ({
     priceList: {
@@ -20,9 +12,15 @@ jest.mock('./utils', () => ({
       ],
     },
     priceListError: null,
-    priceListFetchStatus: FetchStatus.complete,
+    priceListFetchStatus: 'complete',
   }),
 }));
+
+import { render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
+import { IntlProvider } from 'react-intl';
+
+import { OrderPriceListTable } from './orderPriceListTable';
 
 jest.mock('./components/actions', () => ({
   RemovePriceListAction: ({ isDisabled }: { isDisabled?: boolean }) => (

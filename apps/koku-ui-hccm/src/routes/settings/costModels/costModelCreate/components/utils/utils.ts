@@ -2,7 +2,7 @@ import messages from 'locales/messages';
 import { countDecimals, isPercentageFormatValid } from 'utils/format';
 
 export const validateDescription = (value: string) => {
-  if (value.length > 500) {
+  if (value?.length > 500) {
     return messages.costModelsDescTooLong;
   }
   return null;
@@ -21,10 +21,10 @@ export const validateMarkup = (value: string) => {
 };
 
 export const validateName = (value: string) => {
-  if (value?.trim()?.length === 0) {
+  if (!value || value?.trim().length === 0) {
     return messages.requiredField;
   }
-  if (value.length > 100) {
+  if (value?.length > 100) {
     return messages.costModelsInfoTooLong;
   }
   return null;

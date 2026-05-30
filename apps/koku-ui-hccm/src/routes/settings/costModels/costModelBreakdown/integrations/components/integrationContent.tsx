@@ -275,7 +275,7 @@ const useMapToProps = ({ costModel, query, sourceType }: IntegrationContentMapPr
     ...filterBy,
     limit: query?.limit,
     offset: query?.offset,
-    type: sourceType ?? providerType,
+    type: sourceType ? getSourceType(sourceType) : providerType,
   } as Query;
 
   const providersQueryString = getQuery(costModelsQuery);

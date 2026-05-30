@@ -1,6 +1,7 @@
+import type { PriceList } from 'api/priceList';
 import { type PriceListData, PriceListType } from 'api/priceList';
-import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
+import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
@@ -39,14 +40,15 @@ export const getPaginatedPriceLists = (
   return pricelists?.slice(offset, end) ?? [];
 };
 
-export const useFetchPriceLists = (query: Query) => {
+export const useFetchPriceLists = (): {
+  priceList: PriceList;
+  priceListError: AxiosError;
+  priceListFetchStatus: FetchStatus;
+} => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const priceListQuery = {
-    filter_by: query?.filter_by,
-    limit: query?.limit,
-    offset: query?.offset,
-    order_by: query?.order_by,
+    limit: 1000,
   };
   const priceListQueryString = getQuery(priceListQuery);
   const priceList = useSelector((state: RootState) =>
@@ -63,7 +65,7 @@ export const useFetchPriceLists = (query: Query) => {
     if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, undefined, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, query]);
+  }, [dispatch, priceListError, priceListQueryString]);
 
   return {
     priceList,

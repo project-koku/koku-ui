@@ -64,17 +64,14 @@ const AddPriceListModal: React.FC<AddPriceListModalProps> = ({
   const handleOnAdd = (items: PriceListDataExt[]) => {
     if (costModelsUpdateStatus !== FetchStatus.inProgress) {
       // Calculate the highest priority
-      let priority = 0;
-      items?.forEach(item => {
-        priority += item?.priority ?? 0;
-      });
+      let maxPriority = Math.max(...(items?.map(item => item?.priority ?? 0) ?? [0]));
 
       const itemsWithPriority = [];
       items?.forEach(item => {
         itemsWithPriority.push({
           uuid: item?.uuid,
           name: item?.name,
-          priority: item?.priority ?? ++priority,
+          priority: item?.priority ?? ++maxPriority,
         });
       });
       const newPriceLists = itemsWithPriority.sort((a, b) => a.priority - b.priority);

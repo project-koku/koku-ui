@@ -4,7 +4,7 @@ import { Label } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
@@ -12,8 +12,6 @@ import { DraggableTable } from 'routes/components/dataTable';
 import { RemovePriceListAction } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/actions';
 import { formatDate } from 'utils/dates';
 import { formatPath } from 'utils/paths';
-
-import { FetchStatus } from 'store/common';
 
 import { styles } from './orderPriceListTable.styles';
 import { useFetchPriceLists } from './utils';
@@ -59,11 +57,9 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
-  const { priceList, priceListFetchStatus } = useFetchPriceLists(undefined);
-  const allPriceLists = useMemo(() => priceList?.data ?? [], [priceList?.data]);
-  const isDetailsLoading = priceListFetchStatus === FetchStatus.inProgress;
+  const { priceList: fullPriceList } = useFetchPriceLists();
 
-  useEffect(() => {
+  const initDatum = () => {
     if (!priceLists) {
       return;
     }
@@ -94,10 +90,11 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
     ];
 
     computedItems.forEach(item => {
-      const fullPriceList = allPriceLists.find(p => p.uuid === item.uuid);
-      const version = fullPriceList?.version ?? item?.version;
-      const effectiveStartDate = fullPriceList?.effective_start_date ?? item?.effective_start_date;
-      const effectiveEndDate = fullPriceList?.effective_end_date ?? item?.effective_end_date;
+      const fullPriceListItem = fullPriceList?.data?.find(p => p.uuid === item.uuid);
+
+      const effective_end_date = item?.effective_end_date || fullPriceListItem?.effective_end_date;
+      const effective_start_date = item?.effective_start_date || fullPriceListItem?.effective_start_date;
+      const version = item?.version || fullPriceListItem?.version;
 
       newRows.push({
         cells: [
@@ -108,21 +105,19 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
             value: (
               <span>
                 <Link to={`${formatPath(routes.priceListBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>
-                {version != null && (
-                  <Label isCompact style={styles.label}>
-                    {intl.formatMessage(messages.version, { value: version })}
-                  </Label>
-                )}
+                <Label isCompact style={styles.label}>
+                  {intl.formatMessage(messages.version, { value: version })}
+                </Label>
               </span>
             ),
           },
           {
             style: styles.column,
-            value: formatDate(effectiveStartDate ? `${effectiveStartDate}T00:00:00` : ''),
+            value: formatDate(effective_start_date ? `${item.effective_start_date}T00:00:00` : ''),
           },
           {
             style: styles.column,
-            value: formatDate(effectiveEndDate ? `${effectiveEndDate}T00:00:00` : ''),
+            value: formatDate(effective_end_date ? `${item.effective_end_date}T00:00:00` : ''),
           },
           {
             value: (
@@ -146,19 +141,11 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
 
     setColumns(newColumns);
     setRows(newRows);
-  }, [
-    allPriceLists,
-    canWrite,
-    costModel,
-    intl,
-    isAllSelected,
-    isDisabled,
-    isDraggable,
-    onClose,
-    onRemove,
-    priceLists,
-    selectedItems,
-  ]);
+  };
+
+  useEffect(() => {
+    initDatum();
+  }, [canWrite, costModel, isAllSelected, isDisabled, isDraggable, priceLists, selectedItems]);
 
   return (
     <DraggableTable
@@ -167,7 +154,7 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
       columns={columns}
       filterBy={filterBy}
       isActionsCell
-      isLoading={isLoading || isDetailsLoading}
+      isLoading={isLoading}
       onDrop={onDrop}
       orderBy={orderBy}
       onSelect={onSelect}
