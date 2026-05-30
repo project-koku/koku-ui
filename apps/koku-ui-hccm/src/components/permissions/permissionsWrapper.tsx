@@ -98,7 +98,7 @@ class PermissionsWrapperBase extends React.Component<PermissionsWrapperProps, an
 const mapStateToProps = createMapStateToProps<PermissionsWrapperOwnProps, PermissionsWrapperStateProps>(state => {
   const accountSettings = accountSettingsSelectors.selectAccountSettings(state, AccountSettingsType.settings);
   const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(state, AccountSettingsType.settings);
-  const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsStatus(
+  const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(
     state,
     AccountSettingsType.settings
   );

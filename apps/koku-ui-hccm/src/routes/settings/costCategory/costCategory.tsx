@@ -13,7 +13,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { useSettingsUpdate } from 'routes/settings/utils/hooks';
+import { useSettingsNotifications } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -35,8 +35,7 @@ export interface CostCategoryMapProps {
 export interface CostCategoryStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
-  settingsQueryString?: string;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type CostCategoryProps = CostCategoryOwnProps;
@@ -56,7 +55,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
+  const { settings, settingsError, settingsFetchStatus } = useMapToProps({ query });
 
   const getCategories = () => {
     if (settings) {
@@ -97,7 +96,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
       <CostCategoryTable
         canWrite={canWrite}
         filterBy={query.filter_by}
-        isLoading={settingsStatus === FetchStatus.inProgress}
+        isLoading={settingsFetchStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
         onSelect={handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -228,7 +227,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
         })}
         <div style={styles.tableContainer}>
           {getToolbar(categories)}
-          {settingsStatus === FetchStatus.inProgress ? (
+          {settingsFetchStatus === FetchStatus.inProgress ? (
             <LoadingState />
           ) : (
             <>
@@ -255,37 +254,42 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
   const settings = useSelector((state: RootState) =>
     settingsSelectors.selectSettings(state, SettingsType.costCategories, settingsQueryString)
   );
-  const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.costCategories, settingsQueryString)
-  );
   const settingsError = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsError(state, SettingsType.costCategories, settingsQueryString)
   );
-
-  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
-    type: SettingsType.costCategoriesDisable,
-  });
-
-  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
-    type: SettingsType.costCategoriesEnable,
-  });
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.costCategories, settingsQueryString)
+  );
+  const settingsDisableStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.costCategoriesDisable, undefined)
+  );
+  const settingsEnableStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.costCategoriesEnable, undefined)
+  );
 
   useEffect(() => {
     if (
       !settingsError &&
-      settingsStatus !== FetchStatus.inProgress &&
-      settingsUpdateDisableStatus !== FetchStatus.inProgress &&
-      settingsUpdateEnableStatus !== FetchStatus.inProgress
+      settingsFetchStatus !== FetchStatus.inProgress &&
+      settingsDisableStatus !== FetchStatus.inProgress &&
+      settingsEnableStatus !== FetchStatus.inProgress
     ) {
       dispatch(settingsActions.fetchSettings(SettingsType.costCategories, settingsQueryString));
     }
-  }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+  }, [query, settingsDisableStatus, settingsEnableStatus, settingsError]);
+
+  // Notifications
+  useSettingsNotifications({
+    type: SettingsType.costCategoriesDisable,
+  });
+  useSettingsNotifications({
+    type: SettingsType.costCategoriesEnable,
+  });
 
   return {
     settings,
     settingsError,
-    settingsStatus,
-    settingsQueryString,
+    settingsFetchStatus,
   };
 };
 

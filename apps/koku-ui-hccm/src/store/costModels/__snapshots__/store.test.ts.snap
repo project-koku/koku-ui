@@ -3,15 +3,25 @@
 exports[`default state 1`] = `
 {
   "costModels": {
+    "add": {
+      "current": null,
+      "error": null,
+      "notification": null,
+      "status": 0,
+    },
     "costModels": null,
     "currentFilterType": "name",
     "currentFilterValue": "",
     "delete": {
       "error": null,
+      "notification": null,
       "status": 0,
     },
     "dialogData": null,
-    "error": null,
+    "fetch": {
+      "error": null,
+      "status": 0,
+    },
     "isDialogOpen": {
       "addRate": false,
       "addSource": false,
@@ -31,10 +41,10 @@ exports[`default state 1`] = `
       "notification": null,
       "status": 0,
     },
-    "status": 0,
     "update": {
       "current": null,
       "error": null,
+      "notification": null,
       "status": 0,
     },
   },

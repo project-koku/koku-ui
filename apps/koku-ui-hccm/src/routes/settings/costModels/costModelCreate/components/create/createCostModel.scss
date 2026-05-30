@@ -1,0 +1,10 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.wizardOverride {
+    &.pf-v6-c-wizard {
+        --pf-v6-c-wizard__header--BackgroundColor: var(--pf-t--global--background--color--primary--default);
+    }
+
+    // PF adds a top border on main-wizard when it is not :first-child (e.g. after breadcrumbs).
+    --pf-v6-c-page__main-wizard--BorderBlockStartWidth: 0;
+}
