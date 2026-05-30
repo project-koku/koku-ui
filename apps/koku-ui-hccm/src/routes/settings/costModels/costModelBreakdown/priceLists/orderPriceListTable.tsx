@@ -113,11 +113,11 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
           },
           {
             style: styles.column,
-            value: formatDate(effective_start_date ? `${item.effective_start_date}T00:00:00` : ''),
+            value: effective_start_date ? formatDate(`${effective_start_date}T00:00:00`) : '',
           },
           {
             style: styles.column,
-            value: formatDate(effective_end_date ? `${item.effective_end_date}T00:00:00` : ''),
+            value: effective_end_date ? formatDate(`${effective_end_date}T00:00:00`) : '',
           },
           {
             value: (
