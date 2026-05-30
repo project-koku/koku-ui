@@ -59,7 +59,7 @@ const TimelineChart: React.FC<TimelineChartProps> = ({ isReset, onResetClick, pr
       effectiveStartDate, // Save for tooltip
       name: item?.name ?? '',
       priority: item?.priority ?? undefined,
-      x: `${priceLists.length - index} ${item.name}`,
+      x: `${priceLists.length - index} ${item.name ?? ''}`,
       y0: startDate,
       y: endDate,
     };

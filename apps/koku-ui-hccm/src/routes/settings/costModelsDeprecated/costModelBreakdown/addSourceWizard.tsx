@@ -24,6 +24,7 @@ import { parseApiError } from 'routes/settings/utils';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -175,13 +176,13 @@ class AddSourceWizardBase extends React.Component<AddSourceWizardProps, AddSourc
 
 const mapStateToProps = createMapStateToProps<AddSourceWizardOwnProps, AddSourceWizardStateProps>(state => {
   return {
-    fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,
+    fetchingSourcesError: getError(sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null),
     isLoadingSources: sourcesSelectors.status(state) === FetchStatus.inProgress,
     isUpdateInProgress: costModelsSelectors.updateProcessing(state),
     pagination: sourcesSelectors.pagination(state),
     providers: sourcesSelectors.sources(state),
     query: sourcesSelectors.query(state),
-    updateApiError: costModelsSelectors.selectCostModelsUpdateError(state),
+    updateApiError: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
   };
 });
 

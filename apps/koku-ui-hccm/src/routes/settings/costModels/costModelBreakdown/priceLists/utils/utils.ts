@@ -1,4 +1,13 @@
-import type { PriceListData } from 'api/priceList';
+import { type PriceListData, PriceListType } from 'api/priceList';
+import type { Query } from 'api/queries/query';
+import { getQuery } from 'api/queries/query';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { priceListActions, priceListSelectors } from 'store/priceLists';
 
 // Filter price lists by name
 export const getFilteredPriceLists = (pricelists: PriceListData[], filterBy: any): PriceListData[] => {
@@ -28,4 +37,37 @@ export const getPaginatedPriceLists = (
   const offset = pageNumber * perPage - perPage;
   const end = Math.min(offset + perPage, pricelists?.length ?? 0);
   return pricelists?.slice(offset, end) ?? [];
+};
+
+export const useFetchPriceList = (uuid: string, query: Query) => {
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
+  const priceListQuery = {
+    filter_by: query?.filter_by,
+    limit: query?.limit,
+    offset: query?.offset,
+    order_by: query?.order_by,
+  };
+  const priceListQueryString = getQuery(priceListQuery);
+  const priceList = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceList(state, PriceListType.priceList, priceListQueryString)
+  ) as PriceListData;
+  const priceListError = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListError(state, PriceListType.priceList, priceListQueryString)
+  );
+  const priceListFetchStatus = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceList, priceListQueryString)
+  );
+
+  useEffect(() => {
+    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
+      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
+    }
+  }, [dispatch, priceListError, priceListQueryString, query]);
+
+  return {
+    priceList,
+    priceListError,
+    priceListFetchStatus,
+  };
 };

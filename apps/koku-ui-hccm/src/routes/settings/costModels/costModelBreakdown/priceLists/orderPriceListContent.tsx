@@ -32,7 +32,7 @@ interface OrderPriceListContentOwnProps {
   isWizardStep?: boolean;
   onAdd?: (priceLists: PriceListDataExt[]) => void;
   onFilterAdded?: (filter: Filter) => void;
-  onFilterRemoved?: (filter: Filter) => void;
+  onFilterRemoved?: (filter: Filter | null) => void;
   onPerPage?: (value: number) => void;
   onPageNumber?: (value: number) => void;
   onRemove?: (priceLists: PriceListDataExt[]) => void;

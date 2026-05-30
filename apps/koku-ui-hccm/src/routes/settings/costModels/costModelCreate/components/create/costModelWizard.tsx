@@ -154,7 +154,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
   const [isDiscount, setIsDiscount] = useState(false);
   const [markup, setMarkup] = useState('0');
   const [markupError, setMarkupError] = useState<MessageDescriptor>();
-  const [name, setName] = useState<string>();
+  const [name, setName] = useState<string>('');
   const [nameError, setNameError] = useState<MessageDescriptor>();
   const [priceLists, setPriceLists] = useState<PriceListData[]>([]);
   const [sources, setSources] = useState<Provider[]>([]);
@@ -436,9 +436,9 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
 
     if (resetGeneralInfo) {
       setCurrency(getAccountCurrency());
-      setDescription(undefined);
+      setDescription('');
       setDescriptionError(undefined);
-      setName(undefined);
+      setName('');
       setNameError(undefined);
       setSourceType(undefined);
     }

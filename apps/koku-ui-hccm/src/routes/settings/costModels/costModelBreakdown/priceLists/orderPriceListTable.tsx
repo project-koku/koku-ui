@@ -14,10 +14,11 @@ import { formatDate } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './orderPriceListTable.styles';
+import { useFetchPriceList } from './utils';
 
 interface OrderPriceListTableOwnProps {
   canWrite?: boolean;
-  costModel: CostModel;
+  costModel?: CostModel;
   filterBy?: any;
   isAllSelected?: boolean;
   isDisabled?: boolean;
@@ -87,6 +88,8 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
     ];
 
     computedItems.forEach(item => {
+      const { priceList, priceListError, priceListFetchStatus } = useFetchPriceList(item.uuid, undefined);
+
       newRows.push({
         cells: [
           {}, // Empty cell for row drag

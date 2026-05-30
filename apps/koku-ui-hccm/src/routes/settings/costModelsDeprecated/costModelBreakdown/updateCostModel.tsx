@@ -23,6 +23,7 @@ import { Selector } from 'routes/settings/components';
 import { styles } from 'routes/settings/costModelsDeprecated/costModelWizard/wizard.styles';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 
 interface UpdateCostModelOwnProps extends WrappedComponentProps {
   // TBD...
@@ -174,7 +175,7 @@ const mapStateToProps = createMapStateToProps<UpdateCostModelOwnProps, UpdateCos
   return {
     costModel: costModelsSelectors.costModelsData(state),
     isProcessing: costModelsSelectors.updateProcessing(state),
-    updateError: costModelsSelectors.selectCostModelsUpdateError(state),
+    updateError: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
   };
 });
 

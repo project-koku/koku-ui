@@ -1,9 +1,12 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import type { CostModels } from 'api/costModels';
+import type { AxiosError } from 'axios';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-
+import { FetchStatus } from 'store/common';
+import { defaultState, stateKey } from 'store/costModels/costModelReducer';
 import { configureStore } from 'store/store';
 
 import CostModelBreakdown from './costModelBreakdown';
@@ -24,12 +27,17 @@ jest.mock('./costModelBreakdownHeader', () => ({
   CostModelBreakdownHeader: () => <div data-testid="breakdown-header" />,
 }));
 
-jest.mock('api/costModels', () => {
-  const actual = jest.requireActual('api/costModels');
-  return { ...actual, fetchCostModels: jest.fn() };
-});
+jest.mock('routes/components/page/notAvailable', () => ({
+  NotAvailable: () => <div data-testid="not-available" />,
+}));
 
-import * as api from 'api/costModels';
+jest.mock('store/costModels/costModelActions', () => {
+  const actual = jest.requireActual('store/costModels/costModelActions');
+  return {
+    ...actual,
+    fetchCostModels: jest.fn(() => () => undefined),
+  };
+});
 
 const costModel = {
   uuid: 'cm-1',
@@ -37,18 +45,37 @@ const costModel = {
   source_type: 'OpenShift Container Platform',
   sources: [],
   price_lists: [],
-} as any;
+} as const;
+
+const defaultCostModels: CostModels = {
+  data: [costModel as any],
+  meta: { count: 1, limit: 10, offset: 0 },
+  links: { first: null, last: null, next: null, previous: null },
+};
+
+const invalidProviderUuidError = {
+  response: {
+    data: { errors: [{ source: 'detail', detail: 'Invalid provider uuid' }] },
+  },
+} as AxiosError;
+
+const genericFetchError = {
+  response: { data: { Error: 'Internal server error' } },
+} as AxiosError;
+
+const createStore = (fetch: { status: FetchStatus; error: AxiosError | null }, costModels = defaultCostModels) =>
+  configureStore({
+    [stateKey]: {
+      ...defaultState,
+      costModels,
+      fetch,
+    },
+  } as any);
 
 describe('CostModelBreakdown', () => {
-  beforeEach(() => {
-    (api.fetchCostModels as jest.Mock).mockResolvedValue({
-      data: { data: [costModel], meta: { count: 1 } },
-    });
-  });
-
-  const renderView = (uuid = 'cm-1') =>
+  const renderView = (uuid = 'cm-1', store = createStore({ status: FetchStatus.complete, error: null })) =>
     render(
-      <Provider store={configureStore({} as any)}>
+      <Provider store={store}>
         <IntlProvider locale="en">
           <MemoryRouter initialEntries={[`/settings/cost-models/${uuid}`]}>
             <Routes>
@@ -72,12 +99,16 @@ describe('CostModelBreakdown', () => {
     await waitFor(() => expect(screen.getByTestId('integrations-tab')).toBeInTheDocument());
   });
 
-  test('shows unavailable for invalid uuid error', async () => {
-    const err: any = {
-      response: { data: { errors: [{ source: 'detail', detail: 'Invalid provider uuid' }] } },
-    };
-    (api.fetchCostModels as jest.Mock).mockRejectedValueOnce(err);
-    renderView('bad-uuid');
+  test('shows uuid empty state when fetch returns invalid provider uuid', async () => {
+    renderView('bad-uuid', createStore({ status: FetchStatus.complete, error: invalidProviderUuidError }));
     await waitFor(() => expect(screen.getByText(/cost model can not be found/i)).toBeInTheDocument());
+    expect(screen.getByText(/bad-uuid/)).toBeInTheDocument();
+    expect(screen.queryByTestId('not-available')).not.toBeInTheDocument();
+  });
+
+  test('shows NotAvailable for other fetch errors', async () => {
+    renderView('cm-1', createStore({ status: FetchStatus.complete, error: genericFetchError }));
+    await waitFor(() => expect(screen.getByTestId('not-available')).toBeInTheDocument());
+    expect(screen.queryByText(/cost model can not be found/i)).not.toBeInTheDocument();
   });
 });

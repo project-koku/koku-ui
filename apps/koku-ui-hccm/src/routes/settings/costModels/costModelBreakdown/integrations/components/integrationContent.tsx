@@ -197,6 +197,11 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
     // Effects
 
     useEffect(() => {
+      setSelectedItems(sources ?? []);
+      setSelectedItemsBaseline(sources ?? []);
+    }, [sources]);
+
+    useEffect(() => {
       onDisabled?.(isSaveDisabled);
     }, [isSaveDisabled]);
 

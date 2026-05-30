@@ -28,6 +28,7 @@ import {
 } from 'routes/settings/costModelsDeprecated/components/rateForm';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { metricsSelectors } from 'store/metrics';
 
 interface UpdateRateModalOwnProps {
@@ -161,7 +162,7 @@ const mapStateToProps = createMapStateToProps<UpdateRateModalOwnProps, UpdateRat
     isOpen: (costModelsSelectors.isDialogOpen(state)('rate') as any).updateRate,
     isProcessing: costModelsSelectors.updateProcessing(state),
     metricsHash: metricsSelectors.metrics(state),
-    updateError: costModelsSelectors.selectCostModelsUpdateError(state),
+    updateError: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
   };
 });
 

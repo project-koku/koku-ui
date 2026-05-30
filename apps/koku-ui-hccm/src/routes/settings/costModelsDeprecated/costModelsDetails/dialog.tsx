@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import type { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { type RouterComponentProps, withRouter } from 'utils/router';
 
 import { DeleteDialogActions, DeleteDialogBody, getDialogStateName } from './utils/dialog';
@@ -65,7 +66,7 @@ const mergeProps = (
   ownProps: Props
 ) => {
   const { intl = defaultIntl } = ownProps; // Default required for testing
-  const stateName = getDialogStateName(stateProps.isLoading, stateProps.isOpen, stateProps.deleteError);
+  const stateName = getDialogStateName(stateProps.isLoading, stateProps.isOpen, getError(stateProps.deleteError));
   const data = stateProps.dialogData && stateProps.dialogData.costModel ? stateProps.dialogData.costModel : null;
   const name = data ? data.name : '';
   const sources = data ? data.sources.map(source => source.name) : [];

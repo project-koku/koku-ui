@@ -16,7 +16,7 @@ import { PriceListActions } from './components/actions/priceListActions';
 
 interface OrderPriceListToolbarOwnProps {
   canWrite?: boolean;
-  costModel: CostModel;
+  costModel?: CostModel;
   isAllSelected?: boolean;
   isDisabled?: boolean;
   isDraggable?: boolean;

@@ -33,6 +33,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { countDecimals, formatPercentageMarkup, isPercentageFormatValid, unFormat } from 'utils/format';
 
 import { styles } from './costCalc.styles';
@@ -251,7 +252,7 @@ class UpdateMarkupDialogBase extends React.Component<UpdateMarkupDialogProps, Up
 const mapStateToProps = createMapStateToProps<UpdateMarkupDialogOwnProps, UpdateMarkupDialogStateProps>(state => {
   return {
     isLoading: costModelsSelectors.updateProcessing(state),
-    error: costModelsSelectors.selectCostModelsUpdateError(state),
+    error: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
   };
 });
 

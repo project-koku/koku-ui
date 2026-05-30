@@ -20,6 +20,7 @@ import { Loading } from 'routes/components/page/loading';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { useCostModelNotifications } from 'routes/settings/costModels/utils';
+import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -220,7 +221,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   }
 
   if (costModelsFetchError) {
-    if (costModelsFetchError === 'detail: Invalid provider uuid') {
+    if (parseApiError(costModelsFetchError) === 'detail: Invalid provider uuid') {
       return (
         <>
           <PageHeader title={intl.formatMessage(messages.costModels)} />

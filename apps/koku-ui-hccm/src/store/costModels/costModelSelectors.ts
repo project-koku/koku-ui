@@ -105,21 +105,21 @@ export const selected = (state: RootState) => {
 
 // Selectors for individual reducer states
 
-export const selectCostModelsAddError = (state: RootState) => getError(costModelsState(state).add?.error);
+export const selectCostModelsAddError = (state: RootState) => costModelsState(state).add?.error;
 export const selectCostModelsAddNotification = (state: RootState) => costModelsState(state).add?.notification;
 export const selectCostModelsAddStatus = (state: RootState) => costModelsState(state).add?.status;
 
-export const selectCostModelsDeleteError = (state: RootState) => getError(costModelsState(state).delete?.error);
+export const selectCostModelsDeleteError = (state: RootState) => costModelsState(state).delete?.error;
 export const selectCostModelsDeleteNotification = (state: RootState) => costModelsState(state).delete?.notification;
 export const selectCostModelsDeleteStatus = (state: RootState) => costModelsState(state).delete?.status;
 
-export const selectCostModelsFetchError = (state: RootState) => getError(costModelsState(state).fetch?.error);
+export const selectCostModelsFetchError = (state: RootState) => costModelsState(state).fetch?.error;
 export const selectCostModelsFetchStatus = (state: RootState) => costModelsState(state).fetch?.status;
 
-export const selectCostModelsRedirectError = (state: RootState) => getError(costModelsState(state).redirect?.error);
+export const selectCostModelsRedirectError = (state: RootState) => costModelsState(state).redirect?.error;
 export const selectCostModelsRedirectNotification = (state: RootState) => costModelsState(state).redirect?.notification;
 export const selectCostModelsRedirectStatus = (state: RootState) => costModelsState(state).redirect?.status;
 
-export const selectCostModelsUpdateError = (state: RootState) => getError(costModelsState(state).update?.error);
+export const selectCostModelsUpdateError = (state: RootState) => costModelsState(state).update?.error;
 export const selectCostModelsUpdateNotification = (state: RootState) => costModelsState(state).update?.notification;
 export const selectCostModelsUpdateStatus = (state: RootState) => costModelsState(state).update?.status;
