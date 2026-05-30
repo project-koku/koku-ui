@@ -29,7 +29,7 @@ describe('GeneralInfo', () => {
     onCurrencyChange: jest.fn(),
     onDescriptionChange: jest.fn(),
     onNameChange: jest.fn(),
-    onSuorceTypeChange: jest.fn(),
+    onSourceTypeChange: jest.fn(),
     sourceType: '',
   };
 
@@ -49,15 +49,15 @@ describe('GeneralInfo', () => {
     expect(onNameChange).toHaveBeenCalledWith('My Cost Model');
   });
 
-  test('calls onSuorceTypeChange when source type is selected', () => {
-    const onSuorceTypeChange = jest.fn();
+  test('calls onSourceTypeChange when source type is selected', () => {
+    const onSourceTypeChange = jest.fn();
     render(
       <IntlProvider locale="en">
-        <GeneralInfo {...defaultProps} onSuorceTypeChange={onSuorceTypeChange} />
+        <GeneralInfo {...defaultProps} onSourceTypeChange={onSourceTypeChange} />
       </IntlProvider>
     );
 
     fireEvent.click(screen.getByTestId('source-type'));
-    expect(onSuorceTypeChange).toHaveBeenCalledWith('AWS');
+    expect(onSourceTypeChange).toHaveBeenCalledWith('AWS');
   });
 });
