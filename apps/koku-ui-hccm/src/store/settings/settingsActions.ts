@@ -10,7 +10,7 @@ import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './settingsCommon';
-import { selectSettingsError, selectSettingsStatus, selectSettingsUpdateStatus } from './settingsSelectors';
+import { selectSettingsError, selectSettingsFetchStatus } from './settingsSelectors';
 
 interface SettingsActionMeta {
   fetchId: string;
@@ -28,14 +28,14 @@ export const updateSettingsSuccess = createAction('settings/update/success')<
 >();
 export const updateSettingsFailure = createAction('settings/update/failure')<AxiosError, SettingsActionMeta>();
 
-export const resetNotification = createAction('settings/notification/reset')();
+export const resetNotifications = createAction('settings/notification/reset')();
 export const resetStatus = createAction('settings/status/reset')();
 
 export function fetchSettings(settingsType: SettingsType, settingsQueryString: string): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
     const fetchError = selectSettingsError(state, settingsType, settingsQueryString);
-    const fetchStatus = selectSettingsStatus(state, settingsType, settingsQueryString);
+    const fetchStatus = selectSettingsFetchStatus(state, settingsType, settingsQueryString);
     if (fetchError || fetchStatus === FetchStatus.inProgress) {
       return;
     }
@@ -59,7 +59,7 @@ export function fetchSettings(settingsType: SettingsType, settingsQueryString: s
 export function updateSettings(settingsType: SettingsType, payload: SettingsPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchStatus = selectSettingsUpdateStatus(state, settingsType);
+    const fetchStatus = selectSettingsFetchStatus(state, settingsType, undefined);
 
     if (fetchStatus === FetchStatus.inProgress) {
       return;

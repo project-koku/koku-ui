@@ -13,7 +13,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { useSettingsUpdate } from 'routes/settings/utils/hooks';
+import { useSettingsNotifications } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -35,8 +35,7 @@ export interface PlatformProjectsMapProps {
 export interface PlatformProjectsStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
-  settingsQueryString?: string;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type PlatformProjectsProps = PlatformProjectsOwnProps;
@@ -57,7 +56,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   const [query, setQuery] = useState({ ...baseQuery });
   const [selectedItems, setSelectedItems] = useStateCallback([]);
 
-  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
+  const { settings, settingsError, settingsFetchStatus } = useMapToProps({ query });
 
   const getCategories = () => {
     if (settings) {
@@ -98,7 +97,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
       <PlatformProjectsTable
         canWrite={canWrite}
         filterBy={query.filter_by}
-        isLoading={settingsStatus === FetchStatus.inProgress}
+        isLoading={settingsFetchStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
         onSelect={handleonSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -234,7 +233,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
         })}
         <div style={styles.tableContainer}>
           {getToolbar(categories)}
-          {settingsStatus === FetchStatus.inProgress ? (
+          {settingsFetchStatus === FetchStatus.inProgress ? (
             <LoadingState />
           ) : (
             <>
@@ -261,37 +260,42 @@ const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsSta
   const settings = useSelector((state: RootState) =>
     settingsSelectors.selectSettings(state, SettingsType.platformProjects, settingsQueryString)
   );
-  const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.platformProjects, settingsQueryString)
-  );
   const settingsError = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsError(state, SettingsType.platformProjects, settingsQueryString)
   );
-
-  const { status: settingsUpdateDisableStatus } = useSettingsUpdate({
-    type: SettingsType.platformProjectsAdd,
-  });
-
-  const { status: settingsUpdateEnableStatus } = useSettingsUpdate({
-    type: SettingsType.platformProjectsRemove,
-  });
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.platformProjects, settingsQueryString)
+  );
+  const settingsAddStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.platformProjectsAdd, undefined)
+  );
+  const settingsRemoveStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.platformProjectsRemove, undefined)
+  );
 
   useEffect(() => {
     if (
       !settingsError &&
-      settingsStatus !== FetchStatus.inProgress &&
-      settingsUpdateDisableStatus !== FetchStatus.inProgress &&
-      settingsUpdateEnableStatus !== FetchStatus.inProgress
+      settingsFetchStatus !== FetchStatus.inProgress &&
+      settingsAddStatus !== FetchStatus.inProgress &&
+      settingsRemoveStatus !== FetchStatus.inProgress
     ) {
       dispatch(settingsActions.fetchSettings(SettingsType.platformProjects, settingsQueryString));
     }
-  }, [query, settingsUpdateDisableStatus, settingsUpdateEnableStatus]);
+  }, [query, settingsAddStatus, settingsError, settingsRemoveStatus]);
+
+  // Notifications
+  useSettingsNotifications({
+    type: SettingsType.platformProjectsAdd,
+  });
+  useSettingsNotifications({
+    type: SettingsType.platformProjectsRemove,
+  });
 
   return {
     settings,
     settingsError,
-    settingsStatus,
-    settingsQueryString,
+    settingsFetchStatus,
   };
 };
 

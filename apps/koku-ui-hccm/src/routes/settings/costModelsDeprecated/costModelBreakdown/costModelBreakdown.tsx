@@ -197,8 +197,8 @@ export default injectIntl(
         createMapStateToProps(state => {
           return {
             costModels: costModelsSelectors.costModelsData(state),
-            costModelError: costModelsSelectors.error(state),
-            costModelStatus: costModelsSelectors.status(state),
+            costModelError: costModelsSelectors.selectCostModelsFetchError(state),
+            costModelStatus: costModelsSelectors.selectCostModelsFetchStatus(state),
             costTypes: metricsSelectors.costTypes(state),
             maxRate: metricsSelectors.maxRate(state),
             metricsError: metricsSelectors.metricsState(state).error,

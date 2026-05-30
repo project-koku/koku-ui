@@ -36,8 +36,8 @@ interface ParentTagMappingOwnProps {
 }
 
 interface ParentTagMappingStateProps {
-  settingsUpdateError?: AxiosError;
-  settingsUpdateStatus?: FetchStatus;
+  settingsError?: AxiosError;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type ParentTagMappingProps = ParentTagMappingOwnProps;
@@ -55,7 +55,7 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
+  const { settingsError, settingsFetchStatus } = useMapToProps();
 
   const getActions = () => {
     const getTooltip = children => {
@@ -166,8 +166,8 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
             <ParentTagMappingReview
               childTags={childTags}
               parentTags={parentTags}
-              settingsError={settingsUpdateError}
-              settingsStatus={settingsUpdateStatus}
+              settingsError={settingsError}
+              settingsFetchStatus={settingsFetchStatus}
             />
           </WizardStep>
         </Wizard>
@@ -196,7 +196,7 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
   };
 
   const handleOnCreateTagMapping = () => {
-    if (settingsUpdateStatus !== FetchStatus.inProgress) {
+    if (settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(
         settingsActions.updateSettings(SettingsType.tagsMappingsChildAdd, {
           parent: parentTags.length ? parentTags[0].uuid : undefined,
@@ -241,14 +241,14 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
   };
 
   useEffect(() => {
-    if (isOpen && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
+    if (isOpen && settingsFetchStatus === FetchStatus.complete && !settingsError) {
       setIsFinish(true);
     }
-  }, [settingsUpdateError, settingsUpdateStatus]);
+  }, [settingsError, settingsFetchStatus]);
 
   // Clear error state if tags changed
   useEffect(() => {
-    if (settingsUpdateError) {
+    if (settingsError) {
       dispatch(settingsActions.resetStatus());
     }
   }, [childTags, parentTags]);
@@ -262,16 +262,16 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
 };
 
 const useMapToProps = (): ParentTagMappingStateProps => {
-  const settingsUpdateStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
+  const settingsError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsError(state, SettingsType.tagsMappingsChildAdd, undefined)
   );
-  const settingsUpdateError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsMappingsChildAdd)
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.tagsMappingsChildAdd, undefined)
   );
 
   return {
-    settingsUpdateError,
-    settingsUpdateStatus,
+    settingsError,
+    settingsFetchStatus,
   };
 };
 

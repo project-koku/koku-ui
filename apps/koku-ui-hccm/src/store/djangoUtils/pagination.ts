@@ -2,13 +2,13 @@ import type { RootState } from 'store/rootReducer';
 
 import type { PageResults } from './types';
 
-export const selectPagination = <T extends PageResults>(stateProjector: (state: RootState) => T) => {
+export const selectPagination = <T extends PageResults | null>(stateProjector: (state: RootState) => T) => {
   return (state: RootState) => {
     return getPagination(stateProjector(state));
   };
 };
 
-export const getPagination = <T extends PageResults>(payload: T) => {
+export const getPagination = <T extends PageResults | null>(payload: T) => {
   if (payload === null) {
     return {
       page: 1,

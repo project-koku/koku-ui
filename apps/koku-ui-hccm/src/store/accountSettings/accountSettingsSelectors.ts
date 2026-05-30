@@ -11,14 +11,8 @@ export const selectAccountSettings = (state: RootState, accountSettingsType: Acc
 export const selectAccountSettingsError = (state: RootState, accountSettingsType: AccountSettingsType) =>
   selectAccountSettingsState(state)?.errors.get(getFetchId(accountSettingsType));
 
-export const selectAccountSettingsStatus = (state: RootState, accountSettingsType: AccountSettingsType) =>
+export const selectAccountSettingsFetchStatus = (state: RootState, accountSettingsType: AccountSettingsType) =>
   selectAccountSettingsState(state)?.status.get(getFetchId(accountSettingsType));
 
-export const selectAccountSettingsUpdateError = (state: RootState, accountSettingsType: AccountSettingsType) =>
-  selectAccountSettingsState(state)?.errors.get(getFetchId(accountSettingsType));
-
-export const selectAccountSettingsUpdateNotification = (state: RootState, accountSettingsType: AccountSettingsType) =>
+export const selectAccountSettingsNotification = (state: RootState, accountSettingsType: AccountSettingsType) =>
   selectAccountSettingsState(state)?.notification?.get(getFetchId(accountSettingsType));
-
-export const selectAccountSettingsUpdateStatus = (state: RootState, accountSettingsType: AccountSettingsType) =>
-  selectAccountSettingsState(state)?.status.get(getFetchId(accountSettingsType));
