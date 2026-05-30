@@ -20,7 +20,6 @@ interface OrderPriceListToolbarOwnProps {
   isAllSelected?: boolean;
   isDisabled?: boolean;
   isDraggable?: boolean;
-  isFilterDisabled?: boolean;
   isOrderDisabled?: boolean;
   isRemoveDisabled?: boolean;
   isSaveDisabled?: boolean;
@@ -47,7 +46,6 @@ const OrderPriceListToolbar: React.FC<OrderPriceListToolbarProps> = ({
   isAllSelected,
   isDisabled,
   isDraggable,
-  isFilterDisabled,
   isOrderDisabled,
   isRemoveDisabled,
   isSaveDisabled,
