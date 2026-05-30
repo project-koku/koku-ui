@@ -66,7 +66,7 @@ const AssignPriceListsWizardFooter: React.FC<{
 
     if (selectionCount > 1) {
       const orderStep = steps.find(step => step.id === 'step-2b');
-      if (orderStep?.index) {
+      if (orderStep?.index !== undefined) {
         // goToStepByIndex bypasses isHidden/isDisabled until parent state re-renders
         goToStepByIndex(orderStep.index);
       }

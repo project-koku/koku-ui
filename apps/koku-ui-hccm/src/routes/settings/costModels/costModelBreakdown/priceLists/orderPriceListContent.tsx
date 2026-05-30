@@ -132,8 +132,8 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
           isCompact={!isBottom}
           isDisabled={isDisabled}
           itemCount={priceListsTotal}
-          onPerPageSelect={(_event, value) => onPerPage(value)}
-          onSetPage={(_event, value) => onPageNumber(value)}
+          onPerPageSelect={(_event, value) => onPerPage?.(value)}
+          onSetPage={(_event, value) => onPageNumber?.(value)}
           page={page}
           perPage={perPage}
           titles={{
