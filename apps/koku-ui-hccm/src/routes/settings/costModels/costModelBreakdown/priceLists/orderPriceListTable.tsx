@@ -4,7 +4,7 @@ import { Label } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
@@ -13,8 +13,10 @@ import { RemovePriceListAction } from 'routes/settings/costModels/costModelBreak
 import { formatDate } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
+import { FetchStatus } from 'store/common';
+
 import { styles } from './orderPriceListTable.styles';
-import { useFetchPriceList } from './utils';
+import { useFetchPriceLists } from './utils';
 
 interface OrderPriceListTableOwnProps {
   canWrite?: boolean;
@@ -57,7 +59,11 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
-  const initDatum = () => {
+  const { priceList, priceListFetchStatus } = useFetchPriceLists(undefined);
+  const allPriceLists = useMemo(() => priceList?.data ?? [], [priceList?.data]);
+  const isDetailsLoading = priceListFetchStatus === FetchStatus.inProgress;
+
+  useEffect(() => {
     if (!priceLists) {
       return;
     }
@@ -88,7 +94,10 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
     ];
 
     computedItems.forEach(item => {
-      const { priceList, priceListError, priceListFetchStatus } = useFetchPriceList(item.uuid, undefined);
+      const fullPriceList = allPriceLists.find(p => p.uuid === item.uuid);
+      const version = fullPriceList?.version ?? item?.version;
+      const effectiveStartDate = fullPriceList?.effective_start_date ?? item?.effective_start_date;
+      const effectiveEndDate = fullPriceList?.effective_end_date ?? item?.effective_end_date;
 
       newRows.push({
         cells: [
@@ -99,9 +108,9 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
             value: (
               <span>
                 <Link to={`${formatPath(routes.priceListBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>
-                {item?.version && (
+                {version != null && (
                   <Label isCompact style={styles.label}>
-                    {intl.formatMessage(messages.version, { value: item?.version })}
+                    {intl.formatMessage(messages.version, { value: version })}
                   </Label>
                 )}
               </span>
@@ -109,11 +118,11 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
           },
           {
             style: styles.column,
-            value: formatDate(item?.effective_start_date ? `${item.effective_start_date}T00:00:00` : ''),
+            value: formatDate(effectiveStartDate ? `${effectiveStartDate}T00:00:00` : ''),
           },
           {
             style: styles.column,
-            value: formatDate(item?.effective_end_date ? `${item.effective_end_date}T00:00:00` : ''),
+            value: formatDate(effectiveEndDate ? `${effectiveEndDate}T00:00:00` : ''),
           },
           {
             value: (
@@ -137,11 +146,19 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
 
     setColumns(newColumns);
     setRows(newRows);
-  };
-
-  useEffect(() => {
-    initDatum();
-  }, [canWrite, costModel, isAllSelected, isDisabled, isDraggable, priceLists, selectedItems]);
+  }, [
+    allPriceLists,
+    canWrite,
+    costModel,
+    intl,
+    isAllSelected,
+    isDisabled,
+    isDraggable,
+    onClose,
+    onRemove,
+    priceLists,
+    selectedItems,
+  ]);
 
   return (
     <DraggableTable
@@ -150,7 +167,7 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
       columns={columns}
       filterBy={filterBy}
       isActionsCell
-      isLoading={isLoading}
+      isLoading={isLoading || isDetailsLoading}
       onDrop={onDrop}
       orderBy={orderBy}
       onSelect={onSelect}

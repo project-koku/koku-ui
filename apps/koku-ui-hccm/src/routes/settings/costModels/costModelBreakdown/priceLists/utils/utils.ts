@@ -39,7 +39,7 @@ export const getPaginatedPriceLists = (
   return pricelists?.slice(offset, end) ?? [];
 };
 
-export const useFetchPriceList = (uuid: string, query: Query) => {
+export const useFetchPriceLists = (query: Query) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const priceListQuery = {
@@ -51,7 +51,7 @@ export const useFetchPriceList = (uuid: string, query: Query) => {
   const priceListQueryString = getQuery(priceListQuery);
   const priceList = useSelector((state: RootState) =>
     priceListSelectors.selectPriceList(state, PriceListType.priceList, priceListQueryString)
-  ) as PriceListData;
+  );
   const priceListError = useSelector((state: RootState) =>
     priceListSelectors.selectPriceListError(state, PriceListType.priceList, priceListQueryString)
   );
@@ -61,7 +61,7 @@ export const useFetchPriceList = (uuid: string, query: Query) => {
 
   useEffect(() => {
     if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
-      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
+      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, undefined, priceListQueryString));
     }
   }, [dispatch, priceListError, priceListQueryString, query]);
 

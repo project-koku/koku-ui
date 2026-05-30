@@ -2,7 +2,27 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 
+import { FetchStatus } from 'store/common';
+
 import { OrderPriceListTable } from './orderPriceListTable';
+
+jest.mock('./utils', () => ({
+  useFetchPriceLists: () => ({
+    priceList: {
+      data: [
+        {
+          uuid: 'pl-1',
+          name: 'Standard',
+          version: 2,
+          effective_start_date: '2024-01-01',
+          effective_end_date: '2024-12-31',
+        },
+      ],
+    },
+    priceListError: null,
+    priceListFetchStatus: FetchStatus.complete,
+  }),
+}));
 
 jest.mock('./components/actions', () => ({
   RemovePriceListAction: ({ isDisabled }: { isDisabled?: boolean }) => (
