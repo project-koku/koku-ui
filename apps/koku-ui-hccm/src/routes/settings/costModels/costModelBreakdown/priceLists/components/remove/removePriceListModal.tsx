@@ -55,7 +55,7 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
           costModelsActions.updateCostModel(costModel?.uuid, {
             ...(costModel ?? {}),
             price_lists: undefined,
-            price_list_uuids: newPriceLists.map(item => item.uuid),
+            price_list_uuids: newPriceLists?.map(item => item.uuid) ?? [],
             source_type: getSourceType(costModel?.source_type),
           })
         );

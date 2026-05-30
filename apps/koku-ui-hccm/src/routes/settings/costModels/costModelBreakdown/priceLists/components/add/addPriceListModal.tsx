@@ -64,7 +64,7 @@ const AddPriceListModal: React.FC<AddPriceListModalProps> = ({
   const handleOnAdd = (items: PriceListDataExt[]) => {
     if (costModelsUpdateStatus !== FetchStatus.inProgress) {
       // Calculate the highest priority
-      let maxPriority = Math.max(...(items?.map(item => item?.priority ?? 0) ?? [0]));
+      let maxPriority = items && items.length > 0 ? Math.max(...items.map(item => item?.priority ?? 0)) : 0;
 
       const itemsWithPriority = [];
       items?.forEach(item => {

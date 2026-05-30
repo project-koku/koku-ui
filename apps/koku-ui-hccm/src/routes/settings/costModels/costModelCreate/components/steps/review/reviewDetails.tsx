@@ -93,8 +93,8 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
                   <Content component={ContentVariants.dt}>{intl.formatMessage(messages.assignedPriceLists)}</Content>
                   <Content component={ContentVariants.dd}>
                     <Content component={ContentVariants.ol}>
-                      {priceLists?.map(item => (
-                        <Content component={ContentVariants.li} key={item.uuid}>
+                      {priceLists?.map((item, index) => (
+                        <Content component={ContentVariants.li} key={item.uuid ?? index}>
                           {item.name}
                         </Content>
                       ))}

@@ -1,26 +1,32 @@
-jest.mock('./utils', () => ({
-  useFetchPriceLists: () => ({
-    priceList: {
-      data: [
-        {
-          uuid: 'pl-1',
-          name: 'Standard',
-          version: 2,
-          effective_start_date: '2024-01-01',
-          effective_end_date: '2024-12-31',
-        },
-      ],
-    },
-    priceListError: null,
-    priceListFetchStatus: 'complete',
-  }),
-}));
-
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 
+import { FetchStatus } from 'store/common';
+
 import { OrderPriceListTable } from './orderPriceListTable';
+
+const mockFullPriceList = {
+  data: [
+    {
+      uuid: 'pl-1',
+      name: 'Standard',
+      version: 2,
+      effective_start_date: '2024-01-01',
+      effective_end_date: '2024-12-31',
+    },
+  ],
+};
+
+const mockFetchPriceListsResult = {
+  priceList: mockFullPriceList,
+  priceListError: null,
+  priceListFetchStatus: FetchStatus.complete,
+};
+
+jest.mock('./utils', () => ({
+  useFetchPriceLists: jest.fn(() => mockFetchPriceListsResult),
+}));
 
 jest.mock('./components/actions', () => ({
   RemovePriceListAction: ({ isDisabled }: { isDisabled?: boolean }) => (
@@ -64,15 +70,15 @@ describe('costModel breakdown OrderPriceListTable', () => {
       </IntlProvider>
     );
 
-  test('renders price list rows', async () => {
+  test('renders price list rows', () => {
     renderTable();
-    await waitFor(() => expect(screen.getByTestId('mock-data-table')).toHaveAttribute('data-rows', '1'));
+    expect(screen.getByTestId('mock-data-table')).toHaveAttribute('data-rows', '1');
   });
 
-  test('remove action re-enables when ordering is cancelled', async () => {
+  test('remove action re-enables when ordering is cancelled', () => {
     const { rerender } = renderTable({ isDraggable: true });
 
-    await waitFor(() => expect(screen.getByTestId('remove-action')).toHaveAttribute('data-disabled', 'true'));
+    expect(screen.getByTestId('remove-action')).toHaveAttribute('data-disabled', 'true');
 
     rerender(
       <IntlProvider locale="en">
@@ -87,6 +93,6 @@ describe('costModel breakdown OrderPriceListTable', () => {
       </IntlProvider>
     );
 
-    await waitFor(() => expect(screen.getByTestId('remove-action')).toHaveAttribute('data-disabled', 'false'));
+    expect(screen.getByTestId('remove-action')).toHaveAttribute('data-disabled', 'false');
   });
 });

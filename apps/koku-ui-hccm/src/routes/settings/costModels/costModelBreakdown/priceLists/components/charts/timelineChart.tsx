@@ -40,7 +40,7 @@ const TimelineChart: React.FC<TimelineChartProps> = ({ isReset, onResetClick, pr
 
   // eslint-disable-next-line
   const [containerRef] = useState(React.createRef<HTMLDivElement>());
-  const height = 200 + (priceLists?.length - 1) * 25;
+  const height = 200 + Math.max(0, (priceLists?.length ?? 0) - 1) * 25;
   const [width, setWidth] = useState(0);
 
   const priceListDatum = priceLists?.map((item, index) => {

@@ -80,7 +80,7 @@ const Markup: React.FC<MarkupProps> = ({
                 isChecked={!isDiscount}
                 label={intl.formatMessage(messages.markupPlus)}
                 name="discount"
-                onChange={() => onDiscountChange(false)}
+                onChange={() => onDiscountChange?.(false)}
                 style={styles.markupRadio}
                 value="false" // "+"
               />
@@ -90,7 +90,7 @@ const Markup: React.FC<MarkupProps> = ({
                 isChecked={isDiscount}
                 label={intl.formatMessage(messages.discountMinus)}
                 name="discount"
-                onChange={() => onDiscountChange(true)}
+                onChange={() => onDiscountChange?.(true)}
                 style={styles.markupRadio}
                 value="true" // '-'
               />
@@ -111,7 +111,7 @@ const Markup: React.FC<MarkupProps> = ({
                         aria-label={intl.formatMessage(messages.rate)}
                         id="markup-input-box"
                         isRequired
-                        onChange={(_event, value) => onMarkupChange(value)}
+                        onChange={(_event, value) => onMarkupChange?.(value)}
                         onKeyDown={handleOnKeyDown}
                         placeholder={'0'}
                         style={styles.inputField}
