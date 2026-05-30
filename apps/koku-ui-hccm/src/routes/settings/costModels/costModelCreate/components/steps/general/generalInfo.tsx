@@ -71,7 +71,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
 
   const getValueLabel = (s: string, options) => {
     const option = options.find(o => o.value === s);
-    return !option ? s : intl.formatMessage(option.label, { units: option.value });
+    return !option ? s || '' : intl.formatMessage(option.label, { units: option.value });
   };
 
   return (

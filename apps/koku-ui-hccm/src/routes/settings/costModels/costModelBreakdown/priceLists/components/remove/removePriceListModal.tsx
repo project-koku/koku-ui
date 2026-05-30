@@ -12,7 +12,7 @@ import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 interface RemovePriceListModalOwnProps {
-  costModel: CostModel;
+  costModel?: CostModel;
   isDispatch?: boolean;
   isOpen?: boolean;
   onClose?: () => void;

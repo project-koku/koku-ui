@@ -9,7 +9,7 @@ import { RemovePriceListModal } from 'routes/settings/costModels/costModelBreakd
 
 interface RemovePriceListActionOwnProps {
   canWrite?: boolean;
-  costModel: CostModel;
+  costModel?: CostModel;
   isDisabled?: boolean;
   isDispatch?: boolean;
   onClose?: () => void;
