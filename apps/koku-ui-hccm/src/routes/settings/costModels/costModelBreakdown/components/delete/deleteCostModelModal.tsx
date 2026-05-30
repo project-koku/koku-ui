@@ -48,7 +48,7 @@ const DeleteCostModelModal: React.FC<DeleteCostModelModalProps> = ({
 
   const handleOnDelete = (item: CostModel) => {
     if (costModelsDeleteStatus !== FetchStatus.inProgress) {
-      if (isDispatch) {
+      if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
         dispatch(costModelsActions.deleteCostModel(costModel?.uuid));
       } else {

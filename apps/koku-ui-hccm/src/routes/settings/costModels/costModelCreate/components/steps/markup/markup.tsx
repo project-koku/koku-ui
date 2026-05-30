@@ -46,8 +46,8 @@ const Markup: React.FC<MarkupProps> = ({
   const intl = useIntl();
 
   const handleOnKeyDown = event => {
-    // Prevent 'enter', '+', and '-'
-    if (event.keyCode === 13 || event.keyCode === 187 || event.keyCode === 189) {
+    // Prevent 'Enter', '+', and '-'
+    if (event.key === 'Enter' || event.key === '+' || event.key === '-') {
       event.preventDefault();
     }
   };

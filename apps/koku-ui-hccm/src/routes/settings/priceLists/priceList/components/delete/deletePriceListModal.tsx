@@ -45,7 +45,7 @@ const DeletePriceListModal: React.FC<DeletePriceListModalProps> = ({
 
   const handleOnDelete = () => {
     if (priceListFetchStatus !== FetchStatus.inProgress) {
-      if (isDispatch) {
+      if (priceList?.uuid && isDispatch) {
         setIsFinish(true);
         dispatch(priceListActions.updatePriceList(PriceListType.priceListRemove, priceList?.uuid));
       } else {

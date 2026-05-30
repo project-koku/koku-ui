@@ -48,9 +48,9 @@ const AddRateModal: React.FC<AddRateModalProps> = ({ isDispatch = true, isOpen, 
 
   // Handlers
 
-  const handleOnSave = (items: Rate[]) => {
+  const handleOnSave = (items: Rate[] = []) => {
     if (priceListFetchStatus !== FetchStatus.inProgress) {
-      if (isDispatch) {
+      if (priceList?.uuid && isDispatch) {
         setIsFinish(true);
         setRates(items);
 

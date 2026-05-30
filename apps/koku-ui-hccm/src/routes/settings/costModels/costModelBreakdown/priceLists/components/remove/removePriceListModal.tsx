@@ -45,17 +45,19 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
 
   const handleOnRemove = () => {
     if (costModelsUpdateStatus !== FetchStatus.inProgress) {
-      if (isDispatch) {
+      if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
 
-        const newPriceLists = costModel?.price_lists?.filter(val => {
-          return !selectedItems.some(item => item.uuid === val.uuid);
-        });
+        const newPriceLists = costModel?.price_lists?.filter(
+          item => !selectedItems.some(selected => selected.uuid === item.uuid)
+        );
+        const uuids = newPriceLists?.map(item => item.uuid) ?? [];
+
         dispatch(
           costModelsActions.updateCostModel(costModel?.uuid, {
             ...(costModel ?? {}),
             price_lists: undefined,
-            price_list_uuids: newPriceLists?.map(item => item.uuid) ?? [],
+            price_list_uuids: uuids,
             source_type: getSourceType(costModel?.source_type),
           })
         );

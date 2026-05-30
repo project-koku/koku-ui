@@ -20,7 +20,7 @@ const useNotification = ({ error, isNotificationEnabled = true, notification, st
   const addNotification = useAddNotification();
 
   useEffect(() => {
-    if (status === FetchStatus.complete && notification) {
+    if ((error || status === FetchStatus.complete) && notification) {
       if (isNotificationEnabled) {
         addNotification(notification as any);
       }

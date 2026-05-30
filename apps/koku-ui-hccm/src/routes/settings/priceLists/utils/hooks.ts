@@ -34,7 +34,7 @@ export function usePriceListDuplicate(priceList: PriceListData, onUpdateSuccess?
   );
 
   const duplicatePriceList = () => {
-    if (priceListFetchStatus !== FetchStatus.inProgress) {
+    if (priceList?.uuid && priceListFetchStatus !== FetchStatus.inProgress) {
       setIsAwaitingUpdate(true);
       dispatch(priceListActions.updatePriceList(PriceListType.priceListDuplicate, priceList?.uuid));
     }
@@ -72,7 +72,7 @@ export function usePriceListEnabledToggle(priceList: PriceListData, onDeprecate?
   );
 
   const togglePriceListEnabled = () => {
-    if (priceListFetchStatus !== FetchStatus.inProgress) {
+    if (priceList?.uuid && priceListFetchStatus !== FetchStatus.inProgress) {
       setIsAwaitingUpdate(true);
       dispatch(
         priceListActions.updatePriceList(PriceListType.priceListUpdate, priceList?.uuid, {
@@ -107,7 +107,7 @@ const useNotification = ({ error, isNotificationEnabled = true, notification, st
   const addNotification = useAddNotification();
 
   useEffect(() => {
-    if (status === FetchStatus.complete && notification) {
+    if ((error || status === FetchStatus.complete) && notification) {
       if (isNotificationEnabled) {
         addNotification(notification as any);
       }

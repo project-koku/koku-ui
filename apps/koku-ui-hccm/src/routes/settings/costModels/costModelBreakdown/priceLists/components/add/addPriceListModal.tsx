@@ -76,15 +76,17 @@ const AddPriceListModal: React.FC<AddPriceListModalProps> = ({
       });
       const newPriceLists = itemsWithPriority.sort((a, b) => a.priority - b.priority);
 
-      if (isDispatch) {
+      if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
         setPriceLists(newPriceLists);
+
+        const uuids = newPriceLists.map(item => item.uuid) ?? [];
 
         dispatch(
           costModelsActions.updateCostModel(costModel?.uuid, {
             ...(costModel ?? {}),
             price_lists: undefined,
-            price_list_uuids: newPriceLists.map(item => item.uuid),
+            price_list_uuids: uuids,
             source_type: getSourceType(costModel?.source_type),
           })
         );

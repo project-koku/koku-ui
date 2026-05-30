@@ -50,9 +50,9 @@ const DeleteRateModal: React.FC<DeleteRateModalProps> = ({
 
   const { priceListError, priceListFetchStatus } = useMapToProps();
 
-  const handleOnDelete = (items: Rate[]) => {
+  const handleOnDelete = (items: Rate[] = []) => {
     if (priceListFetchStatus !== FetchStatus.inProgress) {
-      if (isDispatch) {
+      if (priceList?.uuid && isDispatch) {
         setIsFinish(true);
         setRates(items);
 

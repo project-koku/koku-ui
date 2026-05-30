@@ -57,7 +57,7 @@ const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
       };
       setPayload(newCostModel);
 
-      if (isDispatch) {
+      if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
         dispatch(costModelsActions.updateCostModel(costModel?.uuid, newCostModel));
       } else {

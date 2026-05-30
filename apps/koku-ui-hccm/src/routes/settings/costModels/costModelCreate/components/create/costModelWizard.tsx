@@ -333,6 +333,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
 
   const handleOnCreate = () => {
     if (costModelsAddStatus !== FetchStatus.inProgress) {
+      const uuids = priceLists?.map(item => item.uuid) ?? [];
       dispatch(
         costModelsActions.addCostModel({
           currency,
@@ -350,7 +351,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
             unit: 'percent',
           },
           name,
-          price_list_uuids: priceLists?.map(item => item.uuid),
+          price_list_uuids: uuids,
           source_type: sourceType,
           source_uuids: sources?.map(item => item.uuid),
         })

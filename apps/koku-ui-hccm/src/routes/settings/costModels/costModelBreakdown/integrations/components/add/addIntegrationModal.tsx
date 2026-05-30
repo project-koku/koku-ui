@@ -59,11 +59,12 @@ const AddIntegrationModal: React.FC<AddIntegrationModalProps> = ({
 
   const handleOnAdd = (providers: Provider[]) => {
     if (costModelsUpdateStatus !== FetchStatus.inProgress) {
-      const uuids = providers?.map(item => item.uuid);
+      const uuids = providers?.map(item => item.uuid) ?? [];
       setPayload(uuids);
 
-      if (isDispatch) {
+      if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
+
         dispatch(
           costModelsActions.updateCostModel(costModel?.uuid, {
             ...(costModel ?? {}),

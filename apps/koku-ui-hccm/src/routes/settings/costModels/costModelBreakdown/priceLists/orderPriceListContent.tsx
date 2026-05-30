@@ -257,15 +257,17 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
         }));
         setPayload(itemsWithPriority);
 
-        if (isDispatch) {
+        if (costModel?.uuid && isDispatch) {
           setIsFinish(true);
           setIsDraggable(false);
+
+          const uuids = itemsWithPriority.map(item => item.uuid) ?? [];
 
           dispatch(
             costModelsActions.updateCostModel(costModel?.uuid, {
               ...(costModel ?? {}),
               price_lists: undefined,
-              price_list_uuids: itemsWithPriority.map(item => item.uuid),
+              price_list_uuids: uuids,
               source_type: getSourceType(costModel?.source_type),
             })
           );

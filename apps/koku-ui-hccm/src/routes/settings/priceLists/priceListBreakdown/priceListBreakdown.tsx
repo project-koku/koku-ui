@@ -270,7 +270,7 @@ const useMapToProps = ({ query }: PriceListBreakdownMapProps): PriceListBreakdow
   );
 
   useEffect(() => {
-    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
+    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
   }, [dispatch, priceListError, priceListQueryString, query, uuid]);
