@@ -167,7 +167,10 @@ const CostModel: React.FC<CostModelProps> = ({ canWrite }) => {
             <div style={styles.tableContainer}>
               {getToolbar()}
               {costModelsFetchStatus === FetchStatus.inProgress ? (
-                <LoadingState />
+                <LoadingState
+                  body={intl.formatMessage(messages.costModelsLoadingStateDesc)}
+                  heading={intl.formatMessage(messages.costModelsLoadingStateTitle)}
+                />
               ) : (
                 <>
                   {getTable()}

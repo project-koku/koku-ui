@@ -392,7 +392,11 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
   };
 
   const handleOnClose = () => {
-    setIsModalOpen(true);
+    if (isFinish) {
+      handleOnModalConfirm();
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const handleOnModalCancel = () => {

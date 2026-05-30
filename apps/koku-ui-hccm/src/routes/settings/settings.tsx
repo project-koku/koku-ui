@@ -268,7 +268,10 @@ const Settings: React.FC<SettingsProps> = () => {
             </Title>
           </div>
           {userAccessFetchStatus === FetchStatus.inProgress ? (
-            <LoadingState />
+            <LoadingState
+              body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+              heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+            />
           ) : (
             <div style={styles.tabs}>{getTabs(availableTabs)}</div>
           )}

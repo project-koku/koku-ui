@@ -817,6 +817,16 @@ export default defineMessages({
     description: 'Last updated',
     id: 'costModelsLastUpdated',
   },
+  costModelsLoadingStateDesc: {
+    defaultMessage: 'Searching for your cost models. Do not refresh the browser',
+    description: 'Searching for your cost models. Do not refresh the browser',
+    id: 'costModelsLoadingStateDesc',
+  },
+  costModelsLoadingStateTitle: {
+    defaultMessage: 'Looking for cost models...',
+    description: 'Looking for cost models',
+    id: 'costModelsLoadingStateTitle',
+  },
   costModelsGpuModel: {
     defaultMessage: 'Model',
     description: 'Model',
@@ -3711,6 +3721,16 @@ export default defineMessages({
     description: 'Review impact before you change rates',
     id: 'priceListImpactReview',
   },
+  priceListLoadingStateDesc: {
+    defaultMessage: 'Searching for your price lists. Do not refresh the browser',
+    description: 'Searching for your price lists. Do not refresh the browser',
+    id: 'priceListLoadingStateDesc',
+  },
+  priceListLoadingStateTitle: {
+    defaultMessage: 'Looking for price lists...',
+    description: 'Looking for price lists',
+    id: 'priceListLoadingStateTitle',
+  },
   priceListNameTooLong: {
     defaultMessage: 'Should not exceed 50 characters',
     description: 'Should not exceed 50 characters',
@@ -3725,6 +3745,16 @@ export default defineMessages({
     defaultMessage: 'Rate must be a positive number',
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
+  },
+  priceListRatesLoadingStateDesc: {
+    defaultMessage: 'Searching for your price list rates. Do not refresh the browser',
+    description: 'Searching for your price list rates. Do not refresh the browser',
+    id: 'priceListRatesLoadingStateDesc',
+  },
+  priceListRatesLoadingStateTitle: {
+    defaultMessage: 'Looking for price list rates...',
+    description: 'Looking for price list rates',
+    id: 'priceListRatesLoadingStateTitle',
   },
   priceListRecalculateDesc: {
     defaultMessage:
@@ -4483,6 +4513,11 @@ export default defineMessages({
     description: 'Clear button and input',
     id: 'typeaheadAriaClear',
   },
+  unassignPriceList: {
+    defaultMessage: 'Unassign from cost model',
+    description: 'Unassign from cost model',
+    id: 'unassignPriceList',
+  },
   unassignSelected: {
     defaultMessage: 'Unassign selected',
     description: 'Unassign selected',
@@ -4566,10 +4601,15 @@ export default defineMessages({
     description: '{value} {units} maximum',
     id: 'usageSubtitle',
   },
-  unassignPriceList: {
-    defaultMessage: 'Unassign from cost model',
-    description: 'Unassign from cost model',
-    id: 'unassignPriceList',
+  userAccessLoadingStateDesc: {
+    defaultMessage: 'Searching for your user access. Do not refresh the browser',
+    description: 'Searching for your user access. Do not refresh the browser',
+    id: 'userAccessLoadingStateDesc',
+  },
+  userAccessLoadingStateTitle: {
+    defaultMessage: 'Looking for user access...',
+    description: 'Looking for user access',
+    id: 'userAccessLoadingStateTitle',
   },
   validityPeriod: {
     defaultMessage: 'Validity period',

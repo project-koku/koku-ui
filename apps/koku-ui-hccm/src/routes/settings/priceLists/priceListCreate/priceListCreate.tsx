@@ -6,6 +6,7 @@ import type { Rate } from 'api/rates';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -135,7 +136,12 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
             onCreate={() => contentRef.current?.save()}
             priceList={priceList}
           />
-          {userAccessFetchStatus === FetchStatus.inProgress && <LoadingState />}
+          {userAccessFetchStatus === FetchStatus.inProgress && (
+            <LoadingState
+              body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+              heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+            />
+          )}
         </header>
       </PageSection>
       <PageSection>

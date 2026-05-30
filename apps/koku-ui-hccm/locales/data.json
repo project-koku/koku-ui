@@ -1702,6 +1702,18 @@
         "value": "Last updated"
       }
     ],
+    "costModelsLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your cost models. Do not refresh the browser"
+      }
+    ],
+    "costModelsLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for cost models..."
+      }
+    ],
     "costModelsNameTooLong": [
       {
         "type": 0,
@@ -12594,6 +12606,18 @@
         "value": "Review impact before you change rates"
       }
     ],
+    "priceListLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your price lists. Do not refresh the browser"
+      }
+    ],
+    "priceListLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for price lists..."
+      }
+    ],
     "priceListNameTooLong": [
       {
         "type": 0,
@@ -12610,6 +12634,18 @@
       {
         "type": 0,
         "value": "Rate must be a positive number"
+      }
+    ],
+    "priceListRatesLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your price list rates. Do not refresh the browser"
+      }
+    ],
+    "priceListRatesLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for price list rates..."
       }
     ],
     "priceListRecalculateDesc": [
@@ -14559,6 +14595,18 @@
       {
         "type": 0,
         "value": " maximum"
+      }
+    ],
+    "userAccessLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your user access. Do not refresh the browser"
+      }
+    ],
+    "userAccessLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for user access..."
       }
     ],
     "validityPeriod": [

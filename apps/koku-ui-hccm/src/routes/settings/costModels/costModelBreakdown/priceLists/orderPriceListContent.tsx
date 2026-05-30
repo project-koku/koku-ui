@@ -109,7 +109,10 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
         <div style={styles.tableContainer}>
           {isWizardStep ? intl.formatMessage(messages.assignedPriceListsDesc) : getToolbar()}
           {isLoading ? (
-            <LoadingState />
+            <LoadingState
+              body={intl.formatMessage(messages.priceListLoadingStateDesc)}
+              heading={intl.formatMessage(messages.priceListLoadingStateTitle)}
+            />
           ) : (
             <>
               {getTable()}

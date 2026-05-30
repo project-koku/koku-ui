@@ -35,6 +35,7 @@ import { getFilteredRates, getIndexedRates, getPaginatedRates } from './utils';
 
 interface RateOwnProps {
   canWrite?: boolean;
+  isParentLoading?: boolean;
   onAdd?: (rates: Rate[]) => void;
   onDelete?: (rates: Rate[]) => void;
   onEdit?: (rates: Rate[]) => void;
@@ -66,7 +67,7 @@ const baseQuery: Query = {
   },
 };
 
-const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
+const Rate: React.FC<RateProps> = ({ canWrite, isParentLoading, onAdd, onEdit, onDelete }) => {
   const intl = useIntl();
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -81,6 +82,7 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
 
   const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.metrics?.length > 0;
   const hasNoRates = rates?.length === 0 && !hasFilters;
+  const isLoading = priceListFetchStatus === FetchStatus.inProgress;
 
   // Getters
 
@@ -115,7 +117,7 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
         canWrite={canWrite}
         filterBy={query.filter_by}
         isDisabled={hasNoRates}
-        isLoading={priceListFetchStatus === FetchStatus.inProgress}
+        isLoading={isLoading}
         orderBy={query.order_by}
         onDelete={onDelete}
         onEdit={onEdit}
@@ -172,10 +174,12 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   if (priceListError) {
     return <NotAvailable />;
   }
-
+  if (isParentLoading) {
+    return null;
+  }
   return (
     <>
-      {!hasNoRates || priceListFetchStatus === FetchStatus.inProgress ? (
+      {!hasNoRates || isLoading ? (
         <Card>
           <CardBody>
             {intl.formatMessage(messages.priceListDesc, {
@@ -187,8 +191,11 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
             })}
             <div style={styles.tableContainer}>
               {getToolbar()}
-              {priceListFetchStatus === FetchStatus.inProgress ? (
-                <LoadingState />
+              {isLoading ? (
+                <LoadingState
+                  body={intl.formatMessage(messages.priceListRatesLoadingStateDesc)}
+                  heading={intl.formatMessage(messages.priceListRatesLoadingStateTitle)}
+                />
               ) : (
                 <>
                   {getTable()}

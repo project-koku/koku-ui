@@ -86,6 +86,8 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     query,
   });
 
+  const isLoading = priceListFetchStatus === FetchStatus.inProgress;
+
   const canWrite = () => {
     return hasSettingsAccess(userAccess);
   };
@@ -145,9 +147,17 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
 
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === PriceListBreakdownTab.costModels) {
-      return <CostModels />;
+      return <CostModels isParentLoading={isLoading} />;
     } else if (currentTab === PriceListBreakdownTab.rates) {
-      return <Rate canWrite={canWrite()} onAdd={forceUpdate} onDelete={forceUpdate} onEdit={handleOnEdit} />;
+      return (
+        <Rate
+          canWrite={canWrite()}
+          isParentLoading={isLoading}
+          onAdd={forceUpdate}
+          onDelete={forceUpdate}
+          onEdit={handleOnEdit}
+        />
+      );
     } else {
       return emptyTab;
     }
@@ -200,6 +210,14 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
 
   const availableTabs = getAvailableTabs();
 
+  if (userAccessFetchStatus === FetchStatus.inProgress) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+        heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+      />
+    );
+  }
   if (priceListError) {
     return <NotAvailable />;
   }
@@ -209,7 +227,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
         <header>
           <PriceListBreakdownHeader
             canWrite={canWrite()}
-            isDisabled={priceListFetchStatus === FetchStatus.inProgress}
+            isDisabled={isLoading}
             isRecalculating={isRecalculating && priceList?.assigned_cost_model_count > 0}
             onAlertClose={handleOnAlertClose}
             onDelete={handleOnDeletePriceList}
@@ -218,8 +236,11 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
             onEdit={handleOnEdit}
             priceList={priceList}
           />
-          {userAccessFetchStatus === FetchStatus.inProgress ? (
-            <LoadingState />
+          {isLoading ? (
+            <LoadingState
+              body={intl.formatMessage(messages.priceListLoadingStateDesc)}
+              heading={intl.formatMessage(messages.priceListLoadingStateTitle)}
+            />
           ) : (
             <div style={styles.tabs}>{getTabs(availableTabs)}</div>
           )}
@@ -252,7 +273,7 @@ const useMapToProps = ({ query }: PriceListBreakdownMapProps): PriceListBreakdow
     if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, query]);
+  }, [dispatch, priceListError, priceListQueryString, query, uuid]);
 
   // User access
 

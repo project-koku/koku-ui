@@ -16,6 +16,7 @@ interface OrderPriceListOwnProps {
   canWrite?: boolean;
   costModel?: CostModel;
   isDispatch?: boolean;
+  isParentLoading?: boolean;
   onAdd?: (priceLists: PriceListDataExt[]) => void;
   onRemove?: (priceLists: PriceListDataExt[]) => void;
   onSave?: (priceLists: PriceListDataExt[]) => void;
@@ -58,6 +59,7 @@ const OrderPriceList: React.FC<OrderPriceListProps> = ({
   canWrite,
   costModel,
   isDispatch = true,
+  isParentLoading,
   onAdd,
   onRemove,
   onSave,
@@ -78,7 +80,7 @@ const OrderPriceList: React.FC<OrderPriceListProps> = ({
   });
 
   const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.metrics?.length > 0;
-  const hasNoPriceLists = priceLists?.length === 0 && !hasFilters;
+  const hasNoPriceLists = (!priceLists || priceLists?.length === 0) && !hasFilters;
 
   // Handlers
 
@@ -122,6 +124,9 @@ const OrderPriceList: React.FC<OrderPriceListProps> = ({
     onSave?.(items);
   };
 
+  if (isParentLoading) {
+    return null;
+  }
   return (
     <>
       {!showDraggable && isRecalculating && (

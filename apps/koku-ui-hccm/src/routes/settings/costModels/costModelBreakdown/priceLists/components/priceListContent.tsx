@@ -298,7 +298,10 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
               {getToolbar()}
               {intl.formatMessage(messages.assignPriceListsDesc)}
               {isLoading ? (
-                <LoadingState />
+                <LoadingState
+                  body={intl.formatMessage(messages.priceListLoadingStateDesc)}
+                  heading={intl.formatMessage(messages.priceListLoadingStateTitle)}
+                />
               ) : (
                 <>
                   {getTable()}

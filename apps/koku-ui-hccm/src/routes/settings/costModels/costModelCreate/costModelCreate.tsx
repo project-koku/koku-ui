@@ -7,6 +7,7 @@ import type { Rate } from 'api/rates';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
+import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -89,7 +90,12 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
       <PageSection style={styles.headerContainer}>
         <header>
           <CostModelCreateHeader />
-          {userAccessFetchStatus === FetchStatus.inProgress && <LoadingState />}
+          {userAccessFetchStatus === FetchStatus.inProgress && (
+            <LoadingState
+              body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+              heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+            />
+          )}
         </header>
       </PageSection>
       <PageSection className="wizardOverride" type="wizard">

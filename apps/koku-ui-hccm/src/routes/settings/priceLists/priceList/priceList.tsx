@@ -57,7 +57,8 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
 
   const { priceList, priceListError, priceListFetchStatus } = useMapToProps({ isShowDeprecated, query });
 
-  const hasNoPriceLists = priceList?.data?.length === 0;
+  const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.metrics?.length > 0;
+  const hasNoPriceLists = (!priceList || priceList?.data?.length === 0) && !hasFilters;
 
   // Force update
   const forceUpdate = useCallback(() => {
@@ -180,7 +181,10 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
             <div style={styles.tableContainer}>
               {getToolbar()}
               {priceListFetchStatus === FetchStatus.inProgress ? (
-                <LoadingState />
+                <LoadingState
+                  body={intl.formatMessage(messages.priceListLoadingStateDesc)}
+                  heading={intl.formatMessage(messages.priceListLoadingStateTitle)}
+                />
               ) : (
                 <>
                   {getTable()}

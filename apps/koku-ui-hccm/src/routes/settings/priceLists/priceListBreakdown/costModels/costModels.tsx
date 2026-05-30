@@ -32,7 +32,7 @@ import { CostModelsTable } from './costModelsTable';
 import { CostModelsToolbar } from './costModelsToolbar';
 
 interface CostModelsOwnProps {
-  // TBD...
+  isParentLoading?: boolean;
 }
 
 export interface CostModelsMapProps {
@@ -51,7 +51,7 @@ const baseQuery: Query = {
   filter_by: {},
 };
 
-const CostModels: React.FC<CostModelsProps> = () => {
+const CostModels: React.FC<CostModelsProps> = ({ isParentLoading }: CostModelsProps) => {
   const intl = useIntl();
   const navigate = useNavigate();
 
@@ -114,7 +114,9 @@ const CostModels: React.FC<CostModelsProps> = () => {
   if (priceListError) {
     return <NotAvailable />;
   }
-
+  if (isParentLoading) {
+    return null;
+  }
   return (
     <>
       {priceList?.assigned_cost_model_count > 0 || priceListFetchStatus === FetchStatus.inProgress ? (
@@ -122,7 +124,14 @@ const CostModels: React.FC<CostModelsProps> = () => {
           <CardBody>
             <>
               {getToolbar()}
-              {priceListFetchStatus === FetchStatus.inProgress ? <LoadingState /> : <>{getTable()}</>}
+              {priceListFetchStatus === FetchStatus.inProgress ? (
+                <LoadingState
+                  body={intl.formatMessage(messages.costModelsLoadingStateDesc)}
+                  heading={intl.formatMessage(messages.costModelsLoadingStateTitle)}
+                />
+              ) : (
+                <>{getTable()}</>
+              )}
             </>
           </CardBody>
         </Card>

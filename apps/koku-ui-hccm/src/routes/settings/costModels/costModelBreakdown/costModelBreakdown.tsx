@@ -16,7 +16,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
-import { Loading } from 'routes/components/page/loading';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { useCostModelNotifications } from 'routes/settings/costModels/utils';
@@ -93,6 +92,8 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
       query,
     });
 
+  const isLoading = costModelsFetchStatus === FetchStatus.inProgress;
+
   const canWrite = () => {
     return hasSettingsAccess(userAccess);
   };
@@ -160,6 +161,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
         <OrderPriceList
           canWrite={canWrite()}
           costModel={costModel}
+          isParentLoading={isLoading}
           onAdd={forceUpdate}
           onRemove={forceUpdate}
           onSave={forceUpdate}
@@ -213,12 +215,6 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   };
 
   const availableTabs = getAvailableTabs();
-  const isLoading = costModelsFetchStatus === FetchStatus.inProgress;
-  const isInitialLoad = costModelsFetchStatus === FetchStatus.inProgress && !costModel;
-
-  if (isInitialLoad) {
-    return <Loading title={intl.formatMessage(messages.costModels)} />;
-  }
 
   if (costModelsFetchError) {
     if (parseApiError(costModelsFetchError) === 'detail: Invalid provider uuid') {
@@ -243,6 +239,14 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     }
   }
 
+  if (userAccessFetchStatus === FetchStatus.inProgress) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+        heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+      />
+    );
+  }
   return (
     <>
       <PageSection style={styles.headerContainer}>
@@ -254,8 +258,11 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
             onDelete={handleOnDelete}
             onEdit={forceUpdate}
           />
-          {costModelsFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress ? (
-            <LoadingState />
+          {isLoading ? (
+            <LoadingState
+              body={intl.formatMessage(messages.costModelsLoadingStateDesc)}
+              heading={intl.formatMessage(messages.costModelsLoadingStateTitle)}
+            />
           ) : (
             <div style={styles.tabs}>{getTabs(availableTabs)}</div>
           )}
@@ -286,7 +293,7 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
     if (!costModelsFetchError && costModelsFetchStatus !== FetchStatus.inProgress) {
       dispatch(costModelsActions.fetchCostModels(costModelsQueryString));
     }
-  }, [costModelsFetchError, costModelsQueryString, dispatch, query]);
+  }, [costModelsFetchError, costModelsQueryString, dispatch, query, uuid]);
 
   // User access
 
@@ -304,8 +311,11 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
   // Notifications
   useCostModelNotifications();
 
+  // Ensure we don't have a stale cost model
+  const newCostModel = costModels?.data?.[0];
+
   return {
-    costModel: costModels?.data?.[0],
+    costModel: newCostModel?.uuid === uuid ? newCostModel : undefined,
     costModelsFetchError,
     costModelsFetchStatus,
     userAccess,
