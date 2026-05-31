@@ -150,7 +150,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
                   <WarningIcon text={intl.formatMessage(messages.costModelsWizardWarningSources)} />
                 )}
               </Content>
-              <Content component={ContentVariants.dd}>{sources?.map(r => r.name)?.join(', ') || ''}</Content>
+              <Content component={ContentVariants.dd}>{(sources ?? []).map(r => r.name).join(', ')}</Content>
             </Content>
           </Content>
         </StackItem>
