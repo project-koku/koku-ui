@@ -314,7 +314,7 @@ const DraggableTable: React.FC<DraggableTableProps> = ({
                       modifier={isNoWrapCell ? 'nowrap' : undefined}
                       noPadding={isNoPadding}
                       select={{
-                        isDisabled: row.selectionDisabled, // Disable select for "no-project"
+                        isDisabled: isDraggable || row.selectionDisabled, // Disable select for "no-project"
                         isSelected: row.selected,
                         onSelect: (_evt, isSelected) => handleOnSelect(isSelected, rowIndex),
                         rowIndex,

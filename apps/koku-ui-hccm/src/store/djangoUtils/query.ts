@@ -2,7 +2,7 @@ import type { RootState } from 'store/rootReducer';
 
 import type { PageResults } from './types';
 
-export const selectQuery = <T extends PageResults>(stateProjector: (state: RootState) => T, keys: string[]) => {
+export const selectQuery = <T extends PageResults | null>(stateProjector: (state: RootState) => T, keys: string[]) => {
   return (state: RootState) => {
     const params = getQuery(stateProjector(state));
     return keys.reduce((acc, curr) => {
@@ -11,7 +11,7 @@ export const selectQuery = <T extends PageResults>(stateProjector: (state: RootS
   };
 };
 
-const getQuery = <T extends PageResults>(payload: T) => {
+const getQuery = <T extends PageResults | null>(payload: T) => {
   if (payload === null) {
     return new URLSearchParams();
   }
