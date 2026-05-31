@@ -158,7 +158,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
   const [nameError, setNameError] = useState<MessageDescriptor>();
   const [priceLists, setPriceLists] = useState<PriceListData[]>([]);
   const [sources, setSources] = useState<Provider[]>([]);
-  const [sourceType, setSourceType] = useState<string>(undefined);
+  const [sourceType, setSourceType] = useState<string>();
 
   const isNameDirty = name !== undefined && name !== '';
   const isSourceTypeDirty = sourceType !== undefined;
