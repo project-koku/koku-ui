@@ -44,7 +44,7 @@ const EditDetailModal: React.FC<EditDetailModalProps> = ({ isDispatch = true, is
 
   const handleOnSave = (item: PriceListData) => {
     if (priceListFetchStatus !== FetchStatus.inProgress) {
-      if (isDispatch) {
+      if (priceList?.uuid && isDispatch) {
         setIsFinish(true);
         setPricelist(item);
 

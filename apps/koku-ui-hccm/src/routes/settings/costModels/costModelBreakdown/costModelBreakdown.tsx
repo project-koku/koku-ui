@@ -290,7 +290,7 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
   );
 
   useEffect(() => {
-    if (!costModelsFetchError && costModelsFetchStatus !== FetchStatus.inProgress) {
+    if (!costModelsFetchError && costModelsFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(costModelsActions.fetchCostModels(costModelsQueryString));
     }
   }, [costModelsFetchError, costModelsQueryString, dispatch, query, uuid]);

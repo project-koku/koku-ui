@@ -51,11 +51,12 @@ const DeleteIntegrationModal: React.FC<DeleteIntegrationModalProps> = ({
   const handleOnDelete = () => {
     if (costModelsUpdateStatus !== FetchStatus.inProgress) {
       const newSources = sources?.filter(item => item.uuid !== uuid);
-      const uuids = newSources?.map(item => item.uuid);
+      const uuids = newSources?.map(item => item.uuid) ?? [];
       setPayload(uuids);
 
-      if (isDispatch) {
+      if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
+
         dispatch(
           costModelsActions.updateCostModel(costModel?.uuid, {
             ...(costModel ?? {}),

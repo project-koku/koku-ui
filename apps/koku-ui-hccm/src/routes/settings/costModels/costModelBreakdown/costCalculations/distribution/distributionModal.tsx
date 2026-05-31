@@ -124,9 +124,10 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
         },
       };
 
-      if (isDispatch) {
+      if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
         setPayload(items);
+
         dispatch(costModelsActions.updateCostModel(costModel?.uuid, items));
       } else {
         onSave?.(items);
