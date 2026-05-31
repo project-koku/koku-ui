@@ -281,7 +281,9 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
       let newItems = [...selectedItems];
       if (items && items.length > 0) {
         if (isSelected) {
-          items.forEach(item => newItems.push(item));
+          // Filter out duplicates before pushing to ensure uniqueness
+          const existingUuids = new Set(newItems.map(item => item.uuid));
+          newItems.push(...items.filter(item => !existingUuids.has(item.uuid)));
         } else {
           const uuidsToRemove = new Set(items.map(item => item.uuid));
           newItems = newItems.filter(val => !uuidsToRemove.has(val.uuid));
