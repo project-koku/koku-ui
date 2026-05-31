@@ -39,16 +39,16 @@ test('fetch account settings success', async () => {
   const store = createProdvidersStore();
   store.dispatch(actions.fetchAccountSettings(AccountSettingsType.settings));
   expect(fetchAccountSettingsMock).toHaveBeenCalled();
-  expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+  expect(selectors.selectAccountSettingsFetchStatus(store.getState(), AccountSettingsType.settings)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() =>
-    expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+    expect(selectors.selectAccountSettingsFetchStatus(store.getState(), AccountSettingsType.settings)).toBe(
       FetchStatus.complete
     )
   );
   const finishedState = store.getState();
-  expect(selectors.selectAccountSettingsStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
+  expect(selectors.selectAccountSettingsFetchStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
 });
 
 test('fetch account settings failure', async () => {
@@ -57,14 +57,14 @@ test('fetch account settings failure', async () => {
   fetchAccountSettingsMock.mockReturnValueOnce(Promise.reject(error));
   store.dispatch(actions.fetchAccountSettings(AccountSettingsType.settings));
   expect(fetchAccountSettingsMock).toHaveBeenCalled();
-  expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+  expect(selectors.selectAccountSettingsFetchStatus(store.getState(), AccountSettingsType.settings)).toBe(
     FetchStatus.inProgress
   );
   await waitFor(() =>
-    expect(selectors.selectAccountSettingsStatus(store.getState(), AccountSettingsType.settings)).toBe(
+    expect(selectors.selectAccountSettingsFetchStatus(store.getState(), AccountSettingsType.settings)).toBe(
       FetchStatus.complete
     )
   );
   const finishedState = store.getState();
-  expect(selectors.selectAccountSettingsStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
+  expect(selectors.selectAccountSettingsFetchStatus(finishedState, AccountSettingsType.settings)).toBe(FetchStatus.complete);
 });

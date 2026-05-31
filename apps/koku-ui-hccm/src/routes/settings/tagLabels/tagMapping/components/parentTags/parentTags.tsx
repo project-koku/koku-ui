@@ -35,8 +35,7 @@ interface ParentTagsMapProps {
 interface ParentTagsStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
-  settingsQueryString?: string;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type ParentTagsProps = ParentTagsOwnProps;
@@ -57,7 +56,7 @@ const ParentTags: React.FC<ParentTagsProps> = ({
   unavailableItems,
 }: ParentTagsProps) => {
   const [query, setQuery] = useState({ ...baseQuery });
-  const { settings, settingsError, settingsStatus } = useMapToProps({ query });
+  const { settings, settingsError, settingsFetchStatus } = useMapToProps({ query });
 
   const intl = useIntl();
 
@@ -79,8 +78,8 @@ const ParentTags: React.FC<ParentTagsProps> = ({
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(perPage)}
-        onSetPage={(event, pageNumber) => handleOnSetPage(pageNumber)}
+        onPerPageSelect={(_event, perPage) => handleOnPerPageSelect(perPage)}
+        onSetPage={(_event, pageNumber) => handleOnSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -99,7 +98,7 @@ const ParentTags: React.FC<ParentTagsProps> = ({
     return (
       <ParentTagsTable
         filterBy={query.filter_by}
-        isLoading={settingsStatus === FetchStatus.inProgress}
+        isLoading={settingsFetchStatus === FetchStatus.inProgress}
         orderBy={query.order_by}
         onSelect={onSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
@@ -177,7 +176,7 @@ const ParentTags: React.FC<ParentTagsProps> = ({
   return (
     <>
       {getToolbar(mappings)}
-      {settingsStatus === FetchStatus.inProgress ? (
+      {settingsFetchStatus === FetchStatus.inProgress ? (
         <div style={styles.loading}>
           <LoadingState />
         </div>
@@ -204,24 +203,23 @@ const useMapToProps = ({ query }: ParentTagsMapProps): ParentTagsStateProps => {
   const settings = useSelector((state: RootState) =>
     settingsSelectors.selectSettings(state, SettingsType.tagsMappingsParent, settingsQueryString)
   );
-  const settingsStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsStatus(state, SettingsType.tagsMappingsParent, settingsQueryString)
-  );
   const settingsError = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsError(state, SettingsType.tagsMappingsParent, settingsQueryString)
   );
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.tagsMappingsParent, settingsQueryString)
+  );
 
   useEffect(() => {
-    if (!settingsError && settingsStatus !== FetchStatus.inProgress) {
+    if (!settingsError && settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(settingsActions.fetchSettings(SettingsType.tagsMappingsParent, settingsQueryString));
     }
-  }, [query]);
+  }, [query, settingsError, settingsQueryString]);
 
   return {
     settings,
     settingsError,
-    settingsStatus,
-    settingsQueryString,
+    settingsFetchStatus,
   };
 };
 

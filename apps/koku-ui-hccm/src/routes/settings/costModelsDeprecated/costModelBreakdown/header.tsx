@@ -47,6 +47,7 @@ interface Props extends RouterComponentProps, WrappedComponentProps {
 }
 import { getCurrencyLabel } from 'routes/components/currency';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
+import { getError } from 'store/costModels/costModelSelectors';
 
 const Header: React.FC<Props> = ({
   current,
@@ -224,7 +225,7 @@ export default injectIntl(
       createMapStateToProps(state => ({
         isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
         isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
-        deleteError: costModelsSelectors.deleteError(state),
+        deleteError: getError(costModelsSelectors.selectCostModelsDeleteError(state)),
         isWritePermission: rbacSelectors.isCostModelWritePermission(state),
       })),
       {

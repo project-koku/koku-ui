@@ -13,26 +13,26 @@ export const styles = {
     fontSize: t_global_font_size_xl.var,
     textAlign: 'center',
   },
-  exampleMargin: {
+  _exampleMargin: {
     marginLeft: 30,
   },
-  inputField: {
+  _inputField: {
     borderLeft: 0,
     width: 175,
   },
-  markupRadio: {
+  _markupRadio: {
     marginBottom: 6,
   },
-  markupRadioContainer: {
+  _markupRadioContainer: {
     marginTop: 6,
   },
-  rateContainer: {
+  _rateContainer: {
     marginLeft: 20,
   },
-  percent: {
+  _percent: {
     borderLeft: 0,
   },
-  sign: {
+  _sign: {
     borderRight: 0,
   },
 } as { [className: string]: React.CSSProperties };
