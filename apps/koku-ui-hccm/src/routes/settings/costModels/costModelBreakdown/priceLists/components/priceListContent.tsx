@@ -201,7 +201,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
     };
 
     const handleOnRemove = (item: PriceListData) => {
-      const newSelectedItems = selectedItems.filter(selectedItem => selectedItem.uuid !== item.uuid);
+      const newSelectedItems = selectedItems.filter(selectedItem => selectedItem.uuid !== item?.uuid);
       setSelectedItems(newSelectedItems);
     };
 

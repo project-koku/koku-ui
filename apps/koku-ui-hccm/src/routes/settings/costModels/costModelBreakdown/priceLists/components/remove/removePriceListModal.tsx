@@ -17,7 +17,7 @@ interface RemovePriceListModalOwnProps {
   isOpen?: boolean;
   onClose?: () => void;
   onRemove?: (priceList: PriceListData[]) => void;
-  selectedItems: PriceListData[];
+  selectedItems?: PriceListData[];
 }
 
 interface RemovePriceListModalStateProps {
@@ -33,7 +33,7 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
   isOpen = false,
   onClose,
   onRemove,
-  selectedItems,
+  selectedItems = [],
 }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
@@ -48,9 +48,8 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
       if (costModel?.uuid && isDispatch) {
         setIsFinish(true);
 
-        const newPriceLists = costModel?.price_lists?.filter(
-          item => !(selectedItems ?? []).some(selected => selected.uuid === item.uuid)
-        );
+        const selectedUuids = new Set((selectedItems ?? []).map(selected => selected.uuid));
+        const newPriceLists = costModel?.price_lists?.filter(item => !selectedUuids.has(item.uuid));
         const uuids = newPriceLists?.map(item => item.uuid) ?? [];
 
         dispatch(
