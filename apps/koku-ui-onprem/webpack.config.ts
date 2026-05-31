@@ -229,9 +229,6 @@ const config: Configuration & {
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
         '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
-        '@patternfly/react-core': { singleton: true, requiredVersion: '*' },
-        '@patternfly/react-table': { singleton: true, requiredVersion: '*' },
-        '@patternfly/react-component-groups': { singleton: true, requiredVersion: '*' },
       },
     }),
     new HtmlWebpackPlugin({
