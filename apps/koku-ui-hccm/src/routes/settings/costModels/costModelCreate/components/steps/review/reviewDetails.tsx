@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { WarningIcon } from 'routes/settings/costModelsDeprecated/components/warningIcon';
+import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
 import type { FetchStatus } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
@@ -62,7 +63,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
 
   return (
     <>
-      {costModelsAddError && <Alert variant="danger" title={`${costModelsAddError}`} />}
+      {costModelsAddError && <Alert variant="danger" title={parseApiError(costModelsAddError)} />}
       <Stack hasGutter>
         <StackItem>
           <Title headingLevel="h2" size={TitleSizes.xl}>
@@ -149,7 +150,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
                   <WarningIcon text={intl.formatMessage(messages.costModelsWizardWarningSources)} />
                 )}
               </Content>
-              <Content component={ContentVariants.dd}>{sources?.map(r => r.name).join(', ') || ''}</Content>
+              <Content component={ContentVariants.dd}>{sources?.map(r => r.name)?.join(', ') || ''}</Content>
             </Content>
           </Content>
         </StackItem>
