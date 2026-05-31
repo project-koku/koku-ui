@@ -281,11 +281,10 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
       let newItems = [...selectedItems];
       if (items && items.length > 0) {
         if (isSelected) {
-          items.map(item => newItems.push(item));
+          items.forEach(item => newItems.push(item));
         } else {
-          items.map(item => {
-            newItems = newItems.filter(val => val.uuid !== item.uuid);
-          });
+          const uuidsToRemove = new Set(items.map(item => item.uuid));
+          newItems = newItems.filter(val => !uuidsToRemove.has(val.uuid));
         }
       }
       setSelectedItems(newItems);
