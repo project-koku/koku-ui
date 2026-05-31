@@ -24,6 +24,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { styles } from './costCalc.styles';
@@ -243,7 +244,7 @@ const mapStateToProps = createMapStateToProps<UpdateDistributionDialogOwnProps, 
     return {
       isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
       isLoading: costModelsSelectors.updateProcessing(state),
-      error: costModelsSelectors.updateError(state),
+      error: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
     };
   }
 );

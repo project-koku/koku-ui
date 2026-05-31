@@ -6,11 +6,17 @@ import { Provider } from 'react-redux';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { createStore } from 'redux';
 import { FetchStatus } from 'store/common';
+import { defaultState as costModelsDefaultState } from 'store/costModels/costModelReducer';
 import type { RootState } from 'store/rootReducer';
 import { rootReducer } from 'store/rootReducer';
 
 import CostModelsTable from './table';
-import { initialCostModelsQuery } from './utils/query';
+
+const createCostModelsState = (costModels: any, fetchStatus = FetchStatus.complete) => ({
+  ...costModelsDefaultState,
+  costModels,
+  fetch: { status: fetchStatus, error: null },
+});
 
 const renderUI = (state: Partial<RootState>) => {
   const store = createStore(rootReducer, state);
@@ -53,12 +59,7 @@ test('loading table', () => {
 // Todo: Replace no_cost_models_title with default message string
 test('empty table', () => {
   const state = {
-    costModels: {
-      costModels: emptyPage,
-      status: FetchStatus.complete,
-      error: null,
-      query: initialCostModelsQuery,
-    },
+    costModels: createCostModelsState(emptyPage),
   };
   renderUI(state);
   expect(screen.queryAllByText(regExp(messages.costModelsEmptyState))).toHaveLength(1);
@@ -66,12 +67,7 @@ test('empty table', () => {
 
 test('first page table', () => {
   const state = {
-    costModels: {
-      costModels: page1,
-      status: FetchStatus.complete,
-      error: null,
-      query: initialCostModelsQuery,
-    },
+    costModels: createCostModelsState(page1),
   };
   renderUI(state);
   expect(screen.queryAllByText(/Cost Management Azure Cost Model/i)).toHaveLength(1);
@@ -81,12 +77,7 @@ test('first page table', () => {
 
 test('no match table', () => {
   const state = {
-    costModels: {
-      costModels: noMatchPageName,
-      status: FetchStatus.complete,
-      error: null,
-      query: initialCostModelsQuery,
-    },
+    costModels: createCostModelsState(noMatchPageName),
   };
   renderUI(state);
   expect(screen.queryAllByText(/No match found/i)).toHaveLength(1);

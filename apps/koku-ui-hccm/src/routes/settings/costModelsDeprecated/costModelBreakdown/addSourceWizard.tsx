@@ -24,6 +24,7 @@ import { parseApiError } from 'routes/settings/utils';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
@@ -181,7 +182,7 @@ const mapStateToProps = createMapStateToProps<AddSourceWizardOwnProps, AddSource
     pagination: sourcesSelectors.pagination(state),
     providers: sourcesSelectors.sources(state),
     query: sourcesSelectors.query(state),
-    updateApiError: costModelsSelectors.updateError(state),
+    updateApiError: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
   };
 });
 

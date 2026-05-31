@@ -22,6 +22,7 @@ import { RateTable } from 'routes/settings/costModelsDeprecated/components/rateT
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
@@ -403,9 +404,9 @@ export default injectIntl(
   connect(
     createMapStateToProps(state => ({
       costTypes: metricsSelectors.costTypes(state),
-      error: costModelsSelectors.updateError(state),
-      fetchError: costModelsSelectors.error(state),
-      fetchStatus: costModelsSelectors.status(state),
+      error: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
+      fetchError: getError(costModelsSelectors.selectCostModelsFetchError(state)),
+      fetchStatus: costModelsSelectors.selectCostModelsFetchStatus(state),
       isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
       isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
       isLoading: costModelsSelectors.updateProcessing(state),

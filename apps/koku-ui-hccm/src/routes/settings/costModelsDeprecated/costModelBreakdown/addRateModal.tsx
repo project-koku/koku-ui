@@ -26,6 +26,7 @@ import {
 import { initialRateFormData } from 'routes/settings/costModelsDeprecated/components/rateForm/utils';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { getError } from 'store/costModels/costModelSelectors';
 import { metricsSelectors } from 'store/metrics';
 
 interface AddRateModalOwnProps extends WrappedComponentProps {
@@ -105,7 +106,7 @@ const mapStateToProps = createMapStateToProps<AddRateModalOwnProps, AddRateModal
     isOpen: (costModelsSelectors.isDialogOpen(state)('rate') as any).addRate,
     isProcessing: costModelsSelectors.updateProcessing(state),
     metricsHash: metricsSelectors.metrics(state),
-    updateError: costModelsSelectors.updateError(state),
+    updateError: getError(costModelsSelectors.selectCostModelsUpdateError(state)),
   };
 });
 
@@ -118,7 +119,7 @@ const mapDispatchToProps = (dispatch): AddRateModalDispatchProps => {
           isOpen: false,
         })
       );
-      dispatch(costModelsActions.resetCostModelErrors());
+      dispatch(costModelsActions.resetErrors());
     },
     updateCostModel: (uuid: string, request: CostModelRequest) =>
       costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),

@@ -23,8 +23,8 @@ interface ChildTagMappingOwnProps {
 }
 
 interface ChildTagMappingStateProps {
-  settingsUpdateError?: AxiosError;
-  settingsUpdateStatus?: FetchStatus;
+  settingsError?: AxiosError;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type ChildTagMappingProps = ChildTagMappingOwnProps;
@@ -32,7 +32,7 @@ type ChildTagMappingProps = ChildTagMappingOwnProps;
 const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent, onClose }) => {
   const [childTags, setChildTags] = useState([]);
   const [isFinish, setIsFinish] = useState(false);
-  const { settingsUpdateError, settingsUpdateStatus } = useMapToProps();
+  const { settingsError, settingsFetchStatus } = useMapToProps();
 
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
@@ -42,7 +42,7 @@ const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent,
   };
 
   const handleOnCreateTagMapping = () => {
-    if (settingsUpdateStatus !== FetchStatus.inProgress) {
+    if (settingsFetchStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
       dispatch(
         settingsActions.updateSettings(SettingsType.tagsMappingsChildAdd, {
@@ -68,10 +68,10 @@ const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent,
   };
 
   useEffect(() => {
-    if (isFinish && settingsUpdateStatus === FetchStatus.complete && !settingsUpdateError) {
+    if (isFinish && settingsFetchStatus === FetchStatus.complete && !settingsError) {
       onClose();
     }
-  }, [isFinish, settingsUpdateError, settingsUpdateStatus]);
+  }, [isFinish, settingsError, settingsFetchStatus]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -80,11 +80,11 @@ const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent,
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.medium}>
       <ModalHeader title={intl.formatMessage(messages.tagMappingAddChildTags)} />
       <ModalBody>
-        {settingsUpdateStatus === FetchStatus.complete && settingsUpdateError && (
+        {settingsFetchStatus === FetchStatus.complete && settingsError && (
           <div style={styles.alertContainer}>
             <Alert
               style={styles.alert}
-              title={settingsUpdateError ? parseApiError(settingsUpdateError) : undefined}
+              title={settingsError ? parseApiError(settingsError) : undefined}
               variant="danger"
             />
           </div>
@@ -105,16 +105,16 @@ const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent,
 };
 
 const useMapToProps = (): ChildTagMappingStateProps => {
-  const settingsUpdateStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateStatus(state, SettingsType.tagsMappingsChildAdd)
+  const settingsError = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsError(state, SettingsType.tagsMappingsChildAdd, undefined)
   );
-  const settingsUpdateError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateError(state, SettingsType.tagsMappingsChildAdd)
+  const settingsFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.tagsMappingsChildAdd, undefined)
   );
 
   return {
-    settingsUpdateError,
-    settingsUpdateStatus,
+    settingsError,
+    settingsFetchStatus,
   };
 };
 

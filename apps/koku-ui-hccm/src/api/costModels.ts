@@ -57,6 +57,7 @@ export interface CostModelRequest {
     priority?: number;
     uuid?: string;
   }[];
+  price_list_uuids?: string[];
   rates?: RateRequest[];
   source_type?: string;
   source_uuids?: string[];
@@ -76,10 +77,10 @@ export function addCostModel(request: CostModelRequest) {
   return axiosInstance.post(`cost-models/`, request);
 }
 
-export function updateCostModel(uuid: string, request: CostModelRequest) {
-  return axiosInstance.put(`cost-models/${uuid}/`, request);
-}
-
 export function deleteCostModel(uuid: string) {
   return axiosInstance.delete(`cost-models/${uuid}/`);
+}
+
+export function updateCostModel(uuid: string, request: CostModelRequest) {
+  return axiosInstance.put(`cost-models/${uuid}/`, request);
 }
