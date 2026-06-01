@@ -1848,7 +1848,7 @@ export default defineMessages({
   },
   docsCostModelTerminology: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#con-using-cost-models_reflect-costs',
     description: 'Cost model terminology',
     id: 'docsCostModelTerminology',
   },
@@ -1860,7 +1860,7 @@ export default defineMessages({
   },
   docsCostModelsDistribution: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#understanding-cost-distribution_reflect-costs',
     description: 'Distributing costs',
     id: 'docsCostModelsDistribution',
   },
@@ -1913,13 +1913,13 @@ export default defineMessages({
   },
   docsMetricsOperator: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator_adding-an-ocp-int',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp',
     description: 'Installing the cost operator by using OperatorHub',
     id: 'docsMetricsOperator',
   },
   docsOcpCli: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator-cli_adding-an-ocp-int',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp#installing-cost-operator-cli_integrating-ocp',
     description: 'Optional: Installing the cost management operator by using the CLI',
     id: 'docsOcpCli',
   },
@@ -1954,7 +1954,7 @@ export default defineMessages({
   },
   docsTroubleshooting: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_adding-an-ocp-int',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_integrating-ocp',
     description: 'Troubleshooting issues with your Cost Management Operator',
     id: 'docsTroubleshooting',
   },
