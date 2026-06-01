@@ -13,7 +13,6 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@rbac-ui-onprem/shims/*": ["src/shims/*"],
       "@redhat-cloud-services/*": ["../../libs/onprem-cloud-deps/src/*"],
       "@unleash/*": ["../../libs/onprem-cloud-deps/src/unleash/*"]
     }

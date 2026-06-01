@@ -11,27 +11,12 @@ const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'
 
 const distDir = path.resolve(__dirname, './dist');
 const srcDir = path.resolve(__dirname, './src');
-const shimsDir = path.join(srcDir, 'shims');
+const useAppLinkShim = path.join(srcDir, 'shims/insights-rbac/useAppLink.ts');
 
-/** Absolute paths for webpack aliases and NormalModuleReplacementPlugin targets. */
-const rbacUiOnpremShims = {
-  loaderPlaceholders: path.join(shimsDir, 'insights-rbac/LoaderPlaceholders.tsx'),
-  useAppLink: path.join(shimsDir, 'insights-rbac/useAppLink.ts'),
-  patternflyComponentGroups: path.join(shimsDir, 'patternfly/component-groups.ts'),
-  patternflySkeletonTable: path.join(shimsDir, 'patternfly/SkeletonTable.tsx'),
-  patternflySkeletonTableHead: path.join(shimsDir, 'patternfly/SkeletonTableHead.tsx'),
-  patternflySkeletonTableBody: path.join(shimsDir, 'patternfly/SkeletonTableBody.tsx'),
-} as const;
-
-/** Upstream module paths → on-prem shim (insights-rbac-frontend). */
 const insightsRbacModuleReplacements: readonly { match: RegExp; replacement: string }[] = [
   {
-    match: /[/\\]insights-rbac-frontend[/\\]src[/\\]shared[/\\]components[/\\]ui-states[/\\]LoaderPlaceholders\.tsx$/,
-    replacement: rbacUiOnpremShims.loaderPlaceholders,
-  },
-  {
     match: /[/\\]insights-rbac-frontend[/\\]src[/\\]shared[/\\]hooks[/\\]useAppLink\.ts$/,
-    replacement: rbacUiOnpremShims.useAppLink,
+    replacement: useAppLinkShim,
   },
 ];
 
@@ -124,7 +109,7 @@ const config: Configuration = {
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
         '@patternfly/react-core': { singleton: true, requiredVersion: '*' },
         '@patternfly/react-table': { singleton: true, requiredVersion: '*' },
-        // Do not share component-groups — RolesTable barrel → PF chunk 6658 / SkeletonTable ThBase loop on cluster.
+        // Do not share component-groups — historical PF chunk 6658 / SkeletonTable ThBase loop on cluster nginx.
       },
       pluginMetadata: {
         name: 'insightsRbac',
@@ -139,10 +124,6 @@ const config: Configuration = {
     ...insightsRbacModuleReplacements.map(
       ({ match, replacement }) => new NormalModuleReplacementPlugin(match, replacement)
     ),
-    new NormalModuleReplacementPlugin(
-      /^@patternfly\/react-component-groups$/,
-      rbacUiOnpremShims.patternflyComponentGroups
-    ),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
@@ -154,10 +135,9 @@ const config: Configuration = {
       path.resolve(__dirname, '../../node_modules'),
     ],
     alias: {
-      '@rbac-ui-onprem/shims': path.join(srcDir, 'shims'),
       'insights-rbac-frontend': rbacPkgRoot,
-      [path.join(rbacSrcDir, 'shared/hooks/useAppLink.ts')]: rbacUiOnpremShims.useAppLink,
-      [path.join(rbacSrcDir, 'shared/hooks/useAppLink')]: rbacUiOnpremShims.useAppLink,
+      [path.join(rbacSrcDir, 'shared/hooks/useAppLink.ts')]: useAppLinkShim,
+      [path.join(rbacSrcDir, 'shared/hooks/useAppLink')]: useAppLinkShim,
       '@redhat-cloud-services/frontend-components/useChrome': path.join(onpremDepsSrc, 'frontend-components/useChrome.ts'),
       '@redhat-cloud-services/frontend-components/AsyncComponent': path.join(
         onpremDepsSrc,
@@ -168,10 +148,6 @@ const config: Configuration = {
         'frontend-components-utilities/RBACHook.ts'
       ),
       '@unleash/proxy-client-react': path.join(onpremDepsSrc, 'unleash/proxy-client-react.ts'),
-      '@patternfly/react-component-groups/dist/dynamic/SkeletonTable$': rbacUiOnpremShims.patternflySkeletonTable,
-      '@patternfly/react-component-groups/dist/esm/SkeletonTable$': rbacUiOnpremShims.patternflySkeletonTable,
-      '@patternfly/react-component-groups/dist/esm/SkeletonTableHead$': rbacUiOnpremShims.patternflySkeletonTableHead,
-      '@patternfly/react-component-groups/dist/esm/SkeletonTableBody$': rbacUiOnpremShims.patternflySkeletonTableBody,
     },
   },
 };
