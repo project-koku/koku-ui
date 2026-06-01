@@ -94,7 +94,8 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
 
       const effective_end_date = item?.effective_end_date || fullPriceListItem?.effective_end_date;
       const effective_start_date = item?.effective_start_date || fullPriceListItem?.effective_start_date;
-      const version = item?.version || fullPriceListItem?.version;
+      const version = item?.version ?? fullPriceListItem?.version;
+      const enabled = item?.enabled ?? fullPriceListItem?.enabled;
 
       newRows.push({
         cells: [
@@ -105,9 +106,16 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
             value: (
               <span>
                 <Link to={`${formatPath(routes.priceListBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>
-                <Label isCompact style={styles.label}>
-                  {intl.formatMessage(messages.version, { value: version ?? '' })}
-                </Label>
+                {enabled === false && (
+                  <Label isCompact style={styles.label}>
+                    {intl.formatMessage(messages.deprecated)}
+                  </Label>
+                )}
+                {version !== undefined && (
+                  <Label isCompact style={styles.label}>
+                    {intl.formatMessage(messages.version, { value: version ?? '' })}
+                  </Label>
+                )}
               </span>
             ),
           },
