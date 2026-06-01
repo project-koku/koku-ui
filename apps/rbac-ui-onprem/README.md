@@ -1,6 +1,6 @@
 # rbac-ui-onprem
 
-On-prem federated remote for **insights-rbac-ui** (scope `insightsRbac`, `/rbac/`, `./Iam`). No upstream repo edits — webpack shims live under `src/shims/`.
+On-prem federated remote for **insights-rbac-ui** (scope `insightsRbac`, `/rbac/`, `./Iam`). No upstream repo edits — vendored upstream + `onprem-cloud-deps` platform aliases; **`useAppLink` shim only** (PF SkeletonTable shims removed 2026-06-01).
 
 ## Vendored upstream (Konflux / hermetic CI)
 
