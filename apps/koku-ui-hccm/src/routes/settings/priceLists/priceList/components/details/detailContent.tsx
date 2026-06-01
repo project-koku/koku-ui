@@ -121,6 +121,7 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
           onMonthChange={(_event, date: Date) =>
             isStartDate ? handleOnStartMonthChange(date) : handleOnEndMonthChange(date)
           }
+          monthAppendTo={document.body}
         />
       );
     };
