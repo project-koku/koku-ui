@@ -44,13 +44,13 @@ exports[`reports are formatted to datums 1`] = `
             d="M0.5333333333333332,25L0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: none; fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
           <path
             d="M0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: var(--pf-v6-chart-color-black-200, #e0e0e0); fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: var(--pf-v6-chart-color-black-200, #e0e0e0); fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
         </g>
       </g>
@@ -76,13 +76,13 @@ exports[`reports are formatted to datums 1`] = `
             d="M0.5333333333333332,25L0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: none; fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: none; fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
           <path
             d="M0.5333333333333332,25Z"
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: var(--pf-v6-chart-color-green-400, #3d7317); fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: var(--pf-v6-chart-color-green-400, #3d7317); fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
         </g>
       </g>
@@ -107,12 +107,12 @@ exports[`reports are formatted to datums 1`] = `
           <path
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
           <path
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: var(--pf-v6-chart-color-black-200, #e0e0e0); stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: var(--pf-v6-chart-color-black-200, #e0e0e0); stroke-dasharray: 3,3; fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
         </g>
       </g>
@@ -137,12 +137,12 @@ exports[`reports are formatted to datums 1`] = `
           <path
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: none; stroke-dasharray: 3,3; fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
           <path
             role="presentation"
             shape-rendering="auto"
-            style="fill: none; stroke: var(--pf-v6-chart-color-green-300, #63993d); stroke-dasharray: 3,3; fill-opacity: 0.3; stroke-width: 2;"
+            style="fill: none; stroke: var(--pf-v6-chart-color-green-300, #63993d); stroke-dasharray: 3,3; fill-opacity: var(--pf-v6-chart-area--Opacity, 30%); stroke-width: 2;"
           />
         </g>
       </g>
@@ -152,7 +152,7 @@ exports[`reports are formatted to datums 1`] = `
         <line
           role="presentation"
           shape-rendering="auto"
-          style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #c7c7c7); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+          style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #e0e0e0); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
           vector-effect="non-scaling-stroke"
           x1="8"
           x2="-8"
@@ -229,7 +229,7 @@ exports[`reports are formatted to datums 1`] = `
         <line
           role="presentation"
           shape-rendering="auto"
-          style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #c7c7c7); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
+          style="stroke: var(--pf-v6-chart-axis--axis--stroke--Color, #e0e0e0); fill: var(--pf-v6-chart-axis--axis--Fill, transparent); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;"
           vector-effect="non-scaling-stroke"
           x1="8"
           x2="8"
@@ -340,7 +340,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
           role="presentation"
           shape-rendering="auto"
-          style="fill: var(--pf-v6-chart-color-black-200, #e0e0e0);"
+          style="fill: var(--pf-v6-chart-color-black-200, #e0e0e0); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
         />
         <path
           d="M 47.44, 73.156
@@ -350,7 +350,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
           role="presentation"
           shape-rendering="auto"
-          style="fill: var(--pf-v6-chart-color-green-400, #3d7317);"
+          style="fill: var(--pf-v6-chart-color-green-400, #3d7317); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
         />
         <path
           d="M 87.04, 73.156
@@ -370,7 +370,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
           role="presentation"
           shape-rendering="auto"
-          style="fill: var(--pf-v6-chart-color-black-200, #e0e0e0);"
+          style="fill: var(--pf-v6-chart-color-black-200, #e0e0e0); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
         />
         <path
           d="M 126.64000000000001, 73.156
@@ -390,7 +390,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
           role="presentation"
           shape-rendering="auto"
-          style="fill: var(--pf-v6-chart-color-green-300, #63993d);"
+          style="fill: var(--pf-v6-chart-color-green-300, #63993d); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
         />
         <text
           direction="inherit"

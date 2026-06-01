@@ -44,7 +44,11 @@ const config: Configuration = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(svg|ttf|eot|woff|woff2)$/,
+        test: /\.svg$/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
         type: 'asset/resource',
         include: [
           path.resolve(__dirname, 'src'),
