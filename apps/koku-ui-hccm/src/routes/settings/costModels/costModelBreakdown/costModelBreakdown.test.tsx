@@ -1,5 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { CostModels } from 'api/costModels';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
+import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
@@ -8,8 +10,18 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { FetchStatus } from 'store/common';
 import { defaultState, stateKey } from 'store/costModels/costModelReducer';
 import { configureStore } from 'store/store';
+import { userAccessQuery, userAccessStateKey } from 'store/userAccess';
+import { getFetchId } from 'store/userAccess/userAccessCommon';
 
 import CostModelBreakdown from './costModelBreakdown';
+
+jest.mock('@patternfly/react-component-groups', () => ({
+  PageHeader: ({ title }: { title?: string }) => <div data-testid="page-header">{title}</div>,
+}));
+
+jest.mock('routes/settings/costModels/utils', () => ({
+  useCostModelNotifications: jest.fn(),
+}));
 
 jest.mock('./priceLists', () => ({
   OrderPriceList: () => <div data-testid="price-lists-tab" />,
@@ -63,8 +75,27 @@ const genericFetchError = {
   response: { data: { Error: 'Internal server error' } },
 } as AxiosError;
 
+const userAccessQueryString = getUserAccessQuery(userAccessQuery);
+const userAccessFetchId = getFetchId(UserAccessType.all, userAccessQueryString);
+
+const userAccessState = {
+  [userAccessStateKey]: {
+    byId: new Map([
+      [
+        userAccessFetchId,
+        {
+          data: [{ type: UserAccessType.settings, access: true, write: true }],
+        },
+      ],
+    ]),
+    errors: new Map([[userAccessFetchId, null]]),
+    fetchStatus: new Map([[userAccessFetchId, FetchStatus.complete]]),
+  },
+};
+
 const createStore = (fetch: { status: FetchStatus; error: AxiosError | null }, costModels = defaultCostModels) =>
   configureStore({
+    ...userAccessState,
     [stateKey]: {
       ...defaultState,
       costModels,
