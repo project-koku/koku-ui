@@ -1195,8 +1195,8 @@ export default defineMessages({
     id: 'cpuEfficiencyInfoFormulaUsageScore',
   },
   cpuEfficiencyInfoFormulaWastedCost: {
-    defaultMessage: 'wasted cost = (Cost -X% (% of total cost) = waste cost)',
-    description: 'wasted cost = (Cost -X% (% of total cost) = waste cost)',
+    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'cpuEfficiencyInfoFormulaWastedCost',
   },
   cpuTitle: {
@@ -2924,8 +2924,8 @@ export default defineMessages({
     id: 'memoryEfficiencyInfoFormulaUsageScore',
   },
   memoryEfficiencyInfoFormulaWasteCost: {
-    defaultMessage: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
-    description: 'waste cost = (Cost -X% (% of total cost) = waste cost)',
+    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'memoryEfficiencyInfoFormulaWasteCost',
   },
   memoryTitle: {
@@ -4694,8 +4694,8 @@ export default defineMessages({
     id: 'volumeTitle',
   },
   wastedCost: {
-    defaultMessage: 'Wasted cost',
-    description: 'Wasted cost',
+    defaultMessage: 'Savings opportunity',
+    description: 'Savings opportunity',
     id: 'wastedCost',
   },
   workerUnallocated: {
