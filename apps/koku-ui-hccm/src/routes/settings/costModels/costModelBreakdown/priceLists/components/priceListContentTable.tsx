@@ -101,6 +101,11 @@ const PriceListContentTable: React.FC<PriceListContentTableProps> = ({
                 {item?.name && (
                   <Link to={`${formatPath(routes.priceListBreakdown.basePath)}/${item?.uuid}`}>{item.name}</Link>
                 )}
+                {item?.enabled === false && (
+                  <Label isCompact style={styles.label}>
+                    {intl.formatMessage(messages.deprecated)}
+                  </Label>
+                )}
                 <Label isCompact style={styles.label}>
                   {intl.formatMessage(messages.version, { value: item?.version })}
                 </Label>
