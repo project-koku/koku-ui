@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
 import type { Source } from '../../apis/models/sources';
@@ -16,7 +16,6 @@ jest.mock('apis/sources-service', () => ({
 const mockedDeleteSource = SourcesService.deleteSource as jest.MockedFunction<typeof SourcesService.deleteSource>;
 
 beforeEach(() => {
-  jest.useRealTimers();
   jest.clearAllMocks();
 });
 
@@ -98,13 +97,11 @@ describe('SourceRemoveModal', () => {
     mockedDeleteSource.mockRejectedValue(new Error('Network error'));
     const props = renderModal();
 
-    await act(async () => {
-      await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
-      await user.click(getSubmitButton());
-      await Promise.resolve();
-    });
+    await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
+    await user.click(getSubmitButton());
 
-    expect(screen.getByText('Network error')).toBeInTheDocument();
+    expect(await screen.findByText('Network error')).toBeInTheDocument();
+    await waitFor(() => expect(getSubmitButton()).toBeEnabled());
     expect(props.onSuccess).not.toHaveBeenCalled();
     expect(props.onClose).not.toHaveBeenCalled();
   });
@@ -114,13 +111,11 @@ describe('SourceRemoveModal', () => {
     mockedDeleteSource.mockRejectedValue('unexpected');
     renderModal();
 
-    await act(async () => {
-      await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
-      await user.click(getSubmitButton());
-      await Promise.resolve();
-    });
+    await user.click(screen.getByRole('checkbox', { name: /I acknowledge that this action cannot be undone/ }));
+    await user.click(getSubmitButton());
 
-    expect(screen.getByText('Failed to remove integration')).toBeInTheDocument();
+    expect(await screen.findByText('Failed to remove integration')).toBeInTheDocument();
+    await waitFor(() => expect(getSubmitButton()).toBeEnabled());
   });
 
   it('calls onClose when Cancel is clicked', async () => {
