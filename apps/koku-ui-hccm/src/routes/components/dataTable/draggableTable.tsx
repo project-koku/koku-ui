@@ -287,7 +287,7 @@ const DraggableTable: React.FC<DraggableTableProps> = ({
               </Td>
             </Tr>
           ) : (
-            rows.map((row, rowIndex) => (
+            rows?.map((row, rowIndex) => (
               <Tr
                 key={row.id ?? `row-${rowIndex}`}
                 id={row.id ?? `row-${rowIndex}`}

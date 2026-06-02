@@ -1195,8 +1195,8 @@ export default defineMessages({
     id: 'cpuEfficiencyInfoFormulaUsageScore',
   },
   cpuEfficiencyInfoFormulaWastedCost: {
-    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
-    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    defaultMessage: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'cpuEfficiencyInfoFormulaWastedCost',
   },
   cpuTitle: {
@@ -1592,13 +1592,13 @@ export default defineMessages({
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'cost_model {Cost model assigned} ' +
-      'cost_models {Assigned cost models}' +
+      'cost_models {Assigned cost models} ' +
       'cost_type {Calculation type} ' +
       'cpu {CPU} ' +
       'currency {Currency} ' +
       'description {Description} ' +
-      'end {End}' +
-      'end_date {End date}' +
+      'end {End} ' +
+      'end_date {End date} ' +
       'gcp_project {Google Cloud project names} ' +
       'group {Group} ' +
       'instance {Instance names} ' +
@@ -1625,8 +1625,8 @@ export default defineMessages({
       'status {Status} ' +
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
-      'start {Start}' +
-      'start_date {Start date}' +
+      'start {Start} ' +
+      'start_date {Start date} ' +
       'storage {Storage} ' +
       'tag {Tag names} ' +
       'tags {Tags} ' +
@@ -2924,8 +2924,8 @@ export default defineMessages({
     id: 'memoryEfficiencyInfoFormulaUsageScore',
   },
   memoryEfficiencyInfoFormulaWasteCost: {
-    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
-    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    defaultMessage: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'memoryEfficiencyInfoFormulaWasteCost',
   },
   memoryTitle: {
