@@ -1195,8 +1195,8 @@ export default defineMessages({
     id: 'cpuEfficiencyInfoFormulaUsageScore',
   },
   cpuEfficiencyInfoFormulaWastedCost: {
-    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
-    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    defaultMessage: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'cpuEfficiencyInfoFormulaWastedCost',
   },
   cpuTitle: {
@@ -2924,8 +2924,8 @@ export default defineMessages({
     id: 'memoryEfficiencyInfoFormulaUsageScore',
   },
   memoryEfficiencyInfoFormulaWasteCost: {
-    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
-    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    defaultMessage: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'memoryEfficiencyInfoFormulaWasteCost',
   },
   memoryTitle: {
