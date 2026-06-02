@@ -153,7 +153,20 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [canWrite, costModel, fullPriceList, isAllSelected, isDisabled, isDraggable, priceLists, selectedItems]);
+  }, [
+    canWrite,
+    costModel,
+    fullPriceList,
+    intl,
+    isAllSelected,
+    isDisabled,
+    isDraggable,
+    onClose,
+    onRemove,
+    onSelect,
+    priceLists,
+    selectedItems,
+  ]);
 
   return (
     <DraggableTable

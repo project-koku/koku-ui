@@ -2265,7 +2265,7 @@
     "cpuEfficiencyInfoFormulaWastedCost": [
       {
         "type": 0,
-        "value": "savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
+        "value": "estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "cpuTitle": [
@@ -4599,7 +4599,7 @@
     "docsCostModelTerminology": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#con-using-cost-models_reflect-costs"
       }
     ],
     "docsCostModels": [
@@ -4611,7 +4611,7 @@
     "docsCostModelsDistribution": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#understanding-cost-distribution_reflect-costs"
       }
     ],
     "docsCostModelsGpu": [
@@ -4671,7 +4671,7 @@
     "docsOcpCli": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator-cli_adding-an-ocp-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp#installing-cost-operator-cli_integrating-ocp"
       }
     ],
     "docsPlatformProjects": [
@@ -4707,7 +4707,7 @@
     "docsTroubleshooting": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_adding-an-ocp-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_integrating-ocp"
       }
     ],
     "docsUsingCostModels": [
@@ -11196,7 +11196,7 @@
     "memoryEfficiencyInfoFormulaWasteCost": [
       {
         "type": 0,
-        "value": "savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
+        "value": "estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "memoryTitle": [

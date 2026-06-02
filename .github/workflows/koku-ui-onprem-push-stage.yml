@@ -43,6 +43,8 @@ jobs:
     needs: [generate-tags]
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Build
         id: build

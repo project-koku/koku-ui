@@ -129,7 +129,7 @@ const IntegrationTable: React.FC<IntegrationTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [costModel, providers, sources]);
+  }, [costModel, intl, canWrite, isDisabled, onClose, onDelete, providers, sources]);
 
   return (
     <DataTable
