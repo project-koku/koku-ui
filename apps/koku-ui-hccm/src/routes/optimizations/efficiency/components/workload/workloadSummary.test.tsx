@@ -42,9 +42,9 @@ describe('WorkloadSummary', () => {
       expect(screen.getByText(/USD100/)).toBeInTheDocument();
     });
 
-    it('renders the Savings opportunity section heading', () => {
+    it('renders the savings opportunity estimate section heading', () => {
       renderWithProviders(<WorkloadSummary report={mockReport} />);
-      expect(screen.getByRole('heading', { name: 'Savings opportunity' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Savings opportunity estimate' })).toBeInTheDocument();
     });
 
     it('renders 0% without crashing when report is null', () => {

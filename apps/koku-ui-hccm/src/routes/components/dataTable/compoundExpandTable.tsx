@@ -150,7 +150,7 @@ class CompoundExpandTable extends React.Component<CompoundExpandTableProps, Comp
               </Tr>
             </Tbody>
           ) : (
-            rows.map((row, rowIndex) => {
+            rows?.map((row, rowIndex) => {
               const rowId = `row-${rowIndex}`;
               const isExpanded = isAllExpanded || expandedRows.has(row?.item);
               const hasExpandableRow = row?.children?.rows?.length > 0;
