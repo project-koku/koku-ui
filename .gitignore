@@ -59,3 +59,4 @@ report.*.json
 
 apps/**/cypress/videos/
 apps/**/cypress/screenshots/
+apps/**/cypress/visual-compare/

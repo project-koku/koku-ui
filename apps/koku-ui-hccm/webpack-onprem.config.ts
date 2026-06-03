@@ -9,6 +9,8 @@ import { DefinePlugin } from 'webpack';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
+const onpremDepsSrc = path.resolve(__dirname, '../../libs/onprem-cloud-deps/src');
+
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
@@ -108,6 +110,7 @@ const config: Configuration = {
       'process.env.KOKU_UI_COMMITHASH': undefined,
       'process.env.KOKU_UI_PKGNAME': undefined,
       'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('true'),
+      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
     }),
   ],
   resolve: {
@@ -115,8 +118,8 @@ const config: Configuration = {
     cacheWithContext: false,
     modules: [srcDir, path.resolve(__dirname, './node_modules'), path.resolve(__dirname, '../../node_modules')],
     alias: {
-      '@redhat-cloud-services': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
-      '@unleash': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src/unleash'),
+      '@redhat-cloud-services': onpremDepsSrc,
+      '@unleash': path.join(onpremDepsSrc, 'unleash'),
     },
   },
 };
