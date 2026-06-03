@@ -80,7 +80,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
         style: styles.column,
       },
     ];
-  }, [computedItems, groupBy, isWastedCostToggleEnabled]);
+  }, [computedItems, groupBy, intl, isWastedCostToggleEnabled]);
 
   // Rows are computed fresh on every render so the Link state always uses
   // the current location — never a stale closure from a previous useMemo run.
