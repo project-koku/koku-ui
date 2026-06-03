@@ -2265,7 +2265,7 @@
     "cpuEfficiencyInfoFormulaWastedCost": [
       {
         "type": 0,
-        "value": "estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
+        "value": "savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "cpuTitle": [
@@ -11196,7 +11196,7 @@
     "memoryEfficiencyInfoFormulaWasteCost": [
       {
         "type": 0,
-        "value": "estimated savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
+        "value": "savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "memoryTitle": [
@@ -14720,7 +14720,7 @@
     "wastedCost": [
       {
         "type": 0,
-        "value": "Savings opportunity"
+        "value": "Savings opportunity estimate"
       }
     ],
     "workerUnallocated": [
