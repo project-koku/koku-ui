@@ -1307,6 +1307,7 @@ export default defineMessages({
       'DKK {DKK ({symbol}) - Danish Krone}' +
       'EUR {EUR ({symbol}) - Euro}' +
       'GBP {GBP ({symbol}) - British Pound}' +
+      'GHS {GHS ({symbol}) - Ghanaian Cedi}' +
       'HKD {HKD ({symbol}) - Hong Kong Dollar}' +
       'INR {INR ({symbol}) - Indian Rupee}' +
       'JPY {JPY ({symbol}) - Japanese Yen}' +
