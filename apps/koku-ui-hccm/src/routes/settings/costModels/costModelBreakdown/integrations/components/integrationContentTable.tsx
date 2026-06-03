@@ -107,7 +107,7 @@ const IntegrationContentTable: React.FC<IntegrationContentTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [costModel, providers, selectedItems]);
+  }, [costModel, intl, isAllSelected, providers, selectedItems]);
 
   return (
     <DataTable

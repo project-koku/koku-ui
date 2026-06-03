@@ -8,6 +8,18 @@ Monorepo for Cost Management related user interfaces
 
 Submit issues in [Jira].
 
+## Getting started
+
+After cloning, initialize git submodules (required for the on-prem RBAC remote and other vendored deps):
+
+```bash
+git submodule update --init --recursive
+```
+
+Then install dependencies from the repo root: `npm ci`.
+
+For RBAC submodule pin and bump steps, see [rbac-ui-onprem README](apps/rbac-ui-onprem/README.md).
+
 For specific instructions look at app's README. Available apps:
 - [koku-ui-hccm][koku-ui-hccm-readme]
 - [koku-ui-onprem][koku-ui-onprem-readme]
