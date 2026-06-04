@@ -324,6 +324,7 @@ const useMapToProps = ({ currency = 'USD', query }: PriceListContentMapProps): P
   const priceListQuery = {
     filter: {
       currency,
+      enabled: true, // Don't show deprecated price lists
     },
     filter_by: query.filter_by,
     limit: query.limit,

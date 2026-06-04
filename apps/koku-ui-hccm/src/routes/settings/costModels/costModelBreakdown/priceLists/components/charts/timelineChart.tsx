@@ -20,6 +20,8 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { NoSelectionsState } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/state';
+import { useFetchPriceLists } from 'routes/settings/costModels/costModelBreakdown/priceLists/utils';
+import { getEffectiveDate, getEffectiveStartDate } from 'routes/settings/priceLists/priceList/components/details/utils';
 
 import { styles } from './timelineChart.styles';
 
@@ -38,20 +40,26 @@ type TimelineChartProps = TimelineChartOwnProps;
 const TimelineChart: React.FC<TimelineChartProps> = ({ isReset, onResetClick, priceLists }) => {
   const intl = useIntl();
 
-  // eslint-disable-next-line
+  // Workaround for the cost models API's missing price list properties
+  const { priceList: fullPriceList } = useFetchPriceLists();
+
+  // eslint-disable-next-line react-hooks/refs
   const [containerRef] = useState(React.createRef<HTMLDivElement>());
   const height = 200 + Math.max(0, (priceLists?.length ?? 0) - 1) * 25;
   const [width, setWidth] = useState(0);
 
   const priceListDatum = priceLists?.map((item, index) => {
+    const fullPriceListItem = fullPriceList?.data?.find(p => p.uuid === item.uuid);
+    const effectiveEndDate = item?.effective_end_date
+      ? new Date(`${item.effective_end_date}T00:00:00`)
+      : getEffectiveDate(fullPriceListItem?.effective_end_date);
     const effectiveStartDate = item?.effective_start_date
       ? new Date(`${item.effective_start_date}T00:00:00`)
-      : new Date();
-    const effectiveEndDate = item?.effective_end_date ? new Date(`${item.effective_end_date}T00:00:00`) : new Date();
+      : getEffectiveDate(fullPriceListItem?.effective_start_date);
 
-    // Dates must start on the first day of the month for tick labels to align correctly
-    const startDate = startOfMonth(effectiveStartDate);
-    const endDate = startOfMonth(effectiveEndDate);
+    // Effective dates must start on the first day of the month for tick labels to align correctly
+    const startDate = getEffectiveStartDate(effectiveStartDate);
+    const endDate = getEffectiveStartDate(effectiveEndDate);
     endDate?.setMonth(endDate?.getMonth() + 1);
 
     return {

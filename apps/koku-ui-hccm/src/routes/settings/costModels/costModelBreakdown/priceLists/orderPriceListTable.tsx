@@ -57,6 +57,7 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
+  // Workaround for the cost models API's missing price list properties
   const { priceList: fullPriceList } = useFetchPriceLists();
 
   const initDatum = () => {
