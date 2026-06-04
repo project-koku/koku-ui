@@ -1837,7 +1837,7 @@ export default defineMessages({
   },
   docsCostCategory: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configuring-categories_planning',
     description: 'Configuring Amazon Web Services cost categories in cost management',
     id: 'docsCostCategory',
   },
@@ -1866,19 +1866,19 @@ export default defineMessages({
   },
   docsCostModelsGpu: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_reflect-costs',
     description: 'Read more about GPUs by reviewing our documentation',
     id: 'docsCostModelsGpu',
   },
   docsCostModelsMarkup: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs',
     description: 'Applying a markup or discount to cloud integrations',
     id: 'docsCostModelsMarkup',
   },
   docsCostModelsOcp: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#creating-an-ocp-cost-model_reflect-costs',
     description: 'Creating a cost model for an OpenShift Container Platform cluster',
     id: 'docsCostModelsOcp',
   },
@@ -1925,13 +1925,13 @@ export default defineMessages({
   },
   docsPlatformProjects: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#adding-openshift-projects',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-using-cost-models_reflect-costs#add-openshift-projects_reflect-costs',
     description: 'Adding OpenShift projects',
     id: 'docsPlatformProjects',
   },
   docsPriceList: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#calculating-effective-cost-max_reflect-costs',
     description: 'Adding a price list',
     id: 'docsPriceList',
   },
@@ -1948,7 +1948,7 @@ export default defineMessages({
   },
   docsTags: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configure-tags_planning',
     description: 'Configuring tags and labels in cost management',
     id: 'docsTags',
   },
