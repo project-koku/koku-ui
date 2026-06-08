@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@koku-ui/token-refresher": "*",
-    "@types/node": "^25.9.1",
+    "@types/node": "^25.9.2",
     "css-minimizer-webpack-plugin": "^8.0.0",
     "cypress": "^15.16.0",
     "sass": "^1.100.0",
