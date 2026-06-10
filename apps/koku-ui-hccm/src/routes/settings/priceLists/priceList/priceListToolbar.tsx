@@ -57,7 +57,7 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
             ouiaId="BasicSwitch"
           />
         </span>
-        <CreatePriceListAction canWrite={canWrite} isDisabled={isDisabled} />
+        <CreatePriceListAction canWrite={canWrite} />
       </>
     );
   };
@@ -69,6 +69,12 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
         placeholderKey: 'name',
         key: 'name',
         name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
+      },
+      {
+        ariaLabelKey: 'currency',
+        placeholderKey: 'currency',
+        key: 'currency',
+        name: intl.formatMessage(messages.filterByValues, { value: 'currency' }),
       },
     ];
     return options;

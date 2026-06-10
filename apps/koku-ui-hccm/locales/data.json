@@ -33,6 +33,12 @@
     "assignPriceListsDesc": [
       {
         "type": 0,
+        "value": "Deprecated price lists are not shown in this list."
+      }
+    ],
+    "assignPriceListsWizardDesc": [
+      {
+        "type": 0,
         "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list."
       }
     ],
@@ -8045,6 +8051,14 @@
               }
             ]
           },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by currency"
+              }
+            ]
+          },
           "description": {
             "value": [
               {
@@ -8335,6 +8349,14 @@
               {
                 "type": 0,
                 "value": "Container"
+              }
+            ]
+          },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Currency"
               }
             ]
           },
@@ -12443,13 +12465,37 @@
     "priceListEmptyPriceLists": [
       {
         "type": 0,
+        "value": "No active price lists"
+      }
+    ],
+    "priceListEmptyPriceListsAssigned": [
+      {
+        "type": 0,
         "value": "No price lists are assigned"
+      }
+    ],
+    "priceListEmptyPriceListsAssignedDesc": [
+      {
+        "type": 0,
+        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAssignedWizardDesc": [
+      {
+        "type": 0,
+        "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAvailable": [
+      {
+        "type": 0,
+        "value": "No price lists are available"
       }
     ],
     "priceListEmptyPriceListsDesc": [
       {
         "type": 0,
-        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
+        "value": "Price lists may be deprecated. Turn on Show deprecated to view and restore them."
       }
     ],
     "priceListEmptyRate": [

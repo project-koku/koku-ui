@@ -222,6 +222,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
                 canWrite={canWrite}
                 contentRef={priceListContentRef}
                 currency={currency}
+                isWizard
                 onAdd={setPriceLists}
                 priceLists={priceLists}
               />

@@ -27,11 +27,16 @@ export default defineMessages({
     id: 'assignPriceLists',
   },
   assignPriceListsDesc: {
+    defaultMessage: 'Deprecated price lists are not shown in this list.',
+    description: 'Deprecated price lists are not shown in this list.',
+    id: 'assignPriceListsDesc',
+  },
+  assignPriceListsWizardDesc: {
     defaultMessage:
       'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list.',
     description:
       'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list.',
-    id: 'assignPriceListsDesc',
+    id: 'assignPriceListsWizardDesc',
   },
   assignedCostModels: {
     defaultMessage: 'Assigned cost models',
@@ -2393,6 +2398,7 @@ export default defineMessages({
       'aws_category {Filter by cost category} ' +
       'cluster {Filter by cluster} ' +
       'container {Filter by container} ' +
+      'currency {Filter by currency} ' +
       'description {Filter by description} ' +
       'gcp_project {Filter by Google Cloud project} ' +
       'gpu_model {Filter by GPU model} ' +
@@ -2448,6 +2454,7 @@ export default defineMessages({
       'aws_category {Cost category} ' +
       'cluster {Cluster} ' +
       'container {Container} ' +
+      'currency {Currency} ' +
       'default {Default} ' +
       'description {Description} ' +
       'gcp_project {Google Cloud project} ' +
@@ -3636,16 +3643,38 @@ export default defineMessages({
     id: 'priceListEmptyCostModelsDesc',
   },
   priceListEmptyPriceLists: {
-    defaultMessage: 'No price lists are assigned',
-    description: 'No price lists are assigned',
+    defaultMessage: 'No active price lists',
+    description: 'No active price lists',
     id: 'priceListEmptyPriceLists',
   },
   priceListEmptyPriceListsDesc: {
+    defaultMessage: 'Price lists may be deprecated. Turn on Show deprecated to view and restore them.',
+    description: 'Price lists may be deprecated. Turn on Show deprecated to view and restore them.',
+    id: 'priceListEmptyPriceListsDesc',
+  },
+  priceListEmptyPriceListsAssigned: {
+    defaultMessage: 'No price lists are assigned',
+    description: 'No price lists are assigned',
+    id: 'priceListEmptyPriceListsAssigned',
+  },
+  priceListEmptyPriceListsAvailable: {
+    defaultMessage: 'No price lists are available',
+    description: 'No price lists are available',
+    id: 'priceListEmptyPriceListsAvailable',
+  },
+  priceListEmptyPriceListsAssignedDesc: {
     defaultMessage:
       'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
     description:
       'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
-    id: 'priceListEmptyPriceListsDesc',
+    id: 'priceListEmptyPriceListsAssignedDesc',
+  },
+  priceListEmptyPriceListsAssignedWizardDesc: {
+    defaultMessage:
+      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings.',
+    description:
+      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings.',
+    id: 'priceListEmptyPriceListsAssignedWizardDesc',
   },
   priceListEmptyRate: {
     defaultMessage: 'No rates are set',
