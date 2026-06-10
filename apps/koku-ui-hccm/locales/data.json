@@ -2635,6 +2635,22 @@
               }
             ]
           },
+          "GHS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GHS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ghanaian Cedi"
+              }
+            ]
+          },
           "HKD": {
             "value": [
               {
