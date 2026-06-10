@@ -1,0 +1,12 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.formula {
+  margin-top: var(--pf-t--global--spacer--2xl);
+}
+
+.subtitle {
+  display: inline-block;
+  font-size: var(--pf-t--global--font--size--xs);
+  color: var(--pf-t--global--text--color--subtle);
+  margin-bottom: 0;
+}

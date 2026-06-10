@@ -1,1 +1,1 @@
-export { default } from './costModelInfo';
+export * from './costModel';

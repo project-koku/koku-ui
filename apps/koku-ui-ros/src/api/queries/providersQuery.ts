@@ -7,7 +7,7 @@ export interface ProvidersQuery {
 }
 
 export function getProvidersQuery(query: ProvidersQuery) {
-  return stringify(query, { encode: false, indices: false });
+  return stringify(query, { encode: true, indices: false });
 }
 
 export function parseProvidersQuery<T = any>(query: string): T {

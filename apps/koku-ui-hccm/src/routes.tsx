@@ -1,4 +1,5 @@
 import { Bullseye, Spinner } from '@patternfly/react-core';
+import { useIsPriceListToggleEnabled } from 'components/featureToggle';
 import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
@@ -8,7 +9,18 @@ const AwsBreakdown = lazy(() => import(/* webpackChunkName: "awsBreakdown" */ 'r
 const AwsDetails = lazy(() => import(/* webpackChunkName: "awsDetails" */ 'routes/details/awsDetails'));
 const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" */ 'routes/details/azureBreakdown'));
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/details/azureDetails'));
-const CostModel = lazy(() => import(/* webpackChunkName: "costModel" */ 'routes/settings/costModels/costModel'));
+const CostModelBreakdown = lazy(
+  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelBreakdown')
+);
+const CostModelBreakdownDeprecated = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "CostModelBreakdownDeprecated" */ 'routes/settings/costModelsDeprecated/costModelBreakdown'
+    )
+);
+const CostModelCreate = lazy(
+  () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelCreate')
+);
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/details/gcpDetails'));
@@ -25,7 +37,18 @@ const OptimizationsBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
 );
 const Overview = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/overview'));
+const PriceListBreakdown = lazy(
+  () => import(/* webpackChunkName: "PriceListBreakdown" */ 'routes/settings/priceLists/priceListBreakdown')
+);
+const PriceListCreate = lazy(
+  () => import(/* webpackChunkName: "PriceListCreate" */ 'routes/settings/priceLists/priceListCreate')
+);
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
+
+const CostModelsBreakdownWrapper: React.FC = () => {
+  const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
+  return isPriceListToggleEnabled ? <CostModelBreakdown /> : <CostModelBreakdownDeprecated />;
+};
 
 export const routes = {
   awsBreakdown: {
@@ -44,10 +67,14 @@ export const routes = {
     element: userAccess(AzureDetails),
     path: '/azure',
   },
-  costModel: {
+  costModelBreakdown: {
     basePath: `/settings/cost-model`,
-    element: userAccess(CostModel),
+    element: userAccess(CostModelsBreakdownWrapper),
     path: `/settings/cost-model/:uuid`, // Note: Order matters (i.e., dynamic segment must be defined after costModelsDetails)
+  },
+  costModelCreate: {
+    element: userAccess(CostModelCreate),
+    path: '/settings/cost-model/create',
   },
   explorer: {
     element: userAccess(Explorer),
@@ -84,6 +111,15 @@ export const routes = {
   overview: {
     element: userAccess(Overview),
     path: '/',
+  },
+  priceListBreakdown: {
+    basePath: `/settings/price-list`,
+    element: userAccess(PriceListBreakdown),
+    path: '/settings/price-list/:uuid',
+  },
+  priceListCreate: {
+    element: userAccess(PriceListCreate),
+    path: '/settings/price-list/create',
   },
   settings: {
     element: userAccess(Settings),

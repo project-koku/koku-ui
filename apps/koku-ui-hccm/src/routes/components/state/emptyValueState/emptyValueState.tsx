@@ -3,9 +3,13 @@ import './emptyValueState.scss';
 import { MinusIcon } from '@patternfly/react-icons/dist/esm/icons/minus-icon';
 import React from 'react';
 
-const EmptyValueState: React.FC = () => {
+interface EmptyValueStateProps {
+  style?: React.CSSProperties;
+}
+
+const EmptyValueState: React.FC<EmptyValueStateProps> = ({ style }) => {
   return (
-    <span className="emptyValueContainer">
+    <span className="emptyValueContainer" style={style}>
       <MinusIcon />
     </span>
   );

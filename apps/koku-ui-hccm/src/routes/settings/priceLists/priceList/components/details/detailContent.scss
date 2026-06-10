@@ -1,0 +1,25 @@
+.calendarOverride {
+  @media only screen and (min-width: 850px) {
+    display: flex;
+  }
+  article {
+    display: flex;
+  }
+  .pf-v6-c-button__icon {
+    display: none;
+  }
+  .pf-v6-c-calendar-month__header {
+    margin-bottom: 0;
+  }
+  .pf-v6-c-calendar-month {
+    padding: 0;
+  }
+  .pf-v6-c-calendar-month__calendar {
+    display: none;
+  }
+  .pf-v6-c-calendar-month__header-nav-control {
+    button {
+      display: none;
+    }
+  }
+}

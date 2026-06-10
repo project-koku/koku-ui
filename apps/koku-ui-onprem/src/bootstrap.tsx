@@ -1,4 +1,5 @@
 import '@patternfly/react-core/dist/styles/base.css';
+import '@patternfly/patternfly/patternfly-addons.css';
 import '@patternfly/react-styles/css/utilities/Spacing/spacing.css';
 import '@patternfly/react-styles/css/utilities/Text/text.css';
 

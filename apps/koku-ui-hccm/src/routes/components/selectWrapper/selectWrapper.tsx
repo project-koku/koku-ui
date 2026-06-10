@@ -1,6 +1,6 @@
 import './selectWrapper.scss';
 
-import { Icon, MenuToggle, Select, SelectList, SelectOption } from '@patternfly/react-core';
+import { HelperText, HelperTextItem, Icon, MenuToggle, Select, SelectList, SelectOption } from '@patternfly/react-core';
 import React, { useState } from 'react';
 
 export interface SelectWrapperOption {
@@ -18,13 +18,16 @@ interface SelectWrapperOwnProps {
   direction?: 'up' | 'down';
   id?: string;
   isDisabled?: boolean;
+  isInvalid?: boolean;
+  helperText?: string;
   maxMenuHeight?: string;
   onSelect?: (event, value: SelectWrapperOption) => void;
-  placeholder?: string;
   options?: SelectWrapperOption[];
+  placeholder?: string;
   position?: 'right' | 'left' | 'center' | 'start' | 'end';
   selection?: string | SelectWrapperOption;
   status?: 'success' | 'warning' | 'danger';
+  style?: React.CSSProperties;
   toggleAriaLabel?: string;
   toggleIcon?: React.ReactNode;
 }
@@ -38,6 +41,8 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   direction,
   id,
   isDisabled,
+  isInvalid,
+  helperText,
   maxMenuHeight,
   onSelect = () => {},
   options,
@@ -45,6 +50,7 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
   position,
   selection,
   status,
+  style,
   toggleAriaLabel,
   toggleIcon,
 }) => {
@@ -103,24 +109,30 @@ const SelectWrapper: React.FC<SelectWrapperProps> = ({
     <div className={className ? `${className} selectWrapper` : 'selectWrapper'}>
       <Select
         id={id}
+        isOpen={isOpen}
         isScrollable={maxMenuHeight !== undefined}
         maxMenuHeight={maxMenuHeight}
         onOpenChange={isExpanded => setIsOpen(isExpanded)}
         onSelect={handleOnSelect}
         ouiaId={id}
-        isOpen={isOpen}
         popperProps={{
           appendTo: appendTo as any,
           direction,
           position,
         }}
         selected={selection}
+        style={style}
         toggle={toggle}
       >
         <SelectList aria-label={ariaLabel}>
           {options?.map((option, index) => getSelectOption(option, index))}
         </SelectList>
       </Select>
+      {isInvalid && helperText && (
+        <HelperText>
+          <HelperTextItem variant="error">{helperText}</HelperTextItem>
+        </HelperText>
+      )}
     </div>
   );
 };

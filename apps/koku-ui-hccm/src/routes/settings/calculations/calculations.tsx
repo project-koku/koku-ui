@@ -8,7 +8,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
-import { useAccountSettingsUpdate } from 'routes/settings/utils/hooks';
+import { useAccountSettingsNotifications } from 'routes/settings/utils/hooks';
 import type { RootState } from 'store';
 import { accountSettingsActions } from 'store/accountSettings';
 import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
@@ -109,13 +109,14 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
 };
 
 const useMapToProps = (setCostType, setCurrency): CalculationsStateProps => {
-  useAccountSettingsUpdate({
+  // Notifications
+  useAccountSettingsNotifications({
     getSessionValue: getAccountCostType,
     type: AccountSettingsType.costType,
     setState: setCostType,
   });
 
-  useAccountSettingsUpdate({
+  useAccountSettingsNotifications({
     getSessionValue: getAccountCurrency,
     type: AccountSettingsType.currency,
     setState: setCurrency,

@@ -13,12 +13,7 @@ import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
 import { getFetchId } from './accountSettingsCommon';
-import {
-  selectAccountSettingsError,
-  selectAccountSettingsStatus,
-  selectAccountSettingsUpdateError,
-  selectAccountSettingsUpdateStatus,
-} from './accountSettingsSelectors';
+import { selectAccountSettingsError, selectAccountSettingsFetchStatus } from './accountSettingsSelectors';
 
 interface AccountSettingsActionMeta {
   costType?: string;
@@ -53,7 +48,7 @@ export function fetchAccountSettings(settingsType: AccountSettingsType): ThunkAc
   return (dispatch, getState) => {
     const state = getState();
     const fetchError = selectAccountSettingsError(state, settingsType);
-    const fetchStatus = selectAccountSettingsStatus(state, settingsType);
+    const fetchStatus = selectAccountSettingsFetchStatus(state, settingsType);
     if (fetchError || fetchStatus === FetchStatus.inProgress) {
       return;
     }
@@ -77,8 +72,8 @@ export function fetchAccountSettings(settingsType: AccountSettingsType): ThunkAc
 export function updateAccountSettings(settingsType: AccountSettingsType, payload: AccountSettingsPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
-    const fetchError = selectAccountSettingsUpdateError(state, settingsType);
-    const fetchStatus = selectAccountSettingsUpdateStatus(state, settingsType);
+    const fetchError = selectAccountSettingsError(state, settingsType);
+    const fetchStatus = selectAccountSettingsFetchStatus(state, settingsType);
     if (fetchError || fetchStatus === FetchStatus.inProgress) {
       return;
     }
