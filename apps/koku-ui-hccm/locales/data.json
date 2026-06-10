@@ -33,6 +33,12 @@
     "assignPriceListsDesc": [
       {
         "type": 0,
+        "value": "Deprecated price lists are not shown in this list."
+      }
+    ],
+    "assignPriceListsWizardDesc": [
+      {
+        "type": 0,
         "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list."
       }
     ],
@@ -12472,6 +12478,18 @@
       {
         "type": 0,
         "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAssignedWizardDesc": [
+      {
+        "type": 0,
+        "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAvailable": [
+      {
+        "type": 0,
+        "value": "No price lists are available"
       }
     ],
     "priceListEmptyPriceListsDesc": [

@@ -7,20 +7,29 @@ import { CreatePriceListAction } from 'routes/settings/priceLists/priceListCreat
 interface NoPriceListAssignedStateOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
+  isWizard?: boolean;
 }
 
 // defaultIntl required for testing
-const NoPriceListAssignedState: React.FC<NoPriceListAssignedStateOwnProps> = ({ canWrite, isDisabled }) => {
+const NoPriceListAssignedState: React.FC<NoPriceListAssignedStateOwnProps> = ({ canWrite, isDisabled, isWizard }) => {
   const intl = useIntl();
 
   return (
     <>
       <EmptyState
         headingLevel="h5"
-        titleText={intl.formatMessage(messages.priceListEmptyPriceListsAssigned)}
+        titleText={intl.formatMessage(
+          isWizard ? messages.priceListEmptyPriceListsAvailable : messages.priceListEmptyPriceListsAssigned
+        )}
         variant={EmptyStateVariant.lg}
       >
-        <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyPriceListsAssignedDesc)}</EmptyStateBody>
+        <EmptyStateBody>
+          {intl.formatMessage(
+            isWizard
+              ? messages.priceListEmptyPriceListsAssignedWizardDesc
+              : messages.priceListEmptyPriceListsAssignedDesc
+          )}
+        </EmptyStateBody>
         <EmptyStateFooter>
           <CreatePriceListAction canWrite={canWrite} isDisabled={isDisabled} />
         </EmptyStateFooter>

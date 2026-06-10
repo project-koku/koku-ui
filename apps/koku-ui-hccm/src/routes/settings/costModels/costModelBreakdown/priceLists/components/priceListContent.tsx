@@ -41,6 +41,7 @@ interface PriceListContentOwnProps {
   canWrite?: boolean;
   costModel?: CostModel;
   currency?: string;
+  isWizard?: boolean;
   onAdd?: (priceLists: PriceListData[]) => void;
   onDisabled?: (value: boolean) => void;
   priceLists?: PriceListData[];
@@ -74,7 +75,7 @@ const baseQuery: Query = {
 };
 
 const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProps>(
-  ({ canWrite, costModel, currency = costModel?.currency ?? 'USD', onAdd, onDisabled, priceLists }, ref) => {
+  ({ canWrite, costModel, currency = costModel?.currency ?? 'USD', isWizard, onAdd, onDisabled, priceLists }, ref) => {
     const intl = useIntl();
 
     /** Latest save handler for imperative `submit()` — updated in layout effect (not during render). */
@@ -296,7 +297,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
             />
             <div style={styles.tableContainer}>
               {getToolbar()}
-              {intl.formatMessage(messages.assignPriceListsDesc)}
+              {intl.formatMessage(isWizard ? messages.assignPriceListsWizardDesc : messages.assignPriceListsDesc)}
               {isLoading ? (
                 <LoadingState
                   body={intl.formatMessage(messages.priceListLoadingStateDesc)}
@@ -311,7 +312,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
             </div>
           </>
         ) : (
-          <NoPriceListAssignedState canWrite={canWrite} />
+          <NoPriceListAssignedState canWrite={canWrite} isWizard={isWizard} />
         )}
       </>
     );
