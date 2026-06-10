@@ -1,6 +1,6 @@
 import type { MetricHash } from 'api/metrics';
 import type { AxiosError } from 'axios';
-import { parseApiError } from 'routes/settings/costModels/costModelWizard/parseError';
+import { parseApiError } from 'routes/settings/utils';
 import type { FetchStatus } from 'store/common';
 import { FeatureToggleSelectors } from 'store/featureToggle';
 import type { RootState } from 'store/rootReducer';
@@ -26,7 +26,7 @@ export const metrics = (state: RootState): MetricHash => {
   }
   const isGpuToggleEnabled = FeatureToggleSelectors.selectIsGpuToggleEnabled(state);
 
-  return metricsPayload.data.reduce((acc, curr) => {
+  return metricsPayload.data.reduce<MetricHash>((acc, curr) => {
     if (!isGpuToggleEnabled && curr.label_metric.toLowerCase() === 'gpu') {
       return acc;
     }
@@ -34,6 +34,20 @@ export const metrics = (state: RootState): MetricHash => {
     return {
       ...acc,
       [curr.label_metric]: { ...prev, [curr.metric]: curr },
+    };
+  }, {});
+};
+
+export const metricsByName = (state: RootState): MetricHash => {
+  const metricsPayload = metricsState(state).metrics;
+  if (metricsPayload === null) {
+    return {};
+  }
+  return metricsPayload.data.reduce<MetricHash>((acc, curr) => {
+    const prev = acc[curr.metric] ? { ...acc[curr.metric] } : {};
+    return {
+      ...acc,
+      [curr.metric]: { ...prev, ...curr },
     };
   }, {});
 };

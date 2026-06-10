@@ -6,6 +6,12 @@ const transformIgnorePatterns = [
 module.exports = {
   clearMocks: true,
   collectCoverage: false,
+  // Stability: many parallel Jest workers + jsdom can exhaust RAM; the OS then kills a worker and Jest
+  // reports "A jest worker process was terminated by another process". Cap parallelism by default and
+  // recycle workers that retain too much heap between files.
+  // Faster machines / CI with plenty of memory: `JEST_MAX_WORKERS=100% npm test`
+  maxWorkers: process.env.JEST_MAX_WORKERS || '50%',
+  workerIdleMemoryLimit: process.env.JEST_WORKER_IDLE_MEMORY_LIMIT || '512MB',
   // collectCoverageFrom: ['src/**/*.js'],
   // coverageDirectory: './coverage/',
   fakeTimers: {

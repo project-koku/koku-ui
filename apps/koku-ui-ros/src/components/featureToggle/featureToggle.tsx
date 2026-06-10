@@ -13,7 +13,7 @@ export const enum FeatureToggle {
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
   const client = useUnleashClient();
-  return client.isEnabled(toggle);
+  return client?.isEnabled?.(toggle) ?? false;
 };
 
 export const useIsDebugToggleEnabled = () => {

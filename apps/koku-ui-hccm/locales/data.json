@@ -1,5 +1,11 @@
 {
   "en": {
+    "actionsColumn": [
+      {
+        "type": 0,
+        "value": "Actions column"
+      }
+    ],
     "addProjects": [
       {
         "type": 0,
@@ -16,6 +22,42 @@
       {
         "type": 0,
         "value": "Assign cost model"
+      }
+    ],
+    "assignPriceLists": [
+      {
+        "type": 0,
+        "value": "Assign price lists"
+      }
+    ],
+    "assignPriceListsDesc": [
+      {
+        "type": 0,
+        "value": "Deprecated price lists are not shown in this list."
+      }
+    ],
+    "assignPriceListsWizardDesc": [
+      {
+        "type": 0,
+        "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list."
+      }
+    ],
+    "assignedCostModels": [
+      {
+        "type": 0,
+        "value": "Assigned cost models"
+      }
+    ],
+    "assignedPriceLists": [
+      {
+        "type": 0,
+        "value": "Assigned price lists (priority order)"
+      }
+    ],
+    "assignedPriceListsDesc": [
+      {
+        "type": 0,
+        "value": "Only price lists you assigned on Assign price lists are shown. Drag rows to set priority."
       }
     ],
     "aws": [
@@ -166,6 +208,8 @@
     ],
     "breakdownBackToDetails": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
@@ -262,9 +306,6 @@
                 "value": " organizational unit details"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -409,10 +450,11 @@
                 "value": " tag details"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "breakdownBackToDetailsAriaLabel": [
@@ -439,6 +481,8 @@
     ],
     "breakdownBackToTitles": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "aws": {
             "value": [
@@ -475,9 +519,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "breakdownCostOverviewTitle": [
@@ -494,6 +536,8 @@
     ],
     "breakdownSummaryTitle": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -542,9 +586,6 @@
                 "value": "Cost breakdown by organizational units"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -633,10 +674,11 @@
                 "value": "Cost breakdown by tags"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "breakdownTitle": [
@@ -673,6 +715,12 @@
       {
         "type": 0,
         "value": "Cancel"
+      }
+    ],
+    "cancelOrdering": [
+      {
+        "type": 0,
+        "value": "Cancel ordering"
       }
     ],
     "capacity": [
@@ -923,7 +971,8 @@
     ],
     "chartOthers": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "one": {
             "value": [
@@ -950,9 +999,8 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "chartRequestsLabel": [
@@ -1111,6 +1159,24 @@
         "value": "Clusters"
       }
     ],
+    "continue": [
+      {
+        "type": 0,
+        "value": "Continue"
+      }
+    ],
+    "continueConfirm": [
+      {
+        "type": 0,
+        "value": "Do you want to continue?"
+      }
+    ],
+    "continueConfirmDesc": [
+      {
+        "type": 0,
+        "value": "I understand that saving this change can trigger recalculation and adjustments as described above."
+      }
+    ],
     "copied": [
       {
         "type": 0,
@@ -1227,6 +1293,8 @@
     ],
     "costDistributionType": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "distributed": {
             "value": [
@@ -1236,9 +1304,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "total": {
             "value": [
               {
@@ -1246,10 +1311,11 @@
                 "value": "Don't distribute overhead costs"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "costManagement": [
@@ -1296,7 +1362,8 @@
     ],
     "costModelsAssignSources": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "one": {
             "value": [
@@ -1315,9 +1382,8 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "costModelsAssignSourcesErrorDesc": [
@@ -1494,6 +1560,76 @@
         "value": "Enter a tag value"
       }
     ],
+    "costModelsErrorDesc": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to create cost model"
+              }
+            ]
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to delete cost model"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to update cost model"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "costModelsErrorTitle": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to create cost model"
+              }
+            ]
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to delete cost model"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to update cost model"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
     "costModelsExamplesDoubleMarkup": [
       {
         "type": 0,
@@ -1528,6 +1664,12 @@
       {
         "type": 0,
         "value": "Filter by tag key"
+      }
+    ],
+    "costModelsGoTo": [
+      {
+        "type": 0,
+        "value": "Go to Cost models"
       }
     ],
     "costModelsGpuDesc": [
@@ -1566,10 +1708,34 @@
         "value": "Last updated"
       }
     ],
+    "costModelsLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your cost models. Do not refresh the browser"
+      }
+    ],
+    "costModelsLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for cost models..."
+      }
+    ],
+    "costModelsNameTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 100 characters"
+      }
+    ],
     "costModelsRateTooLong": [
       {
         "type": 0,
         "value": "Should not exceed 10 decimals"
+      }
+    ],
+    "costModelsRecalculateDesc": [
+      {
+        "type": 0,
+        "value": "This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review."
       }
     ],
     "costModelsRefreshDialog": [
@@ -1588,12 +1754,6 @@
       {
         "type": 0,
         "value": "Remove tag value"
-      }
-    ],
-    "costModelsRequiredField": [
-      {
-        "type": 0,
-        "value": "This field is required"
       }
     ],
     "costModelsRouterErrorTitle": [
@@ -1670,6 +1830,55 @@
       {
         "type": 0,
         "value": "Integrations table"
+      }
+    ],
+    "costModelsSuccess": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost model created"
+              }
+            ]
+          },
+          "fetch": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost models fetched"
+              }
+            ]
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost model deleted"
+              }
+            ]
+          },
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost model updated"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "costModelsSuccessChanges": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected in report summarizations within 24 hours"
       }
     ],
     "costModelsTableAriaLabel": [
@@ -1790,6 +1999,12 @@
         "value": "Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags."
       }
     ],
+    "costModelsWizardPriceLists": [
+      {
+        "type": 0,
+        "value": "Price lists (optional)"
+      }
+    ],
     "costModelsWizardRateAriaLabel": [
       {
         "type": 0,
@@ -1846,6 +2061,8 @@
     ],
     "costModelsWizardSourceCaption": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "aws": {
             "value": [
@@ -1882,9 +2099,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "costModelsWizardSourceErrorDesc": [
@@ -2056,7 +2271,7 @@
     "cpuEfficiencyInfoFormulaWastedCost": [
       {
         "type": 0,
-        "value": "wasted cost = (Cost -X% (% of total cost) = waste cost)"
+        "value": "savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "cpuTitle": [
@@ -2110,7 +2325,7 @@
     "createPriceList": [
       {
         "type": 0,
-        "value": "Create price list"
+        "value": "Create a price list"
       }
     ],
     "createRate": [
@@ -2133,6 +2348,8 @@
     ],
     "criteriaValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "exact": {
             "value": [
@@ -2161,9 +2378,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "currency": [
@@ -2174,6 +2389,8 @@
     ],
     "currencyAbbreviations": [
       {
+        "type": 5,
+        "value": "symbol",
         "options": {
           "billion": {
             "value": [
@@ -2198,9 +2415,6 @@
                 "value": " M"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "quadrillion": {
             "value": [
@@ -2237,10 +2451,11 @@
                 "value": " t"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "symbol"
+        }
       }
     ],
     "currencyCalcuationsTitle": [
@@ -2257,6 +2472,8 @@
     ],
     "currencyOptions": [
       {
+        "type": 5,
+        "value": "currency",
         "options": {
           "AED": {
             "value": [
@@ -2613,9 +2830,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "currency"
+        }
       }
     ],
     "dashboardCumulativeCostComparison": [
@@ -2816,6 +3031,80 @@
         "value": "Remove price list?"
       }
     ],
+    "deleteRateCurrentPriceListDesc": [
+      {
+        "type": 0,
+        "value": "This action will remove "
+      },
+      {
+        "type": 1,
+        "value": "metric"
+      },
+      {
+        "type": 0,
+        "value": " rate from the current price list."
+      }
+    ],
+    "deleteRateDesc": [
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "This action will remove "
+              },
+              {
+                "type": 1,
+                "value": "metric"
+              },
+              {
+                "type": 0,
+                "value": " rate from "
+              },
+              {
+                "type": 1,
+                "value": "priceList"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "This action will remove "
+              },
+              {
+                "type": 1,
+                "value": "metric"
+              },
+              {
+                "type": 0,
+                "value": " rate from "
+              },
+              {
+                "type": 1,
+                "value": "priceList"
+              },
+              {
+                "type": 0,
+                "value": ", which is assigned to the following integrations:"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "deleteRateTitle": [
+      {
+        "type": 0,
+        "value": "Delete rate"
+      }
+    ],
     "deprecate": [
       {
         "type": 0,
@@ -2864,6 +3153,12 @@
         "value": "Description"
       }
     ],
+    "descriptionOptional": [
+      {
+        "type": 0,
+        "value": "Description (optional)"
+      }
+    ],
     "deselectTags": [
       {
         "type": 0,
@@ -2892,6 +3187,8 @@
     ],
     "detailsClustersModalTitle": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
@@ -2996,9 +3293,6 @@
                 "value": " clusters"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -3143,10 +3437,11 @@
                 "value": " clusters"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "detailsColumnManagementTitle": [
@@ -3197,6 +3492,8 @@
     ],
     "detailsResourceNames": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -3222,11 +3519,27 @@
               }
             ]
           },
+          "cost_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost model assigned"
+              }
+            ]
+          },
           "cost_models": {
             "value": [
               {
                 "type": 0,
                 "value": "Assigned cost models"
+              }
+            ]
+          },
+          "cost_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Calculation type"
               }
             ]
           },
@@ -3243,6 +3556,22 @@
               {
                 "type": 0,
                 "value": "Currency"
+              }
+            ]
+          },
+          "description": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Description"
+              }
+            ]
+          },
+          "end": {
+            "value": [
+              {
+                "type": 0,
+                "value": "End"
               }
             ]
           },
@@ -3286,11 +3615,35 @@
               }
             ]
           },
+          "last_updated": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last updates"
+              }
+            ]
+          },
+          "measurement": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Measurement"
+              }
+            ]
+          },
           "memory": {
             "value": [
               {
                 "type": 0,
                 "value": "Memory"
+              }
+            ]
+          },
+          "metric": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Metric"
               }
             ]
           },
@@ -3318,6 +3671,14 @@
               }
             ]
           },
+          "operator_version": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Operator version"
+              }
+            ]
+          },
           "org_unit_id": {
             "value": [
               {
@@ -3333,9 +3694,6 @@
                 "value": "OS"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -3358,6 +3716,22 @@
               {
                 "type": 0,
                 "value": "Project names"
+              }
+            ]
+          },
+          "rate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Rate"
+              }
+            ]
+          },
+          "rates": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Rates"
               }
             ]
           },
@@ -3393,35 +3767,11 @@
               }
             ]
           },
-          "source_type": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Integration"
-              }
-            ]
-          },
-          "start_date": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Start date"
-              }
-            ]
-          },
           "status": {
             "value": [
               {
                 "type": 0,
                 "value": "Status"
-              }
-            ]
-          },
-          "storage": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Storage"
               }
             ]
           },
@@ -3433,6 +3783,38 @@
               }
             ]
           },
+          "source_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Integration"
+              }
+            ]
+          },
+          "start": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Start"
+              }
+            ]
+          },
+          "start_date": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Start date"
+              }
+            ]
+          },
+          "storage": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Storage"
+              }
+            ]
+          },
           "tag": {
             "value": [
               {
@@ -3441,19 +3823,19 @@
               }
             ]
           },
-          "tag_key": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Tag keys"
-              }
-            ]
-          },
           "tags": {
             "value": [
               {
                 "type": 0,
                 "value": "Tags"
+              }
+            ]
+          },
+          "tag_key": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tag keys"
               }
             ]
           },
@@ -3480,14 +3862,17 @@
                 "value": "Virtual machine names"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "detailsSummaryModalTitle": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
@@ -3560,9 +3945,6 @@
                 "value": " organizational units"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -3683,10 +4065,11 @@
                 "value": " tags"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "detailsUnusedCapacityLabel": [
@@ -3793,6 +4176,8 @@
     ],
     "detailsViewAll": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -3841,9 +4226,6 @@
                 "value": "View all organizational units"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -3924,10 +4306,11 @@
                 "value": "View all tags"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "disableCategories": [
@@ -3962,14 +4345,18 @@
     ],
     "distributeCosts": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
-          "false": {
+          "true": {
             "value": [
               {
                 "type": 0,
-                "value": "Do not distribute "
+                "value": "Distribute "
               },
               {
+                "type": 5,
+                "value": "type",
                 "options": {
                   "network": {
                     "value": [
@@ -3979,8 +4366,42 @@
                       }
                     ]
                   },
+                  "storage": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "storage"
+                      }
+                    ]
+                  },
                   "other": {
                     "value": []
+                  }
+                }
+              },
+              {
+                "type": 0,
+                "value": " unattributed costs"
+              }
+            ]
+          },
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Do not distribute "
+              },
+              {
+                "type": 5,
+                "value": "type",
+                "options": {
+                  "network": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "network"
+                      }
+                    ]
                   },
                   "storage": {
                     "value": [
@@ -3989,10 +4410,11 @@
                         "value": "storage"
                       }
                     ]
+                  },
+                  "other": {
+                    "value": []
                   }
-                },
-                "type": 5,
-                "value": "type"
+                }
               },
               {
                 "type": 0,
@@ -4002,47 +4424,8 @@
           },
           "other": {
             "value": []
-          },
-          "true": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Distribute "
-              },
-              {
-                "options": {
-                  "network": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "network"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": []
-                  },
-                  "storage": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "storage"
-                      }
-                    ]
-                  }
-                },
-                "type": 5,
-                "value": "type"
-              },
-              {
-                "type": 0,
-                "value": " unattributed costs"
-              }
-            ]
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "distributeCostsToProjects": [
@@ -4059,7 +4442,17 @@
     ],
     "distributeGpuCosts": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute costs based on GPU usage"
+              }
+            ]
+          },
           "false": {
             "value": [
               {
@@ -4070,18 +4463,8 @@
           },
           "other": {
             "value": []
-          },
-          "true": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Distribute costs based on GPU usage"
-              }
-            ]
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "distributeNetwork": [
@@ -4098,7 +4481,17 @@
     ],
     "distributePlatformCosts": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute platform costs based on unallocated capacity"
+              }
+            ]
+          },
           "false": {
             "value": [
               {
@@ -4109,18 +4502,8 @@
           },
           "other": {
             "value": []
-          },
-          "true": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Distribute platform costs based on unallocated capacity"
-              }
-            ]
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "distributeStorage": [
@@ -4131,7 +4514,17 @@
     ],
     "distributeUnallocatedCapacity": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Distribute worker unallocated capacity"
+              }
+            ]
+          },
           "false": {
             "value": [
               {
@@ -4142,18 +4535,8 @@
           },
           "other": {
             "value": []
-          },
-          "true": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Distribute worker unallocated capacity"
-              }
-            ]
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "distributeWorker": [
@@ -4176,6 +4559,8 @@
     ],
     "distributionTypeDesc": [
       {
+        "type": 5,
+        "value": "type",
         "options": {
           "cpu": {
             "value": [
@@ -4196,9 +4581,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "type"
+        }
       }
     ],
     "docsAccomplish": [
@@ -4210,7 +4593,7 @@
     "docsCostCategory": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configuring-categories_planning"
       }
     ],
     "docsCostManagement": [
@@ -4222,7 +4605,7 @@
     "docsCostModelTerminology": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#con-using-cost-models_reflect-costs"
       }
     ],
     "docsCostModels": [
@@ -4234,25 +4617,25 @@
     "docsCostModelsDistribution": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#understanding-cost-distribution_reflect-costs"
       }
     ],
     "docsCostModelsGpu": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_reflect-costs"
       }
     ],
     "docsCostModelsMarkup": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs"
       }
     ],
     "docsCostModelsOcp": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#creating-an-ocp-cost-model_reflect-costs"
       }
     ],
     "docsIntegrations": [
@@ -4288,25 +4671,25 @@
     "docsMetricsOperator": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator_adding-an-ocp-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp"
       }
     ],
     "docsOcpCli": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator-cli_adding-an-ocp-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp#installing-cost-operator-cli_integrating-ocp"
       }
     ],
     "docsPlatformProjects": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#adding-openshift-projects"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-using-cost-models_reflect-costs#add-openshift-projects_reflect-costs"
       }
     ],
     "docsPriceList": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#calculating-effective-cost-max_reflect-costs"
       }
     ],
     "docsReleases": [
@@ -4324,13 +4707,13 @@
     "docsTags": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configure-tags_planning"
       }
     ],
     "docsTroubleshooting": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_adding-an-ocp-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_integrating-ocp"
       }
     ],
     "docsUsingCostModels": [
@@ -4369,6 +4752,12 @@
         "value": "Edit cost model"
       }
     ],
+    "editDetails": [
+      {
+        "type": 0,
+        "value": "Edit details"
+      }
+    ],
     "editMarkup": [
       {
         "type": 0,
@@ -4379,6 +4768,12 @@
       {
         "type": 0,
         "value": "Edit markup or discount"
+      }
+    ],
+    "editPriceListTitle": [
+      {
+        "type": 0,
+        "value": "Edit price list details"
       }
     ],
     "efficiency": [
@@ -4499,6 +4894,8 @@
     ],
     "explorerChartTitle": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "aws": {
             "value": [
@@ -4567,27 +4964,27 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "explorerDateRange": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
-          "current_month_to_date": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Month to date"
-              }
-            ]
-          },
           "custom": {
             "value": [
               {
                 "type": 0,
                 "value": "Custom"
+              }
+            ]
+          },
+          "current_month_to_date": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Month to date"
               }
             ]
           },
@@ -4615,9 +5012,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "previous_month": {
             "value": [
               {
@@ -4633,10 +5027,11 @@
                 "value": "Previous month and month to date"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "explorerTableAriaLabel": [
@@ -4685,10 +5080,14 @@
     ],
     "exportFileName": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -4741,15 +5140,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "aws_category": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -4802,15 +5201,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "cluster": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -4863,15 +5262,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "gcp_project": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -4924,15 +5323,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "instance": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -4985,15 +5384,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "node": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5046,15 +5445,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "org_unit_id": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5107,18 +5506,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5171,15 +5567,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "product_service": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5232,15 +5628,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "project": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5293,15 +5689,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "region": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5354,15 +5750,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "resource_id": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5415,15 +5811,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "resource_location": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5476,15 +5872,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "service": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5537,15 +5933,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "service_name": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5598,15 +5994,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "subscription_guid": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5659,15 +6055,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
           },
           "tag": {
             "value": [
               {
+                "type": 5,
+                "value": "resolution",
                 "options": {
                   "daily": {
                     "value": [
@@ -5720,19 +6116,20 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "resolution"
+                }
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "exportFormatType": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "csv": {
             "value": [
@@ -5753,9 +6150,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "exportFormatTypeTitle": [
@@ -5772,6 +6167,8 @@
     ],
     "exportHeading": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
@@ -5828,9 +6225,6 @@
                 "value": "Aggregates of the following organizational units will be exported to a .csv file."
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -5903,18 +6297,23 @@
                 "value": "Aggregates of the following tags will be exported to a .csv file."
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "exportName": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -5983,15 +6382,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "aws_category": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6060,15 +6459,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "cluster": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6137,15 +6536,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "gcp_project": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6214,15 +6613,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "instance": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6291,15 +6690,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "node": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6368,15 +6767,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "org_unit_id": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6445,18 +6844,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "project": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6525,15 +6921,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "region": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6602,15 +6998,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "resource_location": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6679,15 +7075,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "service": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6756,15 +7152,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "service_name": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6833,15 +7229,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "subscription_guid": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6910,15 +7306,15 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
           },
           "tag": {
             "value": [
               {
+                "type": 5,
+                "value": "provider",
                 "options": {
                   "aws": {
                     "value": [
@@ -6987,15 +7383,14 @@
                   "other": {
                     "value": []
                   }
-                },
-                "type": 5,
-                "value": "provider"
+                }
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "exportNameRequired": [
@@ -7012,6 +7407,8 @@
     ],
     "exportResolution": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "daily": {
             "value": [
@@ -7032,13 +7429,13 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "exportSelected": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
@@ -7151,9 +7548,6 @@
                 "value": ")"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -7314,10 +7708,11 @@
                 "value": ")"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "exportTitle": [
@@ -7406,6 +7801,8 @@
     ],
     "filterByInputAriaLabel": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -7428,6 +7825,14 @@
               {
                 "type": 0,
                 "value": "Input for cluster name"
+              }
+            ]
+          },
+          "description": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for description"
               }
             ]
           },
@@ -7478,9 +7883,6 @@
                 "value": "Input for organizational unit name"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -7538,11 +7940,11 @@
               }
             ]
           },
-          "status": {
+          "source_type": {
             "value": [
               {
                 "type": 0,
-                "value": "Input for status value"
+                "value": "Input for integration"
               }
             ]
           },
@@ -7551,6 +7953,14 @@
               {
                 "type": 0,
                 "value": "Input for account name"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for status value"
               }
             ]
           },
@@ -7585,10 +7995,11 @@
                 "value": "Input for parent tag key"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "filterByOrgUnitAriaLabel": [
@@ -7605,6 +8016,8 @@
     ],
     "filterByPlaceholder": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -7635,6 +8048,14 @@
               {
                 "type": 0,
                 "value": "Filter by container"
+              }
+            ]
+          },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by currency"
               }
             ]
           },
@@ -7717,9 +8138,6 @@
                 "value": "Filter by organizational unit"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -7872,10 +8290,11 @@
                 "value": "Filter by workload type"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "filterByTagKeyAriaLabel": [
@@ -7898,6 +8317,8 @@
     ],
     "filterByValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -7931,11 +8352,27 @@
               }
             ]
           },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Currency"
+              }
+            ]
+          },
           "default": {
             "value": [
               {
                 "type": 0,
                 "value": "Default"
+              }
+            ]
+          },
+          "description": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Description"
               }
             ]
           },
@@ -7979,6 +8416,14 @@
               }
             ]
           },
+          "metric": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Metric"
+              }
+            ]
+          },
           "name": {
             "value": [
               {
@@ -7995,14 +8440,6 @@
               }
             ]
           },
-          "operating_system": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Operating system"
-              }
-            ]
-          },
           "org_unit_id": {
             "value": [
               {
@@ -8011,8 +8448,13 @@
               }
             ]
           },
-          "other": {
-            "value": []
+          "operating_system": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Operating system"
+              }
+            ]
           },
           "payer_tenant_id": {
             "value": [
@@ -8165,10 +8607,11 @@
                 "value": "Workload type"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "filterByValuesAriaLabel": [
@@ -8281,6 +8724,8 @@
     ],
     "gpuColumns": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "count": {
             "value": [
@@ -8333,9 +8778,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "gpuLoadingStateDesc": [
@@ -8376,11 +8819,14 @@
     ],
     "groupByAll": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8399,16 +8845,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "aws_category": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8427,16 +8873,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "cluster": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8455,16 +8901,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "gcp_project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8483,16 +8929,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "node": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8511,16 +8957,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "org_unit_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8539,19 +8985,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8570,16 +9013,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "product_service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8598,16 +9041,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8626,16 +9069,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "region": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8654,16 +9097,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "resource_location": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8682,16 +9125,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8710,16 +9153,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service_name": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8738,16 +9181,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "subscription_guid": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8766,16 +9209,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "tag": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8794,15 +9237,15 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "groupByLabel": [
@@ -8813,11 +9256,14 @@
     ],
     "groupByTop": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8836,16 +9282,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "aws_category": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8864,16 +9310,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "cluster": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8892,16 +9338,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "gcp_project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8920,16 +9366,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "node": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8948,16 +9394,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "org_unit_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -8976,19 +9422,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9007,16 +9450,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "product_service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9035,16 +9478,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9063,16 +9506,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "region": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9091,16 +9534,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "resource_location": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9119,16 +9562,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9147,16 +9590,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service_name": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9175,16 +9618,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "subscription_guid": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9203,16 +9646,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "tag": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9231,19 +9674,21 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "groupByValueNames": [
       {
+        "type": 5,
+        "value": "groupBy",
         "options": {
           "account": {
             "value": [
@@ -9292,9 +9737,6 @@
                 "value": "Organizational unit names"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -9367,19 +9809,23 @@
                 "value": "Tag names"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "groupBy"
+        }
       }
     ],
     "groupByValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9398,16 +9844,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "aws_category": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9426,16 +9872,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "cluster": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9454,16 +9900,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "gcp_project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9482,16 +9928,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "node": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9510,16 +9956,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "org_unit_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9538,19 +9984,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9569,16 +10012,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "product_service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9597,16 +10040,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9625,16 +10068,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "region": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9653,16 +10096,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "resource_location": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9681,16 +10124,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9709,16 +10152,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service_name": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9737,16 +10180,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "subscription_guid": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9765,16 +10208,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "tag": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9793,24 +10236,27 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "groupByValuesTitleCase": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9829,16 +10275,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "aws_category": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9857,16 +10303,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "cluster": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9885,16 +10331,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "gcp_project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9913,16 +10359,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "node": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9941,16 +10387,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "org_unit_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -9969,19 +10415,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10000,16 +10443,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "product_service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10028,16 +10471,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "project": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10056,16 +10499,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "region": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10084,16 +10527,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "resource_location": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10112,16 +10555,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10140,16 +10583,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "service_name": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10168,16 +10611,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "subscription_guid": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10196,16 +10639,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "tag": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10224,15 +10667,15 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "historicalChartCostLabel": [
@@ -10257,6 +10700,8 @@
     ],
     "historicalChartTitle": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "cost": {
             "value": [
@@ -10310,9 +10755,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "storage": {
             "value": [
               {
@@ -10328,14 +10770,17 @@
                 "value": "Virtual machine usage comparison"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "historicalChartUsageLabel": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "instance_type": {
             "value": [
@@ -10345,9 +10790,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "storage": {
             "value": [
               {
@@ -10355,10 +10797,11 @@
                 "value": "gb-mo"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "inactiveSourcesGoTo": [
@@ -10529,11 +10972,14 @@
     ],
     "measurementValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "count": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10560,16 +11006,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "effective_usage": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10596,19 +11042,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "request": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10635,16 +11078,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "usage": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -10671,32 +11114,28 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "measurementValuesDesc": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "count": {
             "value": [
               {
+                "type": 5,
+                "value": "units",
                 "options": {
-                  "cluster_month": {
-                    "value": [
-                      {
-                        "type": 0,
-                        "value": "The distinct number of clusters identified during the month"
-                      }
-                    ]
-                  },
                   "node_month": {
                     "value": [
                       {
@@ -10705,9 +11144,6 @@
                       }
                     ]
                   },
-                  "other": {
-                    "value": []
-                  },
                   "pvc_month": {
                     "value": [
                       {
@@ -10715,10 +11151,19 @@
                         "value": "The distinct number of volume claims identified during the month"
                       }
                     ]
+                  },
+                  "cluster_month": {
+                    "value": [
+                      {
+                        "type": 0,
+                        "value": "The distinct number of clusters identified during the month"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": []
                   }
-                },
-                "type": 5,
-                "value": "units"
+                }
               }
             ]
           },
@@ -10729,9 +11174,6 @@
                 "value": "The greater of usage and request each hour"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "request": {
             "value": [
@@ -10748,10 +11190,11 @@
                 "value": "The pod resources used, as reported by OpenShift"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "memoryEfficiency": [
@@ -10775,7 +11218,7 @@
     "memoryEfficiencyInfoFormulaWasteCost": [
       {
         "type": 0,
-        "value": "waste cost = (Cost -X% (% of total cost) = waste cost)"
+        "value": "savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "memoryTitle": [
@@ -10798,20 +11241,22 @@
     ],
     "metricValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
-          "cluster": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Cluster"
-              }
-            ]
-          },
           "cpu": {
             "value": [
               {
                 "type": 0,
                 "value": "CPU"
+              }
+            ]
+          },
+          "cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cluster"
               }
             ]
           },
@@ -10823,6 +11268,14 @@
               }
             ]
           },
+          "project": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Project"
+              }
+            ]
+          },
           "node": {
             "value": [
               {
@@ -10831,22 +11284,11 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "persistent_volume_claims": {
             "value": [
               {
                 "type": 0,
                 "value": "Persistent volume claims"
-              }
-            ]
-          },
-          "project": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Project"
               }
             ]
           },
@@ -10865,10 +11307,11 @@
                 "value": "Virtual machine"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "metricsOperatorVersion": [
@@ -10879,20 +11322,14 @@
     ],
     "migColumns": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "compute": {
             "value": [
               {
                 "type": 0,
                 "value": "Compute"
-              }
-            ]
-          },
-          "id": {
-            "value": [
-              {
-                "type": 0,
-                "value": "ID"
               }
             ]
           },
@@ -10904,12 +11341,18 @@
               }
             ]
           },
+          "id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ID"
+              }
+            ]
+          },
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "monthOverMonthChange": [
@@ -10926,7 +11369,8 @@
     ],
     "names": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "one": {
             "value": [
@@ -10945,9 +11389,8 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "networkUnattributedDistributed": [
@@ -11114,6 +11557,12 @@
       {
         "type": 0,
         "value": "Tags must be enabled to be mapped."
+      }
+    ],
+    "noPriceListDelete": [
+      {
+        "type": 0,
+        "value": "Cannot delete price list when assigned to a cost model."
       }
     ],
     "noProvidersCloudCost": [
@@ -11528,6 +11977,12 @@
         "value": "Optimizations"
       }
     ],
+    "orderPriceLists": [
+      {
+        "type": 0,
+        "value": "Order price lists"
+      }
+    ],
     "overhead": [
       {
         "type": 0,
@@ -11616,6 +12071,12 @@
         "value": "Overview - Cost management | OpenShift"
       }
     ],
+    "pageTitlePriceList": [
+      {
+        "type": 0,
+        "value": "Price list - Cost management | OpenShift"
+      }
+    ],
     "pageTitleSettings": [
       {
         "type": 0,
@@ -11624,7 +12085,21 @@
     ],
     "paginationTitle": [
       {
+        "type": 5,
+        "value": "placement",
         "options": {
+          "top": {
+            "value": [
+              {
+                "type": 1,
+                "value": "title"
+              },
+              {
+                "type": 0,
+                "value": " top pagination"
+              }
+            ]
+          },
           "bottom": {
             "value": [
               {
@@ -11648,22 +12123,8 @@
                 "value": " pagination"
               }
             ]
-          },
-          "top": {
-            "value": [
-              {
-                "type": 1,
-                "value": "title"
-              },
-              {
-                "type": 0,
-                "value": " top pagination"
-              }
-            ]
           }
-        },
-        "type": 5,
-        "value": "placement"
+        }
       }
     ],
     "percent": [
@@ -11726,6 +12187,8 @@
     ],
     "perspectiveValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "aws": {
             "value": [
@@ -11794,9 +12257,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "platform": [
@@ -11835,14 +12296,58 @@
     ],
     "priceList": [
       {
-        "type": 0,
-        "value": "Price list"
+        "type": 6,
+        "value": "count",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Price list"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Price lists"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "priceListAddRate": [
       {
         "type": 0,
         "value": "Add rate"
+      }
+    ],
+    "priceListAssignedTo": [
+      {
+        "type": 0,
+        "value": "This price list is assigned to:"
+      }
+    ],
+    "priceListCreateRate": [
+      {
+        "type": 0,
+        "value": "Create rate"
+      }
+    ],
+    "priceListCurrencyReadOnly": [
+      {
+        "type": 0,
+        "value": "Currency is read only. You must create a new price list to change it."
+      }
+    ],
+    "priceListCurrencyUnassign": [
+      {
+        "type": 0,
+        "value": "You must unassign any price lists before you can edit this currency."
       }
     ],
     "priceListDeleteRate": [
@@ -11853,7 +12358,8 @@
     ],
     "priceListDeleteRateDesc": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "one": {
             "value": [
@@ -11900,9 +12406,8 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "priceListDesc": [
@@ -11915,16 +12420,82 @@
         "value": "learnMore"
       }
     ],
-    "priceListDuplicate": [
+    "priceListDragRowsDesc": [
+      {
+        "type": 0,
+        "value": "Drag rows to set priority. Save ordering to apply or Cancel to discard changes."
+      }
+    ],
+    "priceListDuplicateName": [
+      {
+        "type": 0,
+        "value": "This custom name is already in use"
+      }
+    ],
+    "priceListDuplicateTag": [
       {
         "type": 0,
         "value": "This tag key is already in use"
+      }
+    ],
+    "priceListDuplicateValue": [
+      {
+        "type": 0,
+        "value": "This tag value is already in use"
       }
     ],
     "priceListEditRate": [
       {
         "type": 0,
         "value": "Edit rate"
+      }
+    ],
+    "priceListEmptyCostModels": [
+      {
+        "type": 0,
+        "value": "No cost models are assigned"
+      }
+    ],
+    "priceListEmptyCostModelsDesc": [
+      {
+        "type": 0,
+        "value": "Cost models are assigned from the Cost model settings page. Edit a cost model there to use this price list."
+      }
+    ],
+    "priceListEmptyPriceLists": [
+      {
+        "type": 0,
+        "value": "No active price lists"
+      }
+    ],
+    "priceListEmptyPriceListsAssigned": [
+      {
+        "type": 0,
+        "value": "No price lists are assigned"
+      }
+    ],
+    "priceListEmptyPriceListsAssignedDesc": [
+      {
+        "type": 0,
+        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAssignedWizardDesc": [
+      {
+        "type": 0,
+        "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAvailable": [
+      {
+        "type": 0,
+        "value": "No price lists are available"
+      }
+    ],
+    "priceListEmptyPriceListsDesc": [
+      {
+        "type": 0,
+        "value": "Price lists may be deprecated. Turn on Show deprecated to view and restore them."
       }
     ],
     "priceListEmptyRate": [
@@ -11936,11 +12507,63 @@
     "priceListEmptyRateDesc": [
       {
         "type": 0,
-        "value": "To add rates to the price list, click on the \"Add\" rate button above."
+        "value": "To add rates to the price list, click on the \"Add rate\" button above."
+      }
+    ],
+    "priceListEmptyRates": [
+      {
+        "type": 0,
+        "value": "No rates added yet"
+      }
+    ],
+    "priceListEmptyRatesDesc": [
+      {
+        "type": 0,
+        "value": "Add rates to this price list. Each rate defines a metric, measurement, calculation type, and a per-unit value in "
+      },
+      {
+        "type": 1,
+        "value": "currency"
+      },
+      {
+        "type": 0,
+        "value": "."
+      }
+    ],
+    "priceListEmptySelections": [
+      {
+        "type": 0,
+        "value": "No price lists selected"
+      }
+    ],
+    "priceListEmptySelectionsDesc": [
+      {
+        "type": 0,
+        "value": "Select one or more price lists below to preview how their effective dates overlap."
+      }
+    ],
+    "priceListEnterTagDesc": [
+      {
+        "type": 0,
+        "value": "Enter a tag description"
+      }
+    ],
+    "priceListEnterTagKey": [
+      {
+        "type": 0,
+        "value": "Enter a tag key"
+      }
+    ],
+    "priceListEnterTagValue": [
+      {
+        "type": 0,
+        "value": "Enter a tag value"
       }
     ],
     "priceListErrorDesc": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "add": {
             "value": [
@@ -11958,9 +12581,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "remove": {
             "value": [
               {
@@ -11976,14 +12596,17 @@
                 "value": "Failed to update price list"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "priceListErrorTitle": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "add": {
             "value": [
@@ -12001,9 +12624,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "remove": {
             "value": [
               {
@@ -12019,10 +12639,35 @@
                 "value": "Unable to update price list"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
+      }
+    ],
+    "priceListImpactReview": [
+      {
+        "type": 0,
+        "value": "Review impact before you change rates"
+      }
+    ],
+    "priceListLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your price lists. Do not refresh the browser"
+      }
+    ],
+    "priceListLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for price lists..."
+      }
+    ],
+    "priceListNameTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 50 characters"
       }
     ],
     "priceListNumberRate": [
@@ -12037,14 +12682,98 @@
         "value": "Rate must be a positive number"
       }
     ],
+    "priceListRatesLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your price list rates. Do not refresh the browser"
+      }
+    ],
+    "priceListRatesLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for price list rates..."
+      }
+    ],
+    "priceListRecalculateDesc": [
+      {
+        "type": 0,
+        "value": "This price list is assigned to one or more cost models, so cost and charge data refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review."
+      }
+    ],
+    "priceListRefresh": [
+      {
+        "type": 0,
+        "value": "Refresh list"
+      }
+    ],
+    "priceListRemoveTag": [
+      {
+        "type": 0,
+        "value": "Remove tag value"
+      }
+    ],
+    "priceListReview": [
+      {
+        "type": 0,
+        "value": "This change may affect cost models"
+      }
+    ],
+    "priceListReviewChange": [
+      {
+        "type": 0,
+        "value": "Changing the order of price lists for "
+      },
+      {
+        "type": 1,
+        "value": "costModel"
+      },
+      {
+        "type": 0,
+        "value": " allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?"
+      }
+    ],
+    "priceListReviewUpdate": [
+      {
+        "type": 0,
+        "value": "Updating price lists for "
+      },
+      {
+        "type": 1,
+        "value": "costModel"
+      },
+      {
+        "type": 0,
+        "value": " allocation changes which rates are used for chargeback. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?"
+      }
+    ],
+    "priceListSelectCostType": [
+      {
+        "type": 0,
+        "value": "Select calculation type"
+      }
+    ],
+    "priceListSelectMeasurement": [
+      {
+        "type": 0,
+        "value": "Select measurement"
+      }
+    ],
+    "priceListSelectMetric": [
+      {
+        "type": 0,
+        "value": "Select metric"
+      }
+    ],
     "priceListSuccess": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "add": {
             "value": [
               {
                 "type": 0,
-                "value": "price list created"
+                "value": "Price list created"
               }
             ]
           },
@@ -12052,18 +12781,15 @@
             "value": [
               {
                 "type": 0,
-                "value": "price list duplicated"
+                "value": "Price list duplicated"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "remove": {
             "value": [
               {
                 "type": 0,
-                "value": "price list deleted"
+                "value": "Price list deleted"
               }
             ]
           },
@@ -12071,19 +12797,58 @@
             "value": [
               {
                 "type": 0,
-                "value": "price list updated"
+                "value": "Price list updated"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "priceListSuccessChanges": [
       {
         "type": 0,
         "value": "Changes will be reflected in report summarizations within 24 hours"
+      }
+    ],
+    "priceListTagKey": [
+      {
+        "type": 0,
+        "value": "Tag key"
+      }
+    ],
+    "priceListTagValue": [
+      {
+        "type": 0,
+        "value": "Tag value"
+      }
+    ],
+    "priceListTimeline": [
+      {
+        "type": 0,
+        "value": "Coverage timeline"
+      }
+    ],
+    "priceListTimelineEndDate": [
+      {
+        "type": 0,
+        "value": "End date: "
+      },
+      {
+        "type": 1,
+        "value": "endDate"
+      }
+    ],
+    "priceListTimelineTooltip": [
+      {
+        "type": 0,
+        "value": "Start date: "
+      },
+      {
+        "type": 1,
+        "value": "startDate"
       }
     ],
     "projectKoku": [
@@ -12102,6 +12867,12 @@
       {
         "type": 0,
         "value": "Rate"
+      }
+    ],
+    "rates": [
+      {
+        "type": 0,
+        "value": "Rates"
       }
     ],
     "rawCostDesc": [
@@ -12140,6 +12911,24 @@
         "value": "You have read only permissions"
       }
     ],
+    "recalculateCharges": [
+      {
+        "type": 0,
+        "value": "Recalculating charges"
+      }
+    ],
+    "recalculateCurrentMonthDesc": [
+      {
+        "type": 0,
+        "value": "This month — OpenShift chargeback may be recalculated using today’s data."
+      }
+    ],
+    "recalculatePreviousMonthDesc": [
+      {
+        "type": 0,
+        "value": "Past months — adjustment entries may be created for a Cost Management administrator to approve or reject."
+      }
+    ],
     "redHatIntegration": [
       {
         "type": 0,
@@ -12162,6 +12951,12 @@
       {
         "type": 0,
         "value": "Remove"
+      }
+    ],
+    "removePriceList": [
+      {
+        "type": 0,
+        "value": "Remove from this cost model"
       }
     ],
     "removeProjects": [
@@ -12200,6 +12995,18 @@
         "value": "Requests"
       }
     ],
+    "requiredField": [
+      {
+        "type": 0,
+        "value": "This field is required"
+      }
+    ],
+    "reset": [
+      {
+        "type": 0,
+        "value": "Reset"
+      }
+    ],
     "restore": [
       {
         "type": 0,
@@ -12210,6 +13017,12 @@
       {
         "type": 0,
         "value": "Save"
+      }
+    ],
+    "saveOrdering": [
+      {
+        "type": 0,
+        "value": "Save ordering"
       }
     ],
     "seeDocumentation": [
@@ -12312,47 +13125,14 @@
     ],
     "settingsSuccessCostCategories": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
-          "disable": {
-            "value": [
-              {
-                "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "count"
-                      },
-                      {
-                        "type": 0,
-                        "value": " cost category key disabled"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "count"
-                      },
-                      {
-                        "type": 0,
-                        "value": " cost category keys disabled"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
           "enable": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -12379,18 +13159,51 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
+                "offset": 0,
+                "pluralType": "cardinal"
+              }
+            ]
+          },
+          "disable": {
+            "value": [
+              {
                 "type": 6,
-                "value": "count"
+                "value": "count",
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " cost category key disabled"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " cost category keys disabled"
+                      }
+                    ]
+                  }
+                },
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "settingsSuccessDesc": [
@@ -12401,11 +13214,14 @@
     ],
     "settingsSuccessPlatformProjects": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "add": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -12432,19 +13248,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "remove": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -12471,24 +13284,27 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "settingsSuccessTags": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "add": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -12515,52 +13331,16 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
-              }
-            ]
-          },
-          "disable": {
-            "value": [
-              {
                 "offset": 0,
-                "options": {
-                  "one": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "count"
-                      },
-                      {
-                        "type": 0,
-                        "value": " tag disabled"
-                      }
-                    ]
-                  },
-                  "other": {
-                    "value": [
-                      {
-                        "type": 1,
-                        "value": "count"
-                      },
-                      {
-                        "type": 0,
-                        "value": " tags disabled"
-                      }
-                    ]
-                  }
-                },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "pluralType": "cardinal"
               }
             ]
           },
           "enable": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -12587,19 +13367,52 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
           },
-          "other": {
-            "value": []
+          "disable": {
+            "value": [
+              {
+                "type": 6,
+                "value": "count",
+                "options": {
+                  "one": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tag disabled"
+                      }
+                    ]
+                  },
+                  "other": {
+                    "value": [
+                      {
+                        "type": 1,
+                        "value": "count"
+                      },
+                      {
+                        "type": 0,
+                        "value": " tags disabled"
+                      }
+                    ]
+                  }
+                },
+                "offset": 0,
+                "pluralType": "cardinal"
+              }
+            ]
           },
           "remove": {
             "value": [
               {
-                "offset": 0,
+                "type": 6,
+                "value": "count",
                 "options": {
                   "one": {
                     "value": [
@@ -12626,15 +13439,15 @@
                     ]
                   }
                 },
-                "pluralType": "cardinal",
-                "type": 6,
-                "value": "count"
+                "offset": 0,
+                "pluralType": "cardinal"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "settingsSuccessTitle": [
@@ -12711,6 +13524,8 @@
     ],
     "source": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "aws": {
             "value": [
@@ -12747,9 +13562,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "sourceType": [
@@ -12760,6 +13573,8 @@
     ],
     "sourceTypes": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "aws": {
             "value": [
@@ -12796,9 +13611,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "sources": [
@@ -12833,6 +13646,8 @@
     ],
     "statusMsg": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "complete": {
             "value": [
@@ -12866,9 +13681,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "paused": {
             "value": [
               {
@@ -12884,26 +13696,18 @@
                 "value": "Pending"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "statusStates": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
-          "failed": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Failed"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          },
           "pending": {
             "value": [
               {
@@ -12919,10 +13723,19 @@
                 "value": "Running"
               }
             ]
+          },
+          "failed": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed"
+              }
+            ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "storage": [
@@ -13373,8 +14186,22 @@
         "value": "Clear button and input"
       }
     ],
+    "unassignPriceList": [
+      {
+        "type": 0,
+        "value": "Unassign from cost model"
+      }
+    ],
+    "unassignSelected": [
+      {
+        "type": 0,
+        "value": "Unassign selected"
+      }
+    ],
     "unitTooltips": [
       {
+        "type": 5,
+        "value": "units",
         "options": {
           "byte_ms": {
             "value": [
@@ -13552,14 +14379,6 @@
               }
             ]
           },
-          "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              }
-            ]
-          },
           "pvc_month": {
             "value": [
               {
@@ -13591,14 +14410,22 @@
                 "value": " VM-hours"
               }
             ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              }
+            ]
           }
-        },
-        "type": 5,
-        "value": "units"
+        }
       }
     ],
     "units": [
       {
+        "type": 5,
+        "value": "units",
         "options": {
           "byte_ms": {
             "value": [
@@ -13744,9 +14571,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "pvc_month": {
             "value": [
               {
@@ -13770,10 +14594,11 @@
                 "value": "VM-hours"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "units"
+        }
       }
     ],
     "upToDate": [
@@ -13816,6 +14641,42 @@
       {
         "type": 0,
         "value": " maximum"
+      }
+    ],
+    "userAccessLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your user access. Do not refresh the browser"
+      }
+    ],
+    "userAccessLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for user access..."
+      }
+    ],
+    "validityPeriod": [
+      {
+        "type": 0,
+        "value": "Validity period"
+      }
+    ],
+    "validityPeriodEndDateError": [
+      {
+        "type": 0,
+        "value": "End period must be >= start period"
+      }
+    ],
+    "validityPeriodStartDateError": [
+      {
+        "type": 0,
+        "value": "Start period must be <= end period"
+      }
+    ],
+    "validityPeriodWarning": [
+      {
+        "type": 0,
+        "value": "The start period must be the same as or before the end period. Adjust the month and year so the list does not end before it begins."
       }
     ],
     "valueUnits": [
@@ -13872,6 +14733,12 @@
         "value": "View all OpenShift learning resources"
       }
     ],
+    "viewPriceList": [
+      {
+        "type": 0,
+        "value": "View price list"
+      }
+    ],
     "viewReleaseNotes": [
       {
         "type": 0,
@@ -13899,7 +14766,7 @@
     "wastedCost": [
       {
         "type": 0,
-        "value": "Wasted cost"
+        "value": "Savings opportunity estimate"
       }
     ],
     "workerUnallocated": [

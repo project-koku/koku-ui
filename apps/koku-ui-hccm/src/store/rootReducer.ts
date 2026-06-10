@@ -23,7 +23,7 @@ import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDa
 import { exportReducer, exportStateKey } from 'store/export';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
-import { priceListReducer, priceListStateKey } from 'store/priceList';
+import { priceListReducer, priceListStateKey } from 'store/priceLists';
 import { rateReducer, rateStateKey } from 'store/rates';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { resourceReducer, resourceStateKey } from 'store/resources';

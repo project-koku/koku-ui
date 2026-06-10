@@ -12,5 +12,6 @@ exports[`default state 1`] = `
   "isNamespaceToggleEnabled": false,
   "isPriceListToggleEnabled": false,
   "isSystemsToggleEnabled": false,
+  "isWastedCostToggleEnabled": false,
 }
 `;

@@ -111,7 +111,6 @@ const TagsTable: React.FC<TagsTableProps> = ({
       onSort={onSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems}
     />
   );
 };
