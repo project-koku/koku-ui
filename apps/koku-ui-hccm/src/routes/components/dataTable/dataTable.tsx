@@ -96,11 +96,10 @@ const DataTable: React.FC<DataTableProps> = ({
   };
 
   const handleOnSelect = (isSelected, rowId) => {
-    let newRows;
     let items = [];
     if (rowId !== -1) {
-      newRows = [...rows];
-      newRows[rowId].selected = isSelected;
+      const newRows = [...rows];
+      newRows[rowId] = { ...newRows[rowId], selected: isSelected };
       items = [newRows[rowId].item];
     }
     onSelect?.(items, isSelected);
