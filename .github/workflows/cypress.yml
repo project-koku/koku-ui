@@ -1,0 +1,80 @@
+name: Cypress E2E
+
+on:
+  pull_request:
+    branches:
+      - main
+      - stage-onprem
+
+env:
+  NODEJS_VERSION: '22'
+
+jobs:
+  cypress:
+    name: Cypress E2E Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Detect onprem-related changes
+        id: changes
+        run: |
+          PATHS='^(apps/koku-ui-onprem/|apps/koku-ui-sources/|libs/onprem-cloud-deps/|libs/token-refresher/|libs/ui-lib/|\.github/workflows/cypress\.yml)'
+
+          CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")
+
+          if echo "$CHANGED" | grep -qE "$PATHS"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip Cypress (no onprem-related changes)
+        if: steps.changes.outputs.run != 'true'
+        run: echo "No onprem-related changes; skipping Cypress."
+
+      - name: Setup Node.js
+        if: steps.changes.outputs.run == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODEJS_VERSION }}
+
+      - name: Cache node modules
+        if: steps.changes.outputs.run == 'true'
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Cypress run
+        if: steps.changes.outputs.run == 'true'
+        id: cypress_run
+        uses: cypress-io/github-action@v6
+        with:
+          install-command: npm ci
+          build: npm run build:onprem
+          start: npm run -w @koku-ui/koku-ui-onprem start:prod
+          wait-on: http://localhost:9001
+          wait-on-timeout: 120
+          project: apps/koku-ui-onprem
+          config-file: cypress/cypress.config.ts
+
+      - name: Upload Cypress videos
+        if: failure() && steps.changes.outputs.run == 'true' && steps.cypress_run.outcome == 'failure'
+        uses: actions/upload-artifact@v5
+        with:
+          name: cypress-videos
+          path: apps/koku-ui-onprem/cypress/videos
+          retention-days: 14
+          if-no-files-found: ignore

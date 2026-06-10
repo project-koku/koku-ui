@@ -21,28 +21,22 @@ interface SettingsUpdateProps {
   type: SettingsType;
 }
 
-interface SettingsNotificationProps {
-  error: AxiosError;
-  notification: Notification;
-  status: FetchStatus;
-}
-
-export const useAccountSettingsUpdate = <T>({
+export const useAccountSettingsNotifications = <T>({
   type,
   getSessionValue,
   setState,
-}: AccountSettingsUpdateProps<T>): SettingsNotificationProps => {
+}: AccountSettingsUpdateProps<T>) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const addNotification = useAddNotification();
 
-  const error = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateError(state, type)
-  ) as AxiosError | undefined;
+  const error = useSelector((state: RootState) => accountSettingsSelectors.selectAccountSettingsError(state, type)) as
+    | AxiosError
+    | undefined;
   const notification = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateNotification(state, type)
+    accountSettingsSelectors.selectAccountSettingsNotification(state, type)
   );
   const status = useSelector((state: RootState) =>
-    accountSettingsSelectors.selectAccountSettingsUpdateStatus(state, type)
+    accountSettingsSelectors.selectAccountSettingsFetchStatus(state, type)
   );
 
   useEffect(() => {
@@ -52,34 +46,30 @@ export const useAccountSettingsUpdate = <T>({
       }
       if (notification) {
         addNotification(notification as any);
-        dispatch(settingsActions.resetNotification());
+        dispatch(settingsActions.resetNotifications());
         dispatch(settingsActions.resetStatus());
       }
     }
   }, [addNotification, dispatch, error, getSessionValue, notification, setState, status]);
-
-  return { error, notification, status };
 };
 
-export const useSettingsUpdate = ({ type }: SettingsUpdateProps): SettingsNotificationProps => {
+export const useSettingsNotifications = ({ type }: SettingsUpdateProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const addNotification = useAddNotification();
 
-  const error = useSelector((state: RootState) => settingsSelectors.selectSettingsUpdateError(state, type)) as
+  const error = useSelector((state: RootState) => settingsSelectors.selectSettingsError(state, type, undefined)) as
     | AxiosError
     | undefined;
   const notification = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsUpdateNotification(state, type)
+    settingsSelectors.selectSettingsNotification(state, type, undefined)
   );
-  const status = useSelector((state: RootState) => settingsSelectors.selectSettingsUpdateStatus(state, type));
+  const status = useSelector((state: RootState) => settingsSelectors.selectSettingsFetchStatus(state, type, undefined));
 
   useEffect(() => {
     if (status === FetchStatus.complete && notification) {
       addNotification(notification as any);
-      dispatch(settingsActions.resetNotification());
+      dispatch(settingsActions.resetNotifications());
       dispatch(settingsActions.resetStatus());
     }
   }, [addNotification, dispatch, error, notification, status]);
-
-  return { error, notification, status };
 };

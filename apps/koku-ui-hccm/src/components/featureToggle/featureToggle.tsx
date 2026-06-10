@@ -21,11 +21,12 @@ export const enum FeatureToggle {
   namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
   priceList = 'cost-management.koku-ui-hccm.price-list', // Life cycle of price list https://redhat.atlassian.net/browse/COST-7330
   systems = 'cost-management.koku-ui-hccm.systems', // Systems https://redhat.atlassian.net/browse/COST-5718
+  wastedCost = 'cost-management.koku-ui-hccm.wasted-cost', // Wasted cost https://redhat.atlassian.net/browse/COST-7460
 }
 
 const useIsToggleEnabled = (toggle: FeatureToggle) => {
   const client = useUnleashClient();
-  return client.isEnabled(toggle);
+  return client?.isEnabled?.(toggle) ?? false;
 };
 
 export const useIsAwsEc2InstancesToggleEnabled = () => {
@@ -68,6 +69,10 @@ export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.systems);
 };
 
+export const useIsWastedCostToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.wastedCost);
+};
+
 // The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
 export const useFeatureToggle = () => {
   const dispatch = useDispatch();
@@ -83,6 +88,7 @@ export const useFeatureToggle = () => {
   const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
+  const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -104,6 +110,7 @@ export const useFeatureToggle = () => {
         isNamespaceToggleEnabled,
         isPriceListToggleEnabled,
         isSystemsToggleEnabled,
+        isWastedCostToggleEnabled,
       })
     );
     if (isDebugToggleEnabled) {
@@ -121,6 +128,7 @@ export const useFeatureToggle = () => {
     isNamespaceToggleEnabled,
     isPriceListToggleEnabled,
     isSystemsToggleEnabled,
+    isWastedCostToggleEnabled,
   ]);
 };
 

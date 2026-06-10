@@ -3,18 +3,21 @@ import { axiosInstance } from 'api';
 import type { PagedResponse } from './api';
 
 export interface Metric {
-  name: string;
-  source_type: string;
-  metric: string;
-  label_metric: string;
-  label_measurement: string;
-  label_measurement_unit: string;
-  default_cost_type: string;
+  default_cost_type?: string;
+  label_measurement?: string;
+  label_measurement_unit?: string;
+  label_metric?: string;
+  metric?: string;
+  name?: string;
+  source_type?: string;
 }
 
-export interface MetricHash {
-  [mtrc: string]: { [msrmnt: string]: Metric };
-}
+/**
+ * Built by `metrics()` as nested maps (label_metric → metric id → row).
+ * Built by `metricsByName()` as a flat map (metric id → merged metric row).
+ * Call sites that assume nesting (e.g. `getDefaultCostType`) must use the `metrics()` shape only.
+ */
+export type MetricHash = Record<string, { [msrmnt: string]: Metric } | Metric>;
 
 export type Metrics = PagedResponse<Metric>;
 

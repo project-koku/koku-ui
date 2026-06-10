@@ -43,7 +43,7 @@ describe('App routes', () => {
 
 	test('route definitions have expected shapes (path and element)', () => {
 		// Validate a sampling including dynamic segment and root
-		expect(routesExport.costModel.path).toMatch(/\/settings\/cost-model\/:uuid/);
+		expect(routesExport.costModelBreakdown.path).toMatch(/\/settings\/cost-model\/:uuid/);
 		expect(routesExport.overview.path).toBe('/');
 		expect(routesExport.settings.path).toBe('/settings');
 		// Ensure element is provided for each route

@@ -20,8 +20,8 @@ describe('utils/paths', () => {
 
   test('formatPath without release prefix', () => {
     expect(formatPath(routes.overview.path)).toBe('/openshift/cost-management')
-    expect(formatPath(routes.costModel.basePath))
-      .toBe(`/openshift/cost-management${routes.costModel.basePath}`)
+    expect(formatPath(routes.costModelBreakdown.basePath))
+      .toBe(`/openshift/cost-management${routes.costModelBreakdown.basePath}`)
   })
 
   test.each([
@@ -35,11 +35,11 @@ describe('utils/paths', () => {
 
   test('formatPath with release prefix', () => {
     setWindowPathname('/beta/openshift/cost-management')
-    expect(formatPath(routes.costModel.basePath, true).startsWith('/beta')).toBe(true)
+    expect(formatPath(routes.costModelBreakdown.basePath, true).startsWith('/beta')).toBe(true)
   })
 
   test('usePathname collapses cost model UUID path', () => {
-    const base = formatPath(routes.costModel.basePath)
+    const base = formatPath(routes.costModelBreakdown.basePath)
     setWindowPathname(`${base}/123`)
     mockUseLocation.mockReturnValue({ pathname: `${base}/123` })
     expect(usePathname()).toBe(base)
