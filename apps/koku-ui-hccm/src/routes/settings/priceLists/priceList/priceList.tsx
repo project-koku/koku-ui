@@ -65,7 +65,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
     setQuery(prev => ({ ...prev }));
   }, []);
 
-  const getCardLayout = chidlren => (
+  const getCardLayout = children => (
     <Card>
       <CardBody>
         {intl.formatMessage(messages.priceListDesc, {
@@ -77,7 +77,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
         })}
         <div style={styles.tableContainer}>
           {getToolbar()}
-          {chidlren}
+          {children}
         </div>
       </CardBody>
     </Card>

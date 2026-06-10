@@ -12,6 +12,7 @@ default()
 
   MAIN_BRANCH="main"
   STAGE_HCCM_BRANCH="stage-hccm"
+  STAGE_ONPREM_BRANCH="stage-onprem"
   STAGE_ROS_BRANCH="stage-ros"
 
   PROD_HCCM_BRANCH="prod-hccm"
@@ -41,17 +42,20 @@ cat <<- EEOOFF
     $STAGE_ROS_BRANCH is merged from $MAIN_BRANCH
     $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
 
-    sh [-x] $SCRIPT [-h|-p|-q|-r|-s|-u]
+    $STAGE_ONPREM_BRANCH is merged from $MAIN_BRANCH
+
+    sh [-x] $SCRIPT [-h|-o|-p|-q|-r|-s|-u]
 
     OPTIONS:
     h       Display this message
     s       Merge $MAIN_BRANCH to $STAGE_HCCM_BRANCH
+    o       Merge $MAIN_BRANCH to $STAGE_ONPREM_BRANCH
     p       Merge $STAGE_HCCM_BRANCH to $PROD_HCCM_BRANCH
     q       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
     r       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
     u       Push to upstream
 
-    Note: This script does not support on-prem.
+    Note: This script does not support on-prem for prod.
 
 EEOOFF
 }
@@ -153,9 +157,9 @@ push()
 {
   default
 
-  while getopts hpqrsu c; do
+  while getopts hopqrsu c; do
     case $c in
-      s) TARGET_BRANCH=$STAGE_HCCM_BRANCH
+      o) TARGET_BRANCH=$STAGE_ONPREM_BRANCH
          SOURCE_BRANCH=$MAIN_BRANCH;;
       p) TARGET_BRANCH=$PROD_HCCM_BRANCH
          SOURCE_BRANCH=$STAGE_HCCM_BRANCH;;
@@ -163,6 +167,8 @@ push()
          SOURCE_BRANCH=$MAIN_BRANCH;;
       r) TARGET_BRANCH=$PROD_ROS_BRANCH
          SOURCE_BRANCH=$STAGE_ROS_BRANCH;;
+      s) TARGET_BRANCH=$STAGE_HCCM_BRANCH
+         SOURCE_BRANCH=$MAIN_BRANCH;;
       u) PUSH=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
