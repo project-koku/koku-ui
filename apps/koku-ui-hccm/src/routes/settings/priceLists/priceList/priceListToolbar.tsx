@@ -57,7 +57,7 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
             ouiaId="BasicSwitch"
           />
         </span>
-        <CreatePriceListAction canWrite={canWrite} isDisabled={isDisabled} />
+        <CreatePriceListAction canWrite={canWrite} />
       </>
     );
   };

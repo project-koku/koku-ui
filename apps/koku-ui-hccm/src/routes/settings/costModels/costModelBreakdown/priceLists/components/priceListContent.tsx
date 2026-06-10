@@ -21,7 +21,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { NoPriceListState } from 'routes/settings/priceLists/priceList/components/state';
+import { NoPriceListAssignedState } from 'routes/settings/priceLists/priceList/components/state';
 import { usePriceListNotifications } from 'routes/settings/priceLists/utils';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
@@ -311,7 +311,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
             </div>
           </>
         ) : (
-          <NoPriceListState canWrite={canWrite} />
+          <NoPriceListAssignedState canWrite={canWrite} />
         )}
       </>
     );

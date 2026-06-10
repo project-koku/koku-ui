@@ -18,7 +18,8 @@ describe('price list state components', () => {
         <NoPriceListState canWrite costModel={costModel} onAdd={jest.fn()} />
       </IntlProvider>
     );
-    expect(screen.getByText(/no price lists are assigned/i)).toBeInTheDocument();
+    expect(screen.getByText(/no active price lists/i)).toBeInTheDocument();
+    expect(screen.getByText(/show deprecated/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /add-price-list/i })).toBeInTheDocument();
   });
 

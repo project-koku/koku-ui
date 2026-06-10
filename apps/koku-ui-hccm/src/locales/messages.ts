@@ -3638,16 +3638,26 @@ export default defineMessages({
     id: 'priceListEmptyCostModelsDesc',
   },
   priceListEmptyPriceLists: {
-    defaultMessage: 'No price lists are assigned',
-    description: 'No price lists are assigned',
+    defaultMessage: 'No active price lists',
+    description: 'No active price lists',
     id: 'priceListEmptyPriceLists',
   },
   priceListEmptyPriceListsDesc: {
+    defaultMessage: 'Price lists may be deprecated. Turn on Show deprecated to view and restore them.',
+    description: 'Price lists may be deprecated. Turn on Show deprecated to view and restore them.',
+    id: 'priceListEmptyPriceListsDesc',
+  },
+  priceListEmptyPriceListsAssigned: {
+    defaultMessage: 'No price lists are assigned',
+    description: 'No price lists are assigned',
+    id: 'priceListEmptyPriceListsAssigned',
+  },
+  priceListEmptyPriceListsAssignedDesc: {
     defaultMessage:
       'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
     description:
       'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
-    id: 'priceListEmptyPriceListsDesc',
+    id: 'priceListEmptyPriceListsAssignedDesc',
   },
   priceListEmptyRate: {
     defaultMessage: 'No rates are set',

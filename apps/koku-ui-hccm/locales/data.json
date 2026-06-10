@@ -12459,13 +12459,25 @@
     "priceListEmptyPriceLists": [
       {
         "type": 0,
+        "value": "No active price lists"
+      }
+    ],
+    "priceListEmptyPriceListsAssigned": [
+      {
+        "type": 0,
         "value": "No price lists are assigned"
+      }
+    ],
+    "priceListEmptyPriceListsAssignedDesc": [
+      {
+        "type": 0,
+        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
       }
     ],
     "priceListEmptyPriceListsDesc": [
       {
         "type": 0,
-        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
+        "value": "Price lists may be deprecated. Turn on Show deprecated to view and restore them."
       }
     ],
     "priceListEmptyRate": [
