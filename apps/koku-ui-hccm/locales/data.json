@@ -8045,6 +8045,14 @@
               }
             ]
           },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by currency"
+              }
+            ]
+          },
           "description": {
             "value": [
               {
@@ -8335,6 +8343,14 @@
               {
                 "type": 0,
                 "value": "Container"
+              }
+            ]
+          },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Currency"
               }
             ]
           },

@@ -2393,6 +2393,7 @@ export default defineMessages({
       'aws_category {Filter by cost category} ' +
       'cluster {Filter by cluster} ' +
       'container {Filter by container} ' +
+      'currency {Filter by currency} ' +
       'description {Filter by description} ' +
       'gcp_project {Filter by Google Cloud project} ' +
       'gpu_model {Filter by GPU model} ' +
@@ -2448,6 +2449,7 @@ export default defineMessages({
       'aws_category {Cost category} ' +
       'cluster {Cluster} ' +
       'container {Container} ' +
+      'currency {Currency} ' +
       'default {Default} ' +
       'description {Description} ' +
       'gcp_project {Google Cloud project} ' +

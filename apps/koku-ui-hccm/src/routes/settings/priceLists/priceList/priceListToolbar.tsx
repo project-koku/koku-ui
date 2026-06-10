@@ -70,6 +70,12 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
         key: 'name',
         name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
       },
+      {
+        ariaLabelKey: 'currency',
+        placeholderKey: 'currency',
+        key: 'currency',
+        name: intl.formatMessage(messages.filterByValues, { value: 'currency' }),
+      },
     ];
     return options;
   };
