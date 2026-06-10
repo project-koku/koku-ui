@@ -259,7 +259,6 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
 
         if (costModel?.uuid && isDispatch) {
           setIsFinish(true);
-          setIsDraggable(false);
 
           const uuids = itemsWithPriority.map(item => item.uuid) ?? [];
 
@@ -320,13 +319,17 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
     });
 
     useEffect(() => {
+      if (isFinish || costModelsUpdateStatus === FetchStatus.inProgress) {
+        return;
+      }
       setOrderedPriceLists(priceLists ?? []);
       setOrderedPriceListsBaseline(priceLists ?? []);
-    }, [priceLists]);
+    }, [costModelsUpdateStatus, isFinish, priceLists]);
 
     useEffect(() => {
       if (isFinish && costModelsUpdateStatus === FetchStatus.complete) {
         setIsFinish(false);
+        setIsDraggable(false);
 
         if (!costModelsUpdateError) {
           onSave?.(payload);
