@@ -4,12 +4,11 @@ import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
-/**
- * Build-time flag from webpack DefinePlugin (`fec.config.js` / `webpack-onprem.config.ts`).
- * Not an Unleash toggle.
- */
-export const isSourcesSettingsTabEnabled = process.env.KOKU_UI_SOURCES_SETTINGS_TAB === 'true';
+// Build-time flags from webpack DefinePlugin (`fec.config.js` / `webpack-onprem.config.ts`). Not Unleash toggles.
+export const isSettingsDataRetentionPeriodEnabled = process.env.KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD === 'true'; // https://redhat.atlassian.net/browse/COST-7396
+export const isSettingsSourcesTabEnabled = process.env.KOKU_UI_SETTINGS_SOURCES_TAB === 'true';
 
+// Unleash feature toggles
 export const enum FeatureToggle {
   awsEc2Instances = 'cost-management.koku-ui-hccm.aws-ec2-instances', // https://redhat.atlassian.net/browse/COST-4855
   debug = 'cost-management.koku-ui-hccm.debug', // Logs user data (e.g., account ID) in browser console

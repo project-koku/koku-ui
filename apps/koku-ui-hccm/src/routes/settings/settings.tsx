@@ -5,7 +5,7 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import { useIsPriceListToggleEnabled } from 'components/featureToggle';
-import { isSourcesSettingsTabEnabled } from 'components/featureToggle/featureToggle';
+import { isSettingsSourcesTabEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -140,7 +140,7 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
       },
-      ...(isSourcesSettingsTabEnabled
+      ...(isSettingsSourcesTabEnabled
         ? [
             {
               contentRef: React.createRef(),

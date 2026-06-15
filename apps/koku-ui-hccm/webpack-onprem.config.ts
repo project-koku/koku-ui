@@ -109,7 +109,8 @@ const config: Configuration = {
     new DefinePlugin({
       'process.env.KOKU_UI_COMMITHASH': undefined,
       'process.env.KOKU_UI_PKGNAME': undefined,
-      'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('true'),
+      'process.env.KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD': JSON.stringify('true'),
+      'process.env.KOKU_UI_SETTINGS_SOURCES_TAB': JSON.stringify('true'),
       'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
     }),
   ],
