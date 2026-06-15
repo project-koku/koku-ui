@@ -91,8 +91,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.KOKU_UI_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
       'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
-      // The Sources UI/MFE exists only in the on-prem bundle (webpack-onprem); hide tab on Consoledot.
-      'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('false'),
+      // Set to avoid potential runtime errors
+      'process.env.KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD': JSON.stringify('false'),
+      'process.env.KOKU_UI_SETTINGS_SOURCES_TAB': JSON.stringify('false'),
     }),
   ],
   resolve: {
