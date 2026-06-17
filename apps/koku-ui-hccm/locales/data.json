@@ -2963,6 +2963,111 @@
         "value": "Data retrieval"
       }
     ],
+    "dataRetentionErrorDesc": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to update price list"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionErrorTitle": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to update price list"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionInputAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period number input"
+      }
+    ],
+    "dataRetentionLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your data retention period. Do not refresh the browser"
+      }
+    ],
+    "dataRetentionLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for data retention period..."
+      }
+    ],
+    "dataRetentionMinusBtnAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period minus button"
+      }
+    ],
+    "dataRetentionPeriod": [
+      {
+        "type": 0,
+        "value": "Data retention period"
+      }
+    ],
+    "dataRetentionPeriodDesc": [
+      {
+        "type": 0,
+        "value": "Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment."
+      }
+    ],
+    "dataRetentionPlusBtnAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period plus button"
+      }
+    ],
+    "dataRetentionSuccess": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Price list updated"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionSuccessChanges": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected in report summarizations within 24 hours"
+      }
+    ],
     "dataTableAriaLabel": [
       {
         "type": 0,
@@ -4335,6 +4440,24 @@
       {
         "type": 0,
         "value": "Discount (-)"
+      }
+    ],
+    "display": [
+      {
+        "type": 0,
+        "value": "Display"
+      }
+    ],
+    "displayCurrency": [
+      {
+        "type": 0,
+        "value": "Display currency"
+      }
+    ],
+    "displayCurrencyDesc": [
+      {
+        "type": 0,
+        "value": "Uses static rates from the table when they apply; otherwise, dynamic rates"
       }
     ],
     "distribute": [
