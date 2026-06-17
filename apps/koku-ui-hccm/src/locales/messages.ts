@@ -1415,6 +1415,63 @@ export default defineMessages({
     description: 'Data retrieval',
     id: 'dataDetailsRetrieval',
   },
+  dataRetentionErrorDesc: {
+    defaultMessage: '{value, select, ' + 'update {Failed to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionErrorDesc',
+  },
+  dataRetentionErrorTitle: {
+    defaultMessage: '{value, select, ' + 'update {Unable to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionErrorTitle',
+  },
+  dataRetentionInputAriaLabel: {
+    defaultMessage: 'Data retention period number input',
+    description: 'Data retention period number input',
+    id: 'dataRetentionInputAriaLabel',
+  },
+  dataRetentionLoadingStateDesc: {
+    defaultMessage: 'Searching for your data retention period. Do not refresh the browser',
+    description: 'Searching for your data retention period. Do not refresh the browser',
+    id: 'dataRetentionLoadingStateDesc',
+  },
+  dataRetentionLoadingStateTitle: {
+    defaultMessage: 'Looking for data retention period...',
+    description: 'Looking for data retention period',
+    id: 'dataRetentionLoadingStateTitle',
+  },
+  dataRetentionMinusBtnAriaLabel: {
+    defaultMessage: 'Data retention period minus button',
+    description: 'Data retention period minus button',
+    id: 'dataRetentionMinusBtnAriaLabel',
+  },
+  dataRetentionPeriod: {
+    defaultMessage: 'Data retention period',
+    description: 'Data retention period',
+    id: 'dataRetentionPeriod',
+  },
+  dataRetentionPeriodDesc: {
+    defaultMessage:
+      'Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment.',
+    description:
+      'Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment.',
+    id: 'dataRetentionPeriodDesc',
+  },
+  dataRetentionPlusBtnAriaLabel: {
+    defaultMessage: 'Data retention period plus button',
+    description: 'Data retention period plus button',
+    id: 'dataRetentionPlusBtnAriaLabel',
+  },
+  dataRetentionSuccess: {
+    defaultMessage: '{value, select, ' + 'update {Data retention period updated} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionSuccess',
+  },
+  dataRetentionSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'dataRetentionSuccessChanges',
+  },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
     description: 'Details table',
@@ -1744,6 +1801,21 @@ export default defineMessages({
     defaultMessage: 'Discount (-)',
     description: 'Discount (-)',
     id: 'discountMinus',
+  },
+  display: {
+    defaultMessage: 'Display',
+    description: 'Display',
+    id: 'display',
+  },
+  displayCurrency: {
+    defaultMessage: 'Display currency',
+    description: 'Display currency',
+    id: 'displayCurrency',
+  },
+  displayCurrencyDesc: {
+    defaultMessage: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
+    description: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
+    id: 'displayCurrencyDesc',
   },
   distribute: {
     defaultMessage: 'Distribute',

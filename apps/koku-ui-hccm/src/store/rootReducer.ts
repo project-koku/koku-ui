@@ -20,6 +20,7 @@ import { gcpDashboardReducer, gcpDashboardStateKey } from 'store/dashboard/gcpDa
 import { gcpOcpDashboardReducer, gcpOcpDashboardStateKey } from 'store/dashboard/gcpOcpDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
+import { dataRetentionReducer, dataRetentionStateKey } from 'store/dataRetention';
 import { exportReducer, exportStateKey } from 'store/export';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
@@ -52,6 +53,7 @@ export const rootReducer = combineReducers({
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,
+  [dataRetentionStateKey]: dataRetentionReducer,
   [exportStateKey]: exportReducer,
   [FeatureToggleStateKey]: FeatureToggleReducer,
   [forecastStateKey]: forecastReducer,
