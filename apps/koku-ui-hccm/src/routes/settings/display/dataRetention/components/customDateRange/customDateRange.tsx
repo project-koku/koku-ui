@@ -1,6 +1,6 @@
 import { NumberInput } from '@patternfly/react-core';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 interface CustomDateRangeOwnProps {
@@ -20,20 +20,14 @@ const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate,
   const [retentionPeriod, setRetentionPeriod] = useState<number | ''>(inputValue);
 
   const normalizeBetween = (value: number, min: number, max: number): number => {
-    if (min !== undefined && max !== undefined) {
-      return Math.max(Math.min(value, max), min);
-    } else if (value <= min) {
-      return min;
-    } else if (value >= max) {
-      return max;
-    }
-    return value;
+    return Math.max(Math.min(value, max), min);
   };
 
   // Handlers
 
   const handleOnMinus = () => {
-    const newValue = normalizeBetween((retentionPeriod as number) - 1, minValue, maxValue);
+    const current = typeof retentionPeriod === 'number' && !isNaN(retentionPeriod) ? retentionPeriod : minValue;
+    const newValue = normalizeBetween(current - 1, minValue, maxValue);
     setRetentionPeriod(newValue);
     onUpdate?.(newValue);
   };
@@ -47,14 +41,23 @@ const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate,
     const targetValue = +event.target.value;
     const clampedValue = isNaN(targetValue) ? minValue : normalizeBetween(targetValue, minValue, maxValue);
     setRetentionPeriod(clampedValue);
-    onUpdate(clampedValue);
+    onUpdate?.(clampedValue);
   };
 
   const handleOnPlus = () => {
-    const newValue = normalizeBetween((retentionPeriod as number) + 1, minValue, maxValue);
+    const current = typeof retentionPeriod === 'number' && !isNaN(retentionPeriod) ? retentionPeriod : minValue;
+    const newValue = normalizeBetween(current + 1, minValue, maxValue);
     setRetentionPeriod(newValue);
-    onUpdate(newValue);
+    onUpdate?.(newValue);
   };
+
+  // Effects
+
+  useEffect(() => {
+    if (inputValue !== undefined) {
+      setRetentionPeriod(inputValue);
+    }
+  }, [inputValue]);
 
   return (
     <NumberInput

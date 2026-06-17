@@ -10,12 +10,11 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { DateRangeType } from 'routes/utils/dateRange';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { dataRetentionActions, dataRetentionSelectors } from 'store/dataRetention';
 
-import { CustomDateRange, DateRange } from './components';
+import { CustomDateRange, DateRange, DateRangeType } from './components';
 import { styles } from './dataRetention.styles';
 import { useDataRetentionNotifications } from './utils';
 
@@ -42,24 +41,26 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
 
   // Getters
 
-  const getDateRangeType = dataRetentionPeriod => {
+  const getDateRangeType = (dataRetentionPeriod: number) => {
     switch (dataRetentionPeriod) {
       case 12:
-        return DateRangeType.lastTwelveMonths;
+        return DateRangeType.twelveMonths;
       case 6:
-        return DateRangeType.lastSixMonths;
+        return DateRangeType.sixMonths;
       case 3:
       default:
-        return DateRangeType.lastThreeMonths;
+        return DateRangeType.threeMonths;
     }
   };
 
   // Handlers
 
   const handleOnDataRetentionUpdate = (value: number) => {
+    setRetentionPeriod(value);
+
     dispatch(
       dataRetentionActions.updateDataRetention(DataRetentionType.dataRetentionUpdate, 'test', {
-        name: `test:${value}`,
+        name: `test: ${value}`,
       })
     );
   };
@@ -72,13 +73,13 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
 
     let newRetentionPeriod;
     switch (value) {
-      case DateRangeType.lastTwelveMonths:
+      case DateRangeType.twelveMonths:
         newRetentionPeriod = 12;
         break;
-      case DateRangeType.lastSixMonths:
+      case DateRangeType.sixMonths:
         newRetentionPeriod = 6;
         break;
-      case DateRangeType.lastThreeMonths:
+      case DateRangeType.threeMonths:
         newRetentionPeriod = 3;
         break;
     }
@@ -103,6 +104,9 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
 
       // Todo: update value when data-retention API is available
       setRetentionPeriod(dataRetentionPeriod);
+
+      const isCustom = dataRetentionPeriod !== 3 && dataRetentionPeriod !== 6 && dataRetentionPeriod !== 12;
+      setIsCustomDateRange(isCustom);
     }
   }, [dataRetention, dataRetentionError, dataRetentionFetchStatus]);
 

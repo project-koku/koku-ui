@@ -4,13 +4,13 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 
 import { DataRetentionType } from 'api/dataRetention';
-import { DateRangeType } from 'routes/utils/dateRange';
 import { FetchStatus } from 'store/common';
 import { dataRetentionStateKey } from 'store/dataRetention';
 import { getFetchId } from 'store/dataRetention/dataRetentionCommon';
 import { configureStore } from 'store/store';
 
 import { DataRetention } from './dataRetention';
+import { DateRangeType } from './components';
 
 jest.mock('@redhat-cloud-services/frontend-components-notifications/hooks', () => ({
   useAddNotification: () => jest.fn(),
@@ -24,41 +24,45 @@ jest.mock('routes/components/page/notAvailable', () => ({
   NotAvailable: () => <div data-testid="not-available">Not available</div>,
 }));
 
-jest.mock('./components', () => ({
-  DateRange: ({
-    dateRangeType,
-    isDisabled,
-    onSelect,
-  }: {
-    dateRangeType?: string;
-    isDisabled?: boolean;
-    onSelect?: (value: string) => void;
-  }) => (
-    <div data-testid="date-range" data-date-range-type={dateRangeType} data-disabled={String(!!isDisabled)}>
-      <button type="button" data-testid="select-six-months" onClick={() => onSelect?.(DateRangeType.lastSixMonths)}>
-        6 months
-      </button>
-      <button type="button" data-testid="select-custom" onClick={() => onSelect?.(DateRangeType.custom)}>
-        Custom
-      </button>
-    </div>
-  ),
-  CustomDateRange: ({
-    inputValue,
-    isDisabled,
-    onUpdate,
-  }: {
-    inputValue?: number;
-    isDisabled?: boolean;
-    onUpdate?: (value: number) => void;
-  }) => (
-    <div data-testid="custom-date-range" data-value={inputValue} data-disabled={String(!!isDisabled)}>
-      <button type="button" data-testid="custom-update" onClick={() => onUpdate?.(90)}>
-        Update
-      </button>
-    </div>
-  ),
-}));
+jest.mock('./components', () => {
+  const actual = jest.requireActual('./components');
+  return {
+    ...actual,
+    DateRange: ({
+      dateRangeType,
+      isDisabled,
+      onSelect,
+    }: {
+      dateRangeType?: string;
+      isDisabled?: boolean;
+      onSelect?: (value: string) => void;
+    }) => (
+      <div data-testid="date-range" data-date-range-type={dateRangeType} data-disabled={String(!!isDisabled)}>
+        <button type="button" data-testid="select-six-months" onClick={() => onSelect?.(actual.DateRangeType.sixMonths)}>
+          6 months
+        </button>
+        <button type="button" data-testid="select-custom" onClick={() => onSelect?.(actual.DateRangeType.custom)}>
+          Custom
+        </button>
+      </div>
+    ),
+    CustomDateRange: ({
+      inputValue,
+      isDisabled,
+      onUpdate,
+    }: {
+      inputValue?: number;
+      isDisabled?: boolean;
+      onUpdate?: (value: number) => void;
+    }) => (
+      <div data-testid="custom-date-range" data-value={inputValue} data-disabled={String(!!isDisabled)}>
+        <button type="button" data-testid="custom-update" onClick={() => onUpdate?.(90)}>
+          Update
+        </button>
+      </div>
+    ),
+  };
+});
 
 jest.mock('store/dataRetention/dataRetentionActions', () => {
   const actual = jest.requireActual('store/dataRetention/dataRetentionActions');
@@ -114,14 +118,14 @@ describe('DataRetention', () => {
 
   test('renders date range with last three months by default', () => {
     renderDataRetention(FetchStatus.complete);
-    expect(screen.getByTestId('date-range')).toHaveAttribute('data-date-range-type', DateRangeType.lastThreeMonths);
+    expect(screen.getByTestId('date-range')).toHaveAttribute('data-date-range-type', DateRangeType.threeMonths);
     expect(screen.queryByTestId('custom-date-range')).not.toBeInTheDocument();
   });
 
   test('updates retention period and dispatches when a preset range is selected', () => {
     renderDataRetention(FetchStatus.complete);
     fireEvent.click(screen.getByTestId('select-six-months'));
-    expect(screen.getByTestId('date-range')).toHaveAttribute('data-date-range-type', DateRangeType.lastSixMonths);
+    expect(screen.getByTestId('date-range')).toHaveAttribute('data-date-range-type', DateRangeType.sixMonths);
     expect(dataRetentionActions.updateDataRetention).toHaveBeenCalledWith(
       DataRetentionType.dataRetentionUpdate,
       'test',
@@ -143,7 +147,7 @@ describe('DataRetention', () => {
     expect(dataRetentionActions.updateDataRetention).toHaveBeenCalledWith(
       DataRetentionType.dataRetentionUpdate,
       'test',
-      { name: 'test:90' }
+      { name: 'test: 90' }
     );
   });
 

@@ -1500,10 +1500,10 @@ export default defineMessages({
   dateRange: {
     defaultMessage:
       '{value, select, ' +
-      'custom {Custom}' +
-      'last_three_months {3 months} ' +
-      'last_six_months {6 months} ' +
-      'last_twelve_months {12 months} ' +
+      'custom {Custom} ' +
+      'six_months {6 months} ' +
+      'three_months {3 months} ' +
+      'twelve_months {12 months} ' +
       'other {}}',
     description: 'Date range based on {value}',
     id: 'dateRange',
@@ -2211,9 +2211,6 @@ export default defineMessages({
       'last_ninety_days {Last 90 days} ' +
       'last_sixty_days {Last 60 days} ' +
       'last_thirty_days {Last 30 days} ' +
-      'last_three_months {Last 3 months} ' +
-      'last_six_months {Last 6 months} ' +
-      'last_twelve_months {Last 12 months} ' +
       'previous_month {Previous month} ' +
       'previous_month_to_date {Previous month and month to date} ' +
       'other {}}',

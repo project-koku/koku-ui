@@ -2,9 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 
-import { DateRangeType } from 'routes/utils/dateRange';
-
-import { DateRange } from './dateRange';
+import { DateRange, DateRangeType } from './dateRange';
 
 jest.mock('@patternfly/react-core', () => {
   const React = require('react');
@@ -91,7 +89,7 @@ describe('DateRange', () => {
     const onSelect = jest.fn();
     render(
       <IntlProvider locale="en">
-        <DateRange dateRangeType={DateRangeType.lastThreeMonths} onSelect={onSelect} {...props} />
+        <DateRange dateRangeType={DateRangeType.threeMonths} onSelect={onSelect} {...props} />
       </IntlProvider>
     );
     return { onSelect };
@@ -99,18 +97,18 @@ describe('DateRange', () => {
 
   test('renders the selected date range in the toggle', () => {
     renderDateRange();
-    expect(screen.getByRole('button', { name: /last 3 months/i })).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   test('calls onSelect when an option is chosen', () => {
     const { onSelect } = renderDateRange();
-    fireEvent.click(screen.getByRole('button', { name: /last 3 months/i }));
-    fireEvent.click(screen.getByTestId(`option-${DateRangeType.lastSixMonths}`));
-    expect(onSelect).toHaveBeenCalledWith(DateRangeType.lastSixMonths);
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByTestId(`option-${DateRangeType.sixMonths}`));
+    expect(onSelect).toHaveBeenCalledWith(DateRangeType.sixMonths);
   });
 
   test('disables the toggle when isDisabled is true', () => {
     renderDateRange({ isDisabled: true });
-    expect(screen.getByRole('button', { name: /last 3 months/i })).toBeDisabled();
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 });

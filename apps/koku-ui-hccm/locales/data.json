@@ -3127,15 +3127,7 @@
               }
             ]
           },
-          "last_three_months": {
-            "value": [
-              {
-                "type": 0,
-                "value": "3 months"
-              }
-            ]
-          },
-          "last_six_months": {
+          "six_months": {
             "value": [
               {
                 "type": 0,
@@ -3143,7 +3135,15 @@
               }
             ]
           },
-          "last_twelve_months": {
+          "three_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "3 months"
+              }
+            ]
+          },
+          "twelve_months": {
             "value": [
               {
                 "type": 0,
@@ -5191,30 +5191,6 @@
               {
                 "type": 0,
                 "value": "Last 30 days"
-              }
-            ]
-          },
-          "last_three_months": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Last 3 months"
-              }
-            ]
-          },
-          "last_six_months": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Last 6 months"
-              }
-            ]
-          },
-          "last_twelve_months": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Last 12 months"
               }
             ]
           },

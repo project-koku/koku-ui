@@ -6,12 +6,18 @@ import { Dropdown, DropdownItem, DropdownList, MenuToggle } from '@patternfly/re
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { DateRangeType, getDateRange } from 'routes/utils/dateRange';
+
+export const enum DateRangeType {
+  custom = 'custom', // Custom data retention period in months
+  sixMonths = 'six_months', // last 6 months
+  threeMonths = 'three_months', // Last 3 months
+  twelveMonths = 'twelve_months', // Last 12 months
+}
 
 interface DateRangeOwnProps {
   dateRangeType?: string;
   isDisabled?: boolean;
-  onSelect(value: string);
+  onSelect: (value: string) => void;
 }
 
 type DateRangeProps = DateRangeOwnProps;
@@ -32,22 +38,22 @@ const DateRange: React.FC<DateRangeProps> = ({ dateRangeType, isDisabled, onSele
     }[] = [
       {
         label: messages.dateRange,
-        value: DateRangeType.lastTwelveMonths,
+        value: DateRangeType.twelveMonths,
       },
       {
         label: messages.dateRange,
-        value: DateRangeType.lastSixMonths,
+        value: DateRangeType.sixMonths,
       },
       {
         label: messages.dateRange,
-        value: DateRangeType.lastThreeMonths,
+        value: DateRangeType.threeMonths,
       },
       { label: messages.dateRange, value: DateRangeType.custom },
     ];
     return options;
   };
 
-  const handleOnSelect = (_evt, value) => {
+  const handleOnSelect = (_evt: any, value: string) => {
     if (onSelect) {
       onSelect(value);
     }
@@ -62,31 +68,14 @@ const DateRange: React.FC<DateRangeProps> = ({ dateRangeType, isDisabled, onSele
         onOpenChange={(val: boolean) => setIsOpen(val)}
         toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
           <MenuToggle isDisabled={isDisabled} isExpanded={isOpen} isFullWidth onClick={onToggleClick} ref={toggleRef}>
-            {intl.formatMessage(messages.explorerDateRange, { value: dateRangeType })}
+            {intl.formatMessage(messages.dateRange, { value: dateRangeType })}
           </MenuToggle>
         )}
       >
         <DropdownList>
           {getOptions().map((option, index) => {
-            const { start_date, end_date } = getDateRange(option.value, false);
-            const dateRange = intl.formatDateTimeRange(start_date, end_date, {
-              day: 'numeric',
-              month: 'long',
-            });
             return (
-              <DropdownItem
-                value={option.value}
-                isAriaDisabled={option.isDisabled}
-                key={index}
-                tooltipProps={
-                  option.isDisabled
-                    ? {
-                        content: intl.formatMessage(messages.noDataForDate, { dateRange }),
-                        position: 'right',
-                      }
-                    : undefined
-                }
-              >
+              <DropdownItem value={option.value} isAriaDisabled={option.isDisabled} key={index}>
                 {intl.formatMessage(option.label, { value: option.value })}
               </DropdownItem>
             );
