@@ -13,18 +13,15 @@ import {
   updateDataRetentionSuccess,
 } from 'store/dataRetention/dataRetentionActions';
 
-import { useDataRetentionNotifications } from './utils';
+import { useDataRetentionNotifications } from './hooks';
 
 jest.mock('@redhat-cloud-services/frontend-components-notifications/hooks', () => ({
   useAddNotification: jest.fn(() => jest.fn()),
 }));
 
 describe('useDataRetentionNotifications', () => {
-  const setupStore = () =>
-    createStore(combineReducers({ [dataRetentionStateKey]: dataRetentionReducer }), applyMiddleware(thunk));
-
   const wrapperFor =
-    (store: ReturnType<typeof setupStore>) =>
+    (store: ReturnType<typeof createStore>) =>
     ({ children }: { children: React.ReactNode }) =>
       <Provider store={store}>{children}</Provider>;
 

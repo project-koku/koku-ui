@@ -9,12 +9,12 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { CostType } from 'routes/components/costType';
 import { Currency } from 'routes/components/currency';
-import { DataRetention } from 'routes/settings/components/dataRetention';
 import { useAccountSettingsNotifications } from 'routes/settings/utils/hooks';
 import type { RootState } from 'store';
 import { accountSettingsActions } from 'store/accountSettings';
 import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
 
+import { DataRetention } from './dataRetention';
 import { styles } from './display.styles';
 
 interface DisplayOwnProps {

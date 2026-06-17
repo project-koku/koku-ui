@@ -1497,6 +1497,17 @@ export default defineMessages({
     description: 'Start date',
     id: 'datePickerStartDateAriaLabel',
   },
+  dateRange: {
+    defaultMessage:
+      '{value, select, ' +
+      'custom {Custom} ' +
+      'six_months {6 months} ' +
+      'three_months {3 months} ' +
+      'twelve_months {12 months} ' +
+      'other {}}',
+    description: 'Date range based on {value}',
+    id: 'dateRange',
+  },
   default: {
     defaultMessage: 'Default',
     description: 'Default',
@@ -3052,6 +3063,11 @@ export default defineMessages({
     defaultMessage: 'Month over month change',
     description: 'Month over month change',
     id: 'monthOverMonthChange',
+  },
+  months: {
+    defaultMessage: 'Months',
+    description: 'Months',
+    id: 'months',
   },
   moreOptions: {
     defaultMessage: 'More options',

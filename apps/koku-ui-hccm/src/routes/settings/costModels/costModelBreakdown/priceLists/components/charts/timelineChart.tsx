@@ -66,7 +66,7 @@ const TimelineChart: React.FC<TimelineChartProps> = ({ isReset, onResetClick, pr
       effectiveEndDate, // Save for tooltip
       effectiveStartDate, // Save for tooltip
       name: item?.name ?? '',
-      priority: item?.priority ?? undefined,
+      priority: priceLists.length - index, // Derive priority from array position so drag-and-drop updates active bar
       x: `${priceLists.length - index} ${item.name ?? ''}`,
       y0: startDate,
       y: endDate,
