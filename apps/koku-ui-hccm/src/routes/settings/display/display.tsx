@@ -21,6 +21,11 @@ interface DisplayOwnProps {
   canWrite?: boolean;
 }
 
+export interface DisplayMapProps {
+  setCostType: (value: string) => void;
+  setCurrency: (value: string) => void;
+}
+
 export interface DisplayStateProps {
   // TBD...
 }
@@ -36,7 +41,7 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  useMapToProps(setCostType, setCurrency);
+  useMapToProps({ setCostType, setCurrency });
 
   const getCostType = () => {
     return (
@@ -102,11 +107,11 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
     );
   };
 
-  const getTooltip = comp => {
+  const getTooltip = (comp: React.ReactElement) => {
     return !canWrite ? <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{comp}</Tooltip> : comp;
   };
 
-  const handleOnCostType = value => {
+  const handleOnCostType = (value: string) => {
     dispatch(
       accountSettingsActions.updateAccountSettings(AccountSettingsType.costType, {
         cost_type: value,
@@ -114,7 +119,7 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
     );
   };
 
-  const handleOnCurrency = value => {
+  const handleOnCurrency = (value: string) => {
     dispatch(
       accountSettingsActions.updateAccountSettings(AccountSettingsType.currency, {
         currency: value,
@@ -133,7 +138,7 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   );
 };
 
-const useMapToProps = (setCostType, setCurrency): DisplayStateProps => {
+const useMapToProps = ({ setCostType, setCurrency }: DisplayMapProps): DisplayStateProps => {
   // Notifications
   useAccountSettingsNotifications({
     getSessionValue: getAccountCostType,
@@ -148,7 +153,7 @@ const useMapToProps = (setCostType, setCurrency): DisplayStateProps => {
   });
 
   return {
-    isOrgAdmin: useIsOrgAdmin(),
+    // TBD...
   };
 };
 

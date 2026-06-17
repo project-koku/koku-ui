@@ -1415,13 +1415,13 @@ export default defineMessages({
     id: 'dataDetailsRetrieval',
   },
   dataRetentionErrorDesc: {
-    defaultMessage: '{value, select, ' + 'update {Failed to update price list} ' + 'other {}}',
-    description: 'Price list created or updated',
+    defaultMessage: '{value, select, ' + 'update {Failed to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
     id: 'dataRetentionErrorDesc',
   },
   dataRetentionErrorTitle: {
-    defaultMessage: '{value, select, ' + 'update {Unable to update price list} ' + 'other {}}',
-    description: 'Price list created or updated',
+    defaultMessage: '{value, select, ' + 'update {Unable to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
     id: 'dataRetentionErrorTitle',
   },
   dataRetentionInputAriaLabel: {
@@ -1462,8 +1462,8 @@ export default defineMessages({
     id: 'dataRetentionPlusBtnAriaLabel',
   },
   dataRetentionSuccess: {
-    defaultMessage: '{value, select, ' + 'update {Price list updated} ' + 'other {}}',
-    description: 'Price list created or updated',
+    defaultMessage: '{value, select, ' + 'update {Data retention period updated} ' + 'other {}}',
+    description: 'Data retention period updated',
     id: 'dataRetentionSuccess',
   },
   dataRetentionSuccessChanges: {

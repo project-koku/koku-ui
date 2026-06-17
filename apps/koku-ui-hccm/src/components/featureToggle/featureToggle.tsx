@@ -123,8 +123,7 @@ export const useFeatureToggle = () => {
   };
 
   // Flag indicating user has org admin permissions
-  let isOrgAdmin = false;
-  fetchUser(identity => (isOrgAdmin = identity?.user?.is_org_admin));
+  const isOrgAdmin = useIsOrgAdmin();
 
   useLayoutEffect(() => {
     // Workaround for code that doesn't use hooks

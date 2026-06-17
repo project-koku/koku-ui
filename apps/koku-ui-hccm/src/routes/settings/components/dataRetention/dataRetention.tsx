@@ -2,6 +2,7 @@ import { NumberInput } from '@patternfly/react-core';
 import { DataRetention, DataRetentionType } from 'api/dataRetention';
 import { getQuery } from 'api/queries/query';
 import type { AxiosError } from 'axios';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -14,7 +15,6 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { dataRetentionActions, dataRetentionSelectors } from 'store/dataRetention';
 
-import { isSettingsDataRetentionPeriodEnabled } from '../../../../components/featureToggle';
 import { useDataRetentionNotifications } from './utils';
 
 interface DataRetentionOwnProps {
@@ -34,13 +34,13 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled, onRetentionPe
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const [retentionPeriod, setRetentionPeriod] = useState<number | ''>(0);
-  const [minValue] = useState<number>(90);
-  const [maxValue] = useState<number>(120);
+  const maxValue = 120;
+  const minValue = 90;
+  const [retentionPeriod, setRetentionPeriod] = useState<number | ''>(minValue);
 
   const { dataRetention, dataRetentionError, dataRetentionFetchStatus } = useMapToProps();
 
-  const normalizeBetween = (value, min, max) => {
+  const normalizeBetween = (value: number, min: number, max: number): number => {
     if (min !== undefined && max !== undefined) {
       return Math.max(Math.min(value, max), min);
     } else if (value <= min) {
@@ -51,29 +51,39 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled, onRetentionPe
     return value;
   };
 
-  const onMinus = () => {
+  // Handlers
+
+  const handleRetentionPeriodUpdate = (value: number) => {
+    onRetentionPeriodUpdate?.(value);
+    dispatch(
+      dataRetentionActions.updateDataRetention(DataRetentionType.dataRetentionUpdate, 'test', {
+        name: 'test',
+      })
+    );
+  };
+
+  const handleOnMinus = () => {
     const newValue = normalizeBetween((retentionPeriod as number) - 1, minValue, maxValue);
     setRetentionPeriod(newValue);
+    handleRetentionPeriodUpdate(newValue);
   };
 
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleOnChange = (event: React.FormEvent<HTMLInputElement>) => {
     const targetValue = (event.target as HTMLInputElement).value;
-    setRetentionPeriod((retentionPeriod === '' ? targetValue : +targetValue) as number);
+    setRetentionPeriod(targetValue === '' ? '' : +targetValue);
   };
 
-  const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const targetValue = +event.target.value;
-
-    if (targetValue < minValue) {
-      setRetentionPeriod(minValue);
-    } else if (targetValue > maxValue) {
-      setRetentionPeriod(maxValue);
-    }
+    const clampedValue = isNaN(targetValue) ? minValue : normalizeBetween(targetValue, minValue, maxValue);
+    setRetentionPeriod(clampedValue);
+    handleRetentionPeriodUpdate(clampedValue);
   };
 
-  const onPlus = () => {
+  const handleOnPlus = () => {
     const newValue = normalizeBetween((retentionPeriod as number) + 1, minValue, maxValue);
     setRetentionPeriod(newValue);
+    handleRetentionPeriodUpdate(newValue);
   };
 
   // Events
@@ -85,18 +95,6 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled, onRetentionPe
       setRetentionPeriod(newValue);
     }
   }, [dataRetention, dataRetentionError, dataRetentionFetchStatus]);
-
-  useEffect(() => {
-    // Todo: update when data-retention API is available
-    if (retentionPeriod !== '') {
-      onRetentionPeriodUpdate?.(retentionPeriod);
-      dispatch(
-        dataRetentionActions.updateDataRetention(DataRetentionType.dataRetentionUpdate, 'test', {
-          name: 'test',
-        })
-      );
-    }
-  }, [retentionPeriod]);
 
   if (dataRetentionError) {
     return <NotAvailable />;
@@ -117,10 +115,10 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled, onRetentionPe
           max={maxValue}
           min={minValue}
           minusBtnAriaLabel={intl.formatMessage(messages.dataRetentionMinusBtnAriaLabel)}
-          onMinus={onMinus}
-          onChange={onChange}
-          onBlur={onBlur}
-          onPlus={onPlus}
+          onMinus={handleOnMinus}
+          onChange={handleOnChange}
+          onBlur={handleOnBlur}
+          onPlus={handleOnPlus}
           plusBtnAriaLabel={intl.formatMessage(messages.dataRetentionPlusBtnAriaLabel)}
           value={retentionPeriod}
         />

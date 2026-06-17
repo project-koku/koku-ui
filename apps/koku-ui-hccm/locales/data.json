@@ -2972,7 +2972,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Failed to update price list"
+                "value": "Failed to update data retention period"
               }
             ]
           },
@@ -2991,7 +2991,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Unable to update price list"
+                "value": "Unable to update data retention period"
               }
             ]
           },
@@ -3052,7 +3052,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Price list updated"
+                "value": "Data retention period updated"
               }
             ]
           },

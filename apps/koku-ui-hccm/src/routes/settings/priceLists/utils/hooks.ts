@@ -9,6 +9,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
+import type { Notification } from 'utils/notification';
 
 interface NotificationProps {
   error: AxiosError;

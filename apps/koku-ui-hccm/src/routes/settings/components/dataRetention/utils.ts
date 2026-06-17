@@ -8,6 +8,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { dataRetentionActions, dataRetentionSelectors } from 'store/dataRetention';
+import type { Notification } from 'utils/notification';
 
 interface NotificationProps {
   error: AxiosError;

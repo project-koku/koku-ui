@@ -46,6 +46,7 @@ export const enum DataRetentionType {
 }
 
 export const DataRetentionPathsType: Partial<Record<DataRetentionType, string>> = {
+  // TODO: Update to correct data retention endpoint when available
   [DataRetentionType.dataRetention]: 'price-lists/',
   [DataRetentionType.dataRetentionUpdate]: 'price-lists/',
 };
