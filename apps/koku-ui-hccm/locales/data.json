@@ -33,6 +33,12 @@
     "assignPriceListsDesc": [
       {
         "type": 0,
+        "value": "Deprecated price lists are not shown in this list."
+      }
+    ],
+    "assignPriceListsWizardDesc": [
+      {
+        "type": 0,
         "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list."
       }
     ],
@@ -2265,7 +2271,7 @@
     "cpuEfficiencyInfoFormulaWastedCost": [
       {
         "type": 0,
-        "value": "savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
+        "value": "savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "cpuTitle": [
@@ -2629,6 +2635,22 @@
               }
             ]
           },
+          "GHS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GHS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ghanaian Cedi"
+              }
+            ]
+          },
           "HKD": {
             "value": [
               {
@@ -2955,6 +2977,111 @@
       {
         "type": 0,
         "value": "Data retrieval"
+      }
+    ],
+    "dataRetentionErrorDesc": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to update data retention period"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionErrorTitle": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to update data retention period"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionInputAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period number input"
+      }
+    ],
+    "dataRetentionLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your data retention period. Do not refresh the browser"
+      }
+    ],
+    "dataRetentionLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for data retention period..."
+      }
+    ],
+    "dataRetentionMinusBtnAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period minus button"
+      }
+    ],
+    "dataRetentionPeriod": [
+      {
+        "type": 0,
+        "value": "Data retention period"
+      }
+    ],
+    "dataRetentionPeriodDesc": [
+      {
+        "type": 0,
+        "value": "Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment."
+      }
+    ],
+    "dataRetentionPlusBtnAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period plus button"
+      }
+    ],
+    "dataRetentionSuccess": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data retention period updated"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionSuccessChanges": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected in report summarizations within 24 hours"
       }
     ],
     "dataTableAriaLabel": [
@@ -4331,6 +4458,24 @@
         "value": "Discount (-)"
       }
     ],
+    "display": [
+      {
+        "type": 0,
+        "value": "Display"
+      }
+    ],
+    "displayCurrency": [
+      {
+        "type": 0,
+        "value": "Display currency"
+      }
+    ],
+    "displayCurrencyDesc": [
+      {
+        "type": 0,
+        "value": "Uses static rates from the table when they apply; otherwise, dynamic rates"
+      }
+    ],
     "distribute": [
       {
         "type": 0,
@@ -4587,7 +4732,7 @@
     "docsCostCategory": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configuring-categories_planning"
       }
     ],
     "docsCostManagement": [
@@ -4599,7 +4744,7 @@
     "docsCostModelTerminology": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#cost-model-terminology"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#con-using-cost-models_reflect-costs"
       }
     ],
     "docsCostModels": [
@@ -4611,25 +4756,25 @@
     "docsCostModelsDistribution": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#distributing_costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#understanding-cost-distribution_reflect-costs"
       }
     ],
     "docsCostModelsGpu": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_reflect-costs"
       }
     ],
     "docsCostModelsMarkup": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs"
       }
     ],
     "docsCostModelsOcp": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#creating-an-ocp-cost-model_reflect-costs"
       }
     ],
     "docsIntegrations": [
@@ -4671,19 +4816,19 @@
     "docsOcpCli": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/assembly-adding-openshift-container-platform-int?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#installing-cost-operator-cli_adding-an-ocp-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp#installing-cost-operator-cli_integrating-ocp"
       }
     ],
     "docsPlatformProjects": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#adding-openshift-projects"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-using-cost-models_reflect-costs#add-openshift-projects_reflect-costs"
       }
     ],
     "docsPriceList": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#calculating-effective-cost-max_reflect-costs"
       }
     ],
     "docsReleases": [
@@ -4701,13 +4846,13 @@
     "docsTags": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configure-tags_planning"
       }
     ],
     "docsTroubleshooting": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_adding-an-ocp-int"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_integrating-ocp"
       }
     ],
     "docsUsingCostModels": [
@@ -8045,6 +8190,14 @@
               }
             ]
           },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by currency"
+              }
+            ]
+          },
           "description": {
             "value": [
               {
@@ -8335,6 +8488,14 @@
               {
                 "type": 0,
                 "value": "Container"
+              }
+            ]
+          },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Currency"
               }
             ]
           },
@@ -11196,7 +11357,7 @@
     "memoryEfficiencyInfoFormulaWasteCost": [
       {
         "type": 0,
-        "value": "savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)"
+        "value": "savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)"
       }
     ],
     "memoryTitle": [
@@ -12443,13 +12604,37 @@
     "priceListEmptyPriceLists": [
       {
         "type": 0,
+        "value": "No active price lists"
+      }
+    ],
+    "priceListEmptyPriceListsAssigned": [
+      {
+        "type": 0,
         "value": "No price lists are assigned"
+      }
+    ],
+    "priceListEmptyPriceListsAssignedDesc": [
+      {
+        "type": 0,
+        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAssignedWizardDesc": [
+      {
+        "type": 0,
+        "value": "Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings."
+      }
+    ],
+    "priceListEmptyPriceListsAvailable": [
+      {
+        "type": 0,
+        "value": "No price lists are available"
       }
     ],
     "priceListEmptyPriceListsDesc": [
       {
         "type": 0,
-        "value": "Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings."
+        "value": "Price lists may be deprecated. Turn on Show deprecated to view and restore them."
       }
     ],
     "priceListEmptyRate": [
@@ -14720,7 +14905,7 @@
     "wastedCost": [
       {
         "type": 0,
-        "value": "Savings opportunity"
+        "value": "Savings opportunity estimate"
       }
     ],
     "workerUnallocated": [

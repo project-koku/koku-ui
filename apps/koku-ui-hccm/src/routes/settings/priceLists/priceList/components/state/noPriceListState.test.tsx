@@ -1,25 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
-import { MemoryRouter } from 'react-router-dom';
-
-import { routerFuture } from 'testUtils';
 
 import { NoPriceListState } from './noPriceListState';
 
 describe('NoPriceListState', () => {
-  test('renders empty state with create action when canWrite', () => {
+  test('renders empty state message', () => {
     render(
-      <MemoryRouter future={routerFuture}>
-        <IntlProvider locale="en">
-          <NoPriceListState canWrite />
-        </IntlProvider>
-      </MemoryRouter>
+      <IntlProvider locale="en">
+        <NoPriceListState />
+      </IntlProvider>
     );
 
-    expect(screen.getByText(/no price lists are assigned/i)).toBeInTheDocument();
-    expect(screen.getByText(/use assign price lists/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /create a price list/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /create a price list/i })).not.toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByText(/no active price lists/i)).toBeInTheDocument();
+    expect(screen.getByText(/show deprecated/i)).toBeInTheDocument();
   });
 });

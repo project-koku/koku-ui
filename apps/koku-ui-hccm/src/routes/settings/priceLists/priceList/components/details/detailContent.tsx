@@ -62,15 +62,15 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
     const [description, setDescription] = useState<string>(priceList?.description ?? '');
     const [descriptionBaseline] = useState<string>(priceList?.description ?? '');
     const [descriptionError, setDescriptionError] = useState<MessageDescriptor>();
-    const [endDate, setEndDate] = useState<Date | undefined>(effectiveEnd);
-    const [endDateBaseline] = useState<Date | undefined>(effectiveEnd);
+    const [endDate, setEndDate] = useState<Date>(effectiveEnd);
+    const [endDateBaseline] = useState<Date>(effectiveEnd);
     const [endDateError, setEndDateError] = useState<MessageDescriptor>();
     const [isInfoAlertOpen, setIsInfoAlertOpen] = useState(true);
     const [name, setName] = useState<string>(priceList?.name ?? '');
     const [nameBaseline] = useState<string>(priceList?.name ?? '');
     const [nameError, setNameError] = useState<MessageDescriptor>();
-    const [startDate, setStartDate] = useState<Date | undefined>(effectiveStart);
-    const [startDateBaseline] = useState<Date | undefined>(effectiveStart);
+    const [startDate, setStartDate] = useState<Date>(effectiveStart);
+    const [startDateBaseline] = useState<Date>(effectiveStart);
     const [startDateError, setStartDateError] = useState<MessageDescriptor>();
 
     const isCurrencyDirty = currency !== currencyBaseline && !isEditDetails;

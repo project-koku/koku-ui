@@ -147,17 +147,9 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
 
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === PriceListBreakdownTab.costModels) {
-      return <CostModels isParentLoading={isLoading} />;
+      return <CostModels />;
     } else if (currentTab === PriceListBreakdownTab.rates) {
-      return (
-        <Rate
-          canWrite={canWrite()}
-          isParentLoading={isLoading}
-          onAdd={forceUpdate}
-          onDelete={forceUpdate}
-          onEdit={handleOnEdit}
-        />
-      );
+      return <Rate canWrite={canWrite()} onAdd={forceUpdate} onDelete={forceUpdate} onEdit={handleOnEdit} />;
     } else {
       return emptyTab;
     }
@@ -236,14 +228,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
             onEdit={handleOnEdit}
             priceList={priceList}
           />
-          {isLoading ? (
-            <LoadingState
-              body={intl.formatMessage(messages.priceListLoadingStateDesc)}
-              heading={intl.formatMessage(messages.priceListLoadingStateTitle)}
-            />
-          ) : (
-            <div style={styles.tabs}>{getTabs(availableTabs)}</div>
-          )}
+          <div style={styles.tabs}>{getTabs(availableTabs)}</div>
         </header>
       </PageSection>
       <PageSection>{getTabContent(availableTabs)}</PageSection>

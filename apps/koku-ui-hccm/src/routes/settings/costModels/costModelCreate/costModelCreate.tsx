@@ -9,6 +9,7 @@ import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from 'routes';
@@ -39,6 +40,7 @@ interface CostModelCreateStateProps {
 type CostModelCreateProps = CostModelCreateOwnProps;
 
 const CostModelCreate: React.FC<CostModelCreateProps> = () => {
+  const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
 
