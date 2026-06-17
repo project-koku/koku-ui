@@ -17,6 +17,9 @@ export const enum DateRangeType {
   lastNinetyDays = 'last_ninety_days', // Last 90 days
   lastSixtyDays = 'last_sixty_days', // Last 60 days (Nov 18 - Jan 17)
   lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
+  lastThreeMonths = 'last_three_months', // Last 3 months
+  lastSixMonths = 'last_six_months', // last 6 months
+  lastTwelveMonths = 'last_twelve_months', // Last 12 months
 }
 
 export const getDateRangeById = (value: string) => {
@@ -35,6 +38,12 @@ export const getDateRangeById = (value: string) => {
       return DateRangeType.lastSixtyDays;
     case 'last_thirty_days':
       return DateRangeType.lastThirtyDays;
+    case 'three_months':
+      return DateRangeType.lastThirtyDays;
+    case 'six_months':
+      return DateRangeType.lastSixMonths;
+    case 'twelve_months':
+      return DateRangeType.lastTwelveMonths;
   }
 };
 

@@ -1,4 +1,3 @@
-import { NumberInput } from '@patternfly/react-core';
 import { DataRetention, DataRetentionType } from 'api/dataRetention';
 import { getQuery } from 'api/queries/query';
 import type { AxiosError } from 'axios';
@@ -11,15 +10,17 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { DateRangeType } from 'routes/utils/dateRange';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { dataRetentionActions, dataRetentionSelectors } from 'store/dataRetention';
 
+import { CustomDateRange, DateRange } from './components';
+import { styles } from './dataRetention.styles';
 import { useDataRetentionNotifications } from './utils';
 
 interface DataRetentionOwnProps {
   isDisabled?: boolean;
-  onRetentionPeriodUpdate?: (value: number) => void;
 }
 
 export interface DataRetentionStateProps {
@@ -30,69 +31,78 @@ export interface DataRetentionStateProps {
 
 type DataRetentionProps = DataRetentionOwnProps;
 
-const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled, onRetentionPeriodUpdate }) => {
+const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const maxValue = 120;
-  const minValue = 90;
-  const [retentionPeriod, setRetentionPeriod] = useState<number | ''>(minValue);
+  const [isCustomDateRange, setIsCustomDateRange] = useState(false);
+  const [retentionPeriod, setRetentionPeriod] = useState<number>(3);
 
   const { dataRetention, dataRetentionError, dataRetentionFetchStatus } = useMapToProps();
 
-  const normalizeBetween = (value: number, min: number, max: number): number => {
-    if (min !== undefined && max !== undefined) {
-      return Math.max(Math.min(value, max), min);
-    } else if (value <= min) {
-      return min;
-    } else if (value >= max) {
-      return max;
+  // Getters
+
+  const getDateRangeType = dataRetentionPeriod => {
+    switch (dataRetentionPeriod) {
+      case 12:
+        return DateRangeType.lastTwelveMonths;
+      case 6:
+        return DateRangeType.lastSixMonths;
+      case 3:
+      default:
+        return DateRangeType.lastThreeMonths;
     }
-    return value;
   };
 
   // Handlers
 
-  const handleRetentionPeriodUpdate = (value: number) => {
-    onRetentionPeriodUpdate?.(value);
+  const handleOnDataRetentionUpdate = (value: number) => {
     dispatch(
       dataRetentionActions.updateDataRetention(DataRetentionType.dataRetentionUpdate, 'test', {
-        name: 'test',
+        name: `test:${value}`,
       })
     );
   };
 
-  const handleOnMinus = () => {
-    const newValue = normalizeBetween((retentionPeriod as number) - 1, minValue, maxValue);
-    setRetentionPeriod(newValue);
-    handleRetentionPeriodUpdate(newValue);
-  };
+  const handleOnDateRangeSelect = (value: DateRangeType) => {
+    if (value === DateRangeType.custom) {
+      setIsCustomDateRange(true);
+      return;
+    }
 
-  const handleOnChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const targetValue = (event.target as HTMLInputElement).value;
-    setRetentionPeriod(targetValue === '' ? '' : +targetValue);
-  };
+    let newRetentionPeriod;
+    switch (value) {
+      case DateRangeType.lastTwelveMonths:
+        newRetentionPeriod = 12;
+        break;
+      case DateRangeType.lastSixMonths:
+        newRetentionPeriod = 6;
+        break;
+      case DateRangeType.lastThreeMonths:
+        newRetentionPeriod = 3;
+        break;
+    }
 
-  const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const targetValue = +event.target.value;
-    const clampedValue = isNaN(targetValue) ? minValue : normalizeBetween(targetValue, minValue, maxValue);
-    setRetentionPeriod(clampedValue);
-    handleRetentionPeriodUpdate(clampedValue);
-  };
+    if (newRetentionPeriod !== undefined) {
+      setRetentionPeriod(newRetentionPeriod);
+      setIsCustomDateRange(false);
 
-  const handleOnPlus = () => {
-    const newValue = normalizeBetween((retentionPeriod as number) + 1, minValue, maxValue);
-    setRetentionPeriod(newValue);
-    handleRetentionPeriodUpdate(newValue);
+      dispatch(
+        dataRetentionActions.updateDataRetention(DataRetentionType.dataRetentionUpdate, 'test', {
+          name: `test: ${newRetentionPeriod}`,
+        })
+      );
+    }
   };
 
   // Events
 
   useEffect(() => {
     if (dataRetention && !dataRetentionError && dataRetentionFetchStatus !== FetchStatus.inProgress) {
+      const dataRetentionPeriod = 3;
+
       // Todo: update value when data-retention API is available
-      const newValue = normalizeBetween(90, minValue, maxValue);
-      setRetentionPeriod(newValue);
+      setRetentionPeriod(dataRetentionPeriod);
     }
   }, [dataRetention, dataRetentionError, dataRetentionFetchStatus]);
 
@@ -100,30 +110,32 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled, onRetentionPe
     return <NotAvailable />;
   }
 
+  if (dataRetentionFetchStatus === FetchStatus.inProgress) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.dataRetentionLoadingStateDesc)}
+        heading={intl.formatMessage(messages.dataRetentionLoadingStateTitle)}
+      />
+    );
+  }
+
   return (
-    <>
-      {dataRetentionFetchStatus === FetchStatus.inProgress ? (
-        <LoadingState
-          body={intl.formatMessage(messages.dataRetentionLoadingStateDesc)}
-          heading={intl.formatMessage(messages.dataRetentionLoadingStateTitle)}
-        />
-      ) : (
-        <NumberInput
-          inputAriaLabel={intl.formatMessage(messages.dataRetentionInputAriaLabel)}
-          inputName="data-retention-period"
-          isDisabled={isDisabled}
-          max={maxValue}
-          min={minValue}
-          minusBtnAriaLabel={intl.formatMessage(messages.dataRetentionMinusBtnAriaLabel)}
-          onMinus={handleOnMinus}
-          onChange={handleOnChange}
-          onBlur={handleOnBlur}
-          onPlus={handleOnPlus}
-          plusBtnAriaLabel={intl.formatMessage(messages.dataRetentionPlusBtnAriaLabel)}
-          value={retentionPeriod}
-        />
+    <div style={styles.dateRange}>
+      <DateRange
+        dateRangeType={isCustomDateRange ? DateRangeType.custom : getDateRangeType(retentionPeriod)}
+        isDisabled={isDisabled}
+        onSelect={handleOnDateRangeSelect}
+      />
+      {isCustomDateRange && (
+        <div style={styles.customDateRange}>
+          <CustomDateRange
+            inputValue={retentionPeriod}
+            isDisabled={isDisabled}
+            onUpdate={handleOnDataRetentionUpdate}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

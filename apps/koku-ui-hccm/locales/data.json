@@ -3114,6 +3114,49 @@
         "value": "Start date"
       }
     ],
+    "dateRange": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "custom": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Custom"
+              }
+            ]
+          },
+          "last_three_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "3 months"
+              }
+            ]
+          },
+          "last_six_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "6 months"
+              }
+            ]
+          },
+          "last_twelve_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "12 months"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
     "default": [
       {
         "type": 0,
@@ -5148,6 +5191,30 @@
               {
                 "type": 0,
                 "value": "Last 30 days"
+              }
+            ]
+          },
+          "last_three_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last 3 months"
+              }
+            ]
+          },
+          "last_six_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last 6 months"
+              }
+            ]
+          },
+          "last_twelve_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last 12 months"
               }
             ]
           },
@@ -11498,6 +11565,12 @@
       {
         "type": 0,
         "value": "Month over month change"
+      }
+    ],
+    "months": [
+      {
+        "type": 0,
+        "value": "Months"
       }
     ],
     "moreOptions": [
