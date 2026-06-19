@@ -3,7 +3,7 @@ import {
   makeMockSource,
   registerSourcesIntegrationApi,
   type SourcesIntegrationStore,
-} from '../../support/sources-integration-intercepts';
+} from '../../../support/sources-integration-intercepts';
 
 const visitIntegrationsTab = (options?: { emptyListOk?: boolean }) => {
   cy.visit('/openshift/cost-management/settings');
@@ -291,7 +291,7 @@ describe('Settings — Integrations (Sources)', () => {
     });
   });
 
-  it.skip('pauses an active integration (skipped: backend pause currently broken)', () => {
+  it('pauses an active integration', () => {
     store.rows = [
       makeMockSource({
         id: 9,

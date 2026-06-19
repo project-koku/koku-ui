@@ -1,0 +1,11 @@
+# Workspace symlink (points outside repo); not used by Containerfile
+docs
+
+.git
+**/node_modules
+**/.cache
+# dist/ required for Containerfile.runtime (prebuilt on host)
+# **/dist
+**/coverage
+**/.cypress
+**/.nx

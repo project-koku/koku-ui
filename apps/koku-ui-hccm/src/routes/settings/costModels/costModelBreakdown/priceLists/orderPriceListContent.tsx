@@ -259,13 +259,23 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
 
         if (costModel?.uuid && isDispatch) {
           setIsFinish(true);
-          setIsDraggable(false);
 
           const uuids = itemsWithPriority.map(item => item.uuid) ?? [];
 
+          // Workaround for cost models API's unsupported rate_id
+          const newCostModel = {
+            ...(costModel ?? {}),
+            ...(costModel?.rates && {
+              rates: costModel?.rates?.map(rate => ({
+                ...rate,
+                rate_id: undefined,
+              })),
+            }),
+          };
+
           dispatch(
             costModelsActions.updateCostModel(costModel?.uuid, {
-              ...(costModel ?? {}),
+              ...(newCostModel ?? {}),
               price_lists: undefined,
               price_list_uuids: uuids,
               source_type: getSourceType(costModel?.source_type),
@@ -309,13 +319,17 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
     });
 
     useEffect(() => {
+      if (isFinish || costModelsUpdateStatus === FetchStatus.inProgress) {
+        return;
+      }
       setOrderedPriceLists(priceLists ?? []);
       setOrderedPriceListsBaseline(priceLists ?? []);
-    }, [priceLists]);
+    }, [costModelsUpdateStatus, isFinish, priceLists]);
 
     useEffect(() => {
       if (isFinish && costModelsUpdateStatus === FetchStatus.complete) {
         setIsFinish(false);
+        setIsDraggable(false);
 
         if (!costModelsUpdateError) {
           onSave?.(payload);

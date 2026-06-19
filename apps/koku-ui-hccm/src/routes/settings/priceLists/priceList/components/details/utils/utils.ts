@@ -1,7 +1,14 @@
+import { startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 
+const getTodayDate = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+};
+
 export const getEffectiveDate = (date: string) => {
-  const newDate = date ? new Date(date + 'T00:00:00') : undefined;
+  const newDate = date ? new Date(date + 'T00:00:00') : getTodayDate();
   if (newDate && !isNaN(newDate.getTime())) {
     return newDate;
   }
@@ -13,7 +20,7 @@ export const getEffectiveDate = (date: string) => {
 // effective_end_date must be on the last day of the month.
 export const getEffectiveEndDate = (date: Date) => {
   if (!date) {
-    return undefined;
+    return getTodayDate();
   }
   const newDate = new Date(date);
   const lastDayOfMonth = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0);
@@ -26,9 +33,7 @@ export const getEffectiveStartDate = (date: Date) => {
   if (!date) {
     return undefined;
   }
-  const newDate = new Date(date);
-  newDate.setDate(1);
-  return newDate;
+  return startOfMonth(new Date(date));
 };
 
 export const validateDescription = (value: string) => {

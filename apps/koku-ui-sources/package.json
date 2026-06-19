@@ -14,8 +14,8 @@
   "scripts": {
     "build": "npm run build:onprem",
     "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack.config.ts --mode=production --color --progress",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist .cache",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
@@ -36,7 +36,7 @@
     "@patternfly/react-tokens": "6.5.1",
     "@redhat-cloud-services/frontend-components-notifications": "^6.9.1",
     "@reduxjs/toolkit": "^2.12.0",
-    "axios": "^1.16.1",
+    "axios": "^1.18.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
 
@@ -46,10 +46,10 @@
     "redux": "^5.0.1"
   },
   "devDependencies": {
-    "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.2.0",
     "msw": "^2.14.6",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
-    "ts-loader": "^9.6.0",
+    "ts-loader": "^9.6.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

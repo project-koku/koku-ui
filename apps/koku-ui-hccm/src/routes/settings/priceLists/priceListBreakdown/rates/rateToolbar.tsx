@@ -114,6 +114,7 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
       resourcePathsType={ResourcePathsType.ocp}
       selectedItems={selectedItems}
       showFilter
+      useActiveFilters
     />
   );
 };

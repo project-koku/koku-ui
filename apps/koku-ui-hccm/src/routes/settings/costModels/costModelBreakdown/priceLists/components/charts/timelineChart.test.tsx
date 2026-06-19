@@ -2,7 +2,34 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 
+import { FetchStatus } from 'store/common';
+
 import { TimelineChart } from './timelineChart';
+
+const mockFullPriceList = {
+  data: [
+    {
+      uuid: 'pl-1',
+      name: 'List A',
+      effective_start_date: '2024-01-01',
+      effective_end_date: '2024-06-30',
+    },
+    {
+      uuid: 'pl-2',
+      name: 'List B',
+      effective_start_date: '2024-07-01',
+      effective_end_date: '2024-12-31',
+    },
+  ],
+};
+
+jest.mock('../../utils', () => ({
+  useFetchPriceLists: jest.fn(() => ({
+    priceList: mockFullPriceList,
+    priceListError: null,
+    priceListFetchStatus: FetchStatus.complete,
+  })),
+}));
 
 jest.mock('@patternfly/react-tokens/dist/esm/t_chart_color_black_500', () => ({
   __esModule: true,
@@ -17,7 +44,7 @@ jest.mock('@patternfly/react-charts/victory', () => ({
   ChartGroup: ({ children }: any) => <div>{children}</div>,
   ChartLabel: () => null,
   ChartLine: () => null,
-  ChartThemeColor: { multiUnordered: 'multi' },
+  ChartThemeColor: { gray: 'gray', multiUnordered: 'multi' },
   ChartTooltip: () => null,
   ChartVoronoiContainer: () => null,
 }));
