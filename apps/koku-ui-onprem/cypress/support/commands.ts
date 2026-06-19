@@ -390,3 +390,33 @@ Cypress.Commands.add('waitForFederatedModule', () => {
   // Wait for any loading spinners to disappear
   cy.get('.pf-v6-c-spinner', { timeout: 15000 }).should('not.exist');
 });
+
+/** Survives full-page reloads during host↔IAM live e2e (window state is reset on navigation). */
+const liveDepthErrors: string[] = [];
+
+/**
+ * Live e2e: capture console.error for React "Maximum update depth" (FLPATH-4164 nav gate).
+ * Call in beforeEach before cy.visit. Pair with assertNoDepthConsoleErrors in afterEach.
+ */
+Cypress.Commands.add('setupLiveConsoleGuard', () => {
+  liveDepthErrors.length = 0;
+  cy.on('window:before:load', (win) => {
+    const originalError = win.console.error.bind(win.console);
+    win.console.error = (...args: unknown[]) => {
+      const text = args.map(String).join(' ');
+      if (/maximum update depth/i.test(text)) {
+        liveDepthErrors.push(text);
+      }
+      return originalError(...args);
+    };
+  });
+});
+
+Cypress.Commands.add('assertNoDepthConsoleErrors', () => {
+  expect(liveDepthErrors, 'Maximum update depth console errors').to.have.length(0);
+});
+
+/** Live parity: full-page screenshot (written under cypress/screenshots/; copy to pipeline via workspace script). */
+Cypress.Commands.add('captureIamScreenshot', (basename: string) => {
+  cy.screenshot(basename, { capture: 'fullPage' });
+});

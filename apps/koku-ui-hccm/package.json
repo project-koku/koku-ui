@@ -14,8 +14,8 @@
   "scripts": {
     "build": "npm run build:prod",
     "build:prod": "fec build",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "check:messages": "sh scripts/unused-messages.sh",
     "clean": "rimraf dist .cache .swc",
     "codemods": "npx @patternfly/pf-codemods@latest src",
@@ -82,8 +82,8 @@
     "@redhat-cloud-services/frontend-components-utilities": "^7.4.0",
     "@redhat-cloud-services/rbac-client": "^9.0.2",
     "@reduxjs/toolkit": "^2.12.0",
-    "@unleash/proxy-client-react": "^5.0.1",
-    "axios": "^1.16.1",
+    "@unleash/proxy-client-react": "^6.0.0",
+    "axios": "^1.18.0",
     "date-fns": "^4.4.0",
     "echarts": "^6.1.0",
     "js-file-download": "^0.4.12",
@@ -100,7 +100,7 @@
     "victory": "^37.3.6"
   },
   "devDependencies": {
-    "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.2.0",
     "@redhat-cloud-services/frontend-components-config": "^6.11.2",
     "@redhat-cloud-services/tsc-transform-imports": "^1.2.1",
     "ts-patch": "^4.0.1",

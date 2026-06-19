@@ -32,7 +32,7 @@ import { CostModelsTable } from './costModelsTable';
 import { CostModelsToolbar } from './costModelsToolbar';
 
 interface CostModelsOwnProps {
-  isParentLoading?: boolean;
+  // TBD...
 }
 
 export interface CostModelsMapProps {
@@ -51,7 +51,7 @@ const baseQuery: Query = {
   filter_by: {},
 };
 
-const CostModels: React.FC<CostModelsProps> = ({ isParentLoading }: CostModelsProps) => {
+const CostModels: React.FC<CostModelsProps> = () => {
   const intl = useIntl();
   const navigate = useNavigate();
 
@@ -113,9 +113,6 @@ const CostModels: React.FC<CostModelsProps> = ({ isParentLoading }: CostModelsPr
 
   if (priceListError) {
     return <NotAvailable />;
-  }
-  if (isParentLoading) {
-    return null;
   }
   return (
     <>

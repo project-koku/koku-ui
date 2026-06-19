@@ -27,11 +27,16 @@ export default defineMessages({
     id: 'assignPriceLists',
   },
   assignPriceListsDesc: {
+    defaultMessage: 'Deprecated price lists are not shown in this list.',
+    description: 'Deprecated price lists are not shown in this list.',
+    id: 'assignPriceListsDesc',
+  },
+  assignPriceListsWizardDesc: {
     defaultMessage:
       'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list.',
     description:
       'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Deprecated price lists are not shown in this list.',
-    id: 'assignPriceListsDesc',
+    id: 'assignPriceListsWizardDesc',
   },
   assignedCostModels: {
     defaultMessage: 'Assigned cost models',
@@ -1195,8 +1200,8 @@ export default defineMessages({
     id: 'cpuEfficiencyInfoFormulaUsageScore',
   },
   cpuEfficiencyInfoFormulaWastedCost: {
-    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
-    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    defaultMessage: 'savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'cpuEfficiencyInfoFormulaWastedCost',
   },
   cpuTitle: {
@@ -1307,6 +1312,7 @@ export default defineMessages({
       'DKK {DKK ({symbol}) - Danish Krone}' +
       'EUR {EUR ({symbol}) - Euro}' +
       'GBP {GBP ({symbol}) - British Pound}' +
+      'GHS {GHS ({symbol}) - Ghanaian Cedi}' +
       'HKD {HKD ({symbol}) - Hong Kong Dollar}' +
       'INR {INR ({symbol}) - Indian Rupee}' +
       'JPY {JPY ({symbol}) - Japanese Yen}' +
@@ -1409,6 +1415,63 @@ export default defineMessages({
     description: 'Data retrieval',
     id: 'dataDetailsRetrieval',
   },
+  dataRetentionErrorDesc: {
+    defaultMessage: '{value, select, ' + 'update {Failed to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionErrorDesc',
+  },
+  dataRetentionErrorTitle: {
+    defaultMessage: '{value, select, ' + 'update {Unable to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionErrorTitle',
+  },
+  dataRetentionInputAriaLabel: {
+    defaultMessage: 'Data retention period number input',
+    description: 'Data retention period number input',
+    id: 'dataRetentionInputAriaLabel',
+  },
+  dataRetentionLoadingStateDesc: {
+    defaultMessage: 'Searching for your data retention period. Do not refresh the browser',
+    description: 'Searching for your data retention period. Do not refresh the browser',
+    id: 'dataRetentionLoadingStateDesc',
+  },
+  dataRetentionLoadingStateTitle: {
+    defaultMessage: 'Looking for data retention period...',
+    description: 'Looking for data retention period',
+    id: 'dataRetentionLoadingStateTitle',
+  },
+  dataRetentionMinusBtnAriaLabel: {
+    defaultMessage: 'Data retention period minus button',
+    description: 'Data retention period minus button',
+    id: 'dataRetentionMinusBtnAriaLabel',
+  },
+  dataRetentionPeriod: {
+    defaultMessage: 'Data retention period',
+    description: 'Data retention period',
+    id: 'dataRetentionPeriod',
+  },
+  dataRetentionPeriodDesc: {
+    defaultMessage:
+      'Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment.',
+    description:
+      'Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment.',
+    id: 'dataRetentionPeriodDesc',
+  },
+  dataRetentionPlusBtnAriaLabel: {
+    defaultMessage: 'Data retention period plus button',
+    description: 'Data retention period plus button',
+    id: 'dataRetentionPlusBtnAriaLabel',
+  },
+  dataRetentionSuccess: {
+    defaultMessage: '{value, select, ' + 'update {Data retention period updated} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionSuccess',
+  },
+  dataRetentionSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'dataRetentionSuccessChanges',
+  },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
     description: 'Details table',
@@ -1433,6 +1496,17 @@ export default defineMessages({
     defaultMessage: 'Start date',
     description: 'Start date',
     id: 'datePickerStartDateAriaLabel',
+  },
+  dateRange: {
+    defaultMessage:
+      '{value, select, ' +
+      'custom {Custom} ' +
+      'six_months {6 months} ' +
+      'three_months {3 months} ' +
+      'twelve_months {12 months} ' +
+      'other {}}',
+    description: 'Date range based on {value}',
+    id: 'dateRange',
   },
   default: {
     defaultMessage: 'Default',
@@ -1592,13 +1666,13 @@ export default defineMessages({
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'cost_model {Cost model assigned} ' +
-      'cost_models {Assigned cost models}' +
+      'cost_models {Assigned cost models} ' +
       'cost_type {Calculation type} ' +
       'cpu {CPU} ' +
       'currency {Currency} ' +
       'description {Description} ' +
-      'end {End}' +
-      'end_date {End date}' +
+      'end {End} ' +
+      'end_date {End date} ' +
       'gcp_project {Google Cloud project names} ' +
       'group {Group} ' +
       'instance {Instance names} ' +
@@ -1625,8 +1699,8 @@ export default defineMessages({
       'status {Status} ' +
       'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
-      'start {Start}' +
-      'start_date {Start date}' +
+      'start {Start} ' +
+      'start_date {Start date} ' +
       'storage {Storage} ' +
       'tag {Tag names} ' +
       'tags {Tags} ' +
@@ -1739,6 +1813,21 @@ export default defineMessages({
     description: 'Discount (-)',
     id: 'discountMinus',
   },
+  display: {
+    defaultMessage: 'Display',
+    description: 'Display',
+    id: 'display',
+  },
+  displayCurrency: {
+    defaultMessage: 'Display currency',
+    description: 'Display currency',
+    id: 'displayCurrency',
+  },
+  displayCurrencyDesc: {
+    defaultMessage: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
+    description: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
+    id: 'displayCurrencyDesc',
+  },
   distribute: {
     defaultMessage: 'Distribute',
     description: 'Distribute',
@@ -1837,7 +1926,7 @@ export default defineMessages({
   },
   docsCostCategory: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management#configuring-categories_configuring-tags-int',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configuring-categories_planning',
     description: 'Configuring Amazon Web Services cost categories in cost management',
     id: 'docsCostCategory',
   },
@@ -1866,19 +1955,19 @@ export default defineMessages({
   },
   docsCostModelsGpu: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_reflect-costs',
     description: 'Read more about GPUs by reviewing our documentation',
     id: 'docsCostModelsGpu',
   },
   docsCostModelsMarkup: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-AWS-Azure-cost-model_setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs',
     description: 'Applying a markup or discount to cloud integrations',
     id: 'docsCostModelsMarkup',
   },
   docsCostModelsOcp: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-setting-up-cost-models#creating-an-ocp-cost-model_setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#creating-an-ocp-cost-model_reflect-costs',
     description: 'Creating a cost model for an OpenShift Container Platform cluster',
     id: 'docsCostModelsOcp',
   },
@@ -1925,13 +2014,13 @@ export default defineMessages({
   },
   docsPlatformProjects: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/assembly-using-cost-models#adding-openshift-projects',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-using-cost-models_reflect-costs#add-openshift-projects_reflect-costs',
     description: 'Adding OpenShift projects',
     id: 'docsPlatformProjects',
   },
   docsPriceList: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#calculating-effective-cost-max_reflect-costs',
     description: 'Adding a price list',
     id: 'docsPriceList',
   },
@@ -1948,7 +2037,7 @@ export default defineMessages({
   },
   docsTags: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/assembly-configuring-tags-and-labels-in-cost-management',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configure-tags_planning',
     description: 'Configuring tags and labels in cost management',
     id: 'docsTags',
   },
@@ -2393,6 +2482,7 @@ export default defineMessages({
       'aws_category {Filter by cost category} ' +
       'cluster {Filter by cluster} ' +
       'container {Filter by container} ' +
+      'currency {Filter by currency} ' +
       'description {Filter by description} ' +
       'gcp_project {Filter by Google Cloud project} ' +
       'gpu_model {Filter by GPU model} ' +
@@ -2448,6 +2538,7 @@ export default defineMessages({
       'aws_category {Cost category} ' +
       'cluster {Cluster} ' +
       'container {Container} ' +
+      'currency {Currency} ' +
       'default {Default} ' +
       'description {Description} ' +
       'gcp_project {Google Cloud project} ' +
@@ -2924,8 +3015,8 @@ export default defineMessages({
     id: 'memoryEfficiencyInfoFormulaUsageScore',
   },
   memoryEfficiencyInfoFormulaWasteCost: {
-    defaultMessage: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
-    description: 'savings opportunity = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    defaultMessage: 'savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)',
+    description: 'savings opportunity estimate = (1 - sum(usage)/sum(request)) * sum(Cost)',
     id: 'memoryEfficiencyInfoFormulaWasteCost',
   },
   memoryTitle: {
@@ -2972,6 +3063,11 @@ export default defineMessages({
     defaultMessage: 'Month over month change',
     description: 'Month over month change',
     id: 'monthOverMonthChange',
+  },
+  months: {
+    defaultMessage: 'Months',
+    description: 'Months',
+    id: 'months',
   },
   moreOptions: {
     defaultMessage: 'More options',
@@ -3636,16 +3732,38 @@ export default defineMessages({
     id: 'priceListEmptyCostModelsDesc',
   },
   priceListEmptyPriceLists: {
-    defaultMessage: 'No price lists are assigned',
-    description: 'No price lists are assigned',
+    defaultMessage: 'No active price lists',
+    description: 'No active price lists',
     id: 'priceListEmptyPriceLists',
   },
   priceListEmptyPriceListsDesc: {
+    defaultMessage: 'Price lists may be deprecated. Turn on Show deprecated to view and restore them.',
+    description: 'Price lists may be deprecated. Turn on Show deprecated to view and restore them.',
+    id: 'priceListEmptyPriceListsDesc',
+  },
+  priceListEmptyPriceListsAssigned: {
+    defaultMessage: 'No price lists are assigned',
+    description: 'No price lists are assigned',
+    id: 'priceListEmptyPriceListsAssigned',
+  },
+  priceListEmptyPriceListsAvailable: {
+    defaultMessage: 'No price lists are available',
+    description: 'No price lists are available',
+    id: 'priceListEmptyPriceListsAvailable',
+  },
+  priceListEmptyPriceListsAssignedDesc: {
     defaultMessage:
       'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
     description:
       'Use Assign price lists to choose catalogs that match this cost model’s currency. Create and edit price lists under Settings.',
-    id: 'priceListEmptyPriceListsDesc',
+    id: 'priceListEmptyPriceListsAssignedDesc',
+  },
+  priceListEmptyPriceListsAssignedWizardDesc: {
+    defaultMessage:
+      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings.',
+    description:
+      'Price lists shown are in the currency selected in the previous step. Go back to change it if needed. Create and edit price lists under Settings.',
+    id: 'priceListEmptyPriceListsAssignedWizardDesc',
   },
   priceListEmptyRate: {
     defaultMessage: 'No rates are set',
@@ -4694,8 +4812,8 @@ export default defineMessages({
     id: 'volumeTitle',
   },
   wastedCost: {
-    defaultMessage: 'Savings opportunity',
-    description: 'Savings opportunity',
+    defaultMessage: 'Savings opportunity estimate',
+    description: 'Savings opportunity estimate',
     id: 'wastedCost',
   },
   workerUnallocated: {
