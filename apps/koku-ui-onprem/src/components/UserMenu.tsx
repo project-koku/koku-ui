@@ -11,6 +11,7 @@ import React from 'react';
 
 import avatar from '#/assets/avatarimg.svg';
 import { fetchCurrentUser } from '#/data/api';
+import { MY_USER_ACCESS_PATH } from '#/data/routes';
 
 function useCurrentUser(): string | undefined {
   const [username, setUsername] = React.useState<string>();
@@ -24,6 +25,10 @@ function useCurrentUser(): string | undefined {
 
 const handleLogout = () => {
   window.location.href = '/logout';
+};
+
+const handleMyUserAccess = () => {
+  window.location.href = MY_USER_ACCESS_PATH;
 };
 
 export const UserMenu: React.FC = () => {
@@ -52,6 +57,7 @@ export const UserMenu: React.FC = () => {
   return (
     <Dropdown isOpen={isDropdownOpen} onSelect={closeDropdown} onOpenChange={setIsDropdownOpen} toggle={renderToggle}>
       <DropdownList>
+        <DropdownItem onClick={handleMyUserAccess}>My User Access</DropdownItem>
         <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
       </DropdownList>
     </Dropdown>
