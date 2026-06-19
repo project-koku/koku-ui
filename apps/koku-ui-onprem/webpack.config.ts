@@ -3,11 +3,15 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// @ts-ignore
+import { PacProxyAgent } from 'pac-proxy-agent';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+
+const pacAgent = new PacProxyAgent(process.env.PAC_URL, { rejectUnauthorized: false });
 
 const isOauth2ProxyMode = process.env.OAUTH2_PROXY_MODE === 'true';
 
@@ -174,6 +178,7 @@ const config: Configuration & {
             changeOrigin: true,
             secure: false,
             pathRewrite: { '^/api/cost-management/v1': '' },
+            agent: pacAgent,
             // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
             // header injected by oauth2-proxy is forwarded as-is to the gateway.
             ...(proxyHeaders && { headers: proxyHeaders }),
