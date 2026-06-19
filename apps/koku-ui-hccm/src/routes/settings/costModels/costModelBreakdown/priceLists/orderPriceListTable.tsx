@@ -57,6 +57,7 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
+  // Workaround for the cost models API's missing price list properties
   const { priceList: fullPriceList } = useFetchPriceLists();
 
   const initDatum = () => {
@@ -105,7 +106,9 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
             style: styles.column,
             value: (
               <span>
-                <Link to={`${formatPath(routes.priceListBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>
+                <Link draggable={false} to={`${formatPath(routes.priceListBreakdown.basePath)}/${item.uuid}`}>
+                  {item.name}
+                </Link>
                 {enabled === false && (
                   <Label isCompact style={styles.label}>
                     {intl.formatMessage(messages.deprecated)}
@@ -153,7 +156,20 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [canWrite, costModel, fullPriceList, isAllSelected, isDisabled, isDraggable, priceLists, selectedItems]);
+  }, [
+    canWrite,
+    costModel,
+    fullPriceList,
+    intl,
+    isAllSelected,
+    isDisabled,
+    isDraggable,
+    onClose,
+    onRemove,
+    onSelect,
+    priceLists,
+    selectedItems,
+  ]);
 
   return (
     <DraggableTable

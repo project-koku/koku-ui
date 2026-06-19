@@ -20,6 +20,12 @@ test('Debug feature is enabled', async () => {
   expect(FeatureToggleSelectors.selectIsDebugToggleEnabled(store.getState())).toBe(true);
 });
 
+test('Display feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureToggle({ isDisplayToggleEnabled: true }));
+  expect(FeatureToggleSelectors.selectIsDisplayToggleEnabled(store.getState())).toBe(true);
+});
+
 test('Efficiency feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isEfficiencyToggleEnabled: true }));

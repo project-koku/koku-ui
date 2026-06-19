@@ -14,7 +14,6 @@ import { NoProviders } from 'routes/components/page/noProviders';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getSourceType } from 'routes/settings/costModels/costModel/utils';
-import priceList from 'routes/settings/costModelsDeprecated/costModelWizard/priceList';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -76,10 +75,10 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
       selectedItems.length !== selectedItemsBaseline.length ||
       selectedItems.filter(item => selectedItemsBaseline.find(baselineItem => baselineItem.uuid === item.uuid))
         ?.length !== selectedItemsBaseline.length;
-    const hasNoPriceLists = providers?.data?.length === 0;
+    const hasNoProviders = providers?.data?.length === 0;
     const hasUnsavedChanges = isSelectedItemsDirty;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
-    const isSaveDisabled = !hasUnsavedChanges || hasNoPriceLists;
+    const isSaveDisabled = !hasUnsavedChanges || hasNoProviders;
 
     const getPagination = (isBottom = false) => {
       const count = providers?.meta?.count ?? 0;
@@ -90,7 +89,7 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
       return (
         <Pagination
           isCompact={!isBottom}
-          isDisabled={hasNoPriceLists}
+          isDisabled={hasNoProviders}
           itemCount={count}
           onPerPageSelect={(_event, perPage) => handleOnPerPageSelect(perPage)}
           onSetPage={(_event, pageNumber) => handleOnSetPage(pageNumber)}
@@ -125,7 +124,7 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
       return (
         <IntegrationContentToolbar
           canWrite={canWrite}
-          isDisabled={hasNoPriceLists}
+          isDisabled={hasNoProviders}
           itemsPerPage={providers?.meta?.limit ?? baseQuery.limit}
           itemsTotal={providers?.meta?.count ?? 0}
           onBulkSelect={handleOnBulkSelect}
@@ -190,7 +189,7 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
     };
 
     const handleOnSetPage = pageNumber => {
-      const newQuery = queryUtils.handleOnSetPage(query, priceList, pageNumber, true);
+      const newQuery = queryUtils.handleOnSetPage(query, providers, pageNumber, true);
       setQuery(newQuery);
     };
 
@@ -233,7 +232,7 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
 
     return (
       <>
-        {!hasNoPriceLists || isLoading ? (
+        {!hasNoProviders || isLoading ? (
           <>
             {costModel && (
               <Content component={ContentVariants.dl}>

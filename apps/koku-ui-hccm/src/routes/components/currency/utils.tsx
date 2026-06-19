@@ -16,6 +16,7 @@ const currencies: string[] = [
   'DKK',
   'EUR',
   'GBP',
+  'GHS',
   'HKD',
   'INR',
   'JPY',
