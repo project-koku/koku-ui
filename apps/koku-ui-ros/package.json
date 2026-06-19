@@ -14,8 +14,8 @@
   "scripts": {
     "build": "npm run build:prod",
     "build:prod": "fec build",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "check:messages": "sh scripts/unused-messages.sh",
     "clean": "rimraf dist .cache",
     "codemods": "npx @patternfly/pf-codemods@latest src",

@@ -13,8 +13,8 @@
   },
   "scripts": {
     "build": "NODE_ENV=production npm run ts-node ../../node_modules/.bin/webpack --mode=production",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
     "start": "npm run ts-node ../../node_modules/.bin/webpack serve --mode=development --color --progress",
     "start:prod": "npm run ts-node ../../node_modules/.bin/webpack serve --mode=production --color --progress",

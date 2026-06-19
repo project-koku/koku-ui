@@ -17,8 +17,8 @@
   "scripts": {
     "build": "npm exec --workspaces -- npm run build",
     "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-sources build:onprem && npm run -w @koku-ui/rbac-ui-onprem build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
-    "check:dependencies": "npx npm-check-updates; npm exec --workspaces -- npm run check:dependencies",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu --workspaces",
+    "check:dependencies:update": "ncu --workspaces -u",
     "clean": "npm exec --workspaces -- npm run clean",
     "install:pkgs": "npm install",
     "install:pkgs:force": "npm install --force",
@@ -88,6 +88,7 @@
     "jest-environment-jsdom": "^30.4.1",
     "jest-mock-axios": "^4.9.0",
     "jest-transform-stub": "^2.0.0",
+    "npm-check-updates": "^22.2.3",
     "npm-run-all2": "^9.0.2",
     "prettier": "^3.8.4",
     "rimraf": "^6.1.3",

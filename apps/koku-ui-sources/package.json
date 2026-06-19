@@ -14,8 +14,8 @@
   "scripts": {
     "build": "npm run build:onprem",
     "build:onprem": "npm run ts-node -- ../../node_modules/.bin/webpack --config webpack.config.ts --mode=production --color --progress",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist .cache",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
