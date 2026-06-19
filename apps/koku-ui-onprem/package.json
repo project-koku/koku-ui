@@ -13,8 +13,8 @@
   },
   "scripts": {
     "build": "NODE_ENV=production npm run ts-node ../../node_modules/.bin/webpack --mode=production",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
     "start": "npm run ts-node ../../node_modules/.bin/webpack serve --mode=development --color --progress",
     "start:prod": "npm run ts-node ../../node_modules/.bin/webpack serve --mode=production --color --progress",
@@ -54,10 +54,10 @@
     "sass": "^1.101.0",
     "sass-loader": "^17.0.0",
     "style-loader": "^4.0.0",
-    "ts-loader": "^9.6.0",
+    "ts-loader": "^9.6.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "webpack": "5.105.0",
-    "webpack-dev-server": "^5.2.4"
+    "webpack-dev-server": "^5.2.5"
   }
 }

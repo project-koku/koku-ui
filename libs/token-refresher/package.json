@@ -14,8 +14,8 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
@@ -25,6 +25,6 @@
   "devDependencies": {
     "@types/node": "^25.9.3",
     "typescript": "^5.9.3",
-    "webpack-dev-server": "^5.2.4"
+    "webpack-dev-server": "^5.2.5"
   }
 }
