@@ -11,6 +11,8 @@
   "scripts": {
     "build": "npm run build:onprem",
     "build:onprem": "npm run ts-webpack -- --color --progress --mode=production",
+    "check:dependencies": "npx npm-check-updates",
+    "check:dependencies:update": "npx npm-check-updates -u",
     "start:onprem": "npm run ts-webpack -- --color --progress --mode=development --watch",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
