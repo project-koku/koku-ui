@@ -35,7 +35,6 @@ import { getFilteredRates, getIndexedRates, getPaginatedRates } from './utils';
 
 interface RateOwnProps {
   canWrite?: boolean;
-  isParentLoading?: boolean;
   onAdd?: (rates: Rate[]) => void;
   onDelete?: (rates: Rate[]) => void;
   onEdit?: (rates: Rate[]) => void;
@@ -67,7 +66,7 @@ const baseQuery: Query = {
   },
 };
 
-const Rate: React.FC<RateProps> = ({ canWrite, isParentLoading, onAdd, onEdit, onDelete }) => {
+const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   const intl = useIntl();
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -173,9 +172,6 @@ const Rate: React.FC<RateProps> = ({ canWrite, isParentLoading, onAdd, onEdit, o
 
   if (priceListError) {
     return <NotAvailable />;
-  }
-  if (isParentLoading) {
-    return null;
   }
   return (
     <>

@@ -171,9 +171,9 @@ const DraggableTable: React.FC<DraggableTableProps> = ({
   };
 
   const handleOnDragEnd: TrProps['onDragEnd'] = evt => {
-    const target = evt.target as HTMLTableRowElement;
-    target.classList.remove(pfStyles.modifiers.ghostRow);
-    target.setAttribute('aria-pressed', 'false');
+    const row = evt.currentTarget as HTMLTableRowElement;
+    row.classList.remove(pfStyles.modifiers.ghostRow);
+    row.setAttribute('aria-pressed', 'false');
     setDraggedItemId(null);
     setDraggingToItemIndex(null);
     setIsDragging(false);
@@ -287,7 +287,7 @@ const DraggableTable: React.FC<DraggableTableProps> = ({
               </Td>
             </Tr>
           ) : (
-            rows.map((row, rowIndex) => (
+            rows?.map((row, rowIndex) => (
               <Tr
                 key={row.id ?? `row-${rowIndex}`}
                 id={row.id ?? `row-${rowIndex}`}

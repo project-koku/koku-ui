@@ -12,7 +12,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { NoPriceListState } from 'routes/settings/priceLists/priceList/components/state';
+import { NoPriceListAssignedState, NoPriceListState } from 'routes/settings/priceLists/priceList/components/state';
 import { usePriceListNotifications } from 'routes/settings/priceLists/utils';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
@@ -57,13 +57,31 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
 
   const { priceList, priceListError, priceListFetchStatus } = useMapToProps({ isShowDeprecated, query });
 
-  const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.metrics?.length > 0;
+  const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.currency?.length > 0;
   const hasNoPriceLists = (!priceList || priceList?.data?.length === 0) && !hasFilters;
 
   // Force update
   const forceUpdate = useCallback(() => {
     setQuery(prev => ({ ...prev }));
   }, []);
+
+  const getCardLayout = children => (
+    <Card>
+      <CardBody>
+        {intl.formatMessage(messages.priceListDesc, {
+          learnMore: (
+            <a href={intl.formatMessage(messages.docsPriceList)} rel="noreferrer" target="_blank">
+              {intl.formatMessage(messages.learnMore)}
+            </a>
+          ),
+        })}
+        <div style={styles.tableContainer}>
+          {getToolbar()}
+          {children}
+        </div>
+      </CardBody>
+    </Card>
+  );
 
   const getPagination = (isBottom = false) => {
     const count = priceList?.meta?.count ?? 0;
@@ -169,37 +187,33 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
   return (
     <>
       {!hasNoPriceLists || priceListFetchStatus === FetchStatus.inProgress ? (
-        <Card>
-          <CardBody>
-            {intl.formatMessage(messages.priceListDesc, {
-              learnMore: (
-                <a href={intl.formatMessage(messages.docsPriceList)} rel="noreferrer" target="_blank">
-                  {intl.formatMessage(messages.learnMore)}
-                </a>
-              ),
-            })}
-            <div style={styles.tableContainer}>
-              {getToolbar()}
-              {priceListFetchStatus === FetchStatus.inProgress ? (
-                <LoadingState
-                  body={intl.formatMessage(messages.priceListLoadingStateDesc)}
-                  heading={intl.formatMessage(messages.priceListLoadingStateTitle)}
-                />
-              ) : (
-                <>
-                  {getTable()}
-                  <div style={styles.paginationContainer}>{getPagination(true)}</div>
-                </>
-              )}
-            </div>
-          </CardBody>
-        </Card>
+        getCardLayout(
+          <>
+            {priceListFetchStatus === FetchStatus.inProgress ? (
+              <LoadingState
+                body={intl.formatMessage(messages.priceListLoadingStateDesc)}
+                heading={intl.formatMessage(messages.priceListLoadingStateTitle)}
+              />
+            ) : (
+              <>
+                {getTable()}
+                <div style={styles.paginationContainer}>{getPagination(true)}</div>
+              </>
+            )}
+          </>
+        )
       ) : (
-        <Card>
-          <CardBody>
-            <NoPriceListState canWrite={canWrite} />
-          </CardBody>
-        </Card>
+        <>
+          {isShowDeprecated ? (
+            <Card>
+              <CardBody>
+                <NoPriceListAssignedState />
+              </CardBody>
+            </Card>
+          ) : (
+            getCardLayout(<NoPriceListState />)
+          )}
+        </>
       )}
     </>
   );

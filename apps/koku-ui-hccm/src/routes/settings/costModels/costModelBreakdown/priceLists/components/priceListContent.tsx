@@ -21,7 +21,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { NoPriceListState } from 'routes/settings/priceLists/priceList/components/state';
+import { NoPriceListAssignedState } from 'routes/settings/priceLists/priceList/components/state';
 import { usePriceListNotifications } from 'routes/settings/priceLists/utils';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
@@ -41,6 +41,7 @@ interface PriceListContentOwnProps {
   canWrite?: boolean;
   costModel?: CostModel;
   currency?: string;
+  isWizard?: boolean;
   onAdd?: (priceLists: PriceListData[]) => void;
   onDisabled?: (value: boolean) => void;
   priceLists?: PriceListData[];
@@ -74,7 +75,7 @@ const baseQuery: Query = {
 };
 
 const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProps>(
-  ({ canWrite, costModel, currency = costModel?.currency ?? 'USD', onAdd, onDisabled, priceLists }, ref) => {
+  ({ canWrite, costModel, currency = costModel?.currency ?? 'USD', isWizard, onAdd, onDisabled, priceLists }, ref) => {
     const intl = useIntl();
 
     /** Latest save handler for imperative `submit()` — updated in layout effect (not during render). */
@@ -296,7 +297,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
             />
             <div style={styles.tableContainer}>
               {getToolbar()}
-              {intl.formatMessage(messages.assignPriceListsDesc)}
+              {intl.formatMessage(isWizard ? messages.assignPriceListsWizardDesc : messages.assignPriceListsDesc)}
               {isLoading ? (
                 <LoadingState
                   body={intl.formatMessage(messages.priceListLoadingStateDesc)}
@@ -311,7 +312,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
             </div>
           </>
         ) : (
-          <NoPriceListState canWrite={canWrite} />
+          <NoPriceListAssignedState canWrite={canWrite} isWizard={isWizard} />
         )}
       </>
     );
@@ -324,6 +325,7 @@ const useMapToProps = ({ currency = 'USD', query }: PriceListContentMapProps): P
   const priceListQuery = {
     filter: {
       currency,
+      enabled: true, // Don't show deprecated price lists
     },
     filter_by: query.filter_by,
     limit: query.limit,

@@ -10,6 +10,7 @@ interface AddPriceListOwnProps {
   canWrite?: boolean;
   contentRef?: React.RefObject<PriceListContentHandle>;
   currency?: string;
+  isWizard?: boolean;
   onAdd?: (priceLists: PriceListData[]) => void;
   priceLists?: PriceListData[];
 }
@@ -20,6 +21,7 @@ const AddPriceList: React.FC<AddPriceListProps> = ({
   canWrite,
   contentRef,
   currency,
+  isWizard,
   onAdd,
   priceLists,
 }: AddPriceListProps) => {
@@ -36,6 +38,7 @@ const AddPriceList: React.FC<AddPriceListProps> = ({
         <PriceListContent
           canWrite={canWrite}
           currency={currency}
+          isWizard={isWizard}
           onAdd={onAdd}
           priceLists={priceLists}
           ref={contentRef}

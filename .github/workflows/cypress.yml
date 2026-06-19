@@ -5,21 +5,6 @@ on:
     branches:
       - main
       - stage-onprem
-    paths:
-      - 'apps/koku-ui-onprem/**'
-      - 'apps/koku-ui-sources/**'
-      - 'libs/onprem-cloud-deps/**'
-      - 'libs/token-refresher/**'
-      - 'libs/ui-lib/**'
-  push:
-    branches:
-      - main
-    paths:
-      - 'apps/koku-ui-onprem/**'
-      - 'apps/koku-ui-sources/**'
-      - 'libs/onprem-cloud-deps/**'
-      - 'libs/token-refresher/**'
-      - 'libs/ui-lib/**'
 
 env:
   NODEJS_VERSION: '22'
@@ -32,13 +17,35 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Detect onprem-related changes
+        id: changes
+        run: |
+          PATHS='^(apps/koku-ui-onprem/|apps/koku-ui-sources/|libs/onprem-cloud-deps/|libs/token-refresher/|libs/ui-lib/|\.github/workflows/cypress\.yml)'
+
+          CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")
+
+          if echo "$CHANGED" | grep -qE "$PATHS"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip Cypress (no onprem-related changes)
+        if: steps.changes.outputs.run != 'true'
+        run: echo "No onprem-related changes; skipping Cypress."
 
       - name: Setup Node.js
+        if: steps.changes.outputs.run == 'true'
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODEJS_VERSION }}
 
       - name: Cache node modules
+        if: steps.changes.outputs.run == 'true'
         uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
@@ -51,6 +58,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Cypress run
+        if: steps.changes.outputs.run == 'true'
         id: cypress_run
         uses: cypress-io/github-action@v6
         with:
@@ -63,7 +71,7 @@ jobs:
           config-file: cypress/cypress.config.ts
 
       - name: Upload Cypress videos
-        if: failure() && steps.cypress_run.outcome == 'failure'
+        if: failure() && steps.changes.outputs.run == 'true' && steps.cypress_run.outcome == 'failure'
         uses: actions/upload-artifact@v5
         with:
           name: cypress-videos

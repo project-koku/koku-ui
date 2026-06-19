@@ -1,5 +1,6 @@
 // Based on https://github.com/RedHatInsights/frontend-components/blob/master/packages/config/src/bin/dev.webpack.config.ts
 
+const { execSync } = require('child_process');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 const path = require('path');
@@ -15,7 +16,22 @@ const stats = {
   colors: true,
   modules: false,
 };
-const gitRevisionPlugin = new GitRevisionPlugin();
+const hasGitRepository = (() => {
+  try {
+    execSync('git rev-parse HEAD', { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+})();
+
+const gitRevisionPlugin = hasGitRepository ? new GitRevisionPlugin() : null;
+
+const commitHash =
+  process.env.KOKU_UI_COMMITHASH ||
+  process.env.SENTRY_RELEASE ||
+  process.env.COMMIT_SHA ||
+  (gitRevisionPlugin ? gitRevisionPlugin.commithash() : 'unknown-commithash');
 
 // Show what files changed since last compilation
 class WatchRunPlugin {
@@ -87,12 +103,13 @@ module.exports = {
         },
       ],
     }),
-    gitRevisionPlugin,
+    ...(gitRevisionPlugin ? [gitRevisionPlugin] : []),
     new webpack.DefinePlugin({
-      'process.env.KOKU_UI_COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
+      'process.env.KOKU_UI_COMMITHASH': JSON.stringify(commitHash),
       'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
-      // The Sources UI/MFE exists only in the on-prem bundle (webpack-onprem); hide tab on Consoledot.
-      'process.env.KOKU_UI_SOURCES_SETTINGS_TAB': JSON.stringify('false'),
+      // Set to avoid potential runtime errors
+      'process.env.KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD': JSON.stringify('false'),
+      'process.env.KOKU_UI_SETTINGS_SOURCES_TAB': JSON.stringify('false'),
     }),
   ],
   resolve: {
