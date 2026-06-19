@@ -19,16 +19,30 @@ let proxyHeaders: Record<string, string> | undefined;
 // In headless mode the headers are absent and fixed dev-user stubs are returned.
 const setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = (middlewares, devServer) => {
   devServer.app?.get('/api/me', (req, res) => {
+    // x-auth-request-preferred-username mirrors nginx $http_x_auth_request_preferred_username.
+    // Fall back to x-auth-request-user when preferred_username is absent from the OIDC token
+    // (e.g. older oauth2-proxy images or Keycloak clients without the profile scope mapper).
     const username = isOauth2ProxyMode
-      ? ((req.headers['x-auth-request-preferred-username'] as string | undefined) ?? 'dev-user')
+      ? ((req.headers['x-auth-request-preferred-username'] as string | undefined) ??
+        (req.headers['x-auth-request-user'] as string | undefined) ??
+        'dev-user')
       : 'dev-user';
     const email = isOauth2ProxyMode
-      ? ((req.headers['x-forwarded-email'] as string | undefined) ?? 'dev@example.com')
+      ? ((req.headers['x-forwarded-email'] as string | undefined) ??
+        (req.headers['x-auth-request-email'] as string | undefined) ??
+        'dev@example.com')
       : 'dev@example.com';
-    if (isOauth2ProxyMode && !req.headers['x-auth-request-preferred-username']) {
+    // Only warn when no auth headers are present at all — a true proxy bypass.
+    const isProxied = !!(
+      req.headers['x-auth-request-preferred-username'] ||
+      req.headers['x-auth-request-user'] ||
+      req.headers['x-auth-request-email'] ||
+      req.headers['x-forwarded-email']
+    );
+    if (isOauth2ProxyMode && !isProxied) {
       // eslint-disable-next-line no-console
       console.warn(
-        '[koku-ui-onprem] OAUTH2_PROXY_MODE=true but x-auth-request-preferred-username is missing' +
+        '[koku-ui-onprem] OAUTH2_PROXY_MODE=true but no oauth2-proxy auth headers received' +
           ' — oauth2-proxy may be misconfigured or the request bypassed the proxy'
       );
     }
@@ -269,6 +283,7 @@ const config: Configuration & {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     cacheWithContext: false,
     alias: {
+      '#': path.resolve(__dirname, 'src'),
       '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
       '@unleash/proxy-client-react': path.resolve(
         __dirname,
