@@ -157,9 +157,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsActionsOwnProps, DetailsActionsStateProps>((state, props) => {
   return {
-    redirectError: costModelsSelectors.redirectError(state),
-    redirectNotification: costModelsSelectors.redirectNotification(state),
-    redirectStatus: costModelsSelectors.redirectStatus(state),
+    redirectError: costModelsSelectors.selectCostModelsRedirectError(state),
+    redirectNotification: costModelsSelectors.selectCostModelsRedirectNotification(state),
+    redirectStatus: costModelsSelectors.selectCostModelsRedirectStatus(state),
   };
 });
 

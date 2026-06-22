@@ -42,10 +42,9 @@ describe('WorkloadSummary', () => {
       expect(screen.getByText(/USD100/)).toBeInTheDocument();
     });
 
-    it('renders the Wasted Cost section heading', () => {
+    it('renders the savings opportunity estimate section heading', () => {
       renderWithProviders(<WorkloadSummary report={mockReport} />);
-      // messages.wastedCost.defaultMessage = 'Wasted cost'
-      expect(screen.getByRole('heading', { name: 'Wasted cost' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Savings opportunity estimate' })).toBeInTheDocument();
     });
 
     it('renders 0% without crashing when report is null', () => {
