@@ -65,12 +65,12 @@ describe('accountSettings store', () => {
 		const fid = getFetchId(type);
 		let state: any = emptySlice();
 		state = accountSettingsReducer(state, updateAccountSettingsRequest({ fetchId: fid } as any));
-		expect(selectors.selectAccountSettingsUpdateStatus(makeRoot(state), type)).toBe(FetchStatus.inProgress);
+		expect(selectors.selectAccountSettingsFetchStatus(makeRoot(state), type)).toBe(FetchStatus.inProgress);
 		state = accountSettingsReducer(state, updateAccountSettingsSuccess({} as any, { fetchId: fid, notification: { t: 1 } } as any));
-		expect(selectors.selectAccountSettingsUpdateStatus(makeRoot(state), type)).toBe(FetchStatus.complete);
-		expect(selectors.selectAccountSettingsUpdateNotification(makeRoot(state), type)).toEqual({ t: 1 });
+		expect(selectors.selectAccountSettingsFetchStatus(makeRoot(state), type)).toBe(FetchStatus.complete);
+		expect(selectors.selectAccountSettingsNotification(makeRoot(state), type)).toEqual({ t: 1 });
 		state = accountSettingsReducer(state, updateAccountSettingsFailure({} as any, { fetchId: fid, notification: { e: 1 } } as any));
-		expect(selectors.selectAccountSettingsUpdateError(makeRoot(state), type)).toEqual({});
+		expect(selectors.selectAccountSettingsError(makeRoot(state), type)).toEqual({});
 	});
 
 	test('selectors fetch and update selectors work', () => {
@@ -78,7 +78,7 @@ describe('accountSettings store', () => {
 		const fid = getFetchId(type);
 		let state: any = emptySlice();
 		state = accountSettingsReducer(state, fetchAccountSettingsRequest({ fetchId: fid } as any));
-		expect(selectors.selectAccountSettingsStatus(makeRoot(state), type)).toBe(FetchStatus.inProgress);
+		expect(selectors.selectAccountSettingsFetchStatus(makeRoot(state), type)).toBe(FetchStatus.inProgress);
 		const payload: any = { data: { cost_type: 'amortized' }, meta: {} };
 		state = accountSettingsReducer(state, fetchAccountSettingsSuccess(payload, { fetchId: fid } as any));
 		expect(selectors.selectAccountSettings(makeRoot(state), type)).toEqual(payload);

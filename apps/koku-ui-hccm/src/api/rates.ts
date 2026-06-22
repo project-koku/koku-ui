@@ -29,6 +29,7 @@ export interface Rate {
   custom_name?: string;
   description?: string;
   metric?: Metric;
+  rate_id?: string;
   rateIndex?: number;
   tiered_rates?: TieredRate[];
   tag_rates?: TagRates;

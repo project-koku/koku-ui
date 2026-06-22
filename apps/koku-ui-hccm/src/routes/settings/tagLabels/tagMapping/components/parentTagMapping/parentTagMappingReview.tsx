@@ -5,7 +5,7 @@ import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { parseApiError } from 'routes/settings/tagLabels/tagMapping/utils/parseApiError';
+import { parseApiError } from 'routes/settings/utils';
 import { FetchStatus } from 'store/common';
 
 import { styles } from './parentTagMapping.styles';
@@ -14,7 +14,7 @@ interface ParentTagMappingReviewOwnProps {
   childTags?: SettingsData[];
   parentTags?: SettingsData[];
   settingsError?: AxiosError;
-  settingsStatus?: FetchStatus;
+  settingsFetchStatus?: FetchStatus;
 }
 
 type ParentTagMappingReviewProps = ParentTagMappingReviewOwnProps;
@@ -23,13 +23,13 @@ const ParentTagMappingReview: React.FC<ParentTagMappingReviewProps> = ({
   childTags = [],
   parentTags = [],
   settingsError,
-  settingsStatus,
+  settingsFetchStatus,
 }: ParentTagMappingReviewProps) => {
   const intl = useIntl();
 
   return (
     <>
-      {settingsStatus === FetchStatus.complete && settingsError && (
+      {settingsFetchStatus === FetchStatus.complete && settingsError && (
         <Alert style={styles.alert} title={settingsError ? parseApiError(settingsError) : undefined} variant="danger" />
       )}
       <Stack hasGutter>

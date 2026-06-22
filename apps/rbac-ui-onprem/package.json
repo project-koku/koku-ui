@@ -1,0 +1,29 @@
+{
+  "name": "@koku-ui/rbac-ui-onprem",
+  "version": "0.0.1",
+  "description": "On-prem federated build wrapper for insights-rbac-ui (no upstream repo edits)",
+  "private": true,
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.20.0",
+    "npm": ">=11.6.2"
+  },
+  "scripts": {
+    "build": "npm run build:onprem",
+    "build:onprem": "npm run ts-webpack -- --color --progress --mode=production",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
+    "start:onprem": "npm run ts-webpack -- --color --progress --mode=development --watch",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "",
+    "clean": "rimraf dist",
+    "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'",
+    "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"
+  },
+  "devDependencies": {
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.2.0",
+    "insights-rbac-frontend": "file:../../vendor/insights-rbac-ui",
+    "typescript": "^5.9.3"
+  }
+}
