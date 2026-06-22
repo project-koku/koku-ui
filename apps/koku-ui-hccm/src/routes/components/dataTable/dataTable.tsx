@@ -153,7 +153,7 @@ const DataTable: React.FC<DataTableProps> = ({
                     row.selectionTooltip ? (
                       <Td
                         className={item.className}
-                        dataLabel={columns[cellIndex].name}
+                        dataLabel={columns?.[cellIndex]?.name}
                         key={`cell-${cellIndex}-${rowIndex}`}
                         modifier={isNoWrapCell ? 'nowrap' : undefined}
                         noPadding={isNoPadding}
@@ -162,9 +162,8 @@ const DataTable: React.FC<DataTableProps> = ({
                         <Tooltip content={row.selectionTooltip}>
                           <Checkbox
                             checked={row.selected}
-                            id={`cell-${cellIndex}-${rowIndex}`}
+                            id={`cell-${cellIndex}-${rowIndex}-cb`}
                             isDisabled={row.selectionDisabled}
-                            key={`cell-${cellIndex}-${rowIndex}`}
                             onChange={(_event, checked) => handleOnSelect(checked, rowIndex)}
                           />
                         </Tooltip>
@@ -172,7 +171,7 @@ const DataTable: React.FC<DataTableProps> = ({
                     ) : (
                       <Td
                         className={item.className}
-                        dataLabel={columns[cellIndex].name}
+                        dataLabel={columns?.[cellIndex]?.name}
                         key={`cell-${cellIndex}-${rowIndex}`}
                         modifier={isNoWrapCell ? 'nowrap' : undefined}
                         noPadding={isNoPadding}
