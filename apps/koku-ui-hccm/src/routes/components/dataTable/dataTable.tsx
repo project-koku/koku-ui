@@ -153,7 +153,7 @@ const DataTable: React.FC<DataTableProps> = ({
                     row.selectionTooltip ? (
                       <Td
                         className={item.className}
-                        dataLabel={columns[cellIndex].name}
+                        dataLabel={columns?.[cellIndex]?.name}
                         key={`cell-${cellIndex}-${rowIndex}`}
                         modifier={isNoWrapCell ? 'nowrap' : undefined}
                         noPadding={isNoPadding}
@@ -172,7 +172,7 @@ const DataTable: React.FC<DataTableProps> = ({
                     ) : (
                       <Td
                         className={item.className}
-                        dataLabel={columns[cellIndex].name}
+                        dataLabel={columns?.[cellIndex]?.name}
                         key={`cell-${cellIndex}-${rowIndex}`}
                         modifier={isNoWrapCell ? 'nowrap' : undefined}
                         noPadding={isNoPadding}
