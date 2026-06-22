@@ -162,9 +162,8 @@ const DataTable: React.FC<DataTableProps> = ({
                         <Tooltip content={row.selectionTooltip}>
                           <Checkbox
                             checked={row.selected}
-                            id={`cell-${cellIndex}-${rowIndex}`}
+                            id={`cell-${cellIndex}-${rowIndex}-cb`}
                             isDisabled={row.selectionDisabled}
-                            key={`cell-${cellIndex}-${rowIndex}`}
                             onChange={(_event, checked) => handleOnSelect(checked, rowIndex)}
                           />
                         </Tooltip>
