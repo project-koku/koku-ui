@@ -112,7 +112,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     ) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
-        showDatePicker: dateRangeType === DateRangeType.custom,
+        ...(prevProps.dateRangeType !== dateRangeType && {
+          showDatePicker: dateRangeType === DateRangeType.custom,
+        }),
       });
     }
     if (
@@ -165,10 +167,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 
   private getDateRangeComponent = () => {
     const { dateRangeType, isCurrentMonthData, isDataAvailable, isPreviousMonthData, isDisabled } = this.props;
+    const { showDatePicker } = this.state;
 
     return (
       <DateRange
-        dateRangeType={dateRangeType}
+        dateRangeType={showDatePicker ? DateRangeType.custom : dateRangeType}
         isCurrentMonthData={isCurrentMonthData}
         isDataAvailable={isDataAvailable}
         isDisabled={isDisabled}
