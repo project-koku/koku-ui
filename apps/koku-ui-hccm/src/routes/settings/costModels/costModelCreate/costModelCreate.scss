@@ -1,0 +1,6 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.wizardOverride {
+    // PF adds a top border on main-wizard when it is not :first-child (e.g. after breadcrumbs).
+    --pf-v6-c-page__main-wizard--BorderBlockStartWidth: 0;
+}

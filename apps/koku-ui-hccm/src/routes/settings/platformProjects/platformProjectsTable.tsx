@@ -116,7 +116,6 @@ const PlatformProjectsTable: React.FC<PlatformProjectsTableProps> = ({
       onSort={onSort}
       orderBy={orderBy}
       rows={rows}
-      selectedItems={selectedItems}
     />
   );
 };

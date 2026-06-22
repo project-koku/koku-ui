@@ -14,7 +14,7 @@ function usage() {
       'Use this script to create a PR, merging stage and prod branches first.',
       'Run again to create an MR, deploying app-interface with the latest SHA refs from the same branches.',
       'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
-      'Note: This script does not support on-prem.\n',
+      'Note: This script does not support on-prem for prod.\n',
     ].join('\n')
   );
 }
@@ -41,7 +41,7 @@ async function setConfig() {
         choices:
           process.env.APP_INTERFACE === 'true'
             ? ['koku-ui-hccm', 'koku-ui-ros', 'all']
-            : ['koku-ui-hccm', 'koku-ui-ros'],
+            : ['koku-ui-hccm', 'koku-ui-ros', 'koku-ui-onprem'],
       },
       {
         type: 'list',
@@ -62,6 +62,8 @@ async function setConfig() {
 
       const isHccm = appEnv === 'koku-ui-hccm' || appEnv === 'all';
       const isRos = appEnv === 'koku-ui-ros' || appEnv === 'all';
+      const isOnprem = appEnv === 'koku-ui-onprem';
+
       const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
       const isProd = clouddotEnv === 'prod' || clouddotEnv === 'all';
 
@@ -76,6 +78,9 @@ async function setConfig() {
       }
       if (isRos && isProd) {
         process.env.ROS_PROD_ARG = '-r';
+      }
+      if (isOnprem && isStage) {
+        process.env.ONPREM_STAGE_ARG = '-o';
       }
     });
 }
@@ -94,7 +99,7 @@ async function run() {
 
   allArgs.push(process.env.APP_INTERFACE === 'true' ? 'release-app-interface.sh' : 'release-branch.sh');
 
-  const argVars = ['HCCM_STAGE_ARG', 'HCCM_PROD_ARG', 'ROS_STAGE_ARG', 'ROS_PROD_ARG'];
+  const argVars = ['HCCM_STAGE_ARG', 'HCCM_PROD_ARG', 'ROS_STAGE_ARG', 'ROS_PROD_ARG', 'ONPREM_STAGE_ARG'];
   const deploymentArgs = argVars.map(v => process.env[v]).filter(Boolean);
   allArgs.push(...deploymentArgs);
 
