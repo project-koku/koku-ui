@@ -47,7 +47,7 @@ const DataTable: React.FC<DataTableProps> = ({
   onSort,
   onSelect,
   orderBy,
-  rows,
+  rows = [],
   variant,
 }) => {
   const intl = useIntl();
@@ -150,44 +150,41 @@ const DataTable: React.FC<DataTableProps> = ({
               <Tr key={`row-${rowIndex}`}>
                 {row.cells.map((item, cellIndex) =>
                   cellIndex === 0 && isSelectable ? (
-                    <>
-                      {row.selectionTooltip ? (
-                        <Td
-                          className={item.className}
-                          dataLabel={columns[cellIndex].name}
-                          key={`cell-${cellIndex}-${rowIndex}`}
-                          modifier={isNoWrapCell ? 'nowrap' : undefined}
-                          noPadding={isNoPadding}
-                          style={item.style}
-                        >
-                          <Tooltip content={row.selectionTooltip}>
-                            <Checkbox
-                              checked={row.selected}
-                              id={`cell-${cellIndex}-${rowIndex}`}
-                              isDisabled={row.selectionDisabled}
-                              key={`cell-${cellIndex}-${rowIndex}`}
-                              onChange={(_event, checked) => handleOnSelect(checked, rowIndex)}
-                            />
-                          </Tooltip>
-                        </Td>
-                      ) : (
-                        <Td
-                          className={item.className}
-                          dataLabel={columns[cellIndex].name}
-                          key={`cell-${cellIndex}-${rowIndex}`}
-                          modifier={isNoWrapCell ? 'nowrap' : undefined}
-                          noPadding={isNoPadding}
-                          select={{
-                            isDisabled: row.selectionDisabled, // Disable select for "no-project"
-                            isSelected: row.selected,
-                            onSelect: (_evt, isSelected) => handleOnSelect(isSelected, rowIndex),
-                            rowIndex,
-                            variant,
-                          }}
-                          style={item.style}
-                        />
-                      )}
-                    </>
+                    row.selectionTooltip ? (
+                      <Td
+                        className={item.className}
+                        dataLabel={columns?.[cellIndex]?.name}
+                        key={`cell-${cellIndex}-${rowIndex}`}
+                        modifier={isNoWrapCell ? 'nowrap' : undefined}
+                        noPadding={isNoPadding}
+                        style={item.style}
+                      >
+                        <Tooltip content={row.selectionTooltip}>
+                          <Checkbox
+                            checked={row.selected}
+                            id={`cell-${cellIndex}-${rowIndex}-cb`}
+                            isDisabled={row.selectionDisabled}
+                            onChange={(_event, checked) => handleOnSelect(checked, rowIndex)}
+                          />
+                        </Tooltip>
+                      </Td>
+                    ) : (
+                      <Td
+                        className={item.className}
+                        dataLabel={columns?.[cellIndex]?.name}
+                        key={`cell-${cellIndex}-${rowIndex}`}
+                        modifier={isNoWrapCell ? 'nowrap' : undefined}
+                        noPadding={isNoPadding}
+                        select={{
+                          isDisabled: row.selectionDisabled, // Disable select for "no-project"
+                          isSelected: row.selected,
+                          onSelect: (_evt, isSelected) => handleOnSelect(isSelected, rowIndex),
+                          rowIndex,
+                          variant,
+                        }}
+                        style={item.style}
+                      />
+                    )
                   ) : (
                     <Td
                       className={item.className}
