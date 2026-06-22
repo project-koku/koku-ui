@@ -112,7 +112,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     ) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
-        showDatePicker: dateRangeType === DateRangeType.custom,
+        ...(prevProps.dateRangeType !== dateRangeType && {
+          showDatePicker: dateRangeType === DateRangeType.custom,
+        }),
       });
     }
     if (
