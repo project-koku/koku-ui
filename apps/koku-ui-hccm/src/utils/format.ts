@@ -20,7 +20,7 @@ export const countDecimals = (value: string, useLocale: boolean = true) => {
 // Helper to test if narrow symbol should be shown for currencies
 const isNarrowSymbol = (currency: string) => {
   // Special case to show currency symbol for all browser locales
-  const narrowCurrencies = ['CZK', 'DKK', 'NGN', 'NOK', 'SEK', 'SGD', 'ZAR'];
+  const narrowCurrencies = ['CZK', 'DKK', 'GHS', 'NGN', 'NOK', 'SEK', 'SGD', 'ZAR'];
   return narrowCurrencies.includes(currency);
 };
 
@@ -37,6 +37,7 @@ const isNarrowSymbol = (currency: string) => {
 // DKK: kr
 // EUR: €
 // GBP: £
+// GHS: GH₵
 // HKD: HK$
 // INR: ₹
 // JPY: ¥

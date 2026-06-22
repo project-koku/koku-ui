@@ -12,7 +12,7 @@ export interface CostModelProvider {
 export interface CostModel {
   created_timestamp?: Date;
   currency?: string;
-  description: string;
+  description?: string;
   distribution_info?: {
     distribution_type?: string;
     gpu_unallocated?: boolean;
@@ -21,18 +21,25 @@ export interface CostModel {
     storage_unattributed?: boolean;
     worker_cost?: boolean;
   };
-  markup: { value: string; unit: string };
-  name: string;
-  rates: Rate[];
+  markup?: { value: string; unit: string };
+  name?: string;
+  price_lists?: {
+    effective_end_date?: string;
+    effective_start_date?: string;
+    name?: string;
+    priority?: number;
+    uuid?: string;
+  }[];
+  rates?: Rate[];
   sources?: CostModelProvider[];
   source_type: string;
-  updated_timestamp?: Date;
+  updated_timestamp?: string;
   uuid?: string;
 }
 
 export interface CostModelRequest {
   currency?: string;
-  description: string;
+  description?: string;
   distribution_info?: {
     distribution_type?: string;
     gpu_unallocated?: boolean;
@@ -41,11 +48,19 @@ export interface CostModelRequest {
     storage_unattributed?: boolean;
     worker_cost?: boolean;
   };
-  markup: { value: string; unit: string };
-  name: string;
-  rates: RateRequest[];
-  source_type: string;
-  source_uuids: string[];
+  markup?: { value: string; unit: string };
+  name?: string;
+  price_lists?: {
+    effective_end_date?: string;
+    effective_start_date?: string;
+    name?: string;
+    priority?: number;
+    uuid?: string;
+  }[];
+  price_list_uuids?: string[];
+  rates?: RateRequest[];
+  source_type?: string;
+  source_uuids?: string[];
 }
 
 export type CostModels = PagedResponse<CostModel>;
@@ -62,10 +77,10 @@ export function addCostModel(request: CostModelRequest) {
   return axiosInstance.post(`cost-models/`, request);
 }
 
-export function updateCostModel(uuid: string, request: CostModelRequest) {
-  return axiosInstance.put(`cost-models/${uuid}/`, request);
-}
-
 export function deleteCostModel(uuid: string) {
   return axiosInstance.delete(`cost-models/${uuid}/`);
+}
+
+export function updateCostModel(uuid: string, request: CostModelRequest) {
+  return axiosInstance.put(`cost-models/${uuid}/`, request);
 }

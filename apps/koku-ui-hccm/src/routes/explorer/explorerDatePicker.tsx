@@ -160,7 +160,10 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
   private handleOnStartDateOnChange = (evt: FormEvent, value: string, date?: Date) => {
     if (date && this.isStartDateValid(date)) {
       this.setState({ startDate: date }, () => {
-        if (this.endDateRef?.current) {
+        // Only open the end calendar when the start date was picked from the calendar.
+        // Manual text entry passes a real event; calendar selection passes null (see PF DatePicker).
+        // Auto-opening here steals focus via the popover focus trap and returns it to the start input.
+        if (!evt && this.endDateRef?.current) {
           this.endDateRef.current.setCalendarOpen(true);
         }
       });

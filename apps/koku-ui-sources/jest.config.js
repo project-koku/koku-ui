@@ -3,6 +3,11 @@ const baseConfig = require('../../jest.config.base');
 /** @type {import('jest').Config} */
 module.exports = {
   ...baseConfig,
+  // Base config enables fake timers globally, which breaks React act() in RTL tests.
+  // async-validate-name.test.ts opts in with jest.useFakeTimers() locally.
+  fakeTimers: {
+    enableGlobally: false,
+  },
   roots: ['<rootDir>/src'],
   setupFiles: ['<rootDir>/test/testEnv.js'],
   setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'],

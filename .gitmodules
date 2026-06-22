@@ -1,3 +1,6 @@
 [submodule "build-tools"]
 	path = build-tools
 	url = https://github.com/RedHatInsights/insights-frontend-builder-common.git
+[submodule "vendor/insights-rbac-ui"]
+	path = vendor/insights-rbac-ui
+	url = https://github.com/RedHatInsights/insights-rbac-ui.git

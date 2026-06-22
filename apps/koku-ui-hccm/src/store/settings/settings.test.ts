@@ -66,14 +66,14 @@ describe('settings store', () => {
 		const fid = getFetchId(SettingsType.tags, '');
 		let slice: any = emptySlice();
 		slice = settingsReducer(slice, updateSettingsRequest({ fetchId: fid } as any));
-		expect(selectors.selectSettingsUpdateStatus(makeRoot(slice), SettingsType.tags)).toBe(FetchStatus.inProgress);
+		expect(selectors.selectSettingsFetchStatus(makeRoot(slice), SettingsType.tags, '')).toBe(FetchStatus.inProgress);
 
 		slice = settingsReducer(slice, updateSettingsSuccess({} as any, { fetchId: fid, notification: { title: 't' } } as any));
-		expect(selectors.selectSettingsUpdateStatus(makeRoot(slice), SettingsType.tags)).toBe(FetchStatus.complete);
-		expect(selectors.selectSettingsUpdateNotification(makeRoot(slice), SettingsType.tags)).toEqual({ title: 't' });
+		expect(selectors.selectSettingsFetchStatus(makeRoot(slice), SettingsType.tags, '')).toBe(FetchStatus.complete);
+		expect(selectors.selectSettingsNotification(makeRoot(slice), SettingsType.tags, '')).toEqual({ title: 't' });
 
 		slice = settingsReducer(slice, updateSettingsFailure({} as any, { fetchId: fid, notification: { title: 'e' } } as any));
-		expect(selectors.selectSettingsUpdateError(makeRoot(slice), SettingsType.tags)).toEqual({});
+		expect(selectors.selectSettingsError(makeRoot(slice), SettingsType.tags, '')).toEqual({});
 	});
 
 	test('fetchSettings thunk: success dispatches request and success', async () => {

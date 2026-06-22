@@ -13,12 +13,13 @@ enum QueryFilterType {
   filter = 'filter_by',
 }
 
-export const addFilterToQuery = (query: Query, filter: Filter) => {
+export const addFilterToQuery = (query: Query, filter: Filter, isMultiSelect = true) => {
   return addQueryFilter(
     query,
     filter?.excludeType === CriteriaType.exact ? `exact:${filter?.type}` : filter?.type,
     filter?.value,
-    filter?.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
+    filter?.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter,
+    isMultiSelect
   );
 };
 
@@ -26,7 +27,8 @@ export const addQueryFilter = (
   query: Query,
   filterType: string,
   filterValue: string,
-  queryFilterType: QueryFilterType
+  queryFilterType: QueryFilterType,
+  isMultiSelect = true
 ) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
   if (!newQuery[queryFilterType]) {
@@ -38,7 +40,7 @@ export const addQueryFilter = (
     return;
   }
 
-  if (newQuery[queryFilterType] && newQuery[queryFilterType][filterType]) {
+  if (newQuery[queryFilterType] && newQuery[queryFilterType][filterType] && isMultiSelect) {
     let found = false;
     const filters = newQuery[queryFilterType][filterType];
     if (!Array.isArray(filters)) {

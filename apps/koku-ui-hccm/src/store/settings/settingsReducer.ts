@@ -9,7 +9,7 @@ import {
   fetchSettingsFailure,
   fetchSettingsRequest,
   fetchSettingsSuccess,
-  resetNotification,
+  resetNotifications,
   resetStatus,
   updateSettingsFailure,
   updateSettingsRequest,
@@ -37,7 +37,7 @@ export type SettingsAction = ActionType<
   | typeof updateSettingsFailure
   | typeof updateSettingsRequest
   | typeof updateSettingsSuccess
-  | typeof resetNotification
+  | typeof resetNotifications
   | typeof resetState
   | typeof resetStatus
 >;
@@ -48,7 +48,7 @@ export function settingsReducer(state = defaultState, action: SettingsAction): S
       state = defaultState;
       return state;
 
-    case getType(resetNotification):
+    case getType(resetNotifications):
       state = {
         ...state,
         notification: new Map(),
