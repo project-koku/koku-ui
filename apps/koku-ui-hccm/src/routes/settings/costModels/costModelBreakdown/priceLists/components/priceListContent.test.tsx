@@ -46,7 +46,7 @@ describe('PriceListContent', () => {
   beforeEach(() => {
     (api.fetchPriceList as jest.Mock).mockResolvedValue({
       data: {
-        meta: { count: 2, limit: 5, offset: 0 },
+        meta: { count: 2, limit: 10, offset: 0 },
         data: [
           { uuid: 'pl-1', name: 'List 1', currency: 'USD' },
           { uuid: 'pl-2', name: 'List 2', currency: 'USD' },
