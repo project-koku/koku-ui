@@ -80,14 +80,13 @@ const AddPriceListModal: React.FC<AddPriceListModalProps> = ({
         setIsFinish(true);
         setPriceLists(newPriceLists);
 
-        const uuids = newPriceLists.map(item => item.uuid) ?? [];
-
         dispatch(
           costModelsActions.updateCostModel(costModel?.uuid, {
             ...(costModel ?? {}),
             price_lists: undefined,
-            price_list_uuids: uuids,
+            price_list_uuids: newPriceLists.map(item => item.uuid) ?? [],
             source_type: getSourceType(costModel?.source_type),
+            source_uuids: costModel?.sources?.map(cm => cm.uuid) ?? [],
           })
         );
       } else {
