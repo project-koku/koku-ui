@@ -52,7 +52,7 @@ export interface IntegrationContentHandle {
 type IntegrationContentProps = IntegrationContentOwnProps;
 
 const baseQuery: Query = {
-  limit: 5,
+  limit: 10,
   offset: 0,
   filter_by: {},
 };
