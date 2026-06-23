@@ -98,12 +98,12 @@ const MarkupModal: React.FC<MarkupModalProps> = ({
     if (costModelsUpdateStatus !== FetchStatus.inProgress) {
       const items = {
         ...costModel,
-        source_uuids: costModel?.sources?.map(provider => provider.uuid),
-        source_type: getSourceType(costModel?.source_type),
         markup: {
           value: unFormat(markupOrDiscount),
           unit: 'percent',
         },
+        source_type: getSourceType(costModel?.source_type),
+        source_uuids: costModel?.sources?.map(provider => provider.uuid) ?? [],
       };
 
       if (costModel?.uuid && isDispatch) {
