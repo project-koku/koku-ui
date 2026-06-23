@@ -66,7 +66,7 @@ export interface PriceListContentHandle {
 type PriceListContentProps = PriceListContentOwnProps;
 
 const baseQuery: Query = {
-  limit: 5,
+  limit: 10,
   offset: 0,
   filter_by: {},
   order_by: {
