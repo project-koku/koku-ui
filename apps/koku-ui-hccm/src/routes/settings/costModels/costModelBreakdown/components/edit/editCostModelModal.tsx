@@ -54,6 +54,7 @@ const EditCostModelModal: React.FC<EditCostModelModalProps> = ({
         ...(costModel ?? {}),
         ...item,
         source_type: getSourceType(costModel?.source_type),
+        source_uuids: costModel?.sources?.map(cm => cm.uuid) ?? [],
       };
       setPayload(newCostModel);
 
