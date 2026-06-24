@@ -2,6 +2,7 @@ import { PageHeader } from '@patternfly/react-component-groups';
 import { EmptyState, EmptyStateBody, PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons';
 import type { CostModel } from 'api/costModels';
+import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
@@ -18,6 +19,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { getSourceType } from 'routes/settings/costModels/costModel/utils';
 import { useCostModelNotifications } from 'routes/settings/costModels/utils';
 import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
@@ -107,10 +109,6 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     const availableTabs: AvailableTab[] = [
       {
         contentRef: React.createRef(),
-        tab: CostModelBreakdownTab.priceLists,
-      },
-      {
-        contentRef: React.createRef(),
         tab: CostModelBreakdownTab.costCalculations,
       },
       {
@@ -118,6 +116,14 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
         tab: CostModelBreakdownTab.integrations,
       },
     ];
+
+    // Add price list tab for OCP
+    if (getSourceType(costModel?.source_type) === ProviderType.ocp) {
+      availableTabs.unshift({
+        contentRef: React.createRef(),
+        tab: CostModelBreakdownTab.priceLists,
+      });
+    }
     return availableTabs;
   };
 
@@ -214,6 +220,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/refs
   const availableTabs = getAvailableTabs();
 
   if (costModelsFetchError) {
