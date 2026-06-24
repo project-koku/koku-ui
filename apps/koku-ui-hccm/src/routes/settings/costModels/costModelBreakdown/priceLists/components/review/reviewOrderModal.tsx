@@ -4,16 +4,16 @@ import messages from 'locales/messages';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
-interface ReviewChangeModalOwnProps {
-  costModel: CostModel;
+interface ReviewOrderModalOwnProps {
+  costModel?: CostModel;
   isOpen?: boolean;
   onClose?: () => void;
   onConfirm?: () => void;
 }
 
-type ReviewChangeModalProps = ReviewChangeModalOwnProps;
+type ReviewOrderModalProps = ReviewOrderModalOwnProps;
 
-const ReviewChangeModal: React.FC<ReviewChangeModalProps> = ({ costModel, isOpen, onClose, onConfirm }) => {
+const ReviewOrderModal: React.FC<ReviewOrderModalProps> = ({ costModel, isOpen, onClose, onConfirm }) => {
   const intl = useIntl();
 
   // Skip dialog if cost models does not have sources
@@ -36,7 +36,7 @@ const ReviewChangeModal: React.FC<ReviewChangeModalProps> = ({ costModel, isOpen
     <Modal className="costManagement" isOpen={isOpen} onClose={onClose} variant={ModalVariant.small}>
       <ModalHeader title={intl.formatMessage(messages.priceListReview)} />
       <ModalBody>
-        {intl.formatMessage(messages.priceListReviewChange, { costModel: <b>{costModel?.name ?? ''}</b> })}
+        {intl.formatMessage(messages.priceListReviewOrder, { costModel: <b>{costModel?.name ?? ''}</b> })}
       </ModalBody>
       <ModalFooter>
         <Button onClick={onConfirm} variant="primary">
@@ -50,4 +50,4 @@ const ReviewChangeModal: React.FC<ReviewChangeModalProps> = ({ costModel, isOpen
   );
 };
 
-export { ReviewChangeModal };
+export { ReviewOrderModal };
