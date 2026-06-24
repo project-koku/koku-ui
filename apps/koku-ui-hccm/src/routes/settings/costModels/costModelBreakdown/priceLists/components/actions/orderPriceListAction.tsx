@@ -38,7 +38,9 @@ const OrderPriceListAction: React.FC<OrderPriceListActionProps> = ({
       <Button
         aria-label={intl.formatMessage(isDraggable ? messages.cancelOrdering : messages.orderPriceLists)}
         isAriaDisabled={!canWrite || isDisabled}
-        onClick={() => (isDraggable ? onOrder?.() : handleOnReviewModalClick())}
+        onClick={() =>
+          isDraggable ? onOrder?.() : costModel?.sources?.length ? handleOnReviewModalClick() : onOrder?.()
+        }
         variant={ButtonVariant.link}
       >
         {intl.formatMessage(isDraggable ? messages.cancelOrdering : messages.orderPriceLists)}
