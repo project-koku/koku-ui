@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalVariant } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 
 interface ReviewOrderModalOwnProps {
@@ -19,11 +19,17 @@ const ReviewOrderModal: React.FC<ReviewOrderModalProps> = ({ costModel, isOpen, 
   // Skip dialog if cost models does not have sources
   const shouldSkip = !costModel?.sources?.length;
 
+  const latestOnConfirm = useRef(onConfirm);
+
+  useLayoutEffect(() => {
+    latestOnConfirm.current = onConfirm;
+  }, [onConfirm]);
+
   useEffect(() => {
     if (isOpen && shouldSkip) {
-      onConfirm?.();
+      latestOnConfirm.current?.();
     }
-  }, [isOpen, shouldSkip, onConfirm]);
+  }, [isOpen, shouldSkip]);
 
   if (shouldSkip) {
     return null;
