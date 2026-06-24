@@ -4,7 +4,7 @@ import { IntlProvider } from 'react-intl';
 
 import { ReviewChangeModal } from './reviewChangeModal';
 
-const costModel = { uuid: 'cm-1', name: 'Model' } as any;
+const costModel = { uuid: 'cm-1', name: 'Model', sources: [{ uuid: 'source-1' }] } as any;
 
 describe('ReviewChangeModal', () => {
   test('confirm and close invoke callbacks', () => {
@@ -20,5 +20,16 @@ describe('ReviewChangeModal', () => {
     expect(onConfirm).toHaveBeenCalled();
     fireEvent.click(within(dialog).getByRole('button', { name: /cancel/i }));
     expect(onClose).toHaveBeenCalled();
+  });
+
+  test('skips dialog and calls onConfirm when cost model has no sources', () => {
+    const onConfirm = jest.fn();
+    render(
+      <IntlProvider locale="en">
+        <ReviewChangeModal costModel={{ uuid: 'cm-1', name: 'Model' } as any} isOpen onConfirm={onConfirm} />
+      </IntlProvider>
+    );
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(onConfirm).toHaveBeenCalled();
   });
 });

@@ -9,7 +9,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { type UserAccess, UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { type RefObject, useCallback, useState } from 'react';
+import React, { type RefObject, useCallback, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -86,6 +86,10 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const costCalculationsRef = useRef<HTMLDivElement>(null);
+  const integrationsRef = useRef<HTMLDivElement>(null);
+  const priceListsRef = useRef<HTMLDivElement>(null);
+
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
@@ -108,11 +112,11 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const getAvailableTabs = () => {
     const availableTabs: AvailableTab[] = [
       {
-        contentRef: React.createRef(),
+        contentRef: costCalculationsRef,
         tab: CostModelBreakdownTab.costCalculations,
       },
       {
-        contentRef: React.createRef(),
+        contentRef: integrationsRef,
         tab: CostModelBreakdownTab.integrations,
       },
     ];
@@ -120,7 +124,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     // Add price list tab for OCP
     if (getSourceType(costModel?.source_type) === ProviderType.ocp) {
       availableTabs.unshift({
-        contentRef: React.createRef(),
+        contentRef: priceListsRef,
         tab: CostModelBreakdownTab.priceLists,
       });
     }

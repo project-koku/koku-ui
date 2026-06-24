@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
 interface ReviewOrderModalOwnProps {
-  costModel: CostModel;
+  costModel?: CostModel;
   isOpen?: boolean;
   onClose?: () => void;
   onConfirm?: () => void;
@@ -17,7 +17,7 @@ const ReviewOrderModal: React.FC<ReviewOrderModalProps> = ({ costModel, isOpen, 
   const intl = useIntl();
 
   // Skip dialog if cost models does not have sources
-  const shouldSkip = costModel?.sources?.length === 0;
+  const shouldSkip = !costModel?.sources?.length;
 
   useEffect(() => {
     if (isOpen && shouldSkip) {

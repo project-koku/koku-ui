@@ -7,7 +7,7 @@ import { ReviewOrderModal } from 'routes/settings/costModels/costModelBreakdown/
 
 interface OrderPriceListActionOwnProps {
   canWrite?: boolean;
-  costModel: CostModel;
+  costModel?: CostModel;
   isDisabled?: boolean;
   isDraggable?: boolean;
   onClose?: () => void;
