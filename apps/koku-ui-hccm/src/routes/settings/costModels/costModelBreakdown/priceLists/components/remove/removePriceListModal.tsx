@@ -89,9 +89,6 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
     }
   }, [isFinish, costModel, costModelsUpdateError, costModelsUpdateStatus, onRemove, selectedItems]);
 
-  // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
-  // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
-
   return <ReviewChangeModal costModel={costModel} isOpen={isOpen} onClose={onClose} onConfirm={handleOnRemove} />;
 };
 
