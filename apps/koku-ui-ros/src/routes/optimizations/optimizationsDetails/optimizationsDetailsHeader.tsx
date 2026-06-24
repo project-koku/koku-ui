@@ -14,7 +14,7 @@ export interface OptimizationsDetailsHeaderStateProps {
 }
 
 interface OptimizationsDetailsHeaderOwnProps {
-  currentInterval: Interval;
+  interval: Interval;
   namespace: RosNamespace;
   onIntervalSelect?: (value: Interval) => void;
   onNamespaceSelect?: (value: RosNamespace) => void;
@@ -25,7 +25,7 @@ interface OptimizationsDetailsHeaderOwnProps {
 type OptimizationsDetailsHeaderProps = OptimizationsDetailsHeaderOwnProps;
 
 const OptimizationsDetailsHeader: React.FC<OptimizationsDetailsHeaderProps> = ({
-  currentInterval,
+  interval,
   namespace,
   onIntervalSelect,
   onNamespaceSelect,
@@ -42,7 +42,7 @@ const OptimizationsDetailsHeader: React.FC<OptimizationsDetailsHeaderProps> = ({
         <>
           {intl.formatMessage(messages.optimizationsDesc)}
           <OptimizationsDetailsToolbar
-            currentInterval={currentInterval}
+            interval={interval}
             namespace={namespace}
             onIntervalSelect={onIntervalSelect}
             onNamespaceSelect={onNamespaceSelect}

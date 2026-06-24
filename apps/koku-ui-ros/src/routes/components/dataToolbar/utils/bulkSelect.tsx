@@ -65,7 +65,7 @@ export const getBulkSelect = ({
     if (onBulkSelectClicked) {
       onBulkSelectClicked(checked ? 'all' : 'none');
     }
-    onBulkSelectToggle(false);
+    onBulkSelectToggle?.(false);
   };
 
   const toggle = toggleRef => {
