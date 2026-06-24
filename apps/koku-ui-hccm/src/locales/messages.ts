@@ -849,7 +849,7 @@ export default defineMessages({
   },
   costModelsRecalculateDesc: {
     defaultMessage:
-      'This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+      'This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Changes will apply only to data from the current month onwards; historical data from past months will not be affected.',
     description: 'Recalculating charges',
     id: 'costModelsRecalculateDesc',
   },
@@ -3898,10 +3898,17 @@ export default defineMessages({
   },
   priceListReviewChange: {
     defaultMessage:
-      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+      'Assigning or unassigning price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
     description:
-      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+      'Assigning or unassigning price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
     id: 'priceListReviewChange',
+  },
+  priceListReviewOrder: {
+    defaultMessage:
+      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
+    description:
+      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
+    id: 'priceListReviewOrder',
   },
   priceListReviewUpdate: {
     defaultMessage:
