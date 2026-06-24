@@ -12,11 +12,11 @@ import React from 'react';
 import avatar from '#/assets/avatarimg.svg';
 import { fetchCurrentUser } from '#/data/api';
 
-function useCurrentUser(): string {
+function useCurrentUser(): string | undefined {
   const [username, setUsername] = React.useState<string>();
   React.useEffect(() => {
     fetchCurrentUser()
-      .then(u => setUsername(u.username || u.email))
+      .then(u => setUsername(u.username || u.email || 'User'))
       .catch(() => setUsername('User'));
   }, []);
   return username;

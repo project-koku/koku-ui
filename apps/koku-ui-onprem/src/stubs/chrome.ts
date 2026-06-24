@@ -8,14 +8,14 @@ const chromeStub = {
       return {
         identity: {
           user: {
-            email: user.email,
+            email: user.email || 'dev@example.com',
             first_name: 'Dev',
             is_active: true,
             is_internal: false,
             is_org_admin: true,
             last_name: 'User',
             locale: 'en',
-            username: user.username,
+            username: user.username || 'dev-user',
           },
           org_id: 'dev-org',
           type: 'User',
