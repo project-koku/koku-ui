@@ -17,7 +17,7 @@ const ReviewChangeModal: React.FC<ReviewChangeModalProps> = ({ costModel, isOpen
   const intl = useIntl();
 
   // Skip dialog if cost models does not have sources
-  const shouldSkip = costModel?.sources?.length === 0;
+  const shouldSkip = !costModel?.sources?.length;
 
   useEffect(() => {
     if (isOpen && shouldSkip) {
