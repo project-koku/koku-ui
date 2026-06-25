@@ -12,6 +12,7 @@ import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/co
 import { AddPriceListAction } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/actions';
 import type { Filter } from 'routes/utils/filter';
 
+import { OrderPriceListAction } from './components/actions/orderPriceListAction';
 import { PriceListActions } from './components/actions/priceListActions';
 
 interface OrderPriceListToolbarOwnProps {
@@ -76,9 +77,13 @@ const OrderPriceListToolbar: React.FC<OrderPriceListToolbarProps> = ({
         ) : (
           <AddPriceListAction canWrite={canWrite} costModel={costModel} isDisabled={isDisabled} onAdd={onAdd} />
         )}
-        <Button isAriaDisabled={isAriaDisabled || isOrderDisabled} onClick={onOrderClick} variant={ButtonVariant.link}>
-          {intl.formatMessage(isDraggable ? messages.cancelOrdering : messages.orderPriceLists)}
-        </Button>
+        <OrderPriceListAction
+          canWrite={canWrite}
+          costModel={costModel}
+          isDisabled={isAriaDisabled || isOrderDisabled}
+          isDraggable={isDraggable}
+          onOrder={onOrderClick}
+        />
         <PriceListActions
           canWrite={canWrite}
           costModel={costModel}
