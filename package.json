@@ -33,6 +33,7 @@
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRCS,RBAC\" --prefix-colors \"yellow,cyan,magenta,green,blue\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\" \"npm run -w @koku-ui/rbac-ui-onprem start:onprem\"",
     "start:onprem:dev": ". scripts/setup-onprem-env.sh && npm run start:onprem",
+    "start:onprem:auth": ". scripts/setup-onprem-env.sh && scripts/start-onprem-auth.mts",
     "start:onprem:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
   },
   "scripts-info": {
@@ -43,6 +44,7 @@
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI",
     "start:onprem:dev": "Runs onprem UI against a deployment made with the cost-onprem Helm chart",
+    "start:onprem:auth": "Use when you need to test the login screen, session expiry, or logout redirect. Runs the on-prem UI behind a local oauth2-proxy container (real OIDC PKCE flow) — requires Podman or Docker",
     "start:onprem:koku": "Run onprem UI with local Koku API"
   },
   "devDependencies": {
@@ -73,7 +75,7 @@
     "eslint": "^10.5.0",
     "eslint-plugin-formatjs": "^6.4.15",
     "eslint-plugin-jest-dom": "^5.5.0",
-    "eslint-plugin-jsdoc": "^63.0.6",
+    "eslint-plugin-jsdoc": "^63.0.7",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",
@@ -88,7 +90,7 @@
     "jest-environment-jsdom": "^30.4.1",
     "jest-mock-axios": "^4.9.0",
     "jest-transform-stub": "^2.0.0",
-    "npm-check-updates": "^22.2.3",
+    "npm-check-updates": "^22.2.7",
     "npm-run-all2": "^9.0.2",
     "prettier": "^3.8.4",
     "rimraf": "^6.1.3",

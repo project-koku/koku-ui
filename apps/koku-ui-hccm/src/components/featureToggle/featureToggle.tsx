@@ -1,6 +1,6 @@
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { useUnleashClient } from '@unleash/proxy-client-react';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
@@ -69,12 +69,12 @@ export const useIsOrgAdmin = () => {
   const { auth } = useChrome();
   const [isOrgAdmin, setIsOrgAdmin] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let ignore = false;
 
     auth.getUser().then(user => {
       if (!ignore) {
-        setIsOrgAdmin(!!(user as any).identity?.user?.is_org_admin);
+        setIsOrgAdmin(!!(user as any)?.identity?.user?.is_org_admin);
       }
     });
 
