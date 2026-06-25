@@ -4,9 +4,13 @@
 #
 # Prerequisites: `oc` CLI installed (will prompt for login if needed)
 #
+# Discovery order:
+#   1. CostManagementMetricsConfig CR (CMMO operator, if installed)
+#   2. cost-onprem Helm chart resources (route + keycloak-debug CM + keycloak secret)
+#
 # Usage:
 #   source scripts/setup-onprem-env.sh            # auto-detect everything
-#   source scripts/setup-onprem-env.sh my-ns      # specify the operator namespace
+#   source scripts/setup-onprem-env.sh my-ns      # override cost-onprem namespace
 #
 # Then run:
 #   npm run start:onprem
@@ -27,48 +31,80 @@ fi
 echo "Logged in as $(oc whoami) on $(oc whoami --show-server)"
 
 # ---------------------------------------------------------------------------
-# Locate the CostManagementMetricsConfig CR
+# Strategy 1: CostManagementMetricsConfig CR (CMMO operator)
 # ---------------------------------------------------------------------------
 
 echo "Looking for CostManagementMetricsConfig CR..."
 
-CMC_LINE=$(kubectl get costmanagementmetricsconfig -A --no-headers -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' 2>/dev/null | head -1)
+CMC_LINE=$(kubectl get costmanagementmetricsconfig -A --no-headers \
+  -o custom-columns='NS:.metadata.namespace,NAME:.metadata.name' 2>/dev/null || true)
+CMC_LINE=$(echo "$CMC_LINE" | head -1 | xargs 2>/dev/null || true)
 
-[[ -z "$CMC_LINE" ]] && _fail "no CostManagementMetricsConfig found on this cluster"
+if [[ -n "$CMC_LINE" ]]; then
+  CMC_NS=$(echo "$CMC_LINE" | awk '{print $1}')
+  CMC_NAME=$(echo "$CMC_LINE" | awk '{print $2}')
+  echo "  Found: $CMC_NAME in namespace $CMC_NS"
 
-CMC_NS=$(echo "$CMC_LINE" | awk '{print $1}')
-CMC_NAME=$(echo "$CMC_LINE" | awk '{print $2}')
+  API_URL=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
+    -o jsonpath='{.spec.api_url}')
+  TOKEN_URL=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
+    -o jsonpath='{.spec.authentication.token_url}')
+  SECRET_NAME=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
+    -o jsonpath='{.spec.authentication.secret_name}')
+  SOURCES_PATH=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
+    -o jsonpath='{.spec.source.sources_path}')
+  SOURCES_PATH="${SOURCES_PATH:-/api/cost-management/v1/}"
 
-echo "  Found: $CMC_NAME in namespace $CMC_NS"
+  [[ -z "$API_URL" ]]     && _fail "spec.api_url is empty in $CMC_NAME"
+  [[ -z "$TOKEN_URL" ]]   && _fail "spec.authentication.token_url is empty in $CMC_NAME"
+  [[ -z "$SECRET_NAME" ]] && _fail "spec.authentication.secret_name is empty in $CMC_NAME"
 
-# ---------------------------------------------------------------------------
-# Extract values from the CR spec via jsonpath
-# ---------------------------------------------------------------------------
+  echo "  Reading secret: $SECRET_NAME"
+  CLIENT_ID=$(kubectl get secret "$SECRET_NAME" -n "$CMC_NS" \
+    -o jsonpath='{.data.client_id}' | base64 -d)
+  CLIENT_SECRET=$(kubectl get secret "$SECRET_NAME" -n "$CMC_NS" \
+    -o jsonpath='{.data.client_secret}' | base64 -d)
+  [[ -z "$CLIENT_ID" || -z "$CLIENT_SECRET" ]] && \
+    _fail "could not read client_id/client_secret from secret $SECRET_NAME"
 
-API_URL=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
-  -o jsonpath='{.spec.api_url}')
-TOKEN_URL=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
-  -o jsonpath='{.spec.authentication.token_url}')
-SECRET_NAME=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
-  -o jsonpath='{.spec.authentication.secret_name}')
-SOURCES_PATH=$(kubectl get costmanagementmetricsconfig "$CMC_NAME" -n "$CMC_NS" \
-  -o jsonpath='{.spec.source.sources_path}')
-SOURCES_PATH="${SOURCES_PATH:-/api/cost-management/v1/}"
+else
+  # ---------------------------------------------------------------------------
+  # Strategy 2: cost-onprem Helm chart resources (always present after chart install)
+  # ---------------------------------------------------------------------------
 
-[[ -z "$API_URL" ]]    && _fail "spec.api_url is empty in $CMC_NAME"
-[[ -z "$TOKEN_URL" ]]  && _fail "spec.authentication.token_url is empty in $CMC_NAME"
-[[ -z "$SECRET_NAME" ]] && _fail "spec.authentication.secret_name is empty in $CMC_NAME"
+  echo "  Not found — falling back to cost-onprem Helm chart resources"
+  HELM_NS="${1:-cost-onprem}"
 
-# ---------------------------------------------------------------------------
-# Read client credentials from the auth secret
-# ---------------------------------------------------------------------------
+  # API URL from the gateway route
+  ROUTE_HOST=$(oc get route cost-onprem-api -n "$HELM_NS" \
+    -o jsonpath='{.spec.host}' 2>/dev/null || true)
+  [[ -z "$ROUTE_HOST" ]] && _fail "route cost-onprem-api not found in namespace $HELM_NS"
+  API_URL="https://${ROUTE_HOST}"
+  SOURCES_PATH="/api/cost-management/v1/"
 
-echo "  Reading secret: $SECRET_NAME"
+  # Token URL from keycloak-debug configmap (written by the Helm chart)
+  KC_DEBUG_DATA=$(oc get cm cost-onprem-keycloak-debug -n "$HELM_NS" \
+    -o jsonpath='{.data.keycloak-detection-results\.yaml}' 2>/dev/null || true)
+  [[ -z "$KC_DEBUG_DATA" ]] && \
+    _fail "configmap cost-onprem-keycloak-debug not found in $HELM_NS"
 
-CLIENT_ID=$(kubectl get secret "$SECRET_NAME" -n "$CMC_NS" -o jsonpath='{.data.client_id}' | base64 -d)
-CLIENT_SECRET=$(kubectl get secret "$SECRET_NAME" -n "$CMC_NS" -o jsonpath='{.data.client_secret}' | base64 -d)
+  ISSUER_URL=$(echo "$KC_DEBUG_DATA" | grep 'issuer_url:' | awk '{print $2}' | tr -d '"\r')
+  [[ -z "$ISSUER_URL" ]] && _fail "issuer_url not found in cost-onprem-keycloak-debug"
+  TOKEN_URL="${ISSUER_URL}/protocol/openid-connect/token"
 
-[[ -z "$CLIENT_ID" || -z "$CLIENT_SECRET" ]] && _fail "could not read client_id/client_secret from secret $SECRET_NAME"
+  # Keycloak namespace and client credentials
+  KC_NS=$(echo "$KC_DEBUG_DATA" | grep 'keycloak_namespace:' | awk '{print $2}' | tr -d '"\r')
+  KC_NS="${KC_NS:-keycloak}"
+  SECRET_NAME="keycloak-client-secret-cost-management-operator"
+
+  echo "  Reading secret: $SECRET_NAME (ns: $KC_NS)"
+  CLIENT_ID=$(oc get secret "$SECRET_NAME" -n "$KC_NS" \
+    -o jsonpath='{.data.CLIENT_ID}' 2>/dev/null | base64 -d || true)
+  CLIENT_SECRET=$(oc get secret "$SECRET_NAME" -n "$KC_NS" \
+    -o jsonpath='{.data.CLIENT_SECRET}' 2>/dev/null | base64 -d || true)
+  [[ -z "$CLIENT_ID" || -z "$CLIENT_SECRET" ]] && \
+    _fail "could not read CLIENT_ID/CLIENT_SECRET from secret $SECRET_NAME in $KC_NS"
+fi
 
 # ---------------------------------------------------------------------------
 # Build API_PROXY_URL
@@ -119,10 +155,10 @@ export KEYCLOAK_CLIENT_SECRET="$CLIENT_SECRET"
 
 echo ""
 echo "Environment configured:"
-echo "  API_PROXY_URL        = $API_PROXY_URL"
-echo "  KEYCLOAK_TOKEN_URL   = $KEYCLOAK_TOKEN_URL"
-echo "  KEYCLOAK_CLIENT_ID   = $KEYCLOAK_CLIENT_ID"
+echo "  API_PROXY_URL          = $API_PROXY_URL"
+echo "  KEYCLOAK_TOKEN_URL     = $KEYCLOAK_TOKEN_URL"
+echo "  KEYCLOAK_CLIENT_ID     = $KEYCLOAK_CLIENT_ID"
 echo "  KEYCLOAK_CLIENT_SECRET = ${KEYCLOAK_CLIENT_SECRET:0:4}****"
-echo "  API_TOKEN            = ${ACCESS_TOKEN:0:20}..."
+echo "  API_TOKEN              = ${ACCESS_TOKEN:0:20}..."
 echo ""
 echo "Run:  npm run start:onprem"
