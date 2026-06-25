@@ -154,7 +154,10 @@ const config: Configuration & {
       },
     ],
     client: {
-      overlay: true,
+      // Show overlay for compilation errors only; excluding warnings prevents
+      // asset-size warnings from appearing as a full-screen iframe during
+      // Cypress runs (production build routinely exceeds the 244 KiB limit).
+      overlay: { errors: true, warnings: false },
     },
     setupMiddlewares,
     proxy: [
