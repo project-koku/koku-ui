@@ -2,17 +2,17 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 
-import { ReviewChangeModal } from './reviewChangeModal';
+import { ReviewOrderModal } from './reviewOrderModal';
 
 const costModel = { uuid: 'cm-1', name: 'Model', sources: [{ uuid: 'source-1' }] } as any;
 
-describe('ReviewChangeModal', () => {
+describe('ReviewOrderModal', () => {
   test('confirm and close invoke callbacks', () => {
     const onConfirm = jest.fn();
     const onClose = jest.fn();
     render(
       <IntlProvider locale="en">
-        <ReviewChangeModal costModel={costModel} isOpen onConfirm={onConfirm} onClose={onClose} />
+        <ReviewOrderModal costModel={costModel} isOpen onConfirm={onConfirm} onClose={onClose} />
       </IntlProvider>
     );
     const dialog = screen.getByRole('dialog');
@@ -26,7 +26,7 @@ describe('ReviewChangeModal', () => {
     const onConfirm = jest.fn();
     render(
       <IntlProvider locale="en">
-        <ReviewChangeModal costModel={{ uuid: 'cm-1', name: 'Model' } as any} isOpen onConfirm={onConfirm} />
+        <ReviewOrderModal costModel={{ uuid: 'cm-1', name: 'Model' } as any} isOpen onConfirm={onConfirm} />
       </IntlProvider>
     );
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

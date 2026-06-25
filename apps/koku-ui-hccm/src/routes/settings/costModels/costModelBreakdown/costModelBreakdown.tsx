@@ -2,13 +2,14 @@ import { PageHeader } from '@patternfly/react-component-groups';
 import { EmptyState, EmptyStateBody, PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons';
 import type { CostModel } from 'api/costModels';
+import { ProviderType } from 'api/providers';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { type UserAccess, UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { type RefObject, useCallback, useState } from 'react';
+import React, { type RefObject, useCallback, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +19,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { getSourceType } from 'routes/settings/costModels/costModel/utils';
 import { useCostModelNotifications } from 'routes/settings/costModels/utils';
 import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
@@ -84,6 +86,10 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const costCalculationsRef = useRef<HTMLDivElement>(null);
+  const integrationsRef = useRef<HTMLDivElement>(null);
+  const priceListsRef = useRef<HTMLDivElement>(null);
+
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
@@ -106,18 +112,22 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const getAvailableTabs = () => {
     const availableTabs: AvailableTab[] = [
       {
-        contentRef: React.createRef(),
-        tab: CostModelBreakdownTab.priceLists,
-      },
-      {
-        contentRef: React.createRef(),
+        contentRef: costCalculationsRef,
         tab: CostModelBreakdownTab.costCalculations,
       },
       {
-        contentRef: React.createRef(),
+        contentRef: integrationsRef,
         tab: CostModelBreakdownTab.integrations,
       },
     ];
+
+    // Add price list tab for OCP
+    if (getSourceType(costModel?.source_type) === ProviderType.ocp) {
+      availableTabs.unshift({
+        contentRef: priceListsRef,
+        tab: CostModelBreakdownTab.priceLists,
+      });
+    }
     return availableTabs;
   };
 
@@ -214,6 +224,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/refs
   const availableTabs = getAvailableTabs();
 
   if (costModelsFetchError) {

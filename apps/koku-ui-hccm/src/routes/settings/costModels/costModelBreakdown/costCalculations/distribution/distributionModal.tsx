@@ -112,8 +112,6 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
     if (costModelsUpdateStatus !== FetchStatus.inProgress) {
       const items = {
         ...costModel,
-        source_uuids: costModel?.sources?.map(provider => provider.uuid),
-        source_type: getSourceType(costModel?.source_type), // will always be OCP
         distribution_info: {
           distribution_type: distribution,
           gpu_unallocated: distributeGpu,
@@ -122,6 +120,8 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
           storage_unattributed: distributeStorage,
           worker_cost: distributeWorkerUnallocated,
         },
+        source_type: getSourceType(costModel?.source_type), // will always be OCP
+        source_uuids: costModel?.sources?.map(provider => provider.uuid) ?? [],
       };
 
       if (costModel?.uuid && isDispatch) {
