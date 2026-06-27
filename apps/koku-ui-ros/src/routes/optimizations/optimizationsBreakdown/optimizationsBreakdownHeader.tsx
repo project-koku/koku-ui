@@ -17,6 +17,7 @@ interface OptimizationsBreakdownHeaderOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   currentInterval?: string;
+  isContainers?: boolean;
   isDisabled?: boolean;
   linkState?: any;
   onSelect?: (value: string) => void;
@@ -31,6 +32,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
   breadcrumbLabel,
   breadcrumbPath,
   currentInterval,
+  isContainers,
   isDisabled,
   linkState,
   onSelect,
@@ -81,14 +83,18 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
               projectPath={projectPath}
             />
           </Content>
-          <Content component={ContentVariants.dt}>
-            {intl.formatMessage(messages.optimizationsValues, { value: 'workload_type' })}
-          </Content>
-          <Content component={ContentVariants.dd}>{workloadType}</Content>
-          <Content component={ContentVariants.dt}>
-            {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
-          </Content>
-          <Content component={ContentVariants.dd}>{workload}</Content>
+          {isContainers && (
+            <>
+              <Content component={ContentVariants.dt}>
+                {intl.formatMessage(messages.optimizationsValues, { value: 'workload_type' })}
+              </Content>
+              <Content component={ContentVariants.dd}>{workloadType}</Content>
+              <Content component={ContentVariants.dt}>
+                {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
+              </Content>
+              <Content component={ContentVariants.dd}>{workload}</Content>
+            </>
+          )}
         </Content>
       </Content>
     );
