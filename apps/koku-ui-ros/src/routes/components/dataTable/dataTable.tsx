@@ -61,7 +61,8 @@ class DataTable extends React.Component<DataTableProps, any> {
   private getSortBy = (index: number, isNested: boolean) => {
     const { columns, nestedColumns, orderBy } = this.props;
 
-    const direction = orderBy && orderBy[isNested ? nestedColumns[index].orderBy : columns[index].orderBy];
+    const key = isNested ? nestedColumns?.[index]?.orderBy : columns?.[index]?.orderBy;
+    const direction = orderBy && key ? orderBy[key] : undefined;
 
     return direction
       ? {
