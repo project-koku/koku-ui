@@ -1,9 +1,11 @@
 import type { Query } from 'api/queries/query';
 
 export const getExcludeById = (query: Query, id: string) => {
-  return query?.exclude?.[id]?.[0] ?? undefined;
+  const value = query?.exclude?.[id];
+  return (Array.isArray(value) ? value[0] : value) ?? undefined;
 };
 
 export const getFilterById = (query: Query, id: string) => {
-  return query?.filter_by?.[id]?.[0] ?? undefined;
+  const value = query?.filter_by?.[id];
+  return (Array.isArray(value) ? value[0] : value) ?? undefined;
 };
