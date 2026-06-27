@@ -67,6 +67,9 @@ export const getKebab = ({
       toString: () => intl.formatMessage(messages.detailsColumnManagementTitle),
     });
   }
+  if (items.length === 0) {
+    return null;
+  }
   return (
     <ToolbarItem visibility={{ xl: 'hidden' }}>
       <DropdownWrapper isKebab items={items} />
