@@ -30,10 +30,6 @@ const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTable
   const groupBy = queryFromRoute?.group_by ? getGroupById(queryFromRoute) : undefined;
   const groupByValue = queryFromRoute?.group_by ? getGroupByValue(queryFromRoute) : 'openshift-kube-apiserver';
 
-  // Test filters
-  const clusterFilter = 'aws';
-  const projectFilter = 'openshift';
-
   return (
     <PageSection>
       <OptimizationsContainersTable
@@ -41,11 +37,9 @@ const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTable
           intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue }) as string
         }
         breadcrumbPath={formatPath(`${routes.optimizationsContainersTable.path}${location.search}`)}
-        cluster={clusterFilter}
         isClusterHidden={groupBy === 'cluster'}
         isProjectHidden={groupBy === 'project'}
         linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
-        project={projectFilter}
         queryStateName="optimizationsDetailsState"
       />
     </PageSection>
