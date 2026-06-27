@@ -305,7 +305,7 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
   }, [reportQueryString]);
 
   return {
-    breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
+    breadcrumbLabel: queryFromRoute?.[breadcrumbLabelKey],
     breadcrumbPath: location?.state?.[queryStateName]?.breadcrumbPath,
     isBoxPlotToggleEnabled: useIsBoxPlotToggleEnabled(),
     interval: location?.state?.[queryStateName]?.interval,

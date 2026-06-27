@@ -12,39 +12,26 @@ export const getDefaultInterval = (
   optimizationType: OptimizationType,
   recommendations?: Recommendations
 ): Interval => {
-  let result = Interval.short_term;
   const terms = recommendations?.recommendation_terms;
-
   if (!terms) {
-    return result;
+    return Interval.short_term;
   }
 
-  switch (value) {
-    case Interval.short_term:
-      if (
-        hasRecommendation(terms?.short_term?.recommendation_engines?.[optimizationType]?.config) ||
-        hasNotifications(recommendations, Interval.short_term, optimizationType)
-      ) {
-        result = Interval.short_term;
-      }
-      break;
-    case Interval.medium_term:
-      if (
-        hasRecommendation(terms?.medium_term?.recommendation_engines?.[optimizationType]?.config) ||
-        hasNotifications(recommendations, Interval.medium_term, optimizationType)
-      ) {
-        result = Interval.medium_term;
-      }
-      break;
-    case Interval.long_term:
-      if (
-        hasRecommendation(terms?.long_term?.recommendation_engines?.[optimizationType]?.config) ||
-        hasNotifications(recommendations, Interval.long_term, optimizationType)
-      ) {
-        result = Interval.long_term;
-      }
-      break;
-  }
+  const hasData = (val: Interval) =>
+    hasRecommendation(terms?.[val]?.recommendation_engines?.[optimizationType]?.config) ||
+    hasNotifications(recommendations, val, optimizationType);
 
-  return result;
+  if (value && hasData(value)) {
+    return value;
+  }
+  if (hasData(Interval.short_term)) {
+    return Interval.short_term;
+  }
+  if (hasData(Interval.medium_term)) {
+    return Interval.medium_term;
+  }
+  if (hasData(Interval.long_term)) {
+    return Interval.long_term;
+  }
+  return Interval.short_term;
 };

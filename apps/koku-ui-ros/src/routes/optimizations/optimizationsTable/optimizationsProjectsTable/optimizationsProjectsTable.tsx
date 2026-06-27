@@ -25,7 +25,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import type { Interval, OptimizationType } from 'utils/commonTypes';
-import { excludeKey } from 'utils/props';
+import { exactKey, exactPrefix, excludeKey } from 'utils/props';
 
 import { getLinkState } from '../utils';
 import { OptimizationsProjectsDataTable } from './optimizationsProjectsDataTable';
@@ -171,7 +171,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
 
   const handleOnFilterAdded = filter => {
     // Only one filter of each type can be applied at a time
-    const key = filter.excludeType === 'exact' ? `exact:${filter.type}` : filter.type;
+    const key = filter.excludeType === exactKey ? `${exactPrefix}${filter.type}` : filter.type;
     const tmpQuery = {
       ...query,
       ...(filter.excludeType === excludeKey
