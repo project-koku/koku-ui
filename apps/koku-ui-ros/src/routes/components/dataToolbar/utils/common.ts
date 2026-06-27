@@ -3,6 +3,7 @@ import type { Query } from 'api/queries/query';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
+import type React from 'react';
 import type { Filter } from 'routes/utils/filter';
 import {
   awsCategoryKey,
@@ -87,8 +88,8 @@ export const getActiveFilters = query => {
   return filters;
 };
 
-export const getChips = (filters: Filter[]): string[] => {
-  const chips = [];
+export const getChips = (filters: Filter[] | undefined): { key: string; node: React.ReactNode }[] => {
+  const chips: { key: string; node: React.ReactNode }[] = [];
   if (filters instanceof Array) {
     filters.forEach(item => {
       const value = item.toString && item.toString !== Object.prototype.toString ? item.toString() : item.value;
@@ -100,7 +101,7 @@ export const getChips = (filters: Filter[]): string[] => {
             : undefined;
 
       chips.push({
-        key: item.value,
+        key: item.value || '',
         node: msg ? intl.formatMessage(msg, { value }) : value,
       });
     });

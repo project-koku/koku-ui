@@ -168,6 +168,10 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   // Handlers
 
   const handleOnFilterAdded = filter => {
+    if (!filter || !filter.type) {
+      return;
+    }
+
     // Only one filter of each type can be applied at a time
     const key = filter.excludeType === exactKey ? `${exactPrefix}${filter.type}` : filter.type;
     const tmpQuery = {
