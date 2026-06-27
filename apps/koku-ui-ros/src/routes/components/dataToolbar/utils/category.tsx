@@ -15,7 +15,6 @@ import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
 import { cleanInput, getChips, getFilter, hasFilters } from './common';
-import { ExcludeType } from './exclude';
 
 // Category input
 
@@ -46,10 +45,11 @@ export const getCategoryInput = ({
   const ariaLabelKey = categoryOption.ariaLabelKey || categoryOption.key;
   const placeholderKey = categoryOption.placeholderKey || categoryOption.key;
 
+  // Use categoryOption.resourceKey when API response properties are not the same as categoryOption.key
   return (
     <ToolbarFilter
       categoryName={categoryOption}
-      labels={getChips(filters[categoryOption.key] as Filter[])}
+      labels={getChips(filters?.[categoryOption.key] as Filter[])}
       deleteLabel={onDelete}
       key={categoryOption.key}
       showToolbarItem={currentCategory === categoryOption.key}
@@ -60,6 +60,7 @@ export const getCategoryInput = ({
           isDisabled={isDisabled && !_hasFilters}
           onSelect={value => onCategoryInputSelect(value, categoryOption.key)}
           placeholder={intl.formatMessage(messages.filterByPlaceholder, { value: placeholderKey })}
+          resourceKey={categoryOption.resourceKey}
           resourcePathsType={resourcePathsType}
           resourceType={categoryOption.key as ResourceType}
         />
@@ -86,79 +87,97 @@ export const getDefaultCategoryOptions = (): ToolbarLabelGroup[] => {
 export const onCategoryInput = ({
   categoryInput,
   currentCategory,
-  currentExclude,
+  currentCriteria,
   currentFilters,
   event,
+  isMultiSelect = true,
   key,
 }: {
   categoryInput?: string;
   currentCategory?: string;
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   event: any;
+  isMultiSelect?: boolean;
   key?: string;
 }) => {
   if (event && event.key && event.key !== 'Enter') {
-    return {};
+    return {}; // For destructure
   }
 
   const val = cleanInput(categoryInput);
   if (val.trim() === '') {
-    return {};
+    return {}; // For destructure
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(currentCategory, val, isExcludes);
+  const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
-  return {
-    filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]:
-        newFilters && newFilters.find(item => item.value === val)
-          ? newFilters
-          : newFilters
-            ? [...newFilters, filter]
-            : [filter],
-    },
-  };
+  return !isMultiSelect
+    ? {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]: [filter],
+        },
+      }
+    : {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]:
+            newFilters && newFilters.find(item => item.value === val)
+              ? newFilters
+              : newFilters
+                ? [...newFilters, filter]
+                : [filter],
+        },
+      };
 };
 
 export const onCategoryInputSelect = ({
   currentCategory,
-  currentExclude,
+  currentCriteria,
   currentFilters,
   key,
+  isMultiSelect = true,
   value,
 }: {
   currentCategory?: string;
-  currentExclude?: string;
+  currentCriteria?: string;
   currentFilters?: Filters;
   key?: string;
+  isMultiSelect?: boolean;
   value: string;
 }) => {
   const val = cleanInput(value);
   if (val.trim() === '') {
-    return;
+    return {};
   }
 
-  const isExcludes = currentExclude === ExcludeType.exclude;
-  const filter = getFilter(currentCategory, val, isExcludes);
+  const filter = getFilter(currentCategory, val, currentCriteria);
   const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
 
-  return {
-    filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]:
-        newFilters && newFilters.find(item => item.value === val)
-          ? newFilters
-          : newFilters
-            ? [...newFilters, filter]
-            : [filter],
-    },
-  };
+  return !isMultiSelect
+    ? {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]: [filter],
+        },
+      }
+    : {
+        filter,
+        filters: {
+          ...currentFilters,
+          [currentCategory]:
+            newFilters && newFilters.find(item => item.value === val)
+              ? newFilters
+              : newFilters
+                ? [...newFilters, filter]
+                : [filter],
+        },
+      };
 };
 
 // Category select
@@ -176,7 +195,7 @@ export const getCategorySelect = ({
   isDisabled?: boolean;
   onCategorySelect?: (event, selection: SelectWrapperOption) => void;
 }) => {
-  if (!categoryOptions) {
+  if (!categoryOptions || categoryOptions.length === 1) {
     return null;
   }
 

@@ -58,10 +58,10 @@ class DataTable extends React.Component<DataTableProps, any> {
     );
   };
 
-  private getSortBy = index => {
-    const { columns, orderBy } = this.props;
+  private getSortBy = (index: number, isNested: boolean) => {
+    const { columns, nestedColumns, orderBy } = this.props;
 
-    const direction = orderBy && orderBy[columns[index].orderBy];
+    const direction = orderBy && orderBy[isNested ? nestedColumns[index].orderBy : columns[index].orderBy];
 
     return direction
       ? {
@@ -71,10 +71,10 @@ class DataTable extends React.Component<DataTableProps, any> {
       : {};
   };
 
-  private getSortParams = (index: number): ThProps['sort'] => {
+  private getSortParams = (index: number, isNested: boolean): ThProps['sort'] => {
     return {
-      sortBy: this.getSortBy(index),
-      onSort: (_evt, i, direction) => this.handleOnSort(i, direction),
+      sortBy: this.getSortBy(index, isNested),
+      onSort: (_evt, i, direction) => this.handleOnSort(i, direction, isNested),
       columnIndex: index,
     };
   };
@@ -96,11 +96,11 @@ class DataTable extends React.Component<DataTableProps, any> {
     });
   };
 
-  private handleOnSort = (index, direction) => {
-    const { columns, onSort } = this.props;
+  private handleOnSort = (index: number, direction: string, isNested: boolean) => {
+    const { columns, nestedColumns, onSort } = this.props;
 
     if (onSort) {
-      const orderBy = columns[index].orderBy;
+      const orderBy = isNested ? nestedColumns[index].orderBy : columns[index].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }
@@ -128,7 +128,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                     key={`nested-col-${index}`}
                     modifier={col.modifier || 'nowrap'}
                     rowSpan={col.rowSpan}
-                    sort={col.isSortable ? this.getSortParams(index) : undefined}
+                    sort={col.isSortable ? this.getSortParams(index, true) : undefined}
                     style={col.style}
                   >
                     {col.name}
@@ -144,7 +144,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                   key={`col-${index}-${col.value}`}
                   modifier={col.modifier || 'nowrap'}
                   rowSpan={col.rowSpan}
-                  sort={col.isSortable ? this.getSortParams(index) : undefined}
+                  sort={col.isSortable ? this.getSortParams(index, false) : undefined}
                   style={col.style}
                 >
                   {col.name || ''}

@@ -74,7 +74,7 @@ export const getActiveFilters = query => {
       const excludeType = key.indexOf(exactPrefix) !== -1 ? CriteriaType.exact : undefined;
 
       const values = Array.isArray(query.filter_by[key]) ? [...query.filter_by[key]] : [query.filter_by[key]];
-      const newKey = excludeType ? key.substring(excludeType.length + 1) : key;
+      const newKey = excludeType ? key.substring(exactPrefix.length) : key;
       parseFilters(newKey, values, excludeType);
     });
   }

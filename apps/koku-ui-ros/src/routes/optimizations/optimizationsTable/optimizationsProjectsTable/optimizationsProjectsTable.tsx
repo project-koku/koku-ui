@@ -16,27 +16,34 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
+import type { RosDetailsQuery } from 'routes/optimizations/optimizationsDetails/optimizationsDetails';
+import { getExcludeById, getFilterById } from 'routes/utils/filterBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
+import type { Interval, OptimizationType } from 'utils/commonTypes';
+import { excludeKey } from 'utils/props';
 
 import { getLinkState } from '../utils';
 import { OptimizationsProjectsDataTable } from './optimizationsProjectsDataTable';
 import { OptimizationsProjectsToolbar } from './optimizationsProjectsToolbar';
 
 interface OptimizationsProjectsTableOwnProps {
-  breadcrumbLabel?: string;
-  breadcrumbPath?: string;
-  cluster?: string | string[];
-  isClusterHidden?: boolean;
+  baseQuery?: RosQuery;
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  interval?: Interval;
+  isClusterHidden?: boolean; // Hides cluster filter and column
   isPaginationHidden?: boolean;
   isToolbarHidden?: boolean;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
-  project?: string | string[];
+  linkPath?: string; // Path used by the link displayed in each table row
+  linkState?: any; // Link state used by the link displayed in each table row
+  optimizationType?: OptimizationType;
+  project?: string | string[]; // Project name to filter by for OCP breakdown
+  query?: RosDetailsQuery;
   queryStateName: string; // Name used to store query state
 }
 
@@ -56,6 +63,8 @@ export interface OptimizationsProjectsTableMapProps {
 type OptimizationsProjectsTableProps = OptimizationsProjectsTableOwnProps;
 
 const baseQuery: RosQuery = {
+  filter_by: {},
+  exclude: {},
   limit: 10,
   offset: 0,
   order_by: {
@@ -63,19 +72,21 @@ const baseQuery: RosQuery = {
   },
 };
 
-const reportPathsType = RosPathsType.namespaces;
-const reportType = RosType.ros as any;
+const reportPathsType = RosPathsType.recommendations;
+const reportType = RosType.namespace as any;
 
 const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  cluster,
+  interval,
   isClusterHidden,
   isPaginationHidden,
   isToolbarHidden,
   linkPath,
   linkState,
+  optimizationType,
   project,
+  query: parentQueryState,
   queryStateName,
 }) => {
   const intl = useIntl();
@@ -83,32 +94,13 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
 
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
-  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState?.projects) });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
-    cluster,
     project,
     query,
   });
 
-  // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
-  // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.
-  //
-  // Path 1: From OCP details, user navigates to the OCP breakdown (i.e., the "optimizations tab").
-  // Within the Optimizations tab, users may navigate to the Optimizations breakdown.
-  //
-  // Path 2: From Optimizations, user navigates to the Optimizations breakdown and chooses the "project" link.
-  // The project link navigates to the OCP breakdown, where users may navigate to the Optimizations breakdown.
-  useEffect(() => {
-    setNewLinkState(
-      getLinkState({
-        breadcrumbPath,
-        linkState,
-        location,
-        query,
-        queryStateName,
-      })
-    );
-  }, [query]);
+  // Getters
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
@@ -142,11 +134,13 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
       <OptimizationsProjectsDataTable
         breadcrumbLabel={breadcrumbLabel}
         filterBy={query.filter_by}
+        interval={interval}
         isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         linkPath={linkPath}
         linkState={newLinkState}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        optimizationType={optimizationType}
         orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
@@ -173,8 +167,28 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
     );
   };
 
+  // Handlers
+
   const handleOnFilterAdded = filter => {
-    const newQuery = queryUtils.handleOnFilterAdded(query, filter);
+    // Only one filter can be applied at a time
+    const key = filter.excludeType === 'exact' ? `exact:${filter.type}` : filter.type;
+    const tmpQuery = {
+      ...query,
+      ...(filter.excludeType === excludeKey
+        ? {
+            exclude: {
+              ...query.exclude,
+              [key]: undefined,
+            },
+          }
+        : {
+            filter_by: {
+              ...query.filter_by,
+              [key]: undefined,
+            },
+          }),
+    };
+    const newQuery = queryUtils.handleOnFilterAdded(tmpQuery, filter);
     setQuery(newQuery);
   };
 
@@ -197,6 +211,34 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
   };
+
+  // Effects
+
+  // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
+  // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.
+  //
+  // Path 1: From OCP details, user navigates to the OCP breakdown (i.e., the "optimizations tab").
+  // Within the Optimizations tab, users may navigate to the Optimizations breakdown.
+  //
+  // Path 2: From Optimizations, user navigates to the Optimizations breakdown and chooses the "project" link.
+  // The project link navigates to the OCP breakdown, where users may navigate to the Optimizations breakdown.
+  useEffect(() => {
+    setNewLinkState(
+      getLinkState({
+        breadcrumbPath,
+        linkState,
+        location,
+        query: {
+          ...(queryState && queryState), // Save containers state
+          ...(parentQueryState && parentQueryState), // Save parent state
+          projects: { ...query },
+        },
+        queryStateName,
+      })
+    );
+  }, [parentQueryState, query]);
+
+  // Render
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
@@ -226,27 +268,48 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   );
 };
 
+// For API spec, see https://github.com/RedHatInsights/ros-ocp-backend/blob/main/openapi.json
 const useMapToProps = ({
-  cluster,
   project,
   query,
 }: OptimizationsProjectsTableMapProps): OptimizationsProjectsTableStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
+  const excludeByCluster = getExcludeById(query, 'cluster') || getExcludeById(baseQuery, 'cluster');
+  const excludeByProject = getExcludeById(query, 'project') || getExcludeById(baseQuery, 'project');
+  const filterByCluster = getFilterById(query, 'cluster') || getFilterById(baseQuery, 'cluster');
+  const filterByProject = getFilterById(query, 'project') || getFilterById(baseQuery, 'project');
+  const filterByExactCluster = getFilterById(query, 'exact:cluster') || getFilterById(baseQuery, 'exact:cluster');
+  const filterByExactProject = getFilterById(query, 'exact:project') || getFilterById(baseQuery, 'exact:project');
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
   const reportQuery = {
-    ...(cluster && { cluster }), // Flattened cluster filter
-    ...(project && { project }), // Flattened project filter
-    ...query.filter_by, // Flattened filter by
+    ...(filterByCluster && { cluster: filterByCluster }), // Flattened cluster filter
+    ...(filterByProject && { project: filterByProject }), // Flattened project filter
+    ...((filterByExactCluster || filterByExactProject || project) && {
+      filter: {
+        ...(filterByExactCluster && { 'exact:cluster': filterByExactCluster }), // Flattened exact cluster
+        ...(filterByExactProject && { 'exact:project': filterByExactProject }), // Flattened exact project
+        ...(project && { 'exact:project': project }), // Flattened exact project for OCP breakdown
+      },
+    }),
+    ...((excludeByCluster || excludeByProject) && {
+      exclude: {
+        ...(excludeByCluster && { cluster: excludeByCluster }), // Flattened cluster exclude
+        ...(excludeByProject && { project: excludeByProject }), // Flattened project exclude
+      },
+    }),
+    'cpu-unit': 'cores',
     limit: query.limit,
+    'memory-unit': 'MiB',
     offset: query.offset,
     order_by, // Flattened order by
     order_how, // Flattened order how
   };
+
   const reportQueryString = getQuery(reportQuery);
-  // eslint-disable-next-line no-useless-assignment
-  let report = useSelector((state: RootState) =>
+  const report = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
   );
   const reportFetchStatus = useSelector((state: RootState) =>
@@ -261,374 +324,6 @@ const useMapToProps = ({
       dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
     }
   }, [query]);
-
-  // Todo: Testing
-  report = {
-    data: [
-      {
-        id: 'a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d',
-        project: 'ros-prod',
-        cluster_alias: 'demolab',
-        cluster_uuid: 'd29c4b8b-f1a8-471c-ab95-b64e36bb51a9',
-        source_id: '0920ff0d-f1d6-4fe2-8bf3-18e6074bd27b',
-        last_reported: '2023-04-18T15:48:54.000Z',
-        cpu_request_current: {
-          value: 0.25,
-          format: 'cores',
-        },
-        cpu_variation: {
-          value: 12.5,
-          format: 'percent',
-        },
-        memory_request_current: {
-          value: 67108864,
-          format: 'bytes',
-        },
-        memory_variation: {
-          value: 12,
-          format: 'percent',
-        },
-        recommendations: {
-          current: {
-            limits: {
-              cpu: {
-                amount: 2,
-                format: 'cores',
-              },
-              memory: {
-                amount: 32212255,
-                format: 'bytes',
-              },
-            },
-            requests: {
-              cpu: {
-                amount: 2,
-                format: 'cores',
-              },
-              memory: {
-                amount: 21382267,
-                format: 'bytes',
-              },
-            },
-          },
-          monitoring_end_time: '2026-02-06T15:22:36.236Z',
-          recommendation_terms: {
-            long_term: {
-              duration_in_hours: 360,
-              monitoring_start_time: '2023-06-02T00:45:00Z',
-              recommendation_engines: {
-                cost: {
-                  config: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  variation: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  notifications: {},
-                },
-                performance: {
-                  config: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  variation: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  notifications: {},
-                },
-              },
-            },
-            medium_term: {
-              duration_in_hours: 168,
-              monitoring_start_time: '2023-06-02T00:45:00Z',
-              recommendation_engines: {
-                cost: {
-                  config: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  variation: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  notifications: {},
-                },
-                performance: {
-                  config: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  variation: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  notifications: {},
-                },
-              },
-            },
-            short_term: {
-              duration_in_hours: 24,
-              monitoring_start_time: '2024-09-24T09:46:20.000Z',
-              recommendation_engines: {
-                cost: {
-                  config: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  variation: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  notifications: {},
-                },
-                performance: {
-                  config: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  variation: {
-                    limits: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                    requests: {
-                      cpu: {
-                        amount: 5.834,
-                        format: 'cores',
-                      },
-                      memory: {
-                        amount: 1442955264,
-                        format: 'bytes',
-                      },
-                    },
-                  },
-                  notifications: {},
-                },
-              },
-            },
-          },
-        },
-      },
-    ],
-    meta: {
-      count: 1,
-      limit: 10,
-      offset: 0,
-    },
-    links: {
-      first: 'string',
-      previous: 'string',
-      next: 'string',
-      last: 'string',
-    },
-  } as any;
 
   return {
     report,

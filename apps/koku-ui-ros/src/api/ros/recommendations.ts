@@ -1,3 +1,5 @@
+// For API spec, see https://github.com/RedHatInsights/ros-ocp-backend/blob/main/openapi.json
+
 import { axiosInstance } from 'api';
 
 import type { RosData, RosMeta, RosReport } from './ros';
@@ -30,7 +32,7 @@ export interface RecommendationEngine {
   notifications?: {
     [key: string]: Notification;
   };
-  pods_count?: number;
+  pods_count?: number; // Not included for namespaces?
   variation: RecommendationValues;
 }
 
@@ -46,9 +48,9 @@ export interface UsageValue {
 export interface RecommendationTerm {
   duration_in_hours?: number;
   monitoring_start_time?: string;
-  notifications?: {
-    [key: string]: Notification;
-  };
+  // notifications?: {
+  //   [key: string]: Notification; // Note: This appears to have been removed from API response
+  // };
   plots?: {
     datapoints?: number;
     plots_data?: {
@@ -73,9 +75,9 @@ export interface RecommendationTerms {
 export interface Recommendations {
   current?: RecommendationValues;
   monitoring_end_time?: string;
-  notifications?: {
-    [key: string]: Notification;
-  };
+  // notifications?: {
+  //   [key: string]: Notification; // Note: This appears to have been removed from API response
+  // };
   recommendation_terms?: RecommendationTerms;
 }
 
@@ -89,7 +91,9 @@ export interface RecommendationReport extends RosReport {
 }
 
 export const RosTypePaths: Partial<Record<RosType, string>> = {
+  [RosType.container]: 'recommendations/openshift/container',
   [RosType.ros]: 'recommendations/openshift',
+  [RosType.namespace]: 'recommendations/openshift/namespace',
 };
 
 // This fetches a recommendation by ID

@@ -15,12 +15,16 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
+import type { RosDetailsQuery } from 'routes/optimizations/optimizationsDetails/optimizationsDetails';
+import { getExcludeById, getFilterById } from 'routes/utils/filterBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
+import type { Interval, OptimizationType } from 'utils/commonTypes';
+import { excludeKey } from 'utils/props';
 
 import { getLinkState } from '../utils';
 import { OptimizationsContainersDataTable } from './optimizationsContainersDataTable';
@@ -29,12 +33,14 @@ import { OptimizationsContainersToolbar } from './optimizationsContainersToolbar
 interface OptimizationsContainersTableOwnProps {
   breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
   breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
-  cluster?: string | string[]; // Cluster name to filter by
+  interval?: Interval;
   isClusterHidden?: boolean; // Hides cluster filter and column
   isProjectHidden?: boolean; // Hides project filter and column
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
+  optimizationType?: OptimizationType;
   project?: string | string[]; // Project name to filter by
+  query?: RosDetailsQuery;
   queryStateName: string; // Name used to store query state
 }
 
@@ -54,6 +60,8 @@ export interface OptimizationsContainersTableMapProps {
 type OptimizationsContainersTableProps = OptimizationsContainersTableOwnProps;
 
 const baseQuery: RosQuery = {
+  filter_by: {},
+  exclude: {},
   limit: 10,
   offset: 0,
   order_by: {
@@ -61,18 +69,20 @@ const baseQuery: RosQuery = {
   },
 };
 
-const reportPathsType = RosPathsType.namespaces;
-const reportType = RosType.ros as any;
+const reportPathsType = RosPathsType.recommendations;
+const reportType = RosType.container as any;
 
 const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  cluster,
+  interval,
   isClusterHidden,
   isProjectHidden,
   linkPath,
   linkState,
+  optimizationType,
   project,
+  query: parentQueryState,
   queryStateName,
 }) => {
   const intl = useIntl();
@@ -80,32 +90,13 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
 
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
-  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
+  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState?.containers) });
   const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
-    cluster,
     project,
     query,
   });
 
-  // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
-  // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.
-  //
-  // Path 1: From OCP details, user navigates to the OCP breakdown (i.e., the "optimizations tab").
-  // Within the Optimizations tab, users may navigate to the Optimizations breakdown.
-  //
-  // Path 2: From Optimizations, user navigates to the Optimizations breakdown and chooses the "project" link.
-  // The project link navigates to the OCP breakdown, where users may navigate to the Optimizations breakdown.
-  useEffect(() => {
-    setNewLinkState(
-      getLinkState({
-        breadcrumbPath,
-        linkState,
-        location,
-        query,
-        queryStateName,
-      })
-    );
-  }, [query]);
+  // Getters
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
@@ -139,12 +130,14 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
       <OptimizationsContainersDataTable
         breadcrumbLabel={breadcrumbLabel}
         filterBy={query.filter_by}
+        interval={interval}
         isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         isProjectHidden={isProjectHidden}
         linkPath={linkPath}
         linkState={newLinkState}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        optimizationType={optimizationType}
         orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
@@ -172,8 +165,28 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     );
   };
 
+  // Handlers
+
   const handleOnFilterAdded = filter => {
-    const newQuery = queryUtils.handleOnFilterAdded(query, filter);
+    // Only one filter can be applied at a time
+    const key = filter.excludeType === 'exact' ? `exact:${filter.type}` : filter.type;
+    const tmpQuery = {
+      ...query,
+      ...(filter.excludeType === excludeKey
+        ? {
+            exclude: {
+              ...query.exclude,
+              [key]: undefined,
+            },
+          }
+        : {
+            filter_by: {
+              ...query.filter_by,
+              [key]: undefined,
+            },
+          }),
+    };
+    const newQuery = queryUtils.handleOnFilterAdded(tmpQuery, filter);
     setQuery(newQuery);
   };
 
@@ -196,6 +209,34 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
   };
+
+  // Effects
+
+  // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
+  // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.
+  //
+  // Path 1: From OCP details, user navigates to the OCP breakdown (i.e., the "optimizations tab").
+  // Within the Optimizations tab, users may navigate to the Optimizations breakdown.
+  //
+  // Path 2: From Optimizations, user navigates to the Optimizations breakdown and chooses the "project" link.
+  // The project link navigates to the OCP breakdown, where users may navigate to the Optimizations breakdown.
+  useEffect(() => {
+    setNewLinkState(
+      getLinkState({
+        breadcrumbPath,
+        linkState,
+        location,
+        query: {
+          ...(queryState && queryState), // Save projects state
+          ...(parentQueryState && parentQueryState), // Save parent state
+          containers: { ...query },
+        },
+        queryStateName,
+      })
+    );
+  }, [parentQueryState, query]);
+
+  // Render
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;
@@ -225,24 +266,76 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   );
 };
 
+// For API spec, see https://github.com/RedHatInsights/ros-ocp-backend/blob/main/openapi.json
 const useMapToProps = ({
-  cluster,
   project,
   query,
 }: OptimizationsContainersTableMapProps): OptimizationsContainersTableStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+
+  const excludeByCluster = getExcludeById(query, 'cluster') || getExcludeById(baseQuery, 'cluster');
+  const excludeByContainer = getExcludeById(query, 'container') || getExcludeById(baseQuery, 'container');
+  const excludeByProject = getExcludeById(query, 'project') || getExcludeById(baseQuery, 'project');
+  const excludeByWorkload = getExcludeById(query, 'workload') || getExcludeById(baseQuery, 'workload');
+  const excludeByWorkloadType = getExcludeById(query, 'workload_type') || getExcludeById(baseQuery, 'workload_type');
+
+  const filterByCluster = getFilterById(query, 'cluster') || getFilterById(baseQuery, 'cluster');
+  const filterByContainer = getFilterById(query, 'container') || getFilterById(baseQuery, 'container');
+  const filterByProject = getFilterById(query, 'project') || getFilterById(baseQuery, 'project');
+  const filterByWorkload = getFilterById(query, 'workload') || getFilterById(baseQuery, 'workload');
+  const filterByWorkloadType = getFilterById(query, 'workload_type') || getFilterById(baseQuery, 'workload_type');
+
+  const filterByExactCluster = getFilterById(query, 'exact:cluster') || getFilterById(baseQuery, 'exact:cluster');
+  const filterByExactContainer = getFilterById(query, 'exact:container') || getFilterById(baseQuery, 'exact:container');
+  const filterByExactProject = getFilterById(query, 'exact:project') || getFilterById(baseQuery, 'exact:project');
+  const filterByExactWorkload = getFilterById(query, 'exact:workload') || getFilterById(baseQuery, 'exact:workload');
+  const filterByExactWorkloadType =
+    getFilterById(query, 'exact:workload_type') || getFilterById(baseQuery, 'exact:workload_type');
+
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
+  // container
+  // workload
+  // workload_type
   const reportQuery = {
-    ...(cluster && { cluster }), // Flattened cluster filter
-    ...(project && { project }), // Flattened project filter
-    ...query.filter_by, // Flattened filter by
+    ...(filterByCluster && { cluster: filterByCluster }), // Flattened cluster filter
+    ...(filterByContainer && { container: filterByContainer }), // Flattened container filter
+    ...(filterByProject && { project: filterByProject }), // Flattened project filter
+    ...(filterByWorkload && { workload: filterByWorkload }), // Flattened workload filter
+    ...(filterByWorkloadType && { workload_type: filterByWorkloadType }), // Flattened workload type filter
+    ...((filterByExactCluster ||
+      filterByExactContainer ||
+      filterByExactProject ||
+      filterByExactWorkload ||
+      filterByExactWorkloadType ||
+      project) && {
+      filter: {
+        ...(filterByExactCluster && { 'exact:cluster': filterByExactCluster }), // Flattened exact cluster
+        ...(filterByExactContainer && { 'exact:container': filterByExactContainer }), // Flattened exact container
+        ...(filterByExactProject && { 'exact:project': filterByExactProject }), // Flattened exact project
+        ...(filterByExactWorkload && { 'exact:workload': filterByExactWorkload }), // Flattened exact workload
+        ...(filterByExactWorkloadType && { 'exact:workload_type': filterByExactWorkloadType }), // Flattened exact workload type
+        ...(project && { 'exact:project': project }), // Flattened exact project for OCP breakdown
+      },
+    }),
+    ...((excludeByCluster || excludeByContainer || excludeByProject || excludeByWorkload || excludeByWorkloadType) && {
+      exclude: {
+        ...(excludeByCluster && { cluster: excludeByCluster }), // Flattened cluster exclude
+        ...(excludeByContainer && { container: excludeByContainer }), // Flattened container exclude
+        ...(excludeByProject && { project: excludeByProject }), // Flattened project exclude
+        ...(excludeByWorkload && { workload: excludeByWorkload }), // Flattened workload exclude
+        ...(excludeByWorkloadType && { workload_type: excludeByWorkloadType }), // Flattened workload type exclude
+      },
+    }),
+    'cpu-unit': 'cores',
     limit: query.limit,
+    'memory-unit': 'MiB',
     offset: query.offset,
     order_by, // Flattened order by
     order_how, // Flattened order how
   };
+
   const reportQueryString = getQuery(reportQuery);
   const report = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
