@@ -170,7 +170,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   // Handlers
 
   const handleOnFilterAdded = filter => {
-    // Only one filter can be applied at a time
+    // Only one filter of each type can be applied at a time
     const key = filter.excludeType === 'exact' ? `exact:${filter.type}` : filter.type;
     const tmpQuery = {
       ...query,

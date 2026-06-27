@@ -91,7 +91,7 @@ export const getChips = (filters: Filter[]): string[] => {
   const chips = [];
   if (filters instanceof Array) {
     filters.forEach(item => {
-      const value = item.toString ? item.toString() : item.value;
+      const value = item.toString && item.toString !== Object.prototype.toString ? item.toString() : item.value;
       const msg =
         item.excludeType === CriteriaType.exact
           ? messages.exactLabel
@@ -163,10 +163,10 @@ export const onDelete = (type: any, chip: any, currentFilters) => {
 
   if (_type) {
     let id = chip && chip.key ? chip.key : chip;
-    if (id?.indexOf(exactPrefix) !== -1) {
+    if (id?.startsWith(exactPrefix)) {
       id = id.slice(exactPrefix.length);
     }
-    if (id?.indexOf(excludeKey) !== -1) {
+    if (id?.startsWith(excludeKey)) {
       id = id.slice(excludeKey.length);
     }
 

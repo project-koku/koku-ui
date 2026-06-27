@@ -111,7 +111,7 @@ export const onCategoryInput = ({
   }
 
   const filter = getFilter(currentCategory, val, currentCriteria);
-  const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
+  const newFilters: any = cloneDeep(currentFilters?.[key] ?? []);
 
   return !isMultiSelect
     ? {
@@ -156,7 +156,7 @@ export const onCategoryInputSelect = ({
   }
 
   const filter = getFilter(currentCategory, val, currentCriteria);
-  const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
+  const newFilters: any = cloneDeep(currentFilters?.[key] ?? []);
 
   return !isMultiSelect
     ? {
