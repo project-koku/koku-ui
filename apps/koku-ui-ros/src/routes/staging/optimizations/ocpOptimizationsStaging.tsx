@@ -17,6 +17,9 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
   const intl = useIntl();
   const location = useLocation();
 
+  // Test filters
+  const project = 'project-ros-A2';
+
   return (
     <PageSection>
       <OptimizationsOcpBreakdown
@@ -26,6 +29,7 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
         linkState={{
           ...(location?.state || {}),
         }}
+        project={project}
         queryStateName="ocpOptimizationsState"
       />
     </PageSection>

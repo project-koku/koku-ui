@@ -65,7 +65,7 @@ const ResourceFetch: React.FC<ResourceFetchProps> = ({
       options = resource.data.map(item => {
         // Show aliases (resourceKey) only for matching search input, show ID (value) by default
         let value = item.value;
-        if (item[resourceKey]?.toLowerCase().includes(search?.toLowerCase())) {
+        if (resourceKey && search && item[resourceKey]?.toLowerCase().includes(search?.toLowerCase())) {
           value = item[resourceKey];
         }
         return {
