@@ -3,6 +3,7 @@ import type { Query } from 'api/queries/query';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
+import type React from 'react';
 import type { Filter } from 'routes/utils/filter';
 import {
   awsCategoryKey,
@@ -74,7 +75,7 @@ export const getActiveFilters = query => {
       const excludeType = key.indexOf(exactPrefix) !== -1 ? CriteriaType.exact : undefined;
 
       const values = Array.isArray(query.filter_by[key]) ? [...query.filter_by[key]] : [query.filter_by[key]];
-      const newKey = excludeType ? key.substring(excludeType.length + 1) : key;
+      const newKey = excludeType ? key.substring(exactPrefix.length) : key;
       parseFilters(newKey, values, excludeType);
     });
   }
@@ -87,11 +88,11 @@ export const getActiveFilters = query => {
   return filters;
 };
 
-export const getChips = (filters: Filter[]): string[] => {
-  const chips = [];
+export const getChips = (filters: Filter[] | undefined): { key: string; node: React.ReactNode }[] => {
+  const chips: { key: string; node: React.ReactNode }[] = [];
   if (filters instanceof Array) {
     filters.forEach(item => {
-      const value = item.toString ? item.toString() : item.value;
+      const value = item.toString && item.toString !== Object.prototype.toString ? item.toString() : item.value;
       const msg =
         item.excludeType === CriteriaType.exact
           ? messages.exactLabel
@@ -100,7 +101,7 @@ export const getChips = (filters: Filter[]): string[] => {
             : undefined;
 
       chips.push({
-        key: item.value,
+        key: item.value || '',
         node: msg ? intl.formatMessage(msg, { value }) : value,
       });
     });
@@ -163,10 +164,10 @@ export const onDelete = (type: any, chip: any, currentFilters) => {
 
   if (_type) {
     let id = chip && chip.key ? chip.key : chip;
-    if (id?.indexOf(exactPrefix) !== -1) {
+    if (id?.startsWith(exactPrefix)) {
       id = id.slice(exactPrefix.length);
     }
-    if (id?.indexOf(excludeKey) !== -1) {
+    if (id?.startsWith(excludeKey)) {
       id = id.slice(excludeKey.length);
     }
 

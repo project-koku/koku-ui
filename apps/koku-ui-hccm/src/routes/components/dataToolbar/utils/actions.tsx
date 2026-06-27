@@ -107,6 +107,9 @@ export const getKebab = ({
       toString: () => intl.formatMessage(messages.sumPlatformCosts),
     });
   }
+  if (items.length === 0) {
+    return null;
+  }
   return (
     <ToolbarItem visibility={{ xl: 'hidden' }}>
       <DropdownWrapper isKebab items={items} />

@@ -36,7 +36,7 @@ export const addQueryFilter = (
   }
 
   // Filter by * won't generate a new request if group_by * already exists
-  if (filterValue === '*' && newQuery.group_by[filterType] === '*') {
+  if (filterValue === '*' && newQuery.group_by?.[filterType] === '*') {
     return;
   }
 
@@ -67,6 +67,10 @@ export const addQueryFilter = (
 };
 
 export const removeFilterFromQuery = (query: Query, filter: Filter) => {
+  if (filter === undefined) {
+    return query;
+  }
+
   // Clear all
   if (filter === null) {
     const newQuery = removeQueryFilter(query, null, null, QueryFilterType.exclude);
@@ -76,7 +80,7 @@ export const removeFilterFromQuery = (query: Query, filter: Filter) => {
       query,
       filter?.excludeType === CriteriaType.exact ? `exact:${filter?.type}` : filter?.type,
       filter?.value,
-      filter.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
+      filter?.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
     );
   }
 };
