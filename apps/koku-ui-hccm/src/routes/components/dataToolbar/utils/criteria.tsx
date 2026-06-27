@@ -57,13 +57,8 @@ export const getCriteriaSelectOptions = (showExact): SelectWrapperOption[] => {
       key: CriteriaType.exact,
     });
   }
-
-  const options: SelectWrapperOption[] = [];
-  excludeOptions.map(option => {
-    options.push({
-      toString: () => option.name,
-      value: option.key,
-    });
-  });
-  return options;
+  return excludeOptions.map(option => ({
+    toString: () => option.name,
+    value: option.key,
+  }));
 };

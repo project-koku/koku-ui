@@ -92,7 +92,7 @@ const DropdownWrapper: React.FC<DropdownWrapperProps> = ({
       }
       toggle={toggle}
     >
-      <DropdownList aria-label={ariaLabel}>{items.map((item, index) => getDropdownItem(item, index))}</DropdownList>
+      <DropdownList aria-label={ariaLabel}>{items?.map((item, index) => getDropdownItem(item, index))}</DropdownList>
     </Dropdown>
   );
 };

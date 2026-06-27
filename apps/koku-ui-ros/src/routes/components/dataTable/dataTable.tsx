@@ -100,8 +100,9 @@ class DataTable extends React.Component<DataTableProps, any> {
   private handleOnSort = (index: number, direction: string, isNested: boolean) => {
     const { columns, nestedColumns, onSort } = this.props;
 
-    if (onSort) {
-      const orderBy = isNested ? nestedColumns[index].orderBy : columns[index].orderBy;
+    const orderBy = isNested ? nestedColumns?.[index]?.orderBy : columns?.[index]?.orderBy;
+
+    if (onSort && orderBy) {
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }
