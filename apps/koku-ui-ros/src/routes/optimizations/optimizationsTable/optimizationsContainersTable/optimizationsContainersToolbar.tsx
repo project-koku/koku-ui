@@ -38,6 +38,14 @@ class OptimizationsContainersToolbarBase extends React.Component<
     });
   }
 
+  // Available values -- see https://github.com/RedHatInsights/ros-ocp-backend/blob/main/openapi.json
+  //
+  // cluster
+  // container
+  // project
+  // workload?
+  // workload_type
+  //
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl, isClusterHidden, isProjectHidden } = this.props;
 

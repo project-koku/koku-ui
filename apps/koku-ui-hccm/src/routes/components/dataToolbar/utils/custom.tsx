@@ -32,23 +32,30 @@ export const getCustomSelect = ({
   selectOptions?: ToolbarChipGroupExt[];
   selectClassName?: string;
 }) => {
+  if (!categoryOption) {
+    return null;
+  }
+
   // Todo: categoryName workaround for https://redhat.atlassian.net/browse/COST-2094
   const categoryName = {
     name: categoryOption.name,
     key: categoryOption.key,
   };
 
+  const categoryFilters = filters?.[categoryOption.key];
+  const filterArray = Array.isArray(categoryFilters) ? categoryFilters : [];
+
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      labels={getChips(filters[categoryOption.key] as Filter[])}
+      labels={getChips(filterArray)}
       deleteLabel={onDelete}
       key={`custom-select-${categoryOption.key}`}
       showToolbarItem={currentCategory === categoryOption.key}
     >
       <CustomSelect
         className={selectClassName}
-        filters={filters[categoryOption.key] as Filter[]}
+        filters={filterArray}
         isDisabled={isDisabled && !hasFilters(filters)}
         isMultiSelect={isMultiSelect}
         onSelect={onSelect}
