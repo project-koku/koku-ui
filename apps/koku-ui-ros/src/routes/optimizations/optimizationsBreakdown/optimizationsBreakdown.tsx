@@ -6,7 +6,7 @@ import { parseQuery } from 'api/queries/query';
 import type { RecommendationReportData } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
-import { useIsBoxPlotToggleEnabled } from 'components/featureToggle';
+import { useIsBoxPlotToggleEnabled, useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -20,15 +20,15 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { Interval, OptimizationType } from 'utils/commonTypes';
-import { getNotifications, hasNotifications } from 'utils/notifications';
+import { getNotifications } from 'utils/notifications';
 import { breadcrumbLabelKey } from 'utils/props';
-import { hasRecommendation } from 'utils/recomendations';
 import { getRecommendationTerm } from 'utils/recomendations';
 
 import { styles } from './optimizationsBreakdown.styles';
 import { OptimizationsBreakdownConfiguration } from './optimizationsBreakdownConfiguration';
 import { OptimizationsBreakdownHeader } from './optimizationsBreakdownHeader';
 import { OptimizationsBreakdownUtilization } from './optimizationsBreakdownUtilization';
+import { getDefaultInterval, getOptimizationTypeFromTabKey } from './utils';
 
 export const getIdKeyForTab = (tab: OptimizationType) => {
   switch (tab) {
@@ -57,7 +57,10 @@ interface OptimizationsBreakdownMapProps {
 interface OptimizationsBreakdownStateProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  interval?: Interval;
   isBoxPlotToggleEnabled?: boolean;
+  isContainers?: boolean;
+  optimizationType?: OptimizationType;
   report?: RecommendationReportData;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -66,55 +69,26 @@ interface OptimizationsBreakdownStateProps {
 
 type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps & OptimizationsBreakdownStateProps;
 
-const reportType = RosType.ros as any;
-const reportPathsType = RosPathsType.recommendation as any;
-
 const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkState, projectPath, queryStateName }) => {
-  const { breadcrumbLabel, breadcrumbPath, isBoxPlotToggleEnabled, report, reportFetchStatus } = useMapToProps({
-    queryStateName,
-  });
-  const [activeTabKey, setActiveTabKey] = useState(0);
   const intl = useIntl();
 
-  const getOptimizationType = () => {
-    switch (activeTabKey) {
-      case 1:
-        return OptimizationType.performance;
-      case 0:
-      default:
-        return OptimizationType.cost;
-    }
-  };
+  const [activeTabKey, setActiveTabKey] = useState(0);
+  const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
 
-  const getDefaultInterval = () => {
-    let result = Interval.short_term;
-    const terms = report?.recommendations?.recommendation_terms;
-    const optimizationType = getOptimizationType();
+  const {
+    breadcrumbLabel,
+    breadcrumbPath,
+    interval,
+    isBoxPlotToggleEnabled,
+    isContainers,
+    optimizationType,
+    report,
+    reportFetchStatus,
+  } = useMapToProps({
+    queryStateName,
+  });
 
-    if (!terms) {
-      return result;
-    }
-
-    if (
-      hasRecommendation(terms?.short_term?.recommendation_engines?.[optimizationType]?.config) ||
-      hasNotifications(report?.recommendations, Interval.short_term, optimizationType)
-    ) {
-      result = Interval.short_term;
-    } else if (
-      hasRecommendation(terms?.medium_term?.recommendation_engines?.[optimizationType]?.config) ||
-      hasNotifications(report?.recommendations, Interval.medium_term, optimizationType)
-    ) {
-      result = Interval.medium_term;
-    } else if (
-      hasRecommendation(terms?.long_term?.recommendation_engines?.[optimizationType]?.config) ||
-      hasNotifications(report?.recommendations, Interval.long_term, optimizationType)
-    ) {
-      result = Interval.long_term;
-    }
-    return result as Interval;
-  };
-
-  const [currentInterval, setCurrentInterval] = useState(getDefaultInterval());
+  // Getters
 
   const getAlert = () => {
     const notifications = getNotifications(report?.recommendations, currentInterval, getOptimizationType());
@@ -148,6 +122,8 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
     ];
     return availableTabs;
   };
+
+  const getOptimizationType = () => getOptimizationTypeFromTabKey(activeTabKey);
 
   const getTabContent = (availableTabs: AvailableTab[]) => {
     return availableTabs.map((val, index) => {
@@ -227,6 +203,8 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
     }
   };
 
+  // Handlers
+
   const handleOnSelect = (value: Interval) => {
     setCurrentInterval(value);
   };
@@ -237,8 +215,27 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
     }
   };
 
+  // Effects
+
+  useEffect(() => {
+    if (interval && report && reportFetchStatus !== FetchStatus.inProgress) {
+      setCurrentInterval(
+        getDefaultInterval(interval, getOptimizationTypeFromTabKey(activeTabKey), report?.recommendations)
+      );
+    }
+  }, [activeTabKey, interval, report, reportFetchStatus]);
+
+  useEffect(() => {
+    if (optimizationType !== undefined) {
+      setActiveTabKey(optimizationType === OptimizationType.performance ? 1 : 0);
+    }
+  }, [optimizationType]);
+
+  // Render
+
   const isLoading = reportFetchStatus === FetchStatus.inProgress;
-  // eslint-disable-next-line
+
+  // eslint-disable-next-line react-hooks/refs
   const [availableTabs] = useState(getAvailableTabs());
 
   return (
@@ -248,6 +245,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
           breadcrumbLabel={breadcrumbLabel}
           breadcrumbPath={breadcrumbPath}
           currentInterval={currentInterval}
+          isContainers={isContainers}
           isDisabled={isLoading}
           linkState={linkState}
           projectPath={projectPath}
@@ -283,6 +281,11 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const queryFromRoute = useQueryFromRoute();
   const location = useLocation();
+  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
+
+  const isContainers = queryFromRoute ? queryFromRoute.isContainers : false;
+  const reportType = isNamespaceToggleEnabled ? (isContainers ? RosType.container : RosType.namespace) : RosType.ros;
+  const reportPathsType = RosPathsType.recommendation as any;
 
   const reportQueryString = queryFromRoute ? queryFromRoute.id : ''; // Flatten ID
   const report: any = useSelector((state: RootState) =>
@@ -305,6 +308,9 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
     breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
     breadcrumbPath: location?.state?.[queryStateName]?.breadcrumbPath,
     isBoxPlotToggleEnabled: useIsBoxPlotToggleEnabled(),
+    interval: location?.state?.[queryStateName]?.interval,
+    isContainers,
+    optimizationType: location?.state?.[queryStateName]?.optimizationType,
     report,
     reportError,
     reportFetchStatus,

@@ -1,5 +1,4 @@
 import { Flex, FlexItem, ToggleGroup, ToggleGroupItem } from '@patternfly/react-core';
-import type { Query } from 'api/queries/query';
 import { RosNamespace } from 'api/ros/ros';
 import messages from 'locales/messages';
 import React from 'react';
@@ -9,19 +8,18 @@ import { Interval, OptimizationType } from 'utils/commonTypes';
 import { styles } from './optimizationsDetailsToolbar.styles';
 
 interface OptimizationsDetailsToolbarOwnProps {
-  currentInterval?: Interval;
+  interval?: Interval;
   namespace?: RosNamespace;
   onIntervalSelect?: (value: Interval) => void;
   onNamespaceSelect?: (value: RosNamespace) => void;
   onOptimizationTypeSelect?: (value: OptimizationType) => void;
-  query?: Query;
   optimizationType?: OptimizationType;
 }
 
 type OptimizationsDetailsToolbarProps = OptimizationsDetailsToolbarOwnProps;
 
 const OptimizationsDetailsToolbar: React.FC<OptimizationsDetailsToolbarProps> = ({
-  currentInterval,
+  interval,
   namespace,
   onIntervalSelect,
   onNamespaceSelect,
@@ -95,7 +93,7 @@ const OptimizationsDetailsToolbar: React.FC<OptimizationsDetailsToolbarProps> = 
       </FlexItem>
       <FlexItem>
         <PerspectiveSelect
-          currentItem={currentInterval || intervalOptions[0].value}
+          currentItem={interval || intervalOptions[0].value}
           onSelect={onIntervalSelect}
           options={intervalOptions}
           title={messages.optimizationsType}

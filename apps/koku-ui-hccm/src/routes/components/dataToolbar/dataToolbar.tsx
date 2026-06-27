@@ -129,11 +129,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
     if (
       groupBy !== prevProps.groupBy ||
-      (categoryOptions && !isEqual(categoryOptions, prevProps.categoryOptions)) ||
-      (query && !isEqual(query, prevProps.query)) ||
-      (orgReport && !isEqual(orgReport, prevProps.orgReport)) ||
-      (resourceReport && !isEqual(resourceReport, prevProps.resourceReport)) ||
-      (tagReport && !isEqual(tagReport, prevProps.tagReport))
+      !isEqual(categoryOptions, prevProps.categoryOptions) ||
+      !isEqual(query, prevProps.query) ||
+      !isEqual(orgReport, prevProps.orgReport) ||
+      !isEqual(resourceReport, prevProps.resourceReport) ||
+      !isEqual(tagReport, prevProps.tagReport)
     ) {
       this.setState(() => {
         const filters = getActiveFilters(query);
@@ -305,6 +305,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       value,
     });
 
+    if (!(filter && filters)) {
+      return;
+    }
     this.setState(
       {
         filters,
