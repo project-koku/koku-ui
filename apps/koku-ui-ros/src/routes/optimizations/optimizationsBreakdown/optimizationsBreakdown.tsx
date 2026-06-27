@@ -9,7 +9,7 @@ import type { AxiosError } from 'axios';
 import { useIsBoxPlotToggleEnabled, useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -217,7 +217,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
 
   // Effects
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (interval && report && reportFetchStatus !== FetchStatus.inProgress) {
       setCurrentInterval(
         getDefaultInterval(interval, getOptimizationTypeFromTabKey(activeTabKey), report?.recommendations)
@@ -225,7 +225,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
     }
   }, [activeTabKey, interval, report, reportFetchStatus]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (optimizationType !== undefined) {
       setActiveTabKey(optimizationType === OptimizationType.performance ? 1 : 0);
     }

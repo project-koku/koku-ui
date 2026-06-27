@@ -36,7 +36,7 @@ export const addQueryFilter = (
   }
 
   // Filter by * won't generate a new request if group_by * already exists
-  if (filterValue === '*' && newQuery.group_by[filterType] === '*') {
+  if (filterValue === '*' && newQuery.group_by?.[filterType] === '*') {
     return;
   }
 
