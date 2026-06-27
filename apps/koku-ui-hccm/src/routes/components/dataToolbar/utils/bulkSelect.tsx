@@ -42,20 +42,20 @@ export const getBulkSelect = ({
   const isChecked = allSelected ? true : someChecked;
 
   const dropdownItems = [
-    <DropdownItem key="bulk-select-item-1" onClick={() => onBulkSelectClicked('none')}>
+    <DropdownItem key="bulk-select-item-1" onClick={() => onBulkSelectClicked?.('none')}>
       {intl.formatMessage(messages.toolBarBulkSelectNone)}
     </DropdownItem>,
   ];
   if (showSelectPage) {
     dropdownItems.push(
-      <DropdownItem key="bulk-select-item-2" onClick={() => onBulkSelectClicked('page')}>
+      <DropdownItem key="bulk-select-item-2" onClick={() => onBulkSelectClicked?.('page')}>
         {intl.formatMessage(messages.toolBarBulkSelectPage, { value: itemsPerPage })}
       </DropdownItem>
     );
   }
   if (showSelectAll) {
     dropdownItems.push(
-      <DropdownItem key="bulk-select-item-3" onClick={() => onBulkSelectClicked('all')}>
+      <DropdownItem key="bulk-select-item-3" onClick={() => onBulkSelectClicked?.('all')}>
         {intl.formatMessage(messages.toolBarBulkSelectAll, { value: itemsTotal })}
       </DropdownItem>
     );
@@ -73,7 +73,7 @@ export const getBulkSelect = ({
       <MenuToggle
         isDisabled={isDisabled || isBulkSelectDisabled || isReadOnly}
         isExpanded={isBulkSelectOpen}
-        onClick={() => onBulkSelectToggle(!isBulkSelectOpen)}
+        onClick={() => onBulkSelectToggle?.(!isBulkSelectOpen)}
         ref={toggleRef}
         splitButtonItems={[
           <MenuToggleCheckbox
@@ -96,7 +96,7 @@ export const getBulkSelect = ({
     <Dropdown
       id="bulk-select"
       isOpen={isBulkSelectOpen}
-      onOpenChange={isOpen => onBulkSelectToggle(isOpen)}
+      onOpenChange={isOpen => onBulkSelectToggle?.(isOpen)}
       onSelect={onBulkSelect}
       popperProps={{
         appendTo: () => document.body, // Page scroll workaround https://redhat.atlassian.net/browse/COST-5320
