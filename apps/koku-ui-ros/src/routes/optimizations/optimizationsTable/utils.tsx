@@ -151,7 +151,7 @@ export const getRequestProps = (values: any) => {
   };
 
   const isMissingValue = value => {
-    return value === undefined || `${value}`.trim().length === 0;
+    return value === undefined || value === null || `${value}`.trim().length === 0;
   };
 
   const cpuRequestCurrent = getWarningOrValue(configFormatted?.cpuRequestCurrent);

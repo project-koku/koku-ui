@@ -181,7 +181,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
       },
     ];
 
-    report?.data.map(item => {
+    report?.data?.forEach(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
       const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
