@@ -9,6 +9,7 @@ interface ResourceTypeaheadOwnProps {
   isDisabled?: boolean;
   onSelect?: (value: string) => void;
   placeholder?: string;
+  resourceKey?: string;
   resourcePathsType: ResourcePathsType;
   resourceType: ResourceType;
 }
@@ -22,6 +23,7 @@ const ResourceTypeahead: React.FC<ResourceTypeaheadProps> = ({
   isDisabled,
   onSelect,
   placeholder,
+  resourceKey,
   resourcePathsType,
   resourceType,
 }) => {
@@ -51,6 +53,7 @@ const ResourceTypeahead: React.FC<ResourceTypeaheadProps> = ({
       onChange={handleOnChange}
       onSelect={handleOnSelect}
       placeholder={placeholder}
+      resourceKey={resourceKey}
       resourcePathsType={resourcePathsType}
       resourceType={resourceType}
       search={search}

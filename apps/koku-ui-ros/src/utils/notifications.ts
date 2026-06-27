@@ -1,4 +1,4 @@
-import type { Notification, RecommendationEngine, Recommendations, RecommendationTerm } from 'api/ros/recommendations';
+import type { Notification, RecommendationEngine, Recommendations } from 'api/ros/recommendations';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 // Filter notifications (e.g., optimized notices) that should not be associated with a warning icon
@@ -43,26 +43,31 @@ export const getNotifications = (
 ) => {
   const term = recommendations?.recommendation_terms?.[interval];
   const notifications = [
-    ...getRecommendationNotifications(recommendations?.notifications),
-    ...getRecommendationTermNotifications(term),
+    // ...getRecommendationNotifications(recommendations?.notifications),
+    // ...getRecommendationTermNotifications(term),
     ...getRecommendationEngineNotifications(term?.recommendation_engines?.[optimizationType]),
   ];
   return isFilterDups ? filterDuplicateNotifications(notifications) : notifications;
 };
 
+// Note: This appears to have been removed from API response
+//
 // Recommendations notifications
 //
 // data: [
 //   {
 //     recommendations: {
 //       notifications: {}, <<<
-export const getRecommendationNotifications = (recommendations: Recommendations): Notification[] => {
-  if (!recommendations?.notifications) {
-    return [];
-  }
-  return Object.keys(recommendations.notifications).map(key => recommendations.notifications[key]);
-};
+//
+// export const getRecommendationNotifications = (recommendations: Recommendations): Notification[] => {
+//   if (!recommendations?.notifications) {
+//     return [];
+//   }
+//   return Object.keys(recommendations.notifications).map(key => recommendations.notifications[key]);
+// };
 
+// Note: This appears to have been removed from API response
+//
 // Recommendations term notifications
 //
 // data: [
@@ -71,12 +76,13 @@ export const getRecommendationNotifications = (recommendations: Recommendations)
 //       recommendation_terms: {
 //         short_term: {
 //           notifications: {}, <<<
-export const getRecommendationTermNotifications = (term: RecommendationTerm): Notification[] => {
-  if (!term?.notifications) {
-    return [];
-  }
-  return Object.keys(term.notifications).map(key => term.notifications[key]);
-};
+//
+// export const getRecommendationTermNotifications = (term: RecommendationTerm): Notification[] => {
+//   if (!term?.notifications) {
+//     return [];
+//   }
+//   return Object.keys(term.notifications).map(key => term.notifications[key]);
+// };
 
 // Recommendations engine notifications
 //
