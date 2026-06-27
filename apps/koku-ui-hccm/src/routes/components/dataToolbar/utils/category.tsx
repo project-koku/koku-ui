@@ -111,7 +111,7 @@ export const onCategoryInput = ({
   }
 
   const filter = getFilter(currentCategory, val, currentCriteria);
-  const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
+  const newFilters: any = cloneDeep(currentFilters?.[key] ?? []);
 
   return !isMultiSelect
     ? {
@@ -152,11 +152,11 @@ export const onCategoryInputSelect = ({
 }) => {
   const val = cleanInput(value);
   if (val.trim() === '') {
-    return;
+    return {};
   }
 
   const filter = getFilter(currentCategory, val, currentCriteria);
-  const newFilters: any = cloneDeep(currentFilters[key] ? currentFilters[key] : []);
+  const newFilters: any = cloneDeep(currentFilters?.[key] ?? []);
 
   return !isMultiSelect
     ? {
@@ -194,7 +194,6 @@ export const getCategorySelect = ({
   filters?: Filters;
   isDisabled?: boolean;
   onCategorySelect?: (event, selection: SelectWrapperOption) => void;
-  onCategoryToggle?: (isOpen: boolean) => void;
 }) => {
   if (!categoryOptions || categoryOptions.length === 1) {
     return null;

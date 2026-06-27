@@ -40,16 +40,19 @@ export const getOptimizationsBreakdownPath = ({
   basePath,
   breadcrumbLabel,
   id,
+  isContainers,
   title,
 }: {
   basePath?: string;
   breadcrumbLabel?: string; // Used to display a breadcrumb in the breakdown header
   id: string | number; // group_by[account]=<id> param in the breakdown page
+  isContainers?: boolean; // Flag indicating to use containers API
   title: string | number; // Used to display a title in the breakdown header
 }) => {
   const newQuery: any = {
     id,
     ...(breadcrumbLabel && { [breadcrumbLabelKey]: breadcrumbLabel }),
+    ...(isContainers && { isContainers }),
     ...(title && { [breakdownTitleKey]: title }),
   };
   return `${basePath}?${getQueryRoute(newQuery)}`;
