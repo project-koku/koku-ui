@@ -283,9 +283,7 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
   const location = useLocation();
   const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
 
-  const isContainers = queryFromRoute
-    ? queryFromRoute.isContainers === 'true' || queryFromRoute.isContainers === true
-    : false;
+  const isContainers = queryFromRoute?.isContainers === 'true' || queryFromRoute?.isContainers === true;
   const reportType = isNamespaceToggleEnabled ? (isContainers ? RosType.container : RosType.namespace) : RosType.ros;
   const reportPathsType = RosPathsType.recommendation as any;
 
