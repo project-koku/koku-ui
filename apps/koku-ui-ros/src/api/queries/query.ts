@@ -26,12 +26,11 @@ export interface Query {
   group_by?: any;
   id?: string;
   interval?: Interval;
-  isContainers?: boolean;
+  isContainers?: string | boolean;
   key?: string;
   key_only?: boolean;
   limit?: number;
   offset?: number;
-  isOptimizationsDetails?: any;
   optimizationsTab?: any;
   optimizationType?: OptimizationType;
   order_by?: any;
