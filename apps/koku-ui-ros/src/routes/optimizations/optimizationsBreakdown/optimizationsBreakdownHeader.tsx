@@ -45,7 +45,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
 
   const showWarningIcon = hasNotificationsWarning(report?.recommendations);
 
-  // Manually refreshing the page will lose link state, but this provides a default path for the breadcrumb
+  // Default breadcrumb path
   let basePath = breadcrumbPath;
   if (!basePath) {
     const cleanPath = (location?.pathname || '').replace(/\/$/, '');
@@ -87,6 +87,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
           <Content component={ContentVariants.dd}>
             <OptimizationsBreakdownProjectLink
               breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: project })}
+              breadcrumbPath={`${location.pathname}${location.search}`}
               linkState={linkState}
               project={project}
               projectPath={projectPath}

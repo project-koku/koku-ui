@@ -25,11 +25,12 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
   const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState();
-  const { isNamespaceToggleEnabled } = useMapToProps();
 
   const clusterFilter = queryState?.filter_by?.cluster;
   const groupBy = getGroupById(queryFromRoute);
   const groupByValue = getGroupByValue(queryFromRoute);
+
+  const { isNamespaceToggleEnabled } = useMapToProps();
 
   // Set optimizationsTab query param to ensure the optimizations tab is selected upon clicking the breadcrumb
   // in OCP optimizations breakdown. In OCP details, clicking the optimizations link will add the query param, but
@@ -46,7 +47,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
         scope="costManagementRos"
         module="./OptimizationsOcpBreakdown"
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${queryString}`)}
+        breadcrumbPath={`${location.pathname}${queryString}`}
         cluster={clusterFilter}
         isClusterHidden={clusterFilter !== undefined}
         isProjectHidden={groupBy === 'project'}
@@ -66,7 +67,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
           scope="costManagementRos"
           module="./OptimizationsTable"
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-          breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${queryString}`)}
+          breadcrumbPath={`${location.pathname}${queryString}`}
           cluster={clusterFilter}
           isClusterHidden={clusterFilter !== undefined}
           isProjectHidden={groupBy === 'project'}

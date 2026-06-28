@@ -237,7 +237,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         ...(router?.location?.state || {}),
         detailsState: {
           ...(query || {}),
-          breadcrumbPath,
         },
         ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown
       };
@@ -248,6 +247,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         <Link
           to={getBreakdownPath({
             basePath,
+            breadcrumbPath,
             description: item.id,
             id: item.id,
             isPlatformCosts,

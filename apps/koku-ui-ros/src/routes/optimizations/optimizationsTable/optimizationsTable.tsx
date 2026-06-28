@@ -98,7 +98,6 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   useEffect(() => {
     setNewLinkState(
       getLinkState({
-        breadcrumbPath,
         linkState,
         location,
         query,
@@ -138,6 +137,7 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
     return (
       <OptimizationsDataTable
         breadcrumbLabel={breadcrumbLabel}
+        breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
         isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
