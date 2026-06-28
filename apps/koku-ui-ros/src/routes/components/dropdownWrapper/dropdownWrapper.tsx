@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 export interface DropdownWrapperItem {
   description?: string; // Item description
   isDisabled?: boolean;
-  onClick: (event: any) => void;
+  onClick?: (event: any) => void;
   toString: () => string; // Item label
   tooltipProps?: any;
 }
