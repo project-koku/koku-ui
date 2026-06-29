@@ -5,10 +5,14 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 import { PriceListType } from 'api/priceList';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
+import { UserAccessType } from 'api/userAccess';
 import { configureStore } from 'store/store';
 import { FetchStatus } from 'store/common';
 import { priceListStateKey } from 'store/priceLists';
 import { getFetchId } from 'store/priceLists/priceListCommon';
+import { userAccessQuery, userAccessStateKey } from 'store/userAccess';
+import { getFetchId as getUserAccessFetchId } from 'store/userAccess/userAccessCommon';
 
 import PriceListCreate from './priceListCreate';
 
@@ -24,10 +28,23 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-jest.mock('utils/userAccess', () => ({
-  ...jest.requireActual('utils/userAccess'),
-  hasCostModelWritePermission: () => true,
-}));
+const userAccessQueryString = getUserAccessQuery(userAccessQuery);
+const userAccessFetchId = getUserAccessFetchId(UserAccessType.all, userAccessQueryString);
+
+const userAccessState = {
+  [userAccessStateKey]: {
+    byId: new Map([
+      [
+        userAccessFetchId,
+        {
+          data: [{ type: UserAccessType.costModel, access: true, write: true }],
+        },
+      ],
+    ]),
+    errors: new Map([[userAccessFetchId, null]]),
+    fetchStatus: new Map([[userAccessFetchId, FetchStatus.complete]]),
+  },
+};
 
 jest.mock('routes/settings/priceLists/priceList/components/details', () => {
   const React = require('react');
@@ -72,6 +89,7 @@ describe('PriceListCreate', () => {
   const renderCreate = () => {
     const fetchId = getFetchId(PriceListType.priceListAdd, undefined);
     const store = configureStore({
+      ...userAccessState,
       [priceListStateKey]: {
         byId: new Map(),
         errors: new Map([[fetchId, null]]),
@@ -121,6 +139,7 @@ describe('PriceListCreate', () => {
   test('shows success notification when add completes', () => {
     const fetchId = getFetchId(PriceListType.priceListAdd, undefined);
     const store = configureStore({
+      ...userAccessState,
       [priceListStateKey]: {
         byId: new Map(),
         errors: new Map([[fetchId, null]]),

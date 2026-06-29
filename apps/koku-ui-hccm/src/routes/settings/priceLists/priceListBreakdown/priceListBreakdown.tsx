@@ -15,6 +15,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { usePriceListNotifications } from 'routes/settings/priceLists/utils';
@@ -23,7 +24,7 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasCostModelWritePermission } from 'utils/userAccess';
+import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModels } from './costModels';
 import { styles } from './priceListBreakdown.styles';
@@ -87,6 +88,10 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   });
 
   const isLoading = priceListFetchStatus === FetchStatus.inProgress;
+
+  const canAccess = () => {
+    return hasCostModelAccess(userAccess);
+  };
 
   const canWrite = () => {
     return hasCostModelWritePermission(userAccess);
@@ -209,6 +214,9 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
         heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
       />
     );
+  }
+  if (!canAccess()) {
+    return <NotAuthorized pathname={formatPath(routes.priceListBreakdown.basePath)} />;
   }
   if (priceListError) {
     return <NotAvailable />;
