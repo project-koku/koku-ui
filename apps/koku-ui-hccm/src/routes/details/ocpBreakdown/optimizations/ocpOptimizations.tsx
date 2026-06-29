@@ -47,7 +47,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
         scope="costManagementRos"
         module="./OptimizationsOcpBreakdown"
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-        breadcrumbPath={`${location.pathname}${queryString}`}
+        breadcrumbPath={`${formatPath(routes.ocpBreakdown.path)}${queryString}`}
         cluster={clusterFilter}
         isClusterHidden={clusterFilter !== undefined}
         isProjectHidden={groupBy === 'project'}
@@ -67,7 +67,7 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
           scope="costManagementRos"
           module="./OptimizationsTable"
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-          breadcrumbPath={`${location.pathname}${queryString}`}
+          breadcrumbPath={`${formatPath(routes.ocpBreakdown.path)}${queryString}`}
           cluster={clusterFilter}
           isClusterHidden={clusterFilter !== undefined}
           isProjectHidden={groupBy === 'project'}
