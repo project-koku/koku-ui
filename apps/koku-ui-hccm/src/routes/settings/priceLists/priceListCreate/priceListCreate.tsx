@@ -57,7 +57,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const [priceList, setPriceList] = useState<PriceListData>({});
   const [rates, setRates] = useState<Rate[]>([]);
 
-  const { priceListError, priceListFetchStatus, userAccess, userAccessFetchStatus } = useMapToProps();
+  const { priceListError, priceListFetchStatus, userAccess, userAccessError, userAccessFetchStatus } = useMapToProps();
 
   const canAccess = () => {
     return hasCostModelAccess(userAccess);
@@ -132,6 +132,14 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
     }
   }, [isFinish, priceListError, priceListFetchStatus]);
 
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+        heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+      />
+    );
+  }
   if (!(canAccess() && canWrite())) {
     return <NotAuthorized pathname={formatPath(routes.priceListCreate.path)} />;
   }
@@ -146,12 +154,6 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
             onCreate={() => contentRef.current?.save()}
             priceList={priceList}
           />
-          {userAccessFetchStatus === FetchStatus.inProgress && (
-            <LoadingState
-              body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
-              heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
-            />
-          )}
         </header>
       </PageSection>
       <PageSection>

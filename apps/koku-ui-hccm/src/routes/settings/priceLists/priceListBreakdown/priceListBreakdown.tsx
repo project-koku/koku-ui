@@ -83,9 +83,10 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { priceList, priceListError, priceListFetchStatus, userAccess, userAccessFetchStatus } = useMapToProps({
-    query,
-  });
+  const { priceList, priceListError, priceListFetchStatus, userAccess, userAccessError, userAccessFetchStatus } =
+    useMapToProps({
+      query,
+    });
 
   const isLoading = priceListFetchStatus === FetchStatus.inProgress;
 
@@ -207,7 +208,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
 
   const availableTabs = getAvailableTabs();
 
-  if (userAccessFetchStatus === FetchStatus.inProgress) {
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
     return (
       <LoadingState
         body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
