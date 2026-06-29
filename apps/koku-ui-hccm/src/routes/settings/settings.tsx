@@ -29,7 +29,12 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
 import { formatPath } from 'utils/paths';
-import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
+import {
+  hasCostModelAccess,
+  hasCostModelWritePermission,
+  hasSettingsAccess,
+  hasSettingsWritePermission,
+} from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
 import { CostModel } from './costModels';
@@ -109,15 +114,6 @@ const Settings: React.FC<SettingsProps> = () => {
   useEffect(() => {
     setActiveTabKey(activeTabKeyState ?? 0);
   }, [activeTabKeyState]);
-
-  const canWrite = () => {
-    let result = false;
-    if (userAccess) {
-      const data = (userAccess.data as any).find(d => d.type === 'settings');
-      result = data?.access && data?.write;
-    }
-    return result;
-  };
 
   const getAvailableTabs = () => {
     const showDisplayTab = isDisplayToggleEnabled || isSettingsDataRetentionPeriodEnabled;
@@ -206,15 +202,18 @@ const Settings: React.FC<SettingsProps> = () => {
     const notAuthorized = <NotAuthorized pathname={formatPath(routes.settings.path)} />;
     const emptyTab = <></>; // Lazily load tabs
 
-    if (activeTabKey !== index) {
+    if (activeTabKey !== index || userAccessFetchStatus !== FetchStatus.complete) {
       return emptyTab;
     }
 
+    const canWriteCostModels = hasCostModelWritePermission(userAccess);
+    const canWriteSettings = hasSettingsWritePermission(userAccess);
     const currentTab = getIdKeyForTab(tab);
+
     if (currentTab === SettingsTab.costModels) {
       return hasCostModelAccess(userAccess) ? (
         isPriceListToggleEnabled ? (
-          <CostModel canWrite={canWrite()} />
+          <CostModel canWrite={canWriteCostModels} />
         ) : (
           <CostModelsDetails />
         )
@@ -222,24 +221,24 @@ const Settings: React.FC<SettingsProps> = () => {
         <NotAuthorized pathname={formatPath(routes.costModelBreakdown.path)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
-      return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.costCategory) {
-      return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.display) {
-      return hasSettingsAccess(userAccess) ? <Display canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <Display canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.platformProjects) {
-      return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
-      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
+      return hasCostModelAccess(userAccess) ? <PriceList canWrite={canWriteCostModels} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
-      return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {
       return hasSettingsAccess(userAccess) ? (
         <ScalprumComponent
           scope="sources"
           module="./SourcesPage"
           fallback={<LoadingState />}
-          {...({ canWrite: canWrite() } as Record<string, unknown>)}
+          {...({ canWrite: canWriteSettings } as Record<string, unknown>)}
         />
       ) : (
         notAuthorized
