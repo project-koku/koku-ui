@@ -3324,9 +3324,14 @@ export default defineMessages({
     id: 'notAuthorizedStateAzure',
   },
   notAuthorizedStateCostModels: {
-    defaultMessage: 'Cost models in cost management',
-    description: 'Cost models in cost management',
+    defaultMessage: 'cost models in cost management',
+    description: 'cost models in cost management',
     id: 'notAuthorizedStateCostModels',
+  },
+  notAuthorizedStatePriceLists: {
+    defaultMessage: 'price lists in cost management',
+    description: 'price lists in cost management',
+    id: 'notAuthorizedStatePriceLists',
   },
   notAuthorizedStateGcp: {
     defaultMessage: 'Google Cloud in cost management',
@@ -3344,8 +3349,8 @@ export default defineMessages({
     id: 'notAuthorizedStateOptimizations',
   },
   notAuthorizedStateSettings: {
-    defaultMessage: 'Settings in cost management',
-    description: 'Settings in cost management',
+    defaultMessage: 'settings in cost management',
+    description: 'settings in cost management',
     id: 'notAuthorizedStateSettings',
   },
   notAvailable: {

@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { DetailContentHandle } from 'routes/settings/priceLists/priceList/components/details';
 import { DetailContent } from 'routes/settings/priceLists/priceList/components/details';
@@ -23,7 +24,7 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasCostModelWritePermission } from 'utils/userAccess';
+import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
 
 import { styles } from './priceListCreate.styles';
 import { PriceListCreateHeader } from './priceListCreateHeader';
@@ -57,6 +58,10 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const [rates, setRates] = useState<Rate[]>([]);
 
   const { priceListError, priceListFetchStatus, userAccess, userAccessFetchStatus } = useMapToProps();
+
+  const canAccess = () => {
+    return hasCostModelAccess(userAccess);
+  };
 
   const canWrite = () => {
     return hasCostModelWritePermission(userAccess);
@@ -127,6 +132,9 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
     }
   }, [isFinish, priceListError, priceListFetchStatus]);
 
+  if (!(canAccess() && canWrite())) {
+    return <NotAuthorized pathname={formatPath(routes.priceListCreate.path)} />;
+  }
   return (
     <>
       <PageSection style={styles.headerContainer}>

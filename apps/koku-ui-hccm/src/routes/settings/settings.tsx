@@ -218,7 +218,7 @@ const Settings: React.FC<SettingsProps> = () => {
           <CostModelsDetails />
         )
       ) : (
-        <NotAuthorized pathname={formatPath(routes.costModelBreakdown.path)} />
+        <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
       return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWriteSettings} /> : notAuthorized;
