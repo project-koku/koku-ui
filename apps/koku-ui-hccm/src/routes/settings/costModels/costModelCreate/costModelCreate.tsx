@@ -49,7 +49,8 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
   const [priceList, setPriceList] = useState<PriceListData>({});
   const [rates] = useState<Rate[]>([]);
 
-  const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessFetchStatus } = useMapToProps();
+  const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessError, userAccessFetchStatus } =
+    useMapToProps();
 
   const canAccess = () => {
     return hasCostModelAccess(userAccess);
@@ -92,6 +93,14 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
     }
   }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+        heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+      />
+    );
+  }
   if (!(canAccess() && canWrite())) {
     return <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />;
   }
@@ -100,12 +109,6 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
       <PageSection style={styles.headerContainer}>
         <header>
           <CostModelCreateHeader />
-          {userAccessFetchStatus === FetchStatus.inProgress && (
-            <LoadingState
-              body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
-              heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
-            />
-          )}
         </header>
       </PageSection>
       <PageSection className="wizardOverride" type="wizard">

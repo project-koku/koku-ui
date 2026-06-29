@@ -94,10 +94,17 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { costModel, costModelsFetchError, costModelsFetchStatus, userAccess, userAccessFetchStatus, uuid } =
-    useMapToProps({
-      query,
-    });
+  const {
+    costModel,
+    costModelsFetchError,
+    costModelsFetchStatus,
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+    uuid,
+  } = useMapToProps({
+    query,
+  });
 
   const isLoading = costModelsFetchStatus === FetchStatus.inProgress;
 
@@ -255,7 +262,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     }
   }
 
-  if (userAccessFetchStatus === FetchStatus.inProgress) {
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
     return (
       <LoadingState
         body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
