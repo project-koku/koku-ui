@@ -202,7 +202,7 @@ const Settings: React.FC<SettingsProps> = () => {
     const notAuthorized = <NotAuthorized pathname={formatPath(routes.settings.path)} />;
     const emptyTab = <></>; // Lazily load tabs
 
-    if (activeTabKey !== index || userAccessFetchStatus === FetchStatus.inProgress) {
+    if (activeTabKey !== index || userAccessFetchStatus !== FetchStatus.complete) {
       return emptyTab;
     }
 
