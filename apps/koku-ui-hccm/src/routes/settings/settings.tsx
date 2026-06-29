@@ -206,6 +206,10 @@ const Settings: React.FC<SettingsProps> = () => {
       return emptyTab;
     }
 
+    if (userAccessFetchStatus === FetchStatus.inProgress) {
+      return emptyTab;
+    }
+
     const canWriteCostModels = hasCostModelWritePermission(userAccess);
     const canWriteSettings = hasSettingsWritePermission(userAccess);
     const currentTab = getIdKeyForTab(tab);
