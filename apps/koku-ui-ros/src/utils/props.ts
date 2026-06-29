@@ -7,6 +7,7 @@ export const tagPrefix = 'tag:'; // Tag prefix for group_by
 
 export const awsCategoryKey = 'aws_category'; // AWS category for group_by
 export const breadcrumbLabelKey = 'breadcrumb_label'; // Used to display a breadcrumb in the breakdown header
+export const breadcrumbPathKey = 'breadcrumb_path'; // Used for breadcrumb path in the breakdown header
 export const breakdownDescKey = 'breakdown_desc'; // Used to display a description in the breakdown header
 export const breakdownTitleKey = 'breakdown_title'; // Used to display a title in the breakdown header
 export const exactKey = 'exact'; // Exact key for exact query

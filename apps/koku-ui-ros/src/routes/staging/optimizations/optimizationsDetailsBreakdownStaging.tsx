@@ -15,6 +15,7 @@ const OptimizationsDetailsBreakdownStaging: React.FC<OptimizationsBreakdownStagi
 
   return (
     <OptimizationsBreakdown
+      breadcrumbPath={formatPath(`${routes.optimizationsDetails.path}${location.search}`)}
       projectPath={formatPath(`${routes.ocpOptimizations.path}`)} // Path for optimizations breakdown project link
       linkState={{
         ...(location?.state || {}),

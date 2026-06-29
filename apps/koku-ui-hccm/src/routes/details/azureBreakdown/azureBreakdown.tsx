@@ -20,7 +20,7 @@ import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey } from 'utils/props';
+import { breadcrumbPathKey, breakdownDescKey, breakdownTitleKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCurrency } from 'utils/sessionStorage';
@@ -98,7 +98,7 @@ const mapStateToProps = createMapStateToProps<AzureBreakdownOwnProps, BreakdownS
     const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
     return {
-      breadcrumbPath: formatPath(routes.azureDetails.path),
+      breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.azureDetails.path),
       costOverviewComponent: (
         <CostOverview currency={currency} groupBy={groupBy} queryStateName={queryStateName} report={report} />
       ),
@@ -134,4 +134,11 @@ const mapDispatchToProps: AzureBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
+export default injectIntl(
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(BreakdownBase) as unknown as React.ComponentType<AzureBreakdownOwnProps>
+  )
+);

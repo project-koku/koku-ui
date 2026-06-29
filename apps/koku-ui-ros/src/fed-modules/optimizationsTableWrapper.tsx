@@ -4,8 +4,8 @@ import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface OptimizationsTableOwnProps {
-  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
-  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page header
+  breadcrumbPath?: string; // Breadcrumb path used in the page header
   cluster?: string | string[]; // Cluster name to filter by
   isClusterHidden?: boolean; // Hides cluster filter and column
   isProjectHidden?: boolean; // Hides project filter and column

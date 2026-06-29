@@ -39,7 +39,7 @@ interface OptimizationsContainersTableOwnProps {
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
   optimizationType?: OptimizationType;
-  project?: string | string[]; // Project name to filter by
+  project?: string; // Project name to filter by
   query?: RosDetailsQuery;
   queryStateName: string; // Name used to store query state
 }
@@ -52,8 +52,7 @@ export interface OptimizationsContainersTableStateProps {
 }
 
 export interface OptimizationsContainersTableMapProps {
-  cluster?: string | string[];
-  project?: string | string[];
+  project?: string;
   query?: RosQuery;
 }
 
@@ -91,7 +90,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState?.containers) });
-  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const { report, reportError, reportFetchStatus } = useMapToProps({
     project,
     query,
   });
@@ -129,6 +128,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     return (
       <OptimizationsContainersDataTable
         breadcrumbLabel={breadcrumbLabel}
+        breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
         interval={interval}
         isClusterHidden={isClusterHidden}
@@ -140,7 +140,6 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
         optimizationType={optimizationType}
         orderBy={query.order_by}
         report={report}
-        reportQueryString={reportQueryString}
       />
     );
   };
@@ -227,7 +226,6 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   useEffect(() => {
     setNewLinkState(
       getLinkState({
-        breadcrumbPath,
         linkState,
         location,
         query: {
