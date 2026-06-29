@@ -8,6 +8,7 @@ import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { AnyAction } from 'redux';
@@ -47,6 +48,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const intl = useIntl();
 
   const contentRef = useRef<DetailContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
