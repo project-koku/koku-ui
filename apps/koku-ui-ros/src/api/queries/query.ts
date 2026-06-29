@@ -27,6 +27,7 @@ export interface Query {
   id?: string;
   interval?: Interval;
   isContainers?: string | boolean;
+  isGroupByProject?: string | boolean;
   key?: string;
   key_only?: boolean;
   limit?: number;

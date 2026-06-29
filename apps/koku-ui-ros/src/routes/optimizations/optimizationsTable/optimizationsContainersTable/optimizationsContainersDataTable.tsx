@@ -19,6 +19,7 @@ import { getRequestProps } from '../utils';
 
 interface OptimizationsContainersDataTableOwnProps {
   breadcrumbLabel?: string;
+  breadcrumbPath?: string;
   filterBy?: any;
   interval?: Interval;
   isClusterHidden?: boolean;
@@ -30,13 +31,13 @@ interface OptimizationsContainersDataTableOwnProps {
   optimizationType?: OptimizationType;
   orderBy?: any;
   report: RecommendationReport;
-  reportQueryString: string;
 }
 
 type OptimizationsContainersDataTableProps = OptimizationsContainersDataTableOwnProps;
 
 const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTableProps> = ({
   breadcrumbLabel,
+  breadcrumbPath,
   filterBy,
   interval = Interval.short_term,
   isClusterHidden,
@@ -193,6 +194,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
         breadcrumbLabel,
+        breadcrumbPath,
         id: item.id,
         isContainers: true,
         title: container,

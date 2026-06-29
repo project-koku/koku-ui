@@ -15,6 +15,7 @@ const OcpOptimizationsBreakdown: React.FC<OcpOptimizationsBreakdownProps> = () =
     <AsyncComponent
       scope="costManagementRos"
       appName="cost-management-ros"
+      isGroupByProject
       module="./OptimizationsBreakdown"
       linkState={{
         ...(location?.state || {}),
