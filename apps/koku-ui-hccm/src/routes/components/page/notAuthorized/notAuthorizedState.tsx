@@ -42,6 +42,10 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
       case formatPath(routes.optimizations.path):
         msg = messages.notAuthorizedStateOptimizations;
         break;
+      case formatPath(routes.priceListCreate.path):
+      case formatPath(routes.priceListBreakdown.basePath):
+        msg = messages.notAuthorizedStatePriceLists;
+        break;
       case formatPath(routes.settings.path):
         msg = messages.notAuthorizedStateSettings;
         break;

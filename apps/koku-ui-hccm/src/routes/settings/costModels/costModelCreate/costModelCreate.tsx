@@ -13,12 +13,13 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from 'routes';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModelWizard } from './components/create';
 import { styles } from './costModelCreate.styles';
@@ -50,8 +51,12 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
 
   const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessFetchStatus } = useMapToProps();
 
+  const canAccess = () => {
+    return hasCostModelAccess(userAccess);
+  };
+
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Handlers
@@ -87,6 +92,9 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
     }
   }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
+  if (!(canAccess() && canWrite())) {
+    return <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />;
+  }
   return (
     <>
       <PageSection style={styles.headerContainer}>
