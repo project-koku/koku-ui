@@ -17,6 +17,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getSourceType } from 'routes/settings/costModels/costModel/utils';
@@ -27,7 +28,7 @@ import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostCalculations } from './costCalculations';
 import { styles } from './costModelBreakdown.styles';
@@ -93,15 +94,26 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { costModel, costModelsFetchError, costModelsFetchStatus, userAccess, userAccessFetchStatus, uuid } =
-    useMapToProps({
-      query,
-    });
+  const {
+    costModel,
+    costModelsFetchError,
+    costModelsFetchStatus,
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+    uuid,
+  } = useMapToProps({
+    query,
+  });
 
   const isLoading = costModelsFetchStatus === FetchStatus.inProgress;
 
+  const canAccess = () => {
+    return hasCostModelAccess(userAccess);
+  };
+
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Force update
@@ -250,13 +262,16 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
     }
   }
 
-  if (userAccessFetchStatus === FetchStatus.inProgress) {
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
     return (
       <LoadingState
         body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
         heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
       />
     );
+  }
+  if (!canAccess()) {
+    return <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />;
   }
   return (
     <>
