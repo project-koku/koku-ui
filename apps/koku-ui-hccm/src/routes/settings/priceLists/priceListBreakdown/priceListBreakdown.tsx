@@ -23,7 +23,7 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModels } from './costModels';
 import { styles } from './priceListBreakdown.styles';
@@ -89,7 +89,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   const isLoading = priceListFetchStatus === FetchStatus.inProgress;
 
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Force update
