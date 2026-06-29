@@ -18,7 +18,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModelWizard } from './components/create';
 import { styles } from './costModelCreate.styles';
@@ -51,7 +51,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
   const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessFetchStatus } = useMapToProps();
 
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Handlers
