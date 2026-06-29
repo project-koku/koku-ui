@@ -19,6 +19,7 @@ import { getRequestProps } from '../utils';
 
 interface OptimizationsProjectTableOwnProps {
   breadcrumbLabel?: string;
+  breadcrumbPath?: string;
   filterBy?: any;
   interval?: Interval;
   isClusterHidden?: boolean;
@@ -28,15 +29,14 @@ interface OptimizationsProjectTableOwnProps {
   onSort(value: string, isSortAscending: boolean);
   optimizationType?: OptimizationType;
   orderBy?: any;
-  projectPath?: string; // Project path (i.e., OCP details breakdown path)
   report: RecommendationReport;
-  reportQueryString: string;
 }
 
 type OptimizationsProjectTableProps = OptimizationsProjectTableOwnProps;
 
 const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> = ({
   breadcrumbLabel,
+  breadcrumbPath,
   filterBy,
   interval = Interval.short_term,
   isClusterHidden,
@@ -175,6 +175,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
         breadcrumbLabel,
+        breadcrumbPath,
         id: item.id,
         title: container,
       });

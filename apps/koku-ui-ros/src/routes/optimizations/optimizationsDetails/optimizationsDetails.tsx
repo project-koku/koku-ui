@@ -42,6 +42,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   const location = useLocation();
 
   const { isNamespaceToggleEnabled } = useMapToProps();
+
   const queryState = getQueryState(location, queryStateName);
   const [query, setQuery] = useState<RosDetailsQuery>({
     interval: queryState?.interval ?? Interval.short_term,

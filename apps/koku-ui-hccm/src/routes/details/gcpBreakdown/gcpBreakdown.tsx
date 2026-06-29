@@ -20,7 +20,7 @@ import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
-import { breakdownDescKey, breakdownTitleKey } from 'utils/props';
+import { breadcrumbPathKey, breakdownDescKey, breakdownTitleKey } from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCurrency } from 'utils/sessionStorage';
@@ -95,7 +95,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
   );
 
   return {
-    breadcrumbPath: formatPath(routes.gcpDetails.path),
+    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.gcpDetails.path),
     costOverviewComponent: (
       <CostOverview currency={currency} groupBy={groupBy} queryStateName={queryStateName} report={report} />
     ),
@@ -130,4 +130,8 @@ const mapDispatchToProps: GcpBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
+export default injectIntl(
+  withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(BreakdownBase) as unknown as React.ComponentType<GcpBreakdownOwnProps>
+  )
+);

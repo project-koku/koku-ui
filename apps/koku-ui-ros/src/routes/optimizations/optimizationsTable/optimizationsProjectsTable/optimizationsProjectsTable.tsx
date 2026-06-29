@@ -42,7 +42,7 @@ interface OptimizationsProjectsTableOwnProps {
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
   optimizationType?: OptimizationType;
-  project?: string | string[]; // Project name to filter by for OCP breakdown
+  project?: string; // Project name to filter by for OCP breakdown
   query?: RosDetailsQuery;
   queryStateName: string; // Name used to store query state
 }
@@ -55,8 +55,7 @@ export interface OptimizationsProjectsTableStateProps {
 }
 
 export interface OptimizationsProjectsTableMapProps {
-  cluster?: string | string[];
-  project?: string | string[];
+  project?: string;
   query?: RosQuery;
 }
 
@@ -95,7 +94,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState?.projects) });
-  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const { report, reportError, reportFetchStatus } = useMapToProps({
     project,
     query,
   });
@@ -133,6 +132,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
     return (
       <OptimizationsProjectsDataTable
         breadcrumbLabel={breadcrumbLabel}
+        breadcrumbPath={breadcrumbPath}
         filterBy={query.filter_by}
         interval={interval}
         isClusterHidden={isClusterHidden}
@@ -143,7 +143,6 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
         optimizationType={optimizationType}
         orderBy={query.order_by}
         report={report}
-        reportQueryString={reportQueryString}
       />
     );
   };
@@ -229,7 +228,6 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   useEffect(() => {
     setNewLinkState(
       getLinkState({
-        breadcrumbPath,
         linkState,
         location,
         query: {
