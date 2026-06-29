@@ -27,7 +27,7 @@ import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostCalculations } from './costCalculations';
 import { styles } from './costModelBreakdown.styles';
@@ -101,7 +101,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   const isLoading = costModelsFetchStatus === FetchStatus.inProgress;
 
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Force update
