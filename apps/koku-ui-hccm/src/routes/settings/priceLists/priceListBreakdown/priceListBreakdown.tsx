@@ -15,6 +15,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { usePriceListNotifications } from 'routes/settings/priceLists/utils';
@@ -23,7 +24,7 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModels } from './costModels';
 import { styles } from './priceListBreakdown.styles';
@@ -82,14 +83,19 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { priceList, priceListError, priceListFetchStatus, userAccess, userAccessFetchStatus } = useMapToProps({
-    query,
-  });
+  const { priceList, priceListError, priceListFetchStatus, userAccess, userAccessError, userAccessFetchStatus } =
+    useMapToProps({
+      query,
+    });
 
   const isLoading = priceListFetchStatus === FetchStatus.inProgress;
 
+  const canAccess = () => {
+    return hasCostModelAccess(userAccess);
+  };
+
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Force update
@@ -202,13 +208,16 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
 
   const availableTabs = getAvailableTabs();
 
-  if (userAccessFetchStatus === FetchStatus.inProgress) {
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
     return (
       <LoadingState
         body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
         heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
       />
     );
+  }
+  if (!canAccess()) {
+    return <NotAuthorized pathname={formatPath(routes.priceListBreakdown.basePath)} />;
   }
   if (priceListError) {
     return <NotAvailable />;
