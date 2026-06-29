@@ -11942,7 +11942,7 @@
     "notAuthorizedStateCostModels": [
       {
         "type": 0,
-        "value": "Cost models in cost management"
+        "value": "cost models in cost management"
       }
     ],
     "notAuthorizedStateGcp": [
@@ -11963,10 +11963,16 @@
         "value": "Optimizations in cost management"
       }
     ],
+    "notAuthorizedStatePriceLists": [
+      {
+        "type": 0,
+        "value": "price lists in cost management"
+      }
+    ],
     "notAuthorizedStateSettings": [
       {
         "type": 0,
-        "value": "Settings in cost management"
+        "value": "settings in cost management"
       }
     ],
     "notAvailable": [

@@ -67,7 +67,7 @@ const buildPreloadedState = () =>
         [
           userAccessFetchId,
           {
-            data: [{ type: UserAccessType.settings, access: true, write: true }],
+            data: [{ type: UserAccessType.costModel, access: true, write: true }],
           },
         ],
       ]),
