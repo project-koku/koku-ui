@@ -24,7 +24,7 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
     <PageSection>
       <OptimizationsOcpBreakdown
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-        breadcrumbPath={formatPath(routes.ocpOptimizations.path)}
+        breadcrumbPath={`${formatPath(routes.ocpOptimizations.path)}${location.search}`}
         linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
         linkState={{
           ...(location?.state || {}),
