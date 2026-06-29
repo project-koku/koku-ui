@@ -20,12 +20,15 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   const intl = useIntl();
   const location = useLocation();
 
+  const params = new URLSearchParams(location.search);
+  const queryString = params.toString() ? '?' + params.toString() : '';
+
   return (
     <AsyncComponent
       scope="costManagementRos"
       module="./OptimizationsDetails"
       breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-      breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
+      breadcrumbPath={`${location.pathname}${queryString}`}
       isHeaderHidden={isHeaderHidden}
       linkPath={formatPath(routes.optimizationsBreakdown.path)}
       linkState={{

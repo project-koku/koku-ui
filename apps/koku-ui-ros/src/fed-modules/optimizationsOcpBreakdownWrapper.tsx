@@ -4,12 +4,12 @@ import { OptimizationsOcpBreakdown } from 'routes/optimizations/optimizationsOcp
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
 export interface optimizationsOcpBreakdownOwnProps {
-  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
-  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page header
+  breadcrumbPath?: string; // Breadcrumb path used in the page header
   isClusterHidden?: boolean; // Hides cluster filter and column
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
-  project?: string | string[]; // Project name to filter by
+  project?: string; // Project name to filter by
   queryStateName: string; // Name used to store query state
 }
 

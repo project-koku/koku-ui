@@ -21,6 +21,7 @@ import { styles } from './optimizationsBreakdown.styles';
 
 interface OptimizationsBreakdownProjectLinkOwnProps {
   breadcrumbLabel?: string;
+  breadcrumbPath?: string;
   linkState?: any;
   project?: string;
   projectPath?: string;
@@ -42,13 +43,15 @@ const reportPathsType = ReportPathsType.ocp;
 
 const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectLinkProps> = ({
   breadcrumbLabel,
+  breadcrumbPath,
   linkState,
   project,
   projectPath,
 }) => {
-  const { isProjectLinkToggleEnabled, report } = useMapToProps({ project, projectPath });
   const location = useLocation();
   const intl = useIntl();
+
+  const { isProjectLinkToggleEnabled, report } = useMapToProps({ project, projectPath });
 
   // Is stand alone?
   if (!projectPath || !isProjectLinkToggleEnabled) {
@@ -69,6 +72,7 @@ const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectL
   const breakdownPath = getBreakdownPath({
     basePath: projectPath,
     breadcrumbLabel,
+    breadcrumbPath,
     groupBy: 'project',
     id: project,
     isOptimizationsTab: true,

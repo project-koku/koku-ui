@@ -23,7 +23,6 @@ const useQueryFromRoute = () => {
 
 const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTableStagingProps> = () => {
   const intl = useIntl();
-  const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
 
   // The groupBy and groupByValue is the project, cluster, node, or tag name shown in the OCP Details breakdown page
@@ -36,7 +35,6 @@ const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTable
         breadcrumbLabel={
           intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue }) as string
         }
-        breadcrumbPath={formatPath(`${routes.optimizationsContainersTable.path}${location.search}`)}
         isClusterHidden={groupBy === 'cluster'}
         isProjectHidden={groupBy === 'project'}
         linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
