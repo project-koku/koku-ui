@@ -30,8 +30,7 @@ export const useAccountSettingsNotifications = <T>({
   const addNotification = useAddNotification();
 
   const error = useSelector((state: RootState) => accountSettingsSelectors.selectAccountSettingsError(state, type)) as
-    | AxiosError
-    | undefined;
+    AxiosError | undefined;
   const notification = useSelector((state: RootState) =>
     accountSettingsSelectors.selectAccountSettingsNotification(state, type)
   );
@@ -58,8 +57,7 @@ export const useSettingsNotifications = ({ type }: SettingsUpdateProps) => {
   const addNotification = useAddNotification();
 
   const error = useSelector((state: RootState) => settingsSelectors.selectSettingsError(state, type, undefined)) as
-    | AxiosError
-    | undefined;
+    AxiosError | undefined;
   const notification = useSelector((state: RootState) =>
     settingsSelectors.selectSettingsNotification(state, type, undefined)
   );
