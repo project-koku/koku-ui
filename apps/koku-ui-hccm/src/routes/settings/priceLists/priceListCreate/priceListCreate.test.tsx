@@ -26,7 +26,7 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('utils/userAccess', () => ({
   ...jest.requireActual('utils/userAccess'),
-  hasSettingsAccess: () => true,
+  hasCostModelWritePermission: () => true,
 }));
 
 jest.mock('routes/settings/priceLists/priceList/components/details', () => {
