@@ -162,7 +162,7 @@ export const isDataAvailable = (series: ChartSeries[], hiddenSeries: Set<number>
 // Returns true if data series is hidden
 export const isDataHidden = (series: ChartSeries[], hiddenSeries: Set<number>, data: any) => {
   if (data && data.length) {
-    for (let keys = hiddenSeries.keys(), key; !(key = keys.next()).done; ) {
+    for (let keys = hiddenSeries.keys(), key; !(key = keys.next()).done;) {
       let dataChildName;
       let serieChildName;
 

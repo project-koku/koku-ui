@@ -22,7 +22,7 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { styles } from './priceListCreate.styles';
 import { PriceListCreateHeader } from './priceListCreateHeader';
@@ -57,7 +57,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const { priceListError, priceListFetchStatus, userAccess, userAccessFetchStatus } = useMapToProps();
 
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Handlers
