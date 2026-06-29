@@ -21,7 +21,7 @@ import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 import { getNotifications } from 'utils/notifications';
-import { breadcrumbLabelKey } from 'utils/props';
+import { breadcrumbLabelKey, breadcrumbPathKey } from 'utils/props';
 import { getRecommendationTerm } from 'utils/recomendations';
 
 import { styles } from './optimizationsBreakdown.styles';
@@ -306,7 +306,7 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
 
   return {
     breadcrumbLabel: queryFromRoute?.[breadcrumbLabelKey],
-    breadcrumbPath: location?.state?.[queryStateName]?.breadcrumbPath,
+    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey],
     isBoxPlotToggleEnabled: useIsBoxPlotToggleEnabled(),
     interval: location?.state?.[queryStateName]?.interval,
     isContainers,
