@@ -52,7 +52,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const costModel = hasCostModelAccess(userAccess);
     const gcp = hasGcpAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
-    const settings = costModel || hasSettingsAccess(userAccess);
+    const settings = hasSettingsAccess(userAccess);
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -65,6 +65,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.azureDetails.path):
         return azure;
       case formatPath(routes.costModelBreakdown.basePath):
+      case formatPath(routes.costModelCreate.path):
         return costModel;
       case formatPath(routes.gcpBreakdown.path):
       case formatPath(routes.gcpDetails.path):
@@ -77,8 +78,9 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
         return ocp;
       case formatPath(routes.priceListBreakdown.basePath):
       case formatPath(routes.priceListCreate.path):
+        return costModel;
       case formatPath(routes.settings.path):
-        return settings;
+        return settings || costModel;
       default:
         return false;
     }
