@@ -19,7 +19,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModelWizard } from './components/create';
 import { styles } from './costModelCreate.styles';
@@ -51,10 +51,6 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
 
   const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessError, userAccessFetchStatus } =
     useMapToProps();
-
-  const canAccess = () => {
-    return hasCostModelAccess(userAccess);
-  };
 
   const canWrite = () => {
     return hasCostModelWritePermission(userAccess);
@@ -101,8 +97,8 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
       />
     );
   }
-  if (!(canAccess() && canWrite())) {
-    return <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />;
+  if (!canWrite()) {
+    return <NotAuthorized pathname={formatPath(routes.costModelCreate.path)} />;
   }
   return (
     <>
