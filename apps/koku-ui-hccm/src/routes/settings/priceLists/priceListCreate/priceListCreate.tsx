@@ -24,7 +24,7 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { styles } from './priceListCreate.styles';
 import { PriceListCreateHeader } from './priceListCreateHeader';
@@ -58,10 +58,6 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const [rates, setRates] = useState<Rate[]>([]);
 
   const { priceListError, priceListFetchStatus, userAccess, userAccessError, userAccessFetchStatus } = useMapToProps();
-
-  const canAccess = () => {
-    return hasCostModelAccess(userAccess);
-  };
 
   const canWrite = () => {
     return hasCostModelWritePermission(userAccess);
@@ -140,7 +136,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
       />
     );
   }
-  if (!(canAccess() && canWrite())) {
+  if (!canWrite()) {
     return <NotAuthorized pathname={formatPath(routes.priceListCreate.path)} />;
   }
   return (
