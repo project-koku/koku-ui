@@ -17,7 +17,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
-import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getSourceType } from 'routes/settings/costModels/costModel/utils';
@@ -28,7 +27,7 @@ import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasCostModelAccess, hasCostModelWritePermission } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostCalculations } from './costCalculations';
 import { styles } from './costModelBreakdown.styles';
@@ -107,10 +106,6 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   });
 
   const isLoading = costModelsFetchStatus === FetchStatus.inProgress;
-
-  const canAccess = () => {
-    return hasCostModelAccess(userAccess);
-  };
 
   const canWrite = () => {
     return hasCostModelWritePermission(userAccess);
@@ -269,9 +264,6 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
         heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
       />
     );
-  }
-  if (!canAccess()) {
-    return <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />;
   }
   return (
     <>

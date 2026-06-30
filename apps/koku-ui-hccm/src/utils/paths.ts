@@ -28,12 +28,19 @@ export const getReleasePath = () => {
 export const usePathname = () => {
   const location = useLocation();
 
-  // Cost models may include UUID in path
+  // Cost models and price lists may include UUID in path
+  const costModelCreatePath = formatPath(routes.costModelCreate.path);
   const costModelPath = formatPath(routes.costModelBreakdown.basePath);
+
+  const priceListCreatePath = formatPath(routes.priceListCreate.path);
   const priceListPath = formatPath(routes.priceListBreakdown.basePath);
 
-  if (location.pathname.startsWith(costModelPath)) {
+  if (location.pathname.startsWith(costModelCreatePath)) {
+    return costModelCreatePath;
+  } else if (location.pathname.startsWith(costModelPath)) {
     return costModelPath;
+  } else if (location.pathname.startsWith(priceListCreatePath)) {
+    return priceListCreatePath;
   } else if (location.pathname.startsWith(priceListPath)) {
     return priceListPath;
   } else {
