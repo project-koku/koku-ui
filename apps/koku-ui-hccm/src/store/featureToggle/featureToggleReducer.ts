@@ -18,6 +18,7 @@ export type FeatureToggleState = Readonly<{
   isNamespaceToggleEnabled: boolean;
   isOrgAdmin: boolean;
   isPriceListToggleEnabled: boolean;
+  isPriceListRatesToggleEnabled: boolean;
   isSystemsToggleEnabled: boolean;
   isWastedCostToggleEnabled: boolean;
 }>;
@@ -34,6 +35,7 @@ export const defaultState: FeatureToggleState = {
   isNamespaceToggleEnabled: false,
   isOrgAdmin: false,
   isPriceListToggleEnabled: false,
+  isPriceListRatesToggleEnabled: false,
   isSystemsToggleEnabled: false,
   isWastedCostToggleEnabled: false,
 };
@@ -56,6 +58,7 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         isNamespaceToggleEnabled: action.payload.isNamespaceToggleEnabled,
         isOrgAdmin: action.payload.isOrgAdmin,
         isPriceListToggleEnabled: action.payload.isPriceListToggleEnabled,
+        isPriceListRatesToggleEnabled: action.payload.isPriceListRatesToggleEnabled,
         isSystemsToggleEnabled: action.payload.isSystemsToggleEnabled,
         isWastedCostToggleEnabled: action.payload.isWastedCostToggleEnabled,
       };

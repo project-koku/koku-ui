@@ -2250,6 +2250,33 @@
         "value": "Usage cost on the day you are charged"
       }
     ],
+    "costTypeValues": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "infrastructure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Infrastructure"
+              }
+            ]
+          },
+          "supplementary": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Supplementary"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
     "cpuEfficiency": [
       {
         "type": 0,
@@ -8526,6 +8553,14 @@
               }
             ]
           },
+          "cost_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost type"
+              }
+            ]
+          },
           "container": {
             "value": [
               {
@@ -8595,6 +8630,14 @@
               {
                 "type": 0,
                 "value": "Instance"
+              }
+            ]
+          },
+          "measurement": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Measurement"
               }
             ]
           },
@@ -11203,7 +11246,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Request"
+                        "value": "Effective-usage"
                       }
                     ]
                   },
