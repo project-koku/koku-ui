@@ -1,5 +1,19 @@
 import type { MetricHash } from 'api/metrics';
 import type { Rate } from 'api/rates';
+import { intl } from 'components/i18n';
+import messages from 'locales/messages';
+
+export const getCostTypeLabel = m => {
+  if (!m) {
+    return '';
+  }
+  // Match message descriptor or default to API string
+  const label = intl.formatMessage(messages.costTypeValues, {
+    value: m.toLowerCase().replace('-', '_'),
+    count: 1,
+  });
+  return label ? label : m;
+};
 
 // Filter rates by name and metric
 export const getFilteredRates = (rates: Rate[], filterBy: any): Rate[] => {
@@ -8,7 +22,7 @@ export const getFilteredRates = (rates: Rate[], filterBy: any): Rate[] => {
   }
 
   const nameFilters = filterBy?.name || [];
-  const metricFilters = filterBy?.metrics || [];
+  const metricFilters = filterBy?.metric_type || [];
 
   if (nameFilters.length === 0 && metricFilters.length === 0) {
     return rates;
@@ -58,6 +72,25 @@ export const getLabeledRates = (rates: Rate[], metricsHashByName: MetricHash): R
     } as Rate;
   });
   return newRates;
+};
+
+export const getMeasurementLabel = m => {
+  if (!m) {
+    return '';
+  }
+  // Match message descriptor or default to API string
+  const label = intl.formatMessage(messages.measurementValues, {
+    value: m.toLowerCase().replace('-', '_'),
+    count: 1,
+  });
+  return label ? label : m;
+};
+
+export const getMetricLabel = m => {
+  // Match message descriptor or default to API string
+  const value = m.replace(/ /g, '_').toLowerCase();
+  const label = intl.formatMessage(messages.metricValues, { value });
+  return label ? label : m;
 };
 
 // Paginated rates for table
