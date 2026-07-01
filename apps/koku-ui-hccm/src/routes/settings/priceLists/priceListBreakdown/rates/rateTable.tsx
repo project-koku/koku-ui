@@ -2,6 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import type { PriceListData } from 'api/priceList';
 import type { Rate, TagValue } from 'api/rates';
+import { useIsPriceListRatesToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -42,9 +43,11 @@ const RateTable: React.FC<RateTableProps> = ({
   priceList,
   rates,
 }) => {
+  const intl = useIntl();
+  const isPriceListRatesToggleEnabled = useIsPriceListRatesToggleEnabled();
+
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
-  const intl = useIntl();
 
   const initDatum = () => {
     if (!rates) {
@@ -53,22 +56,31 @@ const RateTable: React.FC<RateTableProps> = ({
 
     const newRows = [];
     const computedItems = rates ?? [];
+    const isSortable = computedItems.length > 0 && isPriceListRatesToggleEnabled;
 
     const newColumns = [
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
+        orderBy: 'name',
       },
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'description' }),
       },
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'metric' }),
+        orderBy: 'metric_type',
       },
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'measurement' }),
+        orderBy: 'measurement',
       },
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'cost_type' }),
+        orderBy: 'cost_type',
       },
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'rate' }),

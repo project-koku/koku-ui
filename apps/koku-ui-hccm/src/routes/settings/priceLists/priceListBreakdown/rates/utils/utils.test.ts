@@ -27,13 +27,13 @@ describe('priceListBreakdown/rates/utils', () => {
     });
 
     test('filters by metric label (substring, case-insensitive)', () => {
-      const out = getFilteredRates([rateA, rateB], { metrics: ['memory'] });
+      const out = getFilteredRates([rateA, rateB], { metric_type: ['memory'] });
       expect(out).toHaveLength(1);
       expect(out[0].custom_name).toBe('Beta Memory');
     });
 
     test('filters by both name and metric', () => {
-      const out = getFilteredRates([rateA, rateB], { name: ['beta'], metrics: ['memory'] });
+      const out = getFilteredRates([rateA, rateB], { name: ['beta'], metric_type: ['memory'] });
       expect(out).toHaveLength(1);
       expect(out[0]).toBe(rateB);
     });

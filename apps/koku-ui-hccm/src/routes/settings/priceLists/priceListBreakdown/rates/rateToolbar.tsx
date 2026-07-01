@@ -5,6 +5,7 @@ import type { Rate } from 'api/rates';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { SettingsData } from 'api/settings';
 import messages from 'locales/messages';
+import uniqBy from 'lodash/uniqBy';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +18,8 @@ import type { Filter } from 'routes/utils/filter';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { metricsActions, metricsSelectors } from 'store/metrics';
+
+import { getCostTypeLabel, getMeasurementLabel, getMetricLabel } from './utils';
 
 interface RateToolbarOwnProps {
   canWrite?: boolean;
@@ -62,6 +65,43 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const { metricsHash } = useMapToProps();
 
+  // Metrics
+
+  const metricOpts = Object.keys(metricsHash || {})
+    .map(m => ({
+      key: m,
+      name: getMetricLabel(m),
+    }))
+    .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
+
+  const measurementOpts = uniqBy(
+    metricOpts.reduce((acc, curr) => {
+      const measures = Object.keys(metricsHash[curr.key] || {}).map(m => ({
+        key: metricsHash[curr.key][m]?.label_measurement,
+        name: getMeasurementLabel(metricsHash[curr.key][m]?.label_measurement),
+      }));
+      return [...acc, ...measures];
+    }, []),
+    'key'
+  )
+    .filter(({ key }) => key) // Omit duplicates
+    .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
+
+  const costTypeOpts = uniqBy(
+    metricOpts.reduce((acc, curr) => {
+      const measures = Object.keys(metricsHash[curr.key] || {}).map(m => ({
+        key: metricsHash[curr.key][m]?.default_cost_type,
+        name: getCostTypeLabel(metricsHash[curr.key][m]?.default_cost_type),
+      }));
+      return [...acc, ...measures];
+    }, []),
+    'key'
+  )
+    .filter(({ key }) => key) // Omit duplicates
+    .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
+
+  // Getters
+
   const getActions = () => {
     return (
       <AddRate
@@ -85,14 +125,28 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
       },
     ];
 
-    if (metricsHash) {
+    if (costTypeOpts?.length) {
       options.push({
-        key: 'metrics',
+        key: 'cost_type',
+        name: intl.formatMessage(messages.filterByValues, { value: 'cost_type' }),
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
+        selectOptions: costTypeOpts,
+      });
+    }
+    if (measurementOpts?.length) {
+      options.push({
+        key: 'measurement',
+        name: intl.formatMessage(messages.filterByValues, { value: 'measurement' }),
+        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
+        selectOptions: measurementOpts,
+      });
+    }
+    if (metricOpts?.length) {
+      options.push({
+        key: 'metric_type',
         name: intl.formatMessage(messages.filterByValues, { value: 'metric' }),
         selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
-        selectOptions: Object.keys(metricsHash)
-          .map(metric => ({ key: metric, name: metric }))
-          .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? '')),
+        selectOptions: metricOpts,
       });
     }
     return options;
