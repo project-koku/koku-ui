@@ -24,6 +24,9 @@ jest.mock('./rates', () => ({
   Rate: ({ canWrite }: { canWrite?: boolean }) => (
     <div data-testid="rates-panel">{canWrite ? 'write' : 'read'}</div>
   ),
+  RateDeprecated: ({ canWrite }: { canWrite?: boolean }) => (
+    <div data-testid="rates-panel">{canWrite ? 'write' : 'read'}</div>
+  ),
 }));
 
 jest.mock('./costModels', () => ({

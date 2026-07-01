@@ -26,6 +26,8 @@ export const selectIsNamespaceToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isNamespaceToggleEnabled;
 export const selectIsPriceListToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isPriceListToggleEnabled;
+export const selectIsPriceListRatesToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isPriceListRatesToggleEnabled;
 export const selectIsSystemsToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isSystemsToggleEnabled;
 export const selectIsWastedCostToggleEnabled = (state: RootState) =>
