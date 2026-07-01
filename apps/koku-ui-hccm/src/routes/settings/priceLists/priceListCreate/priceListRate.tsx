@@ -76,7 +76,7 @@ const PriceListRate: React.FC<PriceListRateProps> = ({ canWrite, onAdd, onDelete
     query,
   });
 
-  const hasFilters = query?.filter_by?.name?.length > 0 || query?.filter_by?.metrics?.length > 0;
+  const hasFilters = Object.keys(query?.filter_by ?? {}).some(key => query.filter_by[key]?.length > 0);
   const isDisabled = rates?.length === 0 && !hasFilters;
 
   const getPagination = (isBottom = false) => {
