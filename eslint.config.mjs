@@ -25,6 +25,8 @@ const compat = new FlatCompat({
 export default [
   {
     ignores: [
+      'build-tools',
+      'vendor',
       '**/node_modules',
       '**/public',
       '**/dist',

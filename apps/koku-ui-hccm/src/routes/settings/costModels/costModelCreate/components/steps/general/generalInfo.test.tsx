@@ -58,6 +58,6 @@ describe('GeneralInfo', () => {
     );
 
     fireEvent.click(screen.getByTestId('source-type'));
-    expect(onSourceTypeChange).toHaveBeenCalledWith('AWS');
+    expect(onSourceTypeChange).toHaveBeenCalledWith('aws');
   });
 });

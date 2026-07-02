@@ -4,6 +4,7 @@ import type { MessageDescriptor } from '@formatjs/intl';
 import { useWizardContext, Wizard, WizardFooter, WizardHeader, WizardStep } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
 import type { Provider } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useRef, useState } from 'react';
@@ -158,7 +159,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
   const [nameError, setNameError] = useState<MessageDescriptor>();
   const [priceLists, setPriceLists] = useState<PriceListData[]>([]);
   const [sources, setSources] = useState<Provider[]>([]);
-  const [sourceType, setSourceType] = useState<string>();
+  const [sourceType, setSourceType] = useState<ProviderType>();
 
   const isNameDirty = name !== undefined && name !== '';
   const isSourceTypeDirty = sourceType !== undefined;
@@ -209,7 +210,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
           id="steps-2"
           isDisabled={!hasUnsavedGeneralInfoChanges}
           isExpandable
-          isHidden={!isSourceTypeDirty || sourceType !== 'OCP'}
+          isHidden={!isSourceTypeDirty || sourceType !== ProviderType.ocp}
           name={intl.formatMessage(messages.costModelsWizardPriceLists)}
           steps={[
             <WizardStep
@@ -267,7 +268,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
         <WizardStep
           id="step-4"
           isDisabled={!hasUnsavedGeneralInfoChanges || !hasUnsavedMarkupChanges}
-          isHidden={!isSourceTypeDirty || sourceType !== 'OCP'}
+          isHidden={!isSourceTypeDirty || sourceType !== ProviderType.ocp}
           name={intl.formatMessage(messages.costDistribution)}
         >
           <Distribution
@@ -421,7 +422,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
     });
   };
 
-  const handleOnSourceTypeChange = (value: string) => {
+  const handleOnSourceTypeChange = (value: ProviderType) => {
     setSourceType(value);
     reset(false);
   };
