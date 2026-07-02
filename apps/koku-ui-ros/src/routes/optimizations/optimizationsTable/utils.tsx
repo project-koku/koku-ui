@@ -47,25 +47,27 @@ export const getConfiguration = (values: RecommendationEngine, isFormatted: bool
     return undefined;
   }
 
-  const hasCpuRequestConfig =
-    typeof values?.config?.requests?.cpu?.amount === 'number' && !Number.isNaN(values.config.requests.cpu.amount);
-  const hasCpuRequestVariation =
-    typeof values?.variation?.requests?.cpu?.amount === 'number' && !Number.isNaN(values.variation.requests.cpu.amount);
-  const hasMemoryRequestConfig =
-    typeof values?.config?.requests?.memory?.amount === 'number' && !Number.isNaN(values.config.requests.memory.amount);
-  const hasMemoryRequestVariation =
-    typeof values?.variation?.requests?.memory?.amount === 'number' &&
-    !Number.isNaN(values.variation.requests.memory.amount);
+  const cpuConfigAmount = values?.config?.requests?.cpu?.amount;
+  const cpuVariationAmount = values?.variation?.requests?.cpu?.amount;
+  const memoryConfigAmount = values?.config?.requests?.memory?.amount;
+  const memoryVariationAmount = values?.variation?.requests?.memory?.amount;
 
-  const cpuRequestConfigValue = hasCpuRequestConfig ? values.config.requests.cpu.amount : undefined;
-  const cpuRequestConfigUnits = hasCpuRequestConfig ? values.config.requests.cpu.format : undefined;
-  const cpuRequestVariationValue = hasCpuRequestVariation ? values.variation.requests.cpu.amount : undefined;
-  const cpuRequestVariationUnits = hasCpuRequestVariation ? values.variation.requests.cpu.format : undefined;
+  const hasCpuRequestConfig = typeof cpuConfigAmount === 'number' && !Number.isNaN(cpuConfigAmount);
+  const hasCpuRequestVariation = typeof cpuVariationAmount === 'number' && !Number.isNaN(cpuVariationAmount);
+  const hasMemoryRequestConfig = typeof memoryConfigAmount === 'number' && !Number.isNaN(memoryConfigAmount);
+  const hasMemoryRequestVariation = typeof memoryVariationAmount === 'number' && !Number.isNaN(memoryVariationAmount);
 
-  const memoryRequestConfigValue = hasMemoryRequestConfig ? values.config.requests.memory.amount : undefined;
-  const memoryRequestConfigUnits = hasMemoryRequestConfig ? values.config.requests.memory.format : undefined;
-  const memoryRequestVariationValue = hasMemoryRequestVariation ? values.variation.requests.memory.amount : undefined;
-  const memoryRequestVariationUnits = hasMemoryRequestVariation ? values.variation.requests.memory.format : undefined;
+  const cpuRequestConfigValue = hasCpuRequestConfig ? cpuConfigAmount : undefined;
+  const cpuRequestConfigUnits = hasCpuRequestConfig ? values?.config?.requests?.cpu?.format : undefined;
+  const cpuRequestVariationValue = hasCpuRequestVariation ? cpuVariationAmount : undefined;
+  const cpuRequestVariationUnits = hasCpuRequestVariation ? values?.variation?.requests?.cpu?.format : undefined;
+
+  const memoryRequestConfigValue = hasMemoryRequestConfig ? memoryConfigAmount : undefined;
+  const memoryRequestConfigUnits = hasMemoryRequestConfig ? values?.config?.requests?.memory?.format : undefined;
+  const memoryRequestVariationValue = hasMemoryRequestVariation ? memoryVariationAmount : undefined;
+  const memoryRequestVariationUnits = hasMemoryRequestVariation
+    ? values?.variation?.requests?.memory?.format
+    : undefined;
 
   return {
     cpuRequestConfig: formatValue(cpuRequestConfigValue, cpuRequestConfigUnits, isFormatted, isK8Units),
@@ -85,17 +87,17 @@ export const getCurrentConfiguration = (values: Recommendations, isFormatted: bo
     return undefined;
   }
 
-  const hasCpuRequestCurrent =
-    typeof values?.current?.requests?.cpu?.amount === 'number' && !Number.isNaN(values.current.requests.cpu.amount);
-  const hasMemoryRequestCurrent =
-    typeof values?.current?.requests?.memory?.amount === 'number' &&
-    !Number.isNaN(values.current.requests.memory.amount);
+  const cpuAmount = values?.current?.requests?.cpu?.amount;
+  const memoryAmount = values?.current?.requests?.memory?.amount;
 
-  const cpuRequestConfigValue = hasCpuRequestCurrent ? values.current.requests.cpu.amount : undefined;
-  const cpuRequestConfigUnits = hasCpuRequestCurrent ? values.current.requests.cpu.format : undefined;
+  const hasCpuRequestCurrent = typeof cpuAmount === 'number' && !Number.isNaN(cpuAmount);
+  const hasMemoryRequestCurrent = typeof memoryAmount === 'number' && !Number.isNaN(memoryAmount);
 
-  const memoryRequestConfigValue = hasMemoryRequestCurrent ? values.current.requests.memory.amount : undefined;
-  const memoryRequestConfigUnits = hasMemoryRequestCurrent ? values.current.requests.memory.format : undefined;
+  const cpuRequestConfigValue = hasCpuRequestCurrent ? cpuAmount : undefined;
+  const cpuRequestConfigUnits = hasCpuRequestCurrent ? values?.current?.requests?.cpu?.format : undefined;
+
+  const memoryRequestConfigValue = hasMemoryRequestCurrent ? memoryAmount : undefined;
+  const memoryRequestConfigUnits = hasMemoryRequestCurrent ? values?.current?.requests?.memory?.format : undefined;
 
   return {
     cpuRequestCurrent: formatValue(cpuRequestConfigValue, cpuRequestConfigUnits, isFormatted, isK8Units),
