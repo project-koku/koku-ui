@@ -16,7 +16,7 @@ import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import type { RosDetailsQuery } from 'routes/optimizations/optimizationsDetails/optimizationsDetails';
-import { getExcludeById, getFilterById } from 'routes/utils/filterBy';
+import { getExcludeValuesById, getFilterValuesById } from 'routes/utils/filterBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
@@ -24,7 +24,6 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import type { Interval, OptimizationType } from 'utils/commonTypes';
-import { exactKey, exactPrefix, excludeKey } from 'utils/props';
 
 import { getLinkState } from '../utils';
 import { OptimizationsContainersDataTable } from './optimizationsContainersDataTable';
@@ -170,26 +169,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     if (!filter || !filter.type) {
       return;
     }
-
-    // Only one filter of each type can be applied at a time
-    const key = filter.excludeType === exactKey ? `${exactPrefix}${filter.type}` : filter.type;
-    const tmpQuery = {
-      ...query,
-      ...(filter.excludeType === excludeKey
-        ? {
-            exclude: {
-              ...query.exclude,
-              [key]: undefined,
-            },
-          }
-        : {
-            filter_by: {
-              ...query.filter_by,
-              [key]: undefined,
-            },
-          }),
-    };
-    const newQuery = queryUtils.handleOnFilterAdded(tmpQuery, filter);
+    const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
   };
 
@@ -275,31 +255,34 @@ const useMapToProps = ({
 }: OptimizationsContainersTableMapProps): OptimizationsContainersTableStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const excludeByCluster = getExcludeById(query, 'cluster') || getExcludeById(baseQuery, 'cluster');
-  const excludeByContainer = getExcludeById(query, 'container') || getExcludeById(baseQuery, 'container');
-  const excludeByProject = getExcludeById(query, 'project') || getExcludeById(baseQuery, 'project');
-  const excludeByWorkload = getExcludeById(query, 'workload') || getExcludeById(baseQuery, 'workload');
-  const excludeByWorkloadType = getExcludeById(query, 'workload_type') || getExcludeById(baseQuery, 'workload_type');
+  const excludeByCluster = getExcludeValuesById(query, 'cluster') || getExcludeValuesById(baseQuery, 'cluster');
+  const excludeByContainer = getExcludeValuesById(query, 'container') || getExcludeValuesById(baseQuery, 'container');
+  const excludeByProject = getExcludeValuesById(query, 'project') || getExcludeValuesById(baseQuery, 'project');
+  const excludeByWorkload = getExcludeValuesById(query, 'workload') || getExcludeValuesById(baseQuery, 'workload');
+  const excludeByWorkloadType =
+    getExcludeValuesById(query, 'workload_type') || getExcludeValuesById(baseQuery, 'workload_type');
 
-  const filterByCluster = getFilterById(query, 'cluster') || getFilterById(baseQuery, 'cluster');
-  const filterByContainer = getFilterById(query, 'container') || getFilterById(baseQuery, 'container');
-  const filterByProject = getFilterById(query, 'project') || getFilterById(baseQuery, 'project');
-  const filterByWorkload = getFilterById(query, 'workload') || getFilterById(baseQuery, 'workload');
-  const filterByWorkloadType = getFilterById(query, 'workload_type') || getFilterById(baseQuery, 'workload_type');
+  const filterByCluster = getFilterValuesById(query, 'cluster') || getFilterValuesById(baseQuery, 'cluster');
+  const filterByContainer = getFilterValuesById(query, 'container') || getFilterValuesById(baseQuery, 'container');
+  const filterByProject = getFilterValuesById(query, 'project') || getFilterValuesById(baseQuery, 'project');
+  const filterByWorkload = getFilterValuesById(query, 'workload') || getFilterValuesById(baseQuery, 'workload');
+  const filterByWorkloadType =
+    getFilterValuesById(query, 'workload_type') || getFilterValuesById(baseQuery, 'workload_type');
 
-  const filterByExactCluster = getFilterById(query, 'exact:cluster') || getFilterById(baseQuery, 'exact:cluster');
-  const filterByExactContainer = getFilterById(query, 'exact:container') || getFilterById(baseQuery, 'exact:container');
-  const filterByExactProject = getFilterById(query, 'exact:project') || getFilterById(baseQuery, 'exact:project');
-  const filterByExactWorkload = getFilterById(query, 'exact:workload') || getFilterById(baseQuery, 'exact:workload');
+  const filterByExactCluster =
+    getFilterValuesById(query, 'exact:cluster') || getFilterValuesById(baseQuery, 'exact:cluster');
+  const filterByExactContainer =
+    getFilterValuesById(query, 'exact:container') || getFilterValuesById(baseQuery, 'exact:container');
+  const filterByExactProject =
+    getFilterValuesById(query, 'exact:project') || getFilterValuesById(baseQuery, 'exact:project');
+  const filterByExactWorkload =
+    getFilterValuesById(query, 'exact:workload') || getFilterValuesById(baseQuery, 'exact:workload');
   const filterByExactWorkloadType =
-    getFilterById(query, 'exact:workload_type') || getFilterById(baseQuery, 'exact:workload_type');
+    getFilterValuesById(query, 'exact:workload_type') || getFilterValuesById(baseQuery, 'exact:workload_type');
 
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
-  // container
-  // workload
-  // workload_type
   const reportQuery = {
     ...(filterByCluster && { cluster: filterByCluster }), // Flattened cluster filter
     ...(filterByContainer && { container: filterByContainer }), // Flattened container filter
