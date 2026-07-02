@@ -10,6 +10,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
+import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import type { MessageDescriptor } from 'react-intl';
@@ -28,8 +29,8 @@ interface GeneralInfoOwnProps {
   onCurrencyChange: (value: string) => void;
   onDescriptionChange: (value: string) => void;
   onNameChange: (value: string) => void;
-  onSourceTypeChange: (value: string) => void;
-  sourceType?: string;
+  onSourceTypeChange: (value: ProviderType) => void;
+  sourceType?: ProviderType;
 }
 
 type GeneralInfoProps = GeneralInfoOwnProps;
@@ -37,19 +38,19 @@ type GeneralInfoProps = GeneralInfoOwnProps;
 const sourceTypeOptions = [
   {
     label: messages.awsAlt,
-    value: 'AWS',
+    value: ProviderType.aws,
   },
   {
     label: messages.azure,
-    value: 'Azure',
+    value: ProviderType.azure,
   },
   {
     label: messages.gcp,
-    value: 'GCP',
+    value: ProviderType.gcp,
   },
   {
     label: messages.costModelsWizardOnboardOcp,
-    value: 'OCP',
+    value: ProviderType.ocp,
   },
 ];
 
@@ -81,7 +82,9 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
           {intl.formatMessage(messages.costModelsWizardGeneralInfoTitle)}
         </Title>
         <a
-          href={intl.formatMessage(sourceType === 'OCP' ? messages.docsCostModelsOcp : messages.docsCostModels)}
+          href={intl.formatMessage(
+            sourceType === ProviderType.ocp ? messages.docsCostModelsOcp : messages.docsCostModels
+          )}
           rel="noreferrer"
           target="_blank"
         >
@@ -132,7 +135,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
             maxMenuHeight={styles.selector.maxHeight as string}
             placeholderText={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
             toggleAriaLabel={intl.formatMessage(messages.costModelsWizardEmptySourceTypeLabel)}
-            onSelect={(_evt, value) => onSourceTypeChange(value)}
+            onSelect={(_evt, value) => onSourceTypeChange(value as ProviderType)}
             options={sourceTypeOptions}
             value={getValueLabel(sourceType, sourceTypeOptions)}
           />
