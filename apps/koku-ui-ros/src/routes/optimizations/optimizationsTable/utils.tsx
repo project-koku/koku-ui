@@ -3,11 +3,12 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import { TrendDownIcon } from '@patternfly/react-icons/dist/esm/icons/trend-down-icon';
 import { TrendUpIcon } from '@patternfly/react-icons/dist/esm/icons/trend-up-icon';
 import type { Query } from 'api/queries/query';
-import type { RecommendationEngine } from 'api/ros/recommendations';
+import type { RecommendationEngine, Recommendations } from 'api/ros/recommendations';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import type { Location } from 'react-router-dom';
+import type { Interval, OptimizationType } from 'utils/commonTypes';
 import { formatOptimization, formatPercentage, unitsLookupKey } from 'utils/format';
 
 import { styles } from './optimizationsTable.styles';
@@ -46,36 +47,59 @@ export const getConfiguration = (values: RecommendationEngine, isFormatted: bool
     return undefined;
   }
 
-  const hasCpuRequestCurrent =
+  const hasCpuRequestConfig =
     typeof values?.config?.requests?.cpu?.amount === 'number' && !Number.isNaN(values.config.requests.cpu.amount);
   const hasCpuRequestVariation =
     typeof values?.variation?.requests?.cpu?.amount === 'number' && !Number.isNaN(values.variation.requests.cpu.amount);
-  const hasMemoryRequestCurrent =
+  const hasMemoryRequestConfig =
     typeof values?.config?.requests?.memory?.amount === 'number' && !Number.isNaN(values.config.requests.memory.amount);
   const hasMemoryRequestVariation =
     typeof values?.variation?.requests?.memory?.amount === 'number' &&
     !Number.isNaN(values.variation.requests.memory.amount);
 
-  const cpuRequestCurrentValue = hasCpuRequestCurrent ? values.config.requests.cpu.amount : undefined;
-  const cpuRequestCurrentUnits = hasCpuRequestCurrent ? values.config.requests.cpu.format : undefined;
+  const cpuRequestConfigValue = hasCpuRequestConfig ? values.config.requests.cpu.amount : undefined;
+  const cpuRequestConfigUnits = hasCpuRequestConfig ? values.config.requests.cpu.format : undefined;
   const cpuRequestVariationValue = hasCpuRequestVariation ? values.variation.requests.cpu.amount : undefined;
   const cpuRequestVariationUnits = hasCpuRequestVariation ? values.variation.requests.cpu.format : undefined;
 
-  const memoryRequestCurrentValue = hasMemoryRequestCurrent ? values.config.requests.memory.amount : undefined;
-  const memoryRequestCurrentUnits = hasMemoryRequestCurrent ? values.config.requests.memory.format : undefined;
+  const memoryRequestConfigValue = hasMemoryRequestConfig ? values.config.requests.memory.amount : undefined;
+  const memoryRequestConfigUnits = hasMemoryRequestConfig ? values.config.requests.memory.format : undefined;
   const memoryRequestVariationValue = hasMemoryRequestVariation ? values.variation.requests.memory.amount : undefined;
   const memoryRequestVariationUnits = hasMemoryRequestVariation ? values.variation.requests.memory.format : undefined;
 
   return {
-    cpuRequestCurrent: formatValue(cpuRequestCurrentValue, cpuRequestCurrentUnits, isFormatted, isK8Units),
+    cpuRequestConfig: formatValue(cpuRequestConfigValue, cpuRequestConfigUnits, isFormatted, isK8Units),
     cpuRequestVariation: formatValue(cpuRequestVariationValue, cpuRequestVariationUnits, isFormatted, isK8Units),
-    memoryRequestCurrent: formatValue(memoryRequestCurrentValue, memoryRequestCurrentUnits, isFormatted, isK8Units),
+    memoryRequestConfig: formatValue(memoryRequestConfigValue, memoryRequestConfigUnits, isFormatted, isK8Units),
     memoryRequestVariation: formatValue(
       memoryRequestVariationValue,
       memoryRequestVariationUnits,
       isFormatted,
       isK8Units
     ),
+  };
+};
+
+export const getCurrentConfiguration = (values: Recommendations, isFormatted: boolean, isK8Units: boolean) => {
+  if (!values) {
+    return undefined;
+  }
+
+  const hasCpuRequestCurrent =
+    typeof values?.current?.requests?.cpu?.amount === 'number' && !Number.isNaN(values.current.requests.cpu.amount);
+  const hasMemoryRequestCurrent =
+    typeof values?.current?.requests?.memory?.amount === 'number' &&
+    !Number.isNaN(values.current.requests.memory.amount);
+
+  const cpuRequestConfigValue = hasCpuRequestCurrent ? values.current.requests.cpu.amount : undefined;
+  const cpuRequestConfigUnits = hasCpuRequestCurrent ? values.current.requests.cpu.format : undefined;
+
+  const memoryRequestConfigValue = hasMemoryRequestCurrent ? values.current.requests.memory.amount : undefined;
+  const memoryRequestConfigUnits = hasMemoryRequestCurrent ? values.current.requests.memory.format : undefined;
+
+  return {
+    cpuRequestCurrent: formatValue(cpuRequestConfigValue, cpuRequestConfigUnits, isFormatted, isK8Units),
+    memoryRequestCurrent: formatValue(memoryRequestConfigValue, memoryRequestConfigUnits, isFormatted, isK8Units),
   };
 };
 
@@ -105,9 +129,22 @@ export const getLinkState = ({
   };
 };
 
-export const getRequestProps = (values: any) => {
-  const configFormatted = getConfiguration(values, true, false);
-  const configRaw = getConfiguration(values, false, false);
+export const getRequestProps = (
+  recommendations: Recommendations,
+  interval: Interval,
+  optimizationType: OptimizationType
+) => {
+  const currentFormatted = getCurrentConfiguration(recommendations, true, false);
+  const configFormatted = getConfiguration(
+    recommendations?.recommendation_terms?.[interval]?.recommendation_engines?.[optimizationType],
+    true,
+    false
+  );
+  const configRaw = getConfiguration(
+    recommendations?.recommendation_terms?.[interval]?.recommendation_engines?.[optimizationType],
+    false,
+    false
+  );
 
   const getTrend = value => {
     if (value > 0) {
@@ -154,17 +191,21 @@ export const getRequestProps = (values: any) => {
     return value === undefined || value === null || `${value}`.trim().length === 0;
   };
 
-  const cpuRequestCurrent = getWarningOrValue(configFormatted?.cpuRequestCurrent);
+  const cpuRequestConfig = getWarningOrValue(configFormatted?.cpuRequestConfig);
+  const cpuRequestCurrent = getWarningOrValue(currentFormatted?.cpuRequestCurrent);
   const cpuRequestVariation = getWarningOrTrend(configFormatted?.cpuRequestVariation, configRaw?.cpuRequestVariation);
-  const memoryRequestCurrent = getWarningOrValue(configFormatted?.memoryRequestCurrent);
+  const memoryRequestConfig = getWarningOrValue(configFormatted?.memoryRequestConfig);
+  const memoryRequestCurrent = getWarningOrValue(currentFormatted?.memoryRequestCurrent);
   const memoryRequestVariation = getWarningOrTrend(
     configFormatted?.memoryRequestVariation,
     configRaw?.memoryRequestVariation
   );
 
   return {
+    cpuRequestConfig,
     cpuRequestCurrent,
     cpuRequestVariation,
+    memoryRequestConfig,
     memoryRequestCurrent,
     memoryRequestVariation,
   };
