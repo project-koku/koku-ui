@@ -1,25 +1,37 @@
-import { getExcludeById, getFilterById } from './filterBy';
+import { getExcludeValuesById, getFilterValuesById } from './filterBy';
 
-describe('getFilterById', () => {
-  test('returns first filter value for id', () => {
+describe('getFilterValuesById', () => {
+  test('returns all filter values for id', () => {
     const query = { filter_by: { name: ['foo', 'bar'] } };
-    expect(getFilterById(query, 'name')).toBe('foo');
+    expect(getFilterValuesById(query, 'name')).toEqual(['foo', 'bar']);
   });
 
-  test('returns undefined when filter is missing', () => {
-    expect(getFilterById({}, 'name')).toBeUndefined();
-    expect(getFilterById(undefined, 'name')).toBeUndefined();
+  test('returns single filter value for id', () => {
+    const query = { filter_by: { name: 'foo' } };
+    expect(getFilterValuesById(query, 'name')).toBe('foo');
+  });
+
+  test('returns undefined when filter is missing or empty', () => {
+    expect(getFilterValuesById({}, 'name')).toBeUndefined();
+    expect(getFilterValuesById(undefined, 'name')).toBeUndefined();
+    expect(getFilterValuesById({ filter_by: { name: [] } }, 'name')).toBeUndefined();
   });
 });
 
-describe('getExcludeById', () => {
-  test('returns first exclude value for id', () => {
-    const query = { exclude: { cluster: ['cluster-1', 'cluster-2'] } };
-    expect(getExcludeById(query, 'cluster')).toBe('cluster-1');
+describe('getExcludeValuesById', () => {
+  test('returns all exclude values for id', () => {
+    const query = { exclude: { project: ['test1', 'test2'] } };
+    expect(getExcludeValuesById(query, 'project')).toEqual(['test1', 'test2']);
   });
 
-  test('returns undefined when exclude is missing', () => {
-    expect(getExcludeById({}, 'cluster')).toBeUndefined();
-    expect(getExcludeById(undefined, 'cluster')).toBeUndefined();
+  test('returns single exclude value for id', () => {
+    const query = { exclude: { cluster: 'cluster-1' } };
+    expect(getExcludeValuesById(query, 'cluster')).toBe('cluster-1');
+  });
+
+  test('returns undefined when exclude is missing or empty', () => {
+    expect(getExcludeValuesById({}, 'project')).toBeUndefined();
+    expect(getExcludeValuesById(undefined, 'project')).toBeUndefined();
+    expect(getExcludeValuesById({ exclude: { project: [] } }, 'project')).toBeUndefined();
   });
 });

@@ -29,13 +29,13 @@ interface IntegrationContentOwnProps {
   onAdd?: (providers: Provider[]) => void;
   onDisabled?: (value: boolean) => void;
   sources?: Provider[];
-  sourceType?: string;
+  sourceType?: ProviderType;
 }
 
 export interface IntegrationContentMapProps {
   costModel?: CostModel;
   query?: Query;
-  sourceType?: string;
+  sourceType?: ProviderType;
 }
 
 export interface IntegrationContentStateProps {
@@ -264,7 +264,8 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
 
 const useMapToProps = ({ costModel, query, sourceType }: IntegrationContentMapProps): IntegrationContentStateProps => {
   const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
-  const providerType = costModel?.source_type ? getSourceType(costModel?.source_type) : ProviderType.all;
+  const providerType =
+    sourceType ?? (costModel?.source_type ? getSourceType(costModel?.source_type) : ProviderType.all);
 
   const filterBy = Object.fromEntries(
     Object.entries(query?.filter_by ?? baseQuery.filter_by).map(([key, val]) => [key, (val as string[]).join(',')])
@@ -274,7 +275,7 @@ const useMapToProps = ({ costModel, query, sourceType }: IntegrationContentMapPr
     ...filterBy,
     limit: query?.limit,
     offset: query?.offset,
-    type: sourceType ? getSourceType(sourceType) : providerType,
+    type: providerType,
   } as Query;
 
   const providersQueryString = getQuery(costModelsQuery);

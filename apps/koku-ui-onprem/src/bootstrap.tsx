@@ -1,3 +1,4 @@
+import '#/stubs/chrome';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly-addons.css';
 import '@patternfly/react-styles/css/utilities/Spacing/spacing.css';
@@ -7,7 +8,7 @@ import { setDefaultResponseInterceptors } from '@koku-ui/ui-lib/api';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import App from './components/App/App';
+import { App } from './components/App';
 
 setDefaultResponseInterceptors([
   [
