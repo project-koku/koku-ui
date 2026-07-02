@@ -8,9 +8,9 @@ describe('getConfiguration', () => {
     const formatted = getConfiguration(recommendationEngine, true, false);
     const raw = getConfiguration(recommendationEngine, false, false);
 
-    expect(formatted?.cpuRequestCurrent).toContain('5');
+    expect(formatted?.cpuRequestConfig).toContain('5');
     expect(formatted?.cpuRequestVariation).toContain('-0.17');
-    expect(raw?.cpuRequestCurrent).toBe(5);
+    expect(raw?.cpuRequestConfig).toBe(5);
     expect(raw?.cpuRequestVariation).toBe(-0.17000000000000015);
   });
 
