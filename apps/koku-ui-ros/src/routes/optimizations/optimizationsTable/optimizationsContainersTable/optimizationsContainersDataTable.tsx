@@ -200,9 +200,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
         title: container,
       });
 
-      const requestProps = getRequestProps(
-        item?.recommendations?.recommendation_terms?.[interval]?.recommendation_engines?.[optimizationType]
-      );
+      const recommendationProps = getRequestProps(item?.recommendations, interval, optimizationType);
 
       newRows.push({
         cells: [
@@ -231,10 +229,10 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
             ),
             hidden: isClusterHidden,
           },
-          { value: requestProps?.memoryRequestCurrent },
-          { value: requestProps?.memoryRequestVariation },
-          { value: requestProps?.cpuRequestCurrent },
-          { value: requestProps?.cpuRequestVariation },
+          { value: recommendationProps?.memoryRequestCurrent },
+          { value: recommendationProps?.memoryRequestVariation },
+          { value: recommendationProps?.cpuRequestCurrent },
+          { value: recommendationProps?.cpuRequestVariation },
           { value: lastReported, style: styles.lastItem },
         ],
         optimization: {
