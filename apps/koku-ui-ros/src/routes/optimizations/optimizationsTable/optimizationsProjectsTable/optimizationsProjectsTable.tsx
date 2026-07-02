@@ -17,7 +17,7 @@ import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import type { RosDetailsQuery } from 'routes/optimizations/optimizationsDetails/optimizationsDetails';
-import { getExcludeById, getFilterById } from 'routes/utils/filterBy';
+import { getExcludeValuesById, getFilterValuesById } from 'routes/utils/filterBy';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
@@ -25,7 +25,6 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import type { Interval, OptimizationType } from 'utils/commonTypes';
-import { exactKey, exactPrefix, excludeKey } from 'utils/props';
 
 import { getLinkState } from '../utils';
 import { OptimizationsProjectsDataTable } from './optimizationsProjectsDataTable';
@@ -172,26 +171,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
     if (!filter || !filter.type) {
       return;
     }
-
-    // Only one filter of each type can be applied at a time
-    const key = filter.excludeType === exactKey ? `${exactPrefix}${filter.type}` : filter.type;
-    const tmpQuery = {
-      ...query,
-      ...(filter.excludeType === excludeKey
-        ? {
-            exclude: {
-              ...query.exclude,
-              [key]: undefined,
-            },
-          }
-        : {
-            filter_by: {
-              ...query.filter_by,
-              [key]: undefined,
-            },
-          }),
-    };
-    const newQuery = queryUtils.handleOnFilterAdded(tmpQuery, filter);
+    const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
   };
 
@@ -277,12 +257,14 @@ const useMapToProps = ({
 }: OptimizationsProjectsTableMapProps): OptimizationsProjectsTableStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const excludeByCluster = getExcludeById(query, 'cluster') || getExcludeById(baseQuery, 'cluster');
-  const excludeByProject = getExcludeById(query, 'project') || getExcludeById(baseQuery, 'project');
-  const filterByCluster = getFilterById(query, 'cluster') || getFilterById(baseQuery, 'cluster');
-  const filterByProject = getFilterById(query, 'project') || getFilterById(baseQuery, 'project');
-  const filterByExactCluster = getFilterById(query, 'exact:cluster') || getFilterById(baseQuery, 'exact:cluster');
-  const filterByExactProject = getFilterById(query, 'exact:project') || getFilterById(baseQuery, 'exact:project');
+  const excludeByCluster = getExcludeValuesById(query, 'cluster') || getExcludeValuesById(baseQuery, 'cluster');
+  const excludeByProject = getExcludeValuesById(query, 'project') || getExcludeValuesById(baseQuery, 'project');
+  const filterByCluster = getFilterValuesById(query, 'cluster') || getFilterValuesById(baseQuery, 'cluster');
+  const filterByProject = getFilterValuesById(query, 'project') || getFilterValuesById(baseQuery, 'project');
+  const filterByExactCluster =
+    getFilterValuesById(query, 'exact:cluster') || getFilterValuesById(baseQuery, 'exact:cluster');
+  const filterByExactProject =
+    getFilterValuesById(query, 'exact:project') || getFilterValuesById(baseQuery, 'exact:project');
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
