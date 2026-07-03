@@ -3,11 +3,17 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// @ts-expect-error - pac-proxy-agent types may not resolve depending on moduleResolution settings
+import { PacProxyAgent } from 'pac-proxy-agent';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+
+const pacAgent = process.env.PAC_URL
+  ? new PacProxyAgent(process.env.PAC_URL, { rejectUnauthorized: false })
+  : undefined;
 
 const isOauth2ProxyMode = process.env.OAUTH2_PROXY_MODE === 'true';
 
@@ -174,6 +180,8 @@ const config: Configuration & {
             changeOrigin: true,
             secure: false,
             pathRewrite: { '^/api/cost-management/v1': '' },
+            // Pass both HTTP and HTTPS traffic through the PAC agent
+            ...(pacAgent && { agent: pacAgent }),
             // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
             // header injected by oauth2-proxy is forwarded as-is to the gateway.
             ...(proxyHeaders && { headers: proxyHeaders }),
@@ -191,6 +199,7 @@ const config: Configuration & {
                   target: rbacProxyTarget,
                   changeOrigin: true,
                   secure: false,
+                  ...(pacAgent && { agent: pacAgent }),
                   ...(proxyHeaders && { headers: proxyHeaders }),
                 },
           ]
