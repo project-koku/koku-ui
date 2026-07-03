@@ -167,7 +167,6 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
 
     report?.data?.forEach(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
-      const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
       const project = item.project ?? '';
       const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
@@ -177,7 +176,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
         breadcrumbLabel,
         breadcrumbPath,
         id: item.id,
-        title: container,
+        title: project,
       });
 
       const hasRecommendations =
@@ -217,7 +216,6 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
           { value: lastReported, style: styles.lastItem },
         ],
         optimization: {
-          container: item.container,
           id: item.id,
           project,
         },
