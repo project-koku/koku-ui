@@ -1,7 +1,7 @@
 import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { RosNamespace } from 'api/ros/ros';
 import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
 import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
@@ -49,11 +49,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
     namespace: queryState?.namespace ?? (isNamespaceToggleEnabled ? RosNamespace.projects : RosNamespace.containers),
     optimizationType: queryState?.optimizationType ?? OptimizationType.performance,
   });
-  const [resetTableQuery, setResetTableQuery] = useState(false);
-
-  useEffect(() => {
-    setResetTableQuery(false);
-  }, [query.namespace]);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Handlers
 
@@ -62,7 +58,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   };
 
   const handleOnNamespaceSelect = (value: RosNamespace) => {
-    setResetTableQuery(value !== query.namespace);
+    setIsInitialLoad(false);
     setQuery({ ...query, namespace: value });
   };
 
@@ -98,7 +94,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
                   optimizationType={query?.optimizationType}
                   query={query}
                   queryStateName={queryStateName}
-                  resetQuery={resetTableQuery}
+                  restoreState={isInitialLoad}
                 />
               ) : (
                 <OptimizationsProjectsTable
@@ -110,7 +106,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
                   optimizationType={query?.optimizationType}
                   query={query}
                   queryStateName={queryStateName}
-                  resetQuery={resetTableQuery}
+                  restoreState={isInitialLoad}
                 />
               )
             ) : (
