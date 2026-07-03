@@ -59,6 +59,7 @@ class OptimizationsProjectsToolbarBase extends React.Component<
     return (
       <DataToolbar
         categoryOptions={categoryOptions}
+        groupBy={'project'}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
