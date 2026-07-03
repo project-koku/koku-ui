@@ -44,6 +44,7 @@ interface OptimizationsProjectsTableOwnProps {
   project?: string; // Project name to filter by for OCP breakdown
   query?: RosDetailsQuery;
   queryStateName: string; // Name used to store query state
+  resetQuery?: boolean; // Reset table query when namespace changes
 }
 
 export interface OptimizationsProjectsTableStateProps {
@@ -86,6 +87,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   project,
   query: parentQueryState,
   queryStateName,
+  resetQuery,
 }) => {
   const intl = useIntl();
   const location = useLocation();
@@ -219,6 +221,13 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
       })
     );
   }, [parentQueryState, query]);
+
+  // Reset query state when switching between projects and containers
+  useEffect(() => {
+    if (resetQuery) {
+      setQuery({ ...baseQuery });
+    }
+  }, [resetQuery]);
 
   // Render
 

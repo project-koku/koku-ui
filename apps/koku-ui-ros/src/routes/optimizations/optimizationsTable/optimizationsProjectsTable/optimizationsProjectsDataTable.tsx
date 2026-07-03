@@ -180,12 +180,16 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
         title: container,
       });
 
+      const hasRecommendations =
+        item?.recommendations?.recommendation_terms?.[interval]?.recommendation_engines !== undefined;
       const recommendationProps = getRequestProps(item?.recommendations, interval, optimizationType);
 
       newRows.push({
         cells: [
           {
-            value: (
+            value: !hasRecommendations ? (
+              project
+            ) : (
               <Link to={optimizationsBreakdownPath} state={linkState}>
                 {project}
               </Link>
