@@ -3,7 +3,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-// @ts-ignore
+// @ts-expect-error - pac-proxy-agent types may not resolve depending on moduleResolution settings
 import { PacProxyAgent } from 'pac-proxy-agent';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
@@ -199,6 +199,7 @@ const config: Configuration & {
                   target: rbacProxyTarget,
                   changeOrigin: true,
                   secure: false,
+                  ...(pacAgent && { agent: pacAgent }),
                   ...(proxyHeaders && { headers: proxyHeaders }),
                 },
           ]
