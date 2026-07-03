@@ -49,6 +49,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
     namespace: queryState?.namespace ?? (isNamespaceToggleEnabled ? RosNamespace.projects : RosNamespace.containers),
     optimizationType: queryState?.optimizationType ?? OptimizationType.performance,
   });
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Handlers
 
@@ -57,6 +58,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   };
 
   const handleOnNamespaceSelect = (value: RosNamespace) => {
+    setIsInitialLoad(false);
     setQuery({ ...query, namespace: value });
   };
 
@@ -92,6 +94,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
                   optimizationType={query?.optimizationType}
                   query={query}
                   queryStateName={queryStateName}
+                  restoreState={isInitialLoad}
                 />
               ) : (
                 <OptimizationsProjectsTable
@@ -103,6 +106,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
                   optimizationType={query?.optimizationType}
                   query={query}
                   queryStateName={queryStateName}
+                  restoreState={isInitialLoad}
                 />
               )
             ) : (
