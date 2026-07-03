@@ -52,6 +52,7 @@
     "@types/node": "^26.0.0",
     "css-minimizer-webpack-plugin": "^8.0.0",
     "cypress": "^15.18.0",
+    "pac-proxy-agent": "^9.1.0",
     "sass": "^1.101.0",
     "sass-loader": "^17.0.0",
     "style-loader": "^4.0.0",
