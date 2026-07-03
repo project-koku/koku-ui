@@ -200,12 +200,16 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
         title: container,
       });
 
+      const hasRecommendations =
+        item?.recommendations?.recommendation_terms?.[interval]?.recommendation_engines !== undefined;
       const recommendationProps = getRequestProps(item?.recommendations, interval, optimizationType);
 
       newRows.push({
         cells: [
           {
-            value: (
+            value: !hasRecommendations ? (
+              container
+            ) : (
               <Link to={optimizationsBreakdownPath} state={linkState}>
                 {container}
               </Link>
