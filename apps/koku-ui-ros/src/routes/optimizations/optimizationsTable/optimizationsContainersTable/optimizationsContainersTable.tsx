@@ -41,6 +41,7 @@ interface OptimizationsContainersTableOwnProps {
   project?: string; // Project name to filter by
   query?: RosDetailsQuery;
   queryStateName: string; // Name used to store query state
+  restoreState?: boolean; // Restore table query from link state on initial page load
 }
 
 export interface OptimizationsContainersTableStateProps {
@@ -82,13 +83,19 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   project,
   query: parentQueryState,
   queryStateName,
+  restoreState,
 }) => {
   const intl = useIntl();
   const location = useLocation();
 
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
-  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState?.containers) });
+  const [query, setQuery] = useState(() => {
+    if (restoreState === false) {
+      return { ...baseQuery };
+    }
+    return { ...baseQuery, ...queryState?.containers };
+  });
   const { report, reportError, reportFetchStatus } = useMapToProps({
     project,
     query,

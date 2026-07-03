@@ -44,6 +44,7 @@ interface OptimizationsProjectsTableOwnProps {
   project?: string; // Project name to filter by for OCP breakdown
   query?: RosDetailsQuery;
   queryStateName: string; // Name used to store query state
+  restoreState?: boolean; // Restore table query from link state on initial page load
 }
 
 export interface OptimizationsProjectsTableStateProps {
@@ -86,13 +87,19 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   project,
   query: parentQueryState,
   queryStateName,
+  restoreState,
 }) => {
   const intl = useIntl();
   const location = useLocation();
 
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
-  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState?.projects) });
+  const [query, setQuery] = useState(() => {
+    if (restoreState === false) {
+      return { ...baseQuery };
+    }
+    return { ...baseQuery, ...queryState?.projects };
+  });
   const { report, reportError, reportFetchStatus } = useMapToProps({
     project,
     query,
