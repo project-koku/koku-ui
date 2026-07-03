@@ -287,7 +287,9 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
   const reportType = isNamespaceToggleEnabled ? (isContainers ? RosType.container : RosType.namespace) : RosType.ros;
   const reportPathsType = RosPathsType.recommendation as any;
 
-  const reportQueryString = queryFromRoute ? queryFromRoute.id : ''; // Flatten ID
+  const memoryUnits = isNamespaceToggleEnabled ? '?memory-unit=MiB' : '';
+
+  const reportQueryString = queryFromRoute?.id ? `${queryFromRoute.id}${memoryUnits}` : ''; // Flatten ID
   const report: any = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
   );
