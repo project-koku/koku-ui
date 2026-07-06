@@ -35,8 +35,10 @@ export const addQueryFilter = (
     newQuery[queryFilterType] = {};
   }
 
+  const newFilterValue = filterValue?.trim();
+
   // Filter by * won't generate a new request if group_by * already exists
-  if (filterValue === '*' && newQuery.group_by?.[filterType] === '*') {
+  if (newFilterValue === '*' && newQuery.group_by?.[filterType] === '*') {
     return;
   }
 
@@ -44,10 +46,10 @@ export const addQueryFilter = (
     let found = false;
     const filters = newQuery[queryFilterType][filterType];
     if (!Array.isArray(filters)) {
-      found = filterValue === newQuery[queryFilterType][filterType];
+      found = newFilterValue === newQuery[queryFilterType][filterType];
     } else {
       for (const filter of filters) {
-        if (filter === filterValue) {
+        if (filter === newFilterValue) {
           found = true;
           break;
         }
@@ -55,13 +57,13 @@ export const addQueryFilter = (
     }
     if (!found) {
       if (Array.isArray(newQuery[queryFilterType][filterType])) {
-        newQuery[queryFilterType][filterType] = [...newQuery[queryFilterType][filterType], filterValue];
+        newQuery[queryFilterType][filterType] = [...newQuery[queryFilterType][filterType], newFilterValue];
       } else {
-        newQuery[queryFilterType][filterType] = [newQuery[queryFilterType][filterType], filterValue];
+        newQuery[queryFilterType][filterType] = [newQuery[queryFilterType][filterType], newFilterValue];
       }
     }
   } else {
-    newQuery[queryFilterType][filterType] = [filterValue];
+    newQuery[queryFilterType][filterType] = [newFilterValue];
   }
   return newQuery;
 };
