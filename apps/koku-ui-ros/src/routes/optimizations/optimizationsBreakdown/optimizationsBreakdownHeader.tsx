@@ -115,7 +115,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
       {getBackToLink()}
       <div style={styles.title}>
         <Title headingLevel="h1" size={TitleSizes['2xl']}>
-          {report ? report.container : null}
+          {report ? (isContainers ? report.container : report.project) : null}
         </Title>
         {showWarningIcon && (
           <span style={styles.warningIcon}>
