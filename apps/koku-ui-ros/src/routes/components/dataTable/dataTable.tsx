@@ -19,6 +19,7 @@ interface DataTableOwnProps {
   columns?: any[];
   emptyState?: React.ReactNode;
   filterBy: any;
+  gridBreakPoint?: '' | 'grid-2xl' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl';
   isActionsCell?: boolean;
   isLoading?: boolean;
   isSelectable?: boolean;
@@ -109,7 +110,16 @@ class DataTable extends React.Component<DataTableProps, any> {
   };
 
   public render() {
-    const { columns, intl, isActionsCell = false, isLoading, isSelectable, nestedColumns, rows } = this.props;
+    const {
+      columns,
+      gridBreakPoint = 'grid-2xl',
+      intl,
+      isActionsCell = false,
+      isLoading,
+      isSelectable,
+      nestedColumns,
+      rows,
+    } = this.props;
     const hasNestedHeader = nestedColumns?.length > 0;
 
     return (
@@ -117,7 +127,7 @@ class DataTable extends React.Component<DataTableProps, any> {
         <Table
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
-          gridBreakPoint="grid-2xl"
+          gridBreakPoint={gridBreakPoint}
           variant={TableVariant.compact}
         >
           <Thead hasNestedHeader={hasNestedHeader}>
