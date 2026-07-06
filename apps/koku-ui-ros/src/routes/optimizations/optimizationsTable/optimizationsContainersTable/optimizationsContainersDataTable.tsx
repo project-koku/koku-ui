@@ -270,16 +270,18 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
   }, [linkState, report]);
 
   return (
-    <DataTable
-      columns={columns}
-      emptyState={<NoOptimizationsState />}
-      filterBy={filterBy}
-      isLoading={isLoading}
-      nestedColumns={nestedColumns}
-      onSort={handleOnSort}
-      orderBy={orderBy}
-      rows={rows}
-    />
+    <div style={{ overflow: 'auto' }}>
+      <DataTable
+        columns={columns}
+        emptyState={<NoOptimizationsState />}
+        filterBy={filterBy}
+        isLoading={isLoading}
+        nestedColumns={nestedColumns}
+        onSort={handleOnSort}
+        orderBy={orderBy}
+        rows={rows}
+      />
+    </div>
   );
 };
 
