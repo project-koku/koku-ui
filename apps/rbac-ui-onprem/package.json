@@ -17,6 +17,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "",
+    "test:update": "",
     "clean": "rimraf dist",
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'",
     "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"

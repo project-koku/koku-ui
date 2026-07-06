@@ -413,7 +413,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: var(--pf-v6-chart-color-blue-100, #92c5f9); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
+              style="fill: var(--pf-v6-chart-color-blue-100, #92c5f9); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgb(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
             />
             <path
               d="M 47.44, 68.156
@@ -423,7 +423,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: var(--pf-v6-chart-color-green-400, #3d7317); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
+              style="fill: var(--pf-v6-chart-color-green-400, #3d7317); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgb(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
             />
             <path
               d="M 87.04, 68.156
@@ -443,7 +443,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: var(--pf-v6-chart-color-blue-200, #4394e5); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
+              style="fill: var(--pf-v6-chart-color-blue-200, #4394e5); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgb(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
             />
             <path
               d="M 126.64000000000001, 68.156
@@ -463,7 +463,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: var(--pf-v6-chart-color-green-300, #63993d); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
+              style="fill: var(--pf-v6-chart-color-green-300, #63993d); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgb(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
             />
             <path
               d="M 166.24, 68.156
@@ -473,7 +473,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: var(--pf-v6-chart-color-blue-300, #0066cc); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
+              style="fill: var(--pf-v6-chart-color-blue-300, #0066cc); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgb(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
             />
             <path
               d="M 205.84, 68.156
@@ -483,7 +483,7 @@ exports[`reports are formatted to datums 1`] = `
       z"
               role="presentation"
               shape-rendering="auto"
-              style="fill: var(--pf-v6-chart-color-green-200, #87bb62); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgba(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
+              style="fill: var(--pf-v6-chart-color-green-200, #87bb62); stroke: var(--pf-v6-chart-legend--data--stroke--Color, rgb(255, 255, 255, 0.0000)); stroke-width: var(--pf-v6-chart-legend--data--stroke--Width, 0px);"
             />
             <text
               direction="inherit"
