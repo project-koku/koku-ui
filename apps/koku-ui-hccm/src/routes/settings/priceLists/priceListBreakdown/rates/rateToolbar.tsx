@@ -45,6 +45,18 @@ interface RateToolbarStateProps {
 
 type RateToolbarProps = RateToolbarOwnProps;
 
+// Workaround to map metrics API values to rates API which accepts cpu, memory, storage, gpu, node, cluster, pvc, vm, and project
+const getMetricKey = (value: string) => {
+  const newValue = value?.toLowerCase();
+  switch (newValue) {
+    case 'persistent volume claims':
+      return 'pvc';
+    case 'virtual machine':
+      return 'vm';
+  }
+  return newValue;
+};
+
 const RateToolbar: React.FC<RateToolbarProps> = ({
   canWrite,
   isAllSelected,
@@ -69,17 +81,22 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const metricOpts = Object.keys(metricsHash || {})
     .map(m => ({
-      key: m,
+      key: getMetricKey(m),
+      originalKey: m,
       name: getMetricLabel(m),
     }))
     .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
 
   const measurementOpts = uniqBy(
     metricOpts.reduce((acc, curr) => {
-      const measures = Object.keys(metricsHash[curr.key] || {}).map(m => ({
-        key: metricsHash[curr.key][m]?.label_measurement,
-        name: getMeasurementLabel(metricsHash[curr.key][m]?.label_measurement),
-      }));
+      const metricGroup = metricsHash[curr.originalKey] || {};
+      const measures = Object.keys(metricGroup).map(m => {
+        const labelMeasurement = metricGroup[m]?.label_measurement;
+        return {
+          key: labelMeasurement,
+          name: getMeasurementLabel(labelMeasurement),
+        };
+      });
       return [...acc, ...measures];
     }, []),
     'key'
@@ -89,10 +106,14 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const costTypeOpts = uniqBy(
     metricOpts.reduce((acc, curr) => {
-      const measures = Object.keys(metricsHash[curr.key] || {}).map(m => ({
-        key: metricsHash[curr.key][m]?.default_cost_type,
-        name: getCostTypeLabel(metricsHash[curr.key][m]?.default_cost_type),
-      }));
+      const metricGroup = metricsHash[curr.originalKey] || {};
+      const measures = Object.keys(metricsHash[curr.originalKey] || {}).map(m => {
+        const defaultCostType = metricGroup[m]?.default_cost_type;
+        return {
+          key: defaultCostType,
+          name: getCostTypeLabel(defaultCostType),
+        };
+      });
       return [...acc, ...measures];
     }, []),
     'key'
