@@ -1,4 +1,4 @@
-import type { MetricHash } from 'api/metrics';
+import type { Metric, MetricHash } from 'api/metrics';
 import type { PriceListData } from 'api/priceList';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import type { Rate } from 'api/rates';
@@ -88,37 +88,35 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
     .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
 
   const measurementOpts = uniqBy(
-    metricOpts.reduce((acc, curr) => {
-      const metricGroup = metricsHash[curr.originalKey] || {};
-      const measures = Object.keys(metricGroup).map(m => {
+    metricOpts.flatMap(curr => {
+      const metricGroup = (metricsHash[curr.originalKey] || {}) as Record<string, Metric>;
+      return Object.keys(metricGroup).map(m => {
         const labelMeasurement = metricGroup[m]?.label_measurement;
         return {
           key: labelMeasurement,
           name: getMeasurementLabel(labelMeasurement),
         };
       });
-      return [...acc, ...measures];
-    }, []),
+    }),
     'key'
   )
-    .filter(({ key }) => key) // Omit duplicates
+    .filter(({ key }) => key) // Omit empty keys
     .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
 
   const costTypeOpts = uniqBy(
-    metricOpts.reduce((acc, curr) => {
-      const metricGroup = metricsHash[curr.originalKey] || {};
-      const measures = Object.keys(metricGroup).map(m => {
+    metricOpts.flatMap(curr => {
+      const metricGroup = (metricsHash[curr.originalKey] || {}) as Record<string, Metric>;
+      return Object.keys(metricGroup).map(m => {
         const defaultCostType = metricGroup[m]?.default_cost_type;
         return {
           key: defaultCostType,
           name: getCostTypeLabel(defaultCostType),
         };
       });
-      return [...acc, ...measures];
-    }, []),
+    }),
     'key'
   )
-    .filter(({ key }) => key) // Omit duplicates
+    .filter(({ key }) => key) // Omit empty keys
     .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
 
   // Getters
