@@ -82,6 +82,7 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
   const metricOpts = Object.keys(metricsHash || {})
     .map(m => ({
       key: getMetricKey(m),
+      originalKey: m,
       name: getMetricLabel(m),
     }))
     .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
@@ -101,9 +102,9 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const costTypeOpts = uniqBy(
     metricOpts.reduce((acc, curr) => {
-      const measures = Object.keys(metricsHash[curr.key] || {}).map(m => ({
-        key: metricsHash[curr.key][m]?.default_cost_type,
-        name: getCostTypeLabel(metricsHash[curr.key][m]?.default_cost_type),
+      const measures = Object.keys(metricsHash[curr.originalKey] || {}).map(m => ({
+        key: metricsHash[curr.originalKey][m]?.default_cost_type,
+        name: getCostTypeLabel(metricsHash[curr.originalKey][m]?.default_cost_type),
       }));
       return [...acc, ...measures];
     }, []),
