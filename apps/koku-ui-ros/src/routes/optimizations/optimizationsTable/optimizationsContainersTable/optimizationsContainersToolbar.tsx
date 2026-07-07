@@ -4,7 +4,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { BasicToolbar } from 'routes/components/dataToolbar';
+import { DataToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
 
 interface OptimizationsContainersToolbarOwnProps {
@@ -77,7 +77,7 @@ class OptimizationsContainersToolbarBase extends React.Component<
     const { categoryOptions } = this.state;
 
     return (
-      <BasicToolbar
+      <DataToolbar
         categoryOptions={categoryOptions}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
@@ -86,8 +86,9 @@ class OptimizationsContainersToolbarBase extends React.Component<
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        showCriteria
+        showExact
         showFilter
-        useActiveFilters
       />
     );
   }
