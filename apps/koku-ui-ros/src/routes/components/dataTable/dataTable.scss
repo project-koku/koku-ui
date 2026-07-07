@@ -35,4 +35,11 @@
   &.pf-v6-c-table tbody .pf-v6-c-table__check input {
     margin-top: .40rem;
   }
+
+  // PatternFly 6.6.0 applies pointer-events: none to the subheader row in nested column
+  // headers, which prevents sort buttons in that row from receiving clicks. Prior to 6.6.0,
+  // only a ::after pseudo-element had pointer-events disabled. See patternfly/patternfly#8290.
+  .pf-v6-c-table__thead.pf-m-nested-column-header .pf-v6-c-table__tr:last-child:not(.pf-m-border-row) {
+    pointer-events: auto;
+  }
 }
