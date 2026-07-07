@@ -44,11 +44,12 @@ export const getCustomSelect = ({
 
   const categoryFilters = filters?.[categoryOption.key];
   const filterArray = Array.isArray(categoryFilters) ? categoryFilters : [];
+  const options = selectOptions || categoryOption.selectOptions;
 
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      labels={getChips(filterArray, selectOptions || categoryOption.selectOptions)}
+      labels={getChips(filterArray, options)}
       deleteLabel={onDelete}
       key={`custom-select-${categoryOption.key}`}
       showToolbarItem={currentCategory === categoryOption.key}
@@ -59,7 +60,7 @@ export const getCustomSelect = ({
         isDisabled={isDisabled && !hasFilters(filters)}
         isMultiSelect={isMultiSelect}
         onSelect={onSelect}
-        options={selectOptions}
+        options={options}
         placeholderKey={categoryOption.placeholderKey}
       />
     </ToolbarFilter>

@@ -89,10 +89,14 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const measurementOpts = uniqBy(
     metricOpts.reduce((acc, curr) => {
-      const measures = Object.keys(metricsHash[curr.key] || {}).map(m => ({
-        key: metricsHash[curr.key][m]?.label_measurement,
-        name: getMeasurementLabel(metricsHash[curr.key][m]?.label_measurement),
-      }));
+      const metricGroup = metricsHash[curr.originalKey] || {};
+      const measures = Object.keys(metricGroup).map(m => {
+        const labelMeasurement = metricGroup[m]?.label_measurement;
+        return {
+          key: labelMeasurement,
+          name: getMeasurementLabel(labelMeasurement),
+        };
+      });
       return [...acc, ...measures];
     }, []),
     'key'
@@ -102,10 +106,14 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const costTypeOpts = uniqBy(
     metricOpts.reduce((acc, curr) => {
-      const measures = Object.keys(metricsHash[curr.originalKey] || {}).map(m => ({
-        key: metricsHash[curr.originalKey][m]?.default_cost_type,
-        name: getCostTypeLabel(metricsHash[curr.originalKey][m]?.default_cost_type),
-      }));
+      const metricGroup = metricsHash[curr.originalKey] || {};
+      const measures = Object.keys(metricsHash[curr.originalKey] || {}).map(m => {
+        const defaultCostType = metricGroup[m]?.default_cost_type;
+        return {
+          key: defaultCostType,
+          name: getCostTypeLabel(defaultCostType),
+        };
+      });
       return [...acc, ...measures];
     }, []),
     'key'
