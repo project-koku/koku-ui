@@ -89,7 +89,7 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const measurementOpts = uniqBy(
     metricOpts.flatMap(curr => {
-      const metricGroup = (metricsHash[curr.originalKey] || {}) as Record<string, Metric>;
+      const metricGroup = (metricsHash?.[curr.originalKey] || {}) as Record<string, Metric>;
       return Object.keys(metricGroup).map(m => {
         const labelMeasurement = metricGroup[m]?.label_measurement;
         return {
@@ -105,7 +105,7 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const costTypeOpts = uniqBy(
     metricOpts.flatMap(curr => {
-      const metricGroup = (metricsHash[curr.originalKey] || {}) as Record<string, Metric>;
+      const metricGroup = (metricsHash?.[curr.originalKey] || {}) as Record<string, Metric>;
       return Object.keys(metricGroup).map(m => {
         const defaultCostType = metricGroup[m]?.default_cost_type;
         return {
