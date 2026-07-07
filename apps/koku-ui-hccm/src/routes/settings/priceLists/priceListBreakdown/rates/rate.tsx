@@ -227,23 +227,13 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete, priceLis
   );
 };
 
-const getPriceListRatesFilterBy = (filterBy: Query['filter_by']) => {
-  if (!filterBy?.metric_type) {
-    return filterBy;
-  }
-  return {
-    ...filterBy,
-    metric_type: filterBy.metric_type.map((value: string) => value.toLowerCase()),
-  };
-};
-
 const useMapToProps = ({ query }: RateMapProps): RateStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const { uuid } = useParams();
 
   // Todo: Update once we have a paginated API
   const priceListRatesQuery = {
-    filter_by: getPriceListRatesFilterBy(query.filter_by),
+    filter_by: query.filter_by,
     limit: query.limit,
     offset: query.offset,
     order_by: query.order_by,

@@ -45,6 +45,18 @@ interface RateToolbarStateProps {
 
 type RateToolbarProps = RateToolbarOwnProps;
 
+// Workaround to map metrics API values to rates API which accepts cpu, memory, storage, gpu, node, cluster, pvc, vm, and project
+const getMetricKey = (value: string) => {
+  const newValue = value?.toLowerCase();
+  switch (newValue) {
+    case 'persistent volume claims':
+      return 'pvc';
+    case 'virtual machine':
+      return 'vm';
+  }
+  return newValue;
+};
+
 const RateToolbar: React.FC<RateToolbarProps> = ({
   canWrite,
   isAllSelected,
@@ -69,7 +81,7 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
 
   const metricOpts = Object.keys(metricsHash || {})
     .map(m => ({
-      key: m,
+      key: getMetricKey(m),
       name: getMetricLabel(m),
     }))
     .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? ''));
