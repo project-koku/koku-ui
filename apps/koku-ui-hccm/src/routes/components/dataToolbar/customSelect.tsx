@@ -46,7 +46,7 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
 
     const selectOptions: SelectWrapperOption[] = [];
 
-    options?.map(option => {
+    options?.forEach(option => {
       selectOptions.push({
         toString: () => option.name,
         value: option.key,
