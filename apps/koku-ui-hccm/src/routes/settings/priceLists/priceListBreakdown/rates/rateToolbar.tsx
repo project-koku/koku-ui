@@ -107,7 +107,7 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
   const costTypeOpts = uniqBy(
     metricOpts.reduce((acc, curr) => {
       const metricGroup = metricsHash[curr.originalKey] || {};
-      const measures = Object.keys(metricsHash[curr.originalKey] || {}).map(m => {
+      const measures = Object.keys(metricGroup).map(m => {
         const defaultCostType = metricGroup[m]?.default_cost_type;
         return {
           key: defaultCostType,
