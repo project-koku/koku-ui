@@ -137,6 +137,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                   <Th
                     colSpan={col.colSpan}
                     hasRightBorder={col.hasRightBorder}
+                    isSubheader={col.isSubheader}
                     key={`nested-col-${index}`}
                     modifier={col.modifier || 'nowrap'}
                     rowSpan={col.rowSpan}
@@ -153,6 +154,7 @@ class DataTable extends React.Component<DataTableProps, any> {
                 <Th
                   colSpan={col.colSpan}
                   hasRightBorder={col.hasRightBorder}
+                  isSubheader={col.isSubheader}
                   key={`col-${index}-${col.value}`}
                   modifier={col.modifier || 'nowrap'}
                   rowSpan={col.rowSpan}
