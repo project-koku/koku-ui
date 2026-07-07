@@ -81,6 +81,21 @@ describe('getChips', () => {
     expect(chips[0].key).toBe('foo');
     expect(chips[2].key).toBe('baz');
   });
+
+  test('resolves friendly names from selectOptions when toString is missing', () => {
+    const chips = getChips([{ value: 'pvc' }], [{ key: 'pvc', name: 'Persistent volume claims' }]);
+
+    expect(chips[0].key).toBe('pvc');
+    expect(chips[0].node).toBe('Persistent volume claims');
+  });
+
+  test('prefers filter toString over selectOptions', () => {
+    const chips = getChips([{ value: 'pvc', toString: () => 'Custom label' }], [
+      { key: 'pvc', name: 'Persistent volume claims' },
+    ]);
+
+    expect(chips[0].node).toBe('Custom label');
+  });
 });
 
 describe('getDefaultCategory', () => {
