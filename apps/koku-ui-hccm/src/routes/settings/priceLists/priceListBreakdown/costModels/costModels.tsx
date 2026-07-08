@@ -71,7 +71,7 @@ const CostModels: React.FC<CostModelsProps> = () => {
         costModels={costModels}
         filterBy={query.filter_by}
         isDisabled={hasNoCostModels}
-        isLoading={priceListFetchStatus === FetchStatus.inProgress}
+        isLoading={isLoading}
       />
     );
   };
@@ -161,7 +161,7 @@ const useMapToProps = ({ query }: CostModelsMapProps): CostModelsStateProps => {
     if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, query, uuid]);
+  }, [dispatch, priceListError, priceListQueryString, uuid]);
 
   // Add filter
   const costModels = getFilteredCostModels(priceList?.assigned_cost_models, query?.filter_by);

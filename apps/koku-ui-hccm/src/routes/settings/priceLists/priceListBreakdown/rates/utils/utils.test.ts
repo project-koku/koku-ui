@@ -103,11 +103,11 @@ describe('priceListBreakdown/rates/utils', () => {
       expect(out.map(rate => rate.custom_name)).toEqual(['Beta Memory', 'Alpha CPU']);
     });
 
-    test('sorts lexicographically so Rate 10 comes before Rate 2', () => {
+    test('sorts numerically so Rate 2 comes before Rate 10', () => {
       const rate2 = { custom_name: 'Rate 2' } as Rate;
       const rate10 = { custom_name: 'Rate 10' } as Rate;
-      const out = getSortedRates([rate2, rate10], { name: 'asc' });
-      expect(out.map(rate => rate.custom_name)).toEqual(['Rate 10', 'Rate 2']);
+      const out = getSortedRates([rate10, rate2], { name: 'asc' });
+      expect(out.map(rate => rate.custom_name)).toEqual(['Rate 2', 'Rate 10']);
     });
 
     test('handles empty rates', () => {
