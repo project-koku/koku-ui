@@ -106,8 +106,8 @@ export const getMetricLabel = m => {
 };
 
 // Paginated rates for table
-export const getPaginatedRates = (rates: Rate[], pageNumber: number, perPage: number): Rate[] => {
-  const offset = pageNumber * perPage - perPage;
+export const getPaginatedRates = (rates: Rate[], page: number, perPage: number): Rate[] => {
+  const offset = Math.max(0, (page - 1) * perPage);
   const end = Math.min(offset + perPage, rates?.length ?? 0);
   return rates?.slice(offset, end) ?? [];
 };
@@ -149,10 +149,9 @@ export const getSortedRates = (rates: Rate[], orderBy: RatesOrderBy): Rate[] => 
   }
 
   const direction = orderBy[sortKey] === 'desc' ? -1 : 1;
+  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
   return [...rates].sort(
-    (a, b) =>
-      direction *
-      getRateSortValue(a, sortKey).localeCompare(getRateSortValue(b, sortKey), undefined, { sensitivity: 'base' })
+    (a, b) => direction * collator.compare(getRateSortValue(a, sortKey), getRateSortValue(b, sortKey))
   );
 };

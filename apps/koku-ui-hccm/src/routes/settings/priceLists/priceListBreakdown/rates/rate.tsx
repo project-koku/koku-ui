@@ -41,7 +41,7 @@ interface RateOwnProps {
 }
 
 export interface RateMapProps {
-  pageNumber?: number;
+  page?: number;
   perPage?: number;
   paginatedPriceList?: PriceListData;
   query?: Query;
@@ -69,12 +69,12 @@ const baseQuery: Query = {
 const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   const intl = useIntl();
 
-  const [pageNumber, setPageNumber] = useState(1);
+  const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(baseQuery.limit);
   const [query, setQuery] = useState({ ...baseQuery });
 
   const { priceList, priceListError, priceListFetchStatus, rates, ratesCount } = useMapToProps({
-    pageNumber,
+    page,
     perPage,
     query,
   });
@@ -86,9 +86,6 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   // Getters
 
   const getPagination = (isBottom = false) => {
-    const offset = pageNumber * perPage - perPage;
-    const page = Math.trunc(offset / perPage + 1);
-
     return (
       <Pagination
         isCompact={!isBottom}
@@ -147,22 +144,22 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
-    setPageNumber(1); // Reset pagination
+    setPage(1); // Reset pagination
   };
 
   const handleOnFilterRemoved = filter => {
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
-    setPageNumber(1); // Reset pagination
+    setPage(1); // Reset pagination
   };
 
   const handleOnPerPageSelect = value => {
     setPerPage(value);
-    setPageNumber(1); // Reset pagination
+    setPage(1); // Reset pagination
   };
 
   const handleOnSetPage = value => {
-    setPageNumber(value);
+    setPage(value);
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
@@ -215,7 +212,7 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   );
 };
 
-const useMapToProps = ({ pageNumber, perPage, query }: RateMapProps): RateStateProps => {
+const useMapToProps = ({ page, perPage, query }: RateMapProps): RateStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const { uuid } = useParams();
 
@@ -247,7 +244,7 @@ const useMapToProps = ({ pageNumber, perPage, query }: RateMapProps): RateStateP
   const indexedRates = getIndexedRates(priceList?.rates);
   const filteredRates = getFilteredRates(indexedRates, query?.filter_by);
   const sortedRates = getSortedRates(filteredRates, query?.order_by);
-  const paginatedRates = getPaginatedRates(sortedRates, pageNumber, perPage);
+  const paginatedRates = getPaginatedRates(sortedRates, page, perPage);
 
   return {
     priceList,
