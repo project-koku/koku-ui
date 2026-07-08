@@ -306,11 +306,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnCustomSelect = (event, selection) => {
     const { onFilterAdded, onFilterRemoved } = this.props;
-    const { currentCategory, filters: currentFilters } = this.state;
+    const { currentCategory, currentCriteria, filters: currentFilters } = this.state;
 
     const checked = event.target.checked;
     const { filter, filters } = onCustomSelect({
       currentCategory,
+      currentCriteria: currentCriteria as CriteriaType,
       currentFilters,
       event,
       selection,

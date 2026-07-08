@@ -8,6 +8,7 @@ import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
 import { getChips, getFilter, hasFilters } from './common';
+import type { CriteriaType } from './criteria';
 
 // Custom value select
 
@@ -69,12 +70,14 @@ export const getCustomSelect = ({
 
 export const onCustomSelect = ({
   currentCategory,
+  currentCriteria,
   currentFilters,
   event,
   isMultiSelect = true,
   selection,
 }: {
   currentCategory?: string;
+  currentCriteria?: CriteriaType;
   currentFilters?: Filters;
   event?: any;
   isMultiSelect?: boolean;
@@ -83,7 +86,7 @@ export const onCustomSelect = ({
   const checked = isMultiSelect ? event?.target?.checked : true;
   let filter;
   if (checked) {
-    filter = getFilter(currentCategory, selection.value, false, selection.toString);
+    filter = getFilter(currentCategory, selection.value, currentCriteria, selection.toString);
   } else if (currentFilters[currentCategory]) {
     filter = (currentFilters[currentCategory] as Filter[]).find(item => item.value === selection.value);
   }
