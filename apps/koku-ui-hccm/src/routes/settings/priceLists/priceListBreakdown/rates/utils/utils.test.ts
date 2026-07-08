@@ -1,6 +1,18 @@
+import type { AssignedCostModel } from 'api/priceList';
 import type { Rate } from 'api/rates';
 
-import { getFilteredRates, getIndexedRates, getLabeledRates, getPaginatedRates } from './utils';
+import {
+  getFilteredCostModels,
+  getFilteredRates,
+  getIndexedRates,
+  getPaginatedRates,
+  getSortedRates,
+} from './utils';
+
+jest.mock('components/i18n', () => ({
+  __esModule: true,
+  intl: { formatMessage: (m: { id?: string }) => m?.id || 'msg' },
+}));
 
 describe('priceListBreakdown/rates/utils', () => {
   const rateA: Rate = {
@@ -12,6 +24,26 @@ describe('priceListBreakdown/rates/utils', () => {
     custom_name: 'Beta Memory',
     metric: { name: 'memory_gb_usage_per_hour', label_metric: 'Memory' },
   } as Rate;
+
+  describe('getFilteredCostModels', () => {
+    const costModelA: AssignedCostModel = { name: 'Alpha model', uuid: 'cm-a' };
+    const costModelB: AssignedCostModel = { name: 'Beta model', uuid: 'cm-b' };
+
+    test('returns same array when no filters', () => {
+      const costModels = [costModelA, costModelB];
+      expect(getFilteredCostModels(costModels, {})).toBe(costModels);
+    });
+
+    test('filters by name (substring, case-insensitive)', () => {
+      const out = getFilteredCostModels([costModelA, costModelB], { name: ['alpha'] });
+      expect(out).toHaveLength(1);
+      expect(out[0].name).toBe('Alpha model');
+    });
+
+    test('handles missing cost models', () => {
+      expect(getFilteredCostModels(undefined as unknown as AssignedCostModel[], { name: ['x'] })).toEqual([]);
+    });
+  });
 
   describe('getFilteredRates', () => {
     test('returns same array when no filters', () => {
@@ -26,7 +58,7 @@ describe('priceListBreakdown/rates/utils', () => {
       expect(out[0].custom_name).toBe('Alpha CPU');
     });
 
-    test('filters by metric label (substring, case-insensitive)', () => {
+    test('filters by metric label (case-insensitive exact match)', () => {
       const out = getFilteredRates([rateA, rateB], { metric_type: ['memory'] });
       expect(out).toHaveLength(1);
       expect(out[0].custom_name).toBe('Beta Memory');
@@ -55,26 +87,31 @@ describe('priceListBreakdown/rates/utils', () => {
     });
   });
 
-  describe('getLabeledRates', () => {
-    test('returns undefined when rates is undefined', () => {
-      expect(getLabeledRates(undefined as unknown as Rate[], {})).toBeUndefined();
+  describe('getSortedRates', () => {
+    test('returns same array when no sort key is active', () => {
+      const rates = [rateB, rateA];
+      expect(getSortedRates(rates, {})).toBe(rates);
     });
 
-    test('merges labels from metrics hash by metric name', () => {
-      const hash = {
-        cpu_core_request: {
-          label_metric: 'CPU_Request',
-          label_measurement: 'Core-hour',
-          label_measurement_unit: 'hrs',
-        },
-      } as any;
-      const out = getLabeledRates([rateA], hash);
-      expect(out[0].metric?.label_measurement).toBe('Core-hour');
+    test('sorts by name ascending', () => {
+      const out = getSortedRates([rateB, rateA], { name: 'asc' });
+      expect(out.map(rate => rate.custom_name)).toEqual(['Alpha CPU', 'Beta Memory']);
     });
 
-    test('preserves rate when metric not in hash', () => {
-      const out = getLabeledRates([rateA], {});
-      expect(out[0].metric?.name).toBe('cpu_core_request');
+    test('sorts by name descending', () => {
+      const out = getSortedRates([rateA, rateB], { name: 'desc' });
+      expect(out.map(rate => rate.custom_name)).toEqual(['Beta Memory', 'Alpha CPU']);
+    });
+
+    test('sorts numerically so Rate 2 comes before Rate 10', () => {
+      const rate2 = { custom_name: 'Rate 2' } as Rate;
+      const rate10 = { custom_name: 'Rate 10' } as Rate;
+      const out = getSortedRates([rate10, rate2], { name: 'asc' });
+      expect(out.map(rate => rate.custom_name)).toEqual(['Rate 2', 'Rate 10']);
+    });
+
+    test('handles empty rates', () => {
+      expect(getSortedRates([], { name: 'asc' })).toEqual([]);
     });
   });
 
