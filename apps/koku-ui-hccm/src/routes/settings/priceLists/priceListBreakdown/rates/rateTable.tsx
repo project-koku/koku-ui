@@ -2,7 +2,6 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import type { PriceListData } from 'api/priceList';
 import type { Rate, TagValue } from 'api/rates';
-import { useIsPriceListRatesToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -44,7 +43,6 @@ const RateTable: React.FC<RateTableProps> = ({
   rates,
 }) => {
   const intl = useIntl();
-  const isPriceListRatesToggleEnabled = useIsPriceListRatesToggleEnabled();
 
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -56,7 +54,7 @@ const RateTable: React.FC<RateTableProps> = ({
 
     const newRows = [];
     const computedItems = rates ?? [];
-    const isSortable = computedItems.length > 0 && isPriceListRatesToggleEnabled;
+    const isSortable = computedItems.length > 0;
 
     const newColumns = [
       {

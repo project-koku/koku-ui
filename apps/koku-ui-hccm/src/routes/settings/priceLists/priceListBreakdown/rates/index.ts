@@ -1,4 +1,4 @@
 export * from './rate';
-export * from './rateDeprecated';
+export * from './rateApi';
 export * from './rateTable';
 export * from './rateToolbar';
