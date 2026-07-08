@@ -88,11 +88,18 @@ export const getActiveFilters = query => {
   return filters;
 };
 
-export const getChips = (filters: Filter[] | undefined): { key: string; node: React.ReactNode }[] => {
+export const getChips = (
+  filters: Filter[] | undefined,
+  selectOptions?: ToolbarLabelGroup[]
+): { key: string; node: React.ReactNode }[] => {
   const chips: { key: string; node: React.ReactNode }[] = [];
   if (filters instanceof Array) {
     filters.forEach(item => {
-      const value = item.toString && item.toString !== Object.prototype.toString ? item.toString() : item.value;
+      const displayValue =
+        item.toString && item.toString !== Object.prototype.toString
+          ? item.toString()
+          : selectOptions?.find(option => option.key === item.value)?.name;
+      const value = displayValue ?? item.value;
       const msg =
         item.excludeType === CriteriaType.exact
           ? messages.exactLabel
