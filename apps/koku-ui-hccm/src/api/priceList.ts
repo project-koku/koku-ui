@@ -3,15 +3,15 @@ import { axiosInstance } from 'api';
 import type { PagedLinks, PagedMetaData } from './api';
 import type { Rate } from './rates';
 
+export interface AssignedCostModel {
+  uuid?: string;
+  name?: string;
+  priority?: number;
+}
+
 export interface PriceListData {
   assigned_cost_model_count?: number;
-  assigned_cost_models?: [
-    {
-      uuid?: string;
-      name?: string;
-      priority?: number;
-    },
-  ];
+  assigned_cost_models?: AssignedCostModel[];
   created_timestamp?: string;
   currency?: string;
   description?: string;

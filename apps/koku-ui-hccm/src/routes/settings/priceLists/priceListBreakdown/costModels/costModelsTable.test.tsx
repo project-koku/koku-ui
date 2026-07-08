@@ -15,18 +15,15 @@ jest.mock('routes/components/dataTable', () => ({
 }));
 
 describe('CostModelsTable', () => {
-  const priceList = {
-    assigned_cost_models: [
-      { name: 'Cost model A', uuid: 'cm-a' },
-      { name: 'Cost model B', uuid: 'cm-b' },
-    ],
-    meta: { count: 2 },
-  } as any;
+  const costModels = [
+    { name: 'Cost model A', uuid: 'cm-a' },
+    { name: 'Cost model B', uuid: 'cm-b' },
+  ];
 
   test('passes one row per assigned cost model to DataTable', async () => {
     render(
       <IntlProvider defaultLocale="en" locale="en">
-        <CostModelsTable filterBy={{}} isDisabled={false} isLoading={false} priceList={priceList} />
+        <CostModelsTable costModels={costModels} filterBy={{}} isDisabled={false} isLoading={false} />
       </IntlProvider>
     );
     await waitFor(() => {

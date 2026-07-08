@@ -11,23 +11,17 @@ import type { PriceListData } from 'api/priceList';
 import type { Query } from 'api/queries/query';
 import type { Rate } from 'api/rates';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
 import { RateTable, RateToolbar } from 'routes/settings/priceLists/priceListBreakdown/rates';
 import { AddRate } from 'routes/settings/priceLists/priceListBreakdown/rates/components/add';
 import {
   getFilteredRates,
   getIndexedRates,
-  getLabeledRates,
   getPaginatedRates,
+  getSortedRates,
 } from 'routes/settings/priceLists/priceListBreakdown/rates/utils';
 import * as queryUtils from 'routes/utils/query';
-import type { RootState } from 'store';
-import { FetchStatus } from 'store/common';
-import { metricsActions, metricsSelectors } from 'store/metrics';
 
 import { styles } from './priceListRate.styles';
 
@@ -200,23 +194,11 @@ const PriceListRate: React.FC<PriceListRateProps> = ({ canWrite, onAdd, onDelete
 };
 
 const useMapToProps = ({ pageNumber, perPage, priceList, query }: PriceListRateMapProps): PriceListRateStateProps => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-
-  // Fetch metrics
-  const metricsHashByName = useSelector((state: RootState) => metricsSelectors.metricsByName(state));
-  const metricsHashStatus = useSelector((state: RootState) => metricsSelectors.status(state));
-
-  useEffect(() => {
-    if (metricsHashStatus !== FetchStatus.inProgress && metricsHashStatus !== FetchStatus.complete) {
-      dispatch(metricsActions.fetchMetrics());
-    }
-  }, [metricsHashStatus]);
-
   // Add index,labels, filter, and paginate
-  const labeledRates = getLabeledRates(priceList?.rates, metricsHashByName);
-  const indexedRates = getIndexedRates(labeledRates);
+  const indexedRates = getIndexedRates(priceList?.rates);
   const filteredRates = getFilteredRates(indexedRates, query?.filter_by);
-  const paginatedRates = getPaginatedRates(filteredRates, pageNumber, perPage);
+  const sortedRates = getSortedRates(filteredRates, query?.order_by);
+  const paginatedRates = getPaginatedRates(sortedRates, pageNumber, perPage);
 
   return {
     rates: paginatedRates,
