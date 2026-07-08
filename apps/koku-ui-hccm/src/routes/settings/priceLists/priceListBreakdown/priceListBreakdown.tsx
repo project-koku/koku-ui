@@ -29,7 +29,7 @@ import { hasCostModelWritePermission } from 'utils/userAccess';
 import { CostModels } from './costModels';
 import { styles } from './priceListBreakdown.styles';
 import { PriceListBreakdownHeader } from './priceListBreakdownHeader';
-import { Rate, RateDeprecated } from './rates';
+import { Rate, RateApi } from './rates';
 
 interface AvailableTab {
   contentRef: RefObject<any>;
@@ -160,7 +160,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
       return <CostModels />;
     } else if (currentTab === PriceListBreakdownTab.rates) {
       return isPriceListRatesToggleEnabled ? (
-        <Rate
+        <RateApi
           canWrite={canWrite()}
           onAdd={forceUpdate}
           onDelete={forceUpdate}
@@ -168,7 +168,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
           priceList={priceList}
         />
       ) : (
-        <RateDeprecated canWrite={canWrite()} onAdd={forceUpdate} onDelete={forceUpdate} onEdit={handleOnEdit} />
+        <Rate canWrite={canWrite()} onAdd={forceUpdate} onDelete={forceUpdate} onEdit={handleOnEdit} />
       );
     } else {
       return emptyTab;

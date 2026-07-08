@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import type { PriceListData } from 'api/priceList';
+import type { AssignedCostModel } from 'api/priceList';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -12,26 +12,26 @@ import { formatPath } from 'utils/paths';
 import { styles } from './costModelsTable.styles';
 
 interface CostModelsTableOwnProps {
+  costModels?: AssignedCostModel[];
   filterBy?: any;
   isDisabled?: boolean;
   isLoading?: boolean;
-  priceList: PriceListData;
 }
 
 type CostModelsTableProps = CostModelsTableOwnProps;
 
-const CostModelsTable: React.FC<CostModelsTableProps> = ({ filterBy, isLoading, priceList }) => {
+const CostModelsTable: React.FC<CostModelsTableProps> = ({ costModels, filterBy, isLoading }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const intl = useIntl();
 
   const initDatum = () => {
-    if (!priceList) {
+    if (!costModels) {
       return;
     }
 
     const newRows = [];
-    const computedItems = priceList.assigned_cost_models ?? [];
+    const computedItems = costModels ?? [];
 
     const newColumns = [
       {
@@ -64,7 +64,7 @@ const CostModelsTable: React.FC<CostModelsTableProps> = ({ filterBy, isLoading, 
 
   useEffect(() => {
     initDatum();
-  }, [intl, priceList]);
+  }, [intl, costModels]);
 
   return <DataTable columns={columns} filterBy={filterBy} isLoading={isLoading} rows={rows} />;
 };
