@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import type { PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
 import { getQuery } from 'api/queries/query';
 import { configureStore } from 'store/store';
@@ -77,23 +78,15 @@ jest.mock('store/priceLists', () => {
   };
 });
 
-const baseRatesQuery = {
-  filter_by: {},
-  limit: 10,
-  offset: 0,
-  order_by: { name: 'asc' },
-};
-const priceListRatesQueryString = getQuery(baseRatesQuery);
-const priceListRatesFetchId = getFetchId(PriceListType.priceListRates, priceListRatesQueryString);
+const priceListQueryString = getQuery({});
+const priceListFetchId = getFetchId(PriceListType.priceList, priceListQueryString);
 
-const priceList = { uuid: 'pl-1', name: 'Test PL', currency: 'USD' } as const;
-
-const buildPreloadedState = (ratesData: { meta: object; data: object[] }, error?: Error) =>
+const buildPreloadedState = (priceListData: Partial<PriceListData>, error?: Error) =>
   ({
     [priceListStateKey]: {
-      byId: new Map([[priceListRatesFetchId, ratesData]]),
-      errors: new Map([[priceListRatesFetchId, error ?? null]]),
-      status: new Map([[priceListRatesFetchId, FetchStatus.complete]]),
+      byId: new Map([[priceListFetchId, priceListData]]),
+      errors: new Map([[priceListFetchId, error ?? null]]),
+      status: new Map([[priceListFetchId, FetchStatus.complete]]),
       notification: new Map(),
     },
   }) as any;
@@ -104,7 +97,7 @@ const renderRate = (preloadedState: object) =>
       <IntlProvider defaultLocale="en" locale="en">
         <MemoryRouter initialEntries={['/settings/price-list/pl-1']}>
           <Routes>
-            <Route path="/settings/price-list/:uuid" element={<Rate canWrite priceList={priceList} />} />
+            <Route path="/settings/price-list/:uuid" element={<Rate canWrite />} />
           </Routes>
         </MemoryRouter>
       </IntlProvider>
@@ -132,20 +125,22 @@ describe('Rate', () => {
   });
 
   test('shows NotAvailable when fetch fails', async () => {
-    renderRate(buildPreloadedState({ meta: { count: 0 }, data: [] }, new Error('network')));
+    renderRate(buildPreloadedState({ rates: [] }, new Error('network')));
     expect(await screen.findByText(/temporarily unavailable/i)).toBeInTheDocument();
   });
 
   test('shows empty state when price list has no rates', async () => {
-    renderRate(buildPreloadedState({ meta: { count: 0, limit: 10, offset: 0 }, data: [] }));
+    renderRate(buildPreloadedState({ currency: 'USD', rates: [] }));
     expect(await screen.findByText(/no rates added yet/i)).toBeInTheDocument();
   });
 
   test('renders table when rates exist', async () => {
     renderRate(
       buildPreloadedState({
-        meta: { count: 1, limit: 10, offset: 0 },
-        data: [
+        currency: 'USD',
+        uuid: 'pl-1',
+        name: 'Test PL',
+        rates: [
           {
             cost_type: 'Infrastructure',
             description: 'd',
@@ -162,8 +157,10 @@ describe('Rate', () => {
   test('toolbar wiring invokes add-rate and filter handlers (toolbar renders while list loads)', async () => {
     renderRate(
       buildPreloadedState({
-        meta: { count: 1, limit: 10, offset: 0 },
-        data: [
+        currency: 'USD',
+        uuid: 'pl-1',
+        name: 'Test PL',
+        rates: [
           {
             cost_type: 'Infrastructure',
             description: 'd',

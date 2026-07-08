@@ -45,4 +45,26 @@ describe('onCustomSelect', () => {
     expect(result.filters?.status).toHaveLength(1);
     expect(result.filters?.status[0].value).toBe('running');
   });
+
+  test('uses current criteria for exact and exclude filters', () => {
+    const exactResult = onCustomSelect({
+      currentCategory: 'workload_type',
+      currentCriteria: CriteriaType.exact,
+      currentFilters,
+      event: { target: { checked: true } },
+      selection: { value: 'deployment', toString: () => 'deployment' },
+    });
+
+    expect(exactResult.filter?.excludeType).toBe(CriteriaType.exact);
+
+    const excludeResult = onCustomSelect({
+      currentCategory: 'workload_type',
+      currentCriteria: CriteriaType.exclude,
+      currentFilters,
+      event: { target: { checked: true } },
+      selection: { value: 'daemonset', toString: () => 'daemonset' },
+    });
+
+    expect(excludeResult.filter?.excludeType).toBe(CriteriaType.exclude);
+  });
 });
