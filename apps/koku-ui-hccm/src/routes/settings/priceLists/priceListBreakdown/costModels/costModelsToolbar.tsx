@@ -1,5 +1,4 @@
 import type { OcpQuery } from 'api/queries/ocpQuery';
-import { ResourcePathsType } from 'api/resources/resource';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -10,8 +9,6 @@ import type { Filter } from 'routes/utils/filter';
 interface CostModelsToolbarOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
-  itemsPerPage?: number;
-  itemsTotal?: number;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   query?: OcpQuery;
@@ -22,7 +19,6 @@ type CostModelsToolbarProps = CostModelsToolbarOwnProps;
 const CostModelsToolbar: React.FC<CostModelsToolbarProps> = ({
   canWrite,
   isDisabled,
-  itemsTotal,
   onFilterAdded,
   onFilterRemoved,
   query,
@@ -46,12 +42,11 @@ const CostModelsToolbar: React.FC<CostModelsToolbarProps> = ({
       categoryOptions={getCategoryOptions()}
       isDisabled={isDisabled}
       isReadOnly={!canWrite}
-      itemsTotal={itemsTotal}
       onFilterAdded={onFilterAdded}
       onFilterRemoved={onFilterRemoved}
       query={query}
-      resourcePathsType={ResourcePathsType.ocp}
       showFilter
+      useActiveFilters
     />
   );
 };

@@ -104,7 +104,7 @@ describe('PriceListRate', () => {
   test('changing page shows next slice of rates (client-side)', async () => {
     const many = Array.from({ length: 12 }, (_, i) => ({
       ...tieredRate,
-      custom_name: `Rate ${i}`,
+      custom_name: `Rate ${String(i).padStart(2, '0')}`,
     }));
     render(
       wrap(
@@ -116,10 +116,11 @@ describe('PriceListRate', () => {
     expect(await screen.findByRole('button', { name: /^add rate$/i })).toBeInTheDocument();
     const stub = screen.getByTestId('rates-table-stub');
     expect(stub).toHaveAttribute('data-rows', '10');
-    expect(stub).toHaveTextContent('Rate 0');
+    expect(stub).toHaveTextContent('Rate 00');
     const nextButtons = screen.getAllByRole('button', { name: /go to next page/i });
     fireEvent.click(nextButtons[0]);
     expect(stub).toHaveAttribute('data-rows', '2');
     expect(stub).toHaveTextContent('Rate 10');
+    expect(stub).toHaveTextContent('Rate 11');
   });
 });

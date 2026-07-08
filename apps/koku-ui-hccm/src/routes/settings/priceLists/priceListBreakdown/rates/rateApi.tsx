@@ -7,14 +7,14 @@ import {
   Pagination,
   PaginationVariant,
 } from '@patternfly/react-core';
-import type { PriceListData } from 'api/priceList';
+import type { PriceList, PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import type { Rate } from 'api/rates';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -31,31 +31,26 @@ import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { styles } from './rate.styles';
 import { RateTable } from './rateTable';
 import { RateToolbar } from './rateToolbar';
-import { getFilteredRates, getIndexedRates, getPaginatedRates } from './utils';
 
-interface RateDeprecatedOwnProps {
+interface RateApiOwnProps {
   canWrite?: boolean;
   onAdd?: (rates: Rate[]) => void;
   onDelete?: (rates: Rate[]) => void;
   onEdit?: (rates: Rate[]) => void;
+  priceList: PriceListData;
 }
 
-export interface RateDeprecatedMapProps {
-  pageNumber?: number;
-  perPage?: number;
-  paginatedPriceList?: PriceListData;
+export interface RateApiMapProps {
   query?: Query;
 }
 
-export interface RateDeprecatedStateProps {
-  priceList: PriceListData; // Price list without filters and pagination for editing
-  priceListError?: AxiosError;
-  priceListFetchStatus?: FetchStatus;
-  rates: Rate[]; // Filtered and paginated rates
-  ratesCount: number; // Total number of filtered (unpaginated) rates
+export interface RateApiStateProps {
+  priceListRates: PriceList;
+  priceListRatesError?: AxiosError;
+  priceListRatesFetchStatus?: FetchStatus;
 }
 
-type RateDeprecatedProps = RateDeprecatedOwnProps;
+type RateApiProps = RateApiOwnProps;
 
 const baseQuery: Query = {
   limit: 10,
@@ -66,38 +61,41 @@ const baseQuery: Query = {
   },
 };
 
-const RateDeprecated: React.FC<RateDeprecatedProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
+const RateApi: React.FC<RateApiProps> = ({ canWrite, onAdd, onEdit, onDelete, priceList }) => {
   const intl = useIntl();
 
-  const [pageNumber, setPageNumber] = useState(1);
-  const [perPage, setPerPage] = useState(baseQuery.limit);
   const [query, setQuery] = useState({ ...baseQuery });
 
-  const { priceList, priceListError, priceListFetchStatus, rates, ratesCount } = useMapToProps({
-    pageNumber,
-    perPage,
+  const { priceListRates, priceListRatesError, priceListRatesFetchStatus } = useMapToProps({
     query,
   });
 
   const hasFilters = Object.keys(query?.filter_by ?? {}).some(key => query.filter_by[key]?.length > 0);
-  const hasNoRates = rates?.length === 0 && !hasFilters;
-  const isLoading = priceListFetchStatus === FetchStatus.inProgress;
+  const hasNoRates = priceListRates?.data?.length === 0 && !hasFilters;
+  const isLoading = priceListRatesFetchStatus === FetchStatus.inProgress;
+
+  // Force update
+  const forceUpdate = useCallback(() => {
+    setQuery(prev => ({ ...prev }));
+  }, []);
 
   // Getters
 
   const getPagination = (isBottom = false) => {
-    const offset = pageNumber * perPage - perPage;
-    const page = Math.trunc(offset / perPage + 1);
+    const count = priceListRates?.meta ? priceListRates.meta.count : 0;
+    const limit = priceListRates?.meta?.limit ? priceListRates.meta.limit : baseQuery.limit;
+    const offset = priceListRates?.meta?.offset ? priceListRates.meta.offset : baseQuery.offset;
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
         isCompact={!isBottom}
         isDisabled={hasNoRates}
-        itemCount={ratesCount}
+        itemCount={count}
         onPerPageSelect={(_event, value) => handleOnPerPageSelect(value)}
         onSetPage={(_event, value) => handleOnSetPage(value)}
         page={page}
-        perPage={perPage}
+        perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
             title: intl.formatMessage(messages.openShift),
@@ -118,11 +116,11 @@ const RateDeprecated: React.FC<RateDeprecatedProps> = ({ canWrite, onAdd, onEdit
         isDisabled={hasNoRates}
         isLoading={isLoading}
         orderBy={query.order_by}
-        onDelete={onDelete}
-        onEdit={onEdit}
+        onDelete={handleOnDelete}
+        onEdit={handleOnEdit}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         priceList={priceList}
-        rates={rates}
+        rates={priceListRates?.data}
       />
     );
   };
@@ -132,7 +130,7 @@ const RateDeprecated: React.FC<RateDeprecatedProps> = ({ canWrite, onAdd, onEdit
       <RateToolbar
         canWrite={canWrite}
         isDisabled={hasNoRates}
-        onAdd={onAdd}
+        onAdd={handleOnAdd}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination()}
@@ -144,25 +142,39 @@ const RateDeprecated: React.FC<RateDeprecatedProps> = ({ canWrite, onAdd, onEdit
 
   // Handlers
 
+  const handleOnAdd = (rates: Rate[]) => {
+    forceUpdate();
+    onAdd?.(rates);
+  };
+
+  const handleOnEdit = (rates: Rate[]) => {
+    forceUpdate();
+    onEdit?.(rates);
+  };
+
+  const handleOnDelete = (rates: Rate[]) => {
+    forceUpdate();
+    onDelete?.(rates);
+  };
+
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
-    setPageNumber(1); // Reset pagination
   };
 
   const handleOnFilterRemoved = filter => {
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
-    setPageNumber(1); // Reset pagination
   };
 
-  const handleOnPerPageSelect = value => {
-    setPerPage(value);
-    setPageNumber(1); // Reset pagination
+  const handleOnPerPageSelect = perPage => {
+    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
+    setQuery(newQuery);
   };
 
-  const handleOnSetPage = value => {
-    setPageNumber(value);
+  const handleOnSetPage = pageNumber => {
+    const newQuery = queryUtils.handleOnSetPage(query, priceList, pageNumber, true);
+    setQuery(newQuery);
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
@@ -170,7 +182,7 @@ const RateDeprecated: React.FC<RateDeprecatedProps> = ({ canWrite, onAdd, onEdit
     setQuery(newQuery);
   };
 
-  if (priceListError) {
+  if (priceListRatesError) {
     return <NotAvailable />;
   }
   return (
@@ -215,46 +227,39 @@ const RateDeprecated: React.FC<RateDeprecatedProps> = ({ canWrite, onAdd, onEdit
   );
 };
 
-const useMapToProps = ({ pageNumber, perPage, query }: RateDeprecatedMapProps): RateDeprecatedStateProps => {
+const useMapToProps = ({ query }: RateApiMapProps): RateApiStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const { uuid } = useParams();
 
   // Todo: Update once we have a paginated API
-  const priceListQuery = {
-    // filter_by: query.filter_by,
-    // limit: query.limit,
-    // offset: query.offset,
-    // order_by: query.order_by,
+  const priceListRatesQuery = {
+    filter_by: query.filter_by,
+    limit: query.limit,
+    offset: query.offset,
+    order_by: query.order_by,
   };
-  const priceListQueryString = getQuery(priceListQuery);
-  const priceList = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceList(state, PriceListType.priceList, priceListQueryString)
-  ) as PriceListData;
-  const priceListError = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListError(state, PriceListType.priceList, priceListQueryString)
+  const priceListRatesQueryString = getQuery(priceListRatesQuery);
+  const priceListRates = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceList(state, PriceListType.priceListRates, priceListRatesQueryString)
+  ) as PriceList;
+  const priceListRatesError = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListError(state, PriceListType.priceListRates, priceListRatesQueryString)
   );
-  const priceListFetchStatus = useSelector((state: RootState) =>
-    priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceList, priceListQueryString)
+  const priceListRatesFetchStatus = useSelector((state: RootState) =>
+    priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceListRates, priceListRatesQueryString)
   );
 
   useEffect(() => {
-    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress && uuid) {
-      dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
+    if (!priceListRatesError && priceListRatesFetchStatus !== FetchStatus.inProgress && uuid) {
+      dispatch(priceListActions.fetchPriceList(PriceListType.priceListRates, uuid, priceListRatesQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, query, uuid]);
-
-  // Add index,labels, filter, and paginate
-  const indexedRates = getIndexedRates(priceList?.rates);
-  const filteredRates = getFilteredRates(indexedRates, query?.filter_by);
-  const paginatedRates = getPaginatedRates(filteredRates, pageNumber, perPage);
+  }, [dispatch, priceListRatesError, priceListRatesQueryString, query, uuid]);
 
   return {
-    priceList,
-    priceListError,
-    priceListFetchStatus,
-    rates: paginatedRates,
-    ratesCount: filteredRates?.length ?? 0,
+    priceListRates,
+    priceListRatesError,
+    priceListRatesFetchStatus,
   };
 };
 
-export { RateDeprecated };
+export { RateApi };
