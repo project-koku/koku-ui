@@ -119,9 +119,13 @@ Details: [`cypress/README.md`](cypress/README.md).
 
 ### Feature flags (Unleash stub)
 
-On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. All flags default to **off**.
+On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. When
+`ONPREM_UNLEASH_FLAGS` is unset, webpack and the stub enable the defaults from
+`DEFAULT_ONPREM_UNLEASH_FLAGS` (currently `cost-management.koku-ui-ros.box-plot`
+— COST-7658).
 
-To enable specific flags locally, set a comma-separated list before starting the dev server:
+To override (replace) the default list locally, set a comma-separated env before
+starting the dev server or building:
 
 ```
 export ONPREM_UNLEASH_FLAGS=some.flag.name,another.flag

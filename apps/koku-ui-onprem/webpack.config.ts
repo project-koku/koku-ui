@@ -11,6 +11,8 @@ import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
+import { resolveOnpremUnleashFlags } from '../../libs/onprem-cloud-deps/src/unleash/defaultFlags';
+
 const pacAgent = process.env.PAC_URL
   ? new PacProxyAgent(process.env.PAC_URL, { rejectUnauthorized: false })
   : undefined;
@@ -271,7 +273,9 @@ const config: Configuration & {
       ],
     }),
     new DefinePlugin({
-      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
+      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(
+        resolveOnpremUnleashFlags(process.env.ONPREM_UNLEASH_FLAGS)
+      ),
     }),
     new container.ModuleFederationPlugin({
       name: 'onprem',

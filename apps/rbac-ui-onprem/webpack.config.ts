@@ -7,6 +7,8 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin, NormalModuleReplacementPlugin } from 'webpack';
 
+import { resolveOnpremUnleashFlags } from '../../libs/onprem-cloud-deps/src/unleash/defaultFlags';
+
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
 const distDir = path.resolve(__dirname, './dist');
@@ -119,7 +121,9 @@ const config: Configuration = {
     }),
     new DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
+      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(
+        resolveOnpremUnleashFlags(process.env.ONPREM_UNLEASH_FLAGS)
+      ),
     }),
     ...insightsRbacModuleReplacements.map(
       ({ match, replacement }) => new NormalModuleReplacementPlugin(match, replacement)

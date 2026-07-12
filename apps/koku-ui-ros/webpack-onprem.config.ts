@@ -7,6 +7,8 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin } from 'webpack';
 
+import { resolveOnpremUnleashFlags } from '../../libs/onprem-cloud-deps/src/unleash/defaultFlags';
+
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
 const onpremDepsSrc = path.resolve(__dirname, '../../libs/onprem-cloud-deps/src');
@@ -114,7 +116,9 @@ const config: Configuration = {
     new DefinePlugin({
       'process.env.KOKU_UI_COMMITHASH': undefined,
       'process.env.KOKU_UI_PKGNAME': undefined,
-      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
+      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(
+        resolveOnpremUnleashFlags(process.env.ONPREM_UNLEASH_FLAGS)
+      ),
     }),
   ],
   resolve: {
