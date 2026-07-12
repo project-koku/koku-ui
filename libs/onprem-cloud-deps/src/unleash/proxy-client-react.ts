@@ -2,11 +2,19 @@ import type React from 'react';
 
 import { resolveOnpremUnleashFlags } from './defaultFlags';
 
+/**
+ * Read build-time / runtime Unleash flags.
+ *
+ * Webpack DefinePlugin replaces `process.env.ONPREM_UNLEASH_FLAGS` with a string
+ * literal. Do not gate on `typeof process === 'undefined'` — that skips the
+ * replaced expression in the browser and ignores custom build-time flags.
+ */
 const readUnleashFlagsEnv = (): string => {
-  if (typeof process === 'undefined') {
+  try {
+    return resolveOnpremUnleashFlags(process.env.ONPREM_UNLEASH_FLAGS);
+  } catch {
     return resolveOnpremUnleashFlags(undefined);
   }
-  return resolveOnpremUnleashFlags(process.env.ONPREM_UNLEASH_FLAGS);
 };
 
 const parseEnabledFlags = (): Set<string> => {

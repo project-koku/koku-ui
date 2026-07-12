@@ -10,8 +10,8 @@ Submit issues in [Jira].
 
 ## Requirements
 
-* [NodeJS v20.15+][nodejs]
-* [npm v10.8+][npm]
+* [NodeJS v22.20+][nodejs]
+* [npm v11.6+][npm]
 
 ## Getting Started
 

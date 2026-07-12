@@ -6,6 +6,10 @@
   "author": "Red Hat",
   "license": "Apache-2.0",
   "private": true,
+  "engines": {
+    "node": ">=22.20.0",
+    "npm": ">=11.6.2"
+  },
   "files": [
     "dist",
     "src"
