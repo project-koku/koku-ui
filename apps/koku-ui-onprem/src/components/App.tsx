@@ -1,6 +1,7 @@
 import { ScalprumProvider } from '@scalprum/react-core';
 import { FlagProvider } from '@unleash/proxy-client-react';
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import { BrowserRouter } from 'react-router-dom';
 
 import { IAM_BASENAME, isIamPath } from '#/data/routes';
@@ -49,14 +50,16 @@ const getBasename = (): string | undefined =>
 
 export const App: React.FC = () => {
   return (
-    <ScalprumProvider config={scalprumConfig} api={{}}>
-      <FlagProvider>
-        <BrowserRouter basename={getBasename()}>
-          <IamProvider>
-            <AppLayout />
-          </IamProvider>
-        </BrowserRouter>
-      </FlagProvider>
-    </ScalprumProvider>
+    <IntlProvider defaultLocale="en" locale="en">
+      <ScalprumProvider config={scalprumConfig} api={{}}>
+        <FlagProvider>
+          <BrowserRouter basename={getBasename()}>
+            <IamProvider>
+              <AppLayout />
+            </IamProvider>
+          </BrowserRouter>
+        </FlagProvider>
+      </ScalprumProvider>
+    </IntlProvider>
   );
 };
