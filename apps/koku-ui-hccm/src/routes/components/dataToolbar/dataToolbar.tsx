@@ -129,11 +129,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
     if (
       groupBy !== prevProps.groupBy ||
-      (categoryOptions && !isEqual(categoryOptions, prevProps.categoryOptions)) ||
-      (query && !isEqual(query, prevProps.query)) ||
-      (orgReport && !isEqual(orgReport, prevProps.orgReport)) ||
-      (resourceReport && !isEqual(resourceReport, prevProps.resourceReport)) ||
-      (tagReport && !isEqual(tagReport, prevProps.tagReport))
+      !isEqual(categoryOptions, prevProps.categoryOptions) ||
+      !isEqual(query, prevProps.query) ||
+      !isEqual(orgReport, prevProps.orgReport) ||
+      !isEqual(resourceReport, prevProps.resourceReport) ||
+      !isEqual(tagReport, prevProps.tagReport)
     ) {
       this.setState(() => {
         const filters = getActiveFilters(query);
@@ -305,6 +305,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       value,
     });
 
+    if (!(filter && filters)) {
+      return;
+    }
     this.setState(
       {
         filters,
@@ -449,11 +452,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
 
   private handleOnCustomSelect = (event, selection) => {
     const { onFilterAdded, onFilterRemoved } = this.props;
-    const { currentCategory, filters: currentFilters } = this.state;
+    const { currentCategory, currentCriteria, filters: currentFilters } = this.state;
 
     const checked = event.target.checked;
     const { filter, filters } = onCustomSelect({
       currentCategory,
+      currentCriteria: currentCriteria as CriteriaType,
       currentFilters,
       event,
       selection,
@@ -759,7 +763,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
       <div className={className} style={style}>
-        <Toolbar clearAllFilters={this.handleOnDelete as any} collapseListedFiltersBreakpoint="xl">
+        <Toolbar clearAllFilters={() => this.handleOnDelete(null, null)} collapseListedFiltersBreakpoint="xl">
           <ToolbarContent>
             {showBulkSelect && <ToolbarItem>{this.getBulkSelectComponent()}</ToolbarItem>}
             {showFilter && (

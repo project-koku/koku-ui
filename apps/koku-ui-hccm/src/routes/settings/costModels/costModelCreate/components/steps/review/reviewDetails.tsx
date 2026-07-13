@@ -1,6 +1,7 @@
 import { Alert, Content, ContentVariants, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
 import type { Provider } from 'api/providers';
+import { ProviderType } from 'api/providers';
 import type { AxiosError } from 'axios';
 import { useIsGpuToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
@@ -30,7 +31,7 @@ interface ReviewDetailsOwnProps {
   name?: string;
   priceLists?: PriceListData[];
   sources?: Provider[];
-  sourceType?: string;
+  sourceType?: ProviderType;
 }
 
 interface ReviewDetailsStateProps {
@@ -89,7 +90,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
               <Content component={ContentVariants.dd}>{description}</Content>
               <Content component={ContentVariants.dt}>{intl.formatMessage(messages.currency)}</Content>
               <Content component={ContentVariants.dd}>{getCurrencyLabel(currency)}</Content>
-              {sourceType === 'OCP' && (
+              {sourceType === ProviderType.ocp && (
                 <>
                   <Content component={ContentVariants.dt}>{intl.formatMessage(messages.assignedPriceLists)}</Content>
                   <Content component={ContentVariants.dd}>
@@ -109,7 +110,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
               <Content component={ContentVariants.dd}>
                 {intl.formatMessage(messages.percent, { value: isDiscount ? '-' + markup : markup })}
               </Content>
-              {sourceType === 'OCP' && (
+              {sourceType === ProviderType.ocp && (
                 <>
                   <Content component={ContentVariants.dt}>{intl.formatMessage(messages.costDistribution)}</Content>
                   <Content component={ContentVariants.dd}>

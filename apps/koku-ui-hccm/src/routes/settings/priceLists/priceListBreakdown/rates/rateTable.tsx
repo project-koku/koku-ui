@@ -42,9 +42,10 @@ const RateTable: React.FC<RateTableProps> = ({
   priceList,
   rates,
 }) => {
+  const intl = useIntl();
+
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
-  const intl = useIntl();
 
   const initDatum = () => {
     if (!rates) {
@@ -53,22 +54,31 @@ const RateTable: React.FC<RateTableProps> = ({
 
     const newRows = [];
     const computedItems = rates ?? [];
+    const isSortable = computedItems.length > 0;
 
     const newColumns = [
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'name' }),
+        orderBy: 'name',
       },
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'description' }),
       },
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'metric' }),
+        orderBy: 'metric_type',
       },
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'measurement' }),
+        orderBy: 'measurement',
       },
       {
+        isSortable,
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'cost_type' }),
+        orderBy: 'cost_type',
       },
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'rate' }),

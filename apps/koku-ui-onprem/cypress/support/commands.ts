@@ -74,6 +74,15 @@ const sourcesResponse = {
  * This is required for the federated modules to work properly.
  */
 Cypress.Commands.add('loadApiInterceptors', () => {
+  // Mock /api/me - required by UserMenu (fetchCurrentUser) and the chrome stub's getUser().
+  // Without this intercept the request falls through to WDS (which returns 404), and any
+  // caller that does not .catch() the rejection triggers an unhandled-rejection event that
+  // makes the WDS client overlay appear and blocks subsequent cy.click() calls.
+  cy.intercept('GET', '/api/me', {
+    statusCode: 200,
+    body: { username: 'dev-user', email: 'dev@example.com' },
+  }).as('getMe');
+
   // Mock user-access API - provides permissions for all resource types
   cy.intercept(
     {

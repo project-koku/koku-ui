@@ -8,6 +8,7 @@ import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
 import { getChips, getFilter, hasFilters } from './common';
+import type { CriteriaType } from './criteria';
 
 // Custom value select
 
@@ -16,6 +17,7 @@ export const getCustomSelect = ({
   currentCategory,
   filters,
   isDisabled,
+  isMultiSelect,
   onDelete,
   onSelect,
   selectClassName,
@@ -25,31 +27,42 @@ export const getCustomSelect = ({
   currentCategory?: string;
   filters?: Filters;
   isDisabled?: boolean;
+  isMultiSelect?: boolean;
   onDelete?: (type: any, chip: any) => void;
   onSelect?: (event: any, selection) => void;
   selectOptions?: ToolbarChipGroupExt[];
   selectClassName?: string;
 }) => {
+  if (!categoryOption) {
+    return null;
+  }
+
   // Todo: categoryName workaround for https://redhat.atlassian.net/browse/COST-2094
   const categoryName = {
     name: categoryOption.name,
     key: categoryOption.key,
   };
 
+  const categoryFilters = filters?.[categoryOption.key];
+  const filterArray = Array.isArray(categoryFilters) ? categoryFilters : [];
+  const options = selectOptions || categoryOption.selectOptions;
+
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      labels={getChips(filters[categoryOption.key] as Filter[])}
+      labels={getChips(filterArray, options)}
       deleteLabel={onDelete}
       key={`custom-select-${categoryOption.key}`}
       showToolbarItem={currentCategory === categoryOption.key}
     >
       <CustomSelect
         className={selectClassName}
-        filters={filters[categoryOption.key]}
+        filters={filterArray}
         isDisabled={isDisabled && !hasFilters(filters)}
+        isMultiSelect={isMultiSelect}
         onSelect={onSelect}
-        options={selectOptions}
+        options={options}
+        placeholderKey={categoryOption.placeholderKey}
       />
     </ToolbarFilter>
   );
@@ -57,19 +70,23 @@ export const getCustomSelect = ({
 
 export const onCustomSelect = ({
   currentCategory,
+  currentCriteria,
   currentFilters,
   event,
+  isMultiSelect = true,
   selection,
 }: {
   currentCategory?: string;
+  currentCriteria?: CriteriaType;
   currentFilters?: Filters;
   event?: any;
+  isMultiSelect?: boolean;
   selection: SelectWrapperOption;
 }) => {
-  const checked = event.target.checked;
+  const checked = isMultiSelect ? event?.target?.checked : true;
   let filter;
   if (checked) {
-    filter = getFilter(currentCategory, selection.value, false, selection.toString);
+    filter = getFilter(currentCategory, selection.value, currentCriteria, selection.toString);
   } else if (currentFilters[currentCategory]) {
     filter = (currentFilters[currentCategory] as Filter[]).find(item => item.value === selection.value);
   }
@@ -78,10 +95,15 @@ export const onCustomSelect = ({
 
   const result = {
     filter,
-    filters: {
-      ...currentFilters,
-      [currentCategory]: checked ? [...newFilters, filter] : newFilters.filter(item => item.value !== filter.value),
-    },
+    filters: !isMultiSelect
+      ? {
+          ...currentFilters,
+          [currentCategory]: checked ? [filter] : newFilters.filter(item => item.value !== filter.value),
+        }
+      : {
+          ...currentFilters,
+          [currentCategory]: checked ? [...newFilters, filter] : newFilters.filter(item => item.value !== filter.value),
+        },
   };
   return result;
 };

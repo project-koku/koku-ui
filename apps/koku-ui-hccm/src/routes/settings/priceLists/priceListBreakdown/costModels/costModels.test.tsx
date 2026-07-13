@@ -4,7 +4,12 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import type { PriceListData } from 'api/priceList';
+import { PriceListType } from 'api/priceList';
+import { getQuery } from 'api/queries/query';
 import { configureStore } from 'store/store';
+import { FetchStatus } from 'store/common';
+import { getFetchId, priceListStateKey } from 'store/priceLists/priceListCommon';
 
 import { CostModels } from './costModels';
 
@@ -16,19 +21,36 @@ jest.mock('./costModelsToolbar', () => ({
   CostModelsToolbar: () => <div data-testid="cost-models-toolbar" />,
 }));
 
-jest.mock('api/priceList', () => {
-  const actual = jest.requireActual('api/priceList');
-  return { __esModule: true, ...actual, fetchPriceList: jest.fn() };
+jest.mock('store/priceLists', () => {
+  const actual = jest.requireActual('store/priceLists');
+  return {
+    ...actual,
+    priceListActions: {
+      ...actual.priceListActions,
+      fetchPriceList: jest.fn(() => () => undefined),
+    },
+  };
 });
-
-import * as api from 'api/priceList';
 
 const consoleWarn = console.warn;
 
+const priceListQueryString = getQuery({});
+const priceListFetchId = getFetchId(PriceListType.priceList, priceListQueryString);
+
+const buildPreloadedState = (priceListData: Partial<PriceListData>, error?: Error) =>
+  ({
+    [priceListStateKey]: {
+      byId: new Map([[priceListFetchId, priceListData]]),
+      errors: new Map([[priceListFetchId, error ?? null]]),
+      status: new Map([[priceListFetchId, FetchStatus.complete]]),
+      notification: new Map(),
+    },
+  }) as any;
+
 describe('CostModels', () => {
-  const renderView = () =>
+  const renderView = (preloadedState: object) =>
     render(
-      <Provider store={configureStore({} as any)}>
+      <Provider store={configureStore(preloadedState)}>
         <IntlProvider defaultLocale="en" locale="en">
           <MemoryRouter initialEntries={['/settings/price-list/pl-cm']}>
             <Routes>
@@ -52,39 +74,27 @@ describe('CostModels', () => {
     jest.restoreAllMocks();
   });
 
-  beforeEach(() => {
-    (api.fetchPriceList as jest.Mock).mockReset();
-  });
-
   test('shows NotAvailable when fetch fails', async () => {
-    (api.fetchPriceList as jest.Mock).mockRejectedValue(new Error('network'));
-    renderView();
+    renderView(buildPreloadedState({}, new Error('network')));
     await waitFor(() => expect(screen.getByText(/temporarily unavailable/i)).toBeInTheDocument());
   });
 
   test('shows empty state when no cost models assigned', async () => {
-    (api.fetchPriceList as jest.Mock).mockResolvedValue({
-      data: {
-        meta: { count: 0 },
-        assigned_cost_model_count: 0,
-        rates: [],
-      },
-    });
-    renderView();
+    renderView(buildPreloadedState({ assigned_cost_models: [], meta: { count: 0 } }));
     await waitFor(() => expect(screen.getByRole('button', { name: /go to cost models/i })).toBeInTheDocument());
   });
 
   test('shows table when cost models are assigned', async () => {
-    (api.fetchPriceList as jest.Mock).mockResolvedValue({
-      data: {
+    renderView(
+      buildPreloadedState({
+        assigned_cost_models: [
+          { name: 'Cost model A', uuid: 'cm-a' },
+          { name: 'Cost model B', uuid: 'cm-b' },
+        ],
         meta: { count: 2 },
-        assigned_cost_model_count: 2,
-        rates: [{}, {}],
-      },
-    });
-    renderView();
+      })
+    );
     await waitFor(() => expect(screen.getByTestId('cost-models-table')).toBeInTheDocument());
     expect(screen.getByTestId('cost-models-toolbar')).toBeInTheDocument();
   });
-
 });

@@ -32,8 +32,7 @@ const useNotification = ({ error, isNotificationEnabled = true, notification, st
 
 export const useCostModelAddNotification = (isNotificationEnabled: boolean) => {
   const error = useSelector((state: RootState) => costModelsSelectors.selectCostModelsAddError(state)) as
-    | AxiosError
-    | undefined;
+    AxiosError | undefined;
   const notification = useSelector((state: RootState) => costModelsSelectors.selectCostModelsAddNotification(state));
   const status = useSelector((state: RootState) => costModelsSelectors.selectCostModelsAddStatus(state));
 
@@ -42,8 +41,7 @@ export const useCostModelAddNotification = (isNotificationEnabled: boolean) => {
 
 export const useCostModelDeleteNotification = (isNotificationEnabled: boolean) => {
   const error = useSelector((state: RootState) => costModelsSelectors.selectCostModelsDeleteError(state)) as
-    | AxiosError
-    | undefined;
+    AxiosError | undefined;
   const notification = useSelector((state: RootState) => costModelsSelectors.selectCostModelsDeleteNotification(state));
   const status = useSelector((state: RootState) => costModelsSelectors.selectCostModelsDeleteStatus(state));
 
@@ -52,8 +50,7 @@ export const useCostModelDeleteNotification = (isNotificationEnabled: boolean) =
 
 export const useCostModelUpdateNotification = (isNotificationEnabled: boolean) => {
   const error = useSelector((state: RootState) => costModelsSelectors.selectCostModelsUpdateError(state)) as
-    | AxiosError
-    | undefined;
+    AxiosError | undefined;
   const notification = useSelector((state: RootState) => costModelsSelectors.selectCostModelsUpdateNotification(state));
   const status = useSelector((state: RootState) => costModelsSelectors.selectCostModelsUpdateStatus(state));
 

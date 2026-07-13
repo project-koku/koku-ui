@@ -345,7 +345,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
         <PageSection style={styles.headerContainer}>
           <BreakdownHeader
             breadcrumbLabel={breadcrumbLabel}
-            breadcrumbPath={router?.location?.state?.[queryStateName]?.breadcrumbPath || breadcrumbPath}
+            breadcrumbPath={breadcrumbPath}
             clusterInfoComponent={clusterInfoComponent}
             costDistribution={costDistribution}
             costType={costType}

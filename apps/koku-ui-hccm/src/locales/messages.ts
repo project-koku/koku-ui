@@ -1184,6 +1184,12 @@ export default defineMessages({
     description: 'Usage cost on the day you are charged',
     id: 'costTypeUnblendedDesc',
   },
+  costTypeValues: {
+    defaultMessage:
+      '{value, select, ' + 'infrastructure {Infrastructure} ' + 'supplementary {Supplementary} ' + 'other {}}',
+    description: 'Cost type values',
+    id: 'costTypeValues',
+  },
   cpuEfficiency: {
     defaultMessage: 'CPU workload efficiency',
     description: 'CPU workload efficiency',
@@ -2537,6 +2543,7 @@ export default defineMessages({
       'account {Account} ' +
       'aws_category {Cost category} ' +
       'cluster {Cluster} ' +
+      'cost_type {Cost type} ' +
       'container {Container} ' +
       'currency {Currency} ' +
       'default {Default} ' +
@@ -2546,6 +2553,7 @@ export default defineMessages({
       'gpu_vendor {GPU vendor} ' +
       'group {Group} ' +
       'instance {Instance} ' +
+      'measurement {Measurement} ' +
       'metric {Metric} ' +
       'name {Name} ' +
       'node {Node} ' +
@@ -2977,7 +2985,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'count {{count, plural, one {Count} other {Count ({units})}}} ' +
-      'effective_usage {{count, plural, one {Request} other {Effective-usage ({units})}}} ' +
+      'effective_usage {{count, plural, one {Effective-usage} other {Effective-usage ({units})}}} ' +
       'request {{count, plural, one {Request} other {Request ({units})}}} ' +
       'usage {{count, plural, one {Usage} other {Usage ({units})}}} ' +
       'other {}}',
@@ -3324,9 +3332,14 @@ export default defineMessages({
     id: 'notAuthorizedStateAzure',
   },
   notAuthorizedStateCostModels: {
-    defaultMessage: 'Cost models in cost management',
-    description: 'Cost models in cost management',
+    defaultMessage: 'cost models in cost management',
+    description: 'cost models in cost management',
     id: 'notAuthorizedStateCostModels',
+  },
+  notAuthorizedStatePriceLists: {
+    defaultMessage: 'price lists in cost management',
+    description: 'price lists in cost management',
+    id: 'notAuthorizedStatePriceLists',
   },
   notAuthorizedStateGcp: {
     defaultMessage: 'Google Cloud in cost management',
@@ -3344,8 +3357,8 @@ export default defineMessages({
     id: 'notAuthorizedStateOptimizations',
   },
   notAuthorizedStateSettings: {
-    defaultMessage: 'Settings in cost management',
-    description: 'Settings in cost management',
+    defaultMessage: 'settings in cost management',
+    description: 'settings in cost management',
     id: 'notAuthorizedStateSettings',
   },
   notAvailable: {

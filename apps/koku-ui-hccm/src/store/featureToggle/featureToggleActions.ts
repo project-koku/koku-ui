@@ -12,6 +12,7 @@ export interface FeatureToggleActionMeta {
   isNamespaceToggleEnabled?: boolean;
   isOrgAdmin?: boolean;
   isPriceListToggleEnabled?: boolean;
+  isPriceListRatesToggleEnabled?: boolean;
   isSystemsToggleEnabled?: boolean;
   isWastedCostToggleEnabled?: boolean;
 }

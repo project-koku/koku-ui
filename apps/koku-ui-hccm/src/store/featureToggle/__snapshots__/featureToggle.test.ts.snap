@@ -12,6 +12,7 @@ exports[`default state 1`] = `
   "isMigToggleEnabled": false,
   "isNamespaceToggleEnabled": false,
   "isOrgAdmin": false,
+  "isPriceListRatesToggleEnabled": false,
   "isPriceListToggleEnabled": false,
   "isSystemsToggleEnabled": false,
   "isWastedCostToggleEnabled": false,
