@@ -10,8 +10,8 @@ Submit issues in [Jira].
 
 ## Requirements
 
-* [NodeJS v20.15+][nodejs]
-* [npm v10.8+][npm]
+* [NodeJS v22.20+][nodejs]
+* [npm v11.6+][npm]
 
 ## Getting Started
 
@@ -119,9 +119,14 @@ Details: [`cypress/README.md`](cypress/README.md).
 
 ### Feature flags (Unleash stub)
 
-On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. All flags default to **off**.
+On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. Flags
+default to **off**, except ROS on-prem webpack defaults
+`cost-management.koku-ui-ros.box-plot` so Optimizations utilization charts render
+(COST-7658). That default lives only in
+`apps/koku-ui-ros/webpack-onprem.config.ts`.
 
-To enable specific flags locally, set a comma-separated list before starting the dev server:
+To override (replace) the flag list for a build or local server, set a
+comma-separated env before starting:
 
 ```
 export ONPREM_UNLEASH_FLAGS=some.flag.name,another.flag
