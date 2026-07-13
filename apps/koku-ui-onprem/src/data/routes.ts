@@ -21,9 +21,9 @@ export const costRoutes: NavRoute[] = [
 ];
 
 export const iamRoutes: NavRoute[] = [
-  { path: `${IAM_BASENAME}/user-access/overview`, title: 'Overview' },
-  { path: `${IAM_BASENAME}/my-user-access`, title: 'My User Access' },
   { path: `${IAM_BASENAME}/user-access/users`, title: 'Users' },
   { path: `${IAM_BASENAME}/user-access/roles`, title: 'Roles' },
   { path: `${IAM_BASENAME}/user-access/groups`, title: 'Groups' },
 ];
+
+export const MY_USER_ACCESS_PATH = `${IAM_BASENAME}/my-user-access?bundle=openshift`;
