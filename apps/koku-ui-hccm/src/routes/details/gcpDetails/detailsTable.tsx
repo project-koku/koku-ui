@@ -145,6 +145,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         <Link
           to={getBreakdownPath({
             basePath: formatPath(routes.gcpBreakdown.path),
+            breadcrumbPath,
             description: item.id,
             groupBy,
             id: item.id,
@@ -154,7 +155,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             ...(router?.location?.state || {}),
             detailsState: {
               ...(query || {}),
-              breadcrumbPath,
             },
           }}
         >

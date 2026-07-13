@@ -6,6 +6,7 @@ import { getQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { type UserAccess, UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
+import { useIsPriceListRatesToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { type RefObject, useCallback, useState } from 'react';
 import { useEffect } from 'react';
@@ -23,12 +24,12 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModels } from './costModels';
 import { styles } from './priceListBreakdown.styles';
 import { PriceListBreakdownHeader } from './priceListBreakdownHeader';
-import { Rate } from './rates';
+import { Rate, RateApi } from './rates';
 
 interface AvailableTab {
   contentRef: RefObject<any>;
@@ -44,6 +45,7 @@ export interface PriceListBreakdownMapProps {
 }
 
 export interface PriceListBreakdownStateProps {
+  isPriceListRatesToggleEnabled?: boolean;
   priceList?: PriceListData;
   priceListError?: AxiosError;
   priceListFetchStatus?: FetchStatus;
@@ -82,14 +84,22 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [query, setQuery] = useState<Query>({ ...baseQuery });
 
-  const { priceList, priceListError, priceListFetchStatus, userAccess, userAccessFetchStatus } = useMapToProps({
+  const {
+    isPriceListRatesToggleEnabled,
+    priceList,
+    priceListError,
+    priceListFetchStatus,
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+  } = useMapToProps({
     query,
   });
 
   const isLoading = priceListFetchStatus === FetchStatus.inProgress;
 
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Force update
@@ -149,7 +159,17 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     if (currentTab === PriceListBreakdownTab.costModels) {
       return <CostModels />;
     } else if (currentTab === PriceListBreakdownTab.rates) {
-      return <Rate canWrite={canWrite()} onAdd={forceUpdate} onDelete={forceUpdate} onEdit={handleOnEdit} />;
+      return isPriceListRatesToggleEnabled ? (
+        <RateApi
+          canWrite={canWrite()}
+          onAdd={forceUpdate}
+          onDelete={forceUpdate}
+          onEdit={handleOnEdit}
+          priceList={priceList}
+        />
+      ) : (
+        <Rate canWrite={canWrite()} onAdd={forceUpdate} onDelete={forceUpdate} onEdit={handleOnEdit} />
+      );
     } else {
       return emptyTab;
     }
@@ -202,7 +222,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
 
   const availableTabs = getAvailableTabs();
 
-  if (userAccessFetchStatus === FetchStatus.inProgress) {
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
     return (
       <LoadingState
         body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
@@ -277,6 +297,7 @@ const useMapToProps = ({ query }: PriceListBreakdownMapProps): PriceListBreakdow
   usePriceListNotifications();
 
   return {
+    isPriceListRatesToggleEnabled: useIsPriceListRatesToggleEnabled(),
     priceList,
     priceListError,
     priceListFetchStatus,

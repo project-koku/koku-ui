@@ -95,10 +95,20 @@ export default defineMessages({
     description: 'Current configuration',
     id: 'currentConfiguration',
   },
+  criteriaValues: {
+    defaultMessage: '{value, select, ' + 'exact {exact} ' + 'exclude {excludes} ' + 'include {includes} ' + 'other {}}',
+    description: 'Exclude filter values',
+    id: 'criteriaValues',
+  },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
     description: 'Details table',
     id: 'dataTableAriaLabel',
+  },
+  detailsColumnManagementTitle: {
+    defaultMessage: 'Manage columns',
+    description: 'Manage columns',
+    id: 'detailsColumnManagementTitle',
   },
   detailsEmptyState: {
     defaultMessage: 'Processing data to generate a list of all services that sums to a total cost...',
@@ -140,6 +150,11 @@ export default defineMessages({
     defaultMessage: 'Oops!',
     description: 'Oops!',
     id: 'errorStateUnexpectedTitle',
+  },
+  exactLabel: {
+    defaultMessage: 'Exact: {value}',
+    description: 'Exact filter label',
+    id: 'exactLabel',
   },
   excludeLabel: {
     defaultMessage: 'Excludes: {value}',
@@ -282,6 +297,11 @@ export default defineMessages({
     defaultMessage: 'Memory utilization',
     description: 'Memory utilization',
     id: 'memoryUtilization',
+  },
+  moreOptions: {
+    defaultMessage: 'More options',
+    description: 'More options',
+    id: 'moreOptions',
   },
   names: {
     defaultMessage: '{count, plural, one {Name} other {Names}}',
@@ -546,6 +566,11 @@ export default defineMessages({
     description: 'Perspective values',
     id: 'perspectiveValues',
   },
+  readOnlyPermissions: {
+    defaultMessage: 'You have read only permissions',
+    description: 'You have read only permissions',
+    id: 'readOnlyPermissions',
+  },
   recommendedConfiguration: {
     defaultMessage: 'Recommended configuration',
     description: 'Recommended configuration',
@@ -581,6 +606,11 @@ export default defineMessages({
     description: 'Selectable table row',
     id: 'selectableTableRowAriaLabel',
   },
+  selected: {
+    defaultMessage: '{value} selected',
+    description: '{value} selected',
+    id: 'selected',
+  },
   settingsErrorDesc: {
     defaultMessage: 'Failed to update settings',
     description: 'Failed to update settings',
@@ -610,6 +640,31 @@ export default defineMessages({
     defaultMessage: 'Suggestions',
     description: 'Suggestions',
     id: 'suggestions',
+  },
+  toolBarBulkSelectAll: {
+    defaultMessage: 'Select all ({value} items)',
+    description: 'Select all ({value} items)',
+    id: 'toolBarBulkSelectAll',
+  },
+  toolBarBulkSelectAriaDeselect: {
+    defaultMessage: 'Deselect all items',
+    description: 'Deselect all items',
+    id: 'toolBarBulkSelectAriaDeselect',
+  },
+  toolBarBulkSelectAriaSelect: {
+    defaultMessage: 'Select all items',
+    description: 'Select all items',
+    id: 'toolBarBulkSelectAriaSelect',
+  },
+  toolBarBulkSelectNone: {
+    defaultMessage: 'Select none (0 items)',
+    description: 'Select none (0 items)',
+    id: 'toolBarBulkSelectNone',
+  },
+  toolBarBulkSelectPage: {
+    defaultMessage: 'Select page ({value} items)',
+    description: 'Select page ({value} items)',
+    id: 'toolBarBulkSelectPage',
   },
   typeaheadAriaClear: {
     defaultMessage: 'Clear button and input',

@@ -8,6 +8,7 @@ import type { Filter } from 'routes/utils/filter';
 
 import type { Filters } from './common';
 import { getChips, getFilter, hasFilters } from './common';
+import type { CriteriaType } from './criteria';
 
 // Custom value select
 
@@ -32,27 +33,35 @@ export const getCustomSelect = ({
   selectOptions?: ToolbarChipGroupExt[];
   selectClassName?: string;
 }) => {
+  if (!categoryOption) {
+    return null;
+  }
+
   // Todo: categoryName workaround for https://redhat.atlassian.net/browse/COST-2094
   const categoryName = {
     name: categoryOption.name,
     key: categoryOption.key,
   };
 
+  const categoryFilters = filters?.[categoryOption.key];
+  const filterArray = Array.isArray(categoryFilters) ? categoryFilters : [];
+  const options = selectOptions || categoryOption.selectOptions;
+
   return (
     <ToolbarFilter
       categoryName={categoryName}
-      labels={getChips(filters[categoryOption.key] as Filter[])}
+      labels={getChips(filterArray, options)}
       deleteLabel={onDelete}
       key={`custom-select-${categoryOption.key}`}
       showToolbarItem={currentCategory === categoryOption.key}
     >
       <CustomSelect
         className={selectClassName}
-        filters={filters[categoryOption.key] as Filter[]}
+        filters={filterArray}
         isDisabled={isDisabled && !hasFilters(filters)}
         isMultiSelect={isMultiSelect}
         onSelect={onSelect}
-        options={selectOptions}
+        options={options}
         placeholderKey={categoryOption.placeholderKey}
       />
     </ToolbarFilter>
@@ -61,12 +70,14 @@ export const getCustomSelect = ({
 
 export const onCustomSelect = ({
   currentCategory,
+  currentCriteria,
   currentFilters,
   event,
   isMultiSelect = true,
   selection,
 }: {
   currentCategory?: string;
+  currentCriteria?: CriteriaType;
   currentFilters?: Filters;
   event?: any;
   isMultiSelect?: boolean;
@@ -75,7 +86,7 @@ export const onCustomSelect = ({
   const checked = isMultiSelect ? event?.target?.checked : true;
   let filter;
   if (checked) {
-    filter = getFilter(currentCategory, selection.value, false, selection.toString);
+    filter = getFilter(currentCategory, selection.value, currentCriteria, selection.toString);
   } else if (currentFilters[currentCategory]) {
     filter = (currentFilters[currentCategory] as Filter[]).find(item => item.value === selection.value);
   }

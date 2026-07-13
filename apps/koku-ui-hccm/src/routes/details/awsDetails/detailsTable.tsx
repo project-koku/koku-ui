@@ -174,6 +174,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
         <Link
           to={getOrgBreakdownPath({
             basePath: formatPath(routes.awsBreakdown.path),
+            breadcrumbPath,
             description: item.id,
             groupBy,
             groupByOrg,
@@ -185,7 +186,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             ...(router?.location?.state || {}),
             detailsState: {
               ...(query || {}),
-              breadcrumbPath,
             },
           }}
         >

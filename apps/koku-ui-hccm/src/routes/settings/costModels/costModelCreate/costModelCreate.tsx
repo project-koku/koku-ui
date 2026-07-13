@@ -13,12 +13,13 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from 'routes';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { CostModelWizard } from './components/create';
 import { styles } from './costModelCreate.styles';
@@ -48,10 +49,11 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
   const [priceList, setPriceList] = useState<PriceListData>({});
   const [rates] = useState<Rate[]>([]);
 
-  const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessFetchStatus } = useMapToProps();
+  const { priceListUpdateStatus, priceListUpdateError, userAccess, userAccessError, userAccessFetchStatus } =
+    useMapToProps();
 
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Handlers
@@ -87,17 +89,22 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
     }
   }, [isFinish, priceListUpdateError, priceListUpdateStatus]);
 
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+        heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+      />
+    );
+  }
+  if (!canWrite()) {
+    return <NotAuthorized pathname={formatPath(routes.costModelCreate.path)} />;
+  }
   return (
     <>
       <PageSection style={styles.headerContainer}>
         <header>
           <CostModelCreateHeader />
-          {userAccessFetchStatus === FetchStatus.inProgress && (
-            <LoadingState
-              body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
-              heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
-            />
-          )}
         </header>
       </PageSection>
       <PageSection className="wizardOverride" type="wizard">

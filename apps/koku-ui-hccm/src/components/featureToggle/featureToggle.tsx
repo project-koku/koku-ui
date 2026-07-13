@@ -20,6 +20,7 @@ export const enum FeatureToggle {
   mig = 'cost-management.koku-ui-hccm.mig', // Cost of MIG support https://redhat.atlassian.net/browse/COST-7239
   namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
   priceList = 'cost-management.koku-ui-hccm.price-list', // Life cycle of price list https://redhat.atlassian.net/browse/COST-7330
+  priceListRates = 'cost-management.koku-ui-hccm.price-list-rates', // Price list rates API https://redhat.atlassian.net/browse/COST-7786
   systems = 'cost-management.koku-ui-hccm.systems', // Systems https://redhat.atlassian.net/browse/COST-5718
   wastedCost = 'cost-management.koku-ui-hccm.wasted-cost', // Wasted cost https://redhat.atlassian.net/browse/COST-7460
 }
@@ -90,6 +91,10 @@ export const useIsPriceListToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.priceList);
 };
 
+export const useIsPriceListRatesToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggle.priceListRates);
+};
+
 export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.systems);
 };
@@ -113,6 +118,7 @@ export const useFeatureToggle = () => {
   const isMigToggleEnabled = useIsMigToggleEnabled();
   const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
+  const isPriceListRatesToggleEnabled = useIsPriceListRatesToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
   const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
@@ -140,6 +146,7 @@ export const useFeatureToggle = () => {
         isNamespaceToggleEnabled,
         isOrgAdmin,
         isPriceListToggleEnabled,
+        isPriceListRatesToggleEnabled,
         isSystemsToggleEnabled,
         isWastedCostToggleEnabled,
       })
@@ -160,6 +167,7 @@ export const useFeatureToggle = () => {
     isNamespaceToggleEnabled,
     isOrgAdmin,
     isPriceListToggleEnabled,
+    isPriceListRatesToggleEnabled,
     isSystemsToggleEnabled,
     isWastedCostToggleEnabled,
   ]);

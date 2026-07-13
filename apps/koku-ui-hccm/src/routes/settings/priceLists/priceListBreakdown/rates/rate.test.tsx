@@ -4,26 +4,17 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import type { PriceListData } from 'api/priceList';
+import { PriceListType } from 'api/priceList';
+import { getQuery } from 'api/queries/query';
 import { configureStore } from 'store/store';
+import { FetchStatus } from 'store/common';
+import { getFetchId, priceListStateKey } from 'store/priceLists/priceListCommon';
 
 import { Rate } from './rate';
 
 const consoleWarn = console.warn;
 const consoleError = console.error;
-
-jest.mock('routes/settings/priceLists/utils', () => {
-  const actual = jest.requireActual('routes/settings/priceLists/utils');
-  const { FetchStatus } = require('store/common');
-  return {
-    ...actual,
-    usePriceListUpdate: () => ({
-      error: undefined,
-      notification: null,
-      // Rates waits to fetch until update flow is idle; `complete` blocks dispatch.
-      status: FetchStatus.none,
-    }),
-  };
-});
 
 jest.mock('./rateTable', () => ({
   RateTable: ({
@@ -51,18 +42,18 @@ jest.mock('./rateTable', () => ({
 
 jest.mock('./rateToolbar', () => ({
   RateToolbar: ({
-    onAddRate,
+    onAdd,
     onFilterAdded,
     onFilterRemoved,
     pagination,
   }: {
-    onAddRate?: () => void;
+    onAdd?: () => void;
     onFilterAdded?: (f: { type?: string; value?: string }) => void;
     onFilterRemoved?: (f: { type?: string; value?: string }) => void;
     pagination?: React.ReactNode;
   }) => (
     <div data-testid="rate-toolbar">
-      <button type="button" onClick={() => onAddRate?.()}>
+      <button type="button" onClick={() => onAdd?.()}>
         stub-add-rate
       </button>
       <button type="button" onClick={() => onFilterAdded?.({ type: 'name', value: 'n' })}>
@@ -76,12 +67,42 @@ jest.mock('./rateToolbar', () => ({
   ),
 }));
 
-jest.mock('api/priceList', () => {
-  const actual = jest.requireActual('api/priceList');
-  return { __esModule: true, ...actual, fetchPriceList: jest.fn() };
+jest.mock('store/priceLists', () => {
+  const actual = jest.requireActual('store/priceLists');
+  return {
+    ...actual,
+    priceListActions: {
+      ...actual.priceListActions,
+      fetchPriceList: jest.fn(() => () => undefined),
+    },
+  };
 });
 
-import * as api from 'api/priceList';
+const priceListQueryString = getQuery({});
+const priceListFetchId = getFetchId(PriceListType.priceList, priceListQueryString);
+
+const buildPreloadedState = (priceListData: Partial<PriceListData>, error?: Error) =>
+  ({
+    [priceListStateKey]: {
+      byId: new Map([[priceListFetchId, priceListData]]),
+      errors: new Map([[priceListFetchId, error ?? null]]),
+      status: new Map([[priceListFetchId, FetchStatus.complete]]),
+      notification: new Map(),
+    },
+  }) as any;
+
+const renderRate = (preloadedState: object) =>
+  render(
+    <Provider store={configureStore(preloadedState)}>
+      <IntlProvider defaultLocale="en" locale="en">
+        <MemoryRouter initialEntries={['/settings/price-list/pl-1']}>
+          <Routes>
+            <Route path="/settings/price-list/:uuid" element={<Rate canWrite />} />
+          </Routes>
+        </MemoryRouter>
+      </IntlProvider>
+    </Provider>
+  );
 
 describe('Rate', () => {
   beforeAll(() => {
@@ -103,53 +124,22 @@ describe('Rate', () => {
     jest.restoreAllMocks();
   });
 
-  beforeEach(() => {
-    (api.fetchPriceList as jest.Mock).mockReset();
-  });
-
   test('shows NotAvailable when fetch fails', async () => {
-    (api.fetchPriceList as jest.Mock).mockRejectedValue(new Error('network'));
-    render(
-      <Provider store={configureStore({} as any)}>
-        <IntlProvider defaultLocale="en" locale="en">
-          <MemoryRouter initialEntries={['/settings/price-list/pl-1']}>
-            <Routes>
-              <Route path="/settings/price-list/:uuid" element={<Rate canWrite />} />
-            </Routes>
-          </MemoryRouter>
-        </IntlProvider>
-      </Provider>
-    );
+    renderRate(buildPreloadedState({ rates: [] }, new Error('network')));
     expect(await screen.findByText(/temporarily unavailable/i)).toBeInTheDocument();
   });
 
   test('shows empty state when price list has no rates', async () => {
-    (api.fetchPriceList as jest.Mock).mockResolvedValue({
-      data: {
-        meta: { count: 0, limit: 10, offset: 0 },
-        data: [],
-        rates: [],
-      },
-    });
-    render(
-      <Provider store={configureStore({} as any)}>
-        <IntlProvider defaultLocale="en" locale="en">
-          <MemoryRouter initialEntries={['/settings/price-list/pl-empty']}>
-            <Routes>
-              <Route path="/settings/price-list/:uuid" element={<Rate canWrite />} />
-            </Routes>
-          </MemoryRouter>
-        </IntlProvider>
-      </Provider>
-    );
+    renderRate(buildPreloadedState({ currency: 'USD', rates: [] }));
     expect(await screen.findByText(/no rates added yet/i)).toBeInTheDocument();
   });
 
   test('renders table when rates exist', async () => {
-    (api.fetchPriceList as jest.Mock).mockResolvedValue({
-      data: {
-        meta: { count: 1, limit: 10, offset: 0 },
-        data: [],
+    renderRate(
+      buildPreloadedState({
+        currency: 'USD',
+        uuid: 'pl-1',
+        name: 'Test PL',
         rates: [
           {
             cost_type: 'Infrastructure',
@@ -158,28 +148,18 @@ describe('Rate', () => {
             tiered_rates: [{ unit: 'USD', value: 1 }],
           },
         ],
-      },
-    });
-    render(
-      <Provider store={configureStore({} as any)}>
-        <IntlProvider defaultLocale="en" locale="en">
-          <MemoryRouter initialEntries={['/settings/price-list/pl-rates']}>
-            <Routes>
-              <Route path="/settings/price-list/:uuid" element={<Rate canWrite />} />
-            </Routes>
-          </MemoryRouter>
-        </IntlProvider>
-      </Provider>
+      })
     );
     expect(await screen.findByTestId('rate-table')).toBeInTheDocument();
     expect(screen.getByTestId('rate-toolbar')).toBeInTheDocument();
   });
 
   test('toolbar wiring invokes add-rate and filter handlers (toolbar renders while list loads)', async () => {
-    (api.fetchPriceList as jest.Mock).mockResolvedValue({
-      data: {
-        meta: { count: 1, limit: 10, offset: 0 },
-        data: [],
+    renderRate(
+      buildPreloadedState({
+        currency: 'USD',
+        uuid: 'pl-1',
+        name: 'Test PL',
         rates: [
           {
             cost_type: 'Infrastructure',
@@ -188,18 +168,7 @@ describe('Rate', () => {
             tiered_rates: [{ unit: 'USD', value: 1 }],
           },
         ],
-      },
-    });
-    render(
-      <Provider store={configureStore({} as any)}>
-        <IntlProvider defaultLocale="en" locale="en">
-          <MemoryRouter initialEntries={['/settings/price-list/pl-rates']}>
-            <Routes>
-              <Route path="/settings/price-list/:uuid" element={<Rate canWrite />} />
-            </Routes>
-          </MemoryRouter>
-        </IntlProvider>
-      </Provider>
+      })
     );
     expect(await screen.findByTestId('rate-table')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /stub-add-rate/i }));
