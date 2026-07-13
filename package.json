@@ -95,9 +95,11 @@
     "prettier": "^3.9.5",
     "rimraf": "^6.1.3",
     "swc_mut_cjs_exports": "^10.7.0",
-    "ts-jest": "^29.4.11"
+    "ts-jest": "^29.4.11",
+    "webpack": "5.108.4"
   },
   "overrides": {
-    "eslint": "^10.7.0"
+    "eslint": "^10.7.0",
+    "webpack": "5.108.4"
   }
 }
