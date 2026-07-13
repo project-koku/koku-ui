@@ -1,7 +1,5 @@
 import type React from 'react';
 
-import { resolveOnpremUnleashFlags } from './defaultFlags';
-
 /**
  * Read build-time / runtime Unleash flags.
  *
@@ -11,9 +9,9 @@ import { resolveOnpremUnleashFlags } from './defaultFlags';
  */
 const readUnleashFlagsEnv = (): string => {
   try {
-    return resolveOnpremUnleashFlags(process.env.ONPREM_UNLEASH_FLAGS);
+    return process.env.ONPREM_UNLEASH_FLAGS ?? '';
   } catch {
-    return resolveOnpremUnleashFlags(undefined);
+    return '';
   }
 };
 
@@ -46,9 +44,7 @@ export const useUnleashClient = () => ({
   isEnabled: (feature: string) => getEnabledFlags().has(feature),
 });
 
-/** On-prem: defaults from `DEFAULT_ONPREM_UNLEASH_FLAGS`; override via `ONPREM_UNLEASH_FLAGS`. */
+/** POC default: flags off unless listed in `ONPREM_UNLEASH_FLAGS` (comma-separated). */
 export const useFlag = (feature: string) => getEnabledFlags().has(feature);
 
 export const FlagProvider = ({ children }: { children: React.ReactNode }) => children;
-
-export { BOX_PLOT_FLAG, DEFAULT_ONPREM_UNLEASH_FLAGS, resolveOnpremUnleashFlags } from './defaultFlags';

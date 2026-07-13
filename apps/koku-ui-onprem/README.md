@@ -119,13 +119,14 @@ Details: [`cypress/README.md`](cypress/README.md).
 
 ### Feature flags (Unleash stub)
 
-On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. When
-`ONPREM_UNLEASH_FLAGS` is unset, webpack and the stub enable the defaults from
-`DEFAULT_ONPREM_UNLEASH_FLAGS` (currently `cost-management.koku-ui-ros.box-plot`
-— COST-7658).
+On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. Flags
+default to **off**, except ROS on-prem webpack defaults
+`cost-management.koku-ui-ros.box-plot` so Optimizations utilization charts render
+(COST-7658). That default lives only in
+`apps/koku-ui-ros/webpack-onprem.config.ts`.
 
-To override (replace) the default list locally, set a comma-separated env before
-starting the dev server or building:
+To override (replace) the flag list for a build or local server, set a
+comma-separated env before starting:
 
 ```
 export ONPREM_UNLEASH_FLAGS=some.flag.name,another.flag

@@ -25,5 +25,5 @@
     "declarationMap": true,
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.jsx", "**/*.js", "**/*.json"],
-  "exclude": ["node_modules", "dist", "test"],
+  "exclude": ["node_modules", "dist"],
 }
