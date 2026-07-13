@@ -4,7 +4,7 @@ import type { RecommendationReportData } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import type { OptimizationType } from 'utils/commonTypes';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
@@ -17,6 +17,7 @@ interface OptimizationsBreakdownHeaderOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   currentInterval?: string;
+  isContainers?: boolean;
   isDisabled?: boolean;
   linkState?: any;
   onSelect?: (value: string) => void;
@@ -31,6 +32,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
   breadcrumbLabel,
   breadcrumbPath,
   currentInterval,
+  isContainers,
   isDisabled,
   linkState,
   onSelect,
@@ -38,12 +40,21 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
   projectPath,
   report,
 }) => {
+  const location = useLocation();
   const intl = useIntl();
+
   const showWarningIcon = hasNotificationsWarning(report?.recommendations);
+
+  // Default breadcrumb path
+  let basePath = breadcrumbPath;
+  if (!basePath) {
+    const cleanPath = (location?.pathname || '').replace(/\/$/, '');
+    basePath = cleanPath.substring(0, cleanPath.lastIndexOf('/')) || '/';
+  }
 
   const getBackToLink = () => {
     return (
-      <Link to={breadcrumbPath} state={{ ...linkState }}>
+      <Link to={basePath} state={{ ...linkState }}>
         {breadcrumbLabel ? breadcrumbLabel : intl.formatMessage(messages.breakdownBackToOptimizations)}
       </Link>
     );
@@ -76,19 +87,24 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
           <Content component={ContentVariants.dd}>
             <OptimizationsBreakdownProjectLink
               breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: project })}
+              breadcrumbPath={`${location.pathname}${location.search}`}
               linkState={linkState}
               project={project}
               projectPath={projectPath}
             />
           </Content>
-          <Content component={ContentVariants.dt}>
-            {intl.formatMessage(messages.optimizationsValues, { value: 'workload_type' })}
-          </Content>
-          <Content component={ContentVariants.dd}>{workloadType}</Content>
-          <Content component={ContentVariants.dt}>
-            {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
-          </Content>
-          <Content component={ContentVariants.dd}>{workload}</Content>
+          {isContainers && (
+            <>
+              <Content component={ContentVariants.dt}>
+                {intl.formatMessage(messages.optimizationsValues, { value: 'workload_type' })}
+              </Content>
+              <Content component={ContentVariants.dd}>{workloadType}</Content>
+              <Content component={ContentVariants.dt}>
+                {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
+              </Content>
+              <Content component={ContentVariants.dd}>{workload}</Content>
+            </>
+          )}
         </Content>
       </Content>
     );
@@ -99,7 +115,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
       {getBackToLink()}
       <div style={styles.title}>
         <Title headingLevel="h1" size={TitleSizes['2xl']}>
-          {report ? report.container : null}
+          {report ? (isContainers ? report.container : report.project) : null}
         </Title>
         {showWarningIcon && (
           <span style={styles.warningIcon}>

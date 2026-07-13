@@ -1,6 +1,6 @@
 import { PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import { useIsEfficiencyToggleEnabled } from 'components/featureToggle';
+import { useIsEfficiencyToggleEnabled, useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -24,7 +24,9 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
+
   const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
+  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
 
   // Initialize from location state if available (e.g. page reload or direct link)
   const [activeTabKey, setActiveTabKey] = useState<number>(location?.state?.efficiencyState?.activeTabKey ?? 0);
@@ -76,7 +78,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
       </PageSection>
       <PageSection>
         {activeTabKey === 0 && <Efficiency />}
-        {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={true} />}
+        {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={!isNamespaceToggleEnabled} />}
       </PageSection>
     </>
   );

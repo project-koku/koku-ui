@@ -15,7 +15,8 @@ const OptimizationsDetailsBreakdownStaging: React.FC<OptimizationsBreakdownStagi
 
   return (
     <OptimizationsBreakdown
-      projectPath={formatPath(`${routes.ocpOptimizations.path}`)} // Path for optimizations breakdown project link
+      breadcrumbPath={`${formatPath(routes.optimizationsDetails.path)}${location.search}`}
+      projectPath={formatPath(routes.ocpOptimizations.path)} // Path for optimizations breakdown project link
       linkState={{
         ...(location?.state || {}),
         ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown

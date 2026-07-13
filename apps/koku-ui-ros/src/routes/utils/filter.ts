@@ -1,98 +1,117 @@
 import type { Query } from 'api/queries/query';
+import { CriteriaType } from 'routes/components/dataToolbar/utils/criteria';
 
 export interface Filter {
-  isExcludes?: boolean;
+  excludeType?: CriteriaType;
   toString?: () => string;
   type?: string;
   value?: string;
 }
 
 enum QueryFilterType {
-  filter = 'filter_by',
   exclude = 'exclude',
+  filter = 'filter_by',
 }
 
-export const addFilterToQuery = (query: Query, filter: Filter) => {
+export const addFilterToQuery = (query: Query, filter: Filter, isMultiSelect = true) => {
   return addQueryFilter(
     query,
-    filter.type,
-    filter.value,
-    filter.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
+    filter?.excludeType === CriteriaType.exact ? `exact:${filter?.type}` : filter?.type,
+    filter?.value,
+    filter?.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter,
+    isMultiSelect
   );
 };
 
-export const addQueryFilter = (query: Query, filterType: string, filterValue: string, type: QueryFilterType) => {
+export const addQueryFilter = (
+  query: Query,
+  filterType: string,
+  filterValue: string,
+  queryFilterType: QueryFilterType,
+  isMultiSelect = true
+) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-  if (!newQuery[type]) {
-    newQuery[type] = {};
+  if (!newQuery[queryFilterType]) {
+    newQuery[queryFilterType] = {};
   }
 
+  const newFilterValue = filterValue?.trim();
+
   // Filter by * won't generate a new request if group_by * already exists
-  if (filterValue === '*' && newQuery.group_by[filterType] === '*') {
+  if (newFilterValue === '*' && newQuery.group_by?.[filterType] === '*') {
     return;
   }
 
-  if (newQuery[type] && newQuery[type][filterType]) {
+  if (newQuery[queryFilterType] && newQuery[queryFilterType][filterType] && isMultiSelect) {
     let found = false;
-    const filters = newQuery[type][filterType];
+    const filters = newQuery[queryFilterType][filterType];
     if (!Array.isArray(filters)) {
-      found = filterValue === newQuery[type][filterType];
+      found = newFilterValue === newQuery[queryFilterType][filterType];
     } else {
       for (const filter of filters) {
-        if (filter === filterValue) {
+        if (filter === newFilterValue) {
           found = true;
           break;
         }
       }
     }
     if (!found) {
-      if (Array.isArray(newQuery[type][filterType])) {
-        newQuery[type][filterType] = [...newQuery[type][filterType], filterValue];
+      if (Array.isArray(newQuery[queryFilterType][filterType])) {
+        newQuery[queryFilterType][filterType] = [...newQuery[queryFilterType][filterType], newFilterValue];
       } else {
-        newQuery[type][filterType] = [newQuery[type][filterType], filterValue];
+        newQuery[queryFilterType][filterType] = [newQuery[queryFilterType][filterType], newFilterValue];
       }
     }
   } else {
-    newQuery[type][filterType] = [filterValue];
+    newQuery[queryFilterType][filterType] = [newFilterValue];
   }
   return newQuery;
 };
 
 export const removeFilterFromQuery = (query: Query, filter: Filter) => {
+  if (filter === undefined) {
+    return query;
+  }
+
   // Clear all
   if (filter === null) {
-    const excludesQuery = removeQueryFilter(query, null, null, QueryFilterType.exclude);
-    return removeQueryFilter(excludesQuery, null, null, QueryFilterType.filter);
+    const newQuery = removeQueryFilter(query, null, null, QueryFilterType.exclude);
+    return removeQueryFilter(newQuery, null, null, QueryFilterType.filter);
   } else {
     return removeQueryFilter(
       query,
-      filter.type,
-      filter.value,
-      filter.isExcludes ? QueryFilterType.exclude : QueryFilterType.filter
+      filter?.excludeType === CriteriaType.exact ? `exact:${filter?.type}` : filter?.type,
+      filter?.value,
+      filter?.excludeType === CriteriaType.exclude ? QueryFilterType.exclude : QueryFilterType.filter
     );
   }
 };
 
-export const removeQueryFilter = (query: Query, filterType: string, filterValue: string, type: QueryFilterType) => {
+export const removeQueryFilter = (
+  query: Query,
+  filterType: string,
+  filterValue: string,
+  queryFilterType: QueryFilterType
+) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
-  if (!newQuery[type]) {
-    newQuery[type] = {};
+  if (!newQuery[queryFilterType]) {
+    newQuery[queryFilterType] = {};
   }
 
   if (filterType === null) {
-    newQuery[type] = undefined; // Clear all
+    newQuery[queryFilterType] = undefined; // Clear all
   } else if (filterValue === null) {
-    newQuery[type][filterType] = undefined; // Clear all values
-  } else if (Array.isArray(newQuery[type][filterType])) {
-    const index = newQuery[type][filterType].indexOf(filterValue);
+    newQuery[queryFilterType][filterType] = undefined; // Clear all values
+  } else if (Array.isArray(newQuery[queryFilterType][filterType])) {
+    const index = newQuery[queryFilterType][filterType].indexOf(filterValue);
     if (index > -1) {
-      newQuery[type][filterType] = [
-        ...query[type][filterType].slice(0, index),
-        ...query[type][filterType].slice(index + 1),
+      newQuery[queryFilterType][filterType] = [
+        ...query[queryFilterType][filterType].slice(0, index),
+        ...query[queryFilterType][filterType].slice(index + 1),
       ];
     }
   } else {
-    newQuery[type][filterType] = undefined;
+    newQuery[queryFilterType][filterType] = undefined;
   }
   return newQuery;
 };

@@ -5,13 +5,16 @@
 describe('Authentication', () => {
   describe('Logout button', () => {
     beforeEach(() => {
+      cy.loadApiInterceptors();
+      // Override the /api/me mock registered by loadApiInterceptors so UserMenu
+      // shows a deterministic test username. Cypress's last-registered route wins,
+      // so this must come AFTER loadApiInterceptors.
       cy.intercept('GET', '/api/me', {
         statusCode: 200,
         body: { username: 'testuser' },
       }).as('getMe');
 
       cy.interceptLogout();
-      cy.loadApiInterceptors();
     });
 
     it('should display the username fetched from /api/me', () => {
@@ -36,16 +39,11 @@ describe('Authentication', () => {
 
   describe('Axios 401 interceptor', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/api/me', {
-        statusCode: 200,
-        body: { username: 'testuser' },
-      }).as('getMe');
-
       cy.interceptLogout();
 
-      // Load normal API mocks first, then override user-access with 401.
-      // Cypress uses the most recently defined matching intercept,
-      // so the 401 below takes precedence over the 200 from loadApiInterceptors.
+      // Load normal API mocks first (including /api/me), then override the
+      // routes we want to diverge from the defaults. Cypress's last-registered
+      // route wins, so overrides must come AFTER loadApiInterceptors.
       cy.loadApiInterceptors();
 
       cy.intercept(

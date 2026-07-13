@@ -151,17 +151,19 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
   });
 
   return (
-    <DataTable
-      columns={filteredColumns}
-      exclude={exclude}
-      filterBy={filterBy}
-      gridBreakPoint="grid-md"
-      isLoading={isLoading}
-      isNoWrapHeader={false}
-      onSort={onSort}
-      orderBy={orderBy}
-      rows={filteredRows}
-    />
+    <div style={{ overflow: 'auto' }}>
+      <DataTable
+        columns={filteredColumns}
+        exclude={exclude}
+        filterBy={filterBy}
+        gridBreakPoint="grid-md"
+        isLoading={isLoading}
+        isNoWrapHeader={false}
+        onSort={onSort}
+        orderBy={orderBy}
+        rows={filteredRows}
+      />
+    </div>
   );
 };
 

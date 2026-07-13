@@ -16,6 +16,7 @@ import { hasNotificationsWarning } from 'utils/notifications';
 
 interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
+  breadcrumbPath?: string;
   filterBy?: any;
   isClusterHidden?: boolean;
   isLoading?: boolean;
@@ -32,6 +33,7 @@ type OptimizationsDataTableProps = OptimizationsDataTableOwnProps;
 
 const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
   breadcrumbLabel,
+  breadcrumbPath,
   filterBy,
   isClusterHidden,
   isLoading,
@@ -102,6 +104,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
         breadcrumbLabel,
+        breadcrumbPath,
         id: item.id,
         title: container,
       });

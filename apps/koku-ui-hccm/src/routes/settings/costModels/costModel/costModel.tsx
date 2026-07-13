@@ -54,10 +54,7 @@ const CostModel: React.FC<CostModelProps> = ({ canWrite }) => {
 
   const { costModels, costModelsFetchError, costModelsFetchStatus } = useMapToProps({ query });
 
-  const hasFilters =
-    query?.filter_by?.description?.length > 0 ||
-    query?.filter_by?.source_type?.length > 0 ||
-    query?.filter_by?.name?.length > 0;
+  const hasFilters = Object.keys(query?.filter_by ?? {}).some(key => query.filter_by[key]?.length > 0);
   const hasNoCostModels = costModels?.data?.length === 0 && !hasFilters;
 
   // Force update
