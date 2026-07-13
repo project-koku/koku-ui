@@ -19,6 +19,7 @@ interface DataTableOwnProps {
   columns?: any[];
   emptyState?: React.ReactNode;
   filterBy: any;
+  gridBreakPoint?: '' | 'grid-2xl' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl';
   isActionsCell?: boolean;
   isLoading?: boolean;
   isSelectable?: boolean;
@@ -58,10 +59,11 @@ class DataTable extends React.Component<DataTableProps, any> {
     );
   };
 
-  private getSortBy = index => {
-    const { columns, orderBy } = this.props;
+  private getSortBy = (index: number, isNested: boolean) => {
+    const { columns, nestedColumns, orderBy } = this.props;
 
-    const direction = orderBy && orderBy[columns[index].orderBy];
+    const key = isNested ? nestedColumns?.[index]?.orderBy : columns?.[index]?.orderBy;
+    const direction = orderBy && key ? orderBy[key] : undefined;
 
     return direction
       ? {
@@ -71,10 +73,10 @@ class DataTable extends React.Component<DataTableProps, any> {
       : {};
   };
 
-  private getSortParams = (index: number): ThProps['sort'] => {
+  private getSortParams = (index: number, isNested: boolean): ThProps['sort'] => {
     return {
-      sortBy: this.getSortBy(index),
-      onSort: (_evt, i, direction) => this.handleOnSort(i, direction),
+      sortBy: this.getSortBy(index, isNested),
+      onSort: (_evt, i, direction) => this.handleOnSort(i, direction, isNested),
       columnIndex: index,
     };
   };
@@ -96,18 +98,28 @@ class DataTable extends React.Component<DataTableProps, any> {
     });
   };
 
-  private handleOnSort = (index, direction) => {
-    const { columns, onSort } = this.props;
+  private handleOnSort = (index: number, direction: string, isNested: boolean) => {
+    const { columns, nestedColumns, onSort } = this.props;
 
-    if (onSort) {
-      const orderBy = columns[index].orderBy;
+    const orderBy = isNested ? nestedColumns?.[index]?.orderBy : columns?.[index]?.orderBy;
+
+    if (onSort && orderBy) {
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }
   };
 
   public render() {
-    const { columns, intl, isActionsCell = false, isLoading, isSelectable, nestedColumns, rows } = this.props;
+    const {
+      columns,
+      gridBreakPoint = 'grid-2xl',
+      intl,
+      isActionsCell = false,
+      isLoading,
+      isSelectable,
+      nestedColumns,
+      rows,
+    } = this.props;
     const hasNestedHeader = nestedColumns?.length > 0;
 
     return (
@@ -115,7 +127,7 @@ class DataTable extends React.Component<DataTableProps, any> {
         <Table
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
-          gridBreakPoint="grid-2xl"
+          gridBreakPoint={gridBreakPoint}
           variant={TableVariant.compact}
         >
           <Thead hasNestedHeader={hasNestedHeader}>
@@ -125,10 +137,11 @@ class DataTable extends React.Component<DataTableProps, any> {
                   <Th
                     colSpan={col.colSpan}
                     hasRightBorder={col.hasRightBorder}
+                    isSubheader={col.isSubheader}
                     key={`nested-col-${index}`}
                     modifier={col.modifier || 'nowrap'}
                     rowSpan={col.rowSpan}
-                    sort={col.isSortable ? this.getSortParams(index) : undefined}
+                    sort={col.isSortable ? this.getSortParams(index, true) : undefined}
                     style={col.style}
                   >
                     {col.name}
@@ -141,10 +154,11 @@ class DataTable extends React.Component<DataTableProps, any> {
                 <Th
                   colSpan={col.colSpan}
                   hasRightBorder={col.hasRightBorder}
+                  isSubheader={col.isSubheader}
                   key={`col-${index}-${col.value}`}
                   modifier={col.modifier || 'nowrap'}
                   rowSpan={col.rowSpan}
-                  sort={col.isSortable ? this.getSortParams(index) : undefined}
+                  sort={col.isSortable ? this.getSortParams(index, false) : undefined}
                   style={col.style}
                 >
                   {col.name || ''}

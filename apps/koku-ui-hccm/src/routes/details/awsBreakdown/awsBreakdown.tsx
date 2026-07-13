@@ -22,6 +22,7 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatPath } from 'utils/paths';
 import {
+  breadcrumbPathKey,
   breakdownDescKey,
   breakdownTitleKey,
   logicalAndPrefix,
@@ -117,7 +118,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   const isAwsEc2InstancesToggleEnabled = FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(state);
 
   return {
-    breadcrumbPath: formatPath(routes.awsDetails.path),
+    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.awsDetails.path),
     costOverviewComponent: (
       <CostOverview
         costType={costType}

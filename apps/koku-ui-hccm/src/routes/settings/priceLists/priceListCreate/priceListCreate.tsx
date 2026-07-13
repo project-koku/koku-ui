@@ -8,11 +8,13 @@ import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
+import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { DetailContentHandle } from 'routes/settings/priceLists/priceList/components/details';
 import { DetailContent } from 'routes/settings/priceLists/priceList/components/details';
@@ -22,7 +24,7 @@ import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { formatPath } from 'utils/paths';
-import { hasSettingsAccess } from 'utils/userAccess';
+import { hasCostModelWritePermission } from 'utils/userAccess';
 
 import { styles } from './priceListCreate.styles';
 import { PriceListCreateHeader } from './priceListCreateHeader';
@@ -47,6 +49,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const intl = useIntl();
 
   const contentRef = useRef<DetailContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -54,10 +57,10 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const [priceList, setPriceList] = useState<PriceListData>({});
   const [rates, setRates] = useState<Rate[]>([]);
 
-  const { priceListError, priceListFetchStatus, userAccess, userAccessFetchStatus } = useMapToProps();
+  const { priceListError, priceListFetchStatus, userAccess, userAccessError, userAccessFetchStatus } = useMapToProps();
 
   const canWrite = () => {
-    return hasSettingsAccess(userAccess);
+    return hasCostModelWritePermission(userAccess);
   };
 
   // Handlers
@@ -125,6 +128,17 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
     }
   }, [isFinish, priceListError, priceListFetchStatus]);
 
+  if (userAccessFetchStatus === FetchStatus.inProgress && !userAccessError) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+        heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+      />
+    );
+  }
+  if (!canWrite()) {
+    return <NotAuthorized pathname={formatPath(routes.priceListCreate.path)} />;
+  }
   return (
     <>
       <PageSection style={styles.headerContainer}>
@@ -136,12 +150,6 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
             onCreate={() => contentRef.current?.save()}
             priceList={priceList}
           />
-          {userAccessFetchStatus === FetchStatus.inProgress && (
-            <LoadingState
-              body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
-              heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
-            />
-          )}
         </header>
       </PageSection>
       <PageSection>

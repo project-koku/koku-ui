@@ -42,15 +42,12 @@ class CustomSelectBase extends React.Component<CustomSelectProps, CustomSelectSt
   private getSelectOptions = (): SelectWrapperOption[] => {
     const { options } = this.props;
 
-    const selectOptions: SelectWrapperOption[] = [];
-
-    options.map(option => {
-      selectOptions.push({
+    return (
+      options?.map(option => ({
         toString: () => option.name,
         value: option.key,
-      });
-    });
-    return selectOptions;
+      })) || []
+    );
   };
 
   public render() {

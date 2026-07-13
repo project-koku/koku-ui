@@ -17,15 +17,19 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
   const intl = useIntl();
   const location = useLocation();
 
+  // Test filters
+  const project = 'project-ros-A2';
+
   return (
     <PageSection>
       <OptimizationsOcpBreakdown
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-        breadcrumbPath={formatPath(`${routes.ocpOptimizations.path}${location.search}`)}
+        breadcrumbPath={`${formatPath(routes.ocpOptimizations.path)}${location.search}`}
         linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
         linkState={{
           ...(location?.state || {}),
         }}
+        project={project}
         queryStateName="ocpOptimizationsState"
       />
     </PageSection>

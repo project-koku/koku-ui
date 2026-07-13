@@ -7,7 +7,7 @@ import {
   EmptyStateBody,
   EmptyStateFooter,
 } from '@patternfly/react-core';
-import type { PriceListData } from 'api/priceList';
+import type { AssignedCostModel, PriceListData } from 'api/priceList';
 import { PriceListType } from 'api/priceList';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
@@ -22,6 +22,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { getFilteredCostModels } from 'routes/settings/priceLists/priceListBreakdown/rates/utils';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -40,7 +41,8 @@ export interface CostModelsMapProps {
 }
 
 export interface CostModelsStateProps {
-  priceList?: PriceListData | any; // TODO: remove any once we have a paginated API
+  costModels?: AssignedCostModel[];
+  priceList?: PriceListData | any;
   priceListError?: AxiosError;
   priceListFetchStatus?: FetchStatus;
 }
@@ -57,37 +59,27 @@ const CostModels: React.FC<CostModelsProps> = () => {
 
   const [query, setQuery] = useState({ ...baseQuery });
 
-  const { priceList, priceListError, priceListFetchStatus } = useMapToProps({ query });
+  const { costModels, priceListError, priceListFetchStatus } = useMapToProps({ query });
 
-  const getCategories = () => {
-    if (priceList) {
-      return priceList.rates as any;
-    }
-    return [];
-  };
+  const hasFilters = Object.keys(query?.filter_by ?? {}).some(key => query.filter_by[key]?.length > 0);
+  const hasNoCostModels = costModels?.length === 0 && !hasFilters;
+  const isLoading = priceListFetchStatus === FetchStatus.inProgress;
 
   const getTable = () => {
-    const categories = getCategories();
-
     return (
       <CostModelsTable
+        costModels={costModels}
         filterBy={query.filter_by}
-        isDisabled={categories.length === 0}
-        isLoading={priceListFetchStatus === FetchStatus.inProgress}
-        priceList={priceList}
+        isDisabled={hasNoCostModels}
+        isLoading={isLoading}
       />
     );
   };
 
   const getToolbar = () => {
-    const itemsTotal = priceList?.meta ? priceList.meta.count : 0;
-    const categories = getCategories();
-
     return (
       <CostModelsToolbar
-        isDisabled={categories.length === 0}
-        itemsPerPage={categories.length}
-        itemsTotal={itemsTotal}
+        isDisabled={hasNoCostModels}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         query={query}
@@ -116,7 +108,7 @@ const CostModels: React.FC<CostModelsProps> = () => {
   }
   return (
     <>
-      {priceList?.assigned_cost_model_count > 0 || priceListFetchStatus === FetchStatus.inProgress ? (
+      {!hasNoCostModels || isLoading ? (
         <Card>
           <CardBody>
             <>
@@ -150,8 +142,9 @@ const useMapToProps = ({ query }: CostModelsMapProps): CostModelsStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const { uuid } = useParams();
 
+  // Todo: Update once we have a paginated API
   const priceListQuery = {
-    filter_by: query.filter_by,
+    // filter_by: query.filter_by,
   };
   const priceListQueryString = getQuery(priceListQuery);
   const priceList = useSelector((state: RootState) =>
@@ -168,9 +161,13 @@ const useMapToProps = ({ query }: CostModelsMapProps): CostModelsStateProps => {
     if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, query, uuid]);
+  }, [dispatch, priceListError, priceListQueryString, uuid]);
+
+  // Add filter
+  const costModels = getFilteredCostModels(priceList?.assigned_cost_models, query?.filter_by);
 
   return {
+    costModels,
     priceList,
     priceListError,
     priceListFetchStatus,

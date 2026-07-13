@@ -2,21 +2,27 @@ import { Card, CardBody, Divider } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
+import { getQueryState } from 'routes/utils/queryState';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { styles } from './optimizationsOcpBreakdown.styles';
 import { OptimizationsOcpBreakdownToolbar } from './optimizationsOcpBreakdownToolbar';
 
 interface OptimizationsOcpBreakdownOwnProps {
-  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
-  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
-  cluster?: string | string[]; // Cluster name to filter by
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page header
+  breadcrumbPath?: string; // Breadcrumb path used in the page header
   isClusterHidden?: boolean; // Hides cluster filter and column
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
-  project?: string | string[]; // Project name to filter by
+  project?: string; // Project name to filter by
   queryStateName: string; // Name used to store query state
+}
+
+interface RosDetailsQuery {
+  interval?: Interval;
+  optimizationType?: OptimizationType;
 }
 
 type OptimizationsOcpBreakdownProps = OptimizationsOcpBreakdownOwnProps;
@@ -24,32 +30,36 @@ type OptimizationsOcpBreakdownProps = OptimizationsOcpBreakdownOwnProps;
 const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  cluster,
   isClusterHidden,
   linkPath,
   linkState,
   project,
   queryStateName,
 }) => {
+  const location = useLocation();
   const intl = useIntl();
-  const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
-  const [optimizationType, setOptimizationType] = useState(OptimizationType.performance);
+
+  const queryState = getQueryState(location, queryStateName);
+  const [query, setQuery] = useState<RosDetailsQuery>({
+    interval: queryState?.interval ?? Interval.short_term,
+    optimizationType: queryState?.optimizationType ?? OptimizationType.performance,
+  });
 
   const handleOnIntervalSelect = (value: Interval) => {
-    setCurrentInterval(value);
+    setQuery({ ...query, interval: value });
   };
 
   const handleOnOptimizationTypeSelect = (value: OptimizationType) => {
-    setOptimizationType(value);
+    setQuery({ ...query, optimizationType: value });
   };
 
   return (
     <>
       <OptimizationsOcpBreakdownToolbar
-        currentInterval={currentInterval}
+        currentInterval={query?.interval}
         onIntervalSelect={handleOnIntervalSelect}
         onOptimizationTypeSelect={handleOnOptimizationTypeSelect}
-        optimizationType={optimizationType}
+        optimizationType={query?.optimizationType}
       />
       <Divider style={styles.divider} />
       <div style={styles.title}>{intl.formatMessage(messages.optimizationsProject)}</div>
@@ -58,13 +68,15 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
           <OptimizationsProjectsTable
             breadcrumbLabel={breadcrumbLabel}
             breadcrumbPath={breadcrumbPath}
-            cluster={cluster}
+            interval={query?.interval}
             isClusterHidden={isClusterHidden}
             isPaginationHidden
             isToolbarHidden
             linkPath={linkPath}
             linkState={linkState}
+            optimizationType={query?.optimizationType}
             project={project}
+            query={query}
             queryStateName={queryStateName}
           />
         </CardBody>
@@ -76,12 +88,14 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
           <OptimizationsContainersTable
             breadcrumbLabel={breadcrumbLabel}
             breadcrumbPath={breadcrumbPath}
-            cluster={cluster}
+            interval={query?.interval}
             isClusterHidden={isClusterHidden}
             isProjectHidden
             linkPath={linkPath}
             linkState={linkState}
+            optimizationType={query?.optimizationType}
             project={project}
+            query={query}
             queryStateName={queryStateName}
           />
         </CardBody>
