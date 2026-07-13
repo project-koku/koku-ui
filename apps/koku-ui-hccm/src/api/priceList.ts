@@ -3,15 +3,15 @@ import { axiosInstance } from 'api';
 import type { PagedLinks, PagedMetaData } from './api';
 import type { Rate } from './rates';
 
+export interface AssignedCostModel {
+  uuid?: string;
+  name?: string;
+  priority?: number;
+}
+
 export interface PriceListData {
   assigned_cost_model_count?: number;
-  assigned_cost_models?: [
-    {
-      uuid?: string;
-      name?: string;
-      priority?: number;
-    },
-  ];
+  assigned_cost_models?: AssignedCostModel[];
   created_timestamp?: string;
   currency?: string;
   description?: string;
@@ -44,6 +44,7 @@ export const enum PriceListType {
   priceList = 'priceList',
   priceListAdd = 'priceListAdd',
   priceListDuplicate = 'priceListDuplicate',
+  priceListRates = 'priceListRates',
   priceListRemove = 'priceListRemove',
   priceListUpdate = 'priceListUpdate',
 }
@@ -52,6 +53,7 @@ export const PriceListPathsType: Partial<Record<PriceListType, string>> = {
   [PriceListType.priceList]: 'price-lists/',
   [PriceListType.priceListAdd]: 'price-lists/',
   [PriceListType.priceListDuplicate]: 'price-lists/',
+  [PriceListType.priceListRates]: 'price-lists/',
   [PriceListType.priceListRemove]: 'price-lists/',
   [PriceListType.priceListUpdate]: 'price-lists/',
 };
@@ -59,8 +61,10 @@ export const PriceListPathsType: Partial<Record<PriceListType, string>> = {
 export function fetchPriceList(priceListType: PriceListType, uuid?: string, query?: string) {
   const path = PriceListPathsType[priceListType];
   const prefix = uuid ? `${uuid}/` : '';
+  const suffix = priceListType === PriceListType.priceListRates ? 'rates/' : '';
+  const params = `${prefix}${suffix}`;
   const queryString = query ? `?${query}` : '';
-  return axiosInstance.get<PriceList>(`${path}${prefix}${queryString}`);
+  return axiosInstance.get<PriceList>(`${path}${params}${queryString}`);
 }
 
 export function updatePriceList(priceListType: PriceListType, uuid?: string, payload?: PriceListPayload) {

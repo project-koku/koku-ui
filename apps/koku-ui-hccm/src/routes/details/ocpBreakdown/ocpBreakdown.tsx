@@ -23,7 +23,13 @@ import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { uiActions } from 'store/ui';
 import { formatPath } from 'utils/paths';
-import { breadcrumbLabelKey, breakdownDescKey, breakdownTitleKey, platformCategoryKey } from 'utils/props';
+import {
+  breadcrumbLabelKey,
+  breadcrumbPathKey,
+  breakdownDescKey,
+  breakdownTitleKey,
+  platformCategoryKey,
+} from 'utils/props';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
@@ -108,11 +114,11 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
     providersQueryString
   );
 
-  const breadcrumbLabel = queryFromRoute[breadcrumbLabelKey] ? queryFromRoute[breadcrumbLabelKey] : undefined;
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
   return {
-    breadcrumbLabel,
+    breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
+    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.ocpDetails.path),
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
     dataDetailsComponent:
       groupBy === 'cluster' ? (
@@ -174,4 +180,8 @@ const mapDispatchToProps: OcpBreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)));
+export default injectIntl(
+  withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(BreakdownBase) as unknown as React.ComponentType<OcpBreakdownOwnProps>
+  )
+);

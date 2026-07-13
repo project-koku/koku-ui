@@ -51,8 +51,9 @@ oc login -s <cluster_api_url> -u <username> --password <password>
 source scripts/setup-onprem-env.sh
 ```
 
-This sets `API_PROXY_URL` and `API_TOKEN` from the cluster's
-`CostManagementMetricsConfig` CR and Keycloak auth secret.
+This sets `API_PROXY_URL` and `API_TOKEN` by auto-discovering cluster configuration.
+Discovery order: (1) `CostManagementMetricsConfig` CR if the CMMO operator is installed,
+(2) `cost-onprem` Helm chart resources (gateway route + keycloak-debug ConfigMap + Keycloak secret).
 
 It also exports `KEYCLOAK_TOKEN_URL`, `KEYCLOAK_CLIENT_ID`, and
 `KEYCLOAK_CLIENT_SECRET`, which enable **automatic token renewal** in the
@@ -67,19 +68,32 @@ From the root of the repo, run
 npm run start:onprem:dev
 ```
 
-`start:onprem:dev` sources `scripts/setup-onprem-env.sh` (requires `oc` login and a
-`CostManagementMetricsConfig` CR on the cluster), then starts the full on-prem stack.
+`start:onprem:dev` sources `scripts/setup-onprem-env.sh` (requires `oc` login; auto-discovers
+API URL and Keycloak credentials from cluster resources), then starts the full on-prem stack.
 All remotes share `libs/onprem-cloud-deps` (feat shims; Unleash stub uses lazy init to avoid HCCM TDZ).
 
-Equivalent manual flow:
+The dev server opens pre-authenticated (no login screen). Token refresh runs in the background.
+
+### Auth enabled dev-mode — login screen, real sessions & logout (start:onprem:auth)
+
+To test the login flow, session expiry, and the logout redirect, use the `start:onprem:auth` script:
 
 ```
-source scripts/setup-onprem-env.sh
-npm run start:onprem
+npm run start:onprem:auth
 ```
 
-This runs concurrent dev builds of the host, HCCM, ROS, Sources, and RBAC remotes.
-After the successful build, navigate to http://localhost:9001
+**Prerequisites** (in addition to `oc` login):
+- [Podman](https://podman.io/) or [Docker](https://www.docker.com/) with the daemon running.
+  No binary installation of `oauth2-proxy` is needed — it runs as a container.
+
+Then open **http://localhost:9002** (not 9001). You will be redirected to the Keycloak login page.
+
+For a detailed walkthrough of how the auth flow works, how the script reads its configuration from the cluster, and troubleshooting tips, see **[docs/auth-enabled-dev-mode.md](docs/auth-enabled-dev-mode.md)**.
+
+Optional port / namespace overrides:
+```
+ONPREM_AUTH_PORT=9002 ONPREM_UI_PORT=9001 npm run start:onprem:auth
+```
 
 ### RBAC IAM remote (FLPATH-4164)
 

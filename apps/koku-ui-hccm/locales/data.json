@@ -1735,7 +1735,7 @@
     "costModelsRecalculateDesc": [
       {
         "type": 0,
-        "value": "This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review."
+        "value": "This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Changes will apply only to data from the current month onwards; historical data from past months will not be affected."
       }
     ],
     "costModelsRefreshDialog": [
@@ -2250,6 +2250,33 @@
         "value": "Usage cost on the day you are charged"
       }
     ],
+    "costTypeValues": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "infrastructure": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Infrastructure"
+              }
+            ]
+          },
+          "supplementary": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Supplementary"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
     "cpuEfficiency": [
       {
         "type": 0,
@@ -2635,6 +2662,22 @@
               }
             ]
           },
+          "GHS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GHS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ghanaian Cedi"
+              }
+            ]
+          },
           "HKD": {
             "value": [
               {
@@ -2963,6 +3006,111 @@
         "value": "Data retrieval"
       }
     ],
+    "dataRetentionErrorDesc": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Failed to update data retention period"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionErrorTitle": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unable to update data retention period"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionInputAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period number input"
+      }
+    ],
+    "dataRetentionLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your data retention period. Do not refresh the browser"
+      }
+    ],
+    "dataRetentionLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for data retention period..."
+      }
+    ],
+    "dataRetentionMinusBtnAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period minus button"
+      }
+    ],
+    "dataRetentionPeriod": [
+      {
+        "type": 0,
+        "value": "Data retention period"
+      }
+    ],
+    "dataRetentionPeriodDesc": [
+      {
+        "type": 0,
+        "value": "Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment."
+      }
+    ],
+    "dataRetentionPlusBtnAriaLabel": [
+      {
+        "type": 0,
+        "value": "Data retention period plus button"
+      }
+    ],
+    "dataRetentionSuccess": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "update": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Data retention period updated"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "dataRetentionSuccessChanges": [
+      {
+        "type": 0,
+        "value": "Changes will be reflected in report summarizations within 24 hours"
+      }
+    ],
     "dataTableAriaLabel": [
       {
         "type": 0,
@@ -2991,6 +3139,49 @@
       {
         "type": 0,
         "value": "Start date"
+      }
+    ],
+    "dateRange": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "custom": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Custom"
+              }
+            ]
+          },
+          "six_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "6 months"
+              }
+            ]
+          },
+          "three_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "3 months"
+              }
+            ]
+          },
+          "twelve_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "12 months"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
       }
     ],
     "default": [
@@ -4335,6 +4526,24 @@
       {
         "type": 0,
         "value": "Discount (-)"
+      }
+    ],
+    "display": [
+      {
+        "type": 0,
+        "value": "Display"
+      }
+    ],
+    "displayCurrency": [
+      {
+        "type": 0,
+        "value": "Display currency"
+      }
+    ],
+    "displayCurrencyDesc": [
+      {
+        "type": 0,
+        "value": "Uses static rates from the table when they apply; otherwise, dynamic rates"
       }
     ],
     "distribute": [
@@ -8344,6 +8553,14 @@
               }
             ]
           },
+          "cost_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Cost type"
+              }
+            ]
+          },
           "container": {
             "value": [
               {
@@ -8413,6 +8630,14 @@
               {
                 "type": 0,
                 "value": "Instance"
+              }
+            ]
+          },
+          "measurement": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Measurement"
               }
             ]
           },
@@ -11021,7 +11246,7 @@
                     "value": [
                       {
                         "type": 0,
-                        "value": "Request"
+                        "value": "Effective-usage"
                       }
                     ]
                   },
@@ -11359,6 +11584,12 @@
       {
         "type": 0,
         "value": "Month over month change"
+      }
+    ],
+    "months": [
+      {
+        "type": 0,
+        "value": "Months"
       }
     ],
     "moreOptions": [
@@ -11754,7 +11985,7 @@
     "notAuthorizedStateCostModels": [
       {
         "type": 0,
-        "value": "Cost models in cost management"
+        "value": "cost models in cost management"
       }
     ],
     "notAuthorizedStateGcp": [
@@ -11775,10 +12006,16 @@
         "value": "Optimizations in cost management"
       }
     ],
+    "notAuthorizedStatePriceLists": [
+      {
+        "type": 0,
+        "value": "price lists in cost management"
+      }
+    ],
     "notAuthorizedStateSettings": [
       {
         "type": 0,
-        "value": "Settings in cost management"
+        "value": "settings in cost management"
       }
     ],
     "notAvailable": [
@@ -12721,6 +12958,20 @@
     "priceListReviewChange": [
       {
         "type": 0,
+        "value": "Assigning or unassigning price lists for "
+      },
+      {
+        "type": 1,
+        "value": "costModel"
+      },
+      {
+        "type": 0,
+        "value": " allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?"
+      }
+    ],
+    "priceListReviewOrder": [
+      {
+        "type": 0,
         "value": "Changing the order of price lists for "
       },
       {
@@ -12729,7 +12980,7 @@
       },
       {
         "type": 0,
-        "value": " allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?"
+        "value": " allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?"
       }
     ],
     "priceListReviewUpdate": [

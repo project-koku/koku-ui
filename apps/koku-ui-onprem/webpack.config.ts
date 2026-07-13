@@ -3,25 +3,65 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// @ts-expect-error - pac-proxy-agent types may not resolve depending on moduleResolution settings
+import { PacProxyAgent } from 'pac-proxy-agent';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
-let setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = undefined;
-let proxyHeaders: Record<string, string> | undefined = undefined;
+const pacAgent = process.env.PAC_URL
+  ? new PacProxyAgent(process.env.PAC_URL, { rejectUnauthorized: false })
+  : undefined;
 
-if (process.env.API_TOKEN !== 'false') {
-  setupMiddlewares = (middlewares, devServer) => {
-    devServer.app?.get('/api/me', (_, res) => {
-      res.json({
-        username: 'dev-user',
-        email: 'dev@example.com',
-      });
-    });
-    return middlewares;
-  };
+const isOauth2ProxyMode = process.env.OAUTH2_PROXY_MODE === 'true';
+
+let proxyHeaders: Record<string, string> | undefined;
+
+// Always register /api/me and /logout middlewares.
+// In oauth2-proxy mode /api/me reads real identity headers injected by oauth2-proxy,
+// mirroring the nginx $http_x_auth_request_preferred_username behaviour in production.
+// In headless mode the headers are absent and fixed dev-user stubs are returned.
+const setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = (middlewares, devServer) => {
+  devServer.app?.get('/api/me', (req, res) => {
+    // x-auth-request-preferred-username mirrors nginx $http_x_auth_request_preferred_username.
+    // Fall back to x-auth-request-user when preferred_username is absent from the OIDC token
+    // (e.g. older oauth2-proxy images or Keycloak clients without the profile scope mapper).
+    const username = isOauth2ProxyMode
+      ? ((req.headers['x-auth-request-preferred-username'] as string | undefined) ??
+        (req.headers['x-auth-request-user'] as string | undefined) ??
+        'dev-user')
+      : 'dev-user';
+    const email = isOauth2ProxyMode
+      ? ((req.headers['x-forwarded-email'] as string | undefined) ??
+        (req.headers['x-auth-request-email'] as string | undefined) ??
+        'dev@example.com')
+      : 'dev@example.com';
+    // Only warn when no auth headers are present at all — a true proxy bypass.
+    const isProxied = !!(
+      req.headers['x-auth-request-preferred-username'] ||
+      req.headers['x-auth-request-user'] ||
+      req.headers['x-auth-request-email'] ||
+      req.headers['x-forwarded-email']
+    );
+    if (isOauth2ProxyMode && !isProxied) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[koku-ui-onprem] OAUTH2_PROXY_MODE=true but no oauth2-proxy auth headers received' +
+          ' — oauth2-proxy may be misconfigured or the request bypassed the proxy'
+      );
+    }
+    res.json({ username, email });
+  });
+  // Mirrors nginx: `location = /logout { return 302 /oauth2/sign_out?rd=/oauth2/start; }`
+  devServer.app?.get('/logout', (_, res) => {
+    res.redirect('/oauth2/sign_out?rd=/oauth2/start');
+  });
+  return middlewares;
+};
+
+if (!isOauth2ProxyMode && process.env.API_TOKEN !== 'false') {
   proxyHeaders = {
     Authorization: `Bearer ${process.env.API_TOKEN}`,
   };
@@ -51,30 +91,33 @@ if (NODE_ENV !== 'production' && !process.env.CI) {
     );
   }
 
-  const hasKeycloak =
-    process.env.KEYCLOAK_TOKEN_URL && process.env.KEYCLOAK_CLIENT_ID && process.env.KEYCLOAK_CLIENT_SECRET;
+  if (!isOauth2ProxyMode) {
+    const hasKeycloak =
+      process.env.KEYCLOAK_TOKEN_URL && process.env.KEYCLOAK_CLIENT_ID && process.env.KEYCLOAK_CLIENT_SECRET;
 
-  // When running the UI with a local koku API, API_TOKEN is omitted
-  if (!hasKeycloak && !process.env.API_TOKEN) {
-    throw new Error(
-      '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
-        'Provide one of:\n' +
-        '  1. KEYCLOAK_TOKEN_URL + KEYCLOAK_CLIENT_ID + KEYCLOAK_CLIENT_SECRET  (auto-refresh)\n' +
-        '  2. API_TOKEN  (static bearer token)\n' +
-        'See apps/koku-ui-onprem/README.md for details.'
-    );
-  }
+    // When running the UI with a local koku API, API_TOKEN is omitted
+    if (!hasKeycloak && !process.env.API_TOKEN) {
+      throw new Error(
+        '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
+          'Provide one of:\n' +
+          '  1. KEYCLOAK_TOKEN_URL + KEYCLOAK_CLIENT_ID + KEYCLOAK_CLIENT_SECRET  (auto-refresh)\n' +
+          '  2. API_TOKEN  (static bearer token)\n' +
+          '  3. OAUTH2_PROXY_MODE=true  (oauth2-proxy handles auth)\n' +
+          'See apps/koku-ui-onprem/README.md for details.'
+      );
+    }
 
-  if (hasKeycloak) {
-    refresher = new TokenRefresher({
-      fetchToken: createKeycloakFetcher({
-        tokenUrl: process.env.KEYCLOAK_TOKEN_URL!,
-        clientId: process.env.KEYCLOAK_CLIENT_ID!,
-        clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
-      }),
-      fallbackToken: process.env.API_TOKEN,
-    });
-    refresher.start();
+    if (hasKeycloak) {
+      refresher = new TokenRefresher({
+        fetchToken: createKeycloakFetcher({
+          tokenUrl: process.env.KEYCLOAK_TOKEN_URL!,
+          clientId: process.env.KEYCLOAK_CLIENT_ID!,
+          clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
+        }),
+        fallbackToken: process.env.API_TOKEN,
+      });
+      refresher.start();
+    }
   }
 }
 
@@ -84,10 +127,13 @@ const config: Configuration & {
   mode: NODE_ENV,
   devtool: 'eval-source-map',
   devServer: {
-    host: 'localhost',
+    // In oauth2-proxy mode webpack must bind to all interfaces so the proxy
+    // container can reach it via host.containers.internal / host.docker.internal.
+    host: isOauth2ProxyMode ? '0.0.0.0' : 'localhost',
     port: 9001,
     historyApiFallback: true,
-    open: NODE_ENV !== 'production',
+    // In oauth2-proxy mode open the proxy port (9002) so the auth flow kicks in immediately.
+    open: isOauth2ProxyMode ? `http://localhost:${process.env.ONPREM_AUTH_PORT ?? '9002'}/` : true,
     static: [
       {
         directory: path.resolve(__dirname, 'dist'),
@@ -114,11 +160,14 @@ const config: Configuration & {
       },
     ],
     client: {
-      overlay: true,
+      // Show overlay for compilation errors only; excluding warnings prevents
+      // asset-size warnings from appearing as a full-screen iframe during
+      // Cypress runs (production build routinely exceeds the 244 KiB limit).
+      overlay: { errors: true, warnings: false },
     },
     setupMiddlewares,
     proxy: [
-      refresher
+      refresher && !isOauth2ProxyMode
         ? createDevServerProxy(refresher, {
             context: ['/api/cost-management/v1'],
             target: process.env.API_PROXY_URL!,
@@ -131,11 +180,15 @@ const config: Configuration & {
             changeOrigin: true,
             secure: false,
             pathRewrite: { '^/api/cost-management/v1': '' },
+            // Pass both HTTP and HTTPS traffic through the PAC agent
+            ...(pacAgent && { agent: pacAgent }),
+            // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
+            // header injected by oauth2-proxy is forwarded as-is to the gateway.
             ...(proxyHeaders && { headers: proxyHeaders }),
           },
       ...(rbacProxyTarget
         ? [
-            refresher
+            refresher && !isOauth2ProxyMode
               ? createDevServerProxy(refresher, {
                   context: ['/api/rbac'],
                   target: rbacProxyTarget,
@@ -146,6 +199,7 @@ const config: Configuration & {
                   target: rbacProxyTarget,
                   changeOrigin: true,
                   secure: false,
+                  ...(pacAgent && { agent: pacAgent }),
                   ...(proxyHeaders && { headers: proxyHeaders }),
                 },
           ]
@@ -241,6 +295,7 @@ const config: Configuration & {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     cacheWithContext: false,
     alias: {
+      '#': path.resolve(__dirname, 'src'),
       '@koku-ui/onprem-cloud-deps': path.resolve(__dirname, '../../libs/onprem-cloud-deps/src'),
       '@unleash/proxy-client-react': path.resolve(
         __dirname,

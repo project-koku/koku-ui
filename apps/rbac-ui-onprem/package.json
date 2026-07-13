@@ -11,16 +11,19 @@
   "scripts": {
     "build": "npm run build:onprem",
     "build:onprem": "npm run ts-webpack -- --color --progress --mode=production",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "start:onprem": "npm run ts-webpack -- --color --progress --mode=development --watch",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "",
+    "test:update": "",
     "clean": "rimraf dist",
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'",
     "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"
   },
   "devDependencies": {
-    "@openshift/dynamic-plugin-sdk-webpack": "^5.1.1",
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.2.0",
     "insights-rbac-frontend": "file:../../vendor/insights-rbac-ui",
     "typescript": "^5.9.3"
   }

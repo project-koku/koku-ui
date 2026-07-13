@@ -73,10 +73,11 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
   public state: BasicToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { categoryOptions, groupBy, query } = this.props;
+    const { categoryOptions, groupBy, query, useActiveFilters } = this.props;
 
     this.setState({
       currentCategory: getDefaultCategory(categoryOptions, groupBy, query),
+      ...(useActiveFilters && { filters: getActiveFilters(query) }),
     });
   }
 

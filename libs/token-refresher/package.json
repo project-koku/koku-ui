@@ -14,17 +14,18 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "check:dependencies": "npx npm-check-updates",
-    "check:dependencies:update": "npx npm-check-updates -u",
+    "check:dependencies": "ncu",
+    "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint src",
     "lint:ts:fix": "eslint src --fix",
-    "test": "node --experimental-strip-types --experimental-test-module-mocks --test 'test/**/*.test.ts'"
+    "test": "node --experimental-strip-types --experimental-test-module-mocks --test 'test/**/*.test.ts'",
+    "test:update": ""
   },
   "devDependencies": {
-    "@types/node": "^25.9.2",
+    "@types/node": "^26.1.1",
     "typescript": "^5.9.3",
-    "webpack-dev-server": "^5.2.4"
+    "webpack-dev-server": "^5.2.5"
   }
 }

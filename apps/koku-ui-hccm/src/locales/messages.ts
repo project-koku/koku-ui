@@ -849,7 +849,7 @@ export default defineMessages({
   },
   costModelsRecalculateDesc: {
     defaultMessage:
-      'This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Adjustments for already-closed months may stay pending until a Cost Management administrator completes review.',
+      'This cost model is linked to price lists. When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Changes will apply only to data from the current month onwards; historical data from past months will not be affected.',
     description: 'Recalculating charges',
     id: 'costModelsRecalculateDesc',
   },
@@ -1184,6 +1184,12 @@ export default defineMessages({
     description: 'Usage cost on the day you are charged',
     id: 'costTypeUnblendedDesc',
   },
+  costTypeValues: {
+    defaultMessage:
+      '{value, select, ' + 'infrastructure {Infrastructure} ' + 'supplementary {Supplementary} ' + 'other {}}',
+    description: 'Cost type values',
+    id: 'costTypeValues',
+  },
   cpuEfficiency: {
     defaultMessage: 'CPU workload efficiency',
     description: 'CPU workload efficiency',
@@ -1312,6 +1318,7 @@ export default defineMessages({
       'DKK {DKK ({symbol}) - Danish Krone}' +
       'EUR {EUR ({symbol}) - Euro}' +
       'GBP {GBP ({symbol}) - British Pound}' +
+      'GHS {GHS ({symbol}) - Ghanaian Cedi}' +
       'HKD {HKD ({symbol}) - Hong Kong Dollar}' +
       'INR {INR ({symbol}) - Indian Rupee}' +
       'JPY {JPY ({symbol}) - Japanese Yen}' +
@@ -1414,6 +1421,63 @@ export default defineMessages({
     description: 'Data retrieval',
     id: 'dataDetailsRetrieval',
   },
+  dataRetentionErrorDesc: {
+    defaultMessage: '{value, select, ' + 'update {Failed to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionErrorDesc',
+  },
+  dataRetentionErrorTitle: {
+    defaultMessage: '{value, select, ' + 'update {Unable to update data retention period} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionErrorTitle',
+  },
+  dataRetentionInputAriaLabel: {
+    defaultMessage: 'Data retention period number input',
+    description: 'Data retention period number input',
+    id: 'dataRetentionInputAriaLabel',
+  },
+  dataRetentionLoadingStateDesc: {
+    defaultMessage: 'Searching for your data retention period. Do not refresh the browser',
+    description: 'Searching for your data retention period. Do not refresh the browser',
+    id: 'dataRetentionLoadingStateDesc',
+  },
+  dataRetentionLoadingStateTitle: {
+    defaultMessage: 'Looking for data retention period...',
+    description: 'Looking for data retention period',
+    id: 'dataRetentionLoadingStateTitle',
+  },
+  dataRetentionMinusBtnAriaLabel: {
+    defaultMessage: 'Data retention period minus button',
+    description: 'Data retention period minus button',
+    id: 'dataRetentionMinusBtnAriaLabel',
+  },
+  dataRetentionPeriod: {
+    defaultMessage: 'Data retention period',
+    description: 'Data retention period',
+    id: 'dataRetentionPeriod',
+  },
+  dataRetentionPeriodDesc: {
+    defaultMessage:
+      'Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment.',
+    description:
+      'Choose how long detailed cost data is kept. Older data may be removed or summarized after this period, depending on your environment.',
+    id: 'dataRetentionPeriodDesc',
+  },
+  dataRetentionPlusBtnAriaLabel: {
+    defaultMessage: 'Data retention period plus button',
+    description: 'Data retention period plus button',
+    id: 'dataRetentionPlusBtnAriaLabel',
+  },
+  dataRetentionSuccess: {
+    defaultMessage: '{value, select, ' + 'update {Data retention period updated} ' + 'other {}}',
+    description: 'Data retention period updated',
+    id: 'dataRetentionSuccess',
+  },
+  dataRetentionSuccessChanges: {
+    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
+    description: 'Changes will be reflected in report summarizations within 24 hours',
+    id: 'dataRetentionSuccessChanges',
+  },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
     description: 'Details table',
@@ -1438,6 +1502,17 @@ export default defineMessages({
     defaultMessage: 'Start date',
     description: 'Start date',
     id: 'datePickerStartDateAriaLabel',
+  },
+  dateRange: {
+    defaultMessage:
+      '{value, select, ' +
+      'custom {Custom} ' +
+      'six_months {6 months} ' +
+      'three_months {3 months} ' +
+      'twelve_months {12 months} ' +
+      'other {}}',
+    description: 'Date range based on {value}',
+    id: 'dateRange',
   },
   default: {
     defaultMessage: 'Default',
@@ -1743,6 +1818,21 @@ export default defineMessages({
     defaultMessage: 'Discount (-)',
     description: 'Discount (-)',
     id: 'discountMinus',
+  },
+  display: {
+    defaultMessage: 'Display',
+    description: 'Display',
+    id: 'display',
+  },
+  displayCurrency: {
+    defaultMessage: 'Display currency',
+    description: 'Display currency',
+    id: 'displayCurrency',
+  },
+  displayCurrencyDesc: {
+    defaultMessage: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
+    description: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
+    id: 'displayCurrencyDesc',
   },
   distribute: {
     defaultMessage: 'Distribute',
@@ -2453,6 +2543,7 @@ export default defineMessages({
       'account {Account} ' +
       'aws_category {Cost category} ' +
       'cluster {Cluster} ' +
+      'cost_type {Cost type} ' +
       'container {Container} ' +
       'currency {Currency} ' +
       'default {Default} ' +
@@ -2462,6 +2553,7 @@ export default defineMessages({
       'gpu_vendor {GPU vendor} ' +
       'group {Group} ' +
       'instance {Instance} ' +
+      'measurement {Measurement} ' +
       'metric {Metric} ' +
       'name {Name} ' +
       'node {Node} ' +
@@ -2893,7 +2985,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'count {{count, plural, one {Count} other {Count ({units})}}} ' +
-      'effective_usage {{count, plural, one {Request} other {Effective-usage ({units})}}} ' +
+      'effective_usage {{count, plural, one {Effective-usage} other {Effective-usage ({units})}}} ' +
       'request {{count, plural, one {Request} other {Request ({units})}}} ' +
       'usage {{count, plural, one {Usage} other {Usage ({units})}}} ' +
       'other {}}',
@@ -2979,6 +3071,11 @@ export default defineMessages({
     defaultMessage: 'Month over month change',
     description: 'Month over month change',
     id: 'monthOverMonthChange',
+  },
+  months: {
+    defaultMessage: 'Months',
+    description: 'Months',
+    id: 'months',
   },
   moreOptions: {
     defaultMessage: 'More options',
@@ -3235,9 +3332,14 @@ export default defineMessages({
     id: 'notAuthorizedStateAzure',
   },
   notAuthorizedStateCostModels: {
-    defaultMessage: 'Cost models in cost management',
-    description: 'Cost models in cost management',
+    defaultMessage: 'cost models in cost management',
+    description: 'cost models in cost management',
     id: 'notAuthorizedStateCostModels',
+  },
+  notAuthorizedStatePriceLists: {
+    defaultMessage: 'price lists in cost management',
+    description: 'price lists in cost management',
+    id: 'notAuthorizedStatePriceLists',
   },
   notAuthorizedStateGcp: {
     defaultMessage: 'Google Cloud in cost management',
@@ -3255,8 +3357,8 @@ export default defineMessages({
     id: 'notAuthorizedStateOptimizations',
   },
   notAuthorizedStateSettings: {
-    defaultMessage: 'Settings in cost management',
-    description: 'Settings in cost management',
+    defaultMessage: 'settings in cost management',
+    description: 'settings in cost management',
     id: 'notAuthorizedStateSettings',
   },
   notAvailable: {
@@ -3809,10 +3911,17 @@ export default defineMessages({
   },
   priceListReviewChange: {
     defaultMessage:
-      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+      'Assigning or unassigning price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
     description:
-      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. For past months, we may add adjustment records that an administrator can review and approve. Do you want to continue?',
+      'Assigning or unassigning price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
     id: 'priceListReviewChange',
+  },
+  priceListReviewOrder: {
+    defaultMessage:
+      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
+    description:
+      'Changing the order of price lists for {costModel} allocation can change which rates apply when periods overlap. If you continue, we may update this month’s charge calculations using today’s data. Historical data from past months will not be affected. Do you want to continue?',
+    id: 'priceListReviewOrder',
   },
   priceListReviewUpdate: {
     defaultMessage:

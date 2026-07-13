@@ -50,7 +50,6 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
 
         const selectedUuids = new Set((selectedItems ?? []).map(selected => selected.uuid));
         const newPriceLists = costModel?.price_lists?.filter(item => !selectedUuids.has(item.uuid));
-        const uuids = newPriceLists?.map(item => item.uuid) ?? [];
 
         // Workaround for cost models API's unsupported rate_id
         const newCostModel = {
@@ -67,8 +66,9 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
           costModelsActions.updateCostModel(newCostModel?.uuid, {
             ...(newCostModel ?? {}),
             price_lists: undefined,
-            price_list_uuids: uuids,
+            price_list_uuids: newPriceLists?.map(item => item.uuid) ?? [],
             source_type: getSourceType(newCostModel?.source_type),
+            source_uuids: costModel?.sources?.map(cm => cm.uuid) ?? [],
           })
         );
       } else {
@@ -88,9 +88,6 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
       }
     }
   }, [isFinish, costModel, costModelsUpdateError, costModelsUpdateStatus, onRemove, selectedItems]);
-
-  // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
-  // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
 
   return <ReviewChangeModal costModel={costModel} isOpen={isOpen} onClose={onClose} onConfirm={handleOnRemove} />;
 };

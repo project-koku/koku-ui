@@ -4,8 +4,11 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import { useIsPriceListToggleEnabled } from 'components/featureToggle';
-import { isSourcesSettingsTabEnabled } from 'components/featureToggle/featureToggle';
+import { useIsDisplayToggleEnabled, useIsPriceListToggleEnabled } from 'components/featureToggle';
+import {
+  isSettingsDataRetentionPeriodEnabled,
+  isSettingsSourcesTabEnabled,
+} from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -26,10 +29,16 @@ import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
 import { formatPath } from 'utils/paths';
-import { hasCostModelAccess, hasSettingsAccess } from 'utils/userAccess';
+import {
+  hasCostModelAccess,
+  hasCostModelWritePermission,
+  hasSettingsAccess,
+  hasSettingsWritePermission,
+} from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
 import { CostModel } from './costModels';
+import { Display } from './display';
 import { PriceList } from './priceLists';
 import { styles } from './settings.styles';
 
@@ -37,6 +46,7 @@ const enum SettingsTab {
   costModels = 'cost_models',
   calculations = 'calculations',
   costCategory = 'cost_category',
+  display = 'display',
   platformProjects = 'platform_projects',
   priceList = 'price_list',
   tags = 'tags',
@@ -51,6 +61,8 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
       return 'calculations';
     case SettingsTab.costCategory:
       return 'cost_category';
+    case SettingsTab.display:
+      return 'display';
     case SettingsTab.platformProjects:
       return 'platform_projects';
     case SettingsTab.priceList:
@@ -77,6 +89,7 @@ export interface SettingsMapProps {
 
 export interface SettingsStateProps {
   activeTabKey?: number;
+  isDisplayToggleEnabled: boolean;
   isPriceListToggleEnabled: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
@@ -92,6 +105,7 @@ const Settings: React.FC<SettingsProps> = () => {
 
   const {
     activeTabKey: activeTabKeyState,
+    isDisplayToggleEnabled,
     isPriceListToggleEnabled,
     userAccess,
     userAccessFetchStatus,
@@ -101,16 +115,9 @@ const Settings: React.FC<SettingsProps> = () => {
     setActiveTabKey(activeTabKeyState ?? 0);
   }, [activeTabKeyState]);
 
-  const canWrite = () => {
-    let result = false;
-    if (userAccess) {
-      const data = (userAccess.data as any).find(d => d.type === 'settings');
-      result = data?.access && data?.write;
-    }
-    return result;
-  };
-
   const getAvailableTabs = () => {
+    const showDisplayTab = isDisplayToggleEnabled || isSettingsDataRetentionPeriodEnabled;
+
     const availableTabs: AvailableTab[] = [
       {
         contentRef: React.createRef(),
@@ -124,10 +131,14 @@ const Settings: React.FC<SettingsProps> = () => {
             },
           ]
         : []),
-      {
-        contentRef: React.createRef(),
-        tab: SettingsTab.calculations,
-      },
+      ...(!showDisplayTab
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: SettingsTab.calculations,
+            },
+          ]
+        : []),
       {
         contentRef: React.createRef(),
         tab: SettingsTab.tags,
@@ -140,7 +151,15 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
       },
-      ...(isSourcesSettingsTabEnabled
+      ...(showDisplayTab
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: SettingsTab.display,
+            },
+          ]
+        : []),
+      ...(isSettingsSourcesTabEnabled
         ? [
             {
               contentRef: React.createRef(),
@@ -183,38 +202,43 @@ const Settings: React.FC<SettingsProps> = () => {
     const notAuthorized = <NotAuthorized pathname={formatPath(routes.settings.path)} />;
     const emptyTab = <></>; // Lazily load tabs
 
-    if (activeTabKey !== index) {
+    if (activeTabKey !== index || userAccessFetchStatus !== FetchStatus.complete) {
       return emptyTab;
     }
 
+    const canWriteCostModels = hasCostModelWritePermission(userAccess);
+    const canWriteSettings = hasSettingsWritePermission(userAccess);
     const currentTab = getIdKeyForTab(tab);
+
     if (currentTab === SettingsTab.costModels) {
       return hasCostModelAccess(userAccess) ? (
         isPriceListToggleEnabled ? (
-          <CostModel canWrite={canWrite()} />
+          <CostModel canWrite={canWriteCostModels} />
         ) : (
           <CostModelsDetails />
         )
       ) : (
-        <NotAuthorized pathname={formatPath(routes.costModelBreakdown.path)} />
+        <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
-      return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.costCategory) {
-      return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWriteSettings} /> : notAuthorized;
+    } else if (currentTab === SettingsTab.display) {
+      return hasSettingsAccess(userAccess) ? <Display canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.platformProjects) {
-      return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
-      return hasSettingsAccess(userAccess) ? <PriceList canWrite={canWrite()} /> : notAuthorized;
+      return hasCostModelAccess(userAccess) ? <PriceList canWrite={canWriteCostModels} /> : notAuthorized;
     } else if (currentTab === SettingsTab.tags) {
-      return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWrite()} /> : notAuthorized;
+      return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {
       return hasSettingsAccess(userAccess) ? (
         <ScalprumComponent
           scope="sources"
           module="./SourcesPage"
           fallback={<LoadingState />}
-          {...({ canWrite: canWrite() } as Record<string, unknown>)}
+          {...({ canWrite: canWriteSettings } as Record<string, unknown>)}
         />
       ) : (
         notAuthorized
@@ -239,6 +263,8 @@ const Settings: React.FC<SettingsProps> = () => {
       return intl.formatMessage(messages.costCategoryTitle);
     } else if (tab === SettingsTab.costModels) {
       return intl.formatMessage(messages.costModels);
+    } else if (tab === SettingsTab.display) {
+      return intl.formatMessage(messages.display);
     } else if (tab === SettingsTab.platformProjects) {
       return intl.formatMessage(messages.platformProjectsTitle);
     } else if (tab === SettingsTab.priceList) {
@@ -299,6 +325,7 @@ const useMapToProps = (): SettingsStateProps => {
 
   return {
     activeTabKey: queryState?.activeTabKey,
+    isDisplayToggleEnabled: useIsDisplayToggleEnabled(),
     isPriceListToggleEnabled: useIsPriceListToggleEnabled(),
     userAccess,
     userAccessError,

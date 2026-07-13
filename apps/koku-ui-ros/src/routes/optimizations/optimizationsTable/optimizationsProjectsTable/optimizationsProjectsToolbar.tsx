@@ -4,7 +4,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { BasicToolbar } from 'routes/components/dataToolbar';
+import { DataToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
 
 interface OptimizationsProjectsToolbarOwnProps {
@@ -41,27 +41,15 @@ class OptimizationsProjectsToolbarBase extends React.Component<
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl, isClusterHidden, isProjectHidden } = this.props;
 
-    const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'container' }), key: 'container' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'workload' }), key: 'workload' },
-      {
-        name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }),
-        key: 'workload_type',
-        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
-        selectOptions: [
-          { name: 'daemonset', key: 'daemonset' },
-          { name: 'deployment', key: 'deployment' },
-          { name: 'deploymentconfig', key: 'deploymentconfig' },
-          { name: 'replicaset', key: 'replicaset' },
-          { name: 'replicationcontroller', key: 'replicationcontroller' },
-          { name: 'statefulset', key: 'statefulset' },
-        ],
-      },
-    ];
-    const filteredOptions = isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;
-    return isProjectHidden ? filteredOptions.filter(option => option.key !== 'project') : filteredOptions;
+    // Available values -- see https://github.com/RedHatInsights/ros-ocp-backend/blob/main/openapi.json
+    const options = [];
+    if (!isClusterHidden) {
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' });
+    }
+    if (!isProjectHidden) {
+      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' });
+    }
+    return options;
   };
 
   public render() {
@@ -69,8 +57,9 @@ class OptimizationsProjectsToolbarBase extends React.Component<
     const { categoryOptions } = this.state;
 
     return (
-      <BasicToolbar
+      <DataToolbar
         categoryOptions={categoryOptions}
+        groupBy={'project'}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
@@ -78,8 +67,9 @@ class OptimizationsProjectsToolbarBase extends React.Component<
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        showCriteria
+        showExact
         showFilter
-        useActiveFilters
       />
     );
   }

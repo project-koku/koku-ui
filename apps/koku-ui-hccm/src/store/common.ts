@@ -7,9 +7,9 @@ import type { RootState } from './rootReducer';
 export const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 export const enum FetchStatus {
-  'none',
-  'inProgress',
-  'complete',
+  none,
+  inProgress,
+  complete,
 }
 
 export function createMapStateToProps<OwnProps, StateProps>(
