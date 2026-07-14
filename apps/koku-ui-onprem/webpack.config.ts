@@ -146,18 +146,22 @@ const config: Configuration & {
     },
     setupMiddlewares,
     proxy: [
-      {
-        context: ['/api/cost-management/v1'],
-        target: process.env.API_PROXY_URL,
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: { '^/api/cost-management/v1': '' },
-        // Pass both HTTP and HTTPS traffic through the PAC agent
-        ...(pacAgent && { agent: pacAgent }),
-        // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
-        // header injected by oauth2-proxy is forwarded as-is to the gateway.
-        ...(proxyHeaders && { headers: proxyHeaders }),
-      },
+      ...(process.env.API_PROXY_URL
+        ? [
+            {
+              context: ['/api/cost-management/v1'],
+              target: process.env.API_PROXY_URL,
+              changeOrigin: true,
+              secure: false,
+              pathRewrite: { '^/api/cost-management/v1': '' },
+              // Pass both HTTP and HTTPS traffic through the PAC agent
+              ...(pacAgent && { agent: pacAgent }),
+              // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
+              // header injected by oauth2-proxy is forwarded as-is to the gateway.
+              ...(proxyHeaders && { headers: proxyHeaders }),
+            },
+          ]
+        : []),
       ...(rbacProxyTarget
         ? [
             {
