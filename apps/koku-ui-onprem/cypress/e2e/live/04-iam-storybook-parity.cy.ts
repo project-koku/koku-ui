@@ -1,6 +1,6 @@
 /**
  * Live gate: Storybook parity items from FLPATH-4164 (My User Access section).
- * Requires npm run start:onprem:dev — not for CI.
+ * Requires npm run start:onprem:auth — not for CI.
  */
 import { HostNavPage } from '../../support/pages/host-nav.page';
 import { IamPage } from '../../support/pages/iam.page';

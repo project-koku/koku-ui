@@ -51,28 +51,29 @@ oc login -s <cluster_api_url> -u <username> --password <password>
 source scripts/setup-onprem-env.sh
 ```
 
-This sets `API_PROXY_URL` and `API_TOKEN` by auto-discovering cluster configuration.
-Discovery order: (1) `CostManagementMetricsConfig` CR if the CMMO operator is installed,
+This sets `API_PROXY_URL` and `API_TOKEN` (a short-lived token, used only as a
+connectivity check) by auto-discovering cluster configuration. Discovery order:
+(1) `CostManagementMetricsConfig` CR if the CMMO operator is installed,
 (2) `cost-onprem` Helm chart resources (gateway route + keycloak-debug ConfigMap + Keycloak secret).
-
-It also exports `KEYCLOAK_TOKEN_URL`, `KEYCLOAK_CLIENT_ID`, and
-`KEYCLOAK_CLIENT_SECRET`, which enable **automatic token renewal** in the
-dev server. Without these variables the proxy uses the static `API_TOKEN`
-(which expires after a few minutes); with them, the proxy refreshes the
-token in the background before it expires.
 
 ### Starting the dev server
 
 From the root of the repo, run
+
 ```
-npm run start:onprem:dev
+npm run start:onprem:auth
 ```
 
-`start:onprem:dev` sources `scripts/setup-onprem-env.sh` (requires `oc` login; auto-discovers
-API URL and Keycloak credentials from cluster resources), then starts the full on-prem stack.
-All remotes share `libs/onprem-cloud-deps` (feat shims; Unleash stub uses lazy init to avoid HCCM TDZ).
+`start:onprem:auth` sources `scripts/setup-onprem-env.sh` (requires `oc` login; auto-discovers
+API URL and Keycloak credentials from cluster resources), then starts the full on-prem stack
+behind a local `oauth2-proxy` container so you sign in as a real user (real OIDC flow, session
+expiry, logout redirect — see below). All remotes share `libs/onprem-cloud-deps` (feat shims;
+Unleash stub uses lazy init to avoid HCCM TDZ).
 
-The dev server opens pre-authenticated (no login screen). Token refresh runs in the background.
+> **Historical note:** an earlier `start:onprem:dev` mode kept a shared service-account token
+> "hot" via a `TokenRefresher` library, opening the app pre-authenticated with no login screen.
+> That workaround predated multi-tenancy support and was removed in COST-7903 — `start:onprem:auth`
+> is now the only supported way to run the on-prem stack against a cluster locally.
 
 ### Auth enabled dev-mode — login screen, real sessions & logout (start:onprem:auth)
 
@@ -113,7 +114,7 @@ Production image: `apps/koku-ui-onprem/Containerfile` runs `build:onprem` for RB
 | Integration (mocked APIs) | [`cypress/e2e/integration/`](cypress/e2e/integration/) | `npm run test:cypress` |
 | E2E (cluster-backed) | [`cypress/e2e/live/`](cypress/e2e/live/) | `npm run test:cypress:live` |
 
-Live e2e is **not** run in CI. From koku-ui root: `npm run start:onprem:dev`, then `npm run test:cypress:live -w @koku-ui/koku-ui-onprem` (21 tests in `cypress/e2e/live/`). RBAC federated build: `npm run build:onprem -w @koku-ui/rbac-ui-onprem`.
+Live e2e is **not** run in CI. From koku-ui root: `npm run start:onprem:auth`, then `npm run test:cypress:live -w @koku-ui/koku-ui-onprem` (21 tests in `cypress/e2e/live/`). RBAC federated build: `npm run build:onprem -w @koku-ui/rbac-ui-onprem`.
 
 Details: [`cypress/README.md`](cypress/README.md).
 
@@ -130,7 +131,7 @@ comma-separated env before starting:
 
 ```
 export ONPREM_UNLEASH_FLAGS=some.flag.name,another.flag
-npm run start:onprem:dev
+npm run start:onprem:auth
 ```
 
 The host wraps the app in `FlagProvider` from the stub so federated remotes share the same context.
