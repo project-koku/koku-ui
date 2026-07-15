@@ -13,4 +13,7 @@ export const styles = {
   title: {
     marginTop: t_global_spacer_sm.var,
   },
+  toolbarContainer: {
+    marginTop: t_global_spacer_sm.var,
+  },
 } as { [className: string]: React.CSSProperties };
