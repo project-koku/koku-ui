@@ -58,7 +58,6 @@
     "style-loader": "^4.0.0",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "webpack-dev-server": "^5.2.5"
+    "typescript": "^5.9.3"
   }
 }
