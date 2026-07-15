@@ -3,13 +3,14 @@ import t_global_spacer_sm from '@patternfly/react-tokens/dist/js/t_global_spacer
 import type React from 'react';
 
 export const styles = {
-  headerContainer: {
-    paddingBottom: 0,
-  },
   infoIcon: {
     fontSize: t_global_font_size_md.var,
   },
   title: {
     paddingBottom: t_global_spacer_sm.var,
+  },
+  titleDesc: {
+    paddingBottom: t_global_spacer_sm.var,
+    paddingTop: 0,
   },
 } as { [className: string]: React.CSSProperties };
