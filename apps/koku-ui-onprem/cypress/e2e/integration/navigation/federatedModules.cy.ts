@@ -59,6 +59,11 @@ describe('Federated Modules', () => {
 
       // Title is owned by OptimizationsDetailsTitle (parent), not OptimizationsDetails
       cy.get('h1').should('contain.text', 'Optimizations');
+
+      // On-prem HCCM defaults enable the efficiency toggle, so the page lands on the
+      // Efficiency tab (activeTabKey === 0). Open Optimizations to assert table rows.
+      cy.contains('[role="tab"]', /^Optimizations$/).click();
+
       // Federated OptimizationsDetails table row (avoid sortable header buttons —
       // PatternFly pf-v6-c-table__button is often not Cypress-"visible")
       cy.contains('api-server').should('be.visible');
