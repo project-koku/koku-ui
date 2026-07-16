@@ -4,35 +4,30 @@ import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { featureToggleActions } from 'store/featureToggle';
 
-export const enum FeatureToggle {
-  boxPlot = 'cost-management.koku-ui-ros.box-plot', // https://redhat.atlassian.net/browse/COST-4619
-  debug = 'cost-management.koku-ui-ros.debug', // Logs user data (e.g., account ID) in browser console
-  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
-  projectLink = 'cost-management.koku-ui-ros.project-link', // Optimizations breakdown project link https://redhat.atlassian.net/browse/COST-4527
-}
+import { FeatureToggleType } from './featureToggleType';
 
-const useIsToggleEnabled = (toggle: FeatureToggle) => {
+const useIsToggleEnabled = (toggle: FeatureToggleType) => {
   const client = useUnleashClient();
   return client?.isEnabled?.(toggle) ?? false;
 };
 
 export const useIsDebugToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.debug);
+  return useIsToggleEnabled(FeatureToggleType.debug);
 };
 
 export const useIsBoxPlotToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.boxPlot);
+  return useIsToggleEnabled(FeatureToggleType.boxPlot);
 };
 
 export const useIsProjectLinkToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.projectLink);
+  return useIsToggleEnabled(FeatureToggleType.projectLink);
 };
 
 export const useIsNamespaceToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.namespace);
+  return useIsToggleEnabled(FeatureToggleType.namespace);
 };
 
-// The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
+// FeatureToggle saves feature toggles in store for places where the Unleash hook is not available
 const useFeatureToggle = () => {
   const dispatch = useDispatch();
   const { auth } = useChrome();
