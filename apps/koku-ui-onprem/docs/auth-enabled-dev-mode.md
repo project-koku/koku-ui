@@ -1,18 +1,18 @@
 # Auth-enabled dev mode (`start:onprem:auth`)
 
-> **TL;DR** — run `npm run start:onprem:auth`, open `http://localhost:9002`, and you get a real Keycloak login screen instead of a pre-authenticated session.
+> **TL;DR** — run `npm run start:onprem:auth`, open `http://localhost:9002`, and you get a real Keycloak login screen backed by a real user session.
 
 ---
 
 ## Why does this mode exist?
 
-The default dev server (`start:onprem:dev`) is optimised for **speed**. It bypasses the login screen entirely: a background process silently fetches an API token using a service account and injects it into every outgoing request. This is great for everyday development, but it makes it impossible to:
+`start:onprem:auth` adds a thin authentication layer in front of the dev server that mirrors exactly what happens in production, so you can:
 
 - See what the login page actually looks like to a real user.
 - Test what happens when a session expires and the user is redirected to log in again.
 - Verify the logout flow (`/logout` → Keycloak sign-out → back to the login page).
 
-`start:onprem:auth` adds a thin authentication layer in front of the dev server that mirrors exactly what happens in production.
+> **Historical note (COST-7903):** an earlier `start:onprem:dev` mode bypassed the login screen entirely — a background `TokenRefresher` library silently fetched a shared service-account token and injected it into every outgoing request. That was a workaround from before the on-prem app supported multi-tenancy. Once real per-user auth landed, that workaround (and the `start:onprem:dev` script) was removed; `start:onprem:auth` is now the only local dev path that talks to a cluster.
 
 ---
 
@@ -24,15 +24,15 @@ When you are not logged in, oauth2-proxy redirects your browser to Keycloak. Aft
 
 ---
 
-## How the two modes compare
+## What you get
 
-| | `start:onprem:dev` | `start:onprem:auth` |
-|---|---|---|
-| **Login screen** | ✗ skipped | ✔ real Keycloak page |
-| **Session / logout** | ✗ token never expires | ✔ real session, real logout |
-| **Port** | 9001 | 9002 |
-| **Auth mechanism** | `TokenRefresher` (service account) | oauth2-proxy (OIDC PKCE) |
-| **Extra prerequisite** | — | Podman or Docker |
+| | `start:onprem:auth` |
+|---|---|
+| **Login screen** | ✔ real Keycloak page |
+| **Session / logout** | ✔ real session, real logout |
+| **Port** | 9002 (webpack itself still listens on 9001, behind the proxy) |
+| **Auth mechanism** | oauth2-proxy (OIDC PKCE) |
+| **Extra prerequisite** | Podman or Docker |
 
 ---
 
@@ -84,7 +84,6 @@ After a successful login, Keycloak sends your browser to `http://localhost:9002/
 ### 5. webpack proxies API calls to the cluster
 
 webpack-dev-server is running in `OAUTH2_PROXY_MODE=true`. In this mode:
-- It does **not** start `TokenRefresher` (no background token fetching — `oauth2-proxy` handles that).
 - Its `/api/me` endpoint reads the `x-auth-request-preferred-username` and `x-forwarded-email` headers that `oauth2-proxy` injects, so the app shows your real username.
 - Its `/logout` endpoint redirects to `/oauth2/sign_out`, which tells `oauth2-proxy` to clear your session and send you back to the Keycloak logout page.
 
@@ -114,7 +113,7 @@ A few cluster-only flags are stripped (TLS cert paths, HTTPS address) and replac
 
 When you run `npm run start:onprem:auth`:
 
-1. **`setup-onprem-env.sh`** runs first (same as `start:onprem:dev`) — it logs you into the cluster and sets `API_PROXY_URL`.
+1. **`setup-onprem-env.sh`** runs first — it logs you into the cluster and sets `API_PROXY_URL`.
 2. **`start-onprem-auth.mts`** takes over:
    - Detects your container runtime (`CONTAINER_RUNTIME` env var if set, otherwise Podman → Docker via PATH).
    - Reads credentials and the CA certificate from the cluster.

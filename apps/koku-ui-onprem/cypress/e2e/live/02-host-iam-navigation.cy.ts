@@ -1,6 +1,6 @@
 /**
  * Live on-prem smoke: host ↔ IAM navigation (FLPATH-4164).
- * Requires npm run start:onprem:dev — not for CI.
+ * Requires npm run start:onprem:auth — not for CI.
  */
 import { IamPage } from '../../support/pages/iam.page';
 import { HostNavPage } from '../../support/pages/host-nav.page';

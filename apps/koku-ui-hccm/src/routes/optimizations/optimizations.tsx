@@ -1,6 +1,6 @@
 import { PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import { useIsEfficiencyToggleEnabled, useIsNamespaceToggleEnabled } from 'components/featureToggle';
+import { useIsEfficiencyToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -26,7 +26,6 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const navigate = useNavigate();
 
   const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
-  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
 
   // Initialize from location state if available (e.g. page reload or direct link)
   const [activeTabKey, setActiveTabKey] = useState<number>(location?.state?.efficiencyState?.activeTabKey ?? 0);
@@ -58,9 +57,6 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
     });
   };
 
-  if (!isEfficiencyToggleEnabled) {
-    return <OptimizationsDetails />;
-  }
   return (
     <>
       <PageSection style={styles.headerContainer}>
@@ -68,18 +64,24 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           <div style={styles.headerContent}>
             <AsyncComponent scope="costManagementRos" module="./OptimizationsDetailsTitle" />
           </div>
-          <div style={styles.tabs}>
-            <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-              <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
-              <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
-            </Tabs>
-          </div>
+          {isEfficiencyToggleEnabled && (
+            <div style={styles.tabs}>
+              <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+                <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
+                <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
+              </Tabs>
+            </div>
+          )}
         </header>
       </PageSection>
-      <PageSection>
-        {activeTabKey === 0 && <Efficiency />}
-        {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={!isNamespaceToggleEnabled} />}
-      </PageSection>
+      {isEfficiencyToggleEnabled ? (
+        <PageSection>
+          {activeTabKey === 0 && <Efficiency />}
+          {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} />}
+        </PageSection>
+      ) : (
+        <OptimizationsDetails />
+      )}
     </>
   );
 };

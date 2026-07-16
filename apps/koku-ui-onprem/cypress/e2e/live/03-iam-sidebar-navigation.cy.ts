@@ -1,6 +1,6 @@
 /**
  * Live on-prem smoke: IAM expandable sidebar (FLPATH-4164 Stefan nav).
- * Requires npm run start:onprem:dev — not for CI.
+ * Requires npm run start:onprem:auth — not for CI.
  */
 import { HostNavPage, IAM_NAV_HREFS } from '../../support/pages/host-nav.page';
 
