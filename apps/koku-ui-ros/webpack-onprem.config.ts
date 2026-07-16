@@ -21,6 +21,7 @@ const exposedModules = {
   './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
   './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
+  './OptimizationsDetailsTitle': './src/fed-modules/optimizationsDetailsTitleWrapper.tsx',
   './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
   './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
   './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
