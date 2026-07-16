@@ -55,12 +55,14 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
 
   return (
     <>
-      <OptimizationsOcpBreakdownToolbar
-        currentInterval={query?.interval}
-        onIntervalSelect={handleOnIntervalSelect}
-        onOptimizationTypeSelect={handleOnOptimizationTypeSelect}
-        optimizationType={query?.optimizationType}
-      />
+      <div style={styles.toolbarContainer}>
+        <OptimizationsOcpBreakdownToolbar
+          currentInterval={query?.interval}
+          onIntervalSelect={handleOnIntervalSelect}
+          onOptimizationTypeSelect={handleOnOptimizationTypeSelect}
+          optimizationType={query?.optimizationType}
+        />
+      </div>
       <Divider style={styles.divider} />
       <div style={styles.title}>{intl.formatMessage(messages.optimizationsProject)}</div>
       <Card style={styles.card}>

@@ -528,8 +528,8 @@ async function assembleProxyArgs(upstreamHost: string): Promise<ProxyConfig> {
 
 /**
  * Launches `npm run start:onprem` as a background process with
- * `OAUTH2_PROXY_MODE=true` so webpack skips the `TokenRefresher` middleware
- * and instead reads user identity from headers injected by oauth2-proxy.
+ * `OAUTH2_PROXY_MODE=true` so webpack reads user identity from headers
+ * injected by oauth2-proxy instead of a static bearer token.
  * Polls `http://localhost:<UI_PORT>/` every 2 s (up to 120 s) before returning.
  */
 async function startWebpack(): Promise<void> {

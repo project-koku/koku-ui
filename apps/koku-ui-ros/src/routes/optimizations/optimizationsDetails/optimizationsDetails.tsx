@@ -8,12 +8,12 @@ import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 import { getQueryState } from 'routes/utils/queryState';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
-import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
+import { styles } from './optimizationsDetails.styles';
+import { OptimizationsDetailsToolbar } from './optimizationsDetailsToolbar';
 
 interface OptimizationsDetailsOwnProps {
   breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
   breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
-  isHeaderHidden?: boolean; // Hides header for use in OCP optimizations breakdown
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
   queryStateName: string; // Name used to store query state
@@ -34,7 +34,6 @@ type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
 const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  isHeaderHidden = false,
   linkPath,
   linkState,
   queryStateName,
@@ -68,9 +67,9 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
 
   return (
     <>
-      {!isHeaderHidden && (
-        <PageSection>
-          <OptimizationsDetailsHeader
+      {isNamespaceToggleEnabled && (
+        <PageSection style={styles.toolbarContainer}>
+          <OptimizationsDetailsToolbar
             interval={query?.interval}
             namespace={query?.namespace}
             onIntervalSelect={handleOnIntervalSelect}

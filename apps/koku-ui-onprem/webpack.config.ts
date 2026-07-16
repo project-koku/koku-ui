@@ -1,4 +1,3 @@
-import { createDevServerProxy, createKeycloakFetcher, TokenRefresher } from '@koku-ui/token-refresher';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -81,8 +80,6 @@ const rbacProxyTarget = (() => {
   return match ? match[1] : proxyUrl;
 })();
 
-let refresher: TokenRefresher | undefined;
-
 if (NODE_ENV !== 'production' && !process.env.CI) {
   if (!process.env.API_PROXY_URL) {
     throw new Error(
@@ -91,33 +88,15 @@ if (NODE_ENV !== 'production' && !process.env.CI) {
     );
   }
 
-  if (!isOauth2ProxyMode) {
-    const hasKeycloak =
-      process.env.KEYCLOAK_TOKEN_URL && process.env.KEYCLOAK_CLIENT_ID && process.env.KEYCLOAK_CLIENT_SECRET;
-
-    // When running the UI with a local koku API, API_TOKEN is omitted
-    if (!hasKeycloak && !process.env.API_TOKEN) {
-      throw new Error(
-        '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
-          'Provide one of:\n' +
-          '  1. KEYCLOAK_TOKEN_URL + KEYCLOAK_CLIENT_ID + KEYCLOAK_CLIENT_SECRET  (auto-refresh)\n' +
-          '  2. API_TOKEN  (static bearer token)\n' +
-          '  3. OAUTH2_PROXY_MODE=true  (oauth2-proxy handles auth)\n' +
-          'See apps/koku-ui-onprem/README.md for details.'
-      );
-    }
-
-    if (hasKeycloak) {
-      refresher = new TokenRefresher({
-        fetchToken: createKeycloakFetcher({
-          tokenUrl: process.env.KEYCLOAK_TOKEN_URL!,
-          clientId: process.env.KEYCLOAK_CLIENT_ID!,
-          clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
-        }),
-        fallbackToken: process.env.API_TOKEN,
-      });
-      refresher.start();
-    }
+  // When running the UI with a local koku API, API_TOKEN is omitted
+  if (!isOauth2ProxyMode && !process.env.API_TOKEN) {
+    throw new Error(
+      '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
+        'Provide one of:\n' +
+        '  1. API_TOKEN  (static bearer token)\n' +
+        '  2. OAUTH2_PROXY_MODE=true  (oauth2-proxy handles auth)\n' +
+        'See apps/koku-ui-onprem/README.md for details.'
+    );
   }
 }
 
@@ -167,41 +146,32 @@ const config: Configuration & {
     },
     setupMiddlewares,
     proxy: [
-      refresher && !isOauth2ProxyMode
-        ? createDevServerProxy(refresher, {
-            context: ['/api/cost-management/v1'],
-            target: process.env.API_PROXY_URL!,
-            pathRewrite: { '^/api/cost-management/v1': '' },
-            secure: false,
-          })
-        : {
-            context: ['/api/cost-management/v1'],
-            target: process.env.API_PROXY_URL,
-            changeOrigin: true,
-            secure: false,
-            pathRewrite: { '^/api/cost-management/v1': '' },
-            // Pass both HTTP and HTTPS traffic through the PAC agent
-            ...(pacAgent && { agent: pacAgent }),
-            // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
-            // header injected by oauth2-proxy is forwarded as-is to the gateway.
-            ...(proxyHeaders && { headers: proxyHeaders }),
-          },
+      ...(process.env.API_PROXY_URL
+        ? [
+            {
+              context: ['/api/cost-management/v1'],
+              target: process.env.API_PROXY_URL,
+              changeOrigin: true,
+              secure: false,
+              pathRewrite: { '^/api/cost-management/v1': '' },
+              // Pass both HTTP and HTTPS traffic through the PAC agent
+              ...(pacAgent && { agent: pacAgent }),
+              // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
+              // header injected by oauth2-proxy is forwarded as-is to the gateway.
+              ...(proxyHeaders && { headers: proxyHeaders }),
+            },
+          ]
+        : []),
       ...(rbacProxyTarget
         ? [
-            refresher && !isOauth2ProxyMode
-              ? createDevServerProxy(refresher, {
-                  context: ['/api/rbac'],
-                  target: rbacProxyTarget,
-                  secure: false,
-                })
-              : {
-                  context: ['/api/rbac'],
-                  target: rbacProxyTarget,
-                  changeOrigin: true,
-                  secure: false,
-                  ...(pacAgent && { agent: pacAgent }),
-                  ...(proxyHeaders && { headers: proxyHeaders }),
-                },
+            {
+              context: ['/api/rbac'],
+              target: rbacProxyTarget,
+              changeOrigin: true,
+              secure: false,
+              ...(pacAgent && { agent: pacAgent }),
+              ...(proxyHeaders && { headers: proxyHeaders }),
+            },
           ]
         : []),
     ],
