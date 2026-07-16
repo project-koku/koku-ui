@@ -57,9 +57,6 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
     });
   };
 
-  if (!isEfficiencyToggleEnabled) {
-    return <OptimizationsDetails />;
-  }
   return (
     <>
       <PageSection style={styles.headerContainer}>
@@ -67,18 +64,24 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           <div style={styles.headerContent}>
             <AsyncComponent scope="costManagementRos" module="./OptimizationsDetailsTitle" />
           </div>
-          <div style={styles.tabs}>
-            <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-              <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
-              <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
-            </Tabs>
-          </div>
+          {isEfficiencyToggleEnabled && (
+            <div style={styles.tabs}>
+              <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+                <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
+                <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
+              </Tabs>
+            </div>
+          )}
         </header>
       </PageSection>
-      <PageSection>
-        {activeTabKey === 0 && <Efficiency />}
-        {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} />}
-      </PageSection>
+      {isEfficiencyToggleEnabled ? (
+        <PageSection>
+          {activeTabKey === 0 && <Efficiency />}
+          {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} />}
+        </PageSection>
+      ) : (
+        <OptimizationsDetails />
+      )}
     </>
   );
 };

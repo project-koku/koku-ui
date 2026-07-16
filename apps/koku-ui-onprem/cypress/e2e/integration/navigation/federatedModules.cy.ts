@@ -57,7 +57,11 @@ describe('Federated Modules', () => {
       // Verify the page container is visible
       cy.get('#primary-app-container').should('be.visible');
 
+      // Title is owned by OptimizationsDetailsTitle (parent), not OptimizationsDetails
       cy.get('h1').should('contain.text', 'Optimizations');
+      // Federated OptimizationsDetails table row (avoid sortable header buttons —
+      // PatternFly pf-v6-c-table__button is often not Cypress-"visible")
+      cy.contains('api-server').should('be.visible');
     });
 
     it('should navigate to Optimizations page from sidebar', () => {
