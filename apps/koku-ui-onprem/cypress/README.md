@@ -7,14 +7,14 @@
 | [`e2e/integration/`](e2e/integration/) | Integration tests with `cy.loadApiInterceptors()` (mocked APIs, no cluster) | `npm run test:cypress` |
 | [`e2e/live/`](e2e/live/) | E2E tests against real APIs via dev proxy (FLPATH-4164) | `npm run test:cypress:live` |
 
-Live specs: `01`–`04` (**21** tests) for local `start:onprem:dev`. The `test:cypress:live` script unsets `ELECTRON_RUN_AS_NODE` when present (IDE sandboxes) so Cypress binary verify can run on macOS.
+Live specs: `01`–`04` (**21** tests) for local `start:onprem:auth`. The `test:cypress:live` script unsets `ELECTRON_RUN_AS_NODE` when present (IDE sandboxes) so Cypress binary verify can run on macOS.
 
 ## E2E (live, not CI)
 
 **Do not** wire `test:cypress:live` into CI. It requires a developer machine with:
 
 1. `oc login` to a cluster with Cost Management deployed
-2. `npm run start:onprem:dev` from koku-ui root (sources `scripts/setup-onprem-env.sh` and starts the full on-prem stack)
+2. `npm run start:onprem:auth` from koku-ui root (sources `scripts/setup-onprem-env.sh`, starts the full on-prem stack behind a local `oauth2-proxy`, and requires completing the Keycloak login once in the browser it opens)
 3. In another terminal: `npm run test:cypress:live` (from `apps/koku-ui-onprem`, or `-w @koku-ui/koku-ui-onprem` from koku-ui root)
 
 Automatable pre-merge check: `npm run build:onprem` in `@koku-ui/rbac-ui-onprem` (after `git submodule update --init vendor/insights-rbac-ui` and `npm ci`).

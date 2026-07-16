@@ -49,7 +49,6 @@
     "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
-    "@koku-ui/token-refresher": "*",
     "@types/node": "^26.1.1",
     "css-minimizer-webpack-plugin": "^8.0.0",
     "cypress": "^15.18.1",
@@ -59,8 +58,6 @@
     "style-loader": "^4.0.0",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "webpack": "5.105.0",
-    "webpack-dev-server": "^5.2.5"
+    "typescript": "^5.9.3"
   }
 }
