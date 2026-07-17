@@ -8,15 +8,11 @@ import { formatPath } from 'utils/paths';
 
 interface OptimizationsDetailsOwnProps {
   activeTabKey?: number;
-  isHeaderHidden?: boolean;
 }
 
 type OptimizationsDetailsProps = OptimizationsDetailsOwnProps;
 
-const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
-  activeTabKey,
-  isHeaderHidden,
-}: OptimizationsDetailsOwnProps) => {
+const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({ activeTabKey }: OptimizationsDetailsOwnProps) => {
   const intl = useIntl();
   const location = useLocation();
 
@@ -26,7 +22,6 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
       module="./OptimizationsDetails"
       breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
       breadcrumbPath={`${formatPath(routes.optimizations.path)}${location.search}`}
-      isHeaderHidden={isHeaderHidden}
       linkPath={formatPath(routes.optimizationsBreakdown.path)}
       linkState={{
         ...(location?.state || {}),
