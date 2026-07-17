@@ -52,6 +52,6 @@ test -f apps/rbac-ui-onprem/dist/plugin-manifest.json
 
 ## Local dev
 
-From koku-ui root: `npm run start:onprem:dev` runs RBAC webpack watch with the host and other remotes.
+From koku-ui root: `npm run start:onprem:auth` runs RBAC webpack watch with the host and other remotes.
 
 Host integration (routes, proxy, Cypress): [`apps/koku-ui-onprem/README.md`](../koku-ui-onprem/README.md).

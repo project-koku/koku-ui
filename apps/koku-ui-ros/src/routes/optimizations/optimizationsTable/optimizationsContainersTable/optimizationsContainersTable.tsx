@@ -343,7 +343,7 @@ const useMapToProps = ({
     if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
     }
-  }, [query]);
+  }, [project, query]);
 
   return {
     report,
