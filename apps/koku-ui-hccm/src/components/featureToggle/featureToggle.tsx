@@ -4,66 +4,51 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FeatureToggleActions } from 'store/featureToggle';
 
+import { FeatureToggleType } from './featureToggleType';
+
 // Build-time flags from webpack DefinePlugin (`fec.config.js` / `webpack-onprem.config.ts`). Not Unleash toggles.
 export const isSettingsDataRetentionPeriodEnabled = process.env.KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD === 'true'; // https://redhat.atlassian.net/browse/COST-7396
 export const isSettingsSourcesTabEnabled = process.env.KOKU_UI_SETTINGS_SOURCES_TAB === 'true';
 
-// Unleash feature toggles
-export const enum FeatureToggle {
-  awsEc2Instances = 'cost-management.koku-ui-hccm.aws-ec2-instances', // https://redhat.atlassian.net/browse/COST-4855
-  debug = 'cost-management.koku-ui-hccm.debug', // Logs user data (e.g., account ID) in browser console
-  display = 'cost-management.koku-ui-hccm.display', // https://redhat.atlassian.net/browse/COST-7396
-  efficiency = 'cost-management.koku-ui-hccm.efficiency', // Efficiency scores https://redhat.atlassian.net/browse/COST-7170
-  exactFilter = 'cost-management.koku-ui-hccm.exact-filter', // Exact filter https://redhat.atlassian.net/browse/COST-6744
-  exports = 'cost-management.koku-ui-hccm.exports', // Async exports https://redhat.atlassian.net/browse/COST-2223
-  gpu = 'cost-management.koku-ui-hccm.gpu', // Cost model GPU metrics https://redhat.atlassian.net/browse/COST-5334
-  mig = 'cost-management.koku-ui-hccm.mig', // Cost of MIG support https://redhat.atlassian.net/browse/COST-7239
-  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
-  priceList = 'cost-management.koku-ui-hccm.price-list', // Life cycle of price list https://redhat.atlassian.net/browse/COST-7330
-  priceListRates = 'cost-management.koku-ui-hccm.price-list-rates', // Price list rates API https://redhat.atlassian.net/browse/COST-7786
-  systems = 'cost-management.koku-ui-hccm.systems', // Systems https://redhat.atlassian.net/browse/COST-5718
-  wastedCost = 'cost-management.koku-ui-hccm.wasted-cost', // Wasted cost https://redhat.atlassian.net/browse/COST-7460
-}
-
-const useIsToggleEnabled = (toggle: FeatureToggle) => {
+const useIsToggleEnabled = (toggle: FeatureToggleType) => {
   const client = useUnleashClient();
   return client?.isEnabled?.(toggle) ?? false;
 };
 
 export const useIsAwsEc2InstancesToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.awsEc2Instances);
+  return useIsToggleEnabled(FeatureToggleType.awsEc2Instances);
 };
 
 export const useIsDebugToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.debug);
+  return useIsToggleEnabled(FeatureToggleType.debug);
 };
 
 export const useIsDisplayToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.display);
+  return useIsToggleEnabled(FeatureToggleType.display);
 };
 
 export const useIsExactFilterToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.exactFilter);
+  return useIsToggleEnabled(FeatureToggleType.exactFilter);
 };
 
 export const useIsEfficiencyToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.efficiency);
+  return useIsToggleEnabled(FeatureToggleType.efficiency);
 };
 
 export const useIsExportsToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.exports);
+  return useIsToggleEnabled(FeatureToggleType.exports);
 };
 
 export const useIsGpuToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.gpu);
+  return useIsToggleEnabled(FeatureToggleType.gpu);
 };
 
 export const useIsMigToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.mig);
+  return useIsToggleEnabled(FeatureToggleType.mig);
 };
 
 export const useIsNamespaceToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.namespace);
+  return useIsToggleEnabled(FeatureToggleType.namespace);
 };
 
 export const useIsOrgAdmin = () => {
@@ -88,22 +73,22 @@ export const useIsOrgAdmin = () => {
 };
 
 export const useIsPriceListToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.priceList);
+  return useIsToggleEnabled(FeatureToggleType.priceList);
 };
 
 export const useIsPriceListRatesToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.priceListRates);
+  return useIsToggleEnabled(FeatureToggleType.priceListRates);
 };
 
 export const useIsSystemsToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.systems);
+  return useIsToggleEnabled(FeatureToggleType.systems);
 };
 
 export const useIsWastedCostToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.wastedCost);
+  return useIsToggleEnabled(FeatureToggleType.wastedCost);
 };
 
-// The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
+// FeatureToggle saves feature toggles in store for places where the Unleash hook is not available
 export const useFeatureToggle = () => {
   const dispatch = useDispatch();
   const { auth } = useChrome();
