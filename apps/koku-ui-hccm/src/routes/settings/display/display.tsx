@@ -1,6 +1,6 @@
 import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
-import { isSettingsDataRetentionPeriodEnabled, useIsOrgAdmin } from 'components/featureToggle';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -33,8 +33,6 @@ export interface DisplayStateProps {
 type DisplayProps = DisplayOwnProps;
 
 const Display: React.FC<DisplayProps> = ({ canWrite }) => {
-  const isOrgAdmin = useIsOrgAdmin();
-
   const [costType, setCostType] = useState(getAccountCostType());
   const [currency, setCurrency] = useState(getAccountCurrency());
 
@@ -66,9 +64,6 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   };
 
   const getCurrency = () => {
-    // Todo: Add description with constant currencies feature
-    // <p>{intl.formatMessage(messages.displayCurrencyDesc)}</p>
-
     return (
       <>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
@@ -101,7 +96,7 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
         </Title>
         {intl.formatMessage(messages.dataRetentionPeriodDesc)}
         <div style={styles.dataRetention}>
-          <DataRetention isDisabled={!isOrgAdmin} />
+          <DataRetention isDisabled={!canWrite} />
         </div>
       </div>
     );
