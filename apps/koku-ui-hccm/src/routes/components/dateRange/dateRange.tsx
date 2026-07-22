@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { DateRangeType, getDateRange } from 'routes/utils/dateRange';
 
 interface DateRangeOwnProps {
+  dataRetentionMonths?: number;
   dateRangeType?: string;
   isCurrentMonthData?: boolean;
   isDataAvailable?: boolean;
@@ -21,6 +22,7 @@ interface DateRangeOwnProps {
 type DateRangeProps = DateRangeOwnProps;
 
 const DateRange: React.FC<DateRangeProps> = ({
+  dataRetentionMonths,
   dateRangeType,
   isCurrentMonthData,
   isDataAvailable,
@@ -56,26 +58,41 @@ const DateRange: React.FC<DateRangeProps> = ({
       options.push(
         {
           label: messages.explorerDateRange,
-          value: DateRangeType.previousMonthToDate,
-          isDisabled: isDataAvailable === false || (isCurrentMonthData === false && isPreviousMonthData === false),
-        },
-        {
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastThirtyDays,
-          isDisabled: isDataAvailable === false || (isCurrentMonthData === false && isPreviousMonthData === false),
-        },
-        {
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastSixtyDays,
+          value: DateRangeType.lastTwoMonths,
           isDisabled: isDataAvailable === false,
         },
         {
           label: messages.explorerDateRange,
-          value: DateRangeType.lastNinetyDays,
+          value: DateRangeType.lastThreeMonths,
           isDisabled: isDataAvailable === false,
-        },
-        { label: messages.explorerDateRange, value: DateRangeType.custom, isDisabled: isDataAvailable === false }
+        }
       );
+      if (dataRetentionMonths >= 6) {
+        options.push({
+          label: messages.explorerDateRange,
+          value: DateRangeType.lastSixMonths,
+          isDisabled: isDataAvailable === false,
+        });
+      }
+      if (dataRetentionMonths >= 12) {
+        options.push({
+          label: messages.explorerDateRange,
+          value: DateRangeType.lastTwelveMonths,
+          isDisabled: isDataAvailable === false,
+        });
+      }
+      if (dataRetentionMonths) {
+        options.push({
+          label: messages.explorerDateRange,
+          value: DateRangeType.maximum,
+          isDisabled: isDataAvailable === false,
+        });
+      }
+      options.push({
+        label: messages.explorerDateRange,
+        value: DateRangeType.custom,
+        isDisabled: isDataAvailable === false,
+      });
     }
     return options;
   };
@@ -101,7 +118,7 @@ const DateRange: React.FC<DateRangeProps> = ({
       >
         <DropdownList>
           {getOptions().map((option, index) => {
-            const { start_date, end_date } = getDateRange(option.value, false);
+            const { start_date, end_date } = getDateRange(option.value, dataRetentionMonths, false);
             const dateRange = intl.formatDateTimeRange(start_date, end_date, {
               day: 'numeric',
               month: 'long',

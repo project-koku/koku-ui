@@ -1,4 +1,5 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
+import { type AccountSettingsData, AccountSettingsType } from 'api/accountSettings';
 import type { Export } from 'api/export/export';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
@@ -7,6 +8,7 @@ import type { ReportPathsType } from 'api/reports/report';
 import type { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import { ExportsLink } from 'components/drawers';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import fileDownload from 'js-file-download';
 import messages from 'locales/messages';
@@ -16,6 +18,8 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getDateRangeFromQuery } from 'routes/utils/dateRange';
+import { accountSettingsActions } from 'store/accountSettings';
+import { accountSettingsSelectors } from 'store/accountSettings';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/export';
 import { FeatureToggleSelectors } from 'store/featureToggle';
@@ -44,10 +48,14 @@ export interface ExportSubmitOwnProps extends NotificationComponentProps, Router
 }
 
 interface ExportSubmitDispatchProps {
+  fetchAccountSettings?: typeof accountSettingsActions.fetchAccountSettings;
   fetchExport?: typeof exportActions.fetchExport;
 }
 
 interface ExportSubmitStateProps {
+  accountSettings?: AccountSettingsData;
+  accountSettingsError?: AxiosError;
+  accountSettingsFetchStatus?: FetchStatus;
   endDate: string;
   exportError: AxiosError;
   exportFetchStatus?: FetchStatus;
@@ -72,6 +80,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.updateReport();
   }
 
   public componentDidUpdate(prevProps: ExportSubmitProps) {
@@ -152,6 +161,18 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
     });
   };
 
+  private updateReport = () => {
+    const { accountSettings, accountSettingsFetchStatus, fetchAccountSettings } = this.props;
+
+    if (
+      isSettingsDataRetentionPeriodEnabled &&
+      !accountSettings &&
+      accountSettingsFetchStatus !== FetchStatus.complete
+    ) {
+      fetchAccountSettings(AccountSettingsType.dataRetention);
+    }
+  };
+
   public render() {
     const { disabled, exportFetchStatus, intl } = this.props;
 
@@ -185,9 +206,25 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
 
   const isPrevious = timeScopeValue === -2;
   const queryFromRoute = parseQuery<Query>(router.location.search);
+
+  // Data retention
+
+  const accountSettings = accountSettingsSelectors.selectAccountSettings(
+    state,
+    AccountSettingsType.dataRetention
+  ) as AccountSettingsData;
+  const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(
+    state,
+    AccountSettingsType.dataRetention
+  );
+  const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(
+    state,
+    AccountSettingsType.dataRetention
+  );
+
   const getDateRange = () => {
     if (queryFromRoute.dateRangeType) {
-      return getDateRangeFromQuery(queryFromRoute);
+      return getDateRangeFromQuery(queryFromRoute, accountSettings?.data_retention_months, false);
     } else {
       const today = getToday();
 
@@ -284,6 +321,9 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   );
 
   return {
+    accountSettings,
+    accountSettingsError,
+    accountSettingsFetchStatus,
     endDate: end_date,
     exportError,
     exportFetchNotification,
@@ -296,6 +336,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
 });
 
 const mapDispatchToProps: ExportSubmitDispatchProps = {
+  fetchAccountSettings: accountSettingsActions.fetchAccountSettings,
   fetchExport: exportActions.fetchExport,
 };
 

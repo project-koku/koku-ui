@@ -1,5 +1,6 @@
-import { DataRetention, DataRetentionType } from 'api/dataRetention';
-import { getQuery } from 'api/queries/query';
+import { Tooltip } from '@patternfly/react-core';
+import type { AccountSettingsData } from 'api/accountSettings';
+import { AccountSettingsType } from 'api/accountSettings';
 import type { AxiosError } from 'axios';
 import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
@@ -11,8 +12,8 @@ import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { RootState } from 'store';
+import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import { FetchStatus } from 'store/common';
-import { dataRetentionActions, dataRetentionSelectors } from 'store/dataRetention';
 
 import { CustomDateRange, DateRange, DateRangeType } from './components';
 import { styles } from './dataRetention.styles';
@@ -23,9 +24,9 @@ interface DataRetentionOwnProps {
 }
 
 export interface DataRetentionStateProps {
-  dataRetention?: DataRetention;
-  dataRetentionError?: AxiosError;
-  dataRetentionFetchStatus?: FetchStatus;
+  accountSettings?: AccountSettingsData;
+  accountSettingsError?: AxiosError;
+  accountSettingsFetchStatus?: FetchStatus;
 }
 
 type DataRetentionProps = DataRetentionOwnProps;
@@ -34,10 +35,11 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
+  const defaultDataRetentionPeriod = 3;
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
-  const [retentionPeriod, setRetentionPeriod] = useState<number>(3);
+  const [retentionPeriod, setRetentionPeriod] = useState<number>(defaultDataRetentionPeriod);
 
-  const { dataRetention, dataRetentionError, dataRetentionFetchStatus } = useMapToProps();
+  const { accountSettings, accountSettingsError, accountSettingsFetchStatus } = useMapToProps();
 
   // Getters
 
@@ -59,8 +61,8 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
     setRetentionPeriod(value);
 
     dispatch(
-      dataRetentionActions.updateDataRetention(DataRetentionType.dataRetentionUpdate, 'test', {
-        name: `test: ${value}`,
+      accountSettingsActions.updateAccountSettings(AccountSettingsType.dataRetention, {
+        data_retention_months: value,
       })
     );
   };
@@ -89,8 +91,8 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
       setIsCustomDateRange(false);
 
       dispatch(
-        dataRetentionActions.updateDataRetention(DataRetentionType.dataRetentionUpdate, 'test', {
-          name: `test: ${newRetentionPeriod}`,
+        accountSettingsActions.updateAccountSettings(AccountSettingsType.dataRetention, {
+          data_retention_months: newRetentionPeriod,
         })
       );
     }
@@ -99,22 +101,21 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
   // Events
 
   useEffect(() => {
-    if (dataRetention && !dataRetentionError && dataRetentionFetchStatus !== FetchStatus.inProgress) {
-      const dataRetentionPeriod = 3;
+    if (accountSettings && !accountSettingsError && accountSettingsFetchStatus !== FetchStatus.inProgress) {
+      const dataRetentionPeriod = accountSettings?.data_retention_months || defaultDataRetentionPeriod;
 
-      // Todo: update value when data-retention API is available
       setRetentionPeriod(dataRetentionPeriod);
 
       const isCustom = dataRetentionPeriod !== 3 && dataRetentionPeriod !== 6 && dataRetentionPeriod !== 12;
       setIsCustomDateRange(isCustom);
     }
-  }, [dataRetention, dataRetentionError, dataRetentionFetchStatus]);
+  }, [accountSettings, accountSettingsError, accountSettingsFetchStatus]);
 
-  if (dataRetentionError) {
+  if (accountSettingsError) {
     return <NotAvailable />;
   }
 
-  if (dataRetentionFetchStatus === FetchStatus.inProgress) {
+  if (accountSettingsFetchStatus === FetchStatus.inProgress) {
     return (
       <LoadingState
         body={intl.formatMessage(messages.dataRetentionLoadingStateDesc)}
@@ -123,62 +124,59 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
     );
   }
 
-  return (
+  const isReadOnly = isDisabled || accountSettings?.env_override === true;
+  const dateRange = (
     <div style={styles.dateRange}>
       <DateRange
         dateRangeType={isCustomDateRange ? DateRangeType.custom : getDateRangeType(retentionPeriod)}
-        isDisabled={isDisabled}
+        isDisabled={isReadOnly}
         onSelect={handleOnDateRangeSelect}
       />
       {isCustomDateRange && (
         <div style={styles.customDateRange}>
           <CustomDateRange
             inputValue={retentionPeriod}
-            isDisabled={isDisabled}
+            isDisabled={isReadOnly}
             onUpdate={handleOnDataRetentionUpdate}
           />
         </div>
       )}
     </div>
   );
+  return accountSettings?.env_override === true ? (
+    <Tooltip content={intl.formatMessage(messages.readOnlyDataRetention)}>{dateRange}</Tooltip>
+  ) : (
+    dateRange
+  );
 };
 
 const useMapToProps = (): DataRetentionStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  const dataRetentionQuery = {
-    // TBD...
-  };
-  const dataRetentionQueryString = getQuery(dataRetentionQuery);
-  const dataRetention = useSelector((state: RootState) =>
-    dataRetentionSelectors.selectDataRetention(state, DataRetentionType.dataRetention, dataRetentionQueryString)
+  const accountSettings = useSelector(
+    (state: RootState) =>
+      accountSettingsSelectors.selectAccountSettings(state, AccountSettingsType.dataRetention) as AccountSettingsData
   );
-  const dataRetentionError = useSelector((state: RootState) =>
-    dataRetentionSelectors.selectDataRetentionError(state, DataRetentionType.dataRetention, dataRetentionQueryString)
+  const accountSettingsError = useSelector((state: RootState) =>
+    accountSettingsSelectors.selectAccountSettingsError(state, AccountSettingsType.dataRetention)
   );
-  const dataRetentionFetchStatus = useSelector((state: RootState) =>
-    dataRetentionSelectors.selectDataRetentionFetchStatus(
-      state,
-      DataRetentionType.dataRetention,
-      dataRetentionQueryString
-    )
+  const accountSettingsFetchStatus = useSelector((state: RootState) =>
+    accountSettingsSelectors.selectAccountSettingsFetchStatus(state, AccountSettingsType.dataRetention)
   );
 
   useEffect(() => {
-    if (!dataRetentionError && dataRetentionFetchStatus !== FetchStatus.inProgress) {
-      dispatch(
-        dataRetentionActions.fetchDataRetention(DataRetentionType.dataRetention, undefined, dataRetentionQueryString)
-      );
+    if (!accountSettings && !accountSettingsError && accountSettingsFetchStatus !== FetchStatus.inProgress) {
+      dispatch(accountSettingsActions.fetchAccountSettings(AccountSettingsType.dataRetention));
     }
-  }, [dispatch, dataRetentionError, dataRetentionQueryString]);
+  }, [accountSettings, accountSettingsError, dispatch]);
 
   // Notifications disabled for on-prem
   useDataRetentionNotifications(isSettingsDataRetentionPeriodEnabled);
 
   return {
-    dataRetention,
-    dataRetentionError,
-    dataRetentionFetchStatus,
+    accountSettings,
+    accountSettingsError,
+    accountSettingsFetchStatus,
   };
 };
 

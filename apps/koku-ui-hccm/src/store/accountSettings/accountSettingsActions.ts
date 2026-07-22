@@ -18,10 +18,13 @@ import { selectAccountSettingsError, selectAccountSettingsFetchStatus } from './
 interface AccountSettingsActionMeta {
   costType?: string;
   currency?: string;
+  data_retention_months?: number;
+  env_override?: boolean;
   fetchId: string;
   notification?: any;
 }
 
+// Fetch
 export const fetchAccountSettingsRequest = createAction('settings/fetch/request')<AccountSettingsActionMeta>();
 export const fetchAccountSettingsSuccess = createAction('settings/fetch/success')<
   AccountSettings,
@@ -31,6 +34,13 @@ export const fetchAccountSettingsFailure = createAction('settings/fetch/failure'
   AxiosError,
   AccountSettingsActionMeta
 >();
+
+// Reset notification and status
+
+export const resetNotifications = createAction('settings/notifications/reset')();
+export const resetStatus = createAction('settings/status/reset')();
+
+// Update
 
 export const updateAccountSettingsRequest = createAction(
   'settings/awsCategoryKeys/update/request'
@@ -81,6 +91,7 @@ export function updateAccountSettings(settingsType: AccountSettingsType, payload
     const meta: AccountSettingsActionMeta = {
       costType: payload.cost_type, // For account cost type update
       currency: payload.currency, // For account currency update
+      data_retention_months: payload.data_retention_months, // For data retention update
       fetchId: getFetchId(settingsType),
     };
 

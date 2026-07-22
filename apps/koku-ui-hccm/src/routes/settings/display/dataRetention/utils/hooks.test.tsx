@@ -4,14 +4,14 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { thunk } from 'redux-thunk';
 
-import { DataRetentionType } from 'api/dataRetention';
-import { dataRetentionReducer, dataRetentionStateKey } from 'store/dataRetention';
-import { getFetchId } from 'store/dataRetention/dataRetentionCommon';
+import { AccountSettingsType } from 'api/accountSettings';
+import { accountSettingsReducer, accountSettingsStateKey } from 'store/accountSettings';
+import { getFetchId } from 'store/accountSettings/accountSettingsCommon';
 import {
-  updateDataRetentionFailure,
-  updateDataRetentionRequest,
-  updateDataRetentionSuccess,
-} from 'store/dataRetention/dataRetentionActions';
+  updateAccountSettingsFailure,
+  updateAccountSettingsRequest,
+  updateAccountSettingsSuccess,
+} from 'store/accountSettings/accountSettingsActions';
 
 import { useDataRetentionNotifications } from './hooks';
 
@@ -25,28 +25,39 @@ describe('useDataRetentionNotifications', () => {
     ({ children }: { children: React.ReactNode }) =>
       <Provider store={store}>{children}</Provider>;
 
+  const buildStoreWithUpdate = (
+    outcome: 'success' | 'failure',
+    notification: { title: string; variant: string }
+  ) => {
+    const fid = getFetchId(AccountSettingsType.dataRetention);
+    let asState = accountSettingsReducer(undefined as any, updateAccountSettingsRequest({ fetchId: fid } as any));
+    asState = accountSettingsReducer(
+      asState,
+      outcome === 'success'
+        ? updateAccountSettingsSuccess({} as any, {
+            fetchId: fid,
+            notification,
+          } as any)
+        : updateAccountSettingsFailure({ message: 'x' } as any, {
+            fetchId: fid,
+            notification,
+          } as any)
+    );
+
+    const frozenReducer: typeof accountSettingsReducer = ((state = asState) => state) as any;
+    return createStore(combineReducers({ [accountSettingsStateKey]: frozenReducer }), applyMiddleware(thunk));
+  };
+
   test('fires notification when update completes with notification payload', async () => {
     const addNotification = jest.fn();
     const {
       useAddNotification,
-    } = require('@redhat-cloud-services/frontend-components-notifications/hooks') as { useAddNotification: jest.Mock };
+    } = require('@redhat-cloud-services/frontend-components-notifications/hooks') as {
+      useAddNotification: jest.Mock;
+    };
     useAddNotification.mockReturnValue(addNotification);
 
-    const fid = getFetchId(DataRetentionType.dataRetentionUpdate);
-    let drState = dataRetentionReducer(undefined as any, updateDataRetentionRequest({ fetchId: fid } as any));
-    drState = dataRetentionReducer(
-      drState,
-      updateDataRetentionSuccess({} as any, {
-        fetchId: fid,
-        notification: { title: 'Done', variant: 'success' },
-      } as any)
-    );
-
-    const frozenReducer: typeof dataRetentionReducer = ((state = drState) => state) as any;
-    const store = createStore(
-      combineReducers({ [dataRetentionStateKey]: frozenReducer }),
-      applyMiddleware(thunk)
-    );
+    const store = buildStoreWithUpdate('success', { title: 'Done', variant: 'success' });
 
     renderHook(() => useDataRetentionNotifications(true), {
       wrapper: wrapperFor(store),
@@ -59,24 +70,12 @@ describe('useDataRetentionNotifications', () => {
     const addNotification = jest.fn();
     const {
       useAddNotification,
-    } = require('@redhat-cloud-services/frontend-components-notifications/hooks') as { useAddNotification: jest.Mock };
+    } = require('@redhat-cloud-services/frontend-components-notifications/hooks') as {
+      useAddNotification: jest.Mock;
+    };
     useAddNotification.mockReturnValue(addNotification);
 
-    const fid = getFetchId(DataRetentionType.dataRetentionUpdate);
-    let drState = dataRetentionReducer(undefined as any, updateDataRetentionRequest({ fetchId: fid } as any));
-    drState = dataRetentionReducer(
-      drState,
-      updateDataRetentionSuccess({} as any, {
-        fetchId: fid,
-        notification: { title: 'Done', variant: 'success' },
-      } as any)
-    );
-
-    const frozenReducer: typeof dataRetentionReducer = ((state = drState) => state) as any;
-    const store = createStore(
-      combineReducers({ [dataRetentionStateKey]: frozenReducer }),
-      applyMiddleware(thunk)
-    );
+    const store = buildStoreWithUpdate('success', { title: 'Done', variant: 'success' });
 
     renderHook(() => useDataRetentionNotifications(false), {
       wrapper: wrapperFor(store),
@@ -89,24 +88,12 @@ describe('useDataRetentionNotifications', () => {
     const addNotification = jest.fn();
     const {
       useAddNotification,
-    } = require('@redhat-cloud-services/frontend-components-notifications/hooks') as { useAddNotification: jest.Mock };
+    } = require('@redhat-cloud-services/frontend-components-notifications/hooks') as {
+      useAddNotification: jest.Mock;
+    };
     useAddNotification.mockReturnValue(addNotification);
 
-    const fid = getFetchId(DataRetentionType.dataRetentionUpdate);
-    let drState = dataRetentionReducer(undefined as any, updateDataRetentionRequest({ fetchId: fid } as any));
-    drState = dataRetentionReducer(
-      drState,
-      updateDataRetentionFailure({ message: 'x' } as any, {
-        fetchId: fid,
-        notification: { title: 'Error', variant: 'danger' },
-      } as any)
-    );
-
-    const frozenReducer: typeof dataRetentionReducer = ((state = drState) => state) as any;
-    const store = createStore(
-      combineReducers({ [dataRetentionStateKey]: frozenReducer }),
-      applyMiddleware(thunk)
-    );
+    const store = buildStoreWithUpdate('failure', { title: 'Error', variant: 'danger' });
 
     renderHook(() => useDataRetentionNotifications(true), {
       wrapper: wrapperFor(store),

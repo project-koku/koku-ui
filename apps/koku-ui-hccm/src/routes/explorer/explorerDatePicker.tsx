@@ -1,5 +1,7 @@
 import type { DatePickerRef } from '@patternfly/react-core';
 import { DatePicker } from '@patternfly/react-core';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { differenceInCalendarDays } from 'date-fns';
 import messages from 'locales/messages';
 import type { FormEvent } from 'react';
 import React from 'react';
@@ -13,6 +15,7 @@ import { withRouter } from 'utils/router';
 import { styles } from './explorerDatePicker.styles';
 
 interface ExplorerDatePickerOwnProps extends RouterComponentProps, WrappedComponentProps {
+  dataRetentionMonths?: number;
   dateRangeType?: DateRangeType;
   endDate?: string | Date;
   onSelect(startDate: Date, endDate: Date);
@@ -26,7 +29,23 @@ interface ExplorerDatePickerState {
 
 type ExplorerDatePickerProps = ExplorerDatePickerOwnProps;
 
-const MAX_DAYS = 65; // Max date range allowed for cost API
+const API_MAX_DAYS = 366; // Max date range allowed for cost API when retention feature is enabled
+const LEGACY_MAX_DAYS = 62; // Max date range allowed for cost API when retention feature is disabled
+
+// See https://docs.google.com/document/d/1Dl8lKUz-fVTyWdyvZ4_8JjK1-ZjU3UrBKk7KGC3AwgE/edit?tab=t.0
+const getMaxDays = (dataRetentionMonths?: number) => {
+  if (!isSettingsDataRetentionPeriodEnabled || dataRetentionMonths === undefined) {
+    return LEGACY_MAX_DAYS;
+  }
+
+  const endDate = getToday();
+  const startDate = getToday();
+  startDate.setDate(1); // Required to obtain correct month
+  startDate.setMonth(startDate.getMonth() - (dataRetentionMonths - 1)); // Includes current month
+
+  const retentionDays = differenceInCalendarDays(endDate, startDate) + 1;
+  return Math.min(API_MAX_DAYS, retentionDays);
+};
 
 class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, ExplorerDatePickerState> {
   protected defaultState: ExplorerDatePickerState = {
@@ -115,12 +134,17 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
     );
   };
 
+  private getMaxDays = () => {
+    const { dataRetentionMonths } = this.props;
+    return getMaxDays(dataRetentionMonths);
+  };
+
   private getMaxEndDate = () => {
     const { startDate } = this.state;
 
     const today = getToday();
     const end_date = startDate ? new Date(startDate.getTime()) : today;
-    end_date.setDate(end_date.getDate() + MAX_DAYS - 1); // 65 days including start date
+    end_date.setDate(end_date.getDate() + this.getMaxDays() - 1);
 
     if (end_date > today) {
       end_date.setTime(today.getTime());
@@ -132,7 +156,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
     const minDate = startDate;
     const maxDate = startDate ? new Date(startDate.getTime()) : undefined;
     if (maxDate) {
-      maxDate.setDate(maxDate.getDate() + MAX_DAYS - 1); // 65 days including start date
+      maxDate.setDate(maxDate.getDate() + this.getMaxDays() - 1);
     }
     return endDate >= minDate && endDate <= maxDate;
   };

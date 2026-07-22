@@ -3,10 +3,10 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 
-import { DataRetentionType } from 'api/dataRetention';
+import { AccountSettingsType } from 'api/accountSettings';
 import { FetchStatus } from 'store/common';
-import { dataRetentionStateKey } from 'store/dataRetention';
-import { getFetchId } from 'store/dataRetention/dataRetentionCommon';
+import { accountSettingsStateKey } from 'store/accountSettings';
+import { getFetchId } from 'store/accountSettings/accountSettingsCommon';
 import { configureStore } from 'store/store';
 
 import { DataRetention } from './dataRetention';
@@ -64,19 +64,20 @@ jest.mock('./components', () => {
   };
 });
 
-jest.mock('store/dataRetention/dataRetentionActions', () => {
-  const actual = jest.requireActual('store/dataRetention/dataRetentionActions');
+jest.mock('store/accountSettings/accountSettingsActions', () => {
+  const actual = jest.requireActual('store/accountSettings/accountSettingsActions');
   return {
     ...actual,
-    fetchDataRetention: jest.fn(() => () => undefined),
-    updateDataRetention: jest.fn(() => () => undefined),
+    fetchAccountSettings: jest.fn(() => () => undefined),
+    updateAccountSettings: jest.fn(() => () => undefined),
   };
 });
 
-import * as dataRetentionActions from 'store/dataRetention/dataRetentionActions';
+import * as accountSettingsActions from 'store/accountSettings/accountSettingsActions';
 
 describe('DataRetention', () => {
-  const fetchId = getFetchId(DataRetentionType.dataRetention, '');
+  const fetchId = getFetchId(AccountSettingsType.dataRetention);
+  const defaultSettings = { data_retention_months: 3, env_override: false };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -85,11 +86,11 @@ describe('DataRetention', () => {
   const renderDataRetention = (
     status: FetchStatus,
     error: unknown = null,
-    data: unknown = { data: [], meta: { count: 0 } },
+    data: unknown = defaultSettings,
     isDisabled = false
   ) => {
     const store = configureStore({
-      [dataRetentionStateKey]: {
+      [accountSettingsStateKey]: {
         byId: new Map([[fetchId, data]]),
         errors: new Map([[fetchId, error]]),
         notification: new Map(),
@@ -126,11 +127,9 @@ describe('DataRetention', () => {
     renderDataRetention(FetchStatus.complete);
     fireEvent.click(screen.getByTestId('select-six-months'));
     expect(screen.getByTestId('date-range')).toHaveAttribute('data-date-range-type', DateRangeType.sixMonths);
-    expect(dataRetentionActions.updateDataRetention).toHaveBeenCalledWith(
-      DataRetentionType.dataRetentionUpdate,
-      'test',
-      { name: 'test: 6' }
-    );
+    expect(accountSettingsActions.updateAccountSettings).toHaveBeenCalledWith(AccountSettingsType.dataRetention, {
+      data_retention_months: 6,
+    });
   });
 
   test('shows custom date range when custom is selected', () => {
@@ -144,15 +143,18 @@ describe('DataRetention', () => {
     renderDataRetention(FetchStatus.complete);
     fireEvent.click(screen.getByTestId('select-custom'));
     fireEvent.click(screen.getByTestId('custom-update'));
-    expect(dataRetentionActions.updateDataRetention).toHaveBeenCalledWith(
-      DataRetentionType.dataRetentionUpdate,
-      'test',
-      { name: 'test: 90' }
-    );
+    expect(accountSettingsActions.updateAccountSettings).toHaveBeenCalledWith(AccountSettingsType.dataRetention, {
+      data_retention_months: 90,
+    });
   });
 
   test('passes isDisabled to date range controls', () => {
-    renderDataRetention(FetchStatus.complete, null, { data: [], meta: { count: 0 } }, true);
+    renderDataRetention(FetchStatus.complete, null, defaultSettings, true);
+    expect(screen.getByTestId('date-range')).toHaveAttribute('data-disabled', 'true');
+  });
+
+  test('disables controls and wraps in tooltip when env_override is true', () => {
+    renderDataRetention(FetchStatus.complete, null, { data_retention_months: 3, env_override: true });
     expect(screen.getByTestId('date-range')).toHaveAttribute('data-disabled', 'true');
   });
 });

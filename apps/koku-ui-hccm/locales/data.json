@@ -5197,27 +5197,35 @@
               }
             ]
           },
-          "last_ninety_days": {
+          "last_two_months": {
             "value": [
               {
                 "type": 0,
-                "value": "Last 90 days"
+                "value": "Last 2 months"
               }
             ]
           },
-          "last_sixty_days": {
+          "last_three_months": {
             "value": [
               {
                 "type": 0,
-                "value": "Last 60 days"
+                "value": "Last 3 months"
               }
             ]
           },
-          "last_thirty_days": {
+          "last_six_months": {
             "value": [
               {
                 "type": 0,
-                "value": "Last 30 days"
+                "value": "Last 6 months"
+              }
+            ]
+          },
+          "last_twelve_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last 12 months"
               }
             ]
           },
@@ -5229,11 +5237,11 @@
               }
             ]
           },
-          "previous_month_to_date": {
+          "maximum": {
             "value": [
               {
                 "type": 0,
-                "value": "Previous month and month to date"
+                "value": "Maximum"
               }
             ]
           },
@@ -13154,6 +13162,12 @@
       {
         "type": 0,
         "value": "Read only"
+      }
+    ],
+    "readOnlyDataRetention": [
+      {
+        "type": 0,
+        "value": "Data retention is controlled by the RETAIN_NUM_MONTHS environment variable and cannot be modified via the API"
       }
     ],
     "readOnlyPermissions": [

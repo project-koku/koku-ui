@@ -1,4 +1,5 @@
 import type { ToolbarLabelGroup } from '@patternfly/react-core';
+import { type AccountSettingsData, AccountSettingsType } from 'api/accountSettings';
 import type { Org, OrgPathsType } from 'api/orgs/org';
 import { OrgType } from 'api/orgs/org';
 import type { Query } from 'api/queries/query';
@@ -7,6 +8,8 @@ import type { Resource, ResourcePathsType } from 'api/resources/resource';
 import { ResourceType } from 'api/resources/resource';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
+import type { AxiosError } from 'axios';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -18,6 +21,7 @@ import { DateRangeType, getDateRangeById } from 'routes/utils/dateRange';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { getRouteForQuery } from 'routes/utils/query';
+import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import type { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
@@ -56,6 +60,9 @@ interface ExplorerFilterOwnProps extends RouterComponentProps, WrappedComponentP
 }
 
 interface ExplorerFilterStateProps {
+  accountSettings?: AccountSettingsData;
+  accountSettingsError?: AxiosError;
+  accountSettingsFetchStatus?: FetchStatus;
   orgPathsType?: OrgPathsType;
   orgQueryString?: string;
   orgReport?: Org;
@@ -71,6 +78,7 @@ interface ExplorerFilterStateProps {
 }
 
 interface ExplorerFilterDispatchProps {
+  fetchAccountSettings?: typeof accountSettingsActions.fetchAccountSettings;
   fetchOrg?: typeof orgActions.fetchOrg;
   fetchResource?: typeof resourceActions.fetchResource;
   fetchTag?: typeof tagActions.fetchTag;
@@ -166,11 +174,13 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   };
 
   private getDateRangeComponent = () => {
-    const { dateRangeType, isCurrentMonthData, isDataAvailable, isPreviousMonthData, isDisabled } = this.props;
+    const { accountSettings, dateRangeType, isCurrentMonthData, isDataAvailable, isPreviousMonthData, isDisabled } =
+      this.props;
     const { showDatePicker } = this.state;
 
     return (
       <DateRange
+        dataRetentionMonths={accountSettings?.data_retention_months}
         dateRangeType={showDatePicker ? DateRangeType.custom : dateRangeType}
         isCurrentMonthData={isCurrentMonthData}
         isDataAvailable={isDataAvailable}
@@ -183,11 +193,12 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   };
 
   private getDatePickerComponent = () => {
-    const { dateRangeType, endDate, startDate } = this.props;
+    const { accountSettings, dateRangeType, endDate, startDate } = this.props;
     const { showDatePicker } = this.state;
 
     return showDatePicker ? (
       <ExplorerDatePicker
+        dataRetentionMonths={accountSettings?.data_retention_months}
         dateRangeType={dateRangeType}
         endDate={endDate}
         onSelect={this.handleOnDatePickerSelect}
@@ -224,6 +235,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
 
   private updateReport = () => {
     const {
+      fetchAccountSettings,
       fetchOrg,
       fetchResource,
       fetchTag,
@@ -236,6 +248,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       tagPathsType,
     } = this.props;
 
+    if (isSettingsDataRetentionPeriodEnabled) {
+      fetchAccountSettings(AccountSettingsType.dataRetention);
+    }
     if (orgPathsType) {
       fetchOrg(orgPathsType, orgType, orgQueryString);
     }
@@ -339,7 +354,25 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
       tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
     }
 
+    // Data retention
+
+    const accountSettings = accountSettingsSelectors.selectAccountSettings(
+      state,
+      AccountSettingsType.dataRetention
+    ) as AccountSettingsData;
+    const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(
+      state,
+      AccountSettingsType.dataRetention
+    );
+    const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(
+      state,
+      AccountSettingsType.dataRetention
+    );
+
     return {
+      accountSettings,
+      accountSettingsError,
+      accountSettingsFetchStatus,
       orgPathsType,
       orgQueryString,
       orgReport,
@@ -357,6 +390,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
 );
 
 const mapDispatchToProps: ExplorerFilterDispatchProps = {
+  fetchAccountSettings: accountSettingsActions.fetchAccountSettings,
   fetchOrg: orgActions.fetchOrg,
   fetchResource: resourceActions.fetchResource,
   fetchTag: tagActions.fetchTag,

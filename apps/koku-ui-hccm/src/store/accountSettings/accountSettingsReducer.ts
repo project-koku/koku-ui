@@ -17,6 +17,8 @@ import {
   fetchAccountSettingsFailure,
   fetchAccountSettingsRequest,
   fetchAccountSettingsSuccess,
+  resetNotifications,
+  resetStatus,
   updateAccountSettingsFailure,
   updateAccountSettingsRequest,
   updateAccountSettingsSuccess,
@@ -40,6 +42,8 @@ export type AccountSettingsAction = ActionType<
   | typeof fetchAccountSettingsFailure
   | typeof fetchAccountSettingsRequest
   | typeof fetchAccountSettingsSuccess
+  | typeof resetNotifications
+  | typeof resetStatus
   | typeof updateAccountSettingsFailure
   | typeof updateAccountSettingsRequest
   | typeof updateAccountSettingsSuccess
@@ -52,17 +56,33 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
       state = defaultState;
       return state;
 
+    case getType(resetNotifications):
+      state = {
+        ...state,
+        notification: new Map(),
+      };
+      return state;
+
+    case getType(resetStatus):
+      state = {
+        ...state,
+        status: new Map(),
+      };
+      return state;
+
     case getType(fetchAccountSettingsFailure):
       return {
         ...state,
         status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
         errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
       };
+
     case getType(fetchAccountSettingsRequest):
       return {
         ...state,
         status: new Map(state.status).set(action.payload.fetchId, FetchStatus.inProgress),
       };
+
     case getType(fetchAccountSettingsSuccess):
       if (action?.payload?.data?.cost_type) {
         setAccountCostType(action.payload.data.cost_type);
@@ -80,6 +100,7 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         }),
         errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
+
     case getType(updateAccountSettingsFailure):
       return {
         ...state,
@@ -87,11 +108,13 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         notification: new Map(state.notification).set(action.meta.fetchId, action.meta.notification),
         status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
       };
+
     case getType(updateAccountSettingsRequest):
       return {
         ...state,
         status: new Map(state.status).set(action.payload.fetchId, FetchStatus.inProgress),
       };
+
     case getType(updateAccountSettingsSuccess):
       if (action?.meta?.costType) {
         setAccountCostType(action.meta.costType);
@@ -107,6 +130,7 @@ export function accountSettingsReducer(state = defaultState, action: AccountSett
         notification: new Map(state.notification).set(action.meta.fetchId, action.meta.notification),
         status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
       };
+
     default:
       return state;
   }
