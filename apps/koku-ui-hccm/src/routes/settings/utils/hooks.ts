@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import type { RootState } from 'store';
-import { accountSettingsSelectors } from 'store/accountSettings';
+import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
+import { getFetchId as getAccountSettingsFetchId } from 'store/accountSettings/accountSettingsCommon';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
@@ -45,11 +46,12 @@ export const useAccountSettingsNotifications = <T>({
       }
       if (notification) {
         addNotification(notification as any);
-        dispatch(settingsActions.resetNotifications());
-        dispatch(settingsActions.resetStatus());
+        const fetchId = getAccountSettingsFetchId(type);
+        dispatch(accountSettingsActions.resetNotifications({ fetchId }));
+        dispatch(accountSettingsActions.resetStatus({ fetchId }));
       }
     }
-  }, [addNotification, dispatch, error, getSessionValue, notification, setState, status]);
+  }, [addNotification, dispatch, error, getSessionValue, notification, setState, status, type]);
 };
 
 export const useSettingsNotifications = ({ type }: SettingsUpdateProps) => {
