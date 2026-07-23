@@ -11,6 +11,7 @@ import { accountSettingsActions, accountSettingsSelectors } from 'store/accountS
 import { getFetchId as getAccountSettingsFetchId } from 'store/accountSettings/accountSettingsCommon';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
+import { getFetchId as getSettingsFetchId } from 'store/settings/settingsCommon';
 
 interface AccountSettingsUpdateProps<T> {
   type: AccountSettingsType;
@@ -68,8 +69,9 @@ export const useSettingsNotifications = ({ type }: SettingsUpdateProps) => {
   useEffect(() => {
     if (status === FetchStatus.complete && notification) {
       addNotification(notification as any);
-      dispatch(settingsActions.resetNotifications());
-      dispatch(settingsActions.resetStatus());
+      const fetchId = getSettingsFetchId(type);
+      dispatch(settingsActions.resetNotifications({ fetchId }));
+      dispatch(settingsActions.resetStatus({ fetchId }));
     }
-  }, [addNotification, dispatch, error, notification, status]);
+  }, [addNotification, dispatch, error, notification, status, type]);
 };
