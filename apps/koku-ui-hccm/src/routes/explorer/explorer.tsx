@@ -8,6 +8,7 @@ import {
   Pagination,
   PaginationVariant,
 } from '@patternfly/react-core';
+import { type AccountSettingsData, AccountSettingsType } from 'api/accountSettings';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -19,6 +20,7 @@ import { ReportType } from 'api/reports/report';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -49,6 +51,7 @@ import {
   handleOnSetPage,
   handleOnSort,
 } from 'routes/utils/queryNavigate';
+import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -76,6 +79,9 @@ import {
 } from './explorerUtils';
 
 interface ExplorerStateProps {
+  accountSettings?: AccountSettingsData;
+  accountSettingsError?: AxiosError;
+  accountSettingsFetchStatus?: FetchStatus;
   awsProviders: Providers;
   azureProviders: Providers;
   costDistribution?: string;
@@ -107,6 +113,7 @@ interface ExplorerStateProps {
 }
 
 interface ExplorerDispatchProps {
+  fetchAccountSettings?: typeof accountSettingsActions.fetchAccountSettings;
   fetchReport: typeof reportActions.fetchReport;
 }
 
@@ -439,7 +446,24 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   };
 
   private updateReport = () => {
-    const { fetchReport, perspective, reportQueryString } = this.props;
+    const {
+      accountSettings,
+      accountSettingsError,
+      accountSettingsFetchStatus,
+      fetchAccountSettings,
+      fetchReport,
+      perspective,
+      reportQueryString,
+    } = this.props;
+
+    if (
+      isSettingsDataRetentionPeriodEnabled &&
+      !accountSettings &&
+      !accountSettingsError &&
+      accountSettingsFetchStatus !== FetchStatus.inProgress
+    ) {
+      fetchAccountSettings(AccountSettingsType.dataRetention);
+    }
     if (perspective) {
       fetchReport(getReportPathsType(perspective), getReportType(perspective), reportQueryString);
     }
@@ -647,7 +671,26 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     perspective,
   });
 
-  const { dateRangeType, end_date, start_date } = getDateRangeFromQuery(queryFromRoute, !isCurrentMonthData);
+  // Data retention
+
+  const accountSettings = accountSettingsSelectors.selectAccountSettings(
+    state,
+    AccountSettingsType.dataRetention
+  ) as AccountSettingsData;
+  const accountSettingsError = accountSettingsSelectors.selectAccountSettingsError(
+    state,
+    AccountSettingsType.dataRetention
+  );
+  const accountSettingsFetchStatus = accountSettingsSelectors.selectAccountSettingsFetchStatus(
+    state,
+    AccountSettingsType.dataRetention
+  );
+
+  const { dateRangeType, end_date, start_date } = getDateRangeFromQuery(
+    queryFromRoute,
+    accountSettings?.data_retention_months,
+    !isCurrentMonthData
+  );
 
   const query: any = {
     ...baseQuery,
@@ -685,6 +728,9 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   );
 
   return {
+    accountSettings,
+    accountSettingsError,
+    accountSettingsFetchStatus,
     awsProviders,
     azureProviders,
     costDistribution,
@@ -716,6 +762,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
 });
 
 const mapDispatchToProps: ExplorerDispatchProps = {
+  fetchAccountSettings: accountSettingsActions.fetchAccountSettings,
   fetchReport: reportActions.fetchReport,
 };
 
