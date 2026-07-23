@@ -1,22 +1,17 @@
 import type { Query } from 'api/queries/query';
 import { endOfMonth } from 'date-fns';
-import {
-  formatStartEndDate,
-  getCurrentMonthDate,
-  getLast30DaysDate,
-  getLast60DaysDate,
-  getLast90DaysDate,
-} from 'utils/dates';
+import { formatStartEndDate, getCurrentMonthDate } from 'utils/dates';
 
 // The date range drop down has the options below (if today is Jan 18th…)
 export const enum DateRangeType {
   currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
-  custom = 'custom', // Any date range within the last 90 days, but no more than 65 days total for best API performance
+  custom = 'custom', // Any date range within the data retention period, but no more than 62 days total by default for best API performance
   previousMonth = 'previous_month', // Previous and current month (Dec 1 - Dec 31)
-  previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
-  lastNinetyDays = 'last_ninety_days', // Last 90 days
-  lastSixtyDays = 'last_sixty_days', // Last 60 days (Nov 18 - Jan 17)
-  lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
+  maximum = 'maximum', // Max data retention period in months
+  lastTwoMonths = 'last_two_months', // Last 2 months
+  lastThreeMonths = 'last_three_months', // Last 3 months
+  lastSixMonths = 'last_six_months', // Last 6 months
+  lastTwelveMonths = 'last_twelve_months', // Last 12 months
 }
 
 export const getDateRangeById = (value: string) => {
@@ -27,18 +22,21 @@ export const getDateRangeById = (value: string) => {
       return DateRangeType.custom;
     case 'previous_month':
       return DateRangeType.previousMonth;
-    case 'previous_month_to_date':
-      return DateRangeType.previousMonthToDate;
-    case 'last_ninety_days':
-      return DateRangeType.lastNinetyDays;
-    case 'last_sixty_days':
-      return DateRangeType.lastSixtyDays;
-    case 'last_thirty_days':
-      return DateRangeType.lastThirtyDays;
+    case 'last_two_months':
+      return DateRangeType.lastTwoMonths;
+    case 'last_three_months':
+      return DateRangeType.lastThreeMonths;
+    case 'last_six_months':
+      return DateRangeType.lastSixMonths;
+    case 'last_twelve_months':
+      return DateRangeType.lastTwelveMonths;
+    case 'maximum':
+      return DateRangeType.maximum;
   }
 };
 
-export const getDateRange = (dateRangeType: DateRangeType, isFormatted = true) => {
+export const getDateRange = (dateRangeType: DateRangeType, dataRetentionMonths: number = 3, isFormatted = true) => {
+  const maxMonths = dataRetentionMonths ? dataRetentionMonths - 1 : 3;
   const endDate = new Date();
   const startDate = new Date();
   let dateRange;
@@ -49,23 +47,32 @@ export const getDateRange = (dateRangeType: DateRangeType, isFormatted = true) =
       startDate.setDate(1); // Required to obtain correct month
       endDate.setMonth(endDate.getMonth() - 1);
       startDate.setMonth(startDate.getMonth() - 1);
-
       dateRange = formatStartEndDate(startDate, endOfMonth(endDate), isFormatted);
       break;
-    case DateRangeType.previousMonthToDate:
+    case DateRangeType.lastTwoMonths:
       startDate.setDate(1); // Required to obtain correct month
-      startDate.setMonth(startDate.getMonth() - 1); // Note: Must include previous and current month
-
+      startDate.setMonth(startDate.getMonth() - 1); // Includes current month
       dateRange = formatStartEndDate(startDate, endDate, isFormatted);
       break;
-    case DateRangeType.lastNinetyDays:
-      dateRange = getLast90DaysDate(isFormatted);
+    case DateRangeType.lastThreeMonths:
+      startDate.setDate(1); // Required to obtain correct month
+      startDate.setMonth(startDate.getMonth() - 2); // Includes current month
+      dateRange = formatStartEndDate(startDate, endDate, isFormatted);
       break;
-    case DateRangeType.lastSixtyDays:
-      dateRange = getLast60DaysDate(isFormatted);
+    case DateRangeType.lastSixMonths:
+      startDate.setDate(1); // Required to obtain correct month
+      startDate.setMonth(startDate.getMonth() - 5); // Includes current month
+      dateRange = formatStartEndDate(startDate, endDate, isFormatted);
       break;
-    case DateRangeType.lastThirtyDays:
-      dateRange = getLast30DaysDate(isFormatted);
+    case DateRangeType.lastTwelveMonths:
+      startDate.setDate(1); // Required to obtain correct month
+      startDate.setMonth(startDate.getMonth() - 11); // Includes current month
+      dateRange = formatStartEndDate(startDate, endDate, isFormatted);
+      break;
+    case DateRangeType.maximum:
+      startDate.setDate(1); // Required to obtain correct month
+      startDate.setMonth(startDate.getMonth() - maxMonths); // Includes current month
+      dateRange = formatStartEndDate(startDate, endDate, isFormatted);
       break;
     case DateRangeType.currentMonthToDate:
     default:
@@ -86,12 +93,16 @@ export const getDateRangeTypeDefault = (queryFromRoute: Query, defaultToPrevious
   return defaultToPreviousMonth ? DateRangeType.previousMonth : DateRangeType.currentMonthToDate;
 };
 
-export const getDateRangeFromQuery = (queryFromRoute: Query, defaultToPreviousMonth: boolean = false) => {
+export const getDateRangeFromQuery = (
+  queryFromRoute: Query,
+  dataRetentionMonths: number = 3,
+  defaultToPreviousMonth: boolean = false
+) => {
   const dateRangeType = getDateRangeTypeDefault(queryFromRoute, defaultToPreviousMonth);
   const dateRange =
     dateRangeType === DateRangeType.custom
       ? { start_date: queryFromRoute.start_date, end_date: queryFromRoute.end_date }
-      : getDateRange(dateRangeType);
+      : getDateRange(dateRangeType, dataRetentionMonths);
   return {
     dateRangeType,
     end_date: dateRange.end_date,
