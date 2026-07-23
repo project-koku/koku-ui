@@ -16,6 +16,7 @@ default()
   STAGE_ROS_BRANCH="stage-ros"
 
   PROD_HCCM_BRANCH="prod-hccm"
+  PROD_ONPREM_BRANCH="prod-onprem"
   PROD_ROS_BRANCH="prod-ros"
 
   KOKU_UI=koku-ui
@@ -43,19 +44,22 @@ cat <<- EEOOFF
     $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
 
     $STAGE_ONPREM_BRANCH is merged from $MAIN_BRANCH
+    $PROD_ONPREM_BRANCH is merged from $MAIN_BRANCH
 
-    sh [-x] $SCRIPT [-h|-o|-p|-q|-r|-s|-u]
+    sh [-x] $SCRIPT [-h|-o|-p|-q|-r|-s|-t|-u]
 
     OPTIONS:
     h       Display this message
-    s       Merge $MAIN_BRANCH to $STAGE_HCCM_BRANCH
-    o       Merge $MAIN_BRANCH to $STAGE_ONPREM_BRANCH
-    p       Merge $STAGE_HCCM_BRANCH to $PROD_HCCM_BRANCH
-    q       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
-    r       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
-    u       Push to upstream
 
-    Note: This script does not support on-prem for prod.
+    o       Merge $MAIN_BRANCH to $STAGE_HCCM_BRANCH
+    p       Merge $MAIN_BRANCH to $STAGE_ONPREM_BRANCH
+    q       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
+
+    r       Merge $STAGE_HCCM_BRANCH to $PROD_HCCM_BRANCH
+    s       Merge $STAGE_ONPREM_BRANCH to $PROD_ONPREM_BRANCH
+    t       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
+
+    u       Push to upstream
 
 EEOOFF
 }
@@ -157,18 +161,20 @@ push()
 {
   default
 
-  while getopts hopqrsu c; do
+  while getopts hopqrstu c; do
     case $c in
-      o) TARGET_BRANCH=$STAGE_ONPREM_BRANCH
-         SOURCE_BRANCH=$MAIN_BRANCH;;
-      p) TARGET_BRANCH=$PROD_HCCM_BRANCH
-         SOURCE_BRANCH=$STAGE_HCCM_BRANCH;;
-      q) TARGET_BRANCH=$STAGE_ROS_BRANCH
-         SOURCE_BRANCH=$MAIN_BRANCH;;
-      r) TARGET_BRANCH=$PROD_ROS_BRANCH
-         SOURCE_BRANCH=$STAGE_ROS_BRANCH;;
-      s) TARGET_BRANCH=$STAGE_HCCM_BRANCH
-         SOURCE_BRANCH=$MAIN_BRANCH;;
+      o) SOURCE_BRANCH=$MAIN_BRANCH
+         TARGET_BRANCH=$STAGE_HCCM_BRANCH;;
+      p) SOURCE_BRANCH=$MAIN_BRANCH
+         TARGET_BRANCH=$STAGE_ONPREM_BRANCH;;
+      q) SOURCE_BRANCH=$MAIN_BRANCH
+         TARGET_BRANCH=$STAGE_ROS_BRANCH;;
+      r) SOURCE_BRANCH=$STAGE_HCCM_BRANCH
+         TARGET_BRANCH=$PROD_HCCM_BRANCH;;
+      s) SOURCE_BRANCH=$STAGE_ONPREM_BRANCH
+         TARGET_BRANCH=$PROD_ONPREM_BRANCH;;
+      t) SOURCE_BRANCH=$STAGE_ROS_BRANCH
+         TARGET_BRANCH=$PROD_ROS_BRANCH;;
       u) PUSH=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
