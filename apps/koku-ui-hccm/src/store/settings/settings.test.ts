@@ -6,6 +6,7 @@ import {
 	fetchSettingsFailure,
 	fetchSettingsRequest,
 	fetchSettingsSuccess,
+	resetNotifications,
 	resetStatus,
 	updateSettings,
 	updateSettingsFailure,
@@ -40,10 +41,27 @@ describe('settings store', () => {
 		expect(state).toEqual(defaultState);
 	});
 
-	test('resetStatus clears status map', () => {
-		let state = settingsReducer(undefined as any, fetchSettingsRequest({ fetchId: 'a' } as any));
-		state = settingsReducer(state, resetStatus());
-		expect(state.status?.size).toBe(0);
+	test('scoped resetNotifications/resetStatus only clear the given fetchId', () => {
+		const tagsFid = getFetchId(SettingsType.tags, 'q=1');
+		const enableFid = getFetchId(SettingsType.tagsEnable);
+		let state = settingsReducer(undefined as any, fetchSettingsRequest({ fetchId: tagsFid } as any));
+		state = settingsReducer(state, updateSettingsRequest({ fetchId: enableFid } as any));
+		state = settingsReducer(
+			state,
+			updateSettingsSuccess({} as any, { fetchId: enableFid, notification: { title: 'enabled' } } as any)
+		);
+		state = settingsReducer(
+			state,
+			fetchSettingsSuccess({ data: [] } as any, { fetchId: tagsFid } as any)
+		);
+
+		state = settingsReducer(state, resetNotifications({ fetchId: enableFid }));
+		expect(state.notification?.get(enableFid)).toBeUndefined();
+		expect(state.status?.get(tagsFid)).toBe(FetchStatus.complete);
+
+		state = settingsReducer(state, resetStatus({ fetchId: enableFid }));
+		expect(state.status?.get(enableFid)).toBeUndefined();
+		expect(state.status?.get(tagsFid)).toBe(FetchStatus.complete);
 	});
 
 	test('request/success/failure reducer branches', () => {

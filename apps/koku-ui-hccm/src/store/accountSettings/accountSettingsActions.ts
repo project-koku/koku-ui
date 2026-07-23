@@ -18,10 +18,13 @@ import { selectAccountSettingsError, selectAccountSettingsFetchStatus } from './
 interface AccountSettingsActionMeta {
   costType?: string;
   currency?: string;
+  data_retention_months?: number;
+  env_override?: boolean;
   fetchId: string;
   notification?: any;
 }
 
+// Fetch
 export const fetchAccountSettingsRequest = createAction('settings/fetch/request')<AccountSettingsActionMeta>();
 export const fetchAccountSettingsSuccess = createAction('settings/fetch/success')<
   AccountSettings,
@@ -31,6 +34,13 @@ export const fetchAccountSettingsFailure = createAction('settings/fetch/failure'
   AxiosError,
   AccountSettingsActionMeta
 >();
+
+// Reset notification and status for a single fetchId (do not clear the whole map —
+// PermissionsWrapper gates page content on AccountSettingsType.settings remaining complete).
+export const resetNotifications = createAction('accountSettings/notifications/reset')<{ fetchId: string }>();
+export const resetStatus = createAction('accountSettings/status/reset')<{ fetchId: string }>();
+
+// Update
 
 export const updateAccountSettingsRequest = createAction(
   'settings/awsCategoryKeys/update/request'
@@ -49,7 +59,9 @@ export function fetchAccountSettings(settingsType: AccountSettingsType): ThunkAc
     const state = getState();
     const fetchError = selectAccountSettingsError(state, settingsType);
     const fetchStatus = selectAccountSettingsFetchStatus(state, settingsType);
-    if (fetchError || fetchStatus === FetchStatus.inProgress) {
+    // Skip when in-flight, failed, or already fetched — after updates, resetStatus clears
+    // fetchStatus so this runs again (same pattern as tags settings refetch).
+    if (fetchError || fetchStatus === FetchStatus.inProgress || fetchStatus === FetchStatus.complete) {
       return;
     }
 
@@ -81,6 +93,7 @@ export function updateAccountSettings(settingsType: AccountSettingsType, payload
     const meta: AccountSettingsActionMeta = {
       costType: payload.cost_type, // For account cost type update
       currency: payload.currency, // For account currency update
+      data_retention_months: payload.data_retention_months, // For data retention update
       fetchId: getFetchId(settingsType),
     };
 

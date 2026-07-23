@@ -9,6 +9,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
+import { getFetchId } from 'store/priceLists/priceListCommon';
 import type { Notification } from 'utils/notification';
 
 interface NotificationProps {
@@ -16,6 +17,7 @@ interface NotificationProps {
   isNotificationEnabled?: boolean;
   notification: Notification;
   status: FetchStatus;
+  type: PriceListType;
 }
 
 export function usePriceListDuplicate(priceList: PriceListData, onUpdateSuccess?: () => void) {
@@ -103,7 +105,7 @@ export function usePriceListEnabledToggle(priceList: PriceListData, onDeprecate?
 
 // Notifications
 
-const useNotification = ({ error, isNotificationEnabled = true, notification, status }: NotificationProps) => {
+const useNotification = ({ error, isNotificationEnabled = true, notification, status, type }: NotificationProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const addNotification = useAddNotification();
 
@@ -112,10 +114,11 @@ const useNotification = ({ error, isNotificationEnabled = true, notification, st
       if (isNotificationEnabled) {
         addNotification(notification as any);
       }
-      dispatch(priceListActions.resetNotifications());
-      dispatch(priceListActions.resetStatus());
+      const fetchId = getFetchId(type);
+      dispatch(priceListActions.resetNotifications({ fetchId }));
+      dispatch(priceListActions.resetStatus({ fetchId }));
     }
-  }, [addNotification, dispatch, error, isNotificationEnabled, notification, status]);
+  }, [addNotification, dispatch, error, isNotificationEnabled, notification, status, type]);
 };
 
 export const usePriceListAddNotification = (isNotificationEnabled: boolean) => {
@@ -129,7 +132,7 @@ export const usePriceListAddNotification = (isNotificationEnabled: boolean) => {
     priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceListAdd, undefined)
   );
 
-  useNotification({ error, isNotificationEnabled, notification, status });
+  useNotification({ error, isNotificationEnabled, notification, status, type: PriceListType.priceListAdd });
 };
 
 export const usePriceListDuplicateNotification = (isNotificationEnabled: boolean) => {
@@ -143,7 +146,7 @@ export const usePriceListDuplicateNotification = (isNotificationEnabled: boolean
     priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceListDuplicate, undefined)
   );
 
-  useNotification({ error, isNotificationEnabled, notification, status });
+  useNotification({ error, isNotificationEnabled, notification, status, type: PriceListType.priceListDuplicate });
 };
 
 export const usePriceListRemoveNotification = (isNotificationEnabled: boolean) => {
@@ -157,7 +160,7 @@ export const usePriceListRemoveNotification = (isNotificationEnabled: boolean) =
     priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceListRemove, undefined)
   );
 
-  useNotification({ error, isNotificationEnabled, notification, status });
+  useNotification({ error, isNotificationEnabled, notification, status, type: PriceListType.priceListRemove });
 };
 
 export const usePriceListUpdateNotification = (isNotificationEnabled: boolean) => {
@@ -171,7 +174,7 @@ export const usePriceListUpdateNotification = (isNotificationEnabled: boolean) =
     priceListSelectors.selectPriceListFetchStatus(state, PriceListType.priceListUpdate, undefined)
   );
 
-  useNotification({ error, isNotificationEnabled, notification, status });
+  useNotification({ error, isNotificationEnabled, notification, status, type: PriceListType.priceListUpdate });
 };
 
 export const usePriceListNotifications = (isNotificationEnabled = true) => {

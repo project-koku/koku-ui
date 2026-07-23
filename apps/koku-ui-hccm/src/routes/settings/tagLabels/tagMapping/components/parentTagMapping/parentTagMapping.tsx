@@ -24,6 +24,7 @@ import { ParentTags } from 'routes/settings/tagLabels/tagMapping/components/pare
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
+import { getFetchId } from 'store/settings/settingsCommon';
 
 import { styles } from './parentTagMapping.styles';
 import { ParentTagMappingEmptyState } from './parentTagMappingEmptyState';
@@ -249,9 +250,9 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
   // Clear error state if tags changed
   useEffect(() => {
     if (settingsError) {
-      dispatch(settingsActions.resetStatus());
+      dispatch(settingsActions.resetStatus({ fetchId: getFetchId(SettingsType.tagsMappingsChildAdd) }));
     }
-  }, [childTags, parentTags]);
+  }, [childTags, dispatch, parentTags, settingsError]);
 
   return (
     <>
