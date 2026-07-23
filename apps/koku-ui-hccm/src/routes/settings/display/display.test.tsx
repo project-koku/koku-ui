@@ -4,20 +4,18 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 
 import { AccountSettingsType } from 'api/accountSettings';
+import { useAccountSettingsNotifications } from 'routes/settings/utils/hooks';
 import { accountSettingsActions } from 'store/accountSettings';
 import { configureStore } from 'store/store';
-import { useAccountSettingsNotifications } from 'routes/settings/utils/hooks';
 
 import { Display } from './display';
 
-const mockUseIsOrgAdmin = jest.fn(() => false);
 let mockIsSettingsDataRetentionPeriodEnabled = true;
 
 jest.mock('components/featureToggle', () => ({
   get isSettingsDataRetentionPeriodEnabled() {
     return mockIsSettingsDataRetentionPeriodEnabled;
   },
-  useIsOrgAdmin: () => mockUseIsOrgAdmin(),
 }));
 
 jest.mock('utils/sessionStorage', () => ({
@@ -92,7 +90,6 @@ jest.mock('./dataRetention', () => ({
 describe('Display', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseIsOrgAdmin.mockReturnValue(false);
     mockIsSettingsDataRetentionPeriodEnabled = true;
   });
 
@@ -139,21 +136,26 @@ describe('Display', () => {
     );
   });
 
-  test('renders data retention section', () => {
+  test('renders data retention section when feature is enabled', () => {
     renderDisplay();
     expect(screen.getByText(/data retention period/i)).toBeInTheDocument();
     expect(screen.getByTestId('data-retention')).toBeInTheDocument();
   });
 
-  test('disables data retention for non-org-admin users', () => {
-    mockUseIsOrgAdmin.mockReturnValue(false);
+  test('hides data retention section when feature is disabled', () => {
+    mockIsSettingsDataRetentionPeriodEnabled = false;
     renderDisplay();
+    expect(screen.queryByText(/data retention period/i)).not.toBeInTheDocument();
+    expect(screen.queryByTestId('data-retention')).not.toBeInTheDocument();
+  });
+
+  test('disables data retention when canWrite is false', () => {
+    renderDisplay(false);
     expect(screen.getByTestId('data-retention')).toHaveAttribute('data-disabled', 'true');
   });
 
-  test('enables data retention for org admin users', () => {
-    mockUseIsOrgAdmin.mockReturnValue(true);
-    renderDisplay();
+  test('enables data retention when canWrite is true', () => {
+    renderDisplay(true);
     expect(screen.getByTestId('data-retention')).toHaveAttribute('data-disabled', 'false');
   });
 
