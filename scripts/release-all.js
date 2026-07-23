@@ -67,20 +67,24 @@ async function setConfig() {
       const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
       const isProd = clouddotEnv === 'prod' || clouddotEnv === 'all';
 
-      if (isHccm && isStage) {
-        process.env.HCCM_STAGE_ARG = '-s';
+      if (isStage && isHccm) {
+        process.env.HCCM_STAGE_ARG = '-o';
       }
-      if (isHccm && isProd) {
-        process.env.HCCM_PROD_ARG = '-p';
+      if (isStage && isOnprem) {
+        process.env.ONPREM_STAGE_ARG = '-p';
       }
-      if (isRos && isStage) {
+      if (isStage && isRos) {
         process.env.ROS_STAGE_ARG = '-q';
       }
-      if (isRos && isProd) {
-        process.env.ROS_PROD_ARG = '-r';
+
+      if (isProd && isHccm) {
+        process.env.HCCM_PROD_ARG = '-r';
       }
-      if (isOnprem && isStage) {
-        process.env.ONPREM_STAGE_ARG = '-o';
+      if (isProd && isOnprem) {
+        process.env.ONPREM_PROD_ARG = '-s';
+      }
+      if (isProd && isRos) {
+        process.env.ROS_PROD_ARG = '-t';
       }
     });
 }
@@ -99,7 +103,14 @@ async function run() {
 
   allArgs.push(process.env.APP_INTERFACE === 'true' ? 'release-app-interface.sh' : 'release-branch.sh');
 
-  const argVars = ['HCCM_STAGE_ARG', 'HCCM_PROD_ARG', 'ROS_STAGE_ARG', 'ROS_PROD_ARG', 'ONPREM_STAGE_ARG'];
+  const argVars = [
+    'HCCM_STAGE_ARG',
+    'HCCM_PROD_ARG',
+    'ROS_STAGE_ARG',
+    'ROS_PROD_ARG',
+    'ONPREM_STAGE_ARG',
+    'ONPREM_PROD_ARG',
+  ];
   const deploymentArgs = argVars.map(v => process.env[v]).filter(Boolean);
   allArgs.push(...deploymentArgs);
 
