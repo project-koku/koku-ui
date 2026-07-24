@@ -94,7 +94,15 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     if (restoreState === false) {
       return { ...baseQuery };
     }
-    return { ...baseQuery, ...queryState?.containers };
+    // Prefer containers state when returning from breakdown; otherwise apply
+    // top-level filter_by (e.g., from the efficiency page link state).
+    if (queryState?.containers) {
+      return { ...baseQuery, ...queryState.containers };
+    }
+    return {
+      ...baseQuery,
+      ...(queryState?.filter_by && { filter_by: queryState.filter_by }),
+    };
   });
   const { report, reportError, reportFetchStatus } = useMapToProps({
     project,

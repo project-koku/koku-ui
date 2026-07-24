@@ -98,7 +98,15 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
     if (restoreState === false) {
       return { ...baseQuery };
     }
-    return { ...baseQuery, ...queryState?.projects };
+    // Prefer projects state when returning from breakdown; otherwise apply
+    // top-level filter_by (e.g., from the efficiency page link state).
+    if (queryState?.projects) {
+      return { ...baseQuery, ...queryState.projects };
+    }
+    return {
+      ...baseQuery,
+      ...(queryState?.filter_by && { filter_by: queryState.filter_by }),
+    };
   });
   const { report, reportError, reportFetchStatus } = useMapToProps({
     project,
