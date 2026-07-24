@@ -44,7 +44,7 @@ cat <<- EEOOFF
     $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
 
     $STAGE_ONPREM_BRANCH is merged from $MAIN_BRANCH
-    $PROD_ONPREM_BRANCH is merged from $MAIN_BRANCH
+    $PROD_ONPREM_BRANCH is merged from $STAGE_ROS_BRANCH
 
     sh [-x] $SCRIPT [-h|-o|-p|-q|-r|-s|-t|-u]
 
