@@ -45,12 +45,17 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
     // Immediately update local state so the tab header responds without waiting
     // for the navigation round-trip.
     setActiveTabKey(tabIndex);
+    // Drop optimizationsDetailsState so filters are not restored when returning
+    // to the optimizations tab. Links that intentionally set filter_by (e.g.
+    // from the efficiency table) still navigate via Link, not this handler.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { optimizationsDetailsState: _omitted, ...restState } = location?.state || {};
     navigate(formatPath(routes.optimizations.path), {
       replace: true,
       state: {
-        ...(location?.state || {}),
+        ...restState,
         efficiencyState: {
-          ...(location?.state?.efficiencyState || {}),
+          ...(restState.efficiencyState || {}),
           activeTabKey: tabIndex,
         },
       },
