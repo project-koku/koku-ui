@@ -54,7 +54,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   const contentRef = useRef<DetailContentHandle>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isFinish, setIsFinish] = useState(false);
-  const [priceList, setPriceList] = useState<PriceListData>({});
+  const [priceList, setPriceList] = useState<PriceListData>({ currency: 'USD' });
   const [rates, setRates] = useState<Rate[]>([]);
 
   const { priceListError, priceListFetchStatus, userAccess, userAccessError, userAccessFetchStatus } = useMapToProps();
@@ -67,6 +67,34 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
 
   const handleOnCancel = () => {
     navigateToPriceListDetail();
+  };
+
+  const handleOnCurrencyChange = (currency: string) => {
+    // Keep draft price list currency in sync for add-rate / empty-state UI before create
+    setPriceList(prev => ({
+      ...(prev ?? {}),
+      currency,
+    }));
+    setRates(prev =>
+      prev?.map(rate => ({
+        ...rate,
+        ...(rate?.tag_rates && {
+          tag_rates: {
+            ...rate.tag_rates,
+            tag_values: rate.tag_rates.tag_values?.map(tagValue => ({
+              ...tagValue,
+              unit: currency,
+            })),
+          },
+        }),
+        ...(rate?.tiered_rates && {
+          tiered_rates: rate.tiered_rates.map(tieredRate => ({
+            ...tieredRate,
+            unit: currency,
+          })),
+        }),
+      }))
+    );
   };
 
   const handleOnSave = (payload: PriceListData) => {
@@ -116,10 +144,10 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   // Effects
 
   useEffect(() => {
-    setPriceList({
-      ...(priceList ?? {}),
+    setPriceList(prev => ({
+      ...(prev ?? {}),
       rates,
-    });
+    }));
   }, [rates]);
 
   useEffect(() => {
@@ -155,7 +183,13 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
       <PageSection>
         <Stack hasGutter>
           <StackItem style={styles.detailsContent}>
-            <DetailContent onDisabled={setIsDisabled} onSave={handleOnSave} priceList={priceList} ref={contentRef} />
+            <DetailContent
+              onCurrencyChange={handleOnCurrencyChange}
+              onDisabled={setIsDisabled}
+              onSave={handleOnSave}
+              priceList={priceList}
+              ref={contentRef}
+            />
           </StackItem>
           <StackItem style={styles.divider}>
             <Divider />
