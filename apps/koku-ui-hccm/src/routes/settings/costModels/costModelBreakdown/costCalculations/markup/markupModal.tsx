@@ -260,7 +260,7 @@ const MarkupModal: React.FC<MarkupModalProps> = ({
             isLoading ||
             validated === 'error' ||
             markupOrDiscount.trim().length === 0 ||
-            Number(markupOrDiscount) === Number(costModel?.markup?.value)
+            Number(unFormat(markupOrDiscount)) === Number(costModel?.markup?.value)
           }
           key="save"
           onClick={handleOnSave}
