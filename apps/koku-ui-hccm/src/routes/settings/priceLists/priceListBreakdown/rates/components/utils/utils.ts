@@ -2,7 +2,7 @@ import type { Metric, MetricHash } from 'api/metrics';
 import type { Rate, TagValue, TieredRate } from 'api/rates';
 import messages from 'locales/messages';
 import type { MessageDescriptor } from 'react-intl';
-import { countDecimals, isCurrencyFormatValid } from 'utils/format';
+import { countDecimals, isCurrencyFormatValid, unFormat } from 'utils/format';
 
 interface TagRate {
   metric: string | Metric;
@@ -112,7 +112,8 @@ export const validateRate = (value: string): MessageDescriptor => {
   if (!isCurrencyFormatValid(value)) {
     return messages.priceListNumberRate;
   }
-  if (Number(value) < 0) {
+  // Normalize locale decimal/group separators before numeric checks (e.g. "0,25590" → "0.25590")
+  if (Number(unFormat(value)) < 0) {
     return messages.priceListPosNumberRate;
   }
   // Test number of decimals
@@ -122,6 +123,9 @@ export const validateRate = (value: string): MessageDescriptor => {
   }
   return undefined;
 };
+
+/** Parse a locale-formatted rate string to a number for API payloads (matches cost-models `unFormat` usage). */
+export const parseRateValue = (value: string): number => Number(unFormat(value));
 
 export const validateTagKey = (value: string, isGpuMetric = false) => {
   if (value?.trim()?.length === 0) {
