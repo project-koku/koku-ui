@@ -8,6 +8,7 @@ import {
   hasDuplicateTagRates,
   hasInvalidTagValues,
   hasTagValuesErrors,
+  parseRateValue,
   validateDescription,
   validateName,
   validateRate,
@@ -126,6 +127,17 @@ describe('rates/utils', () => {
       expect(validateRate('-1')).toBe(messages.priceListPosNumberRate);
       expect(validateRate('1.' + '2'.repeat(11))).toBe(messages.costModelsRateTooLong);
       expect(validateRate('12.34')).toBeUndefined();
+    });
+
+    test('accepts grouped USD-style rates', () => {
+      expect(validateRate('1,234.56')).toBeUndefined();
+    });
+  });
+
+  describe('parseRateValue', () => {
+    test('parses locale-formatted rates to API numbers', () => {
+      expect(parseRateValue('12.34')).toBe(12.34);
+      expect(parseRateValue('1,234.56')).toBe(1234.56);
     });
   });
 

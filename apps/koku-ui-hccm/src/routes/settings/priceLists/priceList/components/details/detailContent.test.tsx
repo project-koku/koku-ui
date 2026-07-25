@@ -169,15 +169,23 @@ describe('DetailContent', () => {
       end: new Date('2025-12-01'),
       start: new Date('2024-06-01'),
     });
+    const onCurrencyChange = jest.fn();
     const onDisabled = jest.fn();
     const onSave = jest.fn();
     const ref = createRef<DetailContentHandle>();
     renderDetails(
-      <DetailContent ref={ref} onDisabled={onDisabled} onSave={onSave} priceList={basePriceList} />
+      <DetailContent
+        ref={ref}
+        onCurrencyChange={onCurrencyChange}
+        onDisabled={onDisabled}
+        onSave={onSave}
+        priceList={basePriceList}
+      />
     );
     await waitFor(() => expect(onDisabled).toHaveBeenCalledWith(true));
 
     fireEvent.click(screen.getByTestId('currency-picker'));
+    expect(onCurrencyChange).toHaveBeenCalledWith('EUR');
     fireEvent.change(nameInput(), {
       target: { value: `${basePriceList.name}x` },
     });

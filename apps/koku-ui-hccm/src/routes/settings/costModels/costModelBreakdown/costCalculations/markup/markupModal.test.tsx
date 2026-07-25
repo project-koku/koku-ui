@@ -53,6 +53,22 @@ describe('MarkupModal', () => {
     expect(onSave).toHaveBeenCalled();
   });
 
+  test('save stays disabled when markup is unchanged from baseline', () => {
+    render(
+      <Provider store={setupStore()}>
+        <IntlProvider locale="en">
+          <MarkupModal canWrite costModel={costModel} isDispatch={false} isOpen onClose={jest.fn()} onSave={jest.fn()} />
+        </IntlProvider>
+      </Provider>
+    );
+    const dialog = within(screen.getByRole('dialog'));
+    expect(dialog.getByRole('button', { name: /save/i })).toBeDisabled();
+    fireEvent.change(dialog.getByLabelText(/rate/i), { target: { value: '1,000.5' } });
+    expect(dialog.getByRole('button', { name: /save/i })).not.toBeDisabled();
+    fireEvent.change(dialog.getByLabelText(/rate/i), { target: { value: '10' } });
+    expect(dialog.getByRole('button', { name: /save/i })).toBeDisabled();
+  });
+
   test('discount radio and keydown handlers update state', () => {
     render(
       <Provider store={setupStore()}>
