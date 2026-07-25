@@ -3,6 +3,7 @@ import './dateRange.scss';
 import type { MessageDescriptor } from '@formatjs/intl';
 import type { MenuToggleElement } from '@patternfly/react-core';
 import { Dropdown, DropdownItem, DropdownList, MenuToggle } from '@patternfly/react-core';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -60,31 +61,39 @@ const DateRange: React.FC<DateRangeProps> = ({
         value: DateRangeType.lastTwoMonths,
         isDisabled: isDataAvailable === false,
       });
-      if (dataRetentionMonths > 3) {
+      if (isSettingsDataRetentionPeriodEnabled) {
+        if (dataRetentionMonths > 3) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastThreeMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+        if (dataRetentionMonths > 6) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastSixMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+        if (dataRetentionMonths > 12) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwelveMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+        if (dataRetentionMonths) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.maximum,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+      } else {
         options.push({
           label: messages.explorerDateRange,
           value: DateRangeType.lastThreeMonths,
-          isDisabled: isDataAvailable === false,
-        });
-      }
-      if (dataRetentionMonths > 6) {
-        options.push({
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastSixMonths,
-          isDisabled: isDataAvailable === false,
-        });
-      }
-      if (dataRetentionMonths > 12) {
-        options.push({
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastTwelveMonths,
-          isDisabled: isDataAvailable === false,
-        });
-      }
-      if (dataRetentionMonths) {
-        options.push({
-          label: messages.explorerDateRange,
-          value: DateRangeType.maximum,
           isDisabled: isDataAvailable === false,
         });
       }

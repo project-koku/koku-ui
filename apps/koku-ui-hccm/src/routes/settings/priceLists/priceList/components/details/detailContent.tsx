@@ -35,6 +35,8 @@ import {
 
 interface DetailContentOwnProps {
   isEditDetails?: boolean;
+  /** Fired when currency changes in the create flow so sibling UI (e.g. add rate) stays in sync. */
+  onCurrencyChange?: (currency: string) => void;
   onDisabled?: (value: boolean) => void;
   onSave?: (payload: PriceListData) => void;
   priceList?: PriceListData;
@@ -48,7 +50,7 @@ export interface DetailContentHandle {
 type DetailContentProps = DetailContentOwnProps;
 
 const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
-  ({ isEditDetails, onDisabled, onSave, priceList }, ref) => {
+  ({ isEditDetails, onCurrencyChange, onDisabled, onSave, priceList }, ref) => {
     const intl = useIntl();
 
     /** Latest save handler for imperative `save()` — updated in layout effect (not during render). */
@@ -127,6 +129,11 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
     };
 
     // Handlers
+
+    const handleOnCurrencySelect = (value: string) => {
+      setCurrency(value);
+      onCurrencyChange?.(value);
+    };
 
     const handleOnDescriptionChange = (value: string) => {
       setDescription(value);
@@ -234,7 +241,7 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
                 <Currency currency={currency} id="currency" isDisabled showLabel={false} />
               </Tooltip>
             ) : (
-              <Currency currency={currency} id="currency" onSelect={setCurrency} showLabel={false} />
+              <Currency currency={currency} id="currency" onSelect={handleOnCurrencySelect} showLabel={false} />
             )}
           </FormGroup>
           <FormGroup isRequired fieldId="start-date" label={intl.formatMessage(messages.validityPeriod)}>
