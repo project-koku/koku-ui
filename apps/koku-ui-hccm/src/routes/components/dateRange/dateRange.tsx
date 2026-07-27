@@ -56,12 +56,14 @@ const DateRange: React.FC<DateRangeProps> = ({
       },
     ];
     if (isExplorer) {
-      options.push({
-        label: messages.explorerDateRange,
-        value: DateRangeType.lastTwoMonths,
-        isDisabled: isDataAvailable === false,
-      });
       if (isSettingsDataRetentionPeriodEnabled) {
+        if (dataRetentionMonths > 2) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwoMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
         if (dataRetentionMonths > 3) {
           options.push({
             label: messages.explorerDateRange,
@@ -91,11 +93,20 @@ const DateRange: React.FC<DateRangeProps> = ({
           });
         }
       } else {
-        options.push({
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastThreeMonths,
-          isDisabled: isDataAvailable === false,
-        });
+        // Todo: Temp until individual flags are available
+        const isDisabled = isDataAvailable === false || isPreviousMonthData === false;
+        options.push(
+          {
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwoMonths,
+            isDisabled,
+          },
+          {
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastThreeMonths,
+            isDisabled,
+          }
+        );
       }
       options.push({
         label: messages.explorerDateRange,
