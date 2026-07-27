@@ -93,18 +93,18 @@ const DateRange: React.FC<DateRangeProps> = ({
           });
         }
       } else {
-        // Todo: Temp until individual flags are available
-        const isDisabled = isDataAvailable === false || isPreviousMonthData === false;
+        // The "last X months" options may not be full months. They include the current month and the previous month.
+        // The sources API doesn't have a flag for these specific options, so enable if there is any data available.
         options.push(
           {
             label: messages.explorerDateRange,
             value: DateRangeType.lastTwoMonths,
-            isDisabled,
+            isDisabled: isDataAvailable === false,
           },
           {
             label: messages.explorerDateRange,
             value: DateRangeType.lastThreeMonths,
-            isDisabled,
+            isDisabled: isDataAvailable === false,
           }
         );
       }

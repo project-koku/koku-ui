@@ -30,6 +30,7 @@ interface ExplorerDatePickerState {
 type ExplorerDatePickerProps = ExplorerDatePickerOwnProps;
 
 // Cost Management SaaS retains 5 months of data and limits user queries to a maximum range of 90 days
+// For on-prem the max data retention period is 366 days
 
 const API_MAX_DAYS = 366; // Max date range allowed for cost API when retention feature is enabled
 const LEGACY_MAX_DAYS = 90; // Max date range allowed for cost API when retention feature is disabled
