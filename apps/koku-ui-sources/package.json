@@ -47,7 +47,7 @@
     "redux": "^5.0.1"
   },
   "devDependencies": {
-    "@openshift/dynamic-plugin-sdk-webpack": "^5.2.0",
+    "@openshift/dynamic-plugin-sdk-webpack": "^5.3.0",
     "msw": "^2.15.0",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
     "ts-loader": "^9.6.2",
