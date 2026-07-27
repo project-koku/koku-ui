@@ -68,7 +68,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^8.64.0",
     "@typescript-eslint/parser": "^8.64.0",
-    "concurrently": "^10.0.3",
+    "concurrently": "^10.0.4",
     "copy-webpack-plugin": "^14.0.0",
     "eslint": "^10.7.0",
     "eslint-plugin-formatjs": "^6.4.19",
