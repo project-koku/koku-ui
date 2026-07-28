@@ -14,13 +14,14 @@ import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { routes } from 'routes';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { Calculations } from 'routes/settings/calculations';
 import { CostModelsDetails } from 'routes/settings/costModelsDeprecated';
 import { PlatformProjects } from 'routes/settings/platformProjects';
+import { SETTINGS_SOURCE_PARAM } from 'routes/settings/settingsSourceSearch';
 import { TagLabels } from 'routes/settings/tagLabels';
 import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
@@ -102,6 +103,7 @@ type SettingsProps = SettingsOwnProps;
 const Settings: React.FC<SettingsProps> = () => {
   const intl = useIntl();
   const [activeTabKey, setActiveTabKey] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     activeTabKey: activeTabKeyState,
@@ -111,65 +113,58 @@ const Settings: React.FC<SettingsProps> = () => {
     userAccessFetchStatus,
   } = useMapToProps();
 
-  useEffect(() => {
-    setActiveTabKey(activeTabKeyState ?? 0);
-  }, [activeTabKeyState]);
+  const hasSourceParam = searchParams.has(SETTINGS_SOURCE_PARAM);
 
-  const getAvailableTabs = () => {
+  const getAvailableTabIds = (): SettingsTab[] => {
     const showDisplayTab = isDisplayToggleEnabled || isSettingsDataRetentionPeriodEnabled;
-
-    const availableTabs: AvailableTab[] = [
-      {
-        contentRef: React.createRef(),
-        tab: SettingsTab.costModels,
-      },
-      ...(isPriceListToggleEnabled
-        ? [
-            {
-              contentRef: React.createRef(),
-              tab: SettingsTab.priceList,
-            },
-          ]
-        : []),
-      ...(!showDisplayTab
-        ? [
-            {
-              contentRef: React.createRef(),
-              tab: SettingsTab.calculations,
-            },
-          ]
-        : []),
-      {
-        contentRef: React.createRef(),
-        tab: SettingsTab.tags,
-      },
-      {
-        contentRef: React.createRef(),
-        tab: SettingsTab.costCategory,
-      },
-      {
-        contentRef: React.createRef(),
-        tab: SettingsTab.platformProjects,
-      },
-      ...(showDisplayTab
-        ? [
-            {
-              contentRef: React.createRef(),
-              tab: SettingsTab.display,
-            },
-          ]
-        : []),
-      ...(isSettingsSourcesTabEnabled
-        ? [
-            {
-              contentRef: React.createRef(),
-              tab: SettingsTab.sources,
-            },
-          ]
-        : []),
-    ];
-    return availableTabs;
+    const tabIds: SettingsTab[] = [SettingsTab.costModels];
+    if (isPriceListToggleEnabled) {
+      tabIds.push(SettingsTab.priceList);
+    }
+    if (!showDisplayTab) {
+      tabIds.push(SettingsTab.calculations);
+    }
+    tabIds.push(SettingsTab.tags, SettingsTab.costCategory, SettingsTab.platformProjects);
+    if (showDisplayTab) {
+      tabIds.push(SettingsTab.display);
+    }
+    if (isSettingsSourcesTabEnabled) {
+      tabIds.push(SettingsTab.sources);
+    }
+    return tabIds;
   };
+
+  // Tab ids first (no refs), then attach contentRef — avoids react-hooks/refs on index lookup.
+  const availableTabIds = getAvailableTabIds();
+  const availableTabs: AvailableTab[] = availableTabIds.map(tab => ({
+    contentRef: React.createRef(),
+    tab,
+  }));
+  const sourcesTabIndex = availableTabIds.indexOf(SettingsTab.sources);
+
+  // While ?source= is present, force Sources tab (wins over location.state).
+  useEffect(() => {
+    if (!hasSourceParam) {
+      return;
+    }
+    if (sourcesTabIndex < 0) {
+      return;
+    }
+    setActiveTabKey(sourcesTabIndex);
+  }, [hasSourceParam, sourcesTabIndex]);
+
+  // Sync from location.state when it changes and source is absent.
+  // Do not depend on hasSourceParam: clearing ?source= must not re-apply a stale
+  // activeTabKeyState (e.g. Cost Models) and unmount Sources (COST-7661 invariant).
+  useEffect(() => {
+    if (hasSourceParam) {
+      return;
+    }
+    if (activeTabKeyState === undefined) {
+      return;
+    }
+    setActiveTabKey(activeTabKeyState);
+  }, [activeTabKeyState]);
 
   const getTab = (tab: SettingsTab, contentRef, index: number) => {
     return (
@@ -183,8 +178,8 @@ const Settings: React.FC<SettingsProps> = () => {
     );
   };
 
-  const getTabContent = (availableTabs: AvailableTab[]) => {
-    return availableTabs.map((val, index) => {
+  const getTabContent = (tabs: AvailableTab[]) => {
+    return tabs.map((val, index) => {
       return (
         <TabContent
           eventKey={index}
@@ -248,10 +243,10 @@ const Settings: React.FC<SettingsProps> = () => {
     }
   };
 
-  const getTabs = (availableTabs: AvailableTab[]) => {
+  const getTabs = (tabs: AvailableTab[]) => {
     return (
       <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-        {availableTabs.map((val, index) => getTab(val.tab, val.contentRef, index))}
+        {tabs.map((val, index) => getTab(val.tab, val.contentRef, index))}
       </Tabs>
     );
   };
@@ -276,13 +271,22 @@ const Settings: React.FC<SettingsProps> = () => {
     }
   };
 
-  const handleTabClick = (event, tabIndex) => {
+  const handleTabClick = (_event, tabIndex: number) => {
+    const leavingSources = sourcesTabIndex >= 0 && activeTabKey === sourcesTabIndex && tabIndex !== sourcesTabIndex;
     if (activeTabKey !== tabIndex) {
       setActiveTabKey(tabIndex);
     }
+    if (leavingSources && searchParams.has(SETTINGS_SOURCE_PARAM)) {
+      setSearchParams(
+        prev => {
+          const next = new URLSearchParams(prev);
+          next.delete(SETTINGS_SOURCE_PARAM);
+          return next;
+        },
+        { replace: true }
+      );
+    }
   };
-
-  const availableTabs = getAvailableTabs();
 
   return (
     <>

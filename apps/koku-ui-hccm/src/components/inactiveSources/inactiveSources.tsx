@@ -5,14 +5,17 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios';
+import { isSettingsSourcesTabEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { routes } from 'routes';
+import { buildOnPremSettingsSourceHref } from 'routes/settings/settingsSourceSearch';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
-import { getReleasePath } from 'utils/paths';
+import { formatPath, getReleasePath } from 'utils/paths';
 import { deleteInactiveSources, isInactiveSourcesValid, setInactiveSources } from 'utils/sessionStorage';
 
 interface InactiveSourcesOwnProps {
@@ -73,7 +76,6 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
   public render() {
     const { providers, providersError, providersFetchStatus, intl } = this.props;
 
-    const release = getReleasePath();
     const names = this.getInactiveSourceNames();
     const title =
       names.length === 1
@@ -90,6 +92,10 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
       return null; // Don't display alert
     }
 
+    const integrationsHref = isSettingsSourcesTabEnabled
+      ? buildOnPremSettingsSourceHref(formatPath(routes.settings.path, true))
+      : `${getReleasePath()}/settings/integrations`;
+
     return (
       <div className="alert">
         <Alert
@@ -99,7 +105,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
           actionClose={<AlertActionCloseButton onClose={this.handleOnClose} />}
           actionLinks={
             <React.Fragment>
-              <a href={`${release}/settings/integrations`}>{intl.formatMessage(messages.inactiveSourcesGoTo)}</a>
+              <a href={integrationsHref}>{intl.formatMessage(messages.inactiveSourcesGoTo)}</a>
             </React.Fragment>
           }
         >
