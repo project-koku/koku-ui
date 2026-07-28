@@ -105,9 +105,20 @@ const Settings: React.FC<SettingsProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   // Stable PatternFly Tab content refs — created once; do not read useRef.current during render (react-hooks/refs).
+  // const enum cannot be used with Object.values (TS2475).
   const tabContentRefs = useMemo(() => {
+    const tabs: SettingsTab[] = [
+      SettingsTab.costModels,
+      SettingsTab.calculations,
+      SettingsTab.costCategory,
+      SettingsTab.display,
+      SettingsTab.platformProjects,
+      SettingsTab.priceList,
+      SettingsTab.tags,
+      SettingsTab.sources,
+    ];
     const refs = {} as Record<SettingsTab, RefObject<any>>;
-    for (const tab of Object.values(SettingsTab) as SettingsTab[]) {
+    for (const tab of tabs) {
       refs[tab] = React.createRef();
     }
     return refs;
