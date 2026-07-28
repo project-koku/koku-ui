@@ -11,7 +11,7 @@ import {
 } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
@@ -21,7 +21,7 @@ import { LoadingState } from 'routes/components/state/loadingState';
 import { Calculations } from 'routes/settings/calculations';
 import { CostModelsDetails } from 'routes/settings/costModelsDeprecated';
 import { PlatformProjects } from 'routes/settings/platformProjects';
-import { SETTINGS_SOURCE_PARAM } from 'routes/settings/settingsSourceSearch';
+import { findTabIndexById, SETTINGS_SOURCE_PARAM } from 'routes/settings/settingsSourceSearch';
 import { TagLabels } from 'routes/settings/tagLabels';
 import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
@@ -104,6 +104,7 @@ const Settings: React.FC<SettingsProps> = () => {
   const intl = useIntl();
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const tabContentRefs = useRef<Partial<Record<SettingsTab, RefObject<any>>>>({});
 
   const {
     activeTabKey: activeTabKeyState,
@@ -134,13 +135,18 @@ const Settings: React.FC<SettingsProps> = () => {
     return tabIds;
   };
 
-  // Tab ids first (no refs), then attach contentRef — avoids react-hooks/refs on index lookup.
+  // Tab ids first, then stable contentRefs (reuse across renders for PatternFly Tab wiring).
   const availableTabIds = getAvailableTabIds();
-  const availableTabs: AvailableTab[] = availableTabIds.map(tab => ({
-    contentRef: React.createRef(),
-    tab,
-  }));
-  const sourcesTabIndex = availableTabIds.indexOf(SettingsTab.sources);
+  const availableTabs: AvailableTab[] = availableTabIds.map(tab => {
+    if (!tabContentRefs.current[tab]) {
+      tabContentRefs.current[tab] = React.createRef();
+    }
+    return {
+      contentRef: tabContentRefs.current[tab] as RefObject<any>,
+      tab,
+    };
+  });
+  const sourcesTabIndex = findTabIndexById(availableTabs, SettingsTab.sources);
 
   // While ?source= is present, force Sources tab (wins over location.state).
   useEffect(() => {
@@ -164,6 +170,7 @@ const Settings: React.FC<SettingsProps> = () => {
       return;
     }
     setActiveTabKey(activeTabKeyState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: clearing ?source= must not re-apply stale activeTabKeyState (COST-7661)
   }, [activeTabKeyState]);
 
   const getTab = (tab: SettingsTab, contentRef, index: number) => {

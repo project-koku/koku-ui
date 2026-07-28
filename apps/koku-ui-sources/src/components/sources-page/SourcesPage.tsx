@@ -156,24 +156,18 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const [searchParams, setSearchParams] = useSearchParams();
   const { entities, count, loading, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection } =
     useSelector((state: RootState) => state.sources);
-  const [currentView, setCurrentView] = useState<ViewState>({ type: 'list' });
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [removeSource, setRemoveSource] = useState<Source | null>(null);
 
   const sourceParam = searchParams.has(SOURCE_SEARCH_PARAM) ? (searchParams.get(SOURCE_SEARCH_PARAM) ?? '') : null;
+  // Derive from URL on first render so deep-links skip a spurious list fetch (COST-7661).
+  const currentView: ViewState =
+    sourceParam === null || sourceParam === '' ? { type: 'list' } : { type: 'detail', uuid: sourceParam };
 
   const hasAnyListFilter = useMemo(
     () => Boolean(nameFilter) || availabilityFilter === 'available' || availabilityFilter === 'unavailable',
     [nameFilter, availabilityFilter]
   );
-
-  useEffect(() => {
-    if (sourceParam === null || sourceParam === '') {
-      setCurrentView({ type: 'list' });
-    } else {
-      setCurrentView({ type: 'detail', uuid: sourceParam });
-    }
-  }, [sourceParam]);
 
   useEffect(() => {
     if (currentView.type === 'list') {

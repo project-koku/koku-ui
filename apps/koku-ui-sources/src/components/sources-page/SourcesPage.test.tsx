@@ -430,6 +430,7 @@ describe('SourcesPage', () => {
     await waitFor(() => {
       expect(getSource).toHaveBeenCalledWith('uuid-1');
     });
+    expect(listSources).not.toHaveBeenCalled();
     expect(screen.queryByText('Add integration')).not.toBeInTheDocument();
   });
 
