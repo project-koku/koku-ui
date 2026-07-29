@@ -12,7 +12,6 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
-import { buildOnPremSettingsSourceHref } from 'routes/settings/settingsSourceSearch';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { formatPath, getReleasePath } from 'utils/paths';
@@ -92,8 +91,9 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
       return null; // Don't display alert
     }
 
+    // On-prem: SaaS /settings/integrations is outside the plugin mount (COST-7661).
     const integrationsHref = isSettingsSourcesTabEnabled
-      ? buildOnPremSettingsSourceHref(formatPath(routes.settings.path, true))
+      ? formatPath(routes.settings.path, true)
       : `${getReleasePath()}/settings/integrations`;
 
     return (

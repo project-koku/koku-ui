@@ -14,14 +14,11 @@ import { messages } from 'i18n/messages';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
 import { type AvailabilityFilterValue, loadEntities, setListFilters, setPage, setSort } from 'redux/sources-slice';
 import type { AppDispatch, RootState } from 'redux/store';
 
 import { ListLoadingState } from './ListLoadingState';
 import { SourcesEmptyState } from './SourcesEmptyState';
-
-const SOURCE_SEARCH_PARAM = 'source';
 
 const styles = {
   paginationContainer: {
@@ -153,16 +150,11 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const dispatch = useDispatch<AppDispatch>();
   const intl = useIntl();
   const addNotification = useAddNotification();
-  const [searchParams, setSearchParams] = useSearchParams();
   const { entities, count, loading, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection } =
     useSelector((state: RootState) => state.sources);
+  const [currentView, setCurrentView] = useState<ViewState>({ type: 'list' });
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [removeSource, setRemoveSource] = useState<Source | null>(null);
-
-  const sourceParam = searchParams.has(SOURCE_SEARCH_PARAM) ? (searchParams.get(SOURCE_SEARCH_PARAM) ?? '') : null;
-  // Derive from URL on first render so deep-links skip a spurious list fetch (COST-7661).
-  const currentView: ViewState =
-    sourceParam === null || sourceParam === '' ? { type: 'list' } : { type: 'detail', uuid: sourceParam };
 
   const hasAnyListFilter = useMemo(
     () => Boolean(nameFilter) || availabilityFilter === 'available' || availabilityFilter === 'unavailable',
@@ -174,17 +166,6 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
       dispatch(loadEntities());
     }
   }, [dispatch, currentView.type, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection]);
-
-  const clearSourceParam = useCallback(() => {
-    setSearchParams(
-      prev => {
-        const next = new URLSearchParams(prev);
-        next.delete(SOURCE_SEARCH_PARAM);
-        return next;
-      },
-      { replace: true }
-    );
-  }, [setSearchParams]);
 
   const handleNameFilterChange = useCallback(
     (value: string) => {
@@ -226,19 +207,9 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
     dispatch(loadEntities());
   }, [dispatch]);
 
-  const handleSelectSource = useCallback(
-    (source: Source) => {
-      setSearchParams(
-        prev => {
-          const next = new URLSearchParams(prev);
-          next.set(SOURCE_SEARCH_PARAM, source.uuid);
-          return next;
-        },
-        { replace: true }
-      );
-    },
-    [setSearchParams]
-  );
+  const handleSelectSource = useCallback((source: Source) => {
+    setCurrentView({ type: 'detail', uuid: source.uuid });
+  }, []);
 
   const handleTogglePause = useCallback(
     async (source: Source) => {
@@ -280,8 +251,8 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const handleRemoveSuccess = useCallback(() => {
     dispatch(loadEntities());
     setRemoveSource(null);
-    clearSourceParam();
-  }, [dispatch, clearSourceParam]);
+    setCurrentView({ type: 'list' });
+  }, [dispatch]);
 
   const handleClearFilters = useCallback(() => {
     dispatch(setListFilters({ nameFilter: '', availabilityFilter: '' }));
@@ -290,7 +261,7 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   return (
     <>
       {currentView.type === 'detail' ? (
-        <SourceDetail uuid={currentView.uuid} onBack={clearSourceParam} canWrite={canWrite} />
+        <SourceDetail uuid={currentView.uuid} onBack={() => setCurrentView({ type: 'list' })} canWrite={canWrite} />
       ) : (
         <SourcesPageListContent
           loading={loading}

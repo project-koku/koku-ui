@@ -37,17 +37,10 @@ describe('SourceLink', () => {
     expect(anchor).toHaveAttribute('href', '/settings/integrations/detail/42');
   });
 
-  it('uses on-prem settings ?source=uuid when Sources tab is enabled', () => {
+  it('uses on-prem Settings path when Sources tab is enabled', () => {
     featureToggle.isSettingsSourcesTabEnabled = true;
     renderLink();
     const anchor = screen.getByRole('link', { name: 'My Source' });
-    expect(anchor).toHaveAttribute('href', '/openshift/cost-management/settings?source=prov-uuid-1');
-  });
-
-  it('renders text without anchor when Sources tab enabled but uuid missing', () => {
-    featureToggle.isSettingsSourcesTabEnabled = true;
-    renderLink({ ...provider, uuid: undefined });
-    expect(screen.queryByRole('link')).not.toBeInTheDocument();
-    expect(screen.getByText('My Source')).toBeInTheDocument();
+    expect(anchor).toHaveAttribute('href', '/openshift/cost-management/settings');
   });
 });

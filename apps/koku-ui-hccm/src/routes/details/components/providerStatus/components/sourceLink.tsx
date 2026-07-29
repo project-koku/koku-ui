@@ -5,7 +5,6 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { routes } from 'routes';
 import { normalize } from 'routes/details/components/providerStatus/utils/normailize';
-import { buildOnPremSettingsSourceHref } from 'routes/settings/settingsSourceSearch';
 import { formatPath, getReleasePath } from 'utils/paths';
 
 import { styles } from './component.styles';
@@ -25,18 +24,11 @@ const SourceLink: React.FC<SourceLinkProps> = ({ provider, showLabel = true }: S
   }
 
   const label = provider.name || provider.uuid;
-  let link: React.ReactNode;
-
-  if (isSettingsSourcesTabEnabled) {
-    if (provider.uuid) {
-      link = <a href={buildOnPremSettingsSourceHref(formatPath(routes.settings.path, true), provider.uuid)}>{label}</a>;
-    } else {
-      link = label;
-    }
-  } else {
-    const release = getReleasePath();
-    link = <a href={`${release}/settings/integrations/detail/${provider.id}`}>{label}</a>;
-  }
+  // On-prem: SaaS /settings/integrations/detail/<id> is outside the plugin mount (COST-7661 blank page).
+  // Deep-link into a specific source is deferred to COST-7441; land on Settings (Sources tab available).
+  const href = isSettingsSourcesTabEnabled
+    ? formatPath(routes.settings.path, true)
+    : `${getReleasePath()}/settings/integrations/detail/${provider.id}`;
 
   return (
     <>
@@ -45,7 +37,7 @@ const SourceLink: React.FC<SourceLinkProps> = ({ provider, showLabel = true }: S
           {intl.formatMessage(messages.source, { value: normalize(provider?.source_type) })}
         </span>
       )}
-      {link}
+      <a href={href}>{label}</a>
     </>
   );
 };

@@ -4,7 +4,6 @@ import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import localeMessages from '../../../locales/data.json';
 import type { Source } from '../../apis/models/sources';
 import { sourcesReducer } from '../../redux/sources-slice';
@@ -83,23 +82,17 @@ const defaultState = {
   perPage: 10,
 };
 
-const renderWithProviders = (
-  preloadedState = {},
-  props: { canWrite?: boolean } = {},
-  initialEntries: string[] = ['/']
-) => {
+const renderWithProviders = (preloadedState = {}, props: { canWrite?: boolean } = {}) => {
   const store = configureStore({
     reducer: { sources: sourcesReducer },
     preloadedState: { sources: { ...defaultState, ...preloadedState } },
   });
   return render(
-    <MemoryRouter initialEntries={initialEntries}>
-      <IntlProvider locale="en" defaultLocale="en" messages={localeMessages.en}>
-        <Provider store={store}>
-          <SourcesPage canWrite={props.canWrite} />
-        </Provider>
-      </IntlProvider>
-    </MemoryRouter>
+    <IntlProvider locale="en" defaultLocale="en" messages={localeMessages.en}>
+      <Provider store={store}>
+        <SourcesPage canWrite={props.canWrite} />
+      </Provider>
+    </IntlProvider>
   );
 };
 
@@ -415,47 +408,6 @@ describe('SourcesPage', () => {
 
     await waitFor(() => {
       expect(screen.queryByText('Remove integration?')).not.toBeInTheDocument();
-    });
-  });
-
-  it('opens detail from ?source= deep-link', async () => {
-    const { listSources, getSource } = require('apis/sources-service').SourcesService;
-    listSources.mockReturnValue(new Promise(() => {}));
-    getSource.mockResolvedValue(mockSource);
-
-    await act(async () => {
-      renderWithProviders({ entities: [mockSource], count: 1 }, {}, ['/?source=uuid-1']);
-    });
-
-    await waitFor(() => {
-      expect(getSource).toHaveBeenCalledWith('uuid-1');
-    });
-    expect(listSources).not.toHaveBeenCalled();
-    expect(screen.queryByText('Add integration')).not.toBeInTheDocument();
-  });
-
-  it('Back from detail clears ?source= and returns to list', async () => {
-    const user = userEvent.setup();
-    const { listSources, getSource } = require('apis/sources-service').SourcesService;
-    listSources.mockResolvedValue({
-      data: [mockSource],
-      meta: { count: 1 },
-      links: { first: '', next: null, previous: null, last: '' },
-    });
-    getSource.mockResolvedValue(mockSource);
-
-    await act(async () => {
-      renderWithProviders({ entities: [mockSource], count: 1 }, {}, ['/?source=uuid-1']);
-    });
-
-    await waitFor(() => {
-      expect(getSource).toHaveBeenCalledWith('uuid-1');
-    });
-
-    await user.click(screen.getByRole('button', { name: /Integrations/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText('Add integration')).toBeInTheDocument();
     });
   });
 });

@@ -16,9 +16,6 @@ COPY libs ./libs
 
 # Upstream insights-rbac-ui prepare (husky) fails without .git in image context
 ENV HUSKY=0
-# Webpack prod builds (esp. koku-ui-hccm) exceed Node's ~2Gi default heap on GHA
-# Cap below ubuntu-latest ~7Gi RAM so the runner itself is not OOM-killed.
-ENV NODE_OPTIONS=--max-old-space-size=6144
 RUN npm ci
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
