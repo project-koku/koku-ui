@@ -20,17 +20,18 @@ The setup script (`scripts/quick-start-koku.sh`) automates the backend setup. On
 
 ### The onprem build
 
-The `start:onprem:koku` npm script starts the **koku-ui-onprem** build, which differs from the SaaS build in a few meaningful ways:
+The `start:quick:start:koku` / `start:quick:start:koku:onprem` npm scripts start the **koku-ui-onprem** build, which differs from the SaaS build in a few meaningful ways:
 
 - **No login required** — skips Red Hat SSO entirely, which is ideal for local backend testing
-- **Includes a Sources tab** in the Settings page for adding integrations directly (this tab does not exist in the SaaS build — see [PR #4977](https://github.com/project-koku/koku-ui/pull/4977))
+- **Sources tab** — enabled for `start:quick:start:koku:onprem` (on-prem Settings); disabled for `start:quick:start:koku` to match SaaS-local (see [PR #4977](https://github.com/project-koku/koku-ui/pull/4977))
 - **Omits** SaaS-only libraries such as the Red Hat notification service
 - Designed for customers running Cost Management in self-managed / on-premises OpenShift
 
 For local backend development and feature testing, this is the recommended path. For changes that must match the SaaS experience exactly, use the standard `start:hccm` workflow instead.
 
 ```bash
-npm run start:onprem:koku    # http://localhost:9001  (no login required)
+npm run start:quick:start:koku         # SaaS-local (data retention / Sources tab off)
+npm run start:quick:start:koku:onprem  # on-prem (data retention / Sources tab on)
 ```
 
 - Proxies `/api/cost-management/v1/*` to `localhost:8000`
@@ -186,20 +187,30 @@ ls "${NISE_DIR:-../nise}/pyproject.toml"                  # confirms nise repo c
 Run from inside the `koku-ui` directory. First run takes 10–15 minutes — most of that is
 pulling ~1–2 GB of container images.
 
-> **⚠ Warning:** `npm run quick:start:koku` always includes the `-c` (clean) flag.
-> It deletes all data in the local database and starts fresh. Only use this command
+> **⚠ Warning:** Both quick-start targets include the `-c` (clean) flag.
+> They delete all data in the local database and start fresh. Only use these
 > when you want a clean environment. To resume an existing environment, see
 > [Resuming Development](#resuming-development).
 
+Choose the backend mode that matches how you will run the UI:
+
+| npm target | Backend mode | Data loaded | Typical frontend |
+|------------|--------------|-------------|------------------|
+| `quick:start:koku` | `ONPREM=False`, `test_source=all` | AWS, Azure, GCP, OCP (incl. on-prem) | `start:quick:start:koku` or `start:hccm` with local API proxy |
+| `quick:start:koku:onprem` | `ONPREM=True`, `test_source=ONPREM` | On-prem OCP only | `start:quick:start:koku:onprem` |
+
 ```bash
 cd ~/code/koku-ui
-npm run quick:start:koku
+npm run quick:start:koku          # full / SaaS-local providers
+# or
+npm run quick:start:koku:onprem   # on-prem OCP only
 ```
 
-This is equivalent to running the script directly with the `-c`, `-k`, and `-n` flags:
+Equivalent direct invocations:
 
 ```bash
-bash scripts/quick-start-koku.sh -c -k -n
+bash scripts/quick-start-koku.sh -c -k -n       # full
+bash scripts/quick-start-koku.sh -c -k -n -o    # on-prem (-o)
 ```
 
 Expected output on success:
@@ -258,7 +269,9 @@ curl http://localhost:8000/api/cost-management/v1/status/
 
 ```bash
 cd ~/code/koku-ui
-npm run start:onprem:koku
+npm run start:quick:start:koku         # after quick:start:koku
+# or
+npm run start:quick:start:koku:onprem  # after quick:start:koku:onprem
 ```
 
 Open <http://localhost:9001>. The first build takes about 60 seconds.
@@ -294,7 +307,9 @@ curl http://localhost:8000/api/cost-management/v1/status/
 
 ```bash
 cd ~/code/koku-ui
-npm run start:onprem:koku
+npm run start:quick:start:koku         # SaaS-local
+# or
+npm run start:quick:start:koku:onprem  # on-prem
 ```
 
 ---
@@ -311,20 +326,22 @@ npm run start:onprem:koku
 | Create/update `../koku/.env`               | Install pipenv and uv          |
 | Pull container images (~1–2 GB first time) | Clone the koku and nise repos  |
 | Start all backend containers               | Set up SSH key for GitHub      |
-| Fix Trino empty-credential crash           |                                |
-| Wait up to 3 min for migrations            |                                |
+| Refresh S4 / currency `.env` values        |                                |
+| Wait up to 5 min for migrations            |                                |
 | Create test customer account               |                                |
 | Load sample cost data via nise             |                                |
+| Wait until all required sources have has_data=true |                                |
 
 ### Script flags
 
-```
-bash scripts/quick-start-koku.sh [-h|-c|-k|-n|-v]
+```text
+bash scripts/quick-start-koku.sh [-h|-c|-k|-n|-o|-v]
 
     h    Display the usage message
     c    Clean previous build (removes containers and all data — destructive)
     k    Create or update koku/.env
     n    Create or update nise/.env
+    o    On-prem mode (ONPREM=True, test_source=ONPREM); default is full/all
     v    Verbose (interactive) mode — prompts before running each command
 ```
 
@@ -413,14 +430,14 @@ podman compose logs -f koku-worker
 
 ### `localhost:9001` shows a blank page
 
-The `start:onprem:koku` npm script sets the required environment variables inline. If you are running the frontend a different way and see a blank page, verify these are set:
+The `start:quick:start:koku` / `start:quick:start:koku:onprem` npm scripts set the required environment variables inline. If you are running the frontend a different way and see a blank page, verify these are set:
 
 ```bash
 export API_PROXY_URL=http://localhost:8000/api/cost-management/v1
 export API_TOKEN=
 ```
 
-Then restart `npm run start:onprem`.
+Then restart `npm run start:quick:start:koku` (or `start:quick:start:koku:onprem`).
 
 ### Browser shows 504 on API calls
 
@@ -460,6 +477,39 @@ podman compose down -v
 
 Then re-run the setup script.
 
+### Script hangs on Unleash / “still bringing up stack”
+
+Unleash itself usually starts in under a minute (`curl http://localhost:4242/health` → `{"health":"GOOD"}`). If the script sits much longer, Podman’s `docker-compose up -d unleash` is likely stuck on a dependency health wait even though the container is already up.
+
+Ctrl+C and re-run with the latest `scripts/quick-start-koku.sh` (it starts services with `--no-deps` and polls health directly).
+
+### Script hangs after “Scaling koku-worker” / `koku-koku-base-1 Started`
+
+Same Podman + docker-compose issue: scaling workers without `--no-deps` waits on dependency health and can hang forever. Current quick-start uses `--no-deps` for worker scale up/down. Ctrl+C a hung run and re-run with the updated script.
+
+### `has_data` never becomes true / `HIVE_PATH_ALREADY_EXISTS`
+
+If the loader logs `Failed to find has_data=true for source_name Test OCP on AWS` and worker logs show:
+
+```
+TrinoExternalError: HIVE_PATH_ALREADY_EXISTS
+Target directory for table 'org1234567.reporting_ocpusagelineitem_daily_summary' already exists
+```
+
+the S4 volume still has Hive warehouse objects from a previous run while the metastore does not. OCP summary fails immediately, so `has_data` stays false.
+
+Fix with a full wipe (the `-c` flag now removes `koku-s4-data`), then re-run:
+
+```bash
+cd ~/code/koku
+make DOCKER="$(command -v podman)" docker-down
+podman volume rm -f koku-s4-data
+cd ~/code/koku-ui
+npm run quick:start:koku
+```
+
+The setup script also clears known Hive managed-table prefixes in S4 before loading data.
+
 ### Trino exits immediately after startup
 
 Trino's Glue connector requires non-empty AWS credentials. If your shell or `koku/.env` has `AWS_ACCESS_KEY_ID=` (blank), Trino crashes with:
@@ -468,21 +518,77 @@ Trino's Glue connector requires non-empty AWS credentials. If your shell or `kok
 NullPointerException: Access key ID cannot be blank
 ```
 
-Koku uses a local hive/thrift metastore, not AWS Glue, so the value just needs to be non-empty. The setup script handles this automatically when run with `-k`. To fix manually:
+Koku uses a local hive/thrift metastore, not AWS Glue, so the value just needs to be non-empty. The setup script sets dummy values when run with `-k`. To fix manually:
 
 ```bash
 cd ~/code/koku
-cat > /tmp/trino-ovr.yml << 'EOF'
-services:
-  trino:
-    links: !reset
-EOF
+# Ensure .env has non-empty AWS_* values (local-dev is fine; not S4's s4admin keys)
+sed -i '' 's|^AWS_ACCESS_KEY_ID=.*|AWS_ACCESS_KEY_ID=local-dev|' .env
+sed -i '' 's|^AWS_SECRET_ACCESS_KEY=.*|AWS_SECRET_ACCESS_KEY=local-dev|' .env
 AWS_ACCESS_KEY_ID=local-dev AWS_SECRET_ACCESS_KEY=local-dev \
-  podman compose -f docker-compose.yml -f /tmp/trino-ovr.yml up -d --no-deps --force-recreate trino
-rm /tmp/trino-ovr.yml
+  podman compose up -d --no-deps --force-recreate trino
 ```
 
-The `links: !reset` override is required because Podman rejects the legacy `links:` directive in koku's `docker-compose.yml`.
+### S3 / create-s3-buckets fails with InvalidAccessKeyId
+
+Koku replaced MinIO with S4. Legacy MinIO keys in `.env` (`kokuminioaccess` / `kokuminiosecret`) cause `make docker-up-min-trino` to fail during bucket creation, so `koku_server` never starts. Use the S4 defaults:
+
+```bash
+cd ~/code/koku
+sed -i '' 's|^S3_ACCESS_KEY=.*|S3_ACCESS_KEY=s4admin|' .env
+sed -i '' 's|^S3_SECRET=.*|S3_SECRET=s4secret|' .env
+# Recreate the path proxy so it picks up the new keys
+podman compose up -d --force-recreate s4-path-proxy
+podman compose run --rm --no-deps create-s3-buckets
+```
+
+Or re-run the setup script with `-k` so it rewrites these values.
+
+### `has_data=false` / "Failed to find has_data=true … after 50 retries"
+
+That message comes from koku's `load_test_customer_data.sh`, which only waits
+~8 minutes. It is **non-fatal inside koku** — the load script continues, and the
+worker often finishes shortly afterward.
+
+Our quick-start then waits until **all required sources** report `has_data=true`
+(full mode: every source; on-prem mode: `Test OCP on Premises` only). If any are
+still false, it remediates up to 3 times:
+
+1. Scale workers down and **recreate Trino** if it is not running (Podman can still
+   report `Health=healthy` after an OOM exit — the script checks `Running=true`)
+2. Clear stale Hive warehouse paths in S4 when summary can fail on orphans
+3. Reload only the provider group(s) still missing data (`AWS` / `AZURE` / `GCP` / `ONPREM`)
+
+`Test OCP on Premises` is last in `test_source=all`, so it often fails when Trino
+was OOM-killed during AWS/Azure/GCP ingest. After the multi-cloud load the script
+recovers Trino before the has_data gate. Give Podman at least **8 GB** of memory.
+
+Setup exits if sources are still without data after remediation.
+
+`quick:start:koku` loads all cloud providers in one `test_source=all` pass.
+`quick:start:koku:onprem` loads on-prem OCP only.
+
+To check manually:
+
+```bash
+curl -s 'http://localhost:8000/api/cost-management/v1/sources/?limit=100' | python3 -m json.tool
+```
+
+### Broken host `aws` CLI / OCP payload "not found"
+
+`load-test-customer-data` verifies OCP uploads with the host `aws` CLI. A stale
+install (often under `~/Library/Python/3.7/bin/aws` with a missing interpreter)
+fails that check even when nise uploaded successfully. Fix or remove it:
+
+```bash
+aws --version   # should print a version, not "bad interpreter"
+# If broken:
+mv ~/Library/Python/3.7/bin/aws ~/Library/Python/3.7/bin/aws.bak
+# Optional: brew install awscli
+```
+
+The setup script skips non-working `aws` binaries and falls back to a Podman
+`aws-cli` container for verification.
 
 ### Unleash fails to start — "Admin token cannot be scoped to single project"
 

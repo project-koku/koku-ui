@@ -1,5 +1,5 @@
 import type { Providers } from 'api/providers';
-import type { ProviderType } from 'api/providers';
+import { ProviderType } from 'api/providers';
 
 const enum DataType {
   currentMonthData = 'current_month_data',
@@ -22,6 +22,18 @@ const _getOcpProvider = (ocpProviders: Providers, uuid?: string) => {
   return result;
 };
 
+// True when API source_type matches ProviderType (case-insensitive).
+// Local koku/nise backends use AWS-local / Azure-local / GCP-local; treat those
+// as aws / azure / gcp without adding separate ProviderType values.
+export const matchesProviderType = (sourceType: string | undefined, providerType: ProviderType) => {
+  if (!sourceType || providerType === ProviderType.all) {
+    return false;
+  }
+  const normalized = sourceType.toLowerCase();
+  const baseType = normalized.endsWith('-local') ? normalized.slice(0, -'-local'.length) : normalized;
+  return baseType === providerType;
+};
+
 // Returns new Provider matching the given provider type
 //
 // See https://redhat.atlassian.net/browse/COST-2202
@@ -30,7 +42,7 @@ export const filterProviders = (providers: Providers, sourceType: ProviderType) 
     return providers;
   }
 
-  const data = providers.data.filter(provider => provider.source_type.toLowerCase() === sourceType);
+  const data = providers.data.filter(provider => matchesProviderType(provider.source_type, sourceType));
   const meta = {
     ...providers.meta,
     count: data.length,
