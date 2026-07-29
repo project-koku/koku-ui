@@ -899,13 +899,10 @@ ensureAllSourcesHaveData() {
     echo -e "\n*** Remediation round $round/3 for sources without data:"
     echo "$missing" | sed 's/^/  - /'
 
-    # Free RAM before reload — Trino is often OOM-killed while 3 workers +
+    # Free RAM before reload — Trino is often OOM-killed while workers +
     # multi-cloud ingest are running. Premises reload needs Trino alive.
     echo "*** Scaling koku-worker to 1 to free memory for Trino..."
-    if [ -f "$PODMAN_OVERRIDE_FILE" ]; then
-      $PODMAN_COMPOSE -f docker-compose.yml -f "$PODMAN_OVERRIDE_FILE" \
-        up -d --no-deps --scale koku-worker=1 koku-worker >/dev/null 2>&1 || true
-    fi
+    scaleKokuWorkers 1 60 || true
     if ! ensureTrinoHealthy; then
       echo "Error: Trino is required for OCP summary / has_data"
       return 1
@@ -1012,6 +1009,80 @@ PY
   fi
 }
 
+# Count running koku-worker containers.
+countKokuWorkers() {
+  $PODMAN ps --format '{{.Names}}' 2>/dev/null | grep -cE 'koku[-_]koku-worker' || true
+}
+
+# Run a command with a timeout. Prefers perl alarm (available on macOS); falls
+# back to a bash background + kill watchdog when perl is missing.
+runWithTimeout() {
+  local timeout_s=$1
+  shift
+
+  if command -v perl >/dev/null 2>&1; then
+    perl -e 'alarm shift; exec @ARGV' "$timeout_s" "$@"
+    return $?
+  fi
+
+  "$@" &
+  local cmd_pid=$!
+  (
+    sleep "$timeout_s"
+    kill "$cmd_pid" 2>/dev/null || true
+  ) &
+  local watchdog_pid=$!
+  wait "$cmd_pid"
+  local rc=$?
+  kill "$watchdog_pid" 2>/dev/null || true
+  wait "$watchdog_pid" 2>/dev/null || true
+  return "$rc"
+}
+
+# Scale koku-worker without hanging. Podman + docker-compose often never
+# returns from `up --scale` even after workers are running (commonly after
+# "koku-koku-base-1 Started"). Skip when already at the desired count;
+# otherwise time out and continue when the desired count is reached.
+# Uses exact equality so scale-down (2 → 1) is not skipped.
+scaleKokuWorkers() {
+  local desired=${1:-1}
+  local timeout_s=${2:-90}
+  local current
+  current=$(countKokuWorkers)
+
+  if [ "$current" -eq "$desired" ]; then
+    echo "    already have ${current} worker(s) (want ${desired}); skipping scale"
+    return 0
+  fi
+
+  local compose_args=(-f docker-compose.yml)
+  if [ -n "${PODMAN_OVERRIDE_FILE:-}" ] && [ -f "$PODMAN_OVERRIDE_FILE" ]; then
+    compose_args+=(-f "$PODMAN_OVERRIDE_FILE")
+  fi
+
+  echo "    scaling koku-worker ${current} → ${desired} (timeout ${timeout_s}s)..."
+  if ! runWithTimeout "$timeout_s" \
+    $PODMAN_COMPOSE "${compose_args[@]}" \
+      up -d --no-deps --scale koku-worker="$desired" koku-worker
+  then
+    current=$(countKokuWorkers)
+    if [ "$current" -eq "$desired" ]; then
+      echo "    compose did not exit cleanly, but ${current} worker(s) are up — continuing"
+      return 0
+    fi
+    echo "Error: failed to scale koku-worker to ${desired} (have ${current})"
+    return 1
+  fi
+
+  current=$(countKokuWorkers)
+  if [ "$current" -eq "$desired" ]; then
+    echo "    koku-worker scaled to ${current}"
+    return 0
+  fi
+  echo "Error: after scale, expected ${desired} worker(s), found ${current}"
+  return 1
+}
+
 # Create a test customer account and seed sample cost data.
 # On-prem mode (-o): ONPREM=True + test_source=ONPREM (OCP only).
 # Default mode: ONPREM=False + test_source=all (one koku load). Do not call
@@ -1031,20 +1102,20 @@ loadData() {
   echo -e "\n*** Creating test customer (org_id: 1234567, username: test_customer) and providers..."
   $PIPENV_BIN run $PYTHON_BIN dev/scripts/create_test_customer.py --api-prefix /api/cost-management
 
-  # Scale workers for OCP ingest. Override clears published ports so scale>1
-  # does not collide on host bindings. Keep at 2 in full mode — 3 workers plus
-  # Trino during test_source=all often OOM-kills Trino before Premises finishes.
+  # On-prem: one worker is enough for a single OCP ingest. Full mode uses 2 —
+  # more workers plus Trino during test_source=all often OOM-kills Trino.
   local worker_scale=2
+  if [ -n "$MODE_ONPREM" ]; then
+    worker_scale=1
+  fi
   echo -e "\n*** Scaling koku-worker to ${worker_scale} for data load..."
-  # --no-deps: stack is already up. Without it, Podman+docker-compose can hang
-  # forever waiting on dependency health (often after "koku-koku-base-1 Started").
-  $PODMAN_COMPOSE -f docker-compose.yml -f "$PODMAN_OVERRIDE_FILE" \
-    up -d --no-deps --scale koku-worker="$worker_scale" koku-worker
+  if ! scaleKokuWorkers "$worker_scale" 90; then
+    exit 1
+  fi
 
   scaleWorkersDown() {
     echo -e "\n*** Scaling koku-worker back to 1..."
-    $PODMAN_COMPOSE -f docker-compose.yml -f "$PODMAN_OVERRIDE_FILE" \
-      up -d --no-deps --scale koku-worker=1 koku-worker >/dev/null 2>&1 || true
+    scaleKokuWorkers 1 60 || true
   }
 
   loadProvider() {
@@ -1070,8 +1141,7 @@ loadData() {
       echo "Error: Trino did not recover after data load"
       exit 1
     fi
-    $PODMAN_COMPOSE -f docker-compose.yml -f "$PODMAN_OVERRIDE_FILE" \
-      up -d --no-deps --scale koku-worker=2 koku-worker >/dev/null 2>&1 || true
+    scaleKokuWorkers 2 90 || true
   fi
 
   # Require has_data for every expected source. Remediates Trino/Hive failures
