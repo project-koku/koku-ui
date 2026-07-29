@@ -28,22 +28,26 @@
     "test": "npm exec --workspaces -- npm run test --",
     "test:update": "npm exec --workspaces -- npm run test:update",
     "quick:start:koku": "bash scripts/quick-start-koku.sh -c -k -n",
+    "quick:start:koku:onprem": "bash scripts/quick-start-koku.sh -c -k -n -o",
     "release:all": "node scripts/release-all.js",
     "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRCS,RBAC\" --prefix-colors \"yellow,cyan,magenta,green,blue\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\" \"npm run -w @koku-ui/rbac-ui-onprem start:onprem\"",
     "start:onprem:auth": ". scripts/setup-onprem-env.sh && scripts/start-onprem-auth.mts",
-    "start:onprem:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
+    "start:quick:start:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD=false KOKU_UI_SETTINGS_SOURCES_TAB=false npm run start:onprem",
+    "start:quick:start:koku:onprem": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
   },
   "scripts-info": {
     "check:dependencies": "Checks for outdated dependencies in each workspace",
-    "quick:start:koku": "Start Koku and load sample cost data",
+    "quick:start:koku": "Start Koku (ONPREM=False) and load all sample cost data",
+    "quick:start:koku:onprem": "Start Koku (ONPREM=True) and load on-prem OCP sample data",
     "release:all": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI",
     "start:onprem:auth": "Runs onprem UI against a deployment made with the cost-onprem Helm chart, behind a local oauth2-proxy container (real OIDC PKCE flow, login screen, session expiry, logout redirect) — requires Podman or Docker",
-    "start:onprem:koku": "Run onprem UI with local Koku API"
+    "start:quick:start:koku": "Run onprem UI with local Koku API (SaaS-local; data retention and Sources tab disabled)",
+    "start:quick:start:koku:onprem": "Run onprem UI with local Koku API (on-prem; data retention and Sources tab enabled)"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
