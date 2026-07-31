@@ -98,7 +98,7 @@ const RateApi: React.FC<RateApiProps> = ({ canWrite, onAdd, onEdit, onDelete, pr
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.rates),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

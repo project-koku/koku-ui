@@ -93,7 +93,7 @@ const Integration: React.FC<IntegrationProps> = ({ canWrite, costModel, onAdd, o
         perPage={perPage}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.integrationsDetails),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

@@ -80,7 +80,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.tagLabelsTitle),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}
