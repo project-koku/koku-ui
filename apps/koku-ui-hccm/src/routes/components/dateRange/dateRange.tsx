@@ -56,12 +56,14 @@ const DateRange: React.FC<DateRangeProps> = ({
       },
     ];
     if (isExplorer) {
-      options.push({
-        label: messages.explorerDateRange,
-        value: DateRangeType.lastTwoMonths,
-        isDisabled: isDataAvailable === false,
-      });
       if (isSettingsDataRetentionPeriodEnabled) {
+        if (dataRetentionMonths > 2) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwoMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
         if (dataRetentionMonths > 3) {
           options.push({
             label: messages.explorerDateRange,
@@ -91,11 +93,20 @@ const DateRange: React.FC<DateRangeProps> = ({
           });
         }
       } else {
-        options.push({
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastThreeMonths,
-          isDisabled: isDataAvailable === false,
-        });
+        // The "last X months" options may not be full months. They include the current month and the previous month.
+        // The sources API doesn't have a flag for these specific options, so enable if there is any data available.
+        options.push(
+          {
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwoMonths,
+            isDisabled: isDataAvailable === false,
+          },
+          {
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastThreeMonths,
+            isDisabled: isDataAvailable === false,
+          }
+        );
       }
       options.push({
         label: messages.explorerDateRange,
