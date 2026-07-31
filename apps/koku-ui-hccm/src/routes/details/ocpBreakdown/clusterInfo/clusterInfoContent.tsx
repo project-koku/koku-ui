@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { SourceLink } from 'routes/details/components/providerStatus/components/sourceLink';
 import { CloudIntegration } from 'routes/details/ocpBreakdown/clusterInfo/components/cloudIntegration';
 import { getOperatorStatus } from 'routes/utils/operatorStatus';
 import { filterProviders } from 'routes/utils/providers';
@@ -77,7 +78,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
           <Content component="ul" isPlainList>
             <Content component="li">
               <span style={styles.spacingRight}>{intl.formatMessage(messages.source, { value: 'ocp' })}</span>
-              <a href={`${release}/settings/integrations/detail/${clusterProvider.id}`}>{clusterProvider.name}</a>
+              <SourceLink provider={clusterProvider} showLabel={false} />
             </Content>
             <Content component="li">
               {clusterProvider?.cost_models?.length ? (

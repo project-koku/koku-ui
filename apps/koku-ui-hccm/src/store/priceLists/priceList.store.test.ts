@@ -8,6 +8,8 @@ import {
   fetchPriceListFailure,
   fetchPriceListRequest,
   fetchPriceListSuccess,
+  resetNotifications,
+  resetStatus,
   updatePriceList,
   updatePriceListFailure,
   updatePriceListRequest,
@@ -43,6 +45,24 @@ describe('priceList store', () => {
     expect(state.errors.size).toBe(0);
     expect(state.notification?.size).toBe(0);
     expect(state.status.size).toBe(0);
+  });
+
+  test('scoped resetNotifications/resetStatus only clear the given fetchId', () => {
+    const listFid = getFetchId(PriceListType.priceList, 'limit=10');
+    const addFid = getFetchId(PriceListType.priceListAdd);
+    let state: any = emptySlice();
+    state.status.set(listFid, FetchStatus.complete);
+    state.status.set(addFid, FetchStatus.complete);
+    state.notification.set(listFid, { t: 'list' });
+    state.notification.set(addFid, { t: 'add' });
+
+    state = priceListReducer(state, resetNotifications({ fetchId: addFid }));
+    expect(state.notification.get(addFid)).toBeUndefined();
+    expect(state.notification.get(listFid)).toEqual({ t: 'list' });
+
+    state = priceListReducer(state, resetStatus({ fetchId: addFid }));
+    expect(state.status.get(addFid)).toBeUndefined();
+    expect(state.status.get(listFid)).toBe(FetchStatus.complete);
   });
 
   test('fetch request, success, and failure update maps', () => {

@@ -51,16 +51,18 @@ cat <<- EEOOFF
     $ROS_PROD_BRANCH
     $ROS_STAGE_BRANCH
 
-    sh [-x] $SCRIPT [-h|-p|-q|-r|-s]
+    sh [-x] $SCRIPT [-h|-o|-q|-r|-t]
 
     OPTIONS:
     h       Display this message
-    s       Deploy SHA refs from $HCCM_STAGE_BRANCH to $TARGET_BRANCH
-    p       Deploy SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
-    q       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
-    r       Deploy SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
 
-    Note: This script does not support on-prem.
+    o       Deploy SHA refs from $HCCM_STAGE_BRANCH to $TARGET_BRANCH
+    q       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
+
+    r       Deploy SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
+    t       Deploy SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
+
+    Note: This script does not support on-prem for app-interface deployments.
 
     This script lacks permission to push directly upstream, so commits will be pushed to this fork:
     $APP_INTERFACE_FORK -- override user via the GITLAB_USER env var.
@@ -116,11 +118,12 @@ createDeploymentDesc()
     if [ "$DEPLOY_HCCM_STAGE" = "true" ]; then
       echo "${KOKU_UI_HCCM}: Stage deployment"
     fi
-    if [ "$DEPLOY_HCCM_PROD" = "true" ]; then
-      echo "${KOKU_UI_HCCM}: Prod deployment"
-    fi
     if [ "$DEPLOY_ROS_STAGE" = "true" ]; then
       echo "${KOKU_UI_ROS}: Stage deployment"
+    fi
+
+    if [ "$DEPLOY_HCCM_PROD" = "true" ]; then
+      echo "${KOKU_UI_HCCM}: Prod deployment"
     fi
     if [ "$DEPLOY_ROS_PROD" = "true" ]; then
       echo "${KOKU_UI_ROS}: Prod deployment"
@@ -294,12 +297,12 @@ updateDeploySHA()
 {
   default
 
-  while getopts hpqrs c; do
+  while getopts hoqrt c; do
     case $c in
-      s) DEPLOY_HCCM_STAGE=true;;
-      p) DEPLOY_HCCM_PROD=true;;
+      o) DEPLOY_HCCM_STAGE=true;;
       q) DEPLOY_ROS_STAGE=true;;
-      r) DEPLOY_ROS_PROD=true;;
+      r) DEPLOY_HCCM_PROD=true;;
+      t) DEPLOY_ROS_PROD=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
     esac

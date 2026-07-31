@@ -7,7 +7,7 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin } from 'webpack';
 
-import { FeatureToggleType } from './src/components/featureToggle';
+import { FeatureToggleType } from './src/components/featureToggle/featureToggleType';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 

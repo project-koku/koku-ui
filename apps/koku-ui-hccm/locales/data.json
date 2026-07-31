@@ -1159,6 +1159,12 @@
         "value": "Clusters"
       }
     ],
+    "computeTitle": [
+      {
+        "type": 0,
+        "value": "Compute"
+      }
+    ],
     "continue": [
       {
         "type": 0,
@@ -2347,6 +2353,12 @@
       {
         "type": 0,
         "value": "Create a cost model"
+      }
+    ],
+    "createExchangeRate": [
+      {
+        "type": 0,
+        "value": "Create exchange rate"
       }
     ],
     "createPriceList": [
@@ -3694,6 +3706,14 @@
               }
             ]
           },
+          "active_rate": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Active rate (this month, UTC)"
+              }
+            ]
+          },
           "aws_category": {
             "value": [
               {
@@ -3750,11 +3770,27 @@
               }
             ]
           },
+          "currency_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Currency name"
+              }
+            ]
+          },
           "description": {
             "value": [
               {
                 "type": 0,
                 "value": "Description"
+              }
+            ]
+          },
+          "enabled": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Enabled"
               }
             ]
           },
@@ -4949,6 +4985,33 @@
         "value": "Duplicate price list"
       }
     ],
+    "dynamicRate": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "false": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Not enabled"
+              }
+            ]
+          },
+          "true": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Dynamic"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
     "edit": [
       {
         "type": 0,
@@ -5079,6 +5142,74 @@
         "value": "Examples"
       }
     ],
+    "exchangeRate": [
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rate"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rates"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "exchangeRateDesc": [
+      {
+        "type": 0,
+        "value": "Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled."
+      }
+    ],
+    "exchangeRateEmpty": [
+      {
+        "type": 0,
+        "value": "No exchange rates"
+      }
+    ],
+    "exchangeRateEmptyDesc": [
+      {
+        "type": 0,
+        "value": "Exchange rates may be disabled. Turn on Show disabled to view and restore them."
+      }
+    ],
+    "exchangeRateLoadingStateDesc": [
+      {
+        "type": 0,
+        "value": "Searching for your exchange rates. Do not refresh the browser"
+      }
+    ],
+    "exchangeRateLoadingStateTitle": [
+      {
+        "type": 0,
+        "value": "Looking for exchange rates..."
+      }
+    ],
+    "exchangeRateNotAssigned": [
+      {
+        "type": 0,
+        "value": "No exchange rates are assigned"
+      }
+    ],
+    "exchangeRateNotAssignedDesc": [
+      {
+        "type": 0,
+        "value": "Use \"Create exchange rate\" to create an exchange rate."
+      }
+    ],
     "excludeLabel": [
       {
         "type": 0,
@@ -5197,27 +5328,35 @@
               }
             ]
           },
-          "last_ninety_days": {
+          "last_two_months": {
             "value": [
               {
                 "type": 0,
-                "value": "Last 90 days"
+                "value": "Last 2 months"
               }
             ]
           },
-          "last_sixty_days": {
+          "last_three_months": {
             "value": [
               {
                 "type": 0,
-                "value": "Last 60 days"
+                "value": "Last 3 months"
               }
             ]
           },
-          "last_thirty_days": {
+          "last_six_months": {
             "value": [
               {
                 "type": 0,
-                "value": "Last 30 days"
+                "value": "Last 6 months"
+              }
+            ]
+          },
+          "last_twelve_months": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Last 12 months"
               }
             ]
           },
@@ -5229,11 +5368,19 @@
               }
             ]
           },
-          "previous_month_to_date": {
+          "maximum": {
             "value": [
               {
                 "type": 0,
-                "value": "Previous month and month to date"
+                "value": "Maximum ("
+              },
+              {
+                "type": 1,
+                "value": "months"
+              },
+              {
+                "type": 0,
+                "value": " months)"
               }
             ]
           },
@@ -12919,6 +13066,12 @@
         "value": "Rate must be a positive number"
       }
     ],
+    "priceListRates": [
+      {
+        "type": 0,
+        "value": "Price list rates"
+      }
+    ],
     "priceListRatesLoadingStateDesc": [
       {
         "type": 0,
@@ -13154,6 +13307,12 @@
       {
         "type": 0,
         "value": "Read only"
+      }
+    ],
+    "readOnlyDataRetention": [
+      {
+        "type": 0,
+        "value": "Data retention is controlled by the RETAIN_NUM_MONTHS environment variable and cannot be modified via the API"
       }
     ],
     "readOnlyPermissions": [
@@ -13767,6 +13926,12 @@
         "value": "Show deprecated"
       }
     ],
+    "showDisabled": [
+      {
+        "type": 0,
+        "value": "Show disabled"
+      }
+    ],
     "sinceDate": [
       {
         "type": 1,
@@ -14137,6 +14302,12 @@
         "value": "Map tags and labels"
       }
     ],
+    "tagMapping": [
+      {
+        "type": 0,
+        "value": "Tag mapping"
+      }
+    ],
     "tagMappingAddChildTags": [
       {
         "type": 0,
@@ -14167,6 +14338,12 @@
       {
         "type": 0,
         "value": "Unable to create tag mapping"
+      }
+    ],
+    "tagMappingChildTags": [
+      {
+        "type": 0,
+        "value": "Child tags"
       }
     ],
     "tagMappingDelete": [
@@ -14211,6 +14388,12 @@
       {
         "type": 1,
         "value": "learnMore"
+      }
+    ],
+    "tagMappingParentTags": [
+      {
+        "type": 0,
+        "value": "Parent tags"
       }
     ],
     "tagMappingRemove": [

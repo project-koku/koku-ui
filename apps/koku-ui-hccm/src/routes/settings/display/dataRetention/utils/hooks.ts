@@ -1,13 +1,14 @@
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
-import { DataRetentionType } from 'api/dataRetention';
+import { AccountSettingsType } from 'api/accountSettings';
 import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import type { RootState } from 'store';
+import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
+import { getFetchId } from 'store/accountSettings/accountSettingsCommon';
 import { FetchStatus } from 'store/common';
-import { dataRetentionActions, dataRetentionSelectors } from 'store/dataRetention';
 import type { Notification } from 'utils/notification';
 
 interface NotificationProps {
@@ -15,9 +16,10 @@ interface NotificationProps {
   isNotificationEnabled?: boolean;
   notification: Notification;
   status: FetchStatus;
+  type: AccountSettingsType;
 }
 
-const useNotification = ({ error, isNotificationEnabled = true, notification, status }: NotificationProps) => {
+const useNotification = ({ error, isNotificationEnabled = true, notification, status, type }: NotificationProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const addNotification = useAddNotification();
 
@@ -26,22 +28,23 @@ const useNotification = ({ error, isNotificationEnabled = true, notification, st
       if (isNotificationEnabled) {
         addNotification(notification as any);
       }
-      dispatch(dataRetentionActions.resetNotifications());
-      dispatch(dataRetentionActions.resetStatus());
+      const fetchId = getFetchId(type);
+      dispatch(accountSettingsActions.resetNotifications({ fetchId }));
+      dispatch(accountSettingsActions.resetStatus({ fetchId }));
     }
-  }, [addNotification, dispatch, error, isNotificationEnabled, notification, status]);
+  }, [addNotification, dispatch, error, isNotificationEnabled, notification, status, type]);
 };
 
 export const useDataRetentionNotifications = (isNotificationEnabled = true) => {
   const error = useSelector((state: RootState) =>
-    dataRetentionSelectors.selectDataRetentionError(state, DataRetentionType.dataRetentionUpdate, undefined)
+    accountSettingsSelectors.selectAccountSettingsError(state, AccountSettingsType.dataRetention)
   ) as AxiosError | undefined;
   const notification = useSelector((state: RootState) =>
-    dataRetentionSelectors.selectDataRetentionNotification(state, DataRetentionType.dataRetentionUpdate, undefined)
+    accountSettingsSelectors.selectAccountSettingsNotification(state, AccountSettingsType.dataRetention)
   );
   const status = useSelector((state: RootState) =>
-    dataRetentionSelectors.selectDataRetentionFetchStatus(state, DataRetentionType.dataRetentionUpdate, undefined)
+    accountSettingsSelectors.selectAccountSettingsFetchStatus(state, AccountSettingsType.dataRetention)
   );
 
-  useNotification({ error, isNotificationEnabled, notification, status });
+  useNotification({ error, isNotificationEnabled, notification, status, type: AccountSettingsType.dataRetention });
 };

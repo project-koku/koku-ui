@@ -465,6 +465,11 @@ export default defineMessages({
     description: 'Clusters',
     id: 'clusters',
   },
+  computeTitle: {
+    defaultMessage: 'Compute',
+    description: 'Compute',
+    id: 'computeTitle',
+  },
   continue: {
     defaultMessage: 'Continue',
     description: 'Continue',
@@ -1252,6 +1257,11 @@ export default defineMessages({
     description: 'Create a cost model',
     id: 'createCostModelTitle',
   },
+  createExchangeRate: {
+    defaultMessage: 'Create exchange rate',
+    description: 'Create exchange rate',
+    id: 'createExchangeRate',
+  },
   createPriceList: {
     defaultMessage: 'Create a price list',
     description: 'Create a price list',
@@ -1669,6 +1679,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Account names} ' +
+      'active_rate {Active rate (this month, UTC)} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'cost_model {Cost model assigned} ' +
@@ -1676,7 +1687,9 @@ export default defineMessages({
       'cost_type {Calculation type} ' +
       'cpu {CPU} ' +
       'currency {Currency} ' +
+      'currency_name {Currency name} ' +
       'description {Description} ' +
+      'enabled {Enabled} ' +
       'end {End} ' +
       'end_date {End date} ' +
       'gcp_project {Google Cloud project names} ' +
@@ -2074,6 +2087,11 @@ export default defineMessages({
     description: 'Duplicate price list',
     id: 'duplicatePriceList',
   },
+  dynamicRate: {
+    defaultMessage: '{value, select, ' + 'false {Not enabled} ' + 'true {Dynamic} ' + 'other {}}',
+    description: 'Dynamic rate',
+    id: 'dynamicRate',
+  },
   edit: {
     defaultMessage: 'Edit',
     description: 'Edit',
@@ -2179,6 +2197,48 @@ export default defineMessages({
     description: 'Examples',
     id: 'examplesTitle',
   },
+  exchangeRate: {
+    defaultMessage: '{count, plural, one {Exchange rate} other {Exchange rates}}',
+    description: 'Exchange rate',
+    id: 'exchangeRate',
+  },
+  exchangeRateDesc: {
+    defaultMessage:
+      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
+    description:
+      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
+    id: 'exchangeRateDesc',
+  },
+  exchangeRateEmpty: {
+    defaultMessage: 'No exchange rates',
+    description: 'No exchange rates',
+    id: 'exchangeRateEmpty',
+  },
+  exchangeRateEmptyDesc: {
+    defaultMessage: 'Exchange rates may be disabled. Turn on Show disabled to view and restore them.',
+    description: 'Exchange rates may be disabled. Turn on Show disabled to view and restore them.',
+    id: 'exchangeRateEmptyDesc',
+  },
+  exchangeRateLoadingStateDesc: {
+    defaultMessage: 'Searching for your exchange rates. Do not refresh the browser',
+    description: 'Searching for your exchange rates. Do not refresh the browser',
+    id: 'exchangeRateLoadingStateDesc',
+  },
+  exchangeRateLoadingStateTitle: {
+    defaultMessage: 'Looking for exchange rates...',
+    description: 'Looking for exchange rates',
+    id: 'exchangeRateLoadingStateTitle',
+  },
+  exchangeRateNotAssigned: {
+    defaultMessage: 'No exchange rates are assigned',
+    description: 'No exchange rates are assigned',
+    id: 'exchangeRateNotAssigned',
+  },
+  exchangeRateNotAssignedDesc: {
+    defaultMessage: 'Use "Create exchange rate" to create an exchange rate.',
+    description: 'Use "Create exchange rate" to create an exchange rate.',
+    id: 'exchangeRateNotAssignedDesc',
+  },
   excludeLabel: {
     defaultMessage: 'Excludes: {value}',
     description: 'Excludes filter label',
@@ -2214,11 +2274,12 @@ export default defineMessages({
       '{value, select, ' +
       'custom {Custom}' +
       'current_month_to_date {Month to date} ' +
-      'last_ninety_days {Last 90 days} ' +
-      'last_sixty_days {Last 60 days} ' +
-      'last_thirty_days {Last 30 days} ' +
+      'last_two_months {Last 2 months} ' +
+      'last_three_months {Last 3 months} ' +
+      'last_six_months {Last 6 months} ' +
+      'last_twelve_months {Last 12 months} ' +
       'previous_month {Previous month} ' +
-      'previous_month_to_date {Previous month and month to date} ' +
+      'maximum {Maximum ({months} months)} ' +
       'other {}}',
     description: 'Date range based on {value}',
     id: 'explorerDateRange',
@@ -3877,6 +3938,11 @@ export default defineMessages({
     description: 'Rate must be a positive number',
     id: 'priceListPosNumberRate',
   },
+  priceListRates: {
+    defaultMessage: 'Price list rates',
+    description: 'Price list rates',
+    id: 'priceListRates',
+  },
   priceListRatesLoadingStateDesc: {
     defaultMessage: 'Searching for your price list rates. Do not refresh the browser',
     description: 'Searching for your price list rates. Do not refresh the browser',
@@ -4031,6 +4097,13 @@ export default defineMessages({
     defaultMessage: 'Read only',
     description: 'Read only',
     id: 'readOnly',
+  },
+  readOnlyDataRetention: {
+    defaultMessage:
+      'Data retention is controlled by the RETAIN_NUM_MONTHS environment variable and cannot be modified via the API',
+    description:
+      'Data retention is controlled by the RETAIN_NUM_MONTHS environment variable and cannot be modified via the API',
+    id: 'readOnlyDataRetention',
   },
   readOnlyPermissions: {
     defaultMessage: 'You have read only permissions',
@@ -4268,6 +4341,11 @@ export default defineMessages({
     description: 'Show deprecated',
     id: 'showDeprecated',
   },
+  showDisabled: {
+    defaultMessage: 'Show disabled',
+    description: 'Show disabled',
+    id: 'showDisabled',
+  },
   sourcesTabTitle: {
     defaultMessage: 'Integrations',
     description: 'Integrations',
@@ -4447,6 +4525,11 @@ export default defineMessages({
     description: 'Tags and labels',
     id: 'tagLabels',
   },
+  tagMapping: {
+    defaultMessage: 'Tag mapping',
+    description: 'Tag mapping',
+    id: 'tagMapping',
+  },
   tagMappingAddChildTags: {
     defaultMessage: 'Add child tags',
     description: 'Add child tags',
@@ -4469,6 +4552,11 @@ export default defineMessages({
     description: 'Unable to create tag mapping',
     id: 'tagMappingAddErrorTitle',
   },
+  tagMappingChildTags: {
+    defaultMessage: 'Child tags',
+    description: 'Child tags',
+    id: 'tagMappingChildTags',
+  },
   tagMappingDelete: {
     defaultMessage: 'Delete tag mapping',
     description: 'Delete tag mapping',
@@ -4490,6 +4578,11 @@ export default defineMessages({
     description:
       'Combine multiple tags across your cloud integrations to group and filter similar tags with one tag key. {warning} Changes will be reflected within 24 hours. {learnMore}',
     id: 'tagMappingDesc',
+  },
+  tagMappingParentTags: {
+    defaultMessage: 'Parent tags',
+    description: 'Parent tags',
+    id: 'tagMappingParentTags',
   },
   tagMappingRemove: {
     defaultMessage: 'Remove child tag',
