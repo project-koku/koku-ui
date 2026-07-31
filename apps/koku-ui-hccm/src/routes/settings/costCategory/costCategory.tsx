@@ -81,7 +81,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.costCategoryTitle),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

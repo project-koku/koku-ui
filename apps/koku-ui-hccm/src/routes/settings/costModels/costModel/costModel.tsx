@@ -79,7 +79,7 @@ const CostModel: React.FC<CostModelProps> = ({ canWrite }) => {
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.costModels),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}
