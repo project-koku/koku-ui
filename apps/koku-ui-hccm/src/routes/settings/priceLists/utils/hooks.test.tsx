@@ -75,12 +75,25 @@ describe('priceList hooks', () => {
       combineReducers({ [priceListStateKey]: frozenReducer }),
       applyMiddleware(thunk)
     );
+    const dispatchSpy = jest.spyOn(store, 'dispatch');
 
     renderHook(() => usePriceListAddNotification(true), {
       wrapper: wrapperFor(store),
     });
 
     await waitFor(() => expect(addNotification).toHaveBeenCalled());
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'priceList/notifications/reset',
+        payload: { fetchId: fid },
+      })
+    );
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'priceList/status/reset',
+        payload: { fetchId: fid },
+      })
+    );
   });
 
   test('usePriceListDuplicate does not call onDuplicate when duplicate fails', async () => {

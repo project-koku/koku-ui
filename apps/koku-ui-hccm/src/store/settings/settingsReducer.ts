@@ -48,19 +48,23 @@ export function settingsReducer(state = defaultState, action: SettingsAction): S
       state = defaultState;
       return state;
 
-    case getType(resetNotifications):
-      state = {
+    case getType(resetNotifications): {
+      const notification = new Map(state.notification);
+      notification.delete(action.payload.fetchId);
+      return {
         ...state,
-        notification: new Map(),
+        notification,
       };
-      return state;
+    }
 
-    case getType(resetStatus):
-      state = {
+    case getType(resetStatus): {
+      const status = new Map(state.status);
+      status.delete(action.payload.fetchId);
+      return {
         ...state,
-        status: new Map(),
+        status,
       };
-      return state;
+    }
 
     case getType(fetchSettingsFailure):
       return {

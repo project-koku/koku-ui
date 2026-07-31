@@ -78,7 +78,7 @@ const PvcContent: React.FC<PvcContentProps> = () => {
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.pvcTitle),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

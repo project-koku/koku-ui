@@ -2,6 +2,7 @@ import { NumberInput } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { noop } from 'routes/utils/noop';
 
 interface CustomDateRangeOwnProps {
   inputValue?: number;
@@ -11,6 +12,9 @@ interface CustomDateRangeOwnProps {
 
 type CustomDateRangeProps = CustomDateRangeOwnProps;
 
+// Delay matches resourceFetch -- https://redhat.atlassian.net/browse/COST-1742
+const UPDATE_DELAY_MS = 625;
+
 const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate, inputValue }) => {
   const intl = useIntl();
 
@@ -18,9 +22,21 @@ const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate,
   const minValue = 3;
 
   const [retentionPeriod, setRetentionPeriod] = useState<number | ''>(inputValue);
+  const [updateTimeout, setUpdateTimeout] = useState(noop);
 
   const normalizeBetween = (value: number, min: number, max: number): number => {
     return Math.max(Math.min(value, max), min);
+  };
+
+  const scheduleUpdate = (value: number) => {
+    clearTimeout(updateTimeout);
+
+    // Delay API update until the user stops clicking +/- buttons
+    setUpdateTimeout(
+      setTimeout(() => {
+        onUpdate?.(value);
+      }, UPDATE_DELAY_MS)
+    );
   };
 
   // Handlers
@@ -29,7 +45,7 @@ const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate,
     const current = typeof retentionPeriod === 'number' && !isNaN(retentionPeriod) ? retentionPeriod : minValue;
     const newValue = normalizeBetween(current - 1, minValue, maxValue);
     setRetentionPeriod(newValue);
-    onUpdate?.(newValue);
+    scheduleUpdate(newValue);
   };
 
   const handleOnChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -38,6 +54,7 @@ const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate,
   };
 
   const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    clearTimeout(updateTimeout);
     const targetValue = +event.target.value;
     const clampedValue = isNaN(targetValue) ? minValue : normalizeBetween(targetValue, minValue, maxValue);
     setRetentionPeriod(clampedValue);
@@ -48,7 +65,7 @@ const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate,
     const current = typeof retentionPeriod === 'number' && !isNaN(retentionPeriod) ? retentionPeriod : minValue;
     const newValue = normalizeBetween(current + 1, minValue, maxValue);
     setRetentionPeriod(newValue);
-    onUpdate?.(newValue);
+    scheduleUpdate(newValue);
   };
 
   // Effects
@@ -58,6 +75,12 @@ const CustomDateRange: React.FC<CustomDateRangeProps> = ({ isDisabled, onUpdate,
       setRetentionPeriod(inputValue);
     }
   }, [inputValue]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(updateTimeout);
+    };
+  }, [updateTimeout]);
 
   return (
     <NumberInput

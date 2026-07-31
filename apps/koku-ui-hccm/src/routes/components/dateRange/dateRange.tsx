@@ -3,12 +3,14 @@ import './dateRange.scss';
 import type { MessageDescriptor } from '@formatjs/intl';
 import type { MenuToggleElement } from '@patternfly/react-core';
 import { Dropdown, DropdownItem, DropdownList, MenuToggle } from '@patternfly/react-core';
+import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { DateRangeType, getDateRange } from 'routes/utils/dateRange';
 
 interface DateRangeOwnProps {
+  dataRetentionMonths?: number;
   dateRangeType?: string;
   isCurrentMonthData?: boolean;
   isDataAvailable?: boolean;
@@ -21,6 +23,7 @@ interface DateRangeOwnProps {
 type DateRangeProps = DateRangeOwnProps;
 
 const DateRange: React.FC<DateRangeProps> = ({
+  dataRetentionMonths,
   dateRangeType,
   isCurrentMonthData,
   isDataAvailable,
@@ -53,29 +56,63 @@ const DateRange: React.FC<DateRangeProps> = ({
       },
     ];
     if (isExplorer) {
-      options.push(
-        {
-          label: messages.explorerDateRange,
-          value: DateRangeType.previousMonthToDate,
-          isDisabled: isDataAvailable === false || (isCurrentMonthData === false && isPreviousMonthData === false),
-        },
-        {
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastThirtyDays,
-          isDisabled: isDataAvailable === false || (isCurrentMonthData === false && isPreviousMonthData === false),
-        },
-        {
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastSixtyDays,
-          isDisabled: isDataAvailable === false,
-        },
-        {
-          label: messages.explorerDateRange,
-          value: DateRangeType.lastNinetyDays,
-          isDisabled: isDataAvailable === false,
-        },
-        { label: messages.explorerDateRange, value: DateRangeType.custom, isDisabled: isDataAvailable === false }
-      );
+      if (isSettingsDataRetentionPeriodEnabled) {
+        if (dataRetentionMonths > 2) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwoMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+        if (dataRetentionMonths > 3) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastThreeMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+        if (dataRetentionMonths > 6) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastSixMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+        if (dataRetentionMonths > 12) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwelveMonths,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+        if (dataRetentionMonths) {
+          options.push({
+            label: messages.explorerDateRange,
+            value: DateRangeType.maximum,
+            isDisabled: isDataAvailable === false,
+          });
+        }
+      } else {
+        // The "last X months" options may not be full months. They include the current month and the previous month.
+        // The sources API doesn't have a flag for these specific options, so enable if there is any data available.
+        options.push(
+          {
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastTwoMonths,
+            isDisabled: isDataAvailable === false,
+          },
+          {
+            label: messages.explorerDateRange,
+            value: DateRangeType.lastThreeMonths,
+            isDisabled: isDataAvailable === false,
+          }
+        );
+      }
+      options.push({
+        label: messages.explorerDateRange,
+        value: DateRangeType.custom,
+        isDisabled: isDataAvailable === false,
+      });
     }
     return options;
   };
@@ -95,13 +132,16 @@ const DateRange: React.FC<DateRangeProps> = ({
         onOpenChange={(val: boolean) => setIsOpen(val)}
         toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
           <MenuToggle ref={toggleRef} onClick={onToggleClick} isExpanded={isOpen} isFullWidth>
-            {intl.formatMessage(messages.explorerDateRange, { value: dateRangeType })}
+            {intl.formatMessage(messages.explorerDateRange, {
+              value: dateRangeType,
+              months: dataRetentionMonths ?? '',
+            })}
           </MenuToggle>
         )}
       >
         <DropdownList>
           {getOptions().map((option, index) => {
-            const { start_date, end_date } = getDateRange(option.value, false);
+            const { start_date, end_date } = getDateRange(option.value, dataRetentionMonths, false);
             const dateRange = intl.formatDateTimeRange(start_date, end_date, {
               day: 'numeric',
               month: 'long',
@@ -120,7 +160,10 @@ const DateRange: React.FC<DateRangeProps> = ({
                     : undefined
                 }
               >
-                {intl.formatMessage(option.label, { value: option.value })}
+                {intl.formatMessage(option.label, {
+                  value: option.value,
+                  months: dataRetentionMonths ?? '',
+                })}
               </DropdownItem>
             );
           })}

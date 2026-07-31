@@ -7,6 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatCurrency, formatPercentage } from 'utils/format';
+import { exactPrefix } from 'utils/props';
 
 import { styles } from './workloadTable.styles';
 
@@ -102,7 +103,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
             optimizationsDetailsState: {
               ...(location?.state?.optimizationsDetailsState || {}),
               filter_by: {
-                [groupBy]: [label], // Filter by cluster or project name
+                [`${exactPrefix}${groupBy}`]: [label], // Filter by cluster or project name
               },
             },
           }}

@@ -4,7 +4,11 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import { useIsDisplayToggleEnabled, useIsPriceListToggleEnabled } from 'components/featureToggle';
+import {
+  useIsDisplayToggleEnabled,
+  useIsExchangeRateToggleEnabled,
+  useIsPriceListToggleEnabled,
+} from 'components/featureToggle';
 import {
   isSettingsDataRetentionPeriodEnabled,
   isSettingsSourcesTabEnabled,
@@ -39,6 +43,7 @@ import {
 import { CostCategory } from './costCategory';
 import { CostModel } from './costModels';
 import { Display } from './display';
+import { ExchangeRate } from './exchangeRates';
 import { PriceList } from './priceLists';
 import { styles } from './settings.styles';
 
@@ -47,6 +52,7 @@ const enum SettingsTab {
   calculations = 'calculations',
   costCategory = 'cost_category',
   display = 'display',
+  exchangeRate = 'exchange_rate',
   platformProjects = 'platform_projects',
   priceList = 'price_list',
   tags = 'tags',
@@ -63,6 +69,8 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
       return 'cost_category';
     case SettingsTab.display:
       return 'display';
+    case SettingsTab.exchangeRate:
+      return 'exchange_rate';
     case SettingsTab.platformProjects:
       return 'platform_projects';
     case SettingsTab.priceList:
@@ -90,6 +98,7 @@ export interface SettingsMapProps {
 export interface SettingsStateProps {
   activeTabKey?: number;
   isDisplayToggleEnabled: boolean;
+  isExchangeRateToggleEnabled: boolean;
   isPriceListToggleEnabled: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
@@ -106,6 +115,7 @@ const Settings: React.FC<SettingsProps> = () => {
   const {
     activeTabKey: activeTabKeyState,
     isDisplayToggleEnabled,
+    isExchangeRateToggleEnabled,
     isPriceListToggleEnabled,
     userAccess,
     userAccessFetchStatus,
@@ -128,6 +138,14 @@ const Settings: React.FC<SettingsProps> = () => {
             {
               contentRef: React.createRef(),
               tab: SettingsTab.priceList,
+            },
+          ]
+        : []),
+      ...(isExchangeRateToggleEnabled
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: SettingsTab.exchangeRate,
             },
           ]
         : []),
@@ -226,6 +244,8 @@ const Settings: React.FC<SettingsProps> = () => {
       return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.display) {
       return hasSettingsAccess(userAccess) ? <Display canWrite={canWriteSettings} /> : notAuthorized;
+    } else if (currentTab === SettingsTab.exchangeRate) {
+      return hasSettingsAccess(userAccess) ? <ExchangeRate canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.priceList) {
@@ -265,6 +285,8 @@ const Settings: React.FC<SettingsProps> = () => {
       return intl.formatMessage(messages.costModels);
     } else if (tab === SettingsTab.display) {
       return intl.formatMessage(messages.display);
+    } else if (tab === SettingsTab.exchangeRate) {
+      return intl.formatMessage(messages.exchangeRate, { count: 1 });
     } else if (tab === SettingsTab.platformProjects) {
       return intl.formatMessage(messages.platformProjectsTitle);
     } else if (tab === SettingsTab.priceList) {
@@ -326,6 +348,7 @@ const useMapToProps = (): SettingsStateProps => {
   return {
     activeTabKey: queryState?.activeTabKey,
     isDisplayToggleEnabled: useIsDisplayToggleEnabled(),
+    isExchangeRateToggleEnabled: useIsExchangeRateToggleEnabled(),
     isPriceListToggleEnabled: useIsPriceListToggleEnabled(),
     userAccess,
     userAccessError,

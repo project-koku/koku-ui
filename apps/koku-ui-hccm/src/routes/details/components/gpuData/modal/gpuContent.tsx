@@ -65,7 +65,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.gpuTitle),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

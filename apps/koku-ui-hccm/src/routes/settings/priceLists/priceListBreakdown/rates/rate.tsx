@@ -97,7 +97,7 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
         perPage={perPage}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.rates),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

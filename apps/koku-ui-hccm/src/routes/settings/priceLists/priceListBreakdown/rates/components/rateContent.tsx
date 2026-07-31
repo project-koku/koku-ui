@@ -39,6 +39,7 @@ import {
   hasDirtyTagValues,
   hasInvalidTagValues,
   hasTagValuesErrors,
+  parseRateValue,
   validateDescription,
   validateName,
   validateRate,
@@ -50,7 +51,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { resourceActions, resourceSelectors } from 'store/resources';
-import { unitsLookupKey } from 'utils/format';
+import { formatCurrencyRateRaw, unitsLookupKey } from 'utils/format';
 
 import { GpuTagKey } from './gpu/gpuTagKey';
 import { GpuTagValues } from './gpu/gpuTagValues';
@@ -103,12 +104,15 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
 
     const initialTagValues = rate?.tag_rates?.tag_values?.map(tagValue => ({
       ...tagValue,
-      valueInput: tagValue?.value?.toString() ?? '',
+      // Locale-format for the input (e.g. "2,5" in fr) — matches cost-models `formatCurrencyRateRaw`
+      valueInput:
+        tagValue?.value != null ? formatCurrencyRateRaw(Number(tagValue.value), tagValue.unit || defaultCurrency) : '',
     })) ?? [defaultTagValue];
     const initialTieredRates =
       rate?.tiered_rates?.map(tieredRate => ({
         ...tieredRate,
-        valueInput: tieredRate?.value?.toString() ?? '',
+        valueInput:
+          tieredRate?.value != null ? formatCurrencyRateRaw(tieredRate.value, tieredRate.unit || defaultCurrency) : '',
       })) ?? undefined;
 
     // State management
@@ -349,7 +353,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
 
       const newTagValues = cloneDeep(gpuTagValues ?? []);
       newTagValues[index].valueInput = value;
-      newTagValues[index].value = error ? undefined : Number(value);
+      newTagValues[index].value = error ? undefined : parseRateValue(value);
       setGpuTagValues(newTagValues);
     };
 
@@ -513,7 +517,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
 
       const newTagValues = cloneDeep(tagValues ?? []);
       newTagValues[index].valueInput = value;
-      newTagValues[index].value = error ? undefined : Number(value);
+      newTagValues[index].value = error ? undefined : parseRateValue(value);
       setTagValues(newTagValues);
     };
 
@@ -529,7 +533,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const handleOnTieredRateValueChange = (value: string) => {
       const error = validateRate(value);
       setTieredRateValueError(error || undefined);
-      setTieredRateValue({ value: error ? undefined : Number(value), valueInput: value });
+      setTieredRateValue({ value: error ? undefined : parseRateValue(value), valueInput: value });
     };
 
     // Update functions
