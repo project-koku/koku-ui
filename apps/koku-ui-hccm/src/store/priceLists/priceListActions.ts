@@ -19,8 +19,8 @@ interface PriceListActionMeta {
 
 // Reset notification and status
 
-export const resetNotifications = createAction('priceList/notifications/reset')();
-export const resetStatus = createAction('priceList/status/reset')();
+export const resetNotifications = createAction('priceList/notifications/reset')<{ fetchId: string }>();
+export const resetStatus = createAction('priceList/status/reset')<{ fetchId: string }>();
 
 // Fetch price list
 

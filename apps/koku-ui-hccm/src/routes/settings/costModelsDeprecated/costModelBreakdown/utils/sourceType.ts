@@ -1,18 +1,23 @@
+// Map cost-model display labels to API source_type strings used by deprecated wizards.
+// Local koku backends use AWS-local / Azure-local / GCP-local — treat like AWS / Azure / GCP.
 export const getSourceType = (sourceType: string) => {
-  let result;
   switch (sourceType) {
     case 'Amazon Web Services':
-      result = 'AWS';
-      break;
+    case 'AWS':
+    case 'AWS-local':
+      return 'AWS';
     case 'Google Cloud':
-      result = 'GCP';
-      break;
+    case 'GCP':
+    case 'GCP-local':
+      return 'GCP';
     case 'Microsoft Azure':
-      result = 'Azure';
-      break;
+    case 'Azure':
+    case 'Azure-local':
+      return 'Azure';
     case 'OpenShift Container Platform':
-      result = 'OCP';
-      break;
+    case 'OCP':
+      return 'OCP';
+    default:
+      return undefined;
   }
-  return result;
 };
