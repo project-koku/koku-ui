@@ -31,6 +31,10 @@ export const useIsExactFilterToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.exactFilter);
 };
 
+export const useIsExchangeRateToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggleType.exchangeRate);
+};
+
 export const useIsEfficiencyToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.efficiency);
 };
@@ -98,6 +102,7 @@ export const useFeatureToggle = () => {
   const isDisplayToggleEnabled = useIsDisplayToggleEnabled();
   const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
   const isExactFilterToggleEnabled = useIsExactFilterToggleEnabled();
+  const isExchangeRateToggleEnabled = useIsExchangeRateToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isGpuToggleEnabled = useIsGpuToggleEnabled();
   const isMigToggleEnabled = useIsMigToggleEnabled();
@@ -125,6 +130,7 @@ export const useFeatureToggle = () => {
         isDisplayToggleEnabled,
         isEfficiencyToggleEnabled,
         isExactFilterToggleEnabled,
+        isExchangeRateToggleEnabled,
         isExportsToggleEnabled,
         isGpuToggleEnabled,
         isMigToggleEnabled,
@@ -146,6 +152,7 @@ export const useFeatureToggle = () => {
     isDisplayToggleEnabled,
     isEfficiencyToggleEnabled,
     isExactFilterToggleEnabled,
+    isExchangeRateToggleEnabled,
     isExportsToggleEnabled,
     isGpuToggleEnabled,
     isMigToggleEnabled,

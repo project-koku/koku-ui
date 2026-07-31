@@ -32,6 +32,12 @@ test('Efficiency feature is enabled', async () => {
   expect(FeatureToggleSelectors.selectIsEfficiencyToggleEnabled(store.getState())).toBe(true);
 });
 
+test('Exchange rate feature is enabled', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.setFeatureToggle({ isExchangeRateToggleEnabled: true }));
+  expect(FeatureToggleSelectors.selectIsExchangeRateToggleEnabled(store.getState())).toBe(true);
+});
+
 test('Exports feature is enabled', async () => {
   const store = createUIStore();
   store.dispatch(actions.setFeatureToggle({ isExportsToggleEnabled: true }));
