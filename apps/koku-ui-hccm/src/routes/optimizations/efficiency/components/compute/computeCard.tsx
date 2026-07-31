@@ -159,7 +159,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.computeTitle),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

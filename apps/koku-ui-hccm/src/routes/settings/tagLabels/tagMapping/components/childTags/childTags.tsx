@@ -84,7 +84,7 @@ const ChildTags: React.FC<ChildTagsProps> = ({
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.tagMappingChildTags),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

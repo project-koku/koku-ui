@@ -6,14 +6,14 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import { CreatePriceListAction } from 'routes/settings/priceLists/priceListCreate/components/actions';
+import { CreateExchangeRateAction } from 'routes/settings/exchangeRates/exchangeRateCreate/components/actions';
 import type { Filter } from 'routes/utils/filter';
 
-interface PriceListToolbarOwnProps {
+interface ExchangeRateToolbarOwnProps {
   canWrite?: boolean;
   isAllSelected?: boolean;
   isDisabled?: boolean;
-  isShowDeprecated?: boolean;
+  isShowDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onFilterAdded(filter: Filter);
@@ -23,13 +23,13 @@ interface PriceListToolbarOwnProps {
   query?: OcpQuery;
 }
 
-type PriceListToolbarProps = PriceListToolbarOwnProps;
+type ExchangeRateToolbarProps = ExchangeRateToolbarOwnProps;
 
-const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
+const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
   canWrite,
   isAllSelected,
   isDisabled,
-  isShowDeprecated,
+  isShowDisabled,
   itemsPerPage,
   itemsTotal,
   onFilterAdded,
@@ -45,26 +45,19 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
       <>
         <span>
           <Switch
-            id="simple-switch"
-            label={intl.formatMessage(messages.showDeprecated)}
-            isChecked={isShowDeprecated}
+            id="disabled-rates-toggle"
+            label={intl.formatMessage(messages.showDisabled)}
+            isChecked={isShowDisabled}
             onChange={handleOnChange}
-            ouiaId="BasicSwitch"
           />
         </span>
-        <CreatePriceListAction canWrite={canWrite} />
+        <CreateExchangeRateAction canWrite={canWrite} />
       </>
     );
   };
 
   const getCategoryOptions = (): ToolbarChipGroupExt[] => {
     const options = [
-      {
-        ariaLabelKey: 'name',
-        placeholderKey: 'name',
-        key: 'name',
-        name: intl.formatMessage(messages.filterByValues, { value: 'name' }),
-      },
       {
         ariaLabelKey: 'currency',
         placeholderKey: 'currency',
@@ -100,4 +93,4 @@ const PriceListToolbar: React.FC<PriceListToolbarProps> = ({
   );
 };
 
-export { PriceListToolbar };
+export { ExchangeRateToolbar };

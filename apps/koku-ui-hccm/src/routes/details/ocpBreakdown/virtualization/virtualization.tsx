@@ -184,7 +184,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.virtualization),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}
