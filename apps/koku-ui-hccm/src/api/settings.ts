@@ -23,7 +23,7 @@ export interface PagedMetaDataExt extends PagedMetaData {
 export interface Settings {
   meta: PagedMetaDataExt;
   links?: PagedLinks;
-  data: SettingsData;
+  data: SettingsData[];
 }
 
 export interface SettingsPayload {
@@ -36,6 +36,7 @@ export const enum SettingsType {
   costCategories = 'costCategories',
   costCategoriesEnable = 'costCategoriesEnable',
   costCategoriesDisable = 'costCategoriesDisable',
+  currency = 'currency',
   platformProjects = 'platformProjects',
   platformProjectsAdd = 'platformProjectsAdd',
   platformProjectsRemove = 'platformProjectsRemove',
@@ -54,6 +55,7 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
   [SettingsType.costCategories]: 'settings/aws_category_keys/',
   [SettingsType.costCategoriesEnable]: 'settings/aws_category_keys/enable/',
   [SettingsType.costCategoriesDisable]: 'settings/aws_category_keys/disable/',
+  [SettingsType.currency]: 'settings/currency/',
   [SettingsType.platformProjects]: 'settings/cost-groups/',
   [SettingsType.platformProjectsAdd]: 'settings/cost-groups/add/',
   [SettingsType.platformProjectsRemove]: 'settings/cost-groups/remove/',

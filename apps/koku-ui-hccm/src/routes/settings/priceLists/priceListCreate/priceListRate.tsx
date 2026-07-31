@@ -88,7 +88,7 @@ const PriceListRate: React.FC<PriceListRateProps> = ({ canWrite, onAdd, onDelete
         perPage={perPage}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.priceListRates),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}

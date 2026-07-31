@@ -138,7 +138,7 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
           perPage={perPage}
           titles={{
             paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-              title: intl.formatMessage(messages.openShift),
+              title: intl.formatMessage(messages.orderPriceLists),
               placement: isBottom ? 'bottom' : 'top',
             }),
           }}
