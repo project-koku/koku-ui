@@ -3,6 +3,7 @@ import { ProviderType } from 'api/providers';
 import messages from 'locales/messages';
 import type { MessageDescriptor } from 'react-intl';
 import { normalize } from 'routes/details/components/providerStatus/utils/normailize';
+import { matchesProviderType } from 'routes/utils/providers';
 
 export const enum StatusType {
   complete = 'complete',
@@ -36,10 +37,9 @@ export const getProviderAvailability = (provider: Provider): { msg: MessageDescr
     return status;
   }
 
-  const msg =
-    provider.source_type === ProviderType.ocp
-      ? messages.dataDetailsIntegrationStatus
-      : messages.dataDetailsCloudIntegrationStatus;
+  const msg = matchesProviderType(provider.source_type, ProviderType.ocp)
+    ? messages.dataDetailsIntegrationStatus
+    : messages.dataDetailsCloudIntegrationStatus;
 
   if (provider.active === false && provider.paused === false) {
     status = StatusType.failed; // Inactive sources
