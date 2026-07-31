@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - stage-onprem
+      - prod-onprem
 
 env:
   NODEJS_VERSION: '22'

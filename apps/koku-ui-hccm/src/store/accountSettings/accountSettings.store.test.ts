@@ -6,6 +6,8 @@ import {
 	fetchAccountSettingsFailure,
 	fetchAccountSettingsRequest,
 	fetchAccountSettingsSuccess,
+	resetNotifications,
+	resetStatus,
 	updateAccountSettings,
 	updateAccountSettingsFailure,
 	updateAccountSettingsRequest,
@@ -73,6 +75,24 @@ describe('accountSettings store', () => {
 		expect(selectors.selectAccountSettingsError(makeRoot(state), type)).toEqual({});
 	});
 
+	test('scoped resetNotifications/resetStatus only clear the given fetchId', () => {
+		const settingsFid = getFetchId(AccountSettingsType.settings);
+		const currencyFid = getFetchId(AccountSettingsType.currency);
+		let state: any = emptySlice();
+		state.status.set(settingsFid, FetchStatus.complete);
+		state.status.set(currencyFid, FetchStatus.complete);
+		state.notification.set(settingsFid, { t: 'settings' });
+		state.notification.set(currencyFid, { t: 'currency' });
+
+		state = accountSettingsReducer(state, resetNotifications({ fetchId: currencyFid }));
+		expect(state.notification.get(currencyFid)).toBeUndefined();
+		expect(state.notification.get(settingsFid)).toEqual({ t: 'settings' });
+
+		state = accountSettingsReducer(state, resetStatus({ fetchId: currencyFid }));
+		expect(state.status.get(currencyFid)).toBeUndefined();
+		expect(state.status.get(settingsFid)).toBe(FetchStatus.complete);
+	});
+
 	test('selectors fetch and update selectors work', () => {
 		const type = AccountSettingsType.costType;
 		const fid = getFetchId(type);
@@ -102,6 +122,13 @@ describe('accountSettings store', () => {
 		inProgress.status.set(fid, FetchStatus.inProgress);
 		dispatched.length = 0;
 		getState = () => makeRoot(inProgress);
+		await (fetchAccountSettings(type) as any)((a: any) => dispatched.push(a), getState);
+		expect(dispatched.length).toBe(0);
+		// complete early return (avoids refetch loop; resetStatus clears status after updates)
+		const complete = emptySlice();
+		complete.status.set(fid, FetchStatus.complete);
+		dispatched.length = 0;
+		getState = () => makeRoot(complete);
 		await (fetchAccountSettings(type) as any)((a: any) => dispatched.push(a), getState);
 		expect(dispatched.length).toBe(0);
 		// error early return

@@ -97,7 +97,7 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
           perPage={limit}
           titles={{
             paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-              title: intl.formatMessage(messages.openShift),
+              title: intl.formatMessage(messages.integration),
               placement: isBottom ? 'bottom' : 'top',
             }),
           }}
