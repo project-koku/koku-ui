@@ -5,6 +5,7 @@ export const enum FeatureToggleType {
   display = 'cost-management.koku-ui-hccm.display', // https://redhat.atlassian.net/browse/COST-7396
   efficiency = 'cost-management.koku-ui-hccm.efficiency', // Efficiency scores https://redhat.atlassian.net/browse/COST-7170
   exactFilter = 'cost-management.koku-ui-hccm.exact-filter', // Exact filter https://redhat.atlassian.net/browse/COST-6744
+  exchangeRate = 'cost-management.koku-ui-hccm.exchange-rate', // https://redhat.atlassian.net/browse/COST-7324
   exports = 'cost-management.koku-ui-hccm.exports', // Async exports https://redhat.atlassian.net/browse/COST-2223
   gpu = 'cost-management.koku-ui-hccm.gpu', // Cost model GPU metrics https://redhat.atlassian.net/browse/COST-5334
   mig = 'cost-management.koku-ui-hccm.mig', // Cost of MIG support https://redhat.atlassian.net/browse/COST-7239

@@ -9,11 +9,6 @@ import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/co
 import { CreatePriceListAction } from 'routes/settings/priceLists/priceListCreate/components/actions';
 import type { Filter } from 'routes/utils/filter';
 
-export const enum GroupType {
-  default = 'default',
-  platform = 'Platform',
-}
-
 interface PriceListToolbarOwnProps {
   canWrite?: boolean;
   isAllSelected?: boolean;

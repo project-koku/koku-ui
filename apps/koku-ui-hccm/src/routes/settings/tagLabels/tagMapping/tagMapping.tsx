@@ -85,7 +85,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.tagMapping),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}
