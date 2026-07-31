@@ -1,6 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { exactPrefix } from 'utils/props';
 
 // Capture the rows/columns/onSort that WorkloadTable passes to DataTable
 let capturedRows: any[] = [];
@@ -110,7 +111,7 @@ describe('WorkloadTable', () => {
       expect(capturedState?.efficiencyState?.activeTabKey).toBe(1);
     });
 
-    it('sets optimizationsDetailsState.filter_by keyed by groupBy with the item label', () => {
+    it('sets optimizationsDetailsState.filter_by keyed by exact groupBy with the item label', () => {
       renderWithProviders(
         <>
           <LocationCapture />
@@ -118,7 +119,7 @@ describe('WorkloadTable', () => {
         </>
       );
       fireEvent.click(screen.getByRole('link', { name: 'cluster-1' }));
-      expect(capturedState?.optimizationsDetailsState?.filter_by?.cluster).toEqual(['cluster-1']);
+      expect(capturedState?.optimizationsDetailsState?.filter_by?.[`${exactPrefix}cluster`]).toEqual(['cluster-1']);
     });
 
     it('preserves existing location state when building the link state', () => {
@@ -131,7 +132,7 @@ describe('WorkloadTable', () => {
       fireEvent.click(screen.getByRole('link', { name: 'cluster-2' }));
       // efficiencyState.activeTabKey must be 1 and filter_by has the second item
       expect(capturedState?.efficiencyState?.activeTabKey).toBe(1);
-      expect(capturedState?.optimizationsDetailsState?.filter_by?.cluster).toEqual(['cluster-2']);
+      expect(capturedState?.optimizationsDetailsState?.filter_by?.[`${exactPrefix}cluster`]).toEqual(['cluster-2']);
     });
   });
 
