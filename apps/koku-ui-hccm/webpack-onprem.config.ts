@@ -123,6 +123,7 @@ const config: Configuration = {
             FeatureToggleType.display,
             FeatureToggleType.efficiency,
             FeatureToggleType.exactFilter,
+            // FeatureToggleType.exchangeRate, // In-progress...
             FeatureToggleType.gpu,
             FeatureToggleType.mig,
             FeatureToggleType.priceList,

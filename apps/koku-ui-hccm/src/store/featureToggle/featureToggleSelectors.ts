@@ -18,6 +18,8 @@ export const selectIsEfficiencyToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isEfficiencyToggleEnabled;
 export const selectIsExactFilterToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isExactFilterToggleEnabled;
+export const selectIsExchangeRateToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isExchangeRateToggleEnabled;
 export const selectIsExportsToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isExportsToggleEnabled;
 export const selectIsGpuToggleEnabled = (state: RootState) => selectFeatureToggleState(state)?.isGpuToggleEnabled;

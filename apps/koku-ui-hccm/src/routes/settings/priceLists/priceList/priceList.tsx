@@ -100,7 +100,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
         perPage={limit}
         titles={{
           paginationAriaLabel: intl.formatMessage(messages.paginationTitle, {
-            title: intl.formatMessage(messages.openShift),
+            title: intl.formatMessage(messages.priceList, { count: 1 }),
             placement: isBottom ? 'bottom' : 'top',
           }),
         }}
