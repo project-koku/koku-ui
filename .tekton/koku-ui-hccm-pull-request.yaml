@@ -8,7 +8,7 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch in ["stage-hccm", "prod-hccm"]
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch in ["main", "stage-hccm", "prod-hccm"]
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: koku-ui-hccm
@@ -239,7 +239,7 @@ spec:
         - name: name
           value: buildah
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-buildah:0.10.7@sha256:3b3689fd223d3369e35de2ee01ede60919e611aee08497bddef5c7350de4881e
+          value: quay.io/konflux-ci/tekton-catalog/task-buildah:0.10@sha256:3b3689fd223d3369e35de2ee01ede60919e611aee08497bddef5c7350de4881e
         - name: kind
           value: task
         resolver: bundles
