@@ -49,7 +49,7 @@
     "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.1.2",
     "css-minimizer-webpack-plugin": "^8.0.0",
     "cypress": "^15.19.0",
     "pac-proxy-agent": "^9.1.0",
