@@ -1,0 +1,233 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+
+# Concise, senior-engineer tone — matches how the team reviews.
+tone_instructions: >
+  Be direct and constructive. Prefer fewer, high-signal comments. Flag
+  on-prem/SaaS parity, module federation, and Keycloak token-handling risks.
+  Do not nitpick style/formatting already enforced by ESLint + Prettier.
+
+inheritance: true
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_in_walkthrough: true
+  poem: false
+  in_progress_fortune: false
+  collapse_walkthrough: true
+  sequence_diagrams: true
+  estimate_code_review_effort: false
+  assess_linked_issues: true
+  related_prs: true
+  suggested_labels: false
+  auto_apply_labels: false
+  suggested_reviewers: false
+  auto_assign_reviewers: false
+  enable_prompt_for_ai_agents: true
+  review_details: false
+
+  # Anti-slop: useful for public OSS contributor PRs
+  slop_detection:
+    enabled: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 2 # Run "@coderabbitai review" to force a review
+    ignore_title_keywords:
+      - WIP
+      - DO NOT MERGE
+      - "[WIP]"
+
+  path_filters:
+    # Reduce file count / noise; keep the review focused on hand-authored source
+    - "!**/package-lock.json"
+    - "!**/*.min.js"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/coverage/**"
+    - "!**/.cache/**"
+    - "!**/.swc/**"
+    - "!.archive/**" # Retired legacy UI kept only for reference; not maintained
+    - "!vendor/**" # git submodule (insights-rbac-ui) — not owned/edited here
+    - "!build-tools/**" # git submodule (insights-frontend-builder-common)
+    - "!**/locales/data.json" # formatjs-generated i18n data file
+    - "!**/locales/translations.json" # formatjs-generated i18n bundle
+    - "!**/locales/*.json" # other compiled locale bundles (en/de/fr/...)
+    - "!**/__snapshots__/**" # Jest snapshots — verify manually, see test path instructions
+
+  path_instructions:
+    - path: "apps/**/src/**/*.{ts,tsx}"
+      instructions: |
+        This is a monorepo of federated React/TypeScript apps (koku-ui-hccm, koku-ui-ros,
+        koku-ui-sources, koku-ui-onprem, rbac-ui-onprem) sharing PatternFly 6, Redux Toolkit,
+        react-intl, and axios. Style/formatting is enforced by ESLint + Prettier — do not
+        repeat those nits.
+        MUST flag:
+        - Hardcoded, non-localized user-facing strings (should go through react-intl /
+          FormattedMessage / intl.formatMessage, defined in src/locales/messages.ts)
+        - console.log/debugger left in (eslint no-console/no-debugger should catch most, but
+          watch for eslint-disable escapes)
+        - Direct state mutation outside a Redux Toolkit createSlice reducer
+        - Missing error/loading states for async data fetched via axios/RTK thunks
+        - Secrets, tokens, or hardcoded internal endpoints/API hosts
+        - New relative imports that reach across app boundaries (apps/* must not import from
+          another apps/* directly; shared code belongs in libs/*)
+        - Accessibility regressions in PatternFly usage (missing labels/aria attributes,
+          non-semantic clickable divs, keyboard traps)
+
+    - path: "apps/koku-ui-sources/**/*.{ts,tsx}"
+      instructions: |
+        Enforce this app's documented conventions (apps/koku-ui-sources/AGENTS.md):
+        - Named exports only under src/ (default export is only allowed in src/fed-modules/)
+        - No barrel index.ts re-export files; import concrete modules directly
+        - kebab-case filenames for *.ts, PascalCase for component *.tsx
+        - Exported FCs use `export const ComponentName` + `ComponentName.displayName`
+        - Tests must jest.mock() the same module path the code under test imports (not a
+          barrel), except when testing apis/axios-client itself directly.
+
+    - path: "apps/koku-ui-onprem/**"
+      instructions: |
+        Host shell for the on-prem build; loads other apps as federated modules via
+        Scalprum/@openshift/dynamic-plugin-sdk-webpack. Flag:
+        - Module federation config drift (exposed/remote module names, shared deps) that
+          could break federation with koku-ui-hccm/koku-ui-ros/koku-ui-sources/rbac-ui-onprem
+        - webpack config changes without a matching change verified across all federated apps
+        - Cypress specs (apps/koku-ui-onprem/cypress/**) using arbitrary cy.wait(ms) instead of
+          asserting on a condition/intercept, or embedding real credentials/tokens
+        - Changes to Containerfile: must keep multi-stage build, non-root runtime user, and
+          pinned/minimal base images
+
+    - path: "apps/rbac-ui-onprem/**"
+      instructions: |
+        This package is documented as "no upstream repo edits" — it must only wrap/configure
+        the vendored insights-rbac-ui git submodule (vendor/insights-rbac-ui), not patch it.
+        Flag any change that duplicates logic that belongs upstream, or that assumes a specific
+        vendor submodule SHA without bumping/documenting the pin.
+
+    - path: "libs/onprem-cloud-deps/**"
+      instructions: |
+        This lib re-implements the on-prem equivalents of Red Hat Cloud Services frontend
+        packages (useChrome, RBACHook, notifications, unleash proxy client) so the same app
+        code runs on-prem and in SaaS. Flag any change whose shape/behavior diverges from the
+        cloud API it is standing in for, since that breaks the on-prem/SaaS parity contract
+        the rest of the apps rely on.
+
+    - path: "libs/token-refresher/**"
+      instructions: |
+        Handles Keycloak/OIDC token refresh for the on-prem build — security-sensitive. Flag:
+        - Tokens/refresh tokens logged, stored in localStorage without justification, or
+          exposed to non-HTTPS requests
+        - Missing/incorrect handling of refresh failure (must force re-auth, not silently
+          continue with a stale/expired token)
+        - Race conditions from concurrent refresh calls (should be de-duplicated/queued)
+
+    - path: "**/src/locales/messages.ts"
+      instructions: |
+        Source-of-truth react-intl/formatjs message catalog (compiled output under */locales/
+        is generated — do not review that). Flag missing `description` on new message
+        definitions used for translator context, ids that look auto-generated/non-descriptive,
+        and duplicate message text that should reuse an existing id instead of adding a new one.
+
+    - path: "**/store/**/*.ts"
+      instructions: |
+        Redux Toolkit slices/selectors. Flag reducers that mutate outside Immer's draft,
+        selectors that recompute derived data without memoization (reselect) on hot paths,
+        and thunks that swallow axios errors instead of surfacing them to UI state.
+
+    - path: "**/api/**/*.ts"
+      instructions: |
+        Axios-based API layer. Flag missing typed request/response models, missing
+        cancellation/abort handling for requests triggered from effects, and any hardcoded
+        base URL instead of the shared axiosInstance/API_BASE configuration.
+
+    - path: "**/*.test.{ts,tsx}"
+      instructions: |
+        Jest + Testing Library. Flag tests asserting on implementation details (instance
+        state, internal class methods) instead of user-observable behavior, `waitFor` blocks
+        without a real assertion inside, and snapshot updates (__snapshots__/**) committed
+        without a corresponding, explained source change in the same PR.
+
+    - path: "apps/koku-ui-onprem/cypress/**/*.ts"
+      instructions: |
+        Cypress E2E specs. Flag brittle selectors (text/CSS instead of data-testid), fixed
+        cy.wait(ms) instead of cy.intercept/should-based waits, and hardcoded credentials.
+
+    - path: ".github/workflows/**"
+      instructions: |
+        Flag unpinned third-party actions, overly broad GITHUB_TOKEN permissions, secrets
+        echoed into logs, and any step that could run untrusted PR code with repo secrets
+        (pull_request_target, workflow_run misuse).
+
+    - path: "**/package.json"
+      instructions: |
+        npm workspaces monorepo. Flag PatternFly/@redhat-cloud-services version drift between
+        apps/libs that should stay in lockstep (they render together in the on-prem shell),
+        and new dependencies added without an obvious usage in the diff.
+
+  pre_merge_checks:
+    # Soft gates — good for OSS; don't block merge via CodeRabbit alone
+    title:
+      mode: warning
+      requirements: >
+        Imperative mood, concise, sentence case. Link the Jira issue (COST-####) in the
+        description (or title) when one exists; a bare title without ticket context is fine
+        for small/obvious changes.
+    description:
+      mode: warning
+    issue_assessment:
+      mode: warning
+    docstrings:
+      mode: "off" # No JSDoc/docstring convention in this codebase; would just be noise
+
+  finishing_touches:
+    docstrings:
+      enabled: false # Not a convention here; TS types + tests carry most of that intent
+    unit_tests:
+      enabled: false # Team owns test authoring; see AGENTS.md/testing conventions per app
+    autofix:
+      enabled: true # Useful for clear mechanical fixes (lint-style issues, typos)
+    simplify:
+      enabled: false
+
+  tools:
+    # Mirrors the project-koku/koku tool selection for now.
+    gitleaks: # Accidental secrets in the diff
+      enabled: true
+    semgrep: # Security vulnerabilities in the diff
+      enabled: true
+    shellcheck: # Bugs in shell scripts
+      enabled: true
+    osvScanner: # Known vulns in dependencies
+      enabled: false
+
+knowledge_base:
+  opt_out: false
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    # AGENTS.md / CLAUDE.md / .cursorrules / .cursor/rules auto-detected
+    # (e.g. apps/koku-ui-sources/AGENTS.md). Add extra architecture docs here:
+    filePatterns:
+      - files: "apps/*/docs/**/*.md"
+        applyTo: "apps/*/src/**"
+      - files: "apps/*/README.md"
+        applyTo: "apps/*/**"
+  learnings:
+    # Dynamic memory from review interactions (👍/👎, "don't flag X", resolved comments).
+    # local = apply only learnings from this repo, not from koku (Python) or other repos.
+    scope: local
+  jira:
+    # Public OSS: keep disabled/auto to avoid leaking internal Jira into public reviews.
+    usage: disabled
+    project_keys:
+      - COST
+
+chat:
+  auto_reply: true
+  art: false
+  allow_non_org_members: true # OSS contributors; set false if spam becomes an issue
