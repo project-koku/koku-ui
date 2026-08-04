@@ -65,41 +65,47 @@ reviews:
         This is a monorepo of federated React/TypeScript apps (koku-ui-hccm, koku-ui-ros,
         koku-ui-sources, koku-ui-onprem, rbac-ui-onprem) sharing PatternFly 6, Redux Toolkit,
         react-intl, and axios. Style/formatting is enforced by ESLint + Prettier — do not
-        repeat those nits.
-        MUST flag:
+        repeat those nits. Prefer fewer, high-signal comments.
+        Flag (correctness / security):
         - Hardcoded, non-localized user-facing strings (should go through react-intl /
           FormattedMessage / intl.formatMessage, defined in src/locales/messages.ts)
         - console.log/debugger left in (eslint no-console/no-debugger should catch most, but
           watch for eslint-disable escapes)
-        - Direct state mutation outside a Redux Toolkit createSlice reducer
-        - Missing error/loading states for async data fetched via axios/RTK thunks
         - Secrets, tokens, or hardcoded internal endpoints/API hosts
         - New relative imports that reach across app boundaries (apps/* must not import from
           another apps/* directly; shared code belongs in libs/*)
         - Accessibility regressions in PatternFly usage (missing labels/aria attributes,
           non-semantic clickable divs, keyboard traps)
+        Do not flag:
+        - Direct Immer-style mutation inside createSlice/createReducer drafts (that is
+          intentional with Redux Toolkit)
+        - Missing per-call loading/error UI for async fetches — loading/error often lives in
+          a parent, route wrapper, or shared fetchStatus map. Only mention when a new
+          user-facing surface clearly has no loading or error path anywhere in the change.
 
     - path: "apps/koku-ui-sources/**/*.{ts,tsx}"
       instructions: |
-        Enforce this app's documented conventions (apps/koku-ui-sources/AGENTS.md):
-        - Named exports only under src/ (default export is only allowed in src/fed-modules/)
+        Prefer this app's conventions (see apps/koku-ui-sources/AGENTS.md); do not nitpick
+        style already covered there unless a new file clearly fights the documented pattern:
+        - Named exports under src/ (default export only in src/fed-modules/)
         - No barrel index.ts re-export files; import concrete modules directly
-        - kebab-case filenames for *.ts, PascalCase for component *.tsx
-        - Exported FCs use `export const ComponentName` + `ComponentName.displayName`
-        - Tests must jest.mock() the same module path the code under test imports (not a
+        - Filename casing preferences: kebab-case for *.ts, PascalCase for component *.tsx
+          (other apps in the monorepo use different casing — do not apply sources rules there)
+        - Exported FCs: `export const ComponentName` + `ComponentName.displayName`
+        - Tests should jest.mock() the same module path the code under test imports (not a
           barrel), except when testing apis/axios-client itself directly.
 
     - path: "apps/koku-ui-onprem/**"
       instructions: |
         Host shell for the on-prem build; loads other apps as federated modules via
         Scalprum/@openshift/dynamic-plugin-sdk-webpack. Flag:
-        - Module federation config drift (exposed/remote module names, shared deps) that
-          could break federation with koku-ui-hccm/koku-ui-ros/koku-ui-sources/rbac-ui-onprem
-        - webpack config changes without a matching change verified across all federated apps
-        - Cypress specs (apps/koku-ui-onprem/cypress/**) using arbitrary cy.wait(ms) instead of
-          asserting on a condition/intercept, or embedding real credentials/tokens
-        - Changes to Containerfile: must keep multi-stage build, non-root runtime user, and
+        - Module federation expose/remote/shared-deps edits that look inconsistent with
+          sibling federated apps in the same PR (koku-ui-hccm / koku-ui-ros /
+          koku-ui-sources / rbac-ui-onprem) — only when the mismatch is visible in the diff
+        - Changes to Containerfile that drop multi-stage build, non-root runtime user, or
           pinned/minimal base images
+        Do not require proof that webpack changes were "verified across all apps"; only flag
+        concrete config inconsistencies visible in the diff.
 
     - path: "apps/rbac-ui-onprem/**"
       instructions: |
@@ -129,20 +135,23 @@ reviews:
       instructions: |
         Source-of-truth react-intl/formatjs message catalog (compiled output under */locales/
         is generated — do not review that). Flag missing `description` on new message
-        definitions used for translator context, ids that look auto-generated/non-descriptive,
-        and duplicate message text that should reuse an existing id instead of adding a new one.
+        definitions used for translator context, and ids that look auto-generated or
+        non-descriptive. Do not require reusing an existing id just because defaultMessage
+        text matches — duplicate copy can be intentional.
 
     - path: "**/store/**/*.ts"
       instructions: |
-        Redux Toolkit slices/selectors. Flag reducers that mutate outside Immer's draft,
-        selectors that recompute derived data without memoization (reselect) on hot paths,
-        and thunks that swallow axios errors instead of surfacing them to UI state.
+        Redux Toolkit slices/selectors. Flag reducers that mutate state outside Immer's draft
+        (mutations inside createSlice/createReducer drafts are fine), and thunks that swallow
+        axios errors instead of surfacing them to UI state. Do not require reselect/memoization
+        unless a selector is clearly doing expensive work on every render with no memoization.
 
     - path: "**/api/**/*.ts"
       instructions: |
-        Axios-based API layer. Flag missing typed request/response models, missing
-        cancellation/abort handling for requests triggered from effects, and any hardcoded
-        base URL instead of the shared axiosInstance/API_BASE configuration.
+        Axios-based API layer. Flag missing typed request/response models when new endpoints
+        are added, and any hardcoded base URL instead of the shared axiosInstance/API_BASE
+        configuration. Do not require AbortController/cancellation on every request — that is
+        not a consistent convention in this repo.
 
     - path: "**/*.test.{ts,tsx}"
       instructions: |
@@ -153,8 +162,9 @@ reviews:
 
     - path: "apps/koku-ui-onprem/cypress/**/*.ts"
       instructions: |
-        Cypress E2E specs. Flag brittle selectors (text/CSS instead of data-testid), fixed
-        cy.wait(ms) instead of cy.intercept/should-based waits, and hardcoded credentials.
+        Cypress E2E specs. Flag brittle selectors (text/CSS instead of data-testid), numeric
+        `cy.wait(ms)` / `cy.wait(number)` (alias waits like `cy.wait('@getMe')` are fine),
+        and hardcoded real credentials/tokens.
 
     - path: ".github/workflows/**"
       instructions: |
