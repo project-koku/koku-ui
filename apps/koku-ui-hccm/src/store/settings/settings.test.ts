@@ -107,7 +107,7 @@ describe('settings store', () => {
 		expect(dispatched[1].payload).toBe(res.data);
 	});
 
-	test('fetchSettings thunk: does not dispatch when in progress or has error', async () => {
+	test('fetchSettings thunk: does not dispatch when in progress', async () => {
 		const type = SettingsType.tags;
 		const query = '';
 		const fid = getFetchId(type, query);
@@ -117,9 +117,17 @@ describe('settings store', () => {
 		const getState = () => makeRoot(slice);
 		await (fetchSettings(type, query) as any)((a: any) => dispatched.push(a), getState);
 		expect(dispatched.length).toBe(0);
+	});
 
-		slice.status.delete(fid);
+	// Intentionally no retry after failure — tags (and similar) render <Unavailable /> when settingsError is set.
+	test('fetchSettings thunk: does not dispatch when a prior error exists', async () => {
+		const type = SettingsType.tags;
+		const query = '';
+		const fid = getFetchId(type, query);
+		const slice: any = emptySlice();
 		slice.errors.set(fid, new Error('x') as any);
+		const dispatched: any[] = [];
+		const getState = () => makeRoot(slice);
 		await (fetchSettings(type, query) as any)((a: any) => dispatched.push(a), getState);
 		expect(dispatched.length).toBe(0);
 	});

@@ -227,10 +227,10 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
   );
 
   useEffect(() => {
-    if (!settingsError && settingsFetchStatus !== FetchStatus.inProgress) {
+    if (settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(settingsActions.fetchSettings(SettingsType.currency, settingsQueryString));
     }
-  }, [dispatch, settingsError, settingsQueryString, query]);
+  }, [dispatch, settingsQueryString, query]);
 
   // Notifications
   useSettingsNotifications({

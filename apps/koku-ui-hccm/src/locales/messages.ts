@@ -1679,7 +1679,7 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Account names} ' +
-      'active_rate {Active rate (this month, UTC)} ' +
+      'active_rate {Active rate} ' +
       'aws_category {Cost category names} ' +
       'cluster {Cluster names} ' +
       'cost_model {Cost model assigned} ' +

@@ -187,10 +187,10 @@ const useMapToProps = (): RateToolbarStateProps => {
   const metricsHashStatus = useSelector((state: RootState) => metricsSelectors.status(state));
 
   useEffect(() => {
-    if (metricsHashStatus !== FetchStatus.inProgress && metricsHashStatus !== FetchStatus.complete) {
+    if (metricsHashStatus !== FetchStatus.inProgress) {
       dispatch(metricsActions.fetchMetrics());
     }
-  }, [metricsHashStatus]);
+  }, []);
 
   return {
     metricsHash,

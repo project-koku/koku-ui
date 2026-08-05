@@ -311,7 +311,7 @@ const useMapToProps = (): EfficiencyStateProps => {
   const isCurrentMonthData = hasCurrentMonthData(filteredProviders);
 
   useEffect(() => {
-    if (!providersError && providersFetchStatus !== FetchStatus.inProgress) {
+    if (providersFetchStatus !== FetchStatus.inProgress) {
       dispatch(providersActions.fetchProviders(ProviderType.all, providersQueryString));
     }
   }, [providersQueryString]);
