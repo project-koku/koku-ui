@@ -62,10 +62,10 @@ export const useFetchPriceLists = (): {
   );
 
   useEffect(() => {
-    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
+    if (priceListFetchStatus !== FetchStatus.inProgress) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, undefined, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString]);
+  }, [dispatch, priceListQueryString]);
 
   return {
     priceList,

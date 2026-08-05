@@ -158,10 +158,10 @@ const useMapToProps = ({ query }: CostModelsMapProps): CostModelsStateProps => {
   );
 
   useEffect(() => {
-    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress && uuid) {
+    if (priceListFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, uuid]);
+  }, [dispatch, priceListQueryString, uuid]);
 
   // Add filter
   const costModels = getFilteredCostModels(priceList?.assigned_cost_models, query?.filter_by);
