@@ -269,14 +269,13 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
 
   useEffect(() => {
     if (
-      !settingsError &&
       settingsFetchStatus !== FetchStatus.inProgress &&
       settingsDisableStatus !== FetchStatus.inProgress &&
       settingsEnableStatus !== FetchStatus.inProgress
     ) {
       dispatch(settingsActions.fetchSettings(SettingsType.costCategories, settingsQueryString));
     }
-  }, [query, settingsDisableStatus, settingsEnableStatus, settingsError]);
+  }, [query, settingsDisableStatus, settingsEnableStatus]);
 
   // Notifications
   useSettingsNotifications({

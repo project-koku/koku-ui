@@ -165,10 +165,10 @@ const useMapToProps = (): DataRetentionStateProps => {
 
   // Refetch when status is cleared after an update (same approach as tags settings)
   useEffect(() => {
-    if (!accountSettingsError && accountSettingsFetchStatus !== FetchStatus.inProgress) {
+    if (accountSettingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(accountSettingsActions.fetchAccountSettings(AccountSettingsType.dataRetention));
     }
-  }, [accountSettingsError, accountSettingsFetchStatus, dispatch]);
+  }, [accountSettingsFetchStatus, dispatch]);
 
   return {
     accountSettings,
