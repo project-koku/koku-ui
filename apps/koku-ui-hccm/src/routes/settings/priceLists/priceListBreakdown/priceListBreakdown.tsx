@@ -275,10 +275,10 @@ const useMapToProps = ({ query }: PriceListBreakdownMapProps): PriceListBreakdow
   );
 
   useEffect(() => {
-    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress && uuid) {
+    if (priceListFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, query, uuid]);
+  }, [dispatch, priceListQueryString, query, uuid]);
 
   // User access
 

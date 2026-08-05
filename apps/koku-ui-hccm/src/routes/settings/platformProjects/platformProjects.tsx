@@ -275,14 +275,13 @@ const useMapToProps = ({ query }: PlatformProjectsMapProps): PlatformProjectsSta
 
   useEffect(() => {
     if (
-      !settingsError &&
       settingsFetchStatus !== FetchStatus.inProgress &&
       settingsAddStatus !== FetchStatus.inProgress &&
       settingsRemoveStatus !== FetchStatus.inProgress
     ) {
       dispatch(settingsActions.fetchSettings(SettingsType.platformProjects, settingsQueryString));
     }
-  }, [query, settingsAddStatus, settingsError, settingsRemoveStatus]);
+  }, [query, settingsAddStatus, settingsRemoveStatus]);
 
   // Notifications
   useSettingsNotifications({

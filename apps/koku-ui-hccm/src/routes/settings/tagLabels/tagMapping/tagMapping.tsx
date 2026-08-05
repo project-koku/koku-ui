@@ -216,10 +216,10 @@ const useMapToProps = ({ query }: MappingsMapProps): MappingsStateProps => {
   );
 
   useEffect(() => {
-    if (!settingsError && settingsFetchStatus !== FetchStatus.inProgress) {
+    if (settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(settingsActions.fetchSettings(SettingsType.tagsMappings, settingsQueryString));
     }
-  }, [query, settingsError, settingsQueryString]);
+  }, [query, settingsQueryString]);
 
   return {
     settings,
