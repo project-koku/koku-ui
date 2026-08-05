@@ -162,12 +162,11 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   };
 
   private updateReport = () => {
-    const { accountSettings, accountSettingsError, accountSettingsFetchStatus, fetchAccountSettings } = this.props;
+    const { accountSettings, accountSettingsFetchStatus, fetchAccountSettings } = this.props;
 
     if (
       isSettingsDataRetentionPeriodEnabled &&
       !accountSettings &&
-      !accountSettingsError &&
       accountSettingsFetchStatus !== FetchStatus.inProgress
     ) {
       fetchAccountSettings(AccountSettingsType.dataRetention);

@@ -243,10 +243,10 @@ const useMapToProps = ({ isShowDeprecated, query }: PriceListMapProps): PriceLis
   );
 
   useEffect(() => {
-    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress) {
+    if (priceListFetchStatus !== FetchStatus.inProgress) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, undefined, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, query]);
+  }, [dispatch, priceListQueryString, query]);
 
   // Notifications
   usePriceListNotifications();

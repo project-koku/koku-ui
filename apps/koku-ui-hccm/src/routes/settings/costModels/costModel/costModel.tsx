@@ -218,10 +218,10 @@ const useMapToProps = ({ query }: CostModelMapProps): CostModelStateProps => {
   );
 
   useEffect(() => {
-    if (!costModelsFetchError && costModelsFetchStatus !== FetchStatus.inProgress) {
+    if (costModelsFetchStatus !== FetchStatus.inProgress) {
       dispatch(costModelsActions.fetchCostModels(costModelsQueryString));
     }
-  }, [costModelsFetchError, costModelsQueryString, dispatch, query]);
+  }, [costModelsQueryString, dispatch, query]);
 
   // Notifications
   useCostModelNotifications();

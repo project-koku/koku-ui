@@ -281,12 +281,6 @@ describe('Efficiency', () => {
       renderWithProviders(<Efficiency />);
       expect(providersActions.fetchProviders).not.toHaveBeenCalled();
     });
-
-    it('does not dispatch fetchProviders when providersError is set', () => {
-      (providersSelectors.selectProvidersError as jest.Mock).mockReturnValue(new Error('API error'));
-      renderWithProviders(<Efficiency />);
-      expect(providersActions.fetchProviders).not.toHaveBeenCalled();
-    });
   });
 
   describe('event handlers (via EfficiencyHeader props)', () => {
