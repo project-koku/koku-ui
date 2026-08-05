@@ -273,14 +273,13 @@ const useMapToProps = ({ query }: TagsMapProps): TagsStateProps => {
 
   useEffect(() => {
     if (
-      !settingsError &&
       settingsFetchStatus !== FetchStatus.inProgress &&
       settingsDisableStatus !== FetchStatus.inProgress &&
       settingsEnableStatus !== FetchStatus.inProgress
     ) {
       dispatch(settingsActions.fetchSettings(SettingsType.tags, settingsQueryString));
     }
-  }, [query, settingsDisableStatus, settingsEnableStatus, settingsError, settingsQueryString]);
+  }, [query, settingsDisableStatus, settingsEnableStatus, settingsQueryString]);
 
   // Notifications
   useSettingsNotifications({

@@ -236,7 +236,6 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
   private updateReport = () => {
     const {
       accountSettings,
-      accountSettingsError,
       accountSettingsFetchStatus,
       fetchAccountSettings,
       fetchOrg,
@@ -254,7 +253,6 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
     if (
       isSettingsDataRetentionPeriodEnabled &&
       !accountSettings &&
-      !accountSettingsError &&
       accountSettingsFetchStatus !== FetchStatus.inProgress
     ) {
       fetchAccountSettings(AccountSettingsType.dataRetention);
