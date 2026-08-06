@@ -3722,6 +3722,14 @@
               }
             ]
           },
+          "base_currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Base currency"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -3994,22 +4002,6 @@
               }
             ]
           },
-          "status": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Status"
-              }
-            ]
-          },
-          "subscription_guid": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Account names"
-              }
-            ]
-          },
           "source_type": {
             "value": [
               {
@@ -4034,11 +4026,27 @@
               }
             ]
           },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Status"
+              }
+            ]
+          },
           "storage": {
             "value": [
               {
                 "type": 0,
                 "value": "Storage"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account names"
               }
             ]
           },
@@ -4063,6 +4071,14 @@
               {
                 "type": 0,
                 "value": "Tag keys"
+              }
+            ]
+          },
+          "target_currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Target currency"
               }
             ]
           },
@@ -5208,6 +5224,49 @@
       {
         "type": 0,
         "value": "Use \"Create exchange rate\" to create an exchange rate."
+      }
+    ],
+    "exchangeRateStatus": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "active": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Active"
+              }
+            ]
+          },
+          "expired": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Expired"
+              }
+            ]
+          },
+          "pending": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Pending"
+              }
+            ]
+          },
+          "unavailable": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unavailable"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
       }
     ],
     "excludeLabel": [

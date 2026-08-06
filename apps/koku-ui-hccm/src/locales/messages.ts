@@ -1681,6 +1681,7 @@ export default defineMessages({
       'account {Account names} ' +
       'active_rate {Active rate} ' +
       'aws_category {Cost category names} ' +
+      'base_currency {Base currency} ' +
       'cluster {Cluster names} ' +
       'cost_model {Cost model assigned} ' +
       'cost_models {Assigned cost models} ' +
@@ -1715,15 +1716,16 @@ export default defineMessages({
       'resource_location {Region names} ' +
       'service {Service names} ' +
       'service_name {Service names} ' +
-      'status {Status} ' +
-      'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
       'start {Start} ' +
       'start_date {Start date} ' +
+      'status {Status} ' +
       'storage {Storage} ' +
+      'subscription_guid {Account names} ' +
       'tag {Tag names} ' +
       'tags {Tags} ' +
       'tag_key {Tag keys} ' +
+      'target_currency {Target currency} ' +
       'usage {Usage} ' +
       'vcpu {vCPU} ' +
       'vm_name {Virtual machine names} ' +
@@ -2238,6 +2240,17 @@ export default defineMessages({
     defaultMessage: 'Use "Create exchange rate" to create an exchange rate.',
     description: 'Use "Create exchange rate" to create an exchange rate.',
     id: 'exchangeRateNotAssignedDesc',
+  },
+  exchangeRateStatus: {
+    defaultMessage:
+      '{value, select, ' +
+      'active {Active} ' +
+      'expired {Expired} ' +
+      'pending {Pending} ' +
+      'unavailable {Unavailable} ' +
+      'other {}}',
+    description: 'Exchange rate status',
+    id: 'exchangeRateStatus',
   },
   excludeLabel: {
     defaultMessage: 'Excludes: {value}',
