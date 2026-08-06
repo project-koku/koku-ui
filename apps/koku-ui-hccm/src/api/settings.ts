@@ -2,7 +2,27 @@ import { axiosInstance } from 'api';
 
 import type { PagedLinks, PagedMetaData } from './api';
 
-export interface SettingsData {
+export interface SettingsCurrencyData {
+  code?: string;
+  name?: string;
+  symbol?: string;
+  description?: string;
+  has_dynamic_rate?: boolean;
+  is_disableable?: boolean;
+  static_rates?: {
+    uuid?: string;
+    name?: string;
+    base_currency?: string;
+    target_currency?: string;
+    exchange_rate?: number;
+    start_date?: string;
+    end_date?: string;
+    created_timestamp?: string;
+    updated_timestamp?: string;
+  }[];
+}
+
+export interface SettingsData extends SettingsCurrencyData {
   clusters?: string[];
   default?: boolean;
   project?: string;
