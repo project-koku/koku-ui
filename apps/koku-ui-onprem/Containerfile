@@ -19,6 +19,10 @@ ENV HUSKY=0
 # Webpack prod builds (esp. koku-ui-hccm) exceed Node's ~2Gi default heap on GHA.
 # Cap below ubuntu-latest ~7Gi RAM so the runner itself is not OOM-killed.
 ENV NODE_OPTIONS=--max-old-space-size=6144
+RUN echo "=== DEBUG: cachi2.env ===" && cat /cachi2/cachi2.env 2>/dev/null || echo "NOT FOUND" && \
+    echo "=== DEBUG: npm version ===" && npm --version && \
+    echo "=== DEBUG: package-lock.json resolved sample ===" && grep -m5 '"resolved"' package-lock.json && \
+    echo "=== DEBUG: ls /cachi2/output/deps/npm/ ===" && ls /cachi2/output/deps/npm/ 2>/dev/null || echo "NOT FOUND"
 RUN npm ci
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
