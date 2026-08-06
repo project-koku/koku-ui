@@ -23,7 +23,7 @@ RUN echo "=== DEBUG: cachi2.env ===" && cat /cachi2/cachi2.env 2>/dev/null || ec
     echo "=== DEBUG: npm version ===" && npm --version && \
     echo "=== DEBUG: package-lock.json resolved sample ===" && grep -m5 '"resolved"' package-lock.json && \
     echo "=== DEBUG: ls /cachi2/output/deps/npm/ ===" && ls /cachi2/output/deps/npm/ 2>/dev/null || echo "NOT FOUND"
-RUN npm ci
+RUN npm ci --omit=dev
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
 RUN npm run build --workspace=@koku-ui/koku-ui-onprem
