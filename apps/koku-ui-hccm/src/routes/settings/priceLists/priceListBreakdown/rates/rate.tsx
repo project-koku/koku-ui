@@ -235,10 +235,10 @@ const useMapToProps = ({ page, perPage, query }: RateMapProps): RateStateProps =
   );
 
   useEffect(() => {
-    if (!priceListError && priceListFetchStatus !== FetchStatus.inProgress && uuid) {
+    if (priceListFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceList, uuid, priceListQueryString));
     }
-  }, [dispatch, priceListError, priceListQueryString, uuid]);
+  }, [dispatch, priceListQueryString, uuid]);
 
   // Add index,labels, filter, and paginate
   const indexedRates = getIndexedRates(priceList?.rates);

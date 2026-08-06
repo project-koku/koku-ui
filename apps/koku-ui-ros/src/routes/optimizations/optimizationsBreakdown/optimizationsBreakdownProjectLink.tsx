@@ -127,7 +127,7 @@ const useMapToProps = ({ project, projectPath }): OptimizationsBreakdownProjectL
   );
 
   useEffect(() => {
-    if (projectPath && !reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (projectPath && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
   }, [projectPath, reportQueryString]);
