@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi10/nodejs-22-minimal AS builder
+FROM registry.access.redhat.com/ubi10/nodejs-24-minimal AS builder
 WORKDIR /app
 
 USER 0
