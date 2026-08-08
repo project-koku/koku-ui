@@ -116,7 +116,7 @@ const EditCostModelContent = forwardRef<EditCostModelContentHandle, EditCostMode
           maxMenuHeight={styles.currency.maxHeight as string}
           options={getCurrencyOptions()}
           onSelect={(_evt, value) => setCurrency(value)}
-          toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
+          toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
           value={getCurrencyLabel(currency)}
         />
       );

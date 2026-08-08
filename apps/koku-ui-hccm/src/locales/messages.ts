@@ -981,11 +981,6 @@ export default defineMessages({
     description: 'Create a price list',
     id: 'costModelsWizardCreatePriceList',
   },
-  costModelsWizardCurrencyToggleLabel: {
-    defaultMessage: 'Select currency',
-    description: 'Select currency',
-    id: 'costModelsWizardCurrencyToggleLabel',
-  },
   costModelsWizardEmptySourceTypeLabel: {
     defaultMessage: 'Select integration',
     description: 'Select integration',
@@ -1304,6 +1299,16 @@ export default defineMessages({
     description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
     id: 'currencyAbbreviations',
   },
+  currencyAddErrorDesc: {
+    defaultMessage: 'Failed to add exchange rate',
+    description: 'Failed to add exchange rate',
+    id: 'currencyAddErrorDesc',
+  },
+  currencyAddErrorTitle: {
+    defaultMessage: 'Unable to add exchange rate',
+    description: 'Unable to add exchange rate',
+    id: 'currencyAddErrorTitle',
+  },
   currencyCalcuationsTitle: {
     defaultMessage: 'Currency and calculations',
     description: 'Currency and calculations',
@@ -1313,6 +1318,36 @@ export default defineMessages({
     defaultMessage: 'Select the preferred currency view for your organization',
     description: 'Select the preferred currency view for your organization',
     id: 'currencyDesc',
+  },
+  currencyDisableErrorDesc: {
+    defaultMessage: 'Failed to disable exchange rate',
+    description: 'Failed to disable exchange rate',
+    id: 'currencyDisableErrorDesc',
+  },
+  currencyDisableErrorTitle: {
+    defaultMessage: 'Unable to disable exchange rate',
+    description: 'Unable to disable exchange rate',
+    id: 'currencyDisableErrorTitle',
+  },
+  currencyEditErrorDesc: {
+    defaultMessage: 'Failed to update exchange rate',
+    description: 'Failed to update exchange rate',
+    id: 'currencyEditErrorDesc',
+  },
+  currencyEditErrorTitle: {
+    defaultMessage: 'Unable to update exchange rate',
+    description: 'Unable to update exchange rate',
+    id: 'currencyEditErrorTitle',
+  },
+  currencyEnableErrorDesc: {
+    defaultMessage: 'Failed to enable exchange rate',
+    description: 'Failed to enable exchange rate',
+    id: 'currencyEnableErrorDesc',
+  },
+  currencyEnableErrorTitle: {
+    defaultMessage: 'Unable to enable exchange rate',
+    description: 'Unable to enable exchange rate',
+    id: 'currencyEnableErrorTitle',
   },
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
@@ -1344,6 +1379,21 @@ export default defineMessages({
       'other {}}',
     description: 'Return labels based on a currency symbol formatted using browser locale',
     id: 'currencyOptions',
+  },
+  currencyPlaceholder: {
+    defaultMessage: 'Select currency',
+    description: 'Select currency',
+    id: 'currencyPlaceholder',
+  },
+  currencyRemoveErrorDesc: {
+    defaultMessage: 'Failed to remove exchange rate',
+    description: 'Failed to remove exchange rate',
+    id: 'currencyRemoveErrorDesc',
+  },
+  currencyRemoveErrorTitle: {
+    defaultMessage: 'Unable to remove exchange rate',
+    description: 'Unable to remove exchange rate',
+    id: 'currencyRemoveErrorTitle',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',
@@ -2204,6 +2254,33 @@ export default defineMessages({
     description: 'Exchange rate',
     id: 'exchangeRate',
   },
+  exchangeRateAdd: {
+    defaultMessage: 'Create exchange rate',
+    description: 'Create exchange rate',
+    id: 'exchangeRateAdd',
+  },
+  exchangeRateAddTitle: {
+    defaultMessage: 'Create static exchange rate',
+    description: 'Create static exchange rate',
+    id: 'exchangeRateAddTitle',
+  },
+  exchangeRateEditTitle: {
+    defaultMessage: 'Edit exchange rate',
+    description: 'Edit exchange rate',
+    id: 'exchangeRateEditTitle',
+  },
+  exchangeRateCurrencyPair: {
+    defaultMessage: 'Currency pair',
+    description: 'Currency pair',
+    id: 'exchangeRateCurrencyPair',
+  },
+  exchangeRateCurrencyPairDesc: {
+    defaultMessage:
+      'If a code is not yet on in the Currencies tab, it is turned on when you save, so this custom window and the daily reference can both work for that path over time.',
+    description:
+      'If a code is not yet on in the Currencies tab, it is turned on when you save, so this custom window and the daily reference can both work for that path over time.',
+    id: 'exchangeRateCurrencyPairDesc',
+  },
   exchangeRateDesc: {
     defaultMessage:
       'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
@@ -2220,6 +2297,11 @@ export default defineMessages({
     defaultMessage: 'Exchange rates may be disabled. Turn on Show disabled to view and restore them.',
     description: 'Exchange rates may be disabled. Turn on Show disabled to view and restore them.',
     id: 'exchangeRateEmptyDesc',
+  },
+  exchangeRateEnableAriaLabel: {
+    defaultMessage: 'Toggle currency enabled or disabled',
+    description: 'Toggle currency enabled or disabled',
+    id: 'exchangeRateEnableAriaLabel',
   },
   exchangeRateLoadingStateDesc: {
     defaultMessage: 'Searching for your exchange rates. Do not refresh the browser',
@@ -2241,6 +2323,12 @@ export default defineMessages({
     description: 'Use "Create exchange rate" to create an exchange rate.',
     id: 'exchangeRateNotAssignedDesc',
   },
+  exchangeRateRecalculateDesc: {
+    defaultMessage:
+      'When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Changes will apply only to data from the current month onwards; historical data from past months will not be affected.',
+    description: 'Recalculating charges',
+    id: 'exchangeRateRecalculateDesc',
+  },
   exchangeRateStatus: {
     defaultMessage:
       '{value, select, ' +
@@ -2251,6 +2339,25 @@ export default defineMessages({
       'other {}}',
     description: 'Exchange rate status',
     id: 'exchangeRateStatus',
+  },
+  exchangeRateSwapCurrency: {
+    defaultMessage: 'Swap currencies',
+    description: 'Swap currencies',
+    id: 'exchangeRateSwapCurrency',
+  },
+  exchangeRateValidityPeriodDesc: {
+    defaultMessage:
+      "The start month is counted from the 1st; the end month includes every day through that month's last calendar day.",
+    description:
+      "The start month is counted from the 1st; the end month includes every day through that month's last calendar day.",
+    id: 'exchangeRateValidityPeriodDesc',
+  },
+  exchangeRateValidityPeriodOverlap: {
+    defaultMessage:
+      'This validity period overlaps another rate for the same currency pair. The other row is valid through {date}. Change your dates or edit that row.',
+    description:
+      'This validity period overlaps another rate for the same currency pair. The other row is valid through {date}. Change your dates or edit that row.',
+    id: 'exchangeRateValidityPeriodOverlap',
   },
   excludeLabel: {
     defaultMessage: 'Excludes: {value}',
@@ -4294,6 +4401,18 @@ export default defineMessages({
     description: 'Cost category keys enabled or disabled',
     id: 'settingsSuccessCostCategories',
   },
+  settingsSuccessCurrency: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {Exchange rate added} ' +
+      'disable {Exchange rate disabled} ' +
+      'edit {Exchange rate updated} ' +
+      'enable {Exchange rate enabled} ' +
+      'remove {Exchange rate removed} ' +
+      'other {}}',
+    description: 'Exchange rate added, edited, or removed',
+    id: 'settingsSuccessCurrency',
+  },
   settingsSuccessDesc: {
     defaultMessage: 'Settings for cost management were replaced with new values',
     description: 'Settings for cost management were replaced with new values',
@@ -4869,6 +4988,11 @@ export default defineMessages({
     defaultMessage: 'Start period must be <= end period',
     description: 'Start periodmust be <= end period',
     id: 'validityPeriodStartDateError',
+  },
+  validityPeriodStartMonthPastError: {
+    defaultMessage: 'Start period cannot be a past month',
+    description: 'Start period cannot be a past month',
+    id: 'validityPeriodStartMonthPastError',
   },
   validityPeriodWarning: {
     defaultMessage:
