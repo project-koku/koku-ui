@@ -157,10 +157,10 @@ const useMapToProps = ({ resourcePathsType, resourceType, tagKey }: GpuRatesForm
   );
 
   useEffect(() => {
-    if (!resourceError && resourceFetchStatus !== FetchStatus.inProgress && tagKey?.length > 0) {
+    if (resourceFetchStatus !== FetchStatus.inProgress && tagKey?.length > 0) {
       dispatch(resourceActions.fetchResource(resourcePathsType, resourceType, reportQueryString));
     }
-  }, [reportQueryString, resourceError, resourceFetchStatus, resourcePathsType, resourceType, tagKey]);
+  }, [reportQueryString, resourceFetchStatus, resourcePathsType, resourceType, tagKey]);
 
   return {
     resource,

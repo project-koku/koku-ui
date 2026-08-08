@@ -250,10 +250,10 @@ const useMapToProps = ({ query }: RateApiMapProps): RateApiStateProps => {
   );
 
   useEffect(() => {
-    if (!priceListRatesError && priceListRatesFetchStatus !== FetchStatus.inProgress && uuid) {
+    if (priceListRatesFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(priceListActions.fetchPriceList(PriceListType.priceListRates, uuid, priceListRatesQueryString));
     }
-  }, [dispatch, priceListRatesError, priceListRatesQueryString, query, uuid]);
+  }, [dispatch, priceListRatesQueryString, query, uuid]);
 
   return {
     priceListRates,

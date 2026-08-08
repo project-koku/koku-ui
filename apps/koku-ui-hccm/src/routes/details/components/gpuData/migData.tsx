@@ -157,10 +157,10 @@ export const useMapToProps = ({ gpu_model, gpu_vendor, node, query, queryStateNa
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
-  }, [dispatch, reportError, reportFetchStatus, reportPathsType, reportQueryString, reportType]);
+  }, [dispatch, reportFetchStatus, reportPathsType, reportQueryString, reportType]);
 
   return {
     report,

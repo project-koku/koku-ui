@@ -74,7 +74,7 @@ const useMapToProps = ({ cluster, project }: OptimizationsLinkOwnProps): Optimiz
   );
 
   useEffect(() => {
-    if ((cluster || project) && !reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if ((cluster || project) && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
     }
   }, [cluster, project, reportQueryString]);

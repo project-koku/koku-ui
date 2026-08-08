@@ -4,6 +4,11 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => jest.fn(),
+}));
+
 jest.mock('store/metrics', () => {
   const actual = jest.requireActual('store/metrics');
   const { FetchStatus } = require('store/common');
