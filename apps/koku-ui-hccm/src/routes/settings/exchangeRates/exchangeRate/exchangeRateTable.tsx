@@ -1,14 +1,14 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Label, Switch } from '@patternfly/react-core';
+import { Label } from '@patternfly/react-core';
 import type { Settings } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable, ExpandTable } from 'routes/components/dataTable';
-import { formatDate } from 'utils/dates';
 import { formatCurrencyRate } from 'utils/format';
 
+import { EnableRate } from './components/enable';
 import { styles } from './exchangeRateTable.styles';
 
 interface ExchangeRateTableOwnProps {
@@ -20,6 +20,7 @@ interface ExchangeRateTableOwnProps {
   // onDelete?: (settings: SettingsData) => void;
   // onDeprecate?: () => void;
   // onDuplicate?: () => void;
+  onEnable?: (checked: boolean) => void;
   settings: Settings;
 }
 
@@ -43,14 +44,15 @@ const getStaticRateStatus = (startDate?: string, endDate?: string) => {
 };
 
 const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
-  // canWrite,
+  canWrite,
   filterBy,
-  // isDisabled,
+  isDisabled,
   isLoading,
   // onClose,
   // onDelete,
   // onDeprecate,
   // onDuplicate,
+  onEnable,
   settings,
 }) => {
   const [columns, setColumns] = useState([]);
@@ -63,7 +65,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
     }
 
     const newRows = [];
-    const computedItems = settings?.data ? (settings.data as any) : [];
+    const computedItems = settings?.data as any[];
 
     const newColumns = [
       {
@@ -109,7 +111,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
       },
     ];
 
-    computedItems.map((item, index) => {
+    computedItems.map(item => {
       let children;
       const isStaticRates = item?.static_rates?.length > 0;
 
@@ -124,13 +126,23 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
               value: rate?.target_currency ?? '',
             },
             {
-              value: formatCurrencyRate(Number(rate?.exchange_rate || 0), rate.base_currency || 'USD'),
+              value: formatCurrencyRate(Number(rate?.exchange_rate || 0), rate.target_currency || 'USD'),
             },
             {
-              value: formatDate(rate?.start_date ? `${rate.start_date}T00:00:00` : ''),
+              value: rate?.start_date
+                ? intl.formatDate(rate.start_date, {
+                    month: 'short',
+                    year: 'numeric',
+                  })
+                : '',
             },
             {
-              value: formatDate(rate?.end_date ? `${rate.end_date}T00:00:00` : ''),
+              value: rate?.end_date
+                ? intl.formatDate(rate.end_date, {
+                    month: 'short',
+                    year: 'numeric',
+                  })
+                : '',
             },
             {
               value: (
@@ -172,7 +184,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
           },
           {
             style: styles.column,
-            value: <Switch id={`rates-toggle-${index}`} isChecked={item?.enabled} />,
+            value: <EnableRate canWrite={canWrite} isDisabled={isDisabled} onEnable={onEnable} settings={item} />,
           },
           {
             style: styles.column,
@@ -190,6 +202,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
 
   useEffect(() => {
     initDatum();
+    // Rebuild rows whenever the fetched currency list changes (e.g. filter cleared)
   }, [intl, settings]);
 
   return <ExpandTable columns={columns} filterBy={filterBy} isLoading={isLoading} rows={rows} />;

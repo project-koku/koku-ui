@@ -67,7 +67,7 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
     const [endDate, setEndDate] = useState<Date>(effectiveEnd);
     const [endDateBaseline] = useState<Date>(effectiveEnd);
     const [endDateError, setEndDateError] = useState<MessageDescriptor>();
-    const [isInfoAlertOpen, setIsInfoAlertOpen] = useState(true);
+    const [isValidityAlertOpen, setIsValidityAlertOpen] = useState(true);
     const [name, setName] = useState<string>(priceList?.name ?? '');
     const [nameBaseline] = useState<string>(priceList?.name ?? '');
     const [nameError, setNameError] = useState<MessageDescriptor>();
@@ -150,12 +150,9 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
       const newDate = getEffectiveEndDate(date);
       setEndDate(newDate);
 
-      const error = validateEndDate(newDate, startDate);
-      if (error) {
-        setEndDateError(error);
-      } else {
-        setEndDateError(undefined);
-      }
+      // Only the field being edited shows an error; clear the other so it doesn't go stale
+      setEndDateError(validateEndDate(newDate, startDate) || undefined);
+      setStartDateError(undefined);
     };
 
     const handleOnNameChange = (value: string) => {
@@ -187,12 +184,9 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
       const newDate = getEffectiveStartDate(date);
       setStartDate(newDate);
 
-      const error = validateStartDate(newDate, endDate);
-      if (error) {
-        setStartDateError(error);
-      } else {
-        setStartDateError(undefined);
-      }
+      // Only the field being edited shows an error; clear the other so it doesn't go stale
+      setStartDateError(validateStartDate(newDate, endDate) || undefined);
+      setEndDateError(undefined);
     };
 
     // Effects
@@ -250,9 +244,7 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
                 {getCalendar('start-date', true)}
                 {startDateError && (
                   <HelperText>
-                    <HelperTextItem variant="error">
-                      {intl.formatMessage(messages.validityPeriodStartMonthError)}
-                    </HelperTextItem>
+                    <HelperTextItem variant="error">{intl.formatMessage(startDateError)}</HelperTextItem>
                   </HelperText>
                 )}
               </div>
@@ -260,18 +252,16 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
                 {getCalendar('end-date', false)}
                 {endDateError && (
                   <HelperText>
-                    <HelperTextItem variant="error">
-                      {intl.formatMessage(messages.validityPeriodEndMonthError)}
-                    </HelperTextItem>
+                    <HelperTextItem variant="error">{intl.formatMessage(endDateError)}</HelperTextItem>
                   </HelperText>
                 )}
               </div>
             </div>
           </FormGroup>
         </Form>
-        {isInfoAlertOpen && (
+        {isValidityAlertOpen && (
           <Alert
-            actionClose={<AlertActionCloseButton onClose={() => setIsInfoAlertOpen(false)} />}
+            actionClose={<AlertActionCloseButton onClose={() => setIsValidityAlertOpen(false)} />}
             id="info"
             isInline
             title={intl.formatMessage(messages.validityPeriodWarning)}

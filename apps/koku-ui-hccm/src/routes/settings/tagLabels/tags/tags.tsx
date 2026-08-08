@@ -153,7 +153,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.tagsDisable, {
+          settingsActions.updateTagSettings(SettingsType.tagsDisable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );
@@ -165,7 +165,7 @@ const Tags: React.FC<TagsProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.tagsEnable, {
+          settingsActions.updateTagSettings(SettingsType.tagsEnable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );

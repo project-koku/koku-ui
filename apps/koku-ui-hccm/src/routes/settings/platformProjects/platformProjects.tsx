@@ -155,7 +155,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
         group: GroupType.platform,
       }));
       setSelectedItems([], () => {
-        dispatch(settingsActions.updateSettings(SettingsType.platformProjectsAdd, payload as any));
+        dispatch(settingsActions.updatePlatformSettings(SettingsType.platformProjectsAdd, payload));
       });
     }
   };
@@ -177,16 +177,14 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
 
   const handleOnRemove = () => {
     if (selectedItems.length > 0) {
-      const payload = selectedItems.map(item => {
-        if (!item.default) {
-          return {
-            project: item.project,
-            group: item.group,
-          };
-        }
-      });
+      const payload = selectedItems
+        .filter(item => !item.default)
+        .map(item => ({
+          project: item.project,
+          group: item.group,
+        }));
       setSelectedItems([], () => {
-        dispatch(settingsActions.updateSettings(SettingsType.platformProjectsRemove, payload as any));
+        dispatch(settingsActions.updatePlatformSettings(SettingsType.platformProjectsRemove, payload));
       });
     }
   };

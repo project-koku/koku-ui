@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { useSettingsNotifications } from 'routes/settings/utils/hooks';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -220,6 +221,17 @@ const useMapToProps = ({ query }: MappingsMapProps): MappingsStateProps => {
       dispatch(settingsActions.fetchSettings(SettingsType.tagsMappings, settingsQueryString));
     }
   }, [query, settingsQueryString]);
+
+  // Notifications
+  useSettingsNotifications({
+    type: SettingsType.tagsMappingsChildAdd,
+  });
+  useSettingsNotifications({
+    type: SettingsType.tagsMappingsChildRemove,
+  });
+  useSettingsNotifications({
+    type: SettingsType.tagsMappingsParentRemove,
+  });
 
   return {
     settings,

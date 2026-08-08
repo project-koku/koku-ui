@@ -2,7 +2,7 @@ import { EmptyState, EmptyStateBody, EmptyStateFooter, EmptyStateVariant } from 
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { CreateExchangeRateAction } from 'routes/settings/exchangeRates/exchangeRateCreate/components/actions';
+import { AddRate } from 'routes/settings/exchangeRates/exchangeRate/components/add';
 
 interface NoPriceListAssignedStateOwnProps {
   canWrite?: boolean;
@@ -22,7 +22,7 @@ const NoExchangeRateAssignedState: React.FC<NoPriceListAssignedStateOwnProps> = 
       >
         <EmptyStateBody>{intl.formatMessage(messages.priceListEmptyPriceListsAssignedDesc)}</EmptyStateBody>
         <EmptyStateFooter>
-          <CreateExchangeRateAction canWrite={canWrite} isDisabled={isDisabled} />
+          <AddRate canWrite={canWrite} isDisabled={isDisabled} />
         </EmptyStateFooter>
       </EmptyState>
     </>
