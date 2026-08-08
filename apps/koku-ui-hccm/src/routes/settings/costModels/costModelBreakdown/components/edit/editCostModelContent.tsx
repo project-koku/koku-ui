@@ -150,7 +150,9 @@ const EditCostModelContent = forwardRef<EditCostModelContentHandle, EditCostMode
             <FormGroup fieldId="currency" label={intl.formatMessage(messages.currency)}>
               {costModel?.price_lists?.length > 0 ? (
                 <Tooltip content={intl.formatMessage(messages.priceListCurrencyUnassign)}>
-                  {getCurrencyComponent()}
+                  <span style={{ display: 'inline-block' }} tabIndex={0}>
+                    {getCurrencyComponent()}
+                  </span>
                 </Tooltip>
               ) : (
                 getCurrencyComponent()

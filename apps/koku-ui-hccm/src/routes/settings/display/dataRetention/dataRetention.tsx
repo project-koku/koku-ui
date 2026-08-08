@@ -18,6 +18,7 @@ import { CustomDateRange, DateRange, DateRangeType } from './components';
 import { styles } from './dataRetention.styles';
 
 interface DataRetentionOwnProps {
+  canWrite?: boolean;
   isDisabled?: boolean;
 }
 
@@ -29,7 +30,7 @@ export interface DataRetentionStateProps {
 
 type DataRetentionProps = DataRetentionOwnProps;
 
-const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
+const DataRetention: React.FC<DataRetentionProps> = ({ canWrite, isDisabled }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
@@ -123,9 +124,9 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
     );
   }
 
-  const isReadOnly = isDisabled || accountSettings?.env_override === true;
+  const isReadOnly = !canWrite || isDisabled || accountSettings?.env_override === true;
   const dateRange = (
-    <div style={styles.dateRange}>
+    <div style={styles.dateRange} tabIndex={0}>
       <DateRange
         dateRangeType={isCustomDateRange ? DateRangeType.custom : getDateRangeType(retentionPeriod)}
         isDisabled={isReadOnly}
@@ -142,11 +143,14 @@ const DataRetention: React.FC<DataRetentionProps> = ({ isDisabled }) => {
       )}
     </div>
   );
-  return accountSettings?.env_override === true ? (
-    <Tooltip content={intl.formatMessage(messages.readOnlyDataRetention)}>{dateRange}</Tooltip>
-  ) : (
-    dateRange
-  );
+
+  if (!canWrite) {
+    return <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{dateRange}</Tooltip>;
+  } else if (accountSettings?.env_override === true) {
+    return <Tooltip content={intl.formatMessage(messages.readOnlyDataRetention)}>{dateRange}</Tooltip>;
+  } else {
+    return dateRange;
+  }
 };
 
 const useMapToProps = (): DataRetentionStateProps => {

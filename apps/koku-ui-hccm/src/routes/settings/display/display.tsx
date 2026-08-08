@@ -96,14 +96,22 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
         </Title>
         {intl.formatMessage(messages.dataRetentionPeriodDesc)}
         <div style={styles.dataRetention}>
-          <DataRetention isDisabled={!canWrite} />
+          <DataRetention canWrite={canWrite} />
         </div>
       </div>
     );
   };
 
   const getTooltip = (comp: React.ReactElement) => {
-    return !canWrite ? <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{comp}</Tooltip> : comp;
+    return !canWrite ? (
+      <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
+          {comp}
+        </span>
+      </Tooltip>
+    ) : (
+      comp
+    );
   };
 
   const handleOnCostType = (value: string) => {

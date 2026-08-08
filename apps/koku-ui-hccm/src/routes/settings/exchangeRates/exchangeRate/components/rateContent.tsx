@@ -34,7 +34,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 import { formatDate } from 'utils/dates';
-import { formatCurrencyRateRaw } from 'utils/format';
+import { formatCurrencyRateRaw, getCurrencySymbol } from 'utils/format';
 
 import { styles } from './rateContent.styles';
 import {
@@ -85,15 +85,13 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
 
     // Form variables
 
-    const [baseCurrency, setBaseCurrency] = useState<string>(rate?.base_currency ?? 'USD');
-    const [baseCurrencyBaseline] = useState<string>(rate?.base_currency ?? 'USD');
+    const [baseCurrency, setBaseCurrency] = useState<string>(rate?.base_currency);
+    const [baseCurrencyBaseline] = useState<string>(rate?.base_currency);
     const [endDate, setEndDate] = useState<Date>(effectiveEnd);
     const [endDateBaseline] = useState<Date>(effectiveEnd);
     const [endDateError, setEndDateError] = useState<MessageDescriptor>();
     const [exchangeRateInput, setExchangeRateInput] = useState<string>(
-      rate?.exchange_rate != null
-        ? formatCurrencyRateRaw(Number(rate?.exchange_rate), rate.target_currency || 'USD')
-        : ''
+      rate?.exchange_rate != null ? formatCurrencyRateRaw(Number(rate?.exchange_rate), rate.target_currency) : ''
     );
     const [exchangeRate, setExchangeRate] = useState<number>(rate?.exchange_rate);
     const [exchangeRateValueBaseline] = useState<number>(rate?.exchange_rate);
@@ -129,7 +127,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const isDateRangeOverlapping = overlappingRate !== undefined;
 
     // Unsaved changes checks — add requires all required fields (like price list measurement)
-    const hasAddRateChanges = isExchangeRateDirty && isTargetCurrencyDirty;
+    const hasAddRateChanges = isBaseCurrencyDirty && isExchangeRateDirty && isTargetCurrencyDirty;
 
     const hasEditRateChanges =
       isBaseCurrencyDirty || isEndDateDirty || isExchangeRateDirty || isStartDateDirty || isTargetCurrencyDirty;
@@ -249,7 +247,11 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       return (currencies?.data ?? [])
         .map(currency => ({
           isDisabled: selected === currency.code,
-          toString: () => currency.code,
+          toString: () =>
+            intl.formatMessage(messages.currencyOptions, {
+              currency: currency.code,
+              symbol: getCurrencySymbol(currency.code),
+            }) || currency.description,
           value: currency.code,
         }))
         .sort((a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? ''));

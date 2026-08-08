@@ -1,4 +1,4 @@
-import { Switch } from '@patternfly/react-core';
+import { Switch, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
 import type { SettingsData, SettingsRateData } from 'api/settings';
@@ -49,6 +49,15 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
   const intl = useIntl();
 
   const getActions = () => {
+    const getTooltip = children => {
+      const msg = intl.formatMessage(messages.readOnlyPermissions);
+      return <Tooltip content={msg}>{children}</Tooltip>;
+    };
+
+    const addRateAction = (
+      <AddRate canWrite={canWrite} isDisabled={isDisabled} onAdd={onAdd} onClose={onClose} settings={settings} />
+    );
+
     return (
       <>
         <span>
@@ -59,7 +68,7 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
             onChange={handleOnChange}
           />
         </span>
-        <AddRate canWrite={canWrite} isDisabled={isDisabled} onAdd={onAdd} onClose={onClose} settings={settings} />
+        {canWrite ? addRateAction : getTooltip(addRateAction)}
       </>
     );
   };
