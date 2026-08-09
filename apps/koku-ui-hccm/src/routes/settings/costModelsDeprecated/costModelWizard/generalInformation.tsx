@@ -146,7 +146,7 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   direction="up"
                   appendMenuTo="inline"
                   maxMenuHeight={styles.selector.maxHeight as string}
-                  toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
+                  toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
                   value={getCurrencyLabel(currencyUnits)}
                   onSelect={(_evt, value) => onCurrencyChange(value)}
                   id="currency-units-selector"

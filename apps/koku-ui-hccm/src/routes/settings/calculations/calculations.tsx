@@ -79,7 +79,15 @@ const Calculations: React.FC<CalculationsProps> = ({ canWrite }) => {
   };
 
   const getTooltip = comp => {
-    return !canWrite ? <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{comp}</Tooltip> : comp;
+    return !canWrite ? (
+      <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
+          {comp}
+        </span>
+      </Tooltip>
+    ) : (
+      comp
+    );
   };
 
   const handleOnCostTypeSelected = value => {

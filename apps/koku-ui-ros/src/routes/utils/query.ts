@@ -86,13 +86,11 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
   return initQuery(query, false, {
     ...(isLimit
       ? {
-          limit,
           offset,
         }
       : {
           filter: {
             ...query.filter,
-            limit,
             offset,
           },
         }),

@@ -82,8 +82,8 @@ jest.mock('routes/components/currency', () => ({
 }));
 
 jest.mock('./dataRetention', () => ({
-  DataRetention: ({ isDisabled }: { isDisabled?: boolean }) => (
-    <div data-testid="data-retention" data-disabled={String(!!isDisabled)} />
+  DataRetention: ({ canWrite }: { canWrite?: boolean }) => (
+    <div data-testid="data-retention" data-disabled={String(!canWrite)} />
   ),
 }));
 

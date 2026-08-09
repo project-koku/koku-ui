@@ -1,3 +1,4 @@
+import { Tooltip } from '@patternfly/react-core';
 import type { Metric, MetricHash } from 'api/metrics';
 import type { PriceListData } from 'api/priceList';
 import type { OcpQuery } from 'api/queries/ocpQuery';
@@ -109,7 +110,12 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
   // Getters
 
   const getActions = () => {
-    return (
+    const getTooltip = children => {
+      const msg = intl.formatMessage(messages.readOnlyPermissions);
+      return <Tooltip content={msg}>{children}</Tooltip>;
+    };
+
+    const addRateAction = (
       <AddRate
         canWrite={canWrite}
         isDisabled={isDisabled}
@@ -119,6 +125,7 @@ const RateToolbar: React.FC<RateToolbarProps> = ({
         priceList={priceList}
       />
     );
+    return canWrite ? addRateAction : getTooltip(addRateAction);
   };
 
   const getCategoryOptions = (): ToolbarChipGroupExt[] => {
@@ -187,10 +194,10 @@ const useMapToProps = (): RateToolbarStateProps => {
   const metricsHashStatus = useSelector((state: RootState) => metricsSelectors.status(state));
 
   useEffect(() => {
-    if (metricsHashStatus !== FetchStatus.inProgress && metricsHashStatus !== FetchStatus.complete) {
+    if (metricsHashStatus !== FetchStatus.inProgress) {
       dispatch(metricsActions.fetchMetrics());
     }
-  }, [metricsHashStatus]);
+  }, []);
 
   return {
     metricsHash,

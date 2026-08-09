@@ -44,7 +44,7 @@ const DeleteTagMapping: React.FC<DeleteTagMappingProps> = ({ isOpen, isChild, it
     if (settingsFetchStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
       dispatch(
-        settingsActions.updateSettings(settingsType, {
+        settingsActions.updateTagSettings(settingsType, {
           ids: [item.uuid],
         })
       );

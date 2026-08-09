@@ -11,9 +11,18 @@ import {
   fetchSettingsSuccess,
   resetNotifications,
   resetStatus,
-  updateSettingsFailure,
-  updateSettingsRequest,
-  updateSettingsSuccess,
+  updateCategorySettingsFailure,
+  updateCategorySettingsRequest,
+  updateCategorySettingsSuccess,
+  updateCurrencySettingsFailure,
+  updateCurrencySettingsRequest,
+  updateCurrencySettingsSuccess,
+  updatePlatformSettingsFailure,
+  updatePlatformSettingsRequest,
+  updatePlatformSettingsSuccess,
+  updateTagSettingsFailure,
+  updateTagSettingsRequest,
+  updateTagSettingsSuccess,
 } from './settingsActions';
 
 export type SettingsState = Readonly<{
@@ -34,9 +43,18 @@ export type SettingsAction = ActionType<
   | typeof fetchSettingsFailure
   | typeof fetchSettingsRequest
   | typeof fetchSettingsSuccess
-  | typeof updateSettingsFailure
-  | typeof updateSettingsRequest
-  | typeof updateSettingsSuccess
+  | typeof updateCategorySettingsFailure
+  | typeof updateCategorySettingsRequest
+  | typeof updateCategorySettingsSuccess
+  | typeof updateCurrencySettingsFailure
+  | typeof updateCurrencySettingsRequest
+  | typeof updateCurrencySettingsSuccess
+  | typeof updatePlatformSettingsFailure
+  | typeof updatePlatformSettingsRequest
+  | typeof updatePlatformSettingsSuccess
+  | typeof updateTagSettingsFailure
+  | typeof updateTagSettingsRequest
+  | typeof updateTagSettingsSuccess
   | typeof resetNotifications
   | typeof resetState
   | typeof resetStatus
@@ -86,19 +104,28 @@ export function settingsReducer(state = defaultState, action: SettingsAction): S
         }),
         errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
-    case getType(updateSettingsFailure):
+    case getType(updateCategorySettingsFailure):
+    case getType(updateCurrencySettingsFailure):
+    case getType(updatePlatformSettingsFailure):
+    case getType(updateTagSettingsFailure):
       return {
         ...state,
         errors: new Map(state.errors).set(action.meta.fetchId, action.payload),
         notification: new Map(state.notification).set(action.meta.fetchId, action.meta.notification),
         status: new Map(state.status).set(action.meta.fetchId, FetchStatus.complete),
       };
-    case getType(updateSettingsRequest):
+    case getType(updateCategorySettingsRequest):
+    case getType(updateCurrencySettingsRequest):
+    case getType(updatePlatformSettingsRequest):
+    case getType(updateTagSettingsRequest):
       return {
         ...state,
         status: new Map(state.status).set(action.payload.fetchId, FetchStatus.inProgress),
       };
-    case getType(updateSettingsSuccess):
+    case getType(updateCategorySettingsSuccess):
+    case getType(updateCurrencySettingsSuccess):
+    case getType(updatePlatformSettingsSuccess):
+    case getType(updateTagSettingsSuccess):
       return {
         ...state,
         errors: new Map(state.errors).set(action.meta.fetchId, null),

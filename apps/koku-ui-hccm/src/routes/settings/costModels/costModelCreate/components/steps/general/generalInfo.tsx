@@ -144,7 +144,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
             direction="up"
             appendMenuTo="inline"
             maxMenuHeight={styles.selector.maxHeight as string}
-            toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
+            toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
             value={getCurrencyLabel(currency)}
             onSelect={(_evt, value) => onCurrencyChange(value)}
             id="currency"

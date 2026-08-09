@@ -1,6 +1,20 @@
 import { AlertVariant } from '@patternfly/react-core';
-import type { Settings, SettingsPayload } from 'api/settings';
-import { fetchSettings as apiFetchSettings, SettingsType, updateSettings as apiUpdateSettings } from 'api/settings';
+import type {
+  Settings,
+  SettingsCategoryPayload,
+  SettingsPlatformPayload,
+  SettingsRatePayload,
+  SettingsTagPayload,
+  UpdateCurrencySettingsArgs,
+} from 'api/settings';
+import {
+  fetchSettings as apiFetchSettings,
+  SettingsType,
+  updateCategorySettings as apiUpdateCategorySettings,
+  updateCurrencySettings as apiUpdateCurrencySettings,
+  updatePlatformSettings as apiUpdatePlatformSettings,
+  updateTagSettings as apiUpdateTagSettings,
+} from 'api/settings';
 import type { AxiosError } from 'axios';
 import type { AxiosResponse } from 'axios/index';
 import { intl } from 'components/i18n';
@@ -21,12 +35,42 @@ export const fetchSettingsRequest = createAction('settings/fetch/request')<Setti
 export const fetchSettingsSuccess = createAction('settings/fetch/success')<Settings, SettingsActionMeta>();
 export const fetchSettingsFailure = createAction('settings/fetch/failure')<AxiosError, SettingsActionMeta>();
 
-export const updateSettingsRequest = createAction('settings/update/request')<SettingsActionMeta>();
-export const updateSettingsSuccess = createAction('settings/update/success')<
-  AxiosResponse<SettingsPayload>,
+export const updateCategorySettingsRequest = createAction('settings/category/update/request')<SettingsActionMeta>();
+export const updateCategorySettingsSuccess = createAction('settings/category/update/success')<
+  AxiosResponse<SettingsCategoryPayload>,
   SettingsActionMeta
 >();
-export const updateSettingsFailure = createAction('settings/update/failure')<AxiosError, SettingsActionMeta>();
+export const updateCategorySettingsFailure = createAction('settings/category/update/failure')<
+  AxiosError,
+  SettingsActionMeta
+>();
+
+export const updateCurrencySettingsRequest = createAction('settings/currency/update/request')<SettingsActionMeta>();
+export const updateCurrencySettingsSuccess = createAction('settings/currency/update/success')<
+  AxiosResponse<SettingsRatePayload>,
+  SettingsActionMeta
+>();
+export const updateCurrencySettingsFailure = createAction('settings/currency/update/failure')<
+  AxiosError,
+  SettingsActionMeta
+>();
+
+export const updatePlatformSettingsRequest = createAction('settings/platform/update/request')<SettingsActionMeta>();
+export const updatePlatformSettingsSuccess = createAction('settings/platform/update/success')<
+  AxiosResponse<SettingsPlatformPayload[]>,
+  SettingsActionMeta
+>();
+export const updatePlatformSettingsFailure = createAction('settings/platform/update/failure')<
+  AxiosError,
+  SettingsActionMeta
+>();
+
+export const updateTagSettingsRequest = createAction('settings/tag/update/request')<SettingsActionMeta>();
+export const updateTagSettingsSuccess = createAction('settings/tag/update/success')<
+  AxiosResponse<SettingsTagPayload>,
+  SettingsActionMeta
+>();
+export const updateTagSettingsFailure = createAction('settings/tag/update/failure')<AxiosError, SettingsActionMeta>();
 
 export const resetNotifications = createAction('settings/notification/reset')<{ fetchId: string }>();
 export const resetStatus = createAction('settings/status/reset')<{ fetchId: string }>();
@@ -56,7 +100,7 @@ export function fetchSettings(settingsType: SettingsType, settingsQueryString: s
   };
 }
 
-export function updateSettings(settingsType: SettingsType, payload: SettingsPayload): ThunkAction {
+export function updateCategorySettings(settingsType: SettingsType, payload: SettingsCategoryPayload): ThunkAction {
   return (dispatch, getState) => {
     const state = getState();
     const fetchStatus = selectSettingsFetchStatus(state, settingsType, undefined);
@@ -69,7 +113,7 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
       fetchId: getFetchId(settingsType),
     };
 
-    dispatch(updateSettingsRequest(meta));
+    dispatch(updateCategorySettingsRequest(meta));
 
     let msg;
     let status;
@@ -82,6 +126,152 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         msg = messages.settingsSuccessCostCategories;
         status = 'enable';
         break;
+    }
+
+    return apiUpdateCategorySettings(settingsType, payload)
+      .then(res => {
+        const count = payload.ids?.length ?? Object.keys(payload).length;
+
+        dispatch(
+          updateCategorySettingsSuccess(res, {
+            ...meta,
+            notification: {
+              description: intl.formatMessage(messages.settingsSuccessChanges),
+              dismissable: true,
+              title: intl.formatMessage(msg, { count, value: status }),
+              variant: AlertVariant.success,
+            },
+          })
+        );
+      })
+      .catch(err => {
+        const description = intl.formatMessage(messages.settingsErrorDesc);
+        const title = intl.formatMessage(messages.settingsErrorTitle);
+
+        dispatch(
+          updateCategorySettingsFailure(err, {
+            ...meta,
+            notification: {
+              description,
+              dismissable: true,
+              title,
+              variant: AlertVariant.danger,
+            },
+          })
+        );
+      });
+  };
+}
+
+export function updateCurrencySettings(args: UpdateCurrencySettingsArgs): ThunkAction {
+  return (dispatch, getState) => {
+    const { settingsType } = args;
+    const state = getState();
+    const fetchStatus = selectSettingsFetchStatus(state, settingsType, undefined);
+
+    if (fetchStatus === FetchStatus.inProgress) {
+      return;
+    }
+
+    const meta: SettingsActionMeta = {
+      fetchId: getFetchId(settingsType),
+    };
+
+    dispatch(updateCurrencySettingsRequest(meta));
+
+    let msg;
+    let status;
+    switch (settingsType) {
+      case SettingsType.currencyAdd:
+        msg = messages.settingsSuccessCurrency;
+        status = 'add';
+        break;
+      case SettingsType.currencyDisable:
+        msg = messages.settingsSuccessCurrency;
+        status = 'disable';
+        break;
+      case SettingsType.currencyEdit:
+        msg = messages.settingsSuccessCurrency;
+        status = 'edit';
+        break;
+      case SettingsType.currencyEnable:
+        msg = messages.settingsSuccessCurrency;
+        status = 'enable';
+        break;
+      case SettingsType.currencyRemove:
+        msg = messages.settingsSuccessCurrency;
+        status = 'remove';
+        break;
+    }
+
+    return apiUpdateCurrencySettings(args)
+      .then(res => {
+        dispatch(
+          updateCurrencySettingsSuccess(res, {
+            ...meta,
+            notification: {
+              description: intl.formatMessage(messages.settingsSuccessChanges),
+              dismissable: true,
+              title: intl.formatMessage(msg, { value: status }),
+              variant: AlertVariant.success,
+            },
+          })
+        );
+      })
+      .catch(err => {
+        let description = intl.formatMessage(messages.settingsErrorDesc);
+        let title = intl.formatMessage(messages.settingsErrorTitle);
+
+        if (settingsType === SettingsType.currencyAdd) {
+          description = intl.formatMessage(messages.currencyAddErrorDesc);
+          title = intl.formatMessage(messages.currencyAddErrorTitle);
+        } else if (settingsType === SettingsType.currencyDisable) {
+          description = intl.formatMessage(messages.currencyDisableErrorDesc);
+          title = intl.formatMessage(messages.currencyDisableErrorTitle);
+        } else if (settingsType === SettingsType.currencyEdit) {
+          description = intl.formatMessage(messages.currencyEditErrorDesc);
+          title = intl.formatMessage(messages.currencyEditErrorTitle);
+        } else if (settingsType === SettingsType.currencyEnable) {
+          description = intl.formatMessage(messages.currencyEnableErrorDesc);
+          title = intl.formatMessage(messages.currencyEnableErrorTitle);
+        } else if (settingsType === SettingsType.currencyRemove) {
+          description = intl.formatMessage(messages.currencyRemoveErrorDesc);
+          title = intl.formatMessage(messages.currencyRemoveErrorTitle);
+        }
+
+        dispatch(
+          updateCurrencySettingsFailure(err, {
+            ...meta,
+            notification: {
+              description,
+              dismissable: true,
+              title,
+              variant: AlertVariant.danger,
+            },
+          })
+        );
+      });
+  };
+}
+
+export function updatePlatformSettings(settingsType: SettingsType, payload: SettingsPlatformPayload[]): ThunkAction {
+  return (dispatch, getState) => {
+    const state = getState();
+    const fetchStatus = selectSettingsFetchStatus(state, settingsType, undefined);
+
+    if (fetchStatus === FetchStatus.inProgress) {
+      return;
+    }
+
+    const meta: SettingsActionMeta = {
+      fetchId: getFetchId(settingsType),
+    };
+
+    dispatch(updatePlatformSettingsRequest(meta));
+
+    let msg;
+    let status;
+    switch (settingsType) {
       case SettingsType.platformProjectsAdd:
         msg = messages.settingsSuccessPlatformProjects;
         status = 'add';
@@ -90,6 +280,61 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         msg = messages.settingsSuccessPlatformProjects;
         status = 'remove';
         break;
+    }
+
+    return apiUpdatePlatformSettings(settingsType, payload)
+      .then(res => {
+        const count = payload.length;
+
+        dispatch(
+          updatePlatformSettingsSuccess(res, {
+            ...meta,
+            notification: {
+              description: intl.formatMessage(messages.settingsSuccessChanges),
+              dismissable: true,
+              title: intl.formatMessage(msg, { count, value: status }),
+              variant: AlertVariant.success,
+            },
+          })
+        );
+      })
+      .catch(err => {
+        const description = intl.formatMessage(messages.settingsErrorDesc);
+        const title = intl.formatMessage(messages.settingsErrorTitle);
+
+        dispatch(
+          updatePlatformSettingsFailure(err, {
+            ...meta,
+            notification: {
+              description,
+              dismissable: true,
+              title,
+              variant: AlertVariant.danger,
+            },
+          })
+        );
+      });
+  };
+}
+
+export function updateTagSettings(settingsType: SettingsType, payload: SettingsTagPayload): ThunkAction {
+  return (dispatch, getState) => {
+    const state = getState();
+    const fetchStatus = selectSettingsFetchStatus(state, settingsType, undefined);
+
+    if (fetchStatus === FetchStatus.inProgress) {
+      return;
+    }
+
+    const meta: SettingsActionMeta = {
+      fetchId: getFetchId(settingsType),
+    };
+
+    dispatch(updateTagSettingsRequest(meta));
+
+    let msg;
+    let status;
+    switch (settingsType) {
       case SettingsType.tagsDisable:
         msg = messages.settingsSuccessTags;
         status = 'disable';
@@ -109,18 +354,18 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         break;
     }
 
-    return apiUpdateSettings(settingsType, payload)
+    return apiUpdateTagSettings(settingsType, payload)
       .then(res => {
         const count = payload.ids
           ? payload.ids.length
           : payload.children
             ? payload.children.length
             : payload.parent
-              ? payload.parent.length
+              ? 1
               : Object.keys(payload).length;
 
         dispatch(
-          updateSettingsSuccess(res, {
+          updateTagSettingsSuccess(res, {
             ...meta,
             notification: {
               description: intl.formatMessage(messages.settingsSuccessChanges),
@@ -153,7 +398,7 @@ export function updateSettings(settingsType: SettingsType, payload: SettingsPayl
         }
 
         dispatch(
-          updateSettingsFailure(err, {
+          updateTagSettingsFailure(err, {
             ...meta,
             notification: {
               description,
