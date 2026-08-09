@@ -87,10 +87,10 @@ export const useMapToProps = ({ query, queryStateName, reportPathsType, reportTy
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
-  }, [dispatch, reportError, reportFetchStatus, reportPathsType, reportQueryString, reportType]);
+  }, [dispatch, reportFetchStatus, reportPathsType, reportQueryString, reportType]);
 
   return {
     isMigToggleEnabled: useIsMigToggleEnabled(),
