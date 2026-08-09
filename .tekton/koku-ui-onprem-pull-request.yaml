@@ -555,7 +555,9 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            # Hermetic npm prefetch for this monorepo is large; buildah also
+            # copies cachi2 output to prefetch-copy, so 1Gi is not enough.
+            storage: 10Gi
       status: {}
   - name: git-auth
     secret:

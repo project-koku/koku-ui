@@ -1,4 +1,7 @@
-FROM registry.access.redhat.com/ubi10/nodejs-22-minimal AS builder
+# nodejs-22-minimal ships npm 10, which crashes on hermeto-modified lockfiles
+# ("Exit handler never called"). nodejs-24-minimal provides npm 11.x required
+# by package.json engines and works with Konflux hermetic prefetch.
+FROM registry.access.redhat.com/ubi10/nodejs-24-minimal AS builder
 WORKDIR /app
 
 USER 0
@@ -19,7 +22,15 @@ ENV HUSKY=0
 # Webpack prod builds (esp. koku-ui-hccm) exceed Node's ~2Gi default heap on GHA.
 # Cap below ubuntu-latest ~7Gi RAM so the runner itself is not OOM-killed.
 ENV NODE_OPTIONS=--max-old-space-size=6144
-RUN npm ci
+# Skip binary downloads that need network (hermetic builds have none).
+# @sentry/cli comes via frontend-components-config; not needed for image build.
+ENV CYPRESS_INSTALL_BINARY=0
+ENV SENTRYCLI_SKIP_DOWNLOAD=1
+# Hermeto rewrites package-lock resolved URLs to file:///cachi2/... during
+# Konflux hermetic builds. Do not use npm --offline: that requires packuments
+# in the npm cache and fails with ENOTCACHED even when tarballs were prefetched.
+# Keep devDependencies — webpack and other build tooling live there.
+RUN npm ci --no-audit --no-fund
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
 RUN npm run build --workspace=@koku-ui/koku-ui-onprem
