@@ -1353,29 +1353,313 @@ export default defineMessages({
   currencyOptions: {
     defaultMessage:
       '{currency, select, ' +
+      'ADP {ADP ({symbol}) - Andorran Peseta}' +
       'AED {AED ({symbol}) - United Arab Emirates Dirham}' +
+      'AFA {AFA ({symbol}) - Afghan Afghani (1927–2002)}' +
+      'AFN {AFN ({symbol}) - Afghan Afghani}' +
+      'ALK {ALK ({symbol}) - Albanian Lek (1946–1965)}' +
+      'ALL {ALL ({symbol}) - Albanian Lek}' +
+      'AMD {AMD ({symbol}) - Armenian Dram}' +
+      'ANG {ANG ({symbol}) - Netherlands Antillean Guilder}' +
+      'AOA {AOA ({symbol}) - Angolan Kwanza}' +
+      'AOK {AOK ({symbol}) - Angolan Kwanza (1977–1991)}' +
+      'AON {AON ({symbol}) - Angolan New Kwanza (1990–2000)}' +
+      'AOR {AOR ({symbol}) - Angolan Readjusted Kwanza (1995–1999)}' +
+      'ARA {ARA ({symbol}) - Argentine Austral}' +
+      'ARL {ARL ({symbol}) - Argentine Peso Ley (1970–1983)}' +
+      'ARM {ARM ({symbol}) - Argentine Peso (1881–1970)}' +
+      'ARP {ARP ({symbol}) - Argentine Peso (1983–1985)}' +
+      'ARS {ARS ({symbol}) - Argentine Peso}' +
+      'ATS {ATS ({symbol}) - Austrian Schilling}' +
       'AUD {AUD ({symbol}) - Australian Dollar}' +
+      'AWG {AWG ({symbol}) - Aruban Florin}' +
+      'AZM {AZM ({symbol}) - Azerbaijani Manat (1993–2006)}' +
+      'AZN {AZN ({symbol}) - Azerbaijani Manat}' +
+      'BAD {BAD ({symbol}) - Bosnia-Herzegovina Dinar (1992–1994)}' +
+      'BAM {BAM ({symbol}) - Bosnia-Herzegovina Convertible Mark}' +
+      'BAN {BAN ({symbol}) - Bosnia-Herzegovina New Dinar (1994–1997)}' +
+      'BBD {BBD ({symbol}) - Barbadian Dollar}' +
+      'BDT {BDT ({symbol}) - Bangladeshi Taka}' +
+      'BEC {BEC ({symbol}) - Belgian Franc (convertible)}' +
+      'BEF {BEF ({symbol}) - Belgian Franc}' +
+      'BEL {BEL ({symbol}) - Belgian Franc (financial)}' +
+      'BGL {BGL ({symbol}) - Bulgarian Hard Lev}' +
+      'BGM {BGM ({symbol}) - Bulgarian Socialist Lev}' +
+      'BGN {BGN ({symbol}) - Bulgarian Lev}' +
+      'BGO {BGO ({symbol}) - Bulgarian Lev (1879–1952)}' +
+      'BHD {BHD ({symbol}) - Bahraini Dinar}' +
+      'BIF {BIF ({symbol}) - Burundian Franc}' +
+      'BMD {BMD ({symbol}) - Bermudan Dollar}' +
+      'BND {BND ({symbol}) - Brunei Dollar}' +
+      'BOB {BOB ({symbol}) - Bolivian Boliviano}' +
+      'BOL {BOL ({symbol}) - Bolivian Boliviano (1863–1963)}' +
+      'BOP {BOP ({symbol}) - Bolivian Peso}' +
+      'BOV {BOV ({symbol}) - Bolivian Mvdol}' +
+      'BRB {BRB ({symbol}) - Brazilian New Cruzeiro (1967–1986)}' +
+      'BRC {BRC ({symbol}) - Brazilian Cruzado (1986–1989)}' +
+      'BRE {BRE ({symbol}) - Brazilian Cruzeiro (1990–1993)}' +
       'BRL {BRL ({symbol}) - Brazilian Real}' +
+      'BRN {BRN ({symbol}) - Brazilian New Cruzado (1989–1990)}' +
+      'BRR {BRR ({symbol}) - Brazilian Cruzeiro (1993–1994)}' +
+      'BRZ {BRZ ({symbol}) - Brazilian Cruzeiro (1942–1967)}' +
+      'BSD {BSD ({symbol}) - Bahamian Dollar}' +
+      'BTN {BTN ({symbol}) - Bhutanese Ngultrum}' +
+      'BUK {BUK ({symbol}) - Burmese Kyat}' +
+      'BWP {BWP ({symbol}) - Botswanan Pula}' +
+      'BYB {BYB ({symbol}) - Belarusian Ruble (1994–1999)}' +
+      'BYN {BYN ({symbol}) - Belarusian Ruble}' +
+      'BYR {BYR ({symbol}) - Belarusian Ruble (2000–2016)}' +
+      'BZD {BZD ({symbol}) - Belize Dollar}' +
       'CAD {CAD ({symbol}) - Canadian Dollar}' +
+      'CDF {CDF ({symbol}) - Congolese Franc}' +
+      'CHE {CHE ({symbol}) - WIR Euro}' +
       'CHF {CHF ({symbol}) - Swiss Franc}' +
+      'CHW {CHW ({symbol}) - WIR Franc}' +
+      'CLE {CLE ({symbol}) - Chilean Escudo}' +
+      'CLF {CLF ({symbol}) - Chilean Unit of Account (UF)}' +
+      'CLP {CLP ({symbol}) - Chilean Peso}' +
+      'CNH {CNH ({symbol}) - Chinese Yuan (offshore)}' +
+      'CNX {CNX ({symbol}) - Chinese People’s Bank Dollar}' +
       'CNY {CNY ({symbol}) - Chinese Yuan}' +
+      'COP {COP ({symbol}) - Colombian Peso}' +
+      'COU {COU ({symbol}) - Colombian Real Value Unit}' +
+      'CRC {CRC ({symbol}) - Costa Rican Colón}' +
+      'CSD {CSD ({symbol}) - Serbian Dinar (2002–2006)}' +
+      'CSK {CSK ({symbol}) - Czechoslovak Hard Koruna}' +
+      'CUC {CUC ({symbol}) - Cuban Convertible Peso}' +
+      'CUP {CUP ({symbol}) - Cuban Peso}' +
+      'CVE {CVE ({symbol}) - Cape Verdean Escudo}' +
+      'CYP {CYP ({symbol}) - Cypriot Pound}' +
       'CZK {CZK ({symbol}) - Czech Koruna}' +
+      'DDM {DDM ({symbol}) - East German Mark}' +
+      'DEM {DEM ({symbol}) - German Mark}' +
+      'DJF {DJF ({symbol}) - Djiboutian Franc}' +
       'DKK {DKK ({symbol}) - Danish Krone}' +
+      'DOP {DOP ({symbol}) - Dominican Peso}' +
+      'DZD {DZD ({symbol}) - Algerian Dinar}' +
+      'ECS {ECS ({symbol}) - Ecuadorian Sucre}' +
+      'ECV {ECV ({symbol}) - Ecuadorian Unit of Constant Value}' +
+      'EEK {EEK ({symbol}) - Estonian Kroon}' +
+      'EGP {EGP ({symbol}) - Egyptian Pound}' +
+      'ERN {ERN ({symbol}) - Eritrean Nakfa}' +
+      'ESA {ESA ({symbol}) - Spanish Peseta (A account)}' +
+      'ESB {ESB ({symbol}) - Spanish Peseta (convertible account)}' +
+      'ESP {ESP ({symbol}) - Spanish Peseta}' +
+      'ETB {ETB ({symbol}) - Ethiopian Birr}' +
       'EUR {EUR ({symbol}) - Euro}' +
+      'FIM {FIM ({symbol}) - Finnish Markka}' +
+      'FJD {FJD ({symbol}) - Fijian Dollar}' +
+      'FKP {FKP ({symbol}) - Falkland Islands Pound}' +
+      'FRF {FRF ({symbol}) - French Franc}' +
       'GBP {GBP ({symbol}) - British Pound}' +
+      'GEK {GEK ({symbol}) - Georgian Kupon Larit}' +
+      'GEL {GEL ({symbol}) - Georgian Lari}' +
+      'GHC {GHC ({symbol}) - Ghanaian Cedi (1979–2007)}' +
       'GHS {GHS ({symbol}) - Ghanaian Cedi}' +
+      'GIP {GIP ({symbol}) - Gibraltar Pound}' +
+      'GMD {GMD ({symbol}) - Gambian Dalasi}' +
+      'GNF {GNF ({symbol}) - Guinean Franc}' +
+      'GNS {GNS ({symbol}) - Guinean Syli}' +
+      'GQE {GQE ({symbol}) - Equatorial Guinean Ekwele}' +
+      'GRD {GRD ({symbol}) - Greek Drachma}' +
+      'GTQ {GTQ ({symbol}) - Guatemalan Quetzal}' +
+      'GWE {GWE ({symbol}) - Portuguese Guinea Escudo}' +
+      'GWP {GWP ({symbol}) - Guinea-Bissau Peso}' +
+      'GYD {GYD ({symbol}) - Guyanaese Dollar}' +
       'HKD {HKD ({symbol}) - Hong Kong Dollar}' +
+      'HNL {HNL ({symbol}) - Honduran Lempira}' +
+      'HRD {HRD ({symbol}) - Croatian Dinar}' +
+      'HRK {HRK ({symbol}) - Croatian Kuna}' +
+      'HTG {HTG ({symbol}) - Haitian Gourde}' +
+      'HUF {HUF ({symbol}) - Hungarian Forint}' +
+      'IDR {IDR ({symbol}) - Indonesian Rupiah}' +
+      'IEP {IEP ({symbol}) - Irish Pound}' +
+      'ILP {ILP ({symbol}) - Israeli Pound}' +
+      'ILR {ILR ({symbol}) - Israeli Shekel (1980–1985)}' +
+      'ILS {ILS ({symbol}) - Israeli New Shekel}' +
       'INR {INR ({symbol}) - Indian Rupee}' +
+      'IQD {IQD ({symbol}) - Iraqi Dinar}' +
+      'IRR {IRR ({symbol}) - Iranian Rial}' +
+      'ISJ {ISJ ({symbol}) - Icelandic Króna (1918–1981)}' +
+      'ISK {ISK ({symbol}) - Icelandic Króna}' +
+      'ITL {ITL ({symbol}) - Italian Lira}' +
+      'JMD {JMD ({symbol}) - Jamaican Dollar}' +
+      'JOD {JOD ({symbol}) - Jordanian Dinar}' +
       'JPY {JPY ({symbol}) - Japanese Yen}' +
+      'KES {KES ({symbol}) - Kenyan Shilling}' +
+      'KGS {KGS ({symbol}) - Kyrgystani Som}' +
+      'KHR {KHR ({symbol}) - Cambodian Riel}' +
+      'KMF {KMF ({symbol}) - Comorian Franc}' +
+      'KPW {KPW ({symbol}) - North Korean Won}' +
+      'KRH {KRH ({symbol}) - South Korean Hwan (1953–1962)}' +
+      'KRO {KRO ({symbol}) - South Korean Won (1945–1953)}' +
+      'KRW {KRW ({symbol}) - South Korean Won}' +
+      'KWD {KWD ({symbol}) - Kuwaiti Dinar}' +
+      'KYD {KYD ({symbol}) - Cayman Islands Dollar}' +
+      'KZT {KZT ({symbol}) - Kazakhstani Tenge}' +
+      'LAK {LAK ({symbol}) - Laotian Kip}' +
+      'LBP {LBP ({symbol}) - Lebanese Pound}' +
+      'LKR {LKR ({symbol}) - Sri Lankan Rupee}' +
+      'LRD {LRD ({symbol}) - Liberian Dollar}' +
+      'LSL {LSL ({symbol}) - Lesotho Loti}' +
+      'LTL {LTL ({symbol}) - Lithuanian Litas}' +
+      'LTT {LTT ({symbol}) - Lithuanian Talonas}' +
+      'LUC {LUC ({symbol}) - Luxembourgian Convertible Franc}' +
+      'LUF {LUF ({symbol}) - Luxembourgian Franc}' +
+      'LUL {LUL ({symbol}) - Luxembourg Financial Franc}' +
+      'LVL {LVL ({symbol}) - Latvian Lats}' +
+      'LVR {LVR ({symbol}) - Latvian Ruble}' +
+      'LYD {LYD ({symbol}) - Libyan Dinar}' +
+      'MAD {MAD ({symbol}) - Moroccan Dirham}' +
+      'MAF {MAF ({symbol}) - Moroccan Franc}' +
+      'MCF {MCF ({symbol}) - Monegasque Franc}' +
+      'MDC {MDC ({symbol}) - Moldovan Cupon}' +
+      'MDL {MDL ({symbol}) - Moldovan Leu}' +
+      'MGA {MGA ({symbol}) - Malagasy Ariary}' +
+      'MGF {MGF ({symbol}) - Malagasy Franc}' +
+      'MKD {MKD ({symbol}) - Macedonian Denar}' +
+      'MKN {MKN ({symbol}) - Macedonian Denar (1992–1993)}' +
+      'MLF {MLF ({symbol}) - Malian Franc}' +
+      'MMK {MMK ({symbol}) - Myanmar Kyat}' +
+      'MNT {MNT ({symbol}) - Mongolian Tugrik}' +
+      'MOP {MOP ({symbol}) - Macanese Pataca}' +
+      'MRO {MRO ({symbol}) - Mauritanian Ouguiya (1973–2017)}' +
+      'MRU {MRU ({symbol}) - Mauritanian Ouguiya}' +
+      'MTL {MTL ({symbol}) - Maltese Lira}' +
+      'MTP {MTP ({symbol}) - Maltese Pound}' +
+      'MUR {MUR ({symbol}) - Mauritian Rupee}' +
+      'MVP {MVP ({symbol}) - Maldivian Rupee (1947–1981)}' +
+      'MVR {MVR ({symbol}) - Maldivian Rufiyaa}' +
+      'MWK {MWK ({symbol}) - Malawian Kwacha}' +
+      'MXN {MXN ({symbol}) - Mexican Peso}' +
+      'MXP {MXP ({symbol}) - Mexican Silver Peso (1861–1992)}' +
+      'MXV {MXV ({symbol}) - Mexican Investment Unit}' +
+      'MYR {MYR ({symbol}) - Malaysian Ringgit}' +
+      'MZE {MZE ({symbol}) - Mozambican Escudo}' +
+      'MZM {MZM ({symbol}) - Mozambican Metical (1980–2006)}' +
+      'MZN {MZN ({symbol}) - Mozambican Metical}' +
+      'NAD {NAD ({symbol}) - Namibian Dollar}' +
       'NGN {NGN ({symbol}) - Nigerian Naira}' +
+      'NIC {NIC ({symbol}) - Nicaraguan Córdoba (1988–1991)}' +
+      'NIO {NIO ({symbol}) - Nicaraguan Córdoba}' +
+      'NLG {NLG ({symbol}) - Dutch Guilder}' +
       'NOK {NOK ({symbol}) - Norwegian Krone}' +
+      'NPR {NPR ({symbol}) - Nepalese Rupee}' +
       'NZD {NZD ({symbol}) - New Zealand Dollar}' +
+      'OMR {OMR ({symbol}) - Omani Rial}' +
+      'PAB {PAB ({symbol}) - Panamanian Balboa}' +
+      'PEI {PEI ({symbol}) - Peruvian Inti}' +
+      'PEN {PEN ({symbol}) - Peruvian Sol}' +
+      'PES {PES ({symbol}) - Peruvian Sol (1863–1965)}' +
+      'PGK {PGK ({symbol}) - Papua New Guinean Kina}' +
+      'PHP {PHP ({symbol}) - Philippine Peso}' +
+      'PKR {PKR ({symbol}) - Pakistani Rupee}' +
+      'PLN {PLN ({symbol}) - Polish Zloty}' +
+      'PLZ {PLZ ({symbol}) - Polish Zloty (1950–1995)}' +
+      'PTE {PTE ({symbol}) - Portuguese Escudo}' +
+      'PYG {PYG ({symbol}) - Paraguayan Guarani}' +
+      'QAR {QAR ({symbol}) - Qatari Riyal}' +
+      'RHD {RHD ({symbol}) - Rhodesian Dollar}' +
+      'ROL {ROL ({symbol}) - Romanian Leu (1952–2006)}' +
+      'RON {RON ({symbol}) - Romanian Leu}' +
+      'RSD {RSD ({symbol}) - Serbian Dinar}' +
+      'RUB {RUB ({symbol}) - Russian Ruble}' +
+      'RUR {RUR ({symbol}) - Russian Ruble (1991–1998)}' +
+      'RWF {RWF ({symbol}) - Rwandan Franc}' +
       'SAR {SAR ({symbol}) - Saudi Riyal}' +
+      'SBD {SBD ({symbol}) - Solomon Islands Dollar}' +
+      'SCR {SCR ({symbol}) - Seychellois Rupee}' +
+      'SDD {SDD ({symbol}) - Sudanese Dinar (1992–2007)}' +
+      'SDG {SDG ({symbol}) - Sudanese Pound}' +
+      'SDP {SDP ({symbol}) - Sudanese Pound (1957–1998)}' +
       'SEK {SEK ({symbol}) - Swedish Krona}' +
       'SGD {SGD ({symbol}) - Singapore Dollar}' +
+      'SHP {SHP ({symbol}) - St. Helena Pound}' +
+      'SIT {SIT ({symbol}) - Slovenian Tolar}' +
+      'SKK {SKK ({symbol}) - Slovak Koruna}' +
+      'SLE {SLE ({symbol}) - Sierra Leonean Leone}' +
+      'SLL {SLL ({symbol}) - Sierra Leonean Leone (1964—2022)}' +
+      'SOS {SOS ({symbol}) - Somali Shilling}' +
+      'SRD {SRD ({symbol}) - Surinamese Dollar}' +
+      'SRG {SRG ({symbol}) - Surinamese Guilder}' +
+      'SSP {SSP ({symbol}) - South Sudanese Pound}' +
+      'STD {STD ({symbol}) - São Tomé & Príncipe Dobra (1977–2017)}' +
+      'STN {STN ({symbol}) - São Tomé & Príncipe Dobra}' +
+      'SUR {SUR ({symbol}) - Soviet Rouble}' +
+      'SVC {SVC ({symbol}) - Salvadoran Colón}' +
+      'SYP {SYP ({symbol}) - Syrian Pound}' +
+      'SZL {SZL ({symbol}) - Swazi Lilangeni}' +
+      'THB {THB ({symbol}) - Thai Baht}' +
+      'TJR {TJR ({symbol}) - Tajikistani Ruble}' +
+      'TJS {TJS ({symbol}) - Tajikistani Somoni}' +
+      'TMM {TMM ({symbol}) - Turkmenistani Manat (1993–2009)}' +
+      'TMT {TMT ({symbol}) - Turkmenistani Manat}' +
+      'TND {TND ({symbol}) - Tunisian Dinar}' +
+      'TOP {TOP ({symbol}) - Tongan Paʻanga}' +
+      'TPE {TPE ({symbol}) - Timorese Escudo}' +
+      'TRL {TRL ({symbol}) - Turkish Lira (1922–2005)}' +
+      'TRY {TRY ({symbol}) - Turkish Lira}' +
+      'TTD {TTD ({symbol}) - Trinidad & Tobago Dollar}' +
       'TWD {TWD ({symbol}) - New Taiwan Dollar}' +
-      'USD {USD ({symbol}) - United States Dollar} ' +
+      'TZS {TZS ({symbol}) - Tanzanian Shilling}' +
+      'UAH {UAH ({symbol}) - Ukrainian Hryvnia}' +
+      'UAK {UAK ({symbol}) - Ukrainian Karbovanets}' +
+      'UGS {UGS ({symbol}) - Ugandan Shilling (1966–1987)}' +
+      'UGX {UGX ({symbol}) - Ugandan Shilling}' +
+      'USD {USD ({symbol}) - United States Dollar}' +
+      'USN {USN ({symbol}) - United States Dollar (Next day)}' +
+      'USS {USS ({symbol}) - United States Dollar (Same day)}' +
+      'UYI {UYI ({symbol}) - Uruguayan Peso (Indexed Units)}' +
+      'UYP {UYP ({symbol}) - Uruguayan Peso (1975–1993)}' +
+      'UYU {UYU ({symbol}) - Uruguayan Peso}' +
+      'UYW {UYW ({symbol}) - Uruguayan Nominal Wage Index Unit}' +
+      'UZS {UZS ({symbol}) - Uzbekistani Som}' +
+      'VEB {VEB ({symbol}) - Venezuelan Bolívar (1871–2008)}' +
+      'VED {VED ({symbol}) - Bolívar Soberano}' +
+      'VEF {VEF ({symbol}) - Venezuelan Bolívar (2008–2018)}' +
+      'VES {VES ({symbol}) - Venezuelan Bolívar}' +
+      'VND {VND ({symbol}) - Vietnamese Dong}' +
+      'VNN {VNN ({symbol}) - Vietnamese Dong (1978–1985)}' +
+      'VUV {VUV ({symbol}) - Vanuatu Vatu}' +
+      'WST {WST ({symbol}) - Samoan Tala}' +
+      'XAF {XAF ({symbol}) - Central African CFA Franc}' +
+      'XAG {XAG ({symbol}) - Silver}' +
+      'XAU {XAU ({symbol}) - Gold}' +
+      'XBA {XBA ({symbol}) - European Composite Unit}' +
+      'XBB {XBB ({symbol}) - European Monetary Unit}' +
+      'XBC {XBC ({symbol}) - European Unit of Account (XBC)}' +
+      'XBD {XBD ({symbol}) - European Unit of Account (XBD)}' +
+      'XCD {XCD ({symbol}) - East Caribbean Dollar}' +
+      'XCG {XCG ({symbol}) - Caribbean guilder}' +
+      'XDR {XDR ({symbol}) - Special Drawing Rights}' +
+      'XEU {XEU ({symbol}) - European Currency Unit}' +
+      'XFO {XFO ({symbol}) - French Gold Franc}' +
+      'XFU {XFU ({symbol}) - French UIC-Franc}' +
+      'XOF {XOF ({symbol}) - West African CFA Franc}' +
+      'XPD {XPD ({symbol}) - Palladium}' +
+      'XPF {XPF ({symbol}) - CFP Franc}' +
+      'XPT {XPT ({symbol}) - Platinum}' +
+      'XRE {XRE ({symbol}) - RINET Funds}' +
+      'XSU {XSU ({symbol}) - Sucre}' +
+      'XTS {XTS ({symbol}) - Testing Currency Code}' +
+      'XUA {XUA ({symbol}) - ADB Unit of Account}' +
+      'XXX {XXX ({symbol}) - Unknown Currency}' +
+      'YDD {YDD ({symbol}) - Yemeni Dinar}' +
+      'YER {YER ({symbol}) - Yemeni Rial}' +
+      'YUD {YUD ({symbol}) - Yugoslavian Hard Dinar (1966–1990)}' +
+      'YUM {YUM ({symbol}) - Yugoslavian New Dinar (1994–2002)}' +
+      'YUN {YUN ({symbol}) - Yugoslavian Convertible Dinar (1990–1992)}' +
+      'YUR {YUR ({symbol}) - Yugoslavian Reformed Dinar (1992–1993)}' +
+      'ZAL {ZAL ({symbol}) - South African Rand (financial)}' +
       'ZAR {ZAR ({symbol}) - South African Rand}' +
+      'ZMK {ZMK ({symbol}) - Zambian Kwacha (1968–2012)}' +
+      'ZMW {ZMW ({symbol}) - Zambian Kwacha}' +
+      'ZRN {ZRN ({symbol}) - Zairean New Zaire (1993–1998)}' +
+      'ZRZ {ZRZ ({symbol}) - Zairean Zaire (1971–1993)}' +
+      'ZWD {ZWD ({symbol}) - Zimbabwean Dollar (1980–2008)}' +
+      'ZWG {ZWG ({symbol}) - Zimbabwean Gold}' +
+      'ZWL {ZWL ({symbol}) - Zimbabwean Dollar (2009–2024)}' +
+      'ZWR {ZWR ({symbol}) - Zimbabwean Dollar (2008)}' +
       'other {}}',
     description: 'Return labels based on a currency symbol formatted using browser locale',
     id: 'currencyOptions',
@@ -2302,6 +2586,11 @@ export default defineMessages({
     defaultMessage: 'Toggle currency enabled or disabled',
     description: 'Toggle currency enabled or disabled',
     id: 'exchangeRateEnableAriaLabel',
+  },
+  exchangeRateDisabled: {
+    defaultMessage: 'Cannot disable currency because it may be used by one or more cost models or price lists.',
+    description: 'Cannot disable currency because it may be used by one or more cost models or price lists.',
+    id: 'exchangeRateDisabled',
   },
   exchangeRateLoadingStateDesc: {
     defaultMessage: 'Searching for your exchange rates. Do not refresh the browser',

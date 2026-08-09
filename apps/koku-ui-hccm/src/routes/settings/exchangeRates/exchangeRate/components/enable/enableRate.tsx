@@ -1,4 +1,5 @@
-import { Switch } from '@patternfly/react-core';
+import type { MessageDescriptor } from '@formatjs/intl';
+import { Switch, Tooltip } from '@patternfly/react-core';
 import type { SettingsCurrencyData } from 'api/settings';
 import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
@@ -41,6 +42,40 @@ const EnableRate: React.FC<EnableRateProps> = ({ canWrite, isDisabled, isDispatc
 
   const { settingsError, settingsFetchStatus } = useMapToProps({ isEnabled });
 
+  // Getters
+
+  const getTooltip = (children: any, msg: MessageDescriptor) => {
+    return (
+      <Tooltip content={intl.formatMessage(msg)}>
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
+          {children}
+        </span>
+      </Tooltip>
+    );
+  };
+
+  const getEnableToggle = () => {
+    const canDisable = settings?.is_disableable;
+
+    const enableToggle = (
+      <Switch
+        aria-label={intl.formatMessage(messages.exchangeRateEnableAriaLabel)}
+        id={`currency-enable-${settings?.code ?? ''}`}
+        isChecked={isEnabled}
+        isDisabled={!canDisable || !canWrite || isDisabled}
+        onChange={(_evt, checked: boolean) => handleOnChange(checked)}
+      />
+    );
+
+    if (!canWrite) {
+      return getTooltip(enableToggle, messages.readOnlyPermissions);
+    } else if (!canDisable) {
+      return getTooltip(enableToggle, messages.exchangeRateDisabled);
+    } else {
+      return enableToggle;
+    }
+  };
+
   // Handlers
 
   const handleOnChange = (checked: boolean) => {
@@ -79,15 +114,7 @@ const EnableRate: React.FC<EnableRateProps> = ({ canWrite, isDisabled, isDispatc
     }
   }, [isEnabled, isFinish, onEnable, settingsError, settingsFetchStatus]);
 
-  return (
-    <Switch
-      aria-label={intl.formatMessage(messages.exchangeRateEnableAriaLabel)}
-      id={`currency-enable-${settings?.code ?? ''}`}
-      isChecked={isEnabled}
-      onChange={(_evt, checked: boolean) => handleOnChange(checked)}
-      isDisabled={!canWrite || isDisabled}
-    />
-  );
+  return getEnableToggle();
 };
 
 const useMapToProps = ({ isEnabled }: EnableRateMapProps): EnableRateStateProps => {

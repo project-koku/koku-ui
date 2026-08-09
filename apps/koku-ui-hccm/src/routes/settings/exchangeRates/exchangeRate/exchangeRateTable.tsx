@@ -6,7 +6,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable, ExpandTable } from 'routes/components/dataTable';
-import { formatCurrencyRate } from 'utils/format';
+import { formatCurrencyRate, getCurrencySymbol } from 'utils/format';
 
 import { EnableRate } from './components/enable';
 import { styles } from './exchangeRateTable.styles';
@@ -180,7 +180,12 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
           }, // Empty cell for expand toggle
           {
             style: styles.column,
-            value: item?.code || '',
+            value: item?.code
+              ? intl.formatMessage(messages.currencyOptions, {
+                  currency: item?.code,
+                  symbol: getCurrencySymbol(item?.code),
+                }) || item?.description
+              : item?.description,
           },
           {
             style: styles.column,

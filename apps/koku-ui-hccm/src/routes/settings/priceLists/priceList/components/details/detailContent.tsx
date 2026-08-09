@@ -232,7 +232,9 @@ const DetailContent = forwardRef<DetailContentHandle, DetailContentProps>(
           <FormGroup isRequired fieldId="currency" label={intl.formatMessage(messages.currency)}>
             {isEditDetails ? (
               <Tooltip content={intl.formatMessage(messages.priceListCurrencyReadOnly)}>
-                <Currency currency={currency} id="currency" isDisabled showLabel={false} />
+                <span style={{ display: 'inline-block' }} tabIndex={0}>
+                  <Currency currency={currency} id="currency" isDisabled showLabel={false} />
+                </span>
               </Tooltip>
             ) : (
               <Currency currency={currency} id="currency" onSelect={handleOnCurrencySelect} showLabel={false} />
