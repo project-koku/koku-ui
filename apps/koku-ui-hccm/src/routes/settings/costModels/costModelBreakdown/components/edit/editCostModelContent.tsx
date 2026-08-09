@@ -116,7 +116,7 @@ const EditCostModelContent = forwardRef<EditCostModelContentHandle, EditCostMode
           maxMenuHeight={styles.currency.maxHeight as string}
           options={getCurrencyOptions()}
           onSelect={(_evt, value) => setCurrency(value)}
-          toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
+          toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
           value={getCurrencyLabel(currency)}
         />
       );
@@ -150,7 +150,9 @@ const EditCostModelContent = forwardRef<EditCostModelContentHandle, EditCostMode
             <FormGroup fieldId="currency" label={intl.formatMessage(messages.currency)}>
               {costModel?.price_lists?.length > 0 ? (
                 <Tooltip content={intl.formatMessage(messages.priceListCurrencyUnassign)}>
-                  {getCurrencyComponent()}
+                  <span style={{ display: 'inline-block' }} tabIndex={0}>
+                    {getCurrencyComponent()}
+                  </span>
                 </Tooltip>
               ) : (
                 getCurrencyComponent()
