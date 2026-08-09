@@ -40,6 +40,18 @@ USER 1001
 
 FROM registry.access.redhat.com/ubi10/nginx-126
 
+ARG IMAGE_NAME
+ARG VERSION
+LABEL summary="Cost Management UI for on-premise deployments" \
+    description="Red Hat Cost Management UI for on-premise deployments" \
+    io.k8s.description="Red Hat Cost Management UI for on-premise deployments" \
+    io.k8s.display-name="Cost Management UI" \
+    io.openshift.expose-services="8080:http" \
+    com.redhat.component="costmanagement-ui-rhel10-container" \
+    name="$IMAGE_NAME" \
+    version="$VERSION" \
+    maintainer="Red Hat Cost Management Services <cost-mgmt@redhat.com>"
+
 COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
 COPY --from=builder /app/apps/koku-ui-hccm/dist ./costManagement
 COPY --from=builder /app/apps/koku-ui-ros/dist ./costManagementRos
