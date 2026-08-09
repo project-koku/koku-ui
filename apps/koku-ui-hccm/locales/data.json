@@ -1943,12 +1943,6 @@
         "value": "Create a price list"
       }
     ],
-    "costModelsWizardCurrencyToggleLabel": [
-      {
-        "type": 0,
-        "value": "Select currency"
-      }
-    ],
     "costModelsWizardEmptySourceTypeLabel": [
       {
         "type": 0,
@@ -2497,6 +2491,18 @@
         }
       }
     ],
+    "currencyAddErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to add exchange rate"
+      }
+    ],
+    "currencyAddErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to add exchange rate"
+      }
+    ],
     "currencyCalcuationsTitle": [
       {
         "type": 0,
@@ -2509,11 +2515,63 @@
         "value": "Select the preferred currency view for your organization"
       }
     ],
+    "currencyDisableErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to disable exchange rate"
+      }
+    ],
+    "currencyDisableErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to disable exchange rate"
+      }
+    ],
+    "currencyEditErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to update exchange rate"
+      }
+    ],
+    "currencyEditErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to update exchange rate"
+      }
+    ],
+    "currencyEnableErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to enable exchange rate"
+      }
+    ],
+    "currencyEnableErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to enable exchange rate"
+      }
+    ],
     "currencyOptions": [
       {
         "type": 5,
         "value": "currency",
         "options": {
+          "ADP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ADP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Andorran Peseta"
+              }
+            ]
+          },
           "AED": {
             "value": [
               {
@@ -2527,6 +2585,262 @@
               {
                 "type": 0,
                 "value": ") - United Arab Emirates Dirham"
+              }
+            ]
+          },
+          "AFA": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AFA ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Afghan Afghani (1927–2002)"
+              }
+            ]
+          },
+          "AFN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AFN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Afghan Afghani"
+              }
+            ]
+          },
+          "ALK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ALK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Albanian Lek (1946–1965)"
+              }
+            ]
+          },
+          "ALL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ALL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Albanian Lek"
+              }
+            ]
+          },
+          "AMD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AMD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Armenian Dram"
+              }
+            ]
+          },
+          "ANG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ANG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Netherlands Antillean Guilder"
+              }
+            ]
+          },
+          "AOA": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AOA ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Angolan Kwanza"
+              }
+            ]
+          },
+          "AOK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AOK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Angolan Kwanza (1977–1991)"
+              }
+            ]
+          },
+          "AON": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AON ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Angolan New Kwanza (1990–2000)"
+              }
+            ]
+          },
+          "AOR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AOR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Angolan Readjusted Kwanza (1995–1999)"
+              }
+            ]
+          },
+          "ARA": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ARA ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Argentine Austral"
+              }
+            ]
+          },
+          "ARL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ARL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Argentine Peso Ley (1970–1983)"
+              }
+            ]
+          },
+          "ARM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ARM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Argentine Peso (1881–1970)"
+              }
+            ]
+          },
+          "ARP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ARP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Argentine Peso (1983–1985)"
+              }
+            ]
+          },
+          "ARS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ARS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Argentine Peso"
+              }
+            ]
+          },
+          "ATS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ATS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Austrian Schilling"
               }
             ]
           },
@@ -2546,6 +2860,422 @@
               }
             ]
           },
+          "AWG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AWG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Aruban Florin"
+              }
+            ]
+          },
+          "AZM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AZM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Azerbaijani Manat (1993–2006)"
+              }
+            ]
+          },
+          "AZN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "AZN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Azerbaijani Manat"
+              }
+            ]
+          },
+          "BAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BAD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bosnia-Herzegovina Dinar (1992–1994)"
+              }
+            ]
+          },
+          "BAM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BAM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bosnia-Herzegovina Convertible Mark"
+              }
+            ]
+          },
+          "BAN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BAN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bosnia-Herzegovina New Dinar (1994–1997)"
+              }
+            ]
+          },
+          "BBD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BBD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Barbadian Dollar"
+              }
+            ]
+          },
+          "BDT": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BDT ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bangladeshi Taka"
+              }
+            ]
+          },
+          "BEC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BEC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Belgian Franc (convertible)"
+              }
+            ]
+          },
+          "BEF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BEF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Belgian Franc"
+              }
+            ]
+          },
+          "BEL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BEL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Belgian Franc (financial)"
+              }
+            ]
+          },
+          "BGL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BGL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bulgarian Hard Lev"
+              }
+            ]
+          },
+          "BGM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BGM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bulgarian Socialist Lev"
+              }
+            ]
+          },
+          "BGN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BGN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bulgarian Lev"
+              }
+            ]
+          },
+          "BGO": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BGO ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bulgarian Lev (1879–1952)"
+              }
+            ]
+          },
+          "BHD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BHD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bahraini Dinar"
+              }
+            ]
+          },
+          "BIF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BIF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Burundian Franc"
+              }
+            ]
+          },
+          "BMD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BMD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bermudan Dollar"
+              }
+            ]
+          },
+          "BND": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BND ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brunei Dollar"
+              }
+            ]
+          },
+          "BOB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BOB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bolivian Boliviano"
+              }
+            ]
+          },
+          "BOL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BOL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bolivian Boliviano (1863–1963)"
+              }
+            ]
+          },
+          "BOP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BOP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bolivian Peso"
+              }
+            ]
+          },
+          "BOV": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BOV ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bolivian Mvdol"
+              }
+            ]
+          },
+          "BRB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BRB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian New Cruzeiro (1967–1986)"
+              }
+            ]
+          },
+          "BRC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BRC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian Cruzado (1986–1989)"
+              }
+            ]
+          },
+          "BRE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BRE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian Cruzeiro (1990–1993)"
+              }
+            ]
+          },
           "BRL": {
             "value": [
               {
@@ -2559,6 +3289,182 @@
               {
                 "type": 0,
                 "value": ") - Brazilian Real"
+              }
+            ]
+          },
+          "BRN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BRN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian New Cruzado (1989–1990)"
+              }
+            ]
+          },
+          "BRR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BRR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian Cruzeiro (1993–1994)"
+              }
+            ]
+          },
+          "BRZ": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BRZ ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Brazilian Cruzeiro (1942–1967)"
+              }
+            ]
+          },
+          "BSD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BSD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bahamian Dollar"
+              }
+            ]
+          },
+          "BTN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BTN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bhutanese Ngultrum"
+              }
+            ]
+          },
+          "BUK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BUK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Burmese Kyat"
+              }
+            ]
+          },
+          "BWP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BWP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Botswanan Pula"
+              }
+            ]
+          },
+          "BYB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BYB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Belarusian Ruble (1994–1999)"
+              }
+            ]
+          },
+          "BYN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BYN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Belarusian Ruble"
+              }
+            ]
+          },
+          "BYR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BYR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Belarusian Ruble (2000–2016)"
+              }
+            ]
+          },
+          "BZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "BZD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Belize Dollar"
               }
             ]
           },
@@ -2578,6 +3484,38 @@
               }
             ]
           },
+          "CDF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CDF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Congolese Franc"
+              }
+            ]
+          },
+          "CHE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CHE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - WIR Euro"
+              }
+            ]
+          },
           "CHF": {
             "value": [
               {
@@ -2591,6 +3529,102 @@
               {
                 "type": 0,
                 "value": ") - Swiss Franc"
+              }
+            ]
+          },
+          "CHW": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CHW ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - WIR Franc"
+              }
+            ]
+          },
+          "CLE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CLE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Chilean Escudo"
+              }
+            ]
+          },
+          "CLF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CLF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Chilean Unit of Account (UF)"
+              }
+            ]
+          },
+          "CLP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CLP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Chilean Peso"
+              }
+            ]
+          },
+          "CNH": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CNH ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Chinese Yuan (offshore)"
+              }
+            ]
+          },
+          "CNX": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CNX ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Chinese People’s Bank Dollar"
               }
             ]
           },
@@ -2610,6 +3644,150 @@
               }
             ]
           },
+          "COP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "COP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Colombian Peso"
+              }
+            ]
+          },
+          "COU": {
+            "value": [
+              {
+                "type": 0,
+                "value": "COU ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Colombian Real Value Unit"
+              }
+            ]
+          },
+          "CRC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CRC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Costa Rican Colón"
+              }
+            ]
+          },
+          "CSD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CSD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Serbian Dinar (2002–2006)"
+              }
+            ]
+          },
+          "CSK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CSK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Czechoslovak Hard Koruna"
+              }
+            ]
+          },
+          "CUC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CUC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Cuban Convertible Peso"
+              }
+            ]
+          },
+          "CUP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CUP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Cuban Peso"
+              }
+            ]
+          },
+          "CVE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CVE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Cape Verdean Escudo"
+              }
+            ]
+          },
+          "CYP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CYP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Cypriot Pound"
+              }
+            ]
+          },
           "CZK": {
             "value": [
               {
@@ -2623,6 +3801,54 @@
               {
                 "type": 0,
                 "value": ") - Czech Koruna"
+              }
+            ]
+          },
+          "DDM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DDM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - East German Mark"
+              }
+            ]
+          },
+          "DEM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DEM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - German Mark"
+              }
+            ]
+          },
+          "DJF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DJF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Djiboutian Franc"
               }
             ]
           },
@@ -2642,6 +3868,182 @@
               }
             ]
           },
+          "DOP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DOP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Dominican Peso"
+              }
+            ]
+          },
+          "DZD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "DZD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Algerian Dinar"
+              }
+            ]
+          },
+          "ECS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ECS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ecuadorian Sucre"
+              }
+            ]
+          },
+          "ECV": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ECV ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ecuadorian Unit of Constant Value"
+              }
+            ]
+          },
+          "EEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "EEK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Estonian Kroon"
+              }
+            ]
+          },
+          "EGP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "EGP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Egyptian Pound"
+              }
+            ]
+          },
+          "ERN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ERN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Eritrean Nakfa"
+              }
+            ]
+          },
+          "ESA": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ESA ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Spanish Peseta (A account)"
+              }
+            ]
+          },
+          "ESB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ESB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Spanish Peseta (convertible account)"
+              }
+            ]
+          },
+          "ESP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ESP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Spanish Peseta"
+              }
+            ]
+          },
+          "ETB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ETB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ethiopian Birr"
+              }
+            ]
+          },
           "EUR": {
             "value": [
               {
@@ -2655,6 +4057,70 @@
               {
                 "type": 0,
                 "value": ") - Euro"
+              }
+            ]
+          },
+          "FIM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FIM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Finnish Markka"
+              }
+            ]
+          },
+          "FJD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FJD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Fijian Dollar"
+              }
+            ]
+          },
+          "FKP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FKP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Falkland Islands Pound"
+              }
+            ]
+          },
+          "FRF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "FRF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - French Franc"
               }
             ]
           },
@@ -2674,6 +4140,54 @@
               }
             ]
           },
+          "GEK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GEK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Georgian Kupon Larit"
+              }
+            ]
+          },
+          "GEL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GEL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Georgian Lari"
+              }
+            ]
+          },
+          "GHC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GHC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ghanaian Cedi (1979–2007)"
+              }
+            ]
+          },
           "GHS": {
             "value": [
               {
@@ -2687,6 +4201,166 @@
               {
                 "type": 0,
                 "value": ") - Ghanaian Cedi"
+              }
+            ]
+          },
+          "GIP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GIP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Gibraltar Pound"
+              }
+            ]
+          },
+          "GMD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GMD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Gambian Dalasi"
+              }
+            ]
+          },
+          "GNF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GNF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Guinean Franc"
+              }
+            ]
+          },
+          "GNS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GNS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Guinean Syli"
+              }
+            ]
+          },
+          "GQE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GQE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Equatorial Guinean Ekwele"
+              }
+            ]
+          },
+          "GRD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GRD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Greek Drachma"
+              }
+            ]
+          },
+          "GTQ": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GTQ ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Guatemalan Quetzal"
+              }
+            ]
+          },
+          "GWE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GWE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Portuguese Guinea Escudo"
+              }
+            ]
+          },
+          "GWP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GWP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Guinea-Bissau Peso"
+              }
+            ]
+          },
+          "GYD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GYD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Guyanaese Dollar"
               }
             ]
           },
@@ -2706,6 +4380,166 @@
               }
             ]
           },
+          "HNL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "HNL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Honduran Lempira"
+              }
+            ]
+          },
+          "HRD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "HRD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Croatian Dinar"
+              }
+            ]
+          },
+          "HRK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "HRK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Croatian Kuna"
+              }
+            ]
+          },
+          "HTG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "HTG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Haitian Gourde"
+              }
+            ]
+          },
+          "HUF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "HUF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Hungarian Forint"
+              }
+            ]
+          },
+          "IDR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IDR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Indonesian Rupiah"
+              }
+            ]
+          },
+          "IEP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IEP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Irish Pound"
+              }
+            ]
+          },
+          "ILP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ILP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Israeli Pound"
+              }
+            ]
+          },
+          "ILR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ILR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Israeli Shekel (1980–1985)"
+              }
+            ]
+          },
+          "ILS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ILS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Israeli New Shekel"
+              }
+            ]
+          },
           "INR": {
             "value": [
               {
@@ -2719,6 +4553,118 @@
               {
                 "type": 0,
                 "value": ") - Indian Rupee"
+              }
+            ]
+          },
+          "IQD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IQD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Iraqi Dinar"
+              }
+            ]
+          },
+          "IRR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "IRR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Iranian Rial"
+              }
+            ]
+          },
+          "ISJ": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ISJ ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Icelandic Króna (1918–1981)"
+              }
+            ]
+          },
+          "ISK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ISK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Icelandic Króna"
+              }
+            ]
+          },
+          "ITL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ITL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Italian Lira"
+              }
+            ]
+          },
+          "JMD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "JMD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Jamaican Dollar"
+              }
+            ]
+          },
+          "JOD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "JOD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Jordanian Dinar"
               }
             ]
           },
@@ -2738,6 +4684,854 @@
               }
             ]
           },
+          "KES": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KES ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Kenyan Shilling"
+              }
+            ]
+          },
+          "KGS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KGS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Kyrgystani Som"
+              }
+            ]
+          },
+          "KHR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KHR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Cambodian Riel"
+              }
+            ]
+          },
+          "KMF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KMF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Comorian Franc"
+              }
+            ]
+          },
+          "KPW": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KPW ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - North Korean Won"
+              }
+            ]
+          },
+          "KRH": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KRH ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - South Korean Hwan (1953–1962)"
+              }
+            ]
+          },
+          "KRO": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KRO ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - South Korean Won (1945–1953)"
+              }
+            ]
+          },
+          "KRW": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KRW ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - South Korean Won"
+              }
+            ]
+          },
+          "KWD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KWD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Kuwaiti Dinar"
+              }
+            ]
+          },
+          "KYD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KYD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Cayman Islands Dollar"
+              }
+            ]
+          },
+          "KZT": {
+            "value": [
+              {
+                "type": 0,
+                "value": "KZT ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Kazakhstani Tenge"
+              }
+            ]
+          },
+          "LAK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LAK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Laotian Kip"
+              }
+            ]
+          },
+          "LBP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LBP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Lebanese Pound"
+              }
+            ]
+          },
+          "LKR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LKR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Sri Lankan Rupee"
+              }
+            ]
+          },
+          "LRD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LRD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Liberian Dollar"
+              }
+            ]
+          },
+          "LSL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LSL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Lesotho Loti"
+              }
+            ]
+          },
+          "LTL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LTL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Lithuanian Litas"
+              }
+            ]
+          },
+          "LTT": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LTT ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Lithuanian Talonas"
+              }
+            ]
+          },
+          "LUC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LUC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Luxembourgian Convertible Franc"
+              }
+            ]
+          },
+          "LUF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LUF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Luxembourgian Franc"
+              }
+            ]
+          },
+          "LUL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LUL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Luxembourg Financial Franc"
+              }
+            ]
+          },
+          "LVL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LVL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Latvian Lats"
+              }
+            ]
+          },
+          "LVR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LVR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Latvian Ruble"
+              }
+            ]
+          },
+          "LYD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "LYD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Libyan Dinar"
+              }
+            ]
+          },
+          "MAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MAD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Moroccan Dirham"
+              }
+            ]
+          },
+          "MAF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MAF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Moroccan Franc"
+              }
+            ]
+          },
+          "MCF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MCF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Monegasque Franc"
+              }
+            ]
+          },
+          "MDC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MDC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Moldovan Cupon"
+              }
+            ]
+          },
+          "MDL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MDL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Moldovan Leu"
+              }
+            ]
+          },
+          "MGA": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MGA ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Malagasy Ariary"
+              }
+            ]
+          },
+          "MGF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MGF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Malagasy Franc"
+              }
+            ]
+          },
+          "MKD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MKD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Macedonian Denar"
+              }
+            ]
+          },
+          "MKN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MKN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Macedonian Denar (1992–1993)"
+              }
+            ]
+          },
+          "MLF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MLF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Malian Franc"
+              }
+            ]
+          },
+          "MMK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MMK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Myanmar Kyat"
+              }
+            ]
+          },
+          "MNT": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MNT ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mongolian Tugrik"
+              }
+            ]
+          },
+          "MOP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MOP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Macanese Pataca"
+              }
+            ]
+          },
+          "MRO": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MRO ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mauritanian Ouguiya (1973–2017)"
+              }
+            ]
+          },
+          "MRU": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MRU ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mauritanian Ouguiya"
+              }
+            ]
+          },
+          "MTL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MTL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Maltese Lira"
+              }
+            ]
+          },
+          "MTP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MTP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Maltese Pound"
+              }
+            ]
+          },
+          "MUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MUR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mauritian Rupee"
+              }
+            ]
+          },
+          "MVP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MVP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Maldivian Rupee (1947–1981)"
+              }
+            ]
+          },
+          "MVR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MVR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Maldivian Rufiyaa"
+              }
+            ]
+          },
+          "MWK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MWK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Malawian Kwacha"
+              }
+            ]
+          },
+          "MXN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MXN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mexican Peso"
+              }
+            ]
+          },
+          "MXP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MXP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mexican Silver Peso (1861–1992)"
+              }
+            ]
+          },
+          "MXV": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MXV ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mexican Investment Unit"
+              }
+            ]
+          },
+          "MYR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MYR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Malaysian Ringgit"
+              }
+            ]
+          },
+          "MZE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MZE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mozambican Escudo"
+              }
+            ]
+          },
+          "MZM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MZM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mozambican Metical (1980–2006)"
+              }
+            ]
+          },
+          "MZN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "MZN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Mozambican Metical"
+              }
+            ]
+          },
+          "NAD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NAD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Namibian Dollar"
+              }
+            ]
+          },
           "NGN": {
             "value": [
               {
@@ -2751,6 +5545,54 @@
               {
                 "type": 0,
                 "value": ") - Nigerian Naira"
+              }
+            ]
+          },
+          "NIC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NIC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Nicaraguan Córdoba (1988–1991)"
+              }
+            ]
+          },
+          "NIO": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NIO ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Nicaraguan Córdoba"
+              }
+            ]
+          },
+          "NLG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NLG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Dutch Guilder"
               }
             ]
           },
@@ -2770,6 +5612,22 @@
               }
             ]
           },
+          "NPR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "NPR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Nepalese Rupee"
+              }
+            ]
+          },
           "NZD": {
             "value": [
               {
@@ -2786,6 +5644,326 @@
               }
             ]
           },
+          "OMR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "OMR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Omani Rial"
+              }
+            ]
+          },
+          "PAB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PAB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Panamanian Balboa"
+              }
+            ]
+          },
+          "PEI": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PEI ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Peruvian Inti"
+              }
+            ]
+          },
+          "PEN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PEN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Peruvian Sol"
+              }
+            ]
+          },
+          "PES": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PES ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Peruvian Sol (1863–1965)"
+              }
+            ]
+          },
+          "PGK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PGK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Papua New Guinean Kina"
+              }
+            ]
+          },
+          "PHP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PHP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Philippine Peso"
+              }
+            ]
+          },
+          "PKR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PKR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Pakistani Rupee"
+              }
+            ]
+          },
+          "PLN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PLN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Polish Zloty"
+              }
+            ]
+          },
+          "PLZ": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PLZ ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Polish Zloty (1950–1995)"
+              }
+            ]
+          },
+          "PTE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PTE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Portuguese Escudo"
+              }
+            ]
+          },
+          "PYG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PYG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Paraguayan Guarani"
+              }
+            ]
+          },
+          "QAR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "QAR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Qatari Riyal"
+              }
+            ]
+          },
+          "RHD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "RHD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Rhodesian Dollar"
+              }
+            ]
+          },
+          "ROL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ROL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Romanian Leu (1952–2006)"
+              }
+            ]
+          },
+          "RON": {
+            "value": [
+              {
+                "type": 0,
+                "value": "RON ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Romanian Leu"
+              }
+            ]
+          },
+          "RSD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "RSD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Serbian Dinar"
+              }
+            ]
+          },
+          "RUB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "RUB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Russian Ruble"
+              }
+            ]
+          },
+          "RUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "RUR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Russian Ruble (1991–1998)"
+              }
+            ]
+          },
+          "RWF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "RWF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Rwandan Franc"
+              }
+            ]
+          },
           "SAR": {
             "value": [
               {
@@ -2799,6 +5977,86 @@
               {
                 "type": 0,
                 "value": ") - Saudi Riyal"
+              }
+            ]
+          },
+          "SBD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SBD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Solomon Islands Dollar"
+              }
+            ]
+          },
+          "SCR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SCR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Seychellois Rupee"
+              }
+            ]
+          },
+          "SDD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SDD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Sudanese Dinar (1992–2007)"
+              }
+            ]
+          },
+          "SDG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SDG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Sudanese Pound"
+              }
+            ]
+          },
+          "SDP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SDP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Sudanese Pound (1957–1998)"
               }
             ]
           },
@@ -2834,6 +6092,422 @@
               }
             ]
           },
+          "SHP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SHP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - St. Helena Pound"
+              }
+            ]
+          },
+          "SIT": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SIT ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Slovenian Tolar"
+              }
+            ]
+          },
+          "SKK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SKK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Slovak Koruna"
+              }
+            ]
+          },
+          "SLE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SLE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Sierra Leonean Leone"
+              }
+            ]
+          },
+          "SLL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SLL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Sierra Leonean Leone (1964—2022)"
+              }
+            ]
+          },
+          "SOS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SOS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Somali Shilling"
+              }
+            ]
+          },
+          "SRD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SRD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Surinamese Dollar"
+              }
+            ]
+          },
+          "SRG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SRG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Surinamese Guilder"
+              }
+            ]
+          },
+          "SSP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SSP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - South Sudanese Pound"
+              }
+            ]
+          },
+          "STD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "STD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - São Tomé & Príncipe Dobra (1977–2017)"
+              }
+            ]
+          },
+          "STN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "STN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - São Tomé & Príncipe Dobra"
+              }
+            ]
+          },
+          "SUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SUR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Soviet Rouble"
+              }
+            ]
+          },
+          "SVC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SVC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Salvadoran Colón"
+              }
+            ]
+          },
+          "SYP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SYP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Syrian Pound"
+              }
+            ]
+          },
+          "SZL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "SZL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Swazi Lilangeni"
+              }
+            ]
+          },
+          "THB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "THB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Thai Baht"
+              }
+            ]
+          },
+          "TJR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TJR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Tajikistani Ruble"
+              }
+            ]
+          },
+          "TJS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TJS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Tajikistani Somoni"
+              }
+            ]
+          },
+          "TMM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TMM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Turkmenistani Manat (1993–2009)"
+              }
+            ]
+          },
+          "TMT": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TMT ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Turkmenistani Manat"
+              }
+            ]
+          },
+          "TND": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TND ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Tunisian Dinar"
+              }
+            ]
+          },
+          "TOP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TOP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Tongan Paʻanga"
+              }
+            ]
+          },
+          "TPE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TPE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Timorese Escudo"
+              }
+            ]
+          },
+          "TRL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TRL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Turkish Lira (1922–2005)"
+              }
+            ]
+          },
+          "TRY": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TRY ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Turkish Lira"
+              }
+            ]
+          },
+          "TTD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TTD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Trinidad & Tobago Dollar"
+              }
+            ]
+          },
           "TWD": {
             "value": [
               {
@@ -2847,6 +6521,86 @@
               {
                 "type": 0,
                 "value": ") - New Taiwan Dollar"
+              }
+            ]
+          },
+          "TZS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "TZS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Tanzanian Shilling"
+              }
+            ]
+          },
+          "UAH": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UAH ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ukrainian Hryvnia"
+              }
+            ]
+          },
+          "UAK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UAK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ukrainian Karbovanets"
+              }
+            ]
+          },
+          "UGS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UGS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ugandan Shilling (1966–1987)"
+              }
+            ]
+          },
+          "UGX": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UGX ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Ugandan Shilling"
               }
             ]
           },
@@ -2866,6 +6620,710 @@
               }
             ]
           },
+          "USN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "USN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - United States Dollar (Next day)"
+              }
+            ]
+          },
+          "USS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "USS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - United States Dollar (Same day)"
+              }
+            ]
+          },
+          "UYI": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UYI ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Uruguayan Peso (Indexed Units)"
+              }
+            ]
+          },
+          "UYP": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UYP ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Uruguayan Peso (1975–1993)"
+              }
+            ]
+          },
+          "UYU": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UYU ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Uruguayan Peso"
+              }
+            ]
+          },
+          "UYW": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UYW ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Uruguayan Nominal Wage Index Unit"
+              }
+            ]
+          },
+          "UZS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "UZS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Uzbekistani Som"
+              }
+            ]
+          },
+          "VEB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VEB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Venezuelan Bolívar (1871–2008)"
+              }
+            ]
+          },
+          "VED": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VED ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Bolívar Soberano"
+              }
+            ]
+          },
+          "VEF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VEF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Venezuelan Bolívar (2008–2018)"
+              }
+            ]
+          },
+          "VES": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VES ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Venezuelan Bolívar"
+              }
+            ]
+          },
+          "VND": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VND ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Vietnamese Dong"
+              }
+            ]
+          },
+          "VNN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VNN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Vietnamese Dong (1978–1985)"
+              }
+            ]
+          },
+          "VUV": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VUV ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Vanuatu Vatu"
+              }
+            ]
+          },
+          "WST": {
+            "value": [
+              {
+                "type": 0,
+                "value": "WST ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Samoan Tala"
+              }
+            ]
+          },
+          "XAF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XAF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Central African CFA Franc"
+              }
+            ]
+          },
+          "XAG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XAG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Silver"
+              }
+            ]
+          },
+          "XAU": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XAU ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Gold"
+              }
+            ]
+          },
+          "XBA": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XBA ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - European Composite Unit"
+              }
+            ]
+          },
+          "XBB": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XBB ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - European Monetary Unit"
+              }
+            ]
+          },
+          "XBC": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XBC ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - European Unit of Account (XBC)"
+              }
+            ]
+          },
+          "XBD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XBD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - European Unit of Account (XBD)"
+              }
+            ]
+          },
+          "XCD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XCD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - East Caribbean Dollar"
+              }
+            ]
+          },
+          "XCG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XCG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Caribbean guilder"
+              }
+            ]
+          },
+          "XDR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XDR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Special Drawing Rights"
+              }
+            ]
+          },
+          "XEU": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XEU ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - European Currency Unit"
+              }
+            ]
+          },
+          "XFO": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XFO ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - French Gold Franc"
+              }
+            ]
+          },
+          "XFU": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XFU ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - French UIC-Franc"
+              }
+            ]
+          },
+          "XOF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XOF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - West African CFA Franc"
+              }
+            ]
+          },
+          "XPD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XPD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Palladium"
+              }
+            ]
+          },
+          "XPF": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XPF ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - CFP Franc"
+              }
+            ]
+          },
+          "XPT": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XPT ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Platinum"
+              }
+            ]
+          },
+          "XRE": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XRE ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - RINET Funds"
+              }
+            ]
+          },
+          "XSU": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XSU ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Sucre"
+              }
+            ]
+          },
+          "XTS": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XTS ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Testing Currency Code"
+              }
+            ]
+          },
+          "XUA": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XUA ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - ADB Unit of Account"
+              }
+            ]
+          },
+          "XXX": {
+            "value": [
+              {
+                "type": 0,
+                "value": "XXX ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Unknown Currency"
+              }
+            ]
+          },
+          "YDD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "YDD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Yemeni Dinar"
+              }
+            ]
+          },
+          "YER": {
+            "value": [
+              {
+                "type": 0,
+                "value": "YER ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Yemeni Rial"
+              }
+            ]
+          },
+          "YUD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "YUD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Yugoslavian Hard Dinar (1966–1990)"
+              }
+            ]
+          },
+          "YUM": {
+            "value": [
+              {
+                "type": 0,
+                "value": "YUM ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Yugoslavian New Dinar (1994–2002)"
+              }
+            ]
+          },
+          "YUN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "YUN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Yugoslavian Convertible Dinar (1990–1992)"
+              }
+            ]
+          },
+          "YUR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "YUR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Yugoslavian Reformed Dinar (1992–1993)"
+              }
+            ]
+          },
+          "ZAL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZAL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - South African Rand (financial)"
+              }
+            ]
+          },
           "ZAR": {
             "value": [
               {
@@ -2882,10 +7340,156 @@
               }
             ]
           },
+          "ZMK": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZMK ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zambian Kwacha (1968–2012)"
+              }
+            ]
+          },
+          "ZMW": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZMW ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zambian Kwacha"
+              }
+            ]
+          },
+          "ZRN": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZRN ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zairean New Zaire (1993–1998)"
+              }
+            ]
+          },
+          "ZRZ": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZRZ ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zairean Zaire (1971–1993)"
+              }
+            ]
+          },
+          "ZWD": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZWD ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zimbabwean Dollar (1980–2008)"
+              }
+            ]
+          },
+          "ZWG": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZWG ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zimbabwean Gold"
+              }
+            ]
+          },
+          "ZWL": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZWL ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zimbabwean Dollar (2009–2024)"
+              }
+            ]
+          },
+          "ZWR": {
+            "value": [
+              {
+                "type": 0,
+                "value": "ZWR ("
+              },
+              {
+                "type": 1,
+                "value": "symbol"
+              },
+              {
+                "type": 0,
+                "value": ") - Zimbabwean Dollar (2008)"
+              }
+            ]
+          },
           "other": {
             "value": []
           }
         }
+      }
+    ],
+    "currencyPlaceholder": [
+      {
+        "type": 0,
+        "value": "Select currency"
+      }
+    ],
+    "currencyRemoveErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to remove exchange rate"
+      }
+    ],
+    "currencyRemoveErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to remove exchange rate"
       }
     ],
     "dashboardCumulativeCostComparison": [
@@ -3710,7 +8314,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "Active rate (this month, UTC)"
+                "value": "Active rate"
               }
             ]
           },
@@ -3719,6 +8323,14 @@
               {
                 "type": 0,
                 "value": "Cost category names"
+              }
+            ]
+          },
+          "base_currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Base currency"
               }
             ]
           },
@@ -3994,22 +8606,6 @@
               }
             ]
           },
-          "status": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Status"
-              }
-            ]
-          },
-          "subscription_guid": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Account names"
-              }
-            ]
-          },
           "source_type": {
             "value": [
               {
@@ -4034,11 +8630,27 @@
               }
             ]
           },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Status"
+              }
+            ]
+          },
           "storage": {
             "value": [
               {
                 "type": 0,
                 "value": "Storage"
+              }
+            ]
+          },
+          "subscription_guid": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Account names"
               }
             ]
           },
@@ -4063,6 +8675,14 @@
               {
                 "type": 0,
                 "value": "Tag keys"
+              }
+            ]
+          },
+          "target_currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Target currency"
               }
             ]
           },
@@ -5168,10 +9788,46 @@
         "pluralType": "cardinal"
       }
     ],
+    "exchangeRateAdd": [
+      {
+        "type": 0,
+        "value": "Create exchange rate"
+      }
+    ],
+    "exchangeRateAddTitle": [
+      {
+        "type": 0,
+        "value": "Create static exchange rate"
+      }
+    ],
+    "exchangeRateCurrencyPair": [
+      {
+        "type": 0,
+        "value": "Currency pair"
+      }
+    ],
+    "exchangeRateCurrencyPairDesc": [
+      {
+        "type": 0,
+        "value": "If a code is not yet on in the Currencies tab, it is turned on when you save, so this custom window and the daily reference can both work for that path over time."
+      }
+    ],
     "exchangeRateDesc": [
       {
         "type": 0,
         "value": "Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled."
+      }
+    ],
+    "exchangeRateDisabled": [
+      {
+        "type": 0,
+        "value": "Cannot disable currency because it may be used by one or more cost models or price lists."
+      }
+    ],
+    "exchangeRateEditTitle": [
+      {
+        "type": 0,
+        "value": "Edit exchange rate"
       }
     ],
     "exchangeRateEmpty": [
@@ -5184,6 +9840,12 @@
       {
         "type": 0,
         "value": "Exchange rates may be disabled. Turn on Show disabled to view and restore them."
+      }
+    ],
+    "exchangeRateEnableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Toggle currency enabled or disabled"
       }
     ],
     "exchangeRateLoadingStateDesc": [
@@ -5208,6 +9870,81 @@
       {
         "type": 0,
         "value": "Use \"Create exchange rate\" to create an exchange rate."
+      }
+    ],
+    "exchangeRateRecalculateDesc": [
+      {
+        "type": 0,
+        "value": "When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Changes will apply only to data from the current month onwards; historical data from past months will not be affected."
+      }
+    ],
+    "exchangeRateStatus": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "active": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Active"
+              }
+            ]
+          },
+          "expired": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Expired"
+              }
+            ]
+          },
+          "pending": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Pending"
+              }
+            ]
+          },
+          "unavailable": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Unavailable"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
+    "exchangeRateSwapCurrency": [
+      {
+        "type": 0,
+        "value": "Swap currencies"
+      }
+    ],
+    "exchangeRateValidityPeriodDesc": [
+      {
+        "type": 0,
+        "value": "The start month is counted from the 1st; the end month includes every day through that month's last calendar day."
+      }
+    ],
+    "exchangeRateValidityPeriodOverlap": [
+      {
+        "type": 0,
+        "value": "This validity period overlaps another rate for the same currency pair. The other row is valid through "
+      },
+      {
+        "type": 1,
+        "value": "date"
+      },
+      {
+        "type": 0,
+        "value": ". Change your dates or edit that row."
       }
     ],
     "excludeLabel": [
@@ -13616,6 +18353,57 @@
         }
       }
     ],
+    "settingsSuccessCurrency": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "add": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rate added"
+              }
+            ]
+          },
+          "disable": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rate disabled"
+              }
+            ]
+          },
+          "edit": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rate updated"
+              }
+            ]
+          },
+          "enable": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rate enabled"
+              }
+            ]
+          },
+          "remove": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rate removed"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
     "settingsSuccessDesc": [
       {
         "type": 0,
@@ -15105,6 +19893,12 @@
       {
         "type": 0,
         "value": "Start period must be <= end period"
+      }
+    ],
+    "validityPeriodStartMonthPastError": [
+      {
+        "type": 0,
+        "value": "Start period cannot be a past month"
       }
     ],
     "validityPeriodWarning": [

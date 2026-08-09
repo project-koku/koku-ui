@@ -448,7 +448,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
   private updateReport = () => {
     const {
       accountSettings,
-      accountSettingsError,
       accountSettingsFetchStatus,
       fetchAccountSettings,
       fetchReport,
@@ -459,7 +458,6 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     if (
       isSettingsDataRetentionPeriodEnabled &&
       !accountSettings &&
-      !accountSettingsError &&
       accountSettingsFetchStatus !== FetchStatus.inProgress
     ) {
       fetchAccountSettings(AccountSettingsType.dataRetention);
