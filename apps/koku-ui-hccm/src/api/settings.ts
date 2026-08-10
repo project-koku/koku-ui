@@ -73,10 +73,10 @@ export const enum SettingsType {
   costCategoriesDisable = 'costCategoriesDisable',
   currency = 'currency',
   currencyAdd = 'currencyAdd',
+  currencyDelete = 'currencyDelete',
   currencyDisable = 'currencyDisable',
   currencyEdit = 'currencyEdit',
   currencyEnable = 'currencyEnable',
-  currencyRemove = 'currencyRemove',
   platformProjects = 'platformProjects',
   platformProjectsAdd = 'platformProjectsAdd',
   platformProjectsRemove = 'platformProjectsRemove',
@@ -97,10 +97,10 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
   [SettingsType.costCategoriesDisable]: 'settings/aws_category_keys/disable/',
   [SettingsType.currency]: 'settings/currency/',
   [SettingsType.currencyAdd]: 'settings/currency/static-rates/',
+  [SettingsType.currencyDelete]: 'settings/currency/static-rates/',
   [SettingsType.currencyDisable]: 'settings/currency/enabled/',
   [SettingsType.currencyEdit]: 'settings/currency/static-rates/',
   [SettingsType.currencyEnable]: 'settings/currency/enabled/',
-  [SettingsType.currencyRemove]: 'settings/currency/static-rates/',
   [SettingsType.platformProjects]: 'settings/cost-groups/',
   [SettingsType.platformProjectsAdd]: 'settings/cost-groups/add/',
   [SettingsType.platformProjectsRemove]: 'settings/cost-groups/remove/',
@@ -128,9 +128,9 @@ export function updateCategorySettings(settingsType: SettingsType, payload: Sett
 
 export type UpdateCurrencySettingsArgs =
   | { settingsType: SettingsType.currencyAdd; payload: SettingsRatePayload }
+  | { settingsType: SettingsType.currencyDelete; uuid: string }
   | { settingsType: SettingsType.currencyEdit; payload: SettingsRatePayload; uuid: string }
-  | { settingsType: SettingsType.currencyEnable | SettingsType.currencyDisable; code: string }
-  | { settingsType: SettingsType.currencyRemove; uuid: string };
+  | { settingsType: SettingsType.currencyEnable | SettingsType.currencyDisable; code: string };
 
 export function updateCurrencySettings(args: UpdateCurrencySettingsArgs) {
   const path = SettingsTypePaths[args.settingsType];
@@ -138,14 +138,14 @@ export function updateCurrencySettings(args: UpdateCurrencySettingsArgs) {
   switch (args.settingsType) {
     case SettingsType.currencyAdd:
       return axiosInstance.post(`${path}`, args.payload);
+    case SettingsType.currencyDelete:
+      return axiosInstance.delete(`${path}${args.uuid}/`);
     case SettingsType.currencyEdit:
-      return axiosInstance.put(`${path}${args.uuid}`, args.payload);
+      return axiosInstance.put(`${path}${args.uuid}/`, args.payload);
     case SettingsType.currencyEnable:
       return axiosInstance.post(`${path}${args.code}/`);
     case SettingsType.currencyDisable:
       return axiosInstance.delete(`${path}${args.code}/`);
-    case SettingsType.currencyRemove:
-      return axiosInstance.delete(`${path}${args.uuid}`);
   }
 }
 

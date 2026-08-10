@@ -19,6 +19,7 @@ import type { AxiosError } from 'axios';
 import type { AxiosResponse } from 'axios/index';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
+import { getErrorNotification } from 'routes/settings/utils';
 import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
@@ -145,18 +146,14 @@ export function updateCategorySettings(settingsType: SettingsType, payload: Sett
         );
       })
       .catch(err => {
-        const description = intl.formatMessage(messages.settingsErrorDesc);
-        const title = intl.formatMessage(messages.settingsErrorTitle);
-
         dispatch(
           updateCategorySettingsFailure(err, {
             ...meta,
-            notification: {
-              description,
-              dismissable: true,
-              title,
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.settingsErrorTitle),
+              intl.formatMessage(messages.settingsErrorDesc)
+            ),
           })
         );
       });
@@ -186,6 +183,10 @@ export function updateCurrencySettings(args: UpdateCurrencySettingsArgs): ThunkA
         msg = messages.settingsSuccessCurrency;
         status = 'add';
         break;
+      case SettingsType.currencyDelete:
+        msg = messages.settingsSuccessCurrency;
+        status = 'delete';
+        break;
       case SettingsType.currencyDisable:
         msg = messages.settingsSuccessCurrency;
         status = 'disable';
@@ -197,10 +198,6 @@ export function updateCurrencySettings(args: UpdateCurrencySettingsArgs): ThunkA
       case SettingsType.currencyEnable:
         msg = messages.settingsSuccessCurrency;
         status = 'enable';
-        break;
-      case SettingsType.currencyRemove:
-        msg = messages.settingsSuccessCurrency;
-        status = 'remove';
         break;
     }
 
@@ -225,6 +222,9 @@ export function updateCurrencySettings(args: UpdateCurrencySettingsArgs): ThunkA
         if (settingsType === SettingsType.currencyAdd) {
           description = intl.formatMessage(messages.currencyAddErrorDesc);
           title = intl.formatMessage(messages.currencyAddErrorTitle);
+        } else if (settingsType === SettingsType.currencyDelete) {
+          description = intl.formatMessage(messages.currencyDeleteErrorDesc);
+          title = intl.formatMessage(messages.currencyDeleteErrorTitle);
         } else if (settingsType === SettingsType.currencyDisable) {
           description = intl.formatMessage(messages.currencyDisableErrorDesc);
           title = intl.formatMessage(messages.currencyDisableErrorTitle);
@@ -234,20 +234,12 @@ export function updateCurrencySettings(args: UpdateCurrencySettingsArgs): ThunkA
         } else if (settingsType === SettingsType.currencyEnable) {
           description = intl.formatMessage(messages.currencyEnableErrorDesc);
           title = intl.formatMessage(messages.currencyEnableErrorTitle);
-        } else if (settingsType === SettingsType.currencyRemove) {
-          description = intl.formatMessage(messages.currencyRemoveErrorDesc);
-          title = intl.formatMessage(messages.currencyRemoveErrorTitle);
         }
 
         dispatch(
           updateCurrencySettingsFailure(err, {
             ...meta,
-            notification: {
-              description,
-              dismissable: true,
-              title,
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(err, title, description),
           })
         );
       });
@@ -299,18 +291,14 @@ export function updatePlatformSettings(settingsType: SettingsType, payload: Sett
         );
       })
       .catch(err => {
-        const description = intl.formatMessage(messages.settingsErrorDesc);
-        const title = intl.formatMessage(messages.settingsErrorTitle);
-
         dispatch(
           updatePlatformSettingsFailure(err, {
             ...meta,
-            notification: {
-              description,
-              dismissable: true,
-              title,
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.settingsErrorTitle),
+              intl.formatMessage(messages.settingsErrorDesc)
+            ),
           })
         );
       });
@@ -400,12 +388,7 @@ export function updateTagSettings(settingsType: SettingsType, payload: SettingsT
         dispatch(
           updateTagSettingsFailure(err, {
             ...meta,
-            notification: {
-              description,
-              dismissable: true,
-              title,
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(err, title, description),
           })
         );
       });

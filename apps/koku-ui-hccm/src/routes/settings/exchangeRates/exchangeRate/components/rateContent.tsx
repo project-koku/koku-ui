@@ -1,19 +1,22 @@
 import './rateContent.scss';
 
 import type { CalendarMonthInlineProps } from '@patternfly/react-core';
-import { Button } from '@patternfly/react-core';
-import { ContentVariants } from '@patternfly/react-core';
-import { Split, Stack, StackItem } from '@patternfly/react-core';
-import { SplitItem } from '@patternfly/react-core';
 import {
   Alert,
   AlertActionCloseButton,
+  Button,
   CalendarMonth,
   Content,
+  ContentVariants,
   Form,
   FormGroup,
   HelperText,
   HelperTextItem,
+  Split,
+  SplitItem,
+  Stack,
+  StackItem,
+  Tooltip,
 } from '@patternfly/react-core';
 import { ArrowsAltHIcon } from '@patternfly/react-icons';
 import { getQuery } from 'api/queries/query';
@@ -29,6 +32,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectWrapper } from 'routes/components/selectWrapper';
 import { Selector, SimpleInput } from 'routes/settings/components';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -116,23 +120,24 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const isStartDateInvalid = (!startDate && isStartDateDirty) || startDateError !== undefined;
     const isTargetCurrencyInvalid = !targetCurrency && isTargetCurrencyDirty;
 
+    // Edit excludes self; add/duplicate create a new rate so the source uuid must not be excluded.
     const overlappingRate = findOverlappingRate(
       currencies?.data,
       baseCurrency,
       targetCurrency,
       startDate,
       endDate,
-      uuid
+      isAddRate ? undefined : uuid
     );
     const isDateRangeOverlapping = overlappingRate !== undefined;
 
-    // Unsaved changes checks — add requires all required fields (like price list measurement)
+    // Blank add requires currency pair + rate; edit/duplicate (prefilled via uuid) enable save on any change
     const hasAddRateChanges = isBaseCurrencyDirty && isExchangeRateDirty && isTargetCurrencyDirty;
 
     const hasEditRateChanges =
       isBaseCurrencyDirty || isEndDateDirty || isExchangeRateDirty || isStartDateDirty || isTargetCurrencyDirty;
 
-    const hasUnsavedChanges = isAddRate ? hasAddRateChanges : hasEditRateChanges;
+    const hasUnsavedChanges = isAddRate && !uuid ? hasAddRateChanges : hasEditRateChanges;
 
     const isDisabled =
       !hasUnsavedChanges ||
@@ -166,6 +171,66 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
           }
           monthAppendTo={document.body}
         />
+      );
+    };
+
+    const getBaseCurrencySelector = () => {
+      const isEditMode = !isAddRate;
+      const select = (
+        <SelectWrapper
+          id="base-currency"
+          isDisabled={isEditMode || baseCurrencyOptions?.length === 0}
+          maxMenuHeight={styles.selector.maxHeight as string}
+          onSelect={(_evt, option) => handleOnBaseCurrencySelect(option.value)}
+          options={baseCurrencyOptions}
+          placeholder={intl.formatMessage(messages.select)}
+          selection={baseCurrency}
+          status={isBaseCurrencyInvalid ? 'danger' : undefined}
+          toggleAriaLabel={intl.formatMessage(messages.priceListSelectMetric)}
+        />
+      );
+
+      return (
+        <FormGroup
+          fieldId="base-currency"
+          isRequired
+          label={intl.formatMessage(messages.detailsResourceNames, { value: 'base_currency' })}
+        >
+          {/* Wrap only the control so the tooltip sits close to the toggle, like the swap button. */}
+          {isEditMode ? (
+            <Tooltip content={intl.formatMessage(messages.exchangeRateBaseCurrencyImmutable)}>
+              <span style={{ display: 'block' }} tabIndex={0}>
+                {select}
+              </span>
+            </Tooltip>
+          ) : (
+            select
+          )}
+          {isBaseCurrencyInvalid && (
+            <HelperText>
+              <HelperTextItem variant="error">{intl.formatMessage(messages.requiredField)}</HelperTextItem>
+            </HelperText>
+          )}
+        </FormGroup>
+      );
+    };
+
+    const getSwapCurrencyButton = () => {
+      const isEditMode = !isAddRate;
+      const swapButton = (
+        <Button
+          aria-label={intl.formatMessage(messages.exchangeRateSwapCurrency)}
+          icon={<ArrowsAltHIcon />}
+          {...(isEditMode ? { isAriaDisabled: true } : { isDisabled: !(baseCurrency && targetCurrency) })}
+          onClick={handleOnSwapCurrency}
+          variant="plain"
+        />
+      );
+
+      return isEditMode ? (
+        <Tooltip content={intl.formatMessage(messages.exchangeRateBaseCurrencyImmutable)}>{swapButton}</Tooltip>
+      ) : (
+        swapButton
       );
     };
 
@@ -272,31 +337,10 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
               >
                 <Split>
                   <SplitItem isFilled>
-                    <Selector
-                      helperTextInvalid={intl.formatMessage(messages.requiredField)}
-                      id="base-currency"
-                      isDisabled={baseCurrencyOptions?.length === 0}
-                      isInvalid={isBaseCurrencyInvalid}
-                      isRequired
-                      label={intl.formatMessage(messages.detailsResourceNames, { value: 'base_currency' })}
-                      maxMenuHeight={styles.selector.maxHeight as string}
-                      options={baseCurrencyOptions}
-                      onSelect={(_evt, value) => handleOnBaseCurrencySelect(value)}
-                      placeholderText={intl.formatMessage(messages.select)}
-                      toggleAriaLabel={intl.formatMessage(messages.priceListSelectMetric)}
-                      value={baseCurrency}
-                    />
+                    {getBaseCurrencySelector()}
                   </SplitItem>
                   <SplitItem>
-                    <div style={styles.swapCurrency}>
-                      <Button
-                        aria-label={intl.formatMessage(messages.exchangeRateSwapCurrency)}
-                        icon={<ArrowsAltHIcon />}
-                        isDisabled={!(baseCurrency && targetCurrency)}
-                        onClick={handleOnSwapCurrency}
-                        variant="plain"
-                      />
-                    </div>
+                    <div style={styles.swapCurrency}>{getSwapCurrencyButton()}</div>
                   </SplitItem>
                   <SplitItem isFilled>
                     <Selector
@@ -391,8 +435,10 @@ const useMapToProps = (): RateContentStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const settingsQuery = {
+    filter: {
+      enabled: true, // Show only enabled
+    },
     limit: 1000, // Need all currencies for base and target options
-    enabled: true,
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
