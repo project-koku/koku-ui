@@ -336,9 +336,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
                 label={intl.formatMessage(messages.exchangeRateCurrencyPair)}
               >
                 <Split>
-                  <SplitItem isFilled>
-                    {getBaseCurrencySelector()}
-                  </SplitItem>
+                  <SplitItem isFilled>{getBaseCurrencySelector()}</SplitItem>
                   <SplitItem>
                     <div style={styles.swapCurrency}>{getSwapCurrencyButton()}</div>
                   </SplitItem>

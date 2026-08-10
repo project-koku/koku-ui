@@ -1,19 +1,13 @@
-import { Alert, Content, ContentVariants, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
+import { Content, ContentVariants, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
 import type { PriceListData } from 'api/priceList';
 import type { Provider } from 'api/providers';
 import { ProviderType } from 'api/providers';
-import type { AxiosError } from 'axios';
 import { useIsGpuToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { WarningIcon } from 'routes/settings/costModelsDeprecated/components/warningIcon';
-import { parseApiError } from 'routes/settings/utils';
-import type { RootState } from 'store';
-import type { FetchStatus } from 'store/common';
-import { costModelsSelectors } from 'store/costModels';
 
 import { styles } from './reviewDetails.styles';
 
@@ -32,11 +26,6 @@ interface ReviewDetailsOwnProps {
   priceLists?: PriceListData[];
   sources?: Provider[];
   sourceType?: ProviderType;
-}
-
-interface ReviewDetailsStateProps {
-  costModelsAddError?: AxiosError;
-  costModelsAddStatus?: FetchStatus;
 }
 
 type ReviewDetailsProps = ReviewDetailsOwnProps;
@@ -60,11 +49,8 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
   const intl = useIntl();
   const isGpuToggleEnabled = useIsGpuToggleEnabled();
 
-  const { costModelsAddError } = useMapToProps();
-
   return (
     <>
-      {costModelsAddError && <Alert variant="danger" title={parseApiError(costModelsAddError)} />}
       <Stack hasGutter>
         <StackItem>
           <Title headingLevel="h2" size={TitleSizes.xl}>
@@ -158,16 +144,6 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
       </Stack>
     </>
   );
-};
-
-const useMapToProps = (): ReviewDetailsStateProps => {
-  const costModelsAddError = useSelector((state: RootState) => costModelsSelectors.selectCostModelsAddError(state));
-  const costModelsAddStatus = useSelector((state: RootState) => costModelsSelectors.selectCostModelsAddStatus(state));
-
-  return {
-    costModelsAddError,
-    costModelsAddStatus,
-  };
 };
 
 export { ReviewDetails };
