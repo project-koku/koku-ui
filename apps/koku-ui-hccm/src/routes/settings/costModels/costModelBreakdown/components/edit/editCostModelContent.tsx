@@ -4,8 +4,8 @@ import messages from 'locales/messages';
 import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
-import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
-import { Selector, SimpleInput } from 'routes/settings/components';
+import { CurrencyWrapper } from 'routes/components/currency';
+import { SimpleInput } from 'routes/settings/components';
 import { SimpleArea } from 'routes/settings/components/simpleArea';
 import { getSourceType } from 'routes/settings/costModels/costModel/utils';
 
@@ -108,16 +108,15 @@ const EditCostModelContent = forwardRef<EditCostModelContentHandle, EditCostMode
 
     const getCurrencyComponent = () => {
       return (
-        <Selector
+        <CurrencyWrapper
           appendMenuTo="inline"
           direction="up"
           id="currency"
           isDisabled={costModel?.price_lists?.length > 0}
           maxMenuHeight={styles.currency.maxHeight as string}
-          options={getCurrencyOptions()}
           onSelect={(_evt, value) => setCurrency(value)}
           toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
-          value={getCurrencyLabel(currency)}
+          value={currency}
         />
       );
     };

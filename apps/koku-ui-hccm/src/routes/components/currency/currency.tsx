@@ -1,16 +1,13 @@
 import { Title, TitleSizes } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
-import type { WrappedComponentProps } from 'react-intl';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import { useIntl } from 'react-intl';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
-import { createMapStateToProps } from 'store/common';
 import { setCurrency } from 'utils/sessionStorage';
 
 import { styles } from './currency.styles';
-import { getCurrencyOptions } from './utils';
+import { getCurrencyOptions, useCurrencySettings } from './utils';
 
 interface CurrencyOwnProps {
   currency?: string;
@@ -21,37 +18,29 @@ interface CurrencyOwnProps {
   showLabel?: boolean;
 }
 
-interface CurrencyDispatchProps {
-  // TBD...
-}
+type CurrencyProps = CurrencyOwnProps;
 
-interface CurrencyStateProps {
-  // TBD...
-}
+const Currency: React.FC<CurrencyProps> = ({
+  currency,
+  id = 'currency-select',
+  isDisabled,
+  isSessionStorage = true,
+  onSelect,
+  showLabel = true,
+}) => {
+  const intl = useIntl();
 
-interface CurrencyState {
-  // TBD...
-}
+  const { settings } = useCurrencySettings();
 
-type CurrencyProps = CurrencyOwnProps & CurrencyDispatchProps & CurrencyStateProps & WrappedComponentProps;
-
-class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
-  protected defaultState: CurrencyState = {
-    // TBD...
-  };
-  public state: CurrencyState = { ...this.defaultState };
-
-  private getSelect = () => {
-    const { currency, id = 'currency-select', isDisabled, showLabel = true } = this.props;
-
-    const selectOptions = getCurrencyOptions();
+  const getSelect = () => {
+    const selectOptions = getCurrencyOptions(settings?.data ?? []);
     const selection = selectOptions.find(option => option.value === currency);
 
     return (
       <SelectWrapper
         id={id}
         isDisabled={isDisabled}
-        onSelect={this.handleOnSelect}
+        onSelect={handleOnSelect}
         options={selectOptions}
         position={showLabel ? 'right' : undefined}
         selection={selection}
@@ -59,9 +48,7 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     );
   };
 
-  private handleOnSelect = (_evt, selection: SelectWrapperOption) => {
-    const { isSessionStorage = true, onSelect } = this.props;
-
+  const handleOnSelect = (_evt, selection: SelectWrapperOption) => {
     // Set currency units via local storage
     if (isSessionStorage) {
       setCurrency(selection.value);
@@ -71,33 +58,16 @@ class CurrencyBase extends React.Component<CurrencyProps, CurrencyState> {
     }
   };
 
-  public render() {
-    const { intl, showLabel = true } = this.props;
-
-    return (
-      <div style={styles.currencySelector}>
-        {showLabel && (
-          <Title headingLevel="h2" size={TitleSizes.md} style={styles.currencyLabel}>
-            {intl.formatMessage(messages.currency)}
-          </Title>
-        )}
-        {this.getSelect()}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = createMapStateToProps<CurrencyOwnProps, CurrencyStateProps>(() => {
-  return {
-    // TBD...
-  };
-});
-
-const mapDispatchToProps: CurrencyDispatchProps = {
-  // TBD...
+  return (
+    <div style={styles.currencySelector}>
+      {showLabel && (
+        <Title headingLevel="h2" size={TitleSizes.md} style={styles.currencyLabel}>
+          {intl.formatMessage(messages.currency)}
+        </Title>
+      )}
+      {getSelect()}
+    </div>
+  );
 };
-
-const CurrencyConnect = connect(mapStateToProps, mapDispatchToProps)(CurrencyBase);
-const Currency = injectIntl(CurrencyConnect);
 
 export default Currency;
