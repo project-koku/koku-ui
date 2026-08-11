@@ -1,4 +1,4 @@
-import { Alert, AlertActionCloseButton, Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import { type Settings, SettingsType } from 'api/settings';
@@ -50,7 +50,6 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   const intl = useIntl();
 
   const [isShowDisabled, setIsShowDisabled] = useState<boolean>(false);
-  const [isRecalculating, setIsRecalculating] = useState(false);
   const [query, setQuery] = useState({ ...baseQuery });
 
   const { settings, settingsError, settingsFetchStatus } = useMapToProps({ isShowDisabled, query });
@@ -110,9 +109,9 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
         filterBy={query.filter_by}
         isDisabled={settings?.data?.length === 0}
         isLoading={isLoading}
-        // onDelete={handleOnDelete}
-        // onDeprecate={forceUpdate}
-        // onDuplicate={forceUpdate}
+        onDelete={handleOnDelete}
+        onDuplicate={handleOnDuplicate}
+        onEdit={handleOnEdit}
         onEnable={handleOnEnable}
         settings={settings}
       />
@@ -141,22 +140,30 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   // Handlers
 
   const handleOnAdd = () => {
-    setIsRecalculating(true);
+    handleOnSetPage(1);
     forceUpdate();
   };
 
-  const handleOnAlertClose = () => {
-    setIsRecalculating(false);
-  };
-
+  // Disabled currencies are removed from the paginated list of items, unless show disabled toggle is active
+  // When enabled, Currencies may appear in a different paginated order
   const handleOnEnable = () => {
     handleOnSetPage(1);
+    forceUpdate();
   };
 
-  // const handleOnDelete = () => {
-  //   handleOnSetPage(1);
-  //   forceUpdate();
-  // };
+  const handleOnDelete = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  const handleOnDuplicate = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  const handleOnEdit = () => {
+    forceUpdate();
+  };
 
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
@@ -188,18 +195,6 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
 
   return (
     <>
-      {isRecalculating && (
-        <div style={styles.alertContainer}>
-          <Alert
-            isInline
-            actionClose={<AlertActionCloseButton onClose={handleOnAlertClose} />}
-            title={intl.formatMessage(messages.recalculateCharges)}
-            variant="info"
-          >
-            <p>{intl.formatMessage(messages.exchangeRateRecalculateDesc)}</p>
-          </Alert>
-        </div>
-      )}
       {!hasNoCurrency || isLoading ? (
         getCardLayout(
           <>
@@ -239,11 +234,12 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
   const filterByCurrency = getFilterValuesById(query, 'currency') || getFilterValuesById(baseQuery, 'currency');
 
   const settingsQuery = {
-    // ...(isShowDisabled && { enabled: false }),
-    enabled: isShowDisabled ? undefined : true, // Show enabled by default
+    filter: {
+      ...(filterByCurrency && { currency: filterByCurrency }), // Flattened currency filter
+      enabled: isShowDisabled ? undefined : true, // Show enabled by default
+    },
     limit: query.limit,
     offset: query.offset,
-    ...(filterByCurrency && { search: filterByCurrency }), // Flattened currency filter
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
@@ -267,6 +263,9 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
     type: SettingsType.currencyAdd,
   });
   useSettingsNotifications({
+    type: SettingsType.currencyDelete,
+  });
+  useSettingsNotifications({
     type: SettingsType.currencyDisable,
   });
   useSettingsNotifications({
@@ -274,9 +273,6 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
   });
   useSettingsNotifications({
     type: SettingsType.currencyEnable,
-  });
-  useSettingsNotifications({
-    type: SettingsType.currencyRemove,
   });
 
   return {
