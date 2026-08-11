@@ -18,8 +18,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
-import { Selector } from 'routes/settings/components';
+import { CurrencyWrapper } from 'routes/components/currency';
 import { styles } from 'routes/settings/costModelsDeprecated/costModelWizard/wizard.styles';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -114,16 +113,15 @@ class UpdateCostModelBase extends React.Component<UpdateCostModelProps, UpdateCo
               />
             </FormGroup>
             <FormGroup fieldId="currency">
-              <Selector
+              <CurrencyWrapper
                 label={messages.currency}
                 direction="up"
                 appendMenuTo="inline"
                 maxMenuHeight={styles.selector.maxHeight as string}
                 toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
-                value={getCurrencyLabel(this.state.currency)}
+                value={this.state.currency}
                 onSelect={(_evt, value) => this.setState({ currency: value })}
                 id="currency-units-selector"
-                options={getCurrencyOptions()}
               />
             </FormGroup>
           </Form>
