@@ -14,6 +14,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
 import { routes } from 'routes';
+import { getErrorNotification } from 'routes/settings/utils';
 import type { ThunkAction } from 'store/common';
 import { createAction } from 'typesafe-actions';
 import { formatPath } from 'utils/paths';
@@ -76,12 +77,11 @@ export const addCostModel = (request: CostModelRequest): any => {
       .catch(err => {
         dispatch(
           addCostModelsFailure(err, {
-            notification: {
-              description: intl.formatMessage(messages.costModelsErrorDesc, { value: 'add' }),
-              dismissable: true,
-              title: intl.formatMessage(messages.costModelsErrorTitle, { value: 'add' }),
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.costModelsErrorTitle, { value: 'add' }),
+              intl.formatMessage(messages.costModelsErrorDesc, { value: 'add' })
+            ),
           })
         );
       });
@@ -122,12 +122,11 @@ export const deleteCostModel = (uuid: string, dialog: string = null, router: Rou
       .catch(err => {
         dispatch(
           deleteCostModelsFailure(err, {
-            notification: {
-              description: intl.formatMessage(messages.costModelsErrorDesc, { value: 'remove' }),
-              dismissable: true,
-              title: intl.formatMessage(messages.costModelsErrorTitle, { value: 'remove' }),
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.costModelsErrorTitle, { value: 'remove' }),
+              intl.formatMessage(messages.costModelsErrorDesc, { value: 'remove' })
+            ),
           })
         );
       });
@@ -187,12 +186,11 @@ export const updateCostModel = (uuid: string, request: CostModelRequest, dialog:
       .catch(err => {
         dispatch(
           updateCostModelsFailure(err, {
-            notification: {
-              description: intl.formatMessage(messages.costModelsErrorDesc, { value: 'update' }),
-              dismissable: true,
-              title: intl.formatMessage(messages.costModelsErrorTitle, { value: 'update' }),
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.costModelsErrorTitle, { value: 'update' }),
+              intl.formatMessage(messages.costModelsErrorDesc, { value: 'update' })
+            ),
           })
         );
       });
@@ -218,12 +216,11 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: R
       .catch(err => {
         dispatch(
           redirectFailure(err, {
-            notification: {
-              description: intl.formatMessage(messages.costModelsRouterServerError),
-              dismissable: true,
-              title: intl.formatMessage(messages.costModelsRouterErrorTitle),
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.costModelsRouterErrorTitle),
+              intl.formatMessage(messages.costModelsRouterServerError)
+            ),
           })
         );
       });

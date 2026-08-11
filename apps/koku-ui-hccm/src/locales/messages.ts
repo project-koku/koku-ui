@@ -1314,6 +1314,16 @@ export default defineMessages({
     description: 'Currency and calculations',
     id: 'currencyCalcuationsTitle',
   },
+  currencyDeleteErrorDesc: {
+    defaultMessage: 'Failed to remove exchange rate',
+    description: 'Failed to remove exchange rate',
+    id: 'currencyDeleteErrorDesc',
+  },
+  currencyDeleteErrorTitle: {
+    defaultMessage: 'Unable to remove exchange rate',
+    description: 'Unable to remove exchange rate',
+    id: 'currencyDeleteErrorTitle',
+  },
   currencyDesc: {
     defaultMessage: 'Select the preferred currency view for your organization',
     description: 'Select the preferred currency view for your organization',
@@ -1668,16 +1678,6 @@ export default defineMessages({
     defaultMessage: 'Select currency',
     description: 'Select currency',
     id: 'currencyPlaceholder',
-  },
-  currencyRemoveErrorDesc: {
-    defaultMessage: 'Failed to remove exchange rate',
-    description: 'Failed to remove exchange rate',
-    id: 'currencyRemoveErrorDesc',
-  },
-  currencyRemoveErrorTitle: {
-    defaultMessage: 'Unable to remove exchange rate',
-    description: 'Unable to remove exchange rate',
-    id: 'currencyRemoveErrorTitle',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',
@@ -2418,6 +2418,11 @@ export default defineMessages({
     description: 'Download',
     id: 'download',
   },
+  duplicate: {
+    defaultMessage: 'Duplicate',
+    description: 'Duplicate',
+    id: 'duplicate',
+  },
   duplicatePriceList: {
     defaultMessage: 'Duplicate price list',
     description: 'Duplicate price list',
@@ -2548,6 +2553,16 @@ export default defineMessages({
     description: 'Create static exchange rate',
     id: 'exchangeRateAddTitle',
   },
+  exchangeRateBaseCurrencyImmutable: {
+    defaultMessage: 'Base currency cannot be modified. Delete and recreate the exchange rate instead.',
+    description: 'Base currency cannot be modified. Delete and recreate the exchange rate instead.',
+    id: 'exchangeRateBaseCurrencyImmutable',
+  },
+  exchangeRateDuplicateTitle: {
+    defaultMessage: 'Duplicate exchange rate',
+    description: 'Duplicate exchange rate',
+    id: 'exchangeRateDuplicateTitle',
+  },
   exchangeRateEditTitle: {
     defaultMessage: 'Edit exchange rate',
     description: 'Edit exchange rate',
@@ -2623,7 +2638,7 @@ export default defineMessages({
       '{value, select, ' +
       'active {Active} ' +
       'expired {Expired} ' +
-      'pending {Pending} ' +
+      'upcoming {Upcoming} ' +
       'unavailable {Unavailable} ' +
       'other {}}',
     description: 'Exchange rate status',
@@ -3279,6 +3294,11 @@ export default defineMessages({
     defaultMessage: 'This GPU vendor is already in use',
     description: 'This GPU vendor is already in use',
     id: 'gpuVendorDuplicate',
+  },
+  hideDetails: {
+    defaultMessage: 'Hide details',
+    description: 'Hide details',
+    id: 'hideDetails',
   },
   historicalChartCostLabel: {
     defaultMessage: 'Cost ({units})',
@@ -4694,10 +4714,10 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'add {Exchange rate added} ' +
+      'delete {Exchange rate removed} ' +
       'disable {Exchange rate disabled} ' +
       'edit {Exchange rate updated} ' +
       'enable {Exchange rate enabled} ' +
-      'remove {Exchange rate removed} ' +
       'other {}}',
     description: 'Exchange rate added, edited, or removed',
     id: 'settingsSuccessCurrency',
@@ -4766,6 +4786,11 @@ export default defineMessages({
     defaultMessage: 'Show disabled',
     description: 'Show disabled',
     id: 'showDisabled',
+  },
+  showDetails: {
+    defaultMessage: 'Show details',
+    description: 'Show details',
+    id: 'showDetails',
   },
   sourcesTabTitle: {
     defaultMessage: 'Integrations',

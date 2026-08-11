@@ -13,33 +13,33 @@ import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
 
 import { RateContent, type RateContentHandle } from '../rateContent';
-import { styles } from './editRateModal.styles';
+import { styles } from './duplicateRateModal.styles';
 
-interface EditRateModalOwnProps {
+interface DuplicateRateModalOwnProps {
   isDispatch?: boolean;
   isOpen?: boolean;
   onClose?: () => void;
-  onEdit?: (rate: SettingsRateData) => void;
+  onDuplicate?: (rate: SettingsRateData) => void;
   settings?: SettingsData[];
   uuid?: string;
 }
 
-interface EditRateModalStateProps {
+interface DuplicateRateModalStateProps {
   settingsError?: AxiosError;
   settingsFetchStatus?: FetchStatus;
 }
 
-type EditRateModalProps = EditRateModalOwnProps;
+type DuplicateRateModalProps = DuplicateRateModalOwnProps;
 
 /**
  * Modal shell around {@link RateContent}: footer Save calls `RateContent`’s `submit()` imperatively;
  * `RateContent` builds merged `rates[]` and reports them via `onCommitRates` for the PUT payload.
  */
-const EditRateModal: React.FC<EditRateModalProps> = ({
+const DuplicateRateModal: React.FC<DuplicateRateModalProps> = ({
   isDispatch = true,
   isOpen = false,
   onClose,
-  onEdit,
+  onDuplicate,
   settings,
   uuid,
 }) => {
@@ -55,21 +55,20 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
 
   // Handlers
 
-  const handleOnSave = (item: SettingsRateData) => {
-    if (item && uuid && settingsFetchStatus !== FetchStatus.inProgress) {
+  const handleOnSave = (rate: SettingsRateData) => {
+    if (rate && settingsFetchStatus !== FetchStatus.inProgress) {
       if (isDispatch) {
         setIsFinish(true);
-        setRates(item);
+        setRates(rate);
 
         dispatch(
           settingsActions.updateCurrencySettings({
-            settingsType: SettingsType.currencyEdit,
-            payload: item,
-            uuid,
+            settingsType: SettingsType.currencyAdd,
+            payload: rate,
           })
         );
       } else {
-        onEdit?.(item);
+        onDuplicate?.(rate);
       }
     }
   };
@@ -81,10 +80,10 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       setIsFinish(false);
 
       if (!settingsError) {
-        onEdit?.(rates);
+        onDuplicate?.(rates);
       }
     }
-  }, [isFinish, onEdit, settingsError, settingsFetchStatus, rates]);
+  }, [isFinish, onDuplicate, settingsError, settingsFetchStatus, rates]);
 
   // PatternFly modal appends to document.body, which is outside the scoped "costManagement" dom tree.
   // Use className="costManagement" to override PatternFly styles or append the modal to an element within the tree
@@ -97,10 +96,11 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
       style={styles.modal}
       variant={ModalVariant.large}
     >
-      <ModalHeader title={intl.formatMessage(messages.exchangeRateEditTitle)} />
+      <ModalHeader title={intl.formatMessage(messages.exchangeRateDuplicateTitle)} />
       <ModalBody>
         {isOpen && (
           <RateContent
+            isAddRate
             onDisabled={setIsDisabled}
             onSave={handleOnSave}
             ref={contentRef}
@@ -115,7 +115,7 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
           onClick={() => contentRef.current?.save()}
           variant="primary"
         >
-          {intl.formatMessage(messages.save)}
+          {intl.formatMessage(messages.create)}
         </Button>
         <Button onClick={onClose} variant="link">
           {intl.formatMessage(messages.cancel)}
@@ -125,12 +125,12 @@ const EditRateModal: React.FC<EditRateModalProps> = ({
   );
 };
 
-const useMapToProps = (): EditRateModalStateProps => {
+const useMapToProps = (): DuplicateRateModalStateProps => {
   const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.currencyEdit, undefined)
+    settingsSelectors.selectSettingsError(state, SettingsType.currencyAdd, undefined)
   );
   const settingsFetchStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currencyEdit, undefined)
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currencyAdd, undefined)
   );
 
   return {
@@ -139,4 +139,4 @@ const useMapToProps = (): EditRateModalStateProps => {
   };
 };
 
-export { EditRateModal };
+export { DuplicateRateModal };
