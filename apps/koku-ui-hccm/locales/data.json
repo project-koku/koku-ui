@@ -2509,6 +2509,18 @@
         "value": "Currency and calculations"
       }
     ],
+    "currencyDeleteErrorDesc": [
+      {
+        "type": 0,
+        "value": "Failed to remove exchange rate"
+      }
+    ],
+    "currencyDeleteErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to remove exchange rate"
+      }
+    ],
     "currencyDesc": [
       {
         "type": 0,
@@ -7480,18 +7492,6 @@
         "value": "Select currency"
       }
     ],
-    "currencyRemoveErrorDesc": [
-      {
-        "type": 0,
-        "value": "Failed to remove exchange rate"
-      }
-    ],
-    "currencyRemoveErrorTitle": [
-      {
-        "type": 0,
-        "value": "Unable to remove exchange rate"
-      }
-    ],
     "dashboardCumulativeCostComparison": [
       {
         "type": 0,
@@ -9599,6 +9599,12 @@
         "value": "Download"
       }
     ],
+    "duplicate": [
+      {
+        "type": 0,
+        "value": "Duplicate"
+      }
+    ],
     "duplicatePriceList": [
       {
         "type": 0,
@@ -9800,6 +9806,12 @@
         "value": "Create static exchange rate"
       }
     ],
+    "exchangeRateBaseCurrencyImmutable": [
+      {
+        "type": 0,
+        "value": "Base currency cannot be modified. Delete and recreate the exchange rate instead."
+      }
+    ],
     "exchangeRateCurrencyPair": [
       {
         "type": 0,
@@ -9822,6 +9834,12 @@
       {
         "type": 0,
         "value": "Cannot disable currency because it may be used by one or more cost models or price lists."
+      }
+    ],
+    "exchangeRateDuplicateTitle": [
+      {
+        "type": 0,
+        "value": "Duplicate exchange rate"
       }
     ],
     "exchangeRateEditTitle": [
@@ -9899,11 +9917,11 @@
               }
             ]
           },
-          "pending": {
+          "upcoming": {
             "value": [
               {
                 "type": 0,
-                "value": "Pending"
+                "value": "Upcoming"
               }
             ]
           },
@@ -18264,6 +18282,18 @@
         "value": "Unable to save application settings"
       }
     ],
+    "showDetails": [
+      {
+        "type": 0,
+        "value": "Show details"
+      }
+    ],
+    "hideDetails": [
+      {
+        "type": 0,
+        "value": "Hide details"
+      }
+    ],
     "settingsSuccessChanges": [
       {
         "type": 0,
@@ -18366,6 +18396,14 @@
               }
             ]
           },
+          "delete": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Exchange rate removed"
+              }
+            ]
+          },
           "disable": {
             "value": [
               {
@@ -18387,14 +18425,6 @@
               {
                 "type": 0,
                 "value": "Exchange rate enabled"
-              }
-            ]
-          },
-          "remove": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Exchange rate removed"
               }
             ]
           },

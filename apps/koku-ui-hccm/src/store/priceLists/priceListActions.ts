@@ -5,6 +5,7 @@ import { fetchPriceList as apiFetchPriceList, updatePriceList as apiUpdatePriceL
 import type { AxiosError, AxiosResponse } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
+import { getErrorNotification } from 'routes/settings/utils';
 import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
@@ -112,18 +113,14 @@ export function updatePriceList(priceListType: PriceListType, uuid?: string, pay
         );
       })
       .catch(err => {
-        const description = intl.formatMessage(messages.priceListErrorDesc, { value: status });
-        const title = intl.formatMessage(messages.priceListErrorTitle, { value: status });
-
         dispatch(
           updatePriceListFailure(err, {
             ...meta,
-            notification: {
-              description,
-              dismissable: true,
-              title,
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.priceListErrorTitle, { value: status }),
+              intl.formatMessage(messages.priceListErrorDesc, { value: status })
+            ),
           })
         );
       });
