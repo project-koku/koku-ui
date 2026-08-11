@@ -19,26 +19,16 @@ import {
   Tooltip,
 } from '@patternfly/react-core';
 import { ArrowsAltHIcon } from '@patternfly/react-icons';
-import { getQuery } from 'api/queries/query';
-import type { Settings, SettingsData, SettingsRateData } from 'api/settings';
-import { SettingsType } from 'api/settings';
-import type { AxiosError } from 'axios';
+import type { SettingsData, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import { isEqual } from 'lodash';
 import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
-import type { SelectWrapperOption } from 'routes/components/selectWrapper';
-import { SelectWrapper } from 'routes/components/selectWrapper';
-import { Selector, SimpleInput } from 'routes/settings/components';
-import type { RootState } from 'store';
-import { FetchStatus } from 'store/common';
-import { settingsActions, settingsSelectors } from 'store/settings';
+import { CurrencyWrapper, useCurrencySettings } from 'routes/components/currency';
+import { SimpleInput } from 'routes/settings/components';
 import { formatDate } from 'utils/dates';
-import { formatCurrencyRateRaw, getCurrencySymbol } from 'utils/format';
+import { formatCurrencyRateRaw } from 'utils/format';
 
 import { styles } from './rateContent.styles';
 import {
@@ -60,12 +50,6 @@ interface RateContentOwnProps {
   uuid?: string;
 }
 
-export interface RateContentStateProps {
-  settings?: Settings;
-  settingsError?: AxiosError;
-  settingsFetchStatus?: FetchStatus;
-}
-
 export interface RateContentHandle {
   // Builds the rate from form state and invokes onSave
   save: () => void;
@@ -85,7 +69,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const effectiveEnd = getEffectiveEndDate(getEffectiveDate(rate?.end_date));
     const effectiveStart = getEffectiveStartDate(getEffectiveDate(rate?.start_date));
 
-    const { settings: currencies } = useMapToProps();
+    const { settings: currencies } = useCurrencySettings();
 
     // Form variables
 
@@ -177,25 +161,24 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const getBaseCurrencySelector = () => {
       const isEditMode = !isAddRate;
       const select = (
-        <SelectWrapper
+        <CurrencyWrapper
+          disabledCode={targetCurrency}
+          helperTextInvalid={messages.requiredField}
           id="base-currency"
-          isDisabled={isEditMode || baseCurrencyOptions?.length === 0}
+          isDisabled={isEditMode}
+          isInvalid={isBaseCurrencyInvalid}
+          isRequired
+          label={intl.formatMessage(messages.detailsResourceNames, { value: 'base_currency' })}
           maxMenuHeight={styles.selector.maxHeight as string}
-          onSelect={(_evt, option) => handleOnBaseCurrencySelect(option.value)}
-          options={baseCurrencyOptions}
-          placeholder={intl.formatMessage(messages.select)}
-          selection={baseCurrency}
-          status={isBaseCurrencyInvalid ? 'danger' : undefined}
-          toggleAriaLabel={intl.formatMessage(messages.priceListSelectMetric)}
+          onSelect={(_evt, value) => handleOnBaseCurrencySelect(value)}
+          placeholderText={intl.formatMessage(messages.select)}
+          toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
+          value={baseCurrency}
         />
       );
 
       return (
-        <FormGroup
-          fieldId="base-currency"
-          isRequired
-          label={intl.formatMessage(messages.detailsResourceNames, { value: 'base_currency' })}
-        >
+        <>
           {/* Wrap only the control so the tooltip sits close to the toggle, like the swap button. */}
           {isEditMode ? (
             <Tooltip content={intl.formatMessage(messages.exchangeRateBaseCurrencyImmutable)}>
@@ -206,12 +189,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
           ) : (
             select
           )}
-          {isBaseCurrencyInvalid && (
-            <HelperText>
-              <HelperTextItem variant="error">{intl.formatMessage(messages.requiredField)}</HelperTextItem>
-            </HelperText>
-          )}
-        </FormGroup>
+        </>
       );
     };
 
@@ -308,23 +286,6 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       currentHandlerRef.current = handleOnSave;
     });
 
-    const getCurrencyOptions = (selected: string): SelectWrapperOption[] => {
-      return (currencies?.data ?? [])
-        .map(currency => ({
-          isDisabled: selected === currency.code,
-          toString: () =>
-            intl.formatMessage(messages.currencyOptions, {
-              currency: currency.code,
-              symbol: getCurrencySymbol(currency.code),
-            }) || currency.description,
-          value: currency.code,
-        }))
-        .sort((a, b) => (a?.toString() ?? '').localeCompare(b?.toString() ?? ''));
-    };
-
-    const baseCurrencyOptions = getCurrencyOptions(targetCurrency);
-    const targetCurrencyOptions = getCurrencyOptions(baseCurrency);
-
     return (
       <>
         <Form onSubmit={event => event.preventDefault()}>
@@ -341,18 +302,17 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
                     <div style={styles.swapCurrency}>{getSwapCurrencyButton()}</div>
                   </SplitItem>
                   <SplitItem isFilled>
-                    <Selector
-                      helperTextInvalid={intl.formatMessage(messages.requiredField)}
+                    <CurrencyWrapper
+                      disabledCode={baseCurrency}
+                      helperTextInvalid={messages.requiredField}
                       id="target-currency"
-                      isDisabled={targetCurrencyOptions?.length === 0}
                       isInvalid={isTargetCurrencyInvalid}
                       isRequired
                       label={intl.formatMessage(messages.detailsResourceNames, { value: 'target_currency' })}
                       maxMenuHeight={styles.selector.maxHeight as string}
-                      options={targetCurrencyOptions}
                       onSelect={(_evt, value) => handleOnTargetCurrencySelect(value)}
                       placeholderText={intl.formatMessage(messages.select)}
-                      toggleAriaLabel={intl.formatMessage(messages.priceListSelectMetric)}
+                      toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
                       value={targetCurrency}
                     />
                   </SplitItem>
@@ -428,39 +388,6 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     );
   }
 );
-
-const useMapToProps = (): RateContentStateProps => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-
-  const settingsQuery = {
-    filter: {
-      enabled: true, // Show only enabled
-    },
-    limit: 1000, // Need all currencies for base and target options
-  };
-  const settingsQueryString = getQuery(settingsQuery);
-  const settings = useSelector((state: RootState) =>
-    settingsSelectors.selectSettings(state, SettingsType.currency, settingsQueryString)
-  );
-  const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.currency, settingsQueryString)
-  );
-  const settingsFetchStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currency, settingsQueryString)
-  );
-
-  useEffect(() => {
-    if (settingsFetchStatus !== FetchStatus.inProgress) {
-      dispatch(settingsActions.fetchSettings(SettingsType.currency, settingsQueryString));
-    }
-  }, [dispatch, settingsQueryString]);
-
-  return {
-    settings,
-    settingsError,
-    settingsFetchStatus,
-  };
-};
 
 RateContent.displayName = 'RateContent';
 

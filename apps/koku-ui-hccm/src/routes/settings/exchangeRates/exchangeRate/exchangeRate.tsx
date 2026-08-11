@@ -1,4 +1,5 @@
 import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
+import { AccountSettingsType } from 'api/accountSettings';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import { type Settings, SettingsType } from 'api/settings';
@@ -11,12 +12,13 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { useSettingsNotifications } from 'routes/settings/utils';
+import { useAccountSettingsNotifications, useSettingsNotifications } from 'routes/settings/utils';
 import { getFilterValuesById } from 'routes/settings/utils/filterBy';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
+import { getAccountCurrency } from 'utils/sessionStorage';
 
 import { NoExchangeRateAssignedState, NoExchangeRateState } from './components/state';
 import { styles } from './exchangeRate.styles';
@@ -127,6 +129,7 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
         itemsPerPage={settings?.meta?.limit ?? baseQuery.limit}
         itemsTotal={settings?.meta?.count ?? 0}
         onAdd={handleOnAdd}
+        onCurrency={handleOnCurrency}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         onShowDeprecated={handleOnShowDeprecated}
@@ -140,6 +143,12 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   // Handlers
 
   const handleOnAdd = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  // After default currency changes, refetch so the table reflects the updated disabled state
+  const handleOnCurrency = () => {
     handleOnSetPage(1);
     forceUpdate();
   };
@@ -259,6 +268,10 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
   }, [dispatch, query, settingsQueryString]);
 
   // Notifications
+  useAccountSettingsNotifications({
+    getSessionValue: getAccountCurrency,
+    type: AccountSettingsType.currency,
+  });
   useSettingsNotifications({
     type: SettingsType.currencyAdd,
   });

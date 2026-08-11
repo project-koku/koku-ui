@@ -52,7 +52,7 @@ const enum SettingsTab {
   calculations = 'calculations',
   costCategory = 'cost_category',
   display = 'display',
-  exchangeRate = 'exchange_rate',
+  exchangeRates = 'exchange_rates',
   platformProjects = 'platform_projects',
   priceList = 'price_list',
   tags = 'tags',
@@ -69,8 +69,8 @@ export const getIdKeyForTab = (tab: SettingsTab) => {
       return 'cost_category';
     case SettingsTab.display:
       return 'display';
-    case SettingsTab.exchangeRate:
-      return 'exchange_rate';
+    case SettingsTab.exchangeRates:
+      return 'exchange_rates';
     case SettingsTab.platformProjects:
       return 'platform_projects';
     case SettingsTab.priceList:
@@ -145,7 +145,7 @@ const Settings: React.FC<SettingsProps> = () => {
         ? [
             {
               contentRef: React.createRef(),
-              tab: SettingsTab.exchangeRate,
+              tab: SettingsTab.exchangeRates,
             },
           ]
         : []),
@@ -244,7 +244,7 @@ const Settings: React.FC<SettingsProps> = () => {
       return hasSettingsAccess(userAccess) ? <CostCategory canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.display) {
       return hasSettingsAccess(userAccess) ? <Display canWrite={canWriteSettings} /> : notAuthorized;
-    } else if (currentTab === SettingsTab.exchangeRate) {
+    } else if (currentTab === SettingsTab.exchangeRates) {
       return hasSettingsAccess(userAccess) ? <ExchangeRate canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.platformProjects) {
       return hasSettingsAccess(userAccess) ? <PlatformProjects canWrite={canWriteSettings} /> : notAuthorized;
@@ -285,12 +285,12 @@ const Settings: React.FC<SettingsProps> = () => {
       return intl.formatMessage(messages.costModels);
     } else if (tab === SettingsTab.display) {
       return intl.formatMessage(messages.display);
-    } else if (tab === SettingsTab.exchangeRate) {
-      return intl.formatMessage(messages.exchangeRate, { count: 1 });
+    } else if (tab === SettingsTab.exchangeRates) {
+      return intl.formatMessage(messages.exchangeRate, { count: 2 });
     } else if (tab === SettingsTab.platformProjects) {
       return intl.formatMessage(messages.platformProjectsTitle);
     } else if (tab === SettingsTab.priceList) {
-      return intl.formatMessage(messages.priceList, { count: 1 });
+      return intl.formatMessage(messages.priceList, { count: 2 });
     } else if (tab === SettingsTab.tags) {
       return intl.formatMessage(messages.tagLabelsTitle);
     } else if (tab === SettingsTab.sources) {
