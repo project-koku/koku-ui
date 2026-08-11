@@ -8,6 +8,7 @@ import type { AxiosError } from 'axios';
 import type { AxiosResponse } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
+import { getErrorNotification } from 'routes/settings/utils';
 import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
@@ -117,12 +118,11 @@ export function updateAccountSettings(settingsType: AccountSettingsType, payload
         dispatch(
           updateAccountSettingsFailure(err, {
             ...meta,
-            notification: {
-              description: intl.formatMessage(messages.settingsErrorDesc),
-              dismissable: true,
-              title: intl.formatMessage(messages.settingsErrorTitle),
-              variant: AlertVariant.danger,
-            },
+            notification: getErrorNotification(
+              err,
+              intl.formatMessage(messages.settingsErrorTitle),
+              intl.formatMessage(messages.settingsErrorDesc)
+            ),
           })
         );
       });

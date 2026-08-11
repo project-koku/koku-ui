@@ -1,14 +1,16 @@
 import 'routes/components/dataTable/dataTable.scss';
 
 import { Label } from '@patternfly/react-core';
-import type { Settings } from 'api/settings';
+import type { Settings, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DataTable, ExpandTable } from 'routes/components/dataTable';
+import { RateActions } from 'routes/settings/exchangeRates/exchangeRate/components/actions';
 import { formatCurrencyRate, getCurrencySymbol } from 'utils/format';
 
 import { EnableRate } from './components/enable';
+import { getEffectiveDate } from './components/utils';
 import { styles } from './exchangeRateTable.styles';
 
 interface ExchangeRateTableOwnProps {
@@ -16,10 +18,10 @@ interface ExchangeRateTableOwnProps {
   filterBy?: any;
   isDisabled?: boolean;
   isLoading?: boolean;
-  // onClose?: () => void;
-  // onDelete?: (settings: SettingsData) => void;
-  // onDeprecate?: () => void;
-  // onDuplicate?: () => void;
+  onClose?: () => void;
+  onDelete?: (rate: SettingsRateData) => void;
+  onDuplicate?: (rate: SettingsRateData) => void;
+  onEdit?: (rate: SettingsRateData) => void;
   onEnable?: (checked: boolean) => void;
   settings: Settings;
 }
@@ -35,7 +37,7 @@ const getStaticRateStatus = (startDate?: string, endDate?: string) => {
   const start = new Date(`${startDate}T00:00:00`);
   const end = new Date(`${endDate}T00:00:00`);
   if (today < start) {
-    return 'pending';
+    return 'upcoming';
   }
   if (today > end) {
     return 'expired';
@@ -48,10 +50,10 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
   filterBy,
   isDisabled,
   isLoading,
-  // onClose,
-  // onDelete,
-  // onDeprecate,
-  // onDuplicate,
+  onClose,
+  onDelete,
+  onDuplicate,
+  onEdit,
   onEnable,
   settings,
 }) => {
@@ -109,6 +111,9 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'last_updated' }),
       },
+      {
+        value: '',
+      },
     ];
 
     computedItems.map(item => {
@@ -130,7 +135,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
             },
             {
               value: rate?.start_date
-                ? intl.formatDate(rate.start_date, {
+                ? intl.formatDate(getEffectiveDate(rate.start_date), {
                     month: 'short',
                     year: 'numeric',
                   })
@@ -138,7 +143,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
             },
             {
               value: rate?.end_date
-                ? intl.formatDate(rate.end_date, {
+                ? intl.formatDate(getEffectiveDate(rate.end_date), {
                     month: 'short',
                     year: 'numeric',
                   })
@@ -166,6 +171,21 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
                     year: 'numeric',
                   })
                 : '',
+            },
+            {
+              isActionsCell: true,
+              value: (
+                <RateActions
+                  canWrite={canWrite}
+                  isDisabled={isDisabled}
+                  onClose={onClose}
+                  onDelete={onDelete}
+                  onDuplicate={onDuplicate}
+                  onEdit={onEdit}
+                  settings={computedItems}
+                  uuid={rate?.uuid}
+                />
+              ),
             },
           ],
         }));
