@@ -4,13 +4,90 @@ import messages from 'locales/messages';
 import {
   datesOverlap,
   findOverlappingRate,
+  getEffectiveDate,
+  getEffectiveEndDate,
+  getEffectiveStartDate,
+  parseRateValue,
   validateDescription,
   validateEndDate,
   validateName,
+  validateRate,
   validateStartDate,
 } from '.';
 
 describe('details/utils', () => {
+  describe('getEffectiveDate', () => {
+    test('parses a valid date string at local midnight', () => {
+      const result = getEffectiveDate('2024-06-15');
+      expect(result.getFullYear()).toBe(2024);
+      expect(result.getMonth()).toBe(5);
+      expect(result.getDate()).toBe(15);
+    });
+
+    test('falls back to today when date is empty or invalid', () => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      expect(getEffectiveDate('').getTime()).toBe(today.getTime());
+      expect(getEffectiveDate('not-a-date').getTime()).toBe(today.getTime());
+    });
+  });
+
+  describe('getEffectiveEndDate', () => {
+    test('returns last day of the given month', () => {
+      const result = getEffectiveEndDate(new Date('2024-06-15'));
+      expect(result.getFullYear()).toBe(2024);
+      expect(result.getMonth()).toBe(5);
+      expect(result.getDate()).toBe(30);
+    });
+
+    test('falls back to today when date is falsy', () => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      expect(getEffectiveEndDate(undefined as any).getTime()).toBe(today.getTime());
+    });
+  });
+
+  describe('getEffectiveStartDate', () => {
+    test('returns first day of the given month', () => {
+      const result = getEffectiveStartDate(new Date('2024-06-15'));
+      expect(result.getFullYear()).toBe(2024);
+      expect(result.getMonth()).toBe(5);
+      expect(result.getDate()).toBe(1);
+    });
+
+    test('returns undefined when date is falsy', () => {
+      expect(getEffectiveStartDate(undefined as any)).toBeUndefined();
+    });
+  });
+
+  describe('parseRateValue', () => {
+    test('parses a numeric rate string', () => {
+      expect(parseRateValue('1.25')).toBe(1.25);
+    });
+  });
+
+  describe('validateRate', () => {
+    test('returns required when empty', () => {
+      expect(validateRate('')).toBe(messages.requiredField);
+    });
+
+    test('returns format error for non-numeric values', () => {
+      expect(validateRate('abc')).toBe(messages.priceListNumberRate);
+    });
+
+    test('returns positive-number error for negative values', () => {
+      expect(validateRate('-1')).toBe(messages.priceListPosNumberRate);
+    });
+
+    test('returns too-long error when decimals exceed 10', () => {
+      expect(validateRate('1.12345678901')).toBe(messages.costModelsRateTooLong);
+    });
+
+    test('returns undefined for a valid rate', () => {
+      expect(validateRate('1.25')).toBeUndefined();
+    });
+  });
+
   describe('validateDescription', () => {
     test('returns null when length is within limit', () => {
       expect(validateDescription('ok')).toBeNull();
