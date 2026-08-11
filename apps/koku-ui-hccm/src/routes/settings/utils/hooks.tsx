@@ -18,7 +18,7 @@ import { getFetchId as getSettingsFetchId } from 'store/settings/settingsCommon'
 interface AccountSettingsUpdateProps<T> {
   type: AccountSettingsType;
   getSessionValue: () => T;
-  setState: (v: T) => void;
+  setState?: (v: T) => void;
 }
 
 interface SettingsUpdateProps {
@@ -46,7 +46,7 @@ export const useAccountSettingsNotifications = <T,>({
   useEffect(() => {
     if (status === FetchStatus.complete) {
       if (!error) {
-        setState(getSessionValue());
+        setState?.(getSessionValue());
       }
       if (notification) {
         addNotification(buildNotification(notification, intl) as any);

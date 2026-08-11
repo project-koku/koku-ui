@@ -4,6 +4,14 @@ import { IntlProvider } from 'react-intl';
 
 import { EditCostModelContent, type EditCostModelContentHandle } from './editCostModelContent';
 
+jest.mock('routes/components/currency', () => ({
+  CurrencyWrapper: (props: any) => (
+    <button data-testid={props.id || 'currency'} type="button" onClick={() => props.onSelect?.({}, 'USD')}>
+      currency
+    </button>
+  ),
+}));
+
 const costModel = {
   uuid: 'cm-1',
   name: 'Model',
