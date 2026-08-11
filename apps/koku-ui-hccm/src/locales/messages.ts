@@ -1252,11 +1252,6 @@ export default defineMessages({
     description: 'Create a cost model',
     id: 'createCostModelTitle',
   },
-  createExchangeRate: {
-    defaultMessage: 'Create exchange rate',
-    description: 'Create exchange rate',
-    id: 'createExchangeRate',
-  },
   createPriceList: {
     defaultMessage: 'Create a price list',
     description: 'Create a price list',
@@ -1765,16 +1760,6 @@ export default defineMessages({
     description: 'Data retrieval',
     id: 'dataDetailsRetrieval',
   },
-  dataRetentionErrorDesc: {
-    defaultMessage: '{value, select, ' + 'update {Failed to update data retention period} ' + 'other {}}',
-    description: 'Data retention period updated',
-    id: 'dataRetentionErrorDesc',
-  },
-  dataRetentionErrorTitle: {
-    defaultMessage: '{value, select, ' + 'update {Unable to update data retention period} ' + 'other {}}',
-    description: 'Data retention period updated',
-    id: 'dataRetentionErrorTitle',
-  },
   dataRetentionInputAriaLabel: {
     defaultMessage: 'Data retention period number input',
     description: 'Data retention period number input',
@@ -1811,16 +1796,6 @@ export default defineMessages({
     defaultMessage: 'Data retention period plus button',
     description: 'Data retention period plus button',
     id: 'dataRetentionPlusBtnAriaLabel',
-  },
-  dataRetentionSuccess: {
-    defaultMessage: '{value, select, ' + 'update {Data retention period updated} ' + 'other {}}',
-    description: 'Data retention period updated',
-    id: 'dataRetentionSuccess',
-  },
-  dataRetentionSuccessChanges: {
-    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
-    description: 'Changes will be reflected in report summarizations within 24 hours',
-    id: 'dataRetentionSuccessChanges',
   },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
@@ -2177,11 +2152,6 @@ export default defineMessages({
     defaultMessage: 'Display currency',
     description: 'Display currency',
     id: 'displayCurrency',
-  },
-  displayCurrencyDesc: {
-    defaultMessage: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
-    description: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
-    id: 'displayCurrencyDesc',
   },
   distribute: {
     defaultMessage: 'Distribute',
@@ -2621,17 +2591,6 @@ export default defineMessages({
     defaultMessage: 'No exchange rates are assigned',
     description: 'No exchange rates are assigned',
     id: 'exchangeRateNotAssigned',
-  },
-  exchangeRateNotAssignedDesc: {
-    defaultMessage: 'Use "Create exchange rate" to create an exchange rate.',
-    description: 'Use "Create exchange rate" to create an exchange rate.',
-    id: 'exchangeRateNotAssignedDesc',
-  },
-  exchangeRateRecalculateDesc: {
-    defaultMessage:
-      'When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Changes will apply only to data from the current month onwards; historical data from past months will not be affected.',
-    description: 'Recalculating charges',
-    id: 'exchangeRateRecalculateDesc',
   },
   exchangeRateStatus: {
     defaultMessage:
@@ -4170,11 +4129,6 @@ export default defineMessages({
     description: 'This price list is assigned to:',
     id: 'priceListAssignedTo',
   },
-  priceListCreateRate: {
-    defaultMessage: 'Create rate',
-    description: 'Create rate',
-    id: 'priceListCreateRate',
-  },
   priceListCurrencyReadOnly: {
     defaultMessage: 'Currency is read only. You must create a new price list to change it.',
     description: 'Currency is read only. You must create a new price list to change it.',
@@ -4435,11 +4389,6 @@ export default defineMessages({
     description: 'Select metric',
     id: 'priceListSelectMetric',
   },
-  priceListSelectMeasurement: {
-    defaultMessage: 'Select measurement',
-    description: 'Select measurement',
-    id: 'priceListSelectMeasurement',
-  },
   priceListSuccess: {
     defaultMessage:
       '{value, select, ' +
@@ -4455,11 +4404,6 @@ export default defineMessages({
     defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
     description: 'Changes will be reflected in report summarizations within 24 hours',
     id: 'priceListSuccessChanges',
-  },
-  priceListTagKey: {
-    defaultMessage: 'Tag key',
-    description: 'Tag key',
-    id: 'priceListTagKey',
   },
   priceListTagValue: {
     defaultMessage: 'Tag value',
@@ -4479,7 +4423,7 @@ export default defineMessages({
   priceListTimelineStartDate: {
     defaultMessage: 'Start date: {startDate}',
     description: 'Start date: {startDate}',
-    id: 'priceListTimelineTooltip',
+    id: 'priceListTimelineStartDate',
   },
   projectKoku: {
     defaultMessage: 'Upstream project Koku',
@@ -5296,12 +5240,12 @@ export default defineMessages({
   validityPeriodEndMonthError: {
     defaultMessage: 'End period must be >= start period',
     description: 'End period must be >= start period',
-    id: 'validityPeriodEndDateError',
+    id: 'validityPeriodEndMonthError',
   },
   validityPeriodStartMonthError: {
     defaultMessage: 'Start period must be <= end period',
     description: 'Start periodmust be <= end period',
-    id: 'validityPeriodStartDateError',
+    id: 'validityPeriodStartMonthError',
   },
   validityPeriodStartMonthPastError: {
     defaultMessage: 'Start period cannot be a past month',

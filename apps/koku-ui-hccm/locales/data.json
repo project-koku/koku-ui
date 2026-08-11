@@ -2349,12 +2349,6 @@
         "value": "Create a cost model"
       }
     ],
-    "createExchangeRate": [
-      {
-        "type": 0,
-        "value": "Create exchange rate"
-      }
-    ],
     "createPriceList": [
       {
         "type": 0,
@@ -7622,44 +7616,6 @@
         "value": "Data retrieval"
       }
     ],
-    "dataRetentionErrorDesc": [
-      {
-        "type": 5,
-        "value": "value",
-        "options": {
-          "update": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Failed to update data retention period"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        }
-      }
-    ],
-    "dataRetentionErrorTitle": [
-      {
-        "type": 5,
-        "value": "value",
-        "options": {
-          "update": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Unable to update data retention period"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        }
-      }
-    ],
     "dataRetentionInputAriaLabel": [
       {
         "type": 0,
@@ -7700,31 +7656,6 @@
       {
         "type": 0,
         "value": "Data retention period plus button"
-      }
-    ],
-    "dataRetentionSuccess": [
-      {
-        "type": 5,
-        "value": "value",
-        "options": {
-          "update": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Data retention period updated"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        }
-      }
-    ],
-    "dataRetentionSuccessChanges": [
-      {
-        "type": 0,
-        "value": "Changes will be reflected in report summarizations within 24 hours"
       }
     ],
     "dataTableAriaLabel": [
@@ -9196,12 +9127,6 @@
         "value": "Display currency"
       }
     ],
-    "displayCurrencyDesc": [
-      {
-        "type": 0,
-        "value": "Uses static rates from the table when they apply; otherwise, dynamic rates"
-      }
-    ],
     "distribute": [
       {
         "type": 0,
@@ -9882,18 +9807,6 @@
       {
         "type": 0,
         "value": "No exchange rates are assigned"
-      }
-    ],
-    "exchangeRateNotAssignedDesc": [
-      {
-        "type": 0,
-        "value": "Use \"Create exchange rate\" to create an exchange rate."
-      }
-    ],
-    "exchangeRateRecalculateDesc": [
-      {
-        "type": 0,
-        "value": "When assignments or rates change, cost and charge data can refresh in the background. In many environments, updated figures appear within about 15 to 60 minutes; during busy periods it can take a few hours. Dismissing this notice only hides the reminder and does not stop processing. Changes will apply only to data from the current month onwards; historical data from past months will not be affected."
       }
     ],
     "exchangeRateStatus": [
@@ -15805,6 +15718,12 @@
         }
       }
     ],
+    "hideDetails": [
+      {
+        "type": 0,
+        "value": "Hide details"
+      }
+    ],
     "historicalChartCostLabel": [
       {
         "type": 0,
@@ -17471,12 +17390,6 @@
         "value": "This price list is assigned to:"
       }
     ],
-    "priceListCreateRate": [
-      {
-        "type": 0,
-        "value": "Create rate"
-      }
-    ],
     "priceListCurrencyReadOnly": [
       {
         "type": 0,
@@ -17911,12 +17824,6 @@
         "value": "Select calculation type"
       }
     ],
-    "priceListSelectMeasurement": [
-      {
-        "type": 0,
-        "value": "Select measurement"
-      }
-    ],
     "priceListSelectMetric": [
       {
         "type": 0,
@@ -17972,12 +17879,6 @@
         "value": "Changes will be reflected in report summarizations within 24 hours"
       }
     ],
-    "priceListTagKey": [
-      {
-        "type": 0,
-        "value": "Tag key"
-      }
-    ],
     "priceListTagValue": [
       {
         "type": 0,
@@ -18000,7 +17901,7 @@
         "value": "endDate"
       }
     ],
-    "priceListTimelineTooltip": [
+    "priceListTimelineStartDate": [
       {
         "type": 0,
         "value": "Start date: "
@@ -18280,18 +18181,6 @@
       {
         "type": 0,
         "value": "Unable to save application settings"
-      }
-    ],
-    "showDetails": [
-      {
-        "type": 0,
-        "value": "Show details"
-      }
-    ],
-    "hideDetails": [
-      {
-        "type": 0,
-        "value": "Hide details"
       }
     ],
     "settingsSuccessChanges": [
@@ -18742,6 +18631,12 @@
       {
         "type": 0,
         "value": "Show deprecated"
+      }
+    ],
+    "showDetails": [
+      {
+        "type": 0,
+        "value": "Show details"
       }
     ],
     "showDisabled": [
@@ -19913,13 +19808,13 @@
         "value": "Validity period"
       }
     ],
-    "validityPeriodEndDateError": [
+    "validityPeriodEndMonthError": [
       {
         "type": 0,
         "value": "End period must be >= start period"
       }
     ],
-    "validityPeriodStartDateError": [
+    "validityPeriodStartMonthError": [
       {
         "type": 0,
         "value": "Start period must be <= end period"
