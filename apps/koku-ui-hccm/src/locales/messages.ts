@@ -2153,6 +2153,11 @@ export default defineMessages({
     description: 'Display currency',
     id: 'displayCurrency',
   },
+  displayDefaultCurrency: {
+    defaultMessage: 'Display default currency',
+    description: 'Display default currency',
+    id: 'displayDefaultCurrency',
+  },
   distribute: {
     defaultMessage: 'Distribute',
     description: 'Distribute',
@@ -2573,8 +2578,8 @@ export default defineMessages({
     id: 'exchangeRateEnableAriaLabel',
   },
   exchangeRateDisabled: {
-    defaultMessage: 'Cannot disable currency because it may be used by one or more cost models or price lists.',
-    description: 'Cannot disable currency because it may be used by one or more cost models or price lists.',
+    defaultMessage: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
+    description: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
     id: 'exchangeRateDisabled',
   },
   exchangeRateLoadingStateDesc: {

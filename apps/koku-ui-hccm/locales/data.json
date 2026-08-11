@@ -9127,6 +9127,12 @@
         "value": "Display currency"
       }
     ],
+    "displayDefaultCurrency": [
+      {
+        "type": 0,
+        "value": "Display default currency"
+      }
+    ],
     "distribute": [
       {
         "type": 0,
@@ -9758,7 +9764,7 @@
     "exchangeRateDisabled": [
       {
         "type": 0,
-        "value": "Cannot disable currency because it may be used by one or more cost models or price lists."
+        "value": "This currency cannot be disabled while it is the default or in use by a cost model or price list."
       }
     ],
     "exchangeRateDuplicateTitle": [
