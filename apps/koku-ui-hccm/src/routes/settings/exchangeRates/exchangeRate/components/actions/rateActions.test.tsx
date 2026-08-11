@@ -5,16 +5,13 @@ import { IntlProvider } from 'react-intl';
 import messages from '../../../../../../../locales/translations.json';
 import { RateActions } from './rateActions';
 
-const openEditSpy = jest.fn();
-const openDuplicateSpy = jest.fn();
-const deleteSpy = jest.fn();
-
 jest.mock('routes/settings/exchangeRates/exchangeRate/components/edit', () => {
   const React = require('react');
   return {
     EditRate: React.forwardRef((_props: unknown, ref: React.Ref<{ open: () => void }>) => {
-      React.useImperativeHandle(ref, () => ({ open: openEditSpy }));
-      return null;
+      const [isOpen, setIsOpen] = React.useState(false);
+      React.useImperativeHandle(ref, () => ({ open: () => setIsOpen(true) }));
+      return isOpen ? <div data-testid="edit-rate-dialog">Edit exchange rate</div> : null;
     }),
   };
 });
@@ -23,8 +20,9 @@ jest.mock('routes/settings/exchangeRates/exchangeRate/components/duplicate', () 
   const React = require('react');
   return {
     DuplicateRate: React.forwardRef((_props: unknown, ref: React.Ref<{ open: () => void }>) => {
-      React.useImperativeHandle(ref, () => ({ open: openDuplicateSpy }));
-      return null;
+      const [isOpen, setIsOpen] = React.useState(false);
+      React.useImperativeHandle(ref, () => ({ open: () => setIsOpen(true) }));
+      return isOpen ? <div data-testid="duplicate-rate-dialog">Duplicate exchange rate</div> : null;
     }),
   };
 });
@@ -33,20 +31,15 @@ jest.mock('routes/settings/exchangeRates/exchangeRate/components/delete', () => 
   const React = require('react');
   return {
     DeleteRate: React.forwardRef((_props: unknown, ref: React.Ref<{ delete: () => void }>) => {
-      React.useImperativeHandle(ref, () => ({ delete: deleteSpy }));
-      return null;
+      const [didDelete, setDidDelete] = React.useState(false);
+      React.useImperativeHandle(ref, () => ({ delete: () => setDidDelete(true) }));
+      return didDelete ? <div data-testid="delete-rate-invoked">Rate removed</div> : null;
     }),
   };
 });
 
 describe('RateActions', () => {
   const settings = [] as any;
-
-  beforeEach(() => {
-    openEditSpy.mockClear();
-    openDuplicateSpy.mockClear();
-    deleteSpy.mockClear();
-  });
 
   const renderActions = (ui: React.ReactElement) =>
     render(
@@ -55,25 +48,27 @@ describe('RateActions', () => {
       </IntlProvider>
     );
 
-  test('kebab edit invokes imperative open on EditRate', async () => {
+  test('kebab edit opens the edit dialog', async () => {
     renderActions(<RateActions canWrite settings={settings} uuid="rate-1" />);
     fireEvent.click(screen.getByRole('button', { name: /more options/i }));
     fireEvent.click(await screen.findByRole('menuitem', { name: /edit rate/i }));
-    await waitFor(() => expect(openEditSpy).toHaveBeenCalled());
+    expect(await screen.findByTestId('edit-rate-dialog')).toBeInTheDocument();
+    expect(screen.getByText(/edit exchange rate/i)).toBeInTheDocument();
   });
 
-  test('kebab duplicate invokes imperative open on DuplicateRate', async () => {
+  test('kebab duplicate opens the duplicate dialog', async () => {
     renderActions(<RateActions canWrite settings={settings} uuid="rate-1" />);
     fireEvent.click(screen.getByRole('button', { name: /more options/i }));
     fireEvent.click(await screen.findByRole('menuitem', { name: /duplicate/i }));
-    await waitFor(() => expect(openDuplicateSpy).toHaveBeenCalled());
+    expect(await screen.findByTestId('duplicate-rate-dialog')).toBeInTheDocument();
+    expect(screen.getByText(/duplicate exchange rate/i)).toBeInTheDocument();
   });
 
-  test('kebab remove invokes imperative delete on DeleteRate', async () => {
+  test('kebab remove invokes delete', async () => {
     renderActions(<RateActions canWrite settings={settings} uuid="rate-1" />);
     fireEvent.click(screen.getByRole('button', { name: /more options/i }));
     fireEvent.click(await screen.findByRole('menuitem', { name: /^remove$/i }));
-    await waitFor(() => expect(deleteSpy).toHaveBeenCalled());
+    await waitFor(() => expect(screen.getByTestId('delete-rate-invoked')).toBeInTheDocument());
   });
 
   test('disables menu items when canWrite is false', async () => {

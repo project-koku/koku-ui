@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { thunk } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
-import { settingsReducer, settingsStateKey } from 'store/settings';
+import { settingsActions, settingsReducer, settingsStateKey } from 'store/settings';
 import { getFetchId } from 'store/settings/settingsCommon';
 
 import messages from '../../../../../../../locales/translations.json';
@@ -25,20 +25,58 @@ jest.mock('api/settings', () => {
   };
 });
 
-function makeStore(status: FetchStatus, settingsType: SettingsType = SettingsType.currencyEnable, error?: unknown) {
-  const fetchId = getFetchId(settingsType);
+function makeStore(
+  entries: Array<{ settingsType: SettingsType; status: FetchStatus; error?: unknown }> = [
+    { settingsType: SettingsType.currencyEnable, status: FetchStatus.none },
+    { settingsType: SettingsType.currencyDisable, status: FetchStatus.none },
+  ]
+) {
+  const errors = new Map();
+  const status = new Map();
+  for (const entry of entries) {
+    const fetchId = getFetchId(entry.settingsType);
+    errors.set(fetchId, entry.error ?? null);
+    status.set(fetchId, entry.status);
+  }
   return createStore(
     combineReducers({ [settingsStateKey]: settingsReducer }),
     {
       [settingsStateKey]: {
         byId: new Map(),
-        errors: new Map([[fetchId, error ?? null]]),
+        errors,
         notification: new Map(),
-        status: new Map([[fetchId, status]]),
+        status,
       },
     },
     applyMiddleware(thunk)
   );
+}
+
+/** Drive request → complete for currency enable/disable thunks. */
+function mockThunkLifecycle(
+  store: ReturnType<typeof makeStore>,
+  settingsType: SettingsType,
+  options: { error?: Error } = {}
+) {
+  const fetchId = getFetchId(settingsType);
+  const originalDispatch = store.dispatch.bind(store);
+
+  return jest.spyOn(store, 'dispatch').mockImplementation((action: any) => {
+    if (typeof action === 'function') {
+      originalDispatch(settingsActions.updateCurrencySettingsRequest({ fetchId } as any));
+      Promise.resolve().then(() => {
+        if (options.error) {
+          originalDispatch(
+            settingsActions.updateCurrencySettingsFailure(options.error as any, { fetchId } as any)
+          );
+        } else {
+          originalDispatch(settingsActions.updateCurrencySettingsSuccess({} as any, { fetchId } as any));
+        }
+      });
+      return action;
+    }
+    return originalDispatch(action);
+  });
 }
 
 const currency = {
@@ -47,7 +85,7 @@ const currency = {
   is_disableable: true,
 } as any;
 
-const renderEnable = (ui: React.ReactElement, store = makeStore(FetchStatus.none)) =>
+const renderEnable = (ui: React.ReactElement, store = makeStore()) =>
   render(
     <Provider store={store}>
       <IntlProvider locale="en" messages={messages}>
@@ -81,7 +119,7 @@ describe('EnableRate', () => {
   });
 
   test('dispatches currency disable when toggling off', () => {
-    const store = makeStore(FetchStatus.none, SettingsType.currencyEnable);
+    const store = makeStore();
     const dispatchSpy = jest.spyOn(store, 'dispatch').mockImplementation(action => action as any);
 
     renderEnable(<EnableRate canWrite settings={currency} />, store);
@@ -90,11 +128,11 @@ describe('EnableRate', () => {
     expect(dispatchSpy).toHaveBeenCalled();
   });
 
-  test('invokes onEnable after successful dispatch completes', async () => {
+  test('invokes onEnable after successful disable request completes', async () => {
     const onEnable = jest.fn();
-    // After toggle off, isEnabled becomes false so selectors use currencyDisable
-    const store = makeStore(FetchStatus.complete, SettingsType.currencyDisable);
-    jest.spyOn(store, 'dispatch').mockImplementation(action => action as any);
+    const store = makeStore();
+    // After toggle off, selectors read currencyDisable status
+    mockThunkLifecycle(store, SettingsType.currencyDisable);
 
     renderEnable(<EnableRate canWrite onEnable={onEnable} settings={currency} />, store);
     fireEvent.click(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i }));
@@ -102,10 +140,10 @@ describe('EnableRate', () => {
     await waitFor(() => expect(onEnable).toHaveBeenCalledWith(false));
   });
 
-  test('restores baseline when dispatch completes with an error', async () => {
+  test('restores baseline when disable request completes with an error', async () => {
     const onEnable = jest.fn();
-    const store = makeStore(FetchStatus.complete, SettingsType.currencyDisable, new Error('fail'));
-    jest.spyOn(store, 'dispatch').mockImplementation(action => action as any);
+    const store = makeStore();
+    mockThunkLifecycle(store, SettingsType.currencyDisable, { error: new Error('fail') });
 
     renderEnable(<EnableRate canWrite onEnable={onEnable} settings={currency} />, store);
     fireEvent.click(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i }));

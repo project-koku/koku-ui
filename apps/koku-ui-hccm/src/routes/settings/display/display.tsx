@@ -67,7 +67,7 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   };
 
   const getCurrency = () => {
-    if (useIsExchangeRateToggleEnabled) {
+    if (isExchangeRateToggleEnabled) {
       return null;
     }
     return (
