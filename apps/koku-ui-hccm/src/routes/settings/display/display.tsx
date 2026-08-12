@@ -39,8 +39,6 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   const [costType, setCostType] = useState(getAccountCostType());
   const [currency, setCurrency] = useState(getAccountCurrency());
 
-  const isExchangeRateToggleEnabled = useIsExchangeRateToggleEnabled();
-
   useMapToProps({ setCostType, setCurrency });
 
   const getCostType = () => {
