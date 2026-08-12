@@ -9127,12 +9127,6 @@
         "value": "Display currency"
       }
     ],
-    "displayDefaultCurrency": [
-      {
-        "type": 0,
-        "value": "Display default currency"
-      }
-    ],
     "distribute": [
       {
         "type": 0,

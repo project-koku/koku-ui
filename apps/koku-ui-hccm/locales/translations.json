@@ -322,7 +322,6 @@
   "discountMinus": "Discount (-)",
   "display": "Display",
   "displayCurrency": "Display currency",
-  "displayDefaultCurrency": "Display default currency",
   "distribute": "Distribute",
   "distributeCosts": "{value, select, true {Distribute {type, select, network {network} storage {storage} other {}} unattributed costs}false {Do not distribute {type, select, network {network} storage {storage} other {}} unattributed costs}other {}}",
   "distributeCostsToProjects": "Distribute these costs to pods",

@@ -2153,11 +2153,6 @@ export default defineMessages({
     description: 'Display currency',
     id: 'displayCurrency',
   },
-  displayDefaultCurrency: {
-    defaultMessage: 'Display default currency',
-    description: 'Display default currency',
-    id: 'displayDefaultCurrency',
-  },
   distribute: {
     defaultMessage: 'Distribute',
     description: 'Distribute',
