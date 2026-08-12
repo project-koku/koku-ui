@@ -14,7 +14,10 @@ jest.mock('components/i18n', () => ({
   intl: {
     formatMessage: (m: { id?: string; defaultMessage?: string } | string) =>
       typeof m === 'string' ? m : m?.defaultMessage || m?.id || 'msg',
-    formatNumber: (value: number) => String(value),
+    formatNumber: (value: number, options?: Intl.NumberFormatOptions) =>
+      new Intl.NumberFormat('en', options).format(value),
+    formatNumberToParts: (value: number, options?: Intl.NumberFormatOptions) =>
+      new Intl.NumberFormat('en', options).formatToParts(value),
   },
 }));
 

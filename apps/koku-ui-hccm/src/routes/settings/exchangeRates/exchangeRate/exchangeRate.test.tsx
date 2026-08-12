@@ -35,7 +35,6 @@ jest.mock('store/settings', () => {
 });
 
 jest.mock('routes/settings/utils', () => ({
-  useAccountSettingsNotifications: () => undefined,
   useSettingsNotifications: () => undefined,
 }));
 
@@ -75,14 +74,12 @@ jest.mock('./exchangeRateTable', () => ({
 jest.mock('./exchangeRateToolbar', () => ({
   ExchangeRateToolbar: ({
     onAdd,
-    onCurrency,
     onFilterAdded,
     onFilterRemoved,
     onShowDeprecated,
     pagination,
   }: {
     onAdd?: () => void;
-    onCurrency?: () => void;
     onFilterAdded?: (f: { type?: string; value?: string }) => void;
     onFilterRemoved?: (f: { type?: string; value?: string }) => void;
     onShowDeprecated?: (checked: boolean) => void;
@@ -91,9 +88,6 @@ jest.mock('./exchangeRateToolbar', () => ({
     <div data-testid="exchange-rate-toolbar">
       <button type="button" onClick={() => onAdd?.()}>
         toolbar-add
-      </button>
-      <button type="button" onClick={() => onCurrency?.()}>
-        toolbar-currency
       </button>
       <button type="button" onClick={() => onFilterAdded?.({ type: 'currency', value: 'USD' })}>
         toolbar-filter-add
@@ -185,7 +179,6 @@ describe('ExchangeRate', () => {
     expect(screen.getByTestId('exchange-rate-toolbar')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /toolbar-add/i }));
-    fireEvent.click(screen.getByRole('button', { name: /toolbar-currency/i }));
     fireEvent.click(screen.getByRole('button', { name: /toolbar-filter-add/i }));
     fireEvent.click(screen.getByRole('button', { name: /toolbar-filter-remove/i }));
     fireEvent.click(screen.getByRole('button', { name: /table-delete/i }));
