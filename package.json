@@ -20,6 +20,7 @@
     "check:dependencies": "ncu --workspaces",
     "check:dependencies:update": "ncu --workspaces -u",
     "clean": "npm exec --workspaces -- npm run clean",
+    "install:lockfile:backfill": "node scripts/backfill-lockfile-resolved.mjs",
     "install:pkgs": "npm install",
     "install:pkgs:force": "npm install --force",
     "install:pkgs:links": "npm run install:pkgs && npm install --install-links",
@@ -39,6 +40,7 @@
   },
   "scripts-info": {
     "check:dependencies": "Checks for outdated dependencies in each workspace",
+    "install:lockfile:backfill": "Backfill missing resolved URLs in package-lock.json for Konflux hermetic builds",
     "quick:start:koku": "Start Koku (ONPREM=False) and load all sample cost data",
     "quick:start:koku:onprem": "Start Koku (ONPREM=True) and load on-prem OCP sample data",
     "release:all": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
