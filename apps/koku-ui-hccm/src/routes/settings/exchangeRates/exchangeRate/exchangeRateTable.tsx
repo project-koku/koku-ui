@@ -78,7 +78,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'currency_name' }),
       },
       {
-        name: intl.formatMessage(messages.detailsResourceNames, { value: 'enabled' }),
+        name: intl.formatMessage(messages.detailsResourceNames, { value: 'on_off' }),
       },
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'active_rate' }),

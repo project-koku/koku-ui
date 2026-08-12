@@ -122,7 +122,9 @@ merge()
   git fetch origin $SOURCE_BRANCH
 
   echo "\n*** Merge origin/$SOURCE_BRANCH"
-  git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff
+  # Prefer source branch on conflicts. Deployment PRs are often squash-merged,
+  # which breaks ancestry with main/stage and causes repeat content conflicts.
+  git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff -X theirs
 }
 
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
