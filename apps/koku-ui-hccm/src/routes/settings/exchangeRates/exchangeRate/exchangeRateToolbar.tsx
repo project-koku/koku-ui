@@ -66,11 +66,6 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
 
-  const [currency, setCurrency] = useState(getAccountCurrency());
-  const [isFinish, setIsFinish] = useState(false);
-
-  const { settingsError, settingsFetchStatus } = useMapToProps();
-
   // Getters
 
   const getActions = () => {
@@ -89,12 +84,6 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
           />
         </span>
         {getTooltip(addRateAction)}
-        <Divider
-          orientation={{
-            default: 'vertical',
-          }}
-        />
-        {getCurrency()}
       </>
     );
   };
@@ -109,23 +98,6 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
       },
     ];
     return options;
-  };
-
-  const getCurrency = () => {
-    return (
-      <>
-        {intl.formatMessage(messages.displayDefaultCurrency)}
-        {getTooltip(
-          <Currency
-            currency={currency}
-            isDisabled={!canWrite}
-            isSessionStorage={false}
-            onSelect={handleOnCurrency}
-            showLabel={false}
-          />
-        )}
-      </>
-    );
   };
 
   const getTooltip = (comp: React.ReactElement) => {

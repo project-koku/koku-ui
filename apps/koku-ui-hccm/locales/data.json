@@ -8433,6 +8433,14 @@
               }
             ]
           },
+          "on_off": {
+            "value": [
+              {
+                "type": 0,
+                "value": "On/off"
+              }
+            ]
+          },
           "operating_system": {
             "value": [
               {
@@ -9125,12 +9133,6 @@
       {
         "type": 0,
         "value": "Display currency"
-      }
-    ],
-    "displayDefaultCurrency": [
-      {
-        "type": 0,
-        "value": "Display default currency"
       }
     ],
     "distribute": [
