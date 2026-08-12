@@ -8433,6 +8433,14 @@
               }
             ]
           },
+          "on_off": {
+            "value": [
+              {
+                "type": 0,
+                "value": "On/off"
+              }
+            ]
+          },
           "operating_system": {
             "value": [
               {

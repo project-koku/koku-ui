@@ -2012,6 +2012,7 @@ export default defineMessages({
       'metric {Metric} ' +
       'name {Name} ' +
       'node {Node names} ' +
+      'on_off {On/off} ' +
       'operating_system {Operating system} ' +
       'operator_version {Operator version} ' +
       'org_unit_id {Organizational unit names} ' +
@@ -4726,15 +4727,15 @@ export default defineMessages({
     description: 'Show deprecated',
     id: 'showDeprecated',
   },
-  showDisabled: {
-    defaultMessage: 'Show disabled',
-    description: 'Show disabled',
-    id: 'showDisabled',
-  },
   showDetails: {
     defaultMessage: 'Show details',
     description: 'Show details',
     id: 'showDetails',
+  },
+  showDisabled: {
+    defaultMessage: 'Show disabled',
+    description: 'Show disabled',
+    id: 'showDisabled',
   },
   sourcesTabTitle: {
     defaultMessage: 'Integrations',
