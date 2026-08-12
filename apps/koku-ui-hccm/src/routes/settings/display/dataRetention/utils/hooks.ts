@@ -2,9 +2,11 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 import { AccountSettingsType } from 'api/accountSettings';
 import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { buildNotification } from 'routes/settings/utils/buildNotification';
 import type { RootState } from 'store';
 import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
 import { getFetchId } from 'store/accountSettings/accountSettingsCommon';
@@ -22,17 +24,18 @@ interface NotificationProps {
 const useNotification = ({ error, isNotificationEnabled = true, notification, status, type }: NotificationProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const addNotification = useAddNotification();
+  const intl = useIntl();
 
   useEffect(() => {
     if ((error || status === FetchStatus.complete) && notification) {
       if (isNotificationEnabled) {
-        addNotification(notification as any);
+        addNotification(buildNotification(notification, intl) as any);
       }
       const fetchId = getFetchId(type);
       dispatch(accountSettingsActions.resetNotifications({ fetchId }));
       dispatch(accountSettingsActions.resetStatus({ fetchId }));
     }
-  }, [addNotification, dispatch, error, isNotificationEnabled, notification, status, type]);
+  }, [addNotification, dispatch, error, intl, isNotificationEnabled, notification, status, type]);
 };
 
 export const useDataRetentionNotifications = (isNotificationEnabled = true) => {

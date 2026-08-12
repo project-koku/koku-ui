@@ -211,10 +211,10 @@ const useMapToProps = ({ query }: ChildTagsMapProps): ChildTagsStateProps => {
   );
 
   useEffect(() => {
-    if (!settingsError && settingsFetchStatus !== FetchStatus.inProgress) {
+    if (settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(settingsActions.fetchSettings(SettingsType.tagsMappingsChild, settingsQueryString));
     }
-  }, [query, settingsError, settingsQueryString]);
+  }, [query, settingsQueryString]);
 
   return {
     settings,

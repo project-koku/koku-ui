@@ -1,22 +1,24 @@
 import { Card, CardBody, Pagination, PaginationVariant } from '@patternfly/react-core';
+import { AccountSettingsType } from 'api/accountSettings';
 import type { Query } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
 import { type Settings, SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
-import { useSettingsNotifications } from 'routes/settings/utils';
+import { useAccountSettingsNotifications, useSettingsNotifications } from 'routes/settings/utils';
 import { getFilterValuesById } from 'routes/settings/utils/filterBy';
 import * as queryUtils from 'routes/utils/query';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
+import { getAccountCurrency } from 'utils/sessionStorage';
 
 import { NoExchangeRateAssignedState, NoExchangeRateState } from './components/state';
 import { styles } from './exchangeRate.styles';
@@ -56,11 +58,12 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
 
   const hasFilters = Object.keys(query?.filter_by ?? {}).some(key => query.filter_by[key]?.length > 0);
   const hasNoCurrency = (!settings || settings?.data?.length === 0) && !hasFilters;
+  const isLoading = settingsFetchStatus === FetchStatus.inProgress;
 
   // Force update
-  // const forceUpdate = useCallback(() => {
-  //   setQuery(prev => ({ ...prev }));
-  // }, []);
+  const forceUpdate = useCallback(() => {
+    setQuery(prev => ({ ...prev }));
+  }, []);
 
   const getCardLayout = children => (
     <Card>
@@ -107,10 +110,11 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
         canWrite={canWrite}
         filterBy={query.filter_by}
         isDisabled={settings?.data?.length === 0}
-        isLoading={settingsFetchStatus === FetchStatus.inProgress}
-        // onDelete={handleOnDelete}
-        // onDeprecate={forceUpdate}
-        // onDuplicate={forceUpdate}
+        isLoading={isLoading}
+        onDelete={handleOnDelete}
+        onDuplicate={handleOnDuplicate}
+        onEdit={handleOnEdit}
+        onEnable={handleOnEnable}
         settings={settings}
       />
     );
@@ -124,21 +128,51 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
         isShowDisabled={isShowDisabled}
         itemsPerPage={settings?.meta?.limit ?? baseQuery.limit}
         itemsTotal={settings?.meta?.count ?? 0}
+        onAdd={handleOnAdd}
+        onCurrency={handleOnCurrency}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         onShowDeprecated={handleOnShowDeprecated}
         pagination={getPagination()}
         query={query}
+        settings={settings?.data}
       />
     );
   };
 
   // Handlers
 
-  // const handleOnDelete = () => {
-  //   handleOnSetPage(1);
-  //   forceUpdate();
-  // };
+  const handleOnAdd = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  // After default currency changes, refetch so the table reflects the updated disabled state
+  const handleOnCurrency = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  // Disabled currencies are removed from the paginated list of items, unless show disabled toggle is active
+  // When enabled, Currencies may appear in a different paginated order
+  const handleOnEnable = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  const handleOnDelete = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  const handleOnDuplicate = () => {
+    handleOnSetPage(1);
+    forceUpdate();
+  };
+
+  const handleOnEdit = () => {
+    forceUpdate();
+  };
 
   const handleOnFilterAdded = filter => {
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
@@ -170,10 +204,10 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
 
   return (
     <>
-      {!hasNoCurrency || settingsFetchStatus === FetchStatus.inProgress ? (
+      {!hasNoCurrency || isLoading ? (
         getCardLayout(
           <>
-            {settingsFetchStatus === FetchStatus.inProgress ? (
+            {isLoading ? (
               <LoadingState
                 body={intl.formatMessage(messages.exchangeRateLoadingStateDesc)}
                 heading={intl.formatMessage(messages.exchangeRateLoadingStateTitle)}
@@ -209,11 +243,12 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
   const filterByCurrency = getFilterValuesById(query, 'currency') || getFilterValuesById(baseQuery, 'currency');
 
   const settingsQuery = {
-    // ...(isShowDisabled && { enabled: false }),
-    enabled: isShowDisabled ? undefined : true, // Show enabled by default
+    filter: {
+      ...(filterByCurrency && { currency: filterByCurrency }), // Flattened currency filter
+      enabled: isShowDisabled ? undefined : true, // Show enabled by default
+    },
     limit: query.limit,
     offset: query.offset,
-    ...(filterByCurrency && { search: filterByCurrency }), // Flattened currency filter
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
@@ -227,14 +262,30 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
   );
 
   useEffect(() => {
-    if (!settingsError && settingsFetchStatus !== FetchStatus.inProgress) {
+    if (settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(settingsActions.fetchSettings(SettingsType.currency, settingsQueryString));
     }
-  }, [dispatch, settingsError, settingsQueryString, query]);
+  }, [dispatch, query, settingsQueryString]);
 
   // Notifications
+  useAccountSettingsNotifications({
+    getSessionValue: getAccountCurrency,
+    type: AccountSettingsType.currency,
+  });
   useSettingsNotifications({
-    type: SettingsType.currency,
+    type: SettingsType.currencyAdd,
+  });
+  useSettingsNotifications({
+    type: SettingsType.currencyDelete,
+  });
+  useSettingsNotifications({
+    type: SettingsType.currencyDisable,
+  });
+  useSettingsNotifications({
+    type: SettingsType.currencyEdit,
+  });
+  useSettingsNotifications({
+    type: SettingsType.currencyEnable,
   });
 
   return {

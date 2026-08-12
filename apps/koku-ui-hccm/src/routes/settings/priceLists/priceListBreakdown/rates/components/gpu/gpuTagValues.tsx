@@ -217,14 +217,10 @@ const useMapToProps = ({ tagKey }: GpuTagValuesMapProps): GpuTagValuesStateProps
   );
 
   useEffect(() => {
-    if (
-      !resourceError &&
-      resourceFetchStatus !== FetchStatus.inProgress &&
-      resourceFetchStatus !== FetchStatus.complete
-    ) {
+    if (resourceFetchStatus !== FetchStatus.inProgress) {
       dispatch(resourceActions.fetchResource(ResourcePathsType.ocp, ResourceType.gpuModel, reportQueryString));
     }
-  }, [reportQueryString, resourceError, resourceFetchStatus, ResourcePathsType.ocp, ResourceType.gpuModel]);
+  }, [reportQueryString, ResourcePathsType.ocp, ResourceType.gpuModel]);
 
   return {
     resource,

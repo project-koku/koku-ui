@@ -26,12 +26,12 @@ import { styles } from './dataTable.styles';
 interface CompoundExpandTableOwnProps {
   columns?: any[];
   emptyState?: React.ReactNode;
-  filterBy: any;
+  filterBy?: any;
   gridBreakPoint?: '' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl' | 'grid-2xl';
   isAllExpanded?: boolean;
   isLoading?: boolean;
-  onSort(sortType: string, isSortAscending: boolean);
-  orderBy: any;
+  onSort?: (sortType: string, isSortAscending: boolean) => void;
+  orderBy?: any;
   rows?: any[];
   selectedItems?: ComputedReportItem[];
 }

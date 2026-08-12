@@ -11,11 +11,13 @@ import { configureStore } from 'store/store';
 import { Display } from './display';
 
 let mockIsSettingsDataRetentionPeriodEnabled = true;
+let mockIsExchangeRateToggleEnabled = false;
 
 jest.mock('components/featureToggle', () => ({
   get isSettingsDataRetentionPeriodEnabled() {
     return mockIsSettingsDataRetentionPeriodEnabled;
   },
+  useIsExchangeRateToggleEnabled: () => mockIsExchangeRateToggleEnabled,
 }));
 
 jest.mock('utils/sessionStorage', () => ({
@@ -82,8 +84,8 @@ jest.mock('routes/components/currency', () => ({
 }));
 
 jest.mock('./dataRetention', () => ({
-  DataRetention: ({ isDisabled }: { isDisabled?: boolean }) => (
-    <div data-testid="data-retention" data-disabled={String(!!isDisabled)} />
+  DataRetention: ({ canWrite }: { canWrite?: boolean }) => (
+    <div data-testid="data-retention" data-disabled={String(!canWrite)} />
   ),
 }));
 
@@ -91,6 +93,7 @@ describe('Display', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockIsSettingsDataRetentionPeriodEnabled = true;
+    mockIsExchangeRateToggleEnabled = false;
   });
 
   const renderDisplay = (canWrite = true) => {
@@ -109,6 +112,13 @@ describe('Display', () => {
   test('renders currency and cost type sections', () => {
     renderDisplay();
     expect(screen.getByTestId('currency')).toBeInTheDocument();
+    expect(screen.getByTestId('cost-type')).toBeInTheDocument();
+  });
+
+  test('hides currency section when exchange rate toggle is enabled', () => {
+    mockIsExchangeRateToggleEnabled = true;
+    renderDisplay();
+    expect(screen.queryByTestId('currency')).not.toBeInTheDocument();
     expect(screen.getByTestId('cost-type')).toBeInTheDocument();
   });
 

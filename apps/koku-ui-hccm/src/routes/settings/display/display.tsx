@@ -1,6 +1,6 @@
 import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isSettingsDataRetentionPeriodEnabled, useIsExchangeRateToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -33,17 +33,20 @@ export interface DisplayStateProps {
 type DisplayProps = DisplayOwnProps;
 
 const Display: React.FC<DisplayProps> = ({ canWrite }) => {
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const intl = useIntl();
+
   const [costType, setCostType] = useState(getAccountCostType());
   const [currency, setCurrency] = useState(getAccountCurrency());
 
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-  const intl = useIntl();
+  const isExchangeRateToggleEnabled = useIsExchangeRateToggleEnabled();
 
   useMapToProps({ setCostType, setCurrency });
 
   const getCostType = () => {
+    const hasSibling = !isExchangeRateToggleEnabled || isSettingsDataRetentionPeriodEnabled;
     return (
-      <div style={styles.costTypeContainer}>
+      <div style={hasSibling ? styles.costTypeContainer : undefined}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
           {intl.formatMessage(messages.costTypeSettingsLabel)}
         </Title>
@@ -64,6 +67,9 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   };
 
   const getCurrency = () => {
+    if (isExchangeRateToggleEnabled) {
+      return null;
+    }
     return (
       <>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
@@ -96,14 +102,22 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
         </Title>
         {intl.formatMessage(messages.dataRetentionPeriodDesc)}
         <div style={styles.dataRetention}>
-          <DataRetention isDisabled={!canWrite} />
+          <DataRetention canWrite={canWrite} />
         </div>
       </div>
     );
   };
 
   const getTooltip = (comp: React.ReactElement) => {
-    return !canWrite ? <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>{comp}</Tooltip> : comp;
+    return !canWrite ? (
+      <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
+          {comp}
+        </span>
+      </Tooltip>
+    ) : (
+      comp
+    );
   };
 
   const handleOnCostType = (value: string) => {

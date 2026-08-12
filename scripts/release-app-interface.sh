@@ -254,42 +254,51 @@ initKokuUISHA()
   echo "koku-ui-ros prod: $ROS_PROD_SHA"
 }
 
+# Replace old SHA with new SHA only inside the given resource block
+# $1: resource name (koku-ui-hccm or koku-ui-ros)
+# $2: old SHA
+# $3: new SHA
+replaceSHA()
+{
+  RESOURCE="$1"
+  OLD_SHA="$2"
+  NEW_SHA="$3"
+
+  if [ -z "$OLD_SHA" ] || [ "$OLD_SHA" = "$MAIN_BRANCH" ] || [ "$OLD_SHA" = "$NEW_SHA" ]; then
+    return
+  fi
+
+  awk -v resource="$RESOURCE" -v old="$OLD_SHA" -v new="$NEW_SHA" '
+    $0 ~ "name:[[:space:]]*" resource "([[:space:]]|$)" { in_block = 1; print; next }
+    in_block && $0 ~ /name:[[:space:]]*koku-ui-/ { in_block = 0 }
+    in_block { gsub(old, new) }
+    { print }
+  ' "$DEPLOY_CLOWDER_FILE" > "${DEPLOY_CLOWDER_FILE}.tmp"
+  mv "${DEPLOY_CLOWDER_FILE}.tmp" "$DEPLOY_CLOWDER_FILE"
+}
+
 updateDeploySHA()
 {
   # koku-ui-hccm stage deploy
   if [ "$DEPLOY_HCCM_STAGE" = true ]; then
-    if [ "$HCCM_STAGE_FRONTENDS_SHA" != "$MAIN_BRANCH" ]; then
-      sed "s|$HCCM_STAGE_FRONTENDS_SHA|$HCCM_STAGE_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
-      mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
-    fi
-    if [ "$HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA" != "$MAIN_BRANCH" ]; then
-      sed "s|$HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA|$HCCM_STAGE_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
-      mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
-    fi
+    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_FRONTENDS_SHA" "$HCCM_STAGE_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$HCCM_STAGE_SHA"
   fi
 
   # koku-ui-hccm prod deploy
   if [ "$DEPLOY_HCCM_PROD" = true ]; then
-      sed "s|$HCCM_PROD_FRONTENDS_SHA|$HCCM_PROD_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
-      mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
+    replaceSHA "$KOKU_UI_HCCM" "$HCCM_PROD_FRONTENDS_SHA" "$HCCM_PROD_SHA"
   fi
 
   # koku-ui-ros stage deploy
   if [ "$DEPLOY_ROS_STAGE" = true ]; then
-    if [ "$ROS_STAGE_FRONTENDS_SHA" != "$MAIN_BRANCH" ]; then
-      sed "s|$ROS_STAGE_FRONTENDS_SHA|$ROS_STAGE_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
-      mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
-    fi
-    if [ "$ROS_STAGE_MULTICLUSTER_FRONTENDS_SHA" != "$MAIN_BRANCH" ]; then
-      sed "s|$ROS_STAGE_MULTICLUSTER_FRONTENDS_SHA|$ROS_STAGE_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
-      mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
-    fi
+    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_FRONTENDS_SHA" "$ROS_STAGE_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$ROS_STAGE_SHA"
   fi
 
   # koku-ui-ros prod deploy
   if [ "$DEPLOY_ROS_PROD" = true ]; then
-      sed "s|$ROS_PROD_FRONTENDS_SHA|$ROS_PROD_SHA|" $DEPLOY_CLOWDER_FILE > ${DEPLOY_CLOWDER_FILE}.tmp
-      mv ${DEPLOY_CLOWDER_FILE}.tmp $DEPLOY_CLOWDER_FILE
+    replaceSHA "$KOKU_UI_ROS" "$ROS_PROD_FRONTENDS_SHA" "$ROS_PROD_SHA"
   fi
 }
 
