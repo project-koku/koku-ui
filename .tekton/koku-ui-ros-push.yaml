@@ -24,7 +24,7 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/cost-mgmt-dev-tenant/koku-ui-ros:{{revision}}
   - name: dockerfile
-    value: build-tools/Dockerfile
+    value: Dockerfile.konflux
   - name: path-context
     value: .
   pipelineSpec:

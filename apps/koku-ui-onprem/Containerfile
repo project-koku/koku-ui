@@ -21,7 +21,9 @@ ENV HUSKY=0
 ENV NODE_OPTIONS=--max-old-space-size=6144
 ENV CYPRESS_INSTALL_BINARY=0
 ENV SENTRYCLI_SKIP_DOWNLOAD=1
-RUN npm ci --no-audit --no-fund
+# UBI node images ship an older npm; lockfile requires npm >=11.6.2 (generated with npm 12).
+ARG NPM_VERSION=12
+RUN npm install -g npm@${NPM_VERSION} && npm ci --no-audit --no-fund
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
 RUN npm run build --workspace=@koku-ui/koku-ui-onprem
