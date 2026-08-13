@@ -43,21 +43,22 @@
     "react-dom": "^18.3.1",
     "react-intl": "^7.1.14",
     "react-redux": "^9.3.0",
-    "react-router-dom": "^6.30.3",
+    "react-router-dom": "^6.30.4",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "cypress": "^15.20.0",
+    "cypress": "^15.20.1",
     "pac-proxy-agent": "^9.1.0",
     "sass": "^1.102.0",
     "sass-loader": "^17.0.0",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "webpack-dev-server": "^5.2.5"
   }
 }

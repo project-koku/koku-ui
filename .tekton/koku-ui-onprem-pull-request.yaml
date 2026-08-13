@@ -38,7 +38,7 @@ spec:
     value: "true"
   - name: build-args
     value:
-    - IMAGE_NAME=costmanagement-ui-rhel10
+    - IMAGE_NAME=costmanagement/costmanagement-ui-rhel10
     - VERSION=1
   pipelineSpec:
     description: |
