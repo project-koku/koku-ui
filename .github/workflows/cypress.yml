@@ -45,6 +45,11 @@ jobs:
         with:
           node-version: ${{ env.NODEJS_VERSION }}
 
+      # Node 22 ships npm 10; lockfile requires npm >=11.6.2 (see package.json engines)
+      - name: Upgrade npm
+        if: steps.changes.outputs.run == 'true'
+        run: npm install -g npm@11
+
       - name: Cache node modules
         if: steps.changes.outputs.run == 'true'
         uses: actions/cache@v4
