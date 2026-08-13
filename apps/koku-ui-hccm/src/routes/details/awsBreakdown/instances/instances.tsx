@@ -391,7 +391,7 @@ const useMapToProps = ({ costType, currency, query, queryStateName }): Instances
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
   }, [costType, currency, query]);

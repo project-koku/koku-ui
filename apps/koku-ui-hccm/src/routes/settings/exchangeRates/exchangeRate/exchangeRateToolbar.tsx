@@ -1,13 +1,15 @@
-import { Switch } from '@patternfly/react-core';
+import { Switch, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
+import type { SettingsData, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
-import { CreateExchangeRateAction } from 'routes/settings/exchangeRates/exchangeRateCreate/components/actions';
 import type { Filter } from 'routes/utils/filter';
+
+import { AddRate } from './components/add';
 
 interface ExchangeRateToolbarOwnProps {
   canWrite?: boolean;
@@ -16,11 +18,14 @@ interface ExchangeRateToolbarOwnProps {
   isShowDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
+  onAdd?: (rate: SettingsRateData) => void;
+  onClose?: () => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onShowDeprecated(checked: boolean);
   pagination?: React.ReactNode;
   query?: OcpQuery;
+  settings?: SettingsData[];
 }
 
 type ExchangeRateToolbarProps = ExchangeRateToolbarOwnProps;
@@ -32,15 +37,24 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
   isShowDisabled,
   itemsPerPage,
   itemsTotal,
+  onAdd,
+  onClose,
   onFilterAdded,
   onFilterRemoved,
   onShowDeprecated,
   pagination,
   query,
+  settings,
 }) => {
   const intl = useIntl();
 
+  // Getters
+
   const getActions = () => {
+    const addRateAction = (
+      <AddRate canWrite={canWrite} isDisabled={isDisabled} onAdd={onAdd} onClose={onClose} settings={settings} />
+    );
+
     return (
       <>
         <span>
@@ -51,7 +65,7 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
             onChange={handleOnChange}
           />
         </span>
-        <CreateExchangeRateAction canWrite={canWrite} />
+        {getTooltip(addRateAction)}
       </>
     );
   };
@@ -67,6 +81,20 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
     ];
     return options;
   };
+
+  const getTooltip = (comp: React.ReactElement) => {
+    return !canWrite ? (
+      <Tooltip content={intl.formatMessage(messages.readOnlyPermissions)}>
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
+          {comp}
+        </span>
+      </Tooltip>
+    ) : (
+      comp
+    );
+  };
+
+  // Handlers
 
   const handleOnChange = (_event: React.FormEvent<HTMLInputElement>, checked: boolean) => {
     if (onShowDeprecated) {

@@ -150,7 +150,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.costCategoriesDisable, {
+          settingsActions.updateCategorySettings(SettingsType.costCategoriesDisable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );
@@ -162,7 +162,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
     if (selectedItems.length > 0) {
       setSelectedItems([], () => {
         dispatch(
-          settingsActions.updateSettings(SettingsType.costCategoriesEnable, {
+          settingsActions.updateCategorySettings(SettingsType.costCategoriesEnable, {
             ids: selectedItems.map(item => item.uuid),
           })
         );
@@ -269,14 +269,13 @@ const useMapToProps = ({ query }: CostCategoryMapProps): CostCategoryStateProps 
 
   useEffect(() => {
     if (
-      !settingsError &&
       settingsFetchStatus !== FetchStatus.inProgress &&
       settingsDisableStatus !== FetchStatus.inProgress &&
       settingsEnableStatus !== FetchStatus.inProgress
     ) {
       dispatch(settingsActions.fetchSettings(SettingsType.costCategories, settingsQueryString));
     }
-  }, [query, settingsDisableStatus, settingsEnableStatus, settingsError]);
+  }, [query, settingsDisableStatus, settingsEnableStatus]);
 
   // Notifications
   useSettingsNotifications({

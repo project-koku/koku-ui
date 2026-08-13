@@ -162,12 +162,11 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   };
 
   private updateReport = () => {
-    const { accountSettings, accountSettingsError, accountSettingsFetchStatus, fetchAccountSettings } = this.props;
+    const { accountSettings, accountSettingsFetchStatus, fetchAccountSettings } = this.props;
 
     if (
       isSettingsDataRetentionPeriodEnabled &&
       !accountSettings &&
-      !accountSettingsError &&
       accountSettingsFetchStatus !== FetchStatus.inProgress
     ) {
       fetchAccountSettings(AccountSettingsType.dataRetention);
@@ -266,42 +265,63 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
     };
 
     // Store filter_by as an array, so we can add to it below
+    const addFilterByValue = (key: string, value) => {
+      if (value === undefined || value === null) {
+        return;
+      }
+      if (newQuery.filter_by[key] === undefined) {
+        newQuery.filter_by[key] = [];
+      }
+      const values = Array.isArray(value) ? value : [value];
+      for (const val of values) {
+        if (!newQuery.filter_by[key].includes(val)) {
+          newQuery.filter_by[key].push(val);
+        }
+      }
+    };
+
     if (queryFromRoute.filter_by) {
       for (const key of Object.keys(queryFromRoute.filter_by)) {
-        if (newQuery.filter_by[key] === undefined) {
-          newQuery.filter_by[key] = [];
+        // Selected rows define the group_by filter; keep other page filters (e.g. cluster)
+        if (!isAllItems && key === groupBy) {
+          continue;
         }
-        newQuery.filter_by[key].push(queryFromRoute.filter_by[key]);
+        addFilterByValue(key, queryFromRoute.filter_by[key]);
       }
     }
 
     if (isAllItems) {
       // Ensure group_by isn't overridden -- org_unit_id is not unique
       if (groupBy === orgUnitIdKey) {
-        if (newQuery.filter_by[orgUnitIdKey] === undefined) {
-          newQuery.filter_by[orgUnitIdKey] = [];
-        }
-        newQuery.filter_by[orgUnitIdKey].push(queryFromRoute.group_by[orgUnitIdKey]);
+        addFilterByValue(orgUnitIdKey, queryFromRoute.group_by[orgUnitIdKey]);
       }
     } else {
       if (groupBy === orgUnitIdKey) {
         for (const item of items) {
           // Note that type only exists when grouping by org units
           const type = item.type === 'organizational_unit' ? orgUnitIdKey : item.type;
-          if (newQuery.filter_by[type] === undefined) {
-            newQuery.filter_by[type] = [];
-          }
-          newQuery.filter_by[type].push(item.id);
+          addFilterByValue(type, item.id);
         }
       } else {
         for (const item of items) {
-          if (newQuery.filter_by[groupBy] === undefined) {
-            newQuery.filter_by[groupBy] = [];
-          }
-          newQuery.filter_by[groupBy].push(item.id);
+          addFilterByValue(groupBy, item.id);
         }
       }
     }
+
+    // reportQueryString is built via getQuery(), which already converts page filter_by
+    // values into filter. Clear those keys so convertFilterBy does not emit duplicates
+    // or retain unselected group_by filter values from the page.
+    const filterKeysToReplace = new Set(Object.keys(newQuery.filter_by));
+    if (!isAllItems && groupBy) {
+      filterKeysToReplace.add(groupBy);
+    }
+    for (const key of filterKeysToReplace) {
+      if (newQuery.filter?.[key] !== undefined) {
+        newQuery.filter[key] = undefined;
+      }
+    }
+
     return getQuery(newQuery);
   };
 

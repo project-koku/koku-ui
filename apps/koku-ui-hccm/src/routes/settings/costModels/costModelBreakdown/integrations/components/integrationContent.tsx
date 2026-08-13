@@ -290,10 +290,10 @@ const useMapToProps = ({ costModel, query, sourceType }: IntegrationContentMapPr
   );
 
   useEffect(() => {
-    if (!providersError && providersFetchStatus !== FetchStatus.inProgress) {
+    if (providersFetchStatus !== FetchStatus.inProgress) {
       dispatch(providersActions.fetchProviders(providerType, providersQueryString));
     }
-  }, [providersError, providersQueryString, providerType, dispatch, query]);
+  }, [providersQueryString, providerType, dispatch, query]);
 
   return {
     providers,

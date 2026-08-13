@@ -110,7 +110,7 @@ const useMapToProps = ({ resourcePathsType, resourceType, search }: ResourceFetc
   );
 
   useEffect(() => {
-    if (search?.trim().length && !resourceError && resourceFetchStatus !== FetchStatus.inProgress) {
+    if (search?.trim().length && resourceFetchStatus !== FetchStatus.inProgress) {
       clearTimeout(searchTimeout);
 
       // Delay was 750ms, but reduced -- https://redhat.atlassian.net/browse/COST-1742
@@ -124,6 +124,7 @@ const useMapToProps = ({ resourcePathsType, resourceType, search }: ResourceFetc
 
   return {
     resource,
+    resourceError,
     resourceFetchStatus,
     resourceQueryString,
   };
