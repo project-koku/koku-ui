@@ -11,6 +11,7 @@ on:
 env:
   BRANCH: ${{ github.base_ref }}
   NODEJS_VERSION: '22'
+  NPM_VERSION: '11.19.0'
 
 jobs:
   build:
@@ -29,6 +30,9 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODEJS_VERSION }}
+
+      - name: Upgrade npm
+        run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - name: Cache node modules
         id: cache-npm
@@ -78,6 +82,9 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODEJS_VERSION }}
+
+      - name: Upgrade npm
+        run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - name: Cache node modules
         id: cache-npm

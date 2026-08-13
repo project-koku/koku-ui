@@ -27,7 +27,7 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: dockerfile
-    value: build-tools/Dockerfile
+    value: Dockerfile.konflux
   - name: path-context
     value: .
   pipelineSpec:

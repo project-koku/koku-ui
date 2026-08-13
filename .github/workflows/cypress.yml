@@ -9,6 +9,7 @@ on:
 
 env:
   NODEJS_VERSION: '22'
+  NPM_VERSION: '11.19.0'
 
 jobs:
   cypress:
@@ -44,6 +45,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODEJS_VERSION }}
+
+      - name: Upgrade npm
+        if: steps.changes.outputs.run == 'true'
+        run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - name: Cache node modules
         if: steps.changes.outputs.run == 'true'
