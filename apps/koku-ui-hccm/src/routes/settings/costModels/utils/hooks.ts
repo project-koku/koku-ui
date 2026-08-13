@@ -1,9 +1,11 @@
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { buildNotification } from 'routes/settings/utils/buildNotification';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -11,23 +13,24 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 interface NotificationProps {
   error: AxiosError;
   isNotificationEnabled?: boolean;
-  notification: Notification;
+  notification: any;
   status: FetchStatus;
 }
 
 const useNotification = ({ error, isNotificationEnabled = true, notification, status }: NotificationProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const addNotification = useAddNotification();
+  const intl = useIntl();
 
   useEffect(() => {
     if ((error || status === FetchStatus.complete) && notification) {
       if (isNotificationEnabled) {
-        addNotification(notification as any);
+        addNotification(buildNotification(notification, intl) as any);
       }
       dispatch(costModelsActions.resetNotifications());
       dispatch(costModelsActions.resetStatus());
     }
-  }, [addNotification, dispatch, error, isNotificationEnabled, notification, status]);
+  }, [addNotification, dispatch, error, intl, isNotificationEnabled, notification, status]);
 };
 
 export const useCostModelAddNotification = (isNotificationEnabled: boolean) => {

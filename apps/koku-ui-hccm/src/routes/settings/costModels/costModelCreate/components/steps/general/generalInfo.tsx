@@ -15,7 +15,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
-import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
+import { CurrencyWrapper } from 'routes/components/currency';
 import { Selector } from 'routes/settings/components';
 
 import { styles } from './generalInfo.styles';
@@ -139,16 +139,15 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
             options={sourceTypeOptions}
             value={getValueLabel(sourceType, sourceTypeOptions)}
           />
-          <Selector
+          <CurrencyWrapper
             label={messages.currency}
             direction="up"
             appendMenuTo="inline"
             maxMenuHeight={styles.selector.maxHeight as string}
-            toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
-            value={getCurrencyLabel(currency)}
+            toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
+            value={currency}
             onSelect={(_evt, value) => onCurrencyChange(value)}
             id="currency"
-            options={getCurrencyOptions()}
           />
         </Form>
       </StackItem>

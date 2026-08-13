@@ -310,7 +310,7 @@ const useMapToProps = ({
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(reportActions.fetchReport(reportPathsType, reportType, reportQueryString));
     }
   }, [currency, exclude, filterBy, groupBy, query, timeScopeValue]);

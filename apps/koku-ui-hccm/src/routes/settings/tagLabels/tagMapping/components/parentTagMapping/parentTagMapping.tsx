@@ -199,7 +199,7 @@ const ParentTagMapping: React.FC<ParentTagMappingProps> = ({
   const handleOnCreateTagMapping = () => {
     if (settingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(
-        settingsActions.updateSettings(SettingsType.tagsMappingsChildAdd, {
+        settingsActions.updateTagSettings(SettingsType.tagsMappingsChildAdd, {
           parent: parentTags.length ? parentTags[0].uuid : undefined,
           children: childTags.map(item => item.uuid),
         })

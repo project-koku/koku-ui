@@ -28,3 +28,27 @@ test('parse Django errors', () => {
   };
   expect(parseApiError(axiosError)).toBe('name: is required, markup: must be a decimal number');
 });
+
+test('parse DRF detail string', () => {
+  const axiosError = {
+    response: {
+      data: {
+        detail: 'Base currency cannot be modified. Delete and recreate the exchange rate instead.',
+      },
+    },
+  };
+  expect(parseApiError(axiosError)).toBe(
+    'Base currency cannot be modified. Delete and recreate the exchange rate instead.'
+  );
+});
+
+test('parse errors without source', () => {
+  const axiosError = {
+    response: {
+      data: {
+        errors: [{ detail: 'Base currency cannot be modified.' }],
+      },
+    },
+  };
+  expect(parseApiError(axiosError)).toBe('Base currency cannot be modified.');
+});

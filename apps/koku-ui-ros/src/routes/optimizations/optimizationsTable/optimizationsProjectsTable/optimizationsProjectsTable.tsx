@@ -319,7 +319,7 @@ const useMapToProps = ({
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
     }
   }, [project, query]);

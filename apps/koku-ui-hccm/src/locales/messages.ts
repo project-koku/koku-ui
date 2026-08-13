@@ -981,11 +981,6 @@ export default defineMessages({
     description: 'Create a price list',
     id: 'costModelsWizardCreatePriceList',
   },
-  costModelsWizardCurrencyToggleLabel: {
-    defaultMessage: 'Select currency',
-    description: 'Select currency',
-    id: 'costModelsWizardCurrencyToggleLabel',
-  },
   costModelsWizardEmptySourceTypeLabel: {
     defaultMessage: 'Select integration',
     description: 'Select integration',
@@ -1257,11 +1252,6 @@ export default defineMessages({
     description: 'Create a cost model',
     id: 'createCostModelTitle',
   },
-  createExchangeRate: {
-    defaultMessage: 'Create exchange rate',
-    description: 'Create exchange rate',
-    id: 'createExchangeRate',
-  },
   createPriceList: {
     defaultMessage: 'Create a price list',
     description: 'Create a price list',
@@ -1304,46 +1294,385 @@ export default defineMessages({
     description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
     id: 'currencyAbbreviations',
   },
+  currencyAddErrorDesc: {
+    defaultMessage: 'Failed to add exchange rate',
+    description: 'Failed to add exchange rate',
+    id: 'currencyAddErrorDesc',
+  },
+  currencyAddErrorTitle: {
+    defaultMessage: 'Unable to add exchange rate',
+    description: 'Unable to add exchange rate',
+    id: 'currencyAddErrorTitle',
+  },
   currencyCalcuationsTitle: {
     defaultMessage: 'Currency and calculations',
     description: 'Currency and calculations',
     id: 'currencyCalcuationsTitle',
+  },
+  currencyDeleteErrorDesc: {
+    defaultMessage: 'Failed to remove exchange rate',
+    description: 'Failed to remove exchange rate',
+    id: 'currencyDeleteErrorDesc',
+  },
+  currencyDeleteErrorTitle: {
+    defaultMessage: 'Unable to remove exchange rate',
+    description: 'Unable to remove exchange rate',
+    id: 'currencyDeleteErrorTitle',
   },
   currencyDesc: {
     defaultMessage: 'Select the preferred currency view for your organization',
     description: 'Select the preferred currency view for your organization',
     id: 'currencyDesc',
   },
+  currencyDisableErrorDesc: {
+    defaultMessage: 'Failed to disable exchange rate',
+    description: 'Failed to disable exchange rate',
+    id: 'currencyDisableErrorDesc',
+  },
+  currencyDisableErrorTitle: {
+    defaultMessage: 'Unable to disable exchange rate',
+    description: 'Unable to disable exchange rate',
+    id: 'currencyDisableErrorTitle',
+  },
+  currencyEditErrorDesc: {
+    defaultMessage: 'Failed to update exchange rate',
+    description: 'Failed to update exchange rate',
+    id: 'currencyEditErrorDesc',
+  },
+  currencyEditErrorTitle: {
+    defaultMessage: 'Unable to update exchange rate',
+    description: 'Unable to update exchange rate',
+    id: 'currencyEditErrorTitle',
+  },
+  currencyEnableErrorDesc: {
+    defaultMessage: 'Failed to enable exchange rate',
+    description: 'Failed to enable exchange rate',
+    id: 'currencyEnableErrorDesc',
+  },
+  currencyEnableErrorTitle: {
+    defaultMessage: 'Unable to enable exchange rate',
+    description: 'Unable to enable exchange rate',
+    id: 'currencyEnableErrorTitle',
+  },
   // See https://www.localeplanet.com/icu/currency.html
   currencyOptions: {
     defaultMessage:
       '{currency, select, ' +
+      'ADP {ADP ({symbol}) - Andorran Peseta}' +
       'AED {AED ({symbol}) - United Arab Emirates Dirham}' +
+      'AFA {AFA ({symbol}) - Afghan Afghani (1927–2002)}' +
+      'AFN {AFN ({symbol}) - Afghan Afghani}' +
+      'ALK {ALK ({symbol}) - Albanian Lek (1946–1965)}' +
+      'ALL {ALL ({symbol}) - Albanian Lek}' +
+      'AMD {AMD ({symbol}) - Armenian Dram}' +
+      'ANG {ANG ({symbol}) - Netherlands Antillean Guilder}' +
+      'AOA {AOA ({symbol}) - Angolan Kwanza}' +
+      'AOK {AOK ({symbol}) - Angolan Kwanza (1977–1991)}' +
+      'AON {AON ({symbol}) - Angolan New Kwanza (1990–2000)}' +
+      'AOR {AOR ({symbol}) - Angolan Readjusted Kwanza (1995–1999)}' +
+      'ARA {ARA ({symbol}) - Argentine Austral}' +
+      'ARL {ARL ({symbol}) - Argentine Peso Ley (1970–1983)}' +
+      'ARM {ARM ({symbol}) - Argentine Peso (1881–1970)}' +
+      'ARP {ARP ({symbol}) - Argentine Peso (1983–1985)}' +
+      'ARS {ARS ({symbol}) - Argentine Peso}' +
+      'ATS {ATS ({symbol}) - Austrian Schilling}' +
       'AUD {AUD ({symbol}) - Australian Dollar}' +
+      'AWG {AWG ({symbol}) - Aruban Florin}' +
+      'AZM {AZM ({symbol}) - Azerbaijani Manat (1993–2006)}' +
+      'AZN {AZN ({symbol}) - Azerbaijani Manat}' +
+      'BAD {BAD ({symbol}) - Bosnia-Herzegovina Dinar (1992–1994)}' +
+      'BAM {BAM ({symbol}) - Bosnia-Herzegovina Convertible Mark}' +
+      'BAN {BAN ({symbol}) - Bosnia-Herzegovina New Dinar (1994–1997)}' +
+      'BBD {BBD ({symbol}) - Barbadian Dollar}' +
+      'BDT {BDT ({symbol}) - Bangladeshi Taka}' +
+      'BEC {BEC ({symbol}) - Belgian Franc (convertible)}' +
+      'BEF {BEF ({symbol}) - Belgian Franc}' +
+      'BEL {BEL ({symbol}) - Belgian Franc (financial)}' +
+      'BGL {BGL ({symbol}) - Bulgarian Hard Lev}' +
+      'BGM {BGM ({symbol}) - Bulgarian Socialist Lev}' +
+      'BGN {BGN ({symbol}) - Bulgarian Lev}' +
+      'BGO {BGO ({symbol}) - Bulgarian Lev (1879–1952)}' +
+      'BHD {BHD ({symbol}) - Bahraini Dinar}' +
+      'BIF {BIF ({symbol}) - Burundian Franc}' +
+      'BMD {BMD ({symbol}) - Bermudan Dollar}' +
+      'BND {BND ({symbol}) - Brunei Dollar}' +
+      'BOB {BOB ({symbol}) - Bolivian Boliviano}' +
+      'BOL {BOL ({symbol}) - Bolivian Boliviano (1863–1963)}' +
+      'BOP {BOP ({symbol}) - Bolivian Peso}' +
+      'BOV {BOV ({symbol}) - Bolivian Mvdol}' +
+      'BRB {BRB ({symbol}) - Brazilian New Cruzeiro (1967–1986)}' +
+      'BRC {BRC ({symbol}) - Brazilian Cruzado (1986–1989)}' +
+      'BRE {BRE ({symbol}) - Brazilian Cruzeiro (1990–1993)}' +
       'BRL {BRL ({symbol}) - Brazilian Real}' +
+      'BRN {BRN ({symbol}) - Brazilian New Cruzado (1989–1990)}' +
+      'BRR {BRR ({symbol}) - Brazilian Cruzeiro (1993–1994)}' +
+      'BRZ {BRZ ({symbol}) - Brazilian Cruzeiro (1942–1967)}' +
+      'BSD {BSD ({symbol}) - Bahamian Dollar}' +
+      'BTN {BTN ({symbol}) - Bhutanese Ngultrum}' +
+      'BUK {BUK ({symbol}) - Burmese Kyat}' +
+      'BWP {BWP ({symbol}) - Botswanan Pula}' +
+      'BYB {BYB ({symbol}) - Belarusian Ruble (1994–1999)}' +
+      'BYN {BYN ({symbol}) - Belarusian Ruble}' +
+      'BYR {BYR ({symbol}) - Belarusian Ruble (2000–2016)}' +
+      'BZD {BZD ({symbol}) - Belize Dollar}' +
       'CAD {CAD ({symbol}) - Canadian Dollar}' +
+      'CDF {CDF ({symbol}) - Congolese Franc}' +
+      'CHE {CHE ({symbol}) - WIR Euro}' +
       'CHF {CHF ({symbol}) - Swiss Franc}' +
+      'CHW {CHW ({symbol}) - WIR Franc}' +
+      'CLE {CLE ({symbol}) - Chilean Escudo}' +
+      'CLF {CLF ({symbol}) - Chilean Unit of Account (UF)}' +
+      'CLP {CLP ({symbol}) - Chilean Peso}' +
+      'CNH {CNH ({symbol}) - Chinese Yuan (offshore)}' +
+      'CNX {CNX ({symbol}) - Chinese People’s Bank Dollar}' +
       'CNY {CNY ({symbol}) - Chinese Yuan}' +
+      'COP {COP ({symbol}) - Colombian Peso}' +
+      'COU {COU ({symbol}) - Colombian Real Value Unit}' +
+      'CRC {CRC ({symbol}) - Costa Rican Colón}' +
+      'CSD {CSD ({symbol}) - Serbian Dinar (2002–2006)}' +
+      'CSK {CSK ({symbol}) - Czechoslovak Hard Koruna}' +
+      'CUC {CUC ({symbol}) - Cuban Convertible Peso}' +
+      'CUP {CUP ({symbol}) - Cuban Peso}' +
+      'CVE {CVE ({symbol}) - Cape Verdean Escudo}' +
+      'CYP {CYP ({symbol}) - Cypriot Pound}' +
       'CZK {CZK ({symbol}) - Czech Koruna}' +
+      'DDM {DDM ({symbol}) - East German Mark}' +
+      'DEM {DEM ({symbol}) - German Mark}' +
+      'DJF {DJF ({symbol}) - Djiboutian Franc}' +
       'DKK {DKK ({symbol}) - Danish Krone}' +
+      'DOP {DOP ({symbol}) - Dominican Peso}' +
+      'DZD {DZD ({symbol}) - Algerian Dinar}' +
+      'ECS {ECS ({symbol}) - Ecuadorian Sucre}' +
+      'ECV {ECV ({symbol}) - Ecuadorian Unit of Constant Value}' +
+      'EEK {EEK ({symbol}) - Estonian Kroon}' +
+      'EGP {EGP ({symbol}) - Egyptian Pound}' +
+      'ERN {ERN ({symbol}) - Eritrean Nakfa}' +
+      'ESA {ESA ({symbol}) - Spanish Peseta (A account)}' +
+      'ESB {ESB ({symbol}) - Spanish Peseta (convertible account)}' +
+      'ESP {ESP ({symbol}) - Spanish Peseta}' +
+      'ETB {ETB ({symbol}) - Ethiopian Birr}' +
       'EUR {EUR ({symbol}) - Euro}' +
+      'FIM {FIM ({symbol}) - Finnish Markka}' +
+      'FJD {FJD ({symbol}) - Fijian Dollar}' +
+      'FKP {FKP ({symbol}) - Falkland Islands Pound}' +
+      'FRF {FRF ({symbol}) - French Franc}' +
       'GBP {GBP ({symbol}) - British Pound}' +
+      'GEK {GEK ({symbol}) - Georgian Kupon Larit}' +
+      'GEL {GEL ({symbol}) - Georgian Lari}' +
+      'GHC {GHC ({symbol}) - Ghanaian Cedi (1979–2007)}' +
       'GHS {GHS ({symbol}) - Ghanaian Cedi}' +
+      'GIP {GIP ({symbol}) - Gibraltar Pound}' +
+      'GMD {GMD ({symbol}) - Gambian Dalasi}' +
+      'GNF {GNF ({symbol}) - Guinean Franc}' +
+      'GNS {GNS ({symbol}) - Guinean Syli}' +
+      'GQE {GQE ({symbol}) - Equatorial Guinean Ekwele}' +
+      'GRD {GRD ({symbol}) - Greek Drachma}' +
+      'GTQ {GTQ ({symbol}) - Guatemalan Quetzal}' +
+      'GWE {GWE ({symbol}) - Portuguese Guinea Escudo}' +
+      'GWP {GWP ({symbol}) - Guinea-Bissau Peso}' +
+      'GYD {GYD ({symbol}) - Guyanaese Dollar}' +
       'HKD {HKD ({symbol}) - Hong Kong Dollar}' +
+      'HNL {HNL ({symbol}) - Honduran Lempira}' +
+      'HRD {HRD ({symbol}) - Croatian Dinar}' +
+      'HRK {HRK ({symbol}) - Croatian Kuna}' +
+      'HTG {HTG ({symbol}) - Haitian Gourde}' +
+      'HUF {HUF ({symbol}) - Hungarian Forint}' +
+      'IDR {IDR ({symbol}) - Indonesian Rupiah}' +
+      'IEP {IEP ({symbol}) - Irish Pound}' +
+      'ILP {ILP ({symbol}) - Israeli Pound}' +
+      'ILR {ILR ({symbol}) - Israeli Shekel (1980–1985)}' +
+      'ILS {ILS ({symbol}) - Israeli New Shekel}' +
       'INR {INR ({symbol}) - Indian Rupee}' +
+      'IQD {IQD ({symbol}) - Iraqi Dinar}' +
+      'IRR {IRR ({symbol}) - Iranian Rial}' +
+      'ISJ {ISJ ({symbol}) - Icelandic Króna (1918–1981)}' +
+      'ISK {ISK ({symbol}) - Icelandic Króna}' +
+      'ITL {ITL ({symbol}) - Italian Lira}' +
+      'JMD {JMD ({symbol}) - Jamaican Dollar}' +
+      'JOD {JOD ({symbol}) - Jordanian Dinar}' +
       'JPY {JPY ({symbol}) - Japanese Yen}' +
+      'KES {KES ({symbol}) - Kenyan Shilling}' +
+      'KGS {KGS ({symbol}) - Kyrgystani Som}' +
+      'KHR {KHR ({symbol}) - Cambodian Riel}' +
+      'KMF {KMF ({symbol}) - Comorian Franc}' +
+      'KPW {KPW ({symbol}) - North Korean Won}' +
+      'KRH {KRH ({symbol}) - South Korean Hwan (1953–1962)}' +
+      'KRO {KRO ({symbol}) - South Korean Won (1945–1953)}' +
+      'KRW {KRW ({symbol}) - South Korean Won}' +
+      'KWD {KWD ({symbol}) - Kuwaiti Dinar}' +
+      'KYD {KYD ({symbol}) - Cayman Islands Dollar}' +
+      'KZT {KZT ({symbol}) - Kazakhstani Tenge}' +
+      'LAK {LAK ({symbol}) - Laotian Kip}' +
+      'LBP {LBP ({symbol}) - Lebanese Pound}' +
+      'LKR {LKR ({symbol}) - Sri Lankan Rupee}' +
+      'LRD {LRD ({symbol}) - Liberian Dollar}' +
+      'LSL {LSL ({symbol}) - Lesotho Loti}' +
+      'LTL {LTL ({symbol}) - Lithuanian Litas}' +
+      'LTT {LTT ({symbol}) - Lithuanian Talonas}' +
+      'LUC {LUC ({symbol}) - Luxembourgian Convertible Franc}' +
+      'LUF {LUF ({symbol}) - Luxembourgian Franc}' +
+      'LUL {LUL ({symbol}) - Luxembourg Financial Franc}' +
+      'LVL {LVL ({symbol}) - Latvian Lats}' +
+      'LVR {LVR ({symbol}) - Latvian Ruble}' +
+      'LYD {LYD ({symbol}) - Libyan Dinar}' +
+      'MAD {MAD ({symbol}) - Moroccan Dirham}' +
+      'MAF {MAF ({symbol}) - Moroccan Franc}' +
+      'MCF {MCF ({symbol}) - Monegasque Franc}' +
+      'MDC {MDC ({symbol}) - Moldovan Cupon}' +
+      'MDL {MDL ({symbol}) - Moldovan Leu}' +
+      'MGA {MGA ({symbol}) - Malagasy Ariary}' +
+      'MGF {MGF ({symbol}) - Malagasy Franc}' +
+      'MKD {MKD ({symbol}) - Macedonian Denar}' +
+      'MKN {MKN ({symbol}) - Macedonian Denar (1992–1993)}' +
+      'MLF {MLF ({symbol}) - Malian Franc}' +
+      'MMK {MMK ({symbol}) - Myanmar Kyat}' +
+      'MNT {MNT ({symbol}) - Mongolian Tugrik}' +
+      'MOP {MOP ({symbol}) - Macanese Pataca}' +
+      'MRO {MRO ({symbol}) - Mauritanian Ouguiya (1973–2017)}' +
+      'MRU {MRU ({symbol}) - Mauritanian Ouguiya}' +
+      'MTL {MTL ({symbol}) - Maltese Lira}' +
+      'MTP {MTP ({symbol}) - Maltese Pound}' +
+      'MUR {MUR ({symbol}) - Mauritian Rupee}' +
+      'MVP {MVP ({symbol}) - Maldivian Rupee (1947–1981)}' +
+      'MVR {MVR ({symbol}) - Maldivian Rufiyaa}' +
+      'MWK {MWK ({symbol}) - Malawian Kwacha}' +
+      'MXN {MXN ({symbol}) - Mexican Peso}' +
+      'MXP {MXP ({symbol}) - Mexican Silver Peso (1861–1992)}' +
+      'MXV {MXV ({symbol}) - Mexican Investment Unit}' +
+      'MYR {MYR ({symbol}) - Malaysian Ringgit}' +
+      'MZE {MZE ({symbol}) - Mozambican Escudo}' +
+      'MZM {MZM ({symbol}) - Mozambican Metical (1980–2006)}' +
+      'MZN {MZN ({symbol}) - Mozambican Metical}' +
+      'NAD {NAD ({symbol}) - Namibian Dollar}' +
       'NGN {NGN ({symbol}) - Nigerian Naira}' +
+      'NIC {NIC ({symbol}) - Nicaraguan Córdoba (1988–1991)}' +
+      'NIO {NIO ({symbol}) - Nicaraguan Córdoba}' +
+      'NLG {NLG ({symbol}) - Dutch Guilder}' +
       'NOK {NOK ({symbol}) - Norwegian Krone}' +
+      'NPR {NPR ({symbol}) - Nepalese Rupee}' +
       'NZD {NZD ({symbol}) - New Zealand Dollar}' +
+      'OMR {OMR ({symbol}) - Omani Rial}' +
+      'PAB {PAB ({symbol}) - Panamanian Balboa}' +
+      'PEI {PEI ({symbol}) - Peruvian Inti}' +
+      'PEN {PEN ({symbol}) - Peruvian Sol}' +
+      'PES {PES ({symbol}) - Peruvian Sol (1863–1965)}' +
+      'PGK {PGK ({symbol}) - Papua New Guinean Kina}' +
+      'PHP {PHP ({symbol}) - Philippine Peso}' +
+      'PKR {PKR ({symbol}) - Pakistani Rupee}' +
+      'PLN {PLN ({symbol}) - Polish Zloty}' +
+      'PLZ {PLZ ({symbol}) - Polish Zloty (1950–1995)}' +
+      'PTE {PTE ({symbol}) - Portuguese Escudo}' +
+      'PYG {PYG ({symbol}) - Paraguayan Guarani}' +
+      'QAR {QAR ({symbol}) - Qatari Riyal}' +
+      'RHD {RHD ({symbol}) - Rhodesian Dollar}' +
+      'ROL {ROL ({symbol}) - Romanian Leu (1952–2006)}' +
+      'RON {RON ({symbol}) - Romanian Leu}' +
+      'RSD {RSD ({symbol}) - Serbian Dinar}' +
+      'RUB {RUB ({symbol}) - Russian Ruble}' +
+      'RUR {RUR ({symbol}) - Russian Ruble (1991–1998)}' +
+      'RWF {RWF ({symbol}) - Rwandan Franc}' +
       'SAR {SAR ({symbol}) - Saudi Riyal}' +
+      'SBD {SBD ({symbol}) - Solomon Islands Dollar}' +
+      'SCR {SCR ({symbol}) - Seychellois Rupee}' +
+      'SDD {SDD ({symbol}) - Sudanese Dinar (1992–2007)}' +
+      'SDG {SDG ({symbol}) - Sudanese Pound}' +
+      'SDP {SDP ({symbol}) - Sudanese Pound (1957–1998)}' +
       'SEK {SEK ({symbol}) - Swedish Krona}' +
       'SGD {SGD ({symbol}) - Singapore Dollar}' +
+      'SHP {SHP ({symbol}) - St. Helena Pound}' +
+      'SIT {SIT ({symbol}) - Slovenian Tolar}' +
+      'SKK {SKK ({symbol}) - Slovak Koruna}' +
+      'SLE {SLE ({symbol}) - Sierra Leonean Leone}' +
+      'SLL {SLL ({symbol}) - Sierra Leonean Leone (1964—2022)}' +
+      'SOS {SOS ({symbol}) - Somali Shilling}' +
+      'SRD {SRD ({symbol}) - Surinamese Dollar}' +
+      'SRG {SRG ({symbol}) - Surinamese Guilder}' +
+      'SSP {SSP ({symbol}) - South Sudanese Pound}' +
+      'STD {STD ({symbol}) - São Tomé & Príncipe Dobra (1977–2017)}' +
+      'STN {STN ({symbol}) - São Tomé & Príncipe Dobra}' +
+      'SUR {SUR ({symbol}) - Soviet Rouble}' +
+      'SVC {SVC ({symbol}) - Salvadoran Colón}' +
+      'SYP {SYP ({symbol}) - Syrian Pound}' +
+      'SZL {SZL ({symbol}) - Swazi Lilangeni}' +
+      'THB {THB ({symbol}) - Thai Baht}' +
+      'TJR {TJR ({symbol}) - Tajikistani Ruble}' +
+      'TJS {TJS ({symbol}) - Tajikistani Somoni}' +
+      'TMM {TMM ({symbol}) - Turkmenistani Manat (1993–2009)}' +
+      'TMT {TMT ({symbol}) - Turkmenistani Manat}' +
+      'TND {TND ({symbol}) - Tunisian Dinar}' +
+      'TOP {TOP ({symbol}) - Tongan Paʻanga}' +
+      'TPE {TPE ({symbol}) - Timorese Escudo}' +
+      'TRL {TRL ({symbol}) - Turkish Lira (1922–2005)}' +
+      'TRY {TRY ({symbol}) - Turkish Lira}' +
+      'TTD {TTD ({symbol}) - Trinidad & Tobago Dollar}' +
       'TWD {TWD ({symbol}) - New Taiwan Dollar}' +
-      'USD {USD ({symbol}) - United States Dollar} ' +
+      'TZS {TZS ({symbol}) - Tanzanian Shilling}' +
+      'UAH {UAH ({symbol}) - Ukrainian Hryvnia}' +
+      'UAK {UAK ({symbol}) - Ukrainian Karbovanets}' +
+      'UGS {UGS ({symbol}) - Ugandan Shilling (1966–1987)}' +
+      'UGX {UGX ({symbol}) - Ugandan Shilling}' +
+      'USD {USD ({symbol}) - United States Dollar}' +
+      'USN {USN ({symbol}) - United States Dollar (Next day)}' +
+      'USS {USS ({symbol}) - United States Dollar (Same day)}' +
+      'UYI {UYI ({symbol}) - Uruguayan Peso (Indexed Units)}' +
+      'UYP {UYP ({symbol}) - Uruguayan Peso (1975–1993)}' +
+      'UYU {UYU ({symbol}) - Uruguayan Peso}' +
+      'UYW {UYW ({symbol}) - Uruguayan Nominal Wage Index Unit}' +
+      'UZS {UZS ({symbol}) - Uzbekistani Som}' +
+      'VEB {VEB ({symbol}) - Venezuelan Bolívar (1871–2008)}' +
+      'VED {VED ({symbol}) - Bolívar Soberano}' +
+      'VEF {VEF ({symbol}) - Venezuelan Bolívar (2008–2018)}' +
+      'VES {VES ({symbol}) - Venezuelan Bolívar}' +
+      'VND {VND ({symbol}) - Vietnamese Dong}' +
+      'VNN {VNN ({symbol}) - Vietnamese Dong (1978–1985)}' +
+      'VUV {VUV ({symbol}) - Vanuatu Vatu}' +
+      'WST {WST ({symbol}) - Samoan Tala}' +
+      'XAF {XAF ({symbol}) - Central African CFA Franc}' +
+      'XAG {XAG ({symbol}) - Silver}' +
+      'XAU {XAU ({symbol}) - Gold}' +
+      'XBA {XBA ({symbol}) - European Composite Unit}' +
+      'XBB {XBB ({symbol}) - European Monetary Unit}' +
+      'XBC {XBC ({symbol}) - European Unit of Account (XBC)}' +
+      'XBD {XBD ({symbol}) - European Unit of Account (XBD)}' +
+      'XCD {XCD ({symbol}) - East Caribbean Dollar}' +
+      'XCG {XCG ({symbol}) - Caribbean guilder}' +
+      'XDR {XDR ({symbol}) - Special Drawing Rights}' +
+      'XEU {XEU ({symbol}) - European Currency Unit}' +
+      'XFO {XFO ({symbol}) - French Gold Franc}' +
+      'XFU {XFU ({symbol}) - French UIC-Franc}' +
+      'XOF {XOF ({symbol}) - West African CFA Franc}' +
+      'XPD {XPD ({symbol}) - Palladium}' +
+      'XPF {XPF ({symbol}) - CFP Franc}' +
+      'XPT {XPT ({symbol}) - Platinum}' +
+      'XRE {XRE ({symbol}) - RINET Funds}' +
+      'XSU {XSU ({symbol}) - Sucre}' +
+      'XTS {XTS ({symbol}) - Testing Currency Code}' +
+      'XUA {XUA ({symbol}) - ADB Unit of Account}' +
+      'XXX {XXX ({symbol}) - Unknown Currency}' +
+      'YDD {YDD ({symbol}) - Yemeni Dinar}' +
+      'YER {YER ({symbol}) - Yemeni Rial}' +
+      'YUD {YUD ({symbol}) - Yugoslavian Hard Dinar (1966–1990)}' +
+      'YUM {YUM ({symbol}) - Yugoslavian New Dinar (1994–2002)}' +
+      'YUN {YUN ({symbol}) - Yugoslavian Convertible Dinar (1990–1992)}' +
+      'YUR {YUR ({symbol}) - Yugoslavian Reformed Dinar (1992–1993)}' +
+      'ZAL {ZAL ({symbol}) - South African Rand (financial)}' +
       'ZAR {ZAR ({symbol}) - South African Rand}' +
+      'ZMK {ZMK ({symbol}) - Zambian Kwacha (1968–2012)}' +
+      'ZMW {ZMW ({symbol}) - Zambian Kwacha}' +
+      'ZRN {ZRN ({symbol}) - Zairean New Zaire (1993–1998)}' +
+      'ZRZ {ZRZ ({symbol}) - Zairean Zaire (1971–1993)}' +
+      'ZWD {ZWD ({symbol}) - Zimbabwean Dollar (1980–2008)}' +
+      'ZWG {ZWG ({symbol}) - Zimbabwean Gold}' +
+      'ZWL {ZWL ({symbol}) - Zimbabwean Dollar (2009–2024)}' +
+      'ZWR {ZWR ({symbol}) - Zimbabwean Dollar (2008)}' +
       'other {}}',
     description: 'Return labels based on a currency symbol formatted using browser locale',
     id: 'currencyOptions',
+  },
+  currencyPlaceholder: {
+    defaultMessage: 'Select currency',
+    description: 'Select currency',
+    id: 'currencyPlaceholder',
   },
   dashboardCumulativeCostComparison: {
     defaultMessage: 'Cumulative cost comparison ({units})',
@@ -1431,16 +1760,6 @@ export default defineMessages({
     description: 'Data retrieval',
     id: 'dataDetailsRetrieval',
   },
-  dataRetentionErrorDesc: {
-    defaultMessage: '{value, select, ' + 'update {Failed to update data retention period} ' + 'other {}}',
-    description: 'Data retention period updated',
-    id: 'dataRetentionErrorDesc',
-  },
-  dataRetentionErrorTitle: {
-    defaultMessage: '{value, select, ' + 'update {Unable to update data retention period} ' + 'other {}}',
-    description: 'Data retention period updated',
-    id: 'dataRetentionErrorTitle',
-  },
   dataRetentionInputAriaLabel: {
     defaultMessage: 'Data retention period number input',
     description: 'Data retention period number input',
@@ -1477,16 +1796,6 @@ export default defineMessages({
     defaultMessage: 'Data retention period plus button',
     description: 'Data retention period plus button',
     id: 'dataRetentionPlusBtnAriaLabel',
-  },
-  dataRetentionSuccess: {
-    defaultMessage: '{value, select, ' + 'update {Data retention period updated} ' + 'other {}}',
-    description: 'Data retention period updated',
-    id: 'dataRetentionSuccess',
-  },
-  dataRetentionSuccessChanges: {
-    defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
-    description: 'Changes will be reflected in report summarizations within 24 hours',
-    id: 'dataRetentionSuccessChanges',
   },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
@@ -1679,8 +1988,9 @@ export default defineMessages({
     defaultMessage:
       '{value, select, ' +
       'account {Account names} ' +
-      'active_rate {Active rate (this month, UTC)} ' +
+      'active_rate {Active rate} ' +
       'aws_category {Cost category names} ' +
+      'base_currency {Base currency} ' +
       'cluster {Cluster names} ' +
       'cost_model {Cost model assigned} ' +
       'cost_models {Assigned cost models} ' +
@@ -1702,6 +2012,7 @@ export default defineMessages({
       'metric {Metric} ' +
       'name {Name} ' +
       'node {Node names} ' +
+      'on_off {On/off} ' +
       'operating_system {Operating system} ' +
       'operator_version {Operator version} ' +
       'org_unit_id {Organizational unit names} ' +
@@ -1715,15 +2026,16 @@ export default defineMessages({
       'resource_location {Region names} ' +
       'service {Service names} ' +
       'service_name {Service names} ' +
-      'status {Status} ' +
-      'subscription_guid {Account names} ' +
       'source_type {Integration} ' +
       'start {Start} ' +
       'start_date {Start date} ' +
+      'status {Status} ' +
       'storage {Storage} ' +
+      'subscription_guid {Account names} ' +
       'tag {Tag names} ' +
       'tags {Tags} ' +
       'tag_key {Tag keys} ' +
+      'target_currency {Target currency} ' +
       'usage {Usage} ' +
       'vcpu {vCPU} ' +
       'vm_name {Virtual machine names} ' +
@@ -1841,11 +2153,6 @@ export default defineMessages({
     defaultMessage: 'Display currency',
     description: 'Display currency',
     id: 'displayCurrency',
-  },
-  displayCurrencyDesc: {
-    defaultMessage: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
-    description: 'Uses static rates from the table when they apply; otherwise, dynamic rates',
-    id: 'displayCurrencyDesc',
   },
   distribute: {
     defaultMessage: 'Distribute',
@@ -2082,6 +2389,11 @@ export default defineMessages({
     description: 'Download',
     id: 'download',
   },
+  duplicate: {
+    defaultMessage: 'Duplicate',
+    description: 'Duplicate',
+    id: 'duplicate',
+  },
   duplicatePriceList: {
     defaultMessage: 'Duplicate price list',
     description: 'Duplicate price list',
@@ -2202,6 +2514,43 @@ export default defineMessages({
     description: 'Exchange rate',
     id: 'exchangeRate',
   },
+  exchangeRateAdd: {
+    defaultMessage: 'Create exchange rate',
+    description: 'Create exchange rate',
+    id: 'exchangeRateAdd',
+  },
+  exchangeRateAddTitle: {
+    defaultMessage: 'Create static exchange rate',
+    description: 'Create static exchange rate',
+    id: 'exchangeRateAddTitle',
+  },
+  exchangeRateBaseCurrencyImmutable: {
+    defaultMessage: 'Base currency cannot be modified. Delete and recreate the exchange rate instead.',
+    description: 'Base currency cannot be modified. Delete and recreate the exchange rate instead.',
+    id: 'exchangeRateBaseCurrencyImmutable',
+  },
+  exchangeRateDuplicateTitle: {
+    defaultMessage: 'Duplicate exchange rate',
+    description: 'Duplicate exchange rate',
+    id: 'exchangeRateDuplicateTitle',
+  },
+  exchangeRateEditTitle: {
+    defaultMessage: 'Edit exchange rate',
+    description: 'Edit exchange rate',
+    id: 'exchangeRateEditTitle',
+  },
+  exchangeRateCurrencyPair: {
+    defaultMessage: 'Currency pair',
+    description: 'Currency pair',
+    id: 'exchangeRateCurrencyPair',
+  },
+  exchangeRateCurrencyPairDesc: {
+    defaultMessage:
+      'If a code is not yet on in the Currencies tab, it is turned on when you save, so this custom window and the daily reference can both work for that path over time.',
+    description:
+      'If a code is not yet on in the Currencies tab, it is turned on when you save, so this custom window and the daily reference can both work for that path over time.',
+    id: 'exchangeRateCurrencyPairDesc',
+  },
   exchangeRateDesc: {
     defaultMessage:
       'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
@@ -2219,6 +2568,16 @@ export default defineMessages({
     description: 'Exchange rates may be disabled. Turn on Show disabled to view and restore them.',
     id: 'exchangeRateEmptyDesc',
   },
+  exchangeRateEnableAriaLabel: {
+    defaultMessage: 'Toggle currency enabled or disabled',
+    description: 'Toggle currency enabled or disabled',
+    id: 'exchangeRateEnableAriaLabel',
+  },
+  exchangeRateDisabled: {
+    defaultMessage: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
+    description: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
+    id: 'exchangeRateDisabled',
+  },
   exchangeRateLoadingStateDesc: {
     defaultMessage: 'Searching for your exchange rates. Do not refresh the browser',
     description: 'Searching for your exchange rates. Do not refresh the browser',
@@ -2234,10 +2593,35 @@ export default defineMessages({
     description: 'No exchange rates are assigned',
     id: 'exchangeRateNotAssigned',
   },
-  exchangeRateNotAssignedDesc: {
-    defaultMessage: 'Use "Create exchange rate" to create an exchange rate.',
-    description: 'Use "Create exchange rate" to create an exchange rate.',
-    id: 'exchangeRateNotAssignedDesc',
+  exchangeRateStatus: {
+    defaultMessage:
+      '{value, select, ' +
+      'active {Active} ' +
+      'expired {Expired} ' +
+      'upcoming {Upcoming} ' +
+      'unavailable {Unavailable} ' +
+      'other {}}',
+    description: 'Exchange rate status',
+    id: 'exchangeRateStatus',
+  },
+  exchangeRateSwapCurrency: {
+    defaultMessage: 'Swap currencies',
+    description: 'Swap currencies',
+    id: 'exchangeRateSwapCurrency',
+  },
+  exchangeRateValidityPeriodDesc: {
+    defaultMessage:
+      "The start month is counted from the 1st; the end month includes every day through that month's last calendar day.",
+    description:
+      "The start month is counted from the 1st; the end month includes every day through that month's last calendar day.",
+    id: 'exchangeRateValidityPeriodDesc',
+  },
+  exchangeRateValidityPeriodOverlap: {
+    defaultMessage:
+      'This validity period overlaps another rate for the same currency pair. The other row is valid through {date}. Change your dates or edit that row.',
+    description:
+      'This validity period overlaps another rate for the same currency pair. The other row is valid through {date}. Change your dates or edit that row.',
+    id: 'exchangeRateValidityPeriodOverlap',
   },
   excludeLabel: {
     defaultMessage: 'Excludes: {value}',
@@ -2870,6 +3254,11 @@ export default defineMessages({
     defaultMessage: 'This GPU vendor is already in use',
     description: 'This GPU vendor is already in use',
     id: 'gpuVendorDuplicate',
+  },
+  hideDetails: {
+    defaultMessage: 'Hide details',
+    description: 'Hide details',
+    id: 'hideDetails',
   },
   historicalChartCostLabel: {
     defaultMessage: 'Cost ({units})',
@@ -3741,11 +4130,6 @@ export default defineMessages({
     description: 'This price list is assigned to:',
     id: 'priceListAssignedTo',
   },
-  priceListCreateRate: {
-    defaultMessage: 'Create rate',
-    description: 'Create rate',
-    id: 'priceListCreateRate',
-  },
   priceListCurrencyReadOnly: {
     defaultMessage: 'Currency is read only. You must create a new price list to change it.',
     description: 'Currency is read only. You must create a new price list to change it.',
@@ -4006,11 +4390,6 @@ export default defineMessages({
     description: 'Select metric',
     id: 'priceListSelectMetric',
   },
-  priceListSelectMeasurement: {
-    defaultMessage: 'Select measurement',
-    description: 'Select measurement',
-    id: 'priceListSelectMeasurement',
-  },
   priceListSuccess: {
     defaultMessage:
       '{value, select, ' +
@@ -4026,11 +4405,6 @@ export default defineMessages({
     defaultMessage: 'Changes will be reflected in report summarizations within 24 hours',
     description: 'Changes will be reflected in report summarizations within 24 hours',
     id: 'priceListSuccessChanges',
-  },
-  priceListTagKey: {
-    defaultMessage: 'Tag key',
-    description: 'Tag key',
-    id: 'priceListTagKey',
   },
   priceListTagValue: {
     defaultMessage: 'Tag value',
@@ -4050,7 +4424,7 @@ export default defineMessages({
   priceListTimelineStartDate: {
     defaultMessage: 'Start date: {startDate}',
     description: 'Start date: {startDate}',
-    id: 'priceListTimelineTooltip',
+    id: 'priceListTimelineStartDate',
   },
   projectKoku: {
     defaultMessage: 'Upstream project Koku',
@@ -4281,6 +4655,18 @@ export default defineMessages({
     description: 'Cost category keys enabled or disabled',
     id: 'settingsSuccessCostCategories',
   },
+  settingsSuccessCurrency: {
+    defaultMessage:
+      '{value, select, ' +
+      'add {Exchange rate added} ' +
+      'delete {Exchange rate removed} ' +
+      'disable {Exchange rate disabled} ' +
+      'edit {Exchange rate updated} ' +
+      'enable {Exchange rate enabled} ' +
+      'other {}}',
+    description: 'Exchange rate added, edited, or removed',
+    id: 'settingsSuccessCurrency',
+  },
   settingsSuccessDesc: {
     defaultMessage: 'Settings for cost management were replaced with new values',
     description: 'Settings for cost management were replaced with new values',
@@ -4340,6 +4726,11 @@ export default defineMessages({
     defaultMessage: 'Show deprecated',
     description: 'Show deprecated',
     id: 'showDeprecated',
+  },
+  showDetails: {
+    defaultMessage: 'Show details',
+    description: 'Show details',
+    id: 'showDetails',
   },
   showDisabled: {
     defaultMessage: 'Show disabled',
@@ -4850,12 +5241,17 @@ export default defineMessages({
   validityPeriodEndMonthError: {
     defaultMessage: 'End period must be >= start period',
     description: 'End period must be >= start period',
-    id: 'validityPeriodEndDateError',
+    id: 'validityPeriodEndMonthError',
   },
   validityPeriodStartMonthError: {
     defaultMessage: 'Start period must be <= end period',
     description: 'Start periodmust be <= end period',
-    id: 'validityPeriodStartDateError',
+    id: 'validityPeriodStartMonthError',
+  },
+  validityPeriodStartMonthPastError: {
+    defaultMessage: 'Start period cannot be a past month',
+    description: 'Start period cannot be a past month',
+    id: 'validityPeriodStartMonthPastError',
   },
   validityPeriodWarning: {
     defaultMessage:

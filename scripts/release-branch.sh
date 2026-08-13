@@ -107,8 +107,40 @@ createPullRequestBody()
 cat <<- EEOOFF > $BODY_FILE
 Merged $SOURCE_BRANCH branch to $TARGET_BRANCH.
 
-Use latest commit to update namespace \`ref\` in app-interface repo. Don't use merge commit, SHAs must be unique when images are created for each branch.
+This PR is set to auto-merge with a merge commit. Do not squash — squash breaks ancestry with $SOURCE_BRANCH and causes merge conflicts on the next release.
+
+After merge, use the latest commit SHA on \`$TARGET_BRANCH\` to update the namespace \`ref\` in app-interface. SHAs must be unique when images are created for each branch.
 EEOOFF
+}
+
+resolveConflictsWithTheirs()
+{
+  echo ""
+  echo "*** Merge conflicts detected:"
+  git diff --name-only --diff-filter=U
+  echo ""
+  # Deployment PRs are often squash-merged, which breaks ancestry with the
+  # source branch and causes repeat content conflicts. Accepting "theirs"
+  # takes the source branch version for every conflicted path.
+  read -p "*** Accept origin/$SOURCE_BRANCH (theirs) for all conflicts and continue (y/n)? " YN
+
+  case $YN in
+    [Yy]* )
+      echo "\n*** Aborting conflicted merge and retrying with -X theirs..."
+      git merge --abort
+      git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff -X theirs
+      return $?
+      ;;
+    [Nn]* | "" )
+      echo "\n*** Aborting merge. Re-run and accept theirs, or resolve manually."
+      git merge --abort
+      return 1
+      ;;
+    * )
+      echo "Please answer yes or no."
+      resolveConflictsWithTheirs
+      ;;
+  esac
 }
 
 merge()
@@ -122,7 +154,17 @@ merge()
   git fetch origin $SOURCE_BRANCH
 
   echo "\n*** Merge origin/$SOURCE_BRANCH"
-  git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff
+  if git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff; then
+    return 0
+  fi
+
+  if [ -n "$(git diff --name-only --diff-filter=U 2>/dev/null)" ]; then
+    resolveConflictsWithTheirs
+    return $?
+  fi
+
+  echo "\n*** Merge failed (no conflicts to resolve)"
+  return 1
 }
 
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
@@ -138,7 +180,16 @@ pullRequest()
   TITLE="Deployment commit for $TARGET_BRANCH"
   BODY=`cat $BODY_FILE`
 
-  gh pr create -t "$TITLE" -b "$BODY" -B $TARGET_BRANCH
+  echo "\n*** Creating pull request..."
+  PR_URL=`gh pr create -t "$TITLE" -b "$BODY" -B $TARGET_BRANCH`
+
+  # Lock merge method to "Create a merge commit" so the PR cannot land as a
+  # squash (which breaks ancestry and causes conflicts on the next release).
+  # --auto waits for required checks/reviews before merging.
+  echo "\n*** Enabling auto-merge with merge commit (not squash)..."
+  gh pr merge --merge --auto "$PR_URL"
+
+  echo "\n*** Pull request: $PR_URL"
 }
 
 push()

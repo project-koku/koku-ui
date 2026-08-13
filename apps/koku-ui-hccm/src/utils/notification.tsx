@@ -9,6 +9,7 @@ import React from 'react';
 
 export interface Notification {
   description?: string;
+  detail?: string;
   dismissable?: boolean;
   id?: string;
   title: string;
