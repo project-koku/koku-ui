@@ -109,18 +109,5 @@
     "eslint": "^10.8.1",
     "webpack": "5.109.2",
     "webpack-dev-server": "6.0.0"
-  },
-  "allowScripts": {
-    "cypress@15.20.1": true,
-    "esbuild@0.27.7": true,
-    "esbuild@0.28.1": true,
-    "unrs-resolver@1.11.1": true,
-    "@parcel/watcher@2.5.4": true,
-    "@sentry/cli@2.58.5": true,
-    "@swc/core@1.15.47": true,
-    "core-js": false,
-    "core-js-pure": false,
-    "msw": false,
-    "file:../vendor/insights-rbac-ui": false
   }
 }
