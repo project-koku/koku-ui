@@ -301,7 +301,7 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
     }
   }, [reportQueryString]);

@@ -45,7 +45,7 @@ const ChildTagMapping: React.FC<ChildTagMappingProps> = ({ isOpen, item: parent,
     if (settingsFetchStatus !== FetchStatus.inProgress) {
       setIsFinish(true);
       dispatch(
-        settingsActions.updateSettings(SettingsType.tagsMappingsChildAdd, {
+        settingsActions.updateTagSettings(SettingsType.tagsMappingsChildAdd, {
           parent: parent.uuid,
           children: childTags.map(child => child.uuid),
         })

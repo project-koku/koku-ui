@@ -308,10 +308,10 @@ const useMapToProps = ({ query }: CostModelBreakdownMapProps): CostModelBreakdow
   );
 
   useEffect(() => {
-    if (!costModelsFetchError && costModelsFetchStatus !== FetchStatus.inProgress && uuid) {
+    if (costModelsFetchStatus !== FetchStatus.inProgress && uuid) {
       dispatch(costModelsActions.fetchCostModels(costModelsQueryString));
     }
-  }, [costModelsFetchError, costModelsQueryString, dispatch, query, uuid]);
+  }, [costModelsQueryString, dispatch, query, uuid]);
 
   // User access
 

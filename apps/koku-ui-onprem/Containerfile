@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi10/nodejs-22-minimal AS builder
+FROM registry.access.redhat.com/ubi10/nodejs-24-minimal AS builder
 WORKDIR /app
 
 USER 0
@@ -19,7 +19,9 @@ ENV HUSKY=0
 # Webpack prod builds (esp. koku-ui-hccm) exceed Node's ~2Gi default heap on GHA.
 # Cap below ubuntu-latest ~7Gi RAM so the runner itself is not OOM-killed.
 ENV NODE_OPTIONS=--max-old-space-size=6144
-RUN npm ci
+ENV CYPRESS_INSTALL_BINARY=0
+ENV SENTRYCLI_SKIP_DOWNLOAD=1
+RUN npm ci --no-audit --no-fund
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
 RUN npm run build --workspace=@koku-ui/koku-ui-onprem
@@ -39,6 +41,22 @@ RUN npm run build:onprem --workspace=@koku-ui/rbac-ui-onprem
 USER 1001
 
 FROM registry.access.redhat.com/ubi10/nginx-126
+
+ARG IMAGE_NAME
+ARG VERSION
+LABEL summary="Cost Management UI for on-premise deployments" \
+    description="Red Hat Cost Management UI for on-premise deployments" \
+    io.k8s.description="Red Hat Cost Management UI for on-premise deployments" \
+    io.k8s.display-name="Cost Management UI" \
+    io.openshift.expose-services="8080:http" \
+    com.redhat.component="costmanagement-ui-rhel10-container" \
+    name="$IMAGE_NAME" \
+    version="$VERSION" \
+    release="1" \
+    vendor="Red Hat, Inc." \
+    distribution-scope="public" \
+    cpe="cpe:/a:redhat:cost_management_on_premise:1::el10" \
+    maintainer="Red Hat Cost Management Services <cost-mgmt@redhat.com>"
 
 COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
 COPY --from=builder /app/apps/koku-ui-hccm/dist ./costManagement

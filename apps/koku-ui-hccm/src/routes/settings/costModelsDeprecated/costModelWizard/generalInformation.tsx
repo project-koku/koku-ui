@@ -14,7 +14,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { getCurrencyLabel, getCurrencyOptions } from 'routes/components/currency';
+import { CurrencyWrapper } from 'routes/components/currency';
 import { Selector } from 'routes/settings/components';
 import { Form } from 'routes/settings/costModelsDeprecated/components/forms/form';
 import { createMapStateToProps } from 'store/common';
@@ -141,16 +141,15 @@ class GeneralInformation extends React.Component<GeneralInformationProps, any> {
                   onSelect={(_evt, value) => onTypeChange(value)}
                   options={sourceTypeOptions}
                 />
-                <Selector
+                <CurrencyWrapper
                   label={messages.currency}
                   direction="up"
                   appendMenuTo="inline"
                   maxMenuHeight={styles.selector.maxHeight as string}
-                  toggleAriaLabel={intl.formatMessage(messages.costModelsWizardCurrencyToggleLabel)}
-                  value={getCurrencyLabel(currencyUnits)}
+                  toggleAriaLabel={intl.formatMessage(messages.currencyPlaceholder)}
+                  value={currencyUnits}
                   onSelect={(_evt, value) => onCurrencyChange(value)}
                   id="currency-units-selector"
-                  options={getCurrencyOptions()}
                 />
               </Form>
             </StackItem>
