@@ -1,23 +1,14 @@
 # Releasing ROS UI
 
-This doc describes how to release ROS UI to each staging environment. Note that this should be done in order for testing purposes.
+This doc describes how to release ROS UI to stage and prod. Merge `main` to `release-ros` once, then deploy that SHA to app-interface stage, test, and deploy the same SHA to app-interface prod.
 
 ## Merge branches
 
-The release-branch.sh script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. The script also ensures that code is always pulled from the correct branches. For example, we always:
+The release-branch.sh script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. We always pull from main when pushing to release-ros.
 
-1. Pull from main when pushing to stage-ros
-2. Pull from stage-ros when pushing to prod-ros
+Please allow the PR to build successfully and merge before deploying to app-interface.
 
-Please allow the PR to build successfully and merge before running the script again.
-
-### Merge main to stage-ros
-
-```
-sh ../../scripts/release-branch.sh -q
-```
-
-### Merge stage-ros to prod-ros
+### Merge main to release-ros
 
 ```
 sh ../../scripts/release-branch.sh -r
@@ -33,25 +24,26 @@ Follow the prompts below.
 
 * Are you deploying to app-interface? `N`
 * Which app do you want to release? `koku-ui-ros`
-* Which Chrome environment do you want to release? `stage`
+
+The Chrome environment prompt is skipped when merging branches.
 
 ## Deploy to app-interface
 
-The release-app-interface.sh script will update app-interface with the latest SHA refs from the koku-ui branches above. The script also ensures that SHA refs are always pulled from the correct branches. For example, we always:
+The release-app-interface.sh script will update app-interface with the latest SHA ref from `release-ros`. Stage and prod both use that branch; choose which app-interface environment to update.
 
-1. Pull from stage-ros when updating the stage deployment in app-interface
-2. Pull from prod-ros when updating the prod deployment in app-interface
+1. Pull from release-ros when updating the stage deployment in app-interface
+2. Pull from release-ros when updating the prod deployment in app-interface
 
-### Deploy stage-ros to app-interface
-
-```
-sh ../../scripts/release-app-interface.sh -q
-```
-
-### Deploy prod-ros to app-interface
+### Deploy release-ros to app-interface stage
 
 ```
 sh ../../scripts/release-app-interface.sh -r
+```
+
+### Deploy release-ros to app-interface prod
+
+```
+sh ../../scripts/release-app-interface.sh -t
 ```
 
 ### Wrapper for all deployments
@@ -72,7 +64,7 @@ Please allow Konflux to generate images from the previous branch merge, first. E
 
 After all koku-ui PRs have been merged, update the \`koku-ui-ros\` resource in https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/hccm/deploy-clowder.yml
 
-Use the latest commit of each branch to update namespaces \`ref\` in the app-interface repo. Don't use a merge commit, SHAs must be unique when images are created for each branch.
+Use the latest commit of the \`release-ros\` branch to update namespaces \`ref\` in the app-interface repo. Don't use a merge commit.
 
 ```
 - name: koku-ui-ros
@@ -80,37 +72,37 @@ Use the latest commit of each branch to update namespaces \`ref\` in the app-int
     # Stage Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/stage-frontends.yml
-    ref: 68ce48592f5222029f27f6fb708698013d2f0a58 // Replace with latest SHA for stage-ros branch
+    ref: 68ce48592f5222029f27f6fb708698013d2f0a58 // Replace with latest SHA for release-ros branch
     ...
     # Prod Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/prod-frontends.yml
-    ref: 77deb707f31b40414e8b13afe23d39e7091fd067 // Replace with latest SHA for prod-ros branch
+    ref: 68ce48592f5222029f27f6fb708698013d2f0a58 // Replace with latest SHA for release-ros branch
     ...
 ```
 
 ## Testing
 
-After releasing to each staging environment, open an incognito window and view one of the staging environments below.
+After releasing to each environment, open an incognito window and view one of the environments below.
 
-Please ensure expected changes have been updated before releasing to the next staging environment.
+Please ensure expected changes have been updated before releasing to the next environment.
 
-1. For stage-ros, view https://console.stage.redhat.com/staging/cost-management/ros
-2. For prod-ros, view https://console.redhat.com/staging/cost-management/ros (preview mode only)
+1. For stage, view https://console.stage.redhat.com/staging/cost-management/ros
+2. For prod, view https://console.redhat.com/staging/cost-management/ros (preview mode only)
 
 ## Release notes
 
-After releasing to prod-ros, a new tag will be created here https://github.com/project-koku/koku-ui/tags. Create a new GitHub release based on this tag -- use the tag label as the "release title".
+After releasing to prod, a new tag will be created here https://github.com/project-koku/koku-ui/tags. Create a new GitHub release based on this tag -- use the tag label as the "release title".
 
 Note that you may  "Draft a new release", before the latest tag is available, and mark it as a "pre-release" -- don't click "publish release" yet, use "save draft".
 
-Please document any new features and bug fixes available in production and other staging environments. For example, note any features that are only available in stage.
+Please document any new features and bug fixes available in production and other environments. For example, note any features that are only available in stage.
 
 For release examples, please see existing releases here https://github.com/project-koku/koku-ui/releases
 
 ## Troubleshooting
 
-If a staging environment has not updated as expected, it's best to ask questions in the forum-consoledot-ui or proj-fecontainer-migration channels of http://coreos.slack.com.
+If a staging environment has not updated as expected, it's best to ask questions in the konflux-users, forum-consoledot-ui, or proj-fecontainer-migration channels of http://coreos.slack.com.
 
 Alternatively, open a Jira issue under the "ConsoleDot Platform (console.redhat.com) (RHCLOUD)" project category. For an example, see https://redhat.atlassian.net/browse/RHCLOUD-18259
 
