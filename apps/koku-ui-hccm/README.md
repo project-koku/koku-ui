@@ -216,7 +216,7 @@ http://localhost:1337/settings/applications/cost-management
 
 ## Releasing Koku UI
 
-This [RELEASE][release-doc] doc describes how to release Koku UI to each staging environment.
+This [RELEASE][release-doc] doc describes how to release Koku UI to stage and prod.
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe

@@ -52,6 +52,10 @@ LABEL summary="Cost Management UI for on-premise deployments" \
     com.redhat.component="costmanagement-ui-rhel10-container" \
     name="$IMAGE_NAME" \
     version="$VERSION" \
+    release="1" \
+    vendor="Red Hat, Inc." \
+    distribution-scope="public" \
+    cpe="cpe:/a:redhat:cost_management_on_premise:1::el10" \
     maintainer="Red Hat Cost Management Services <cost-mgmt@redhat.com>"
 
 COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
