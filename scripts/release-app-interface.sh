@@ -159,11 +159,13 @@ tagProdReleases()
   if [ "$DEPLOY_HCCM_PROD" = true ]; then
     echo "\n*** Tagging prod release for $KOKU_UI_HCCM at $HCCM_SHA..."
     gh workflow run tag_release.yml -f commit="$HCCM_SHA" -f app="$KOKU_UI_HCCM"
+    echo "Dispatched Tag Release. Check status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
   fi
 
   if [ "$DEPLOY_ROS_PROD" = true ]; then
     echo "\n*** Tagging prod release for $KOKU_UI_ROS at $ROS_SHA..."
     gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
+    echo "Dispatched Tag Release. Check status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
   fi
 }
 
