@@ -331,7 +331,7 @@ updateDeploySHA()
 
   if [ "$?" -eq 0 ]; then
     createMergeRequestDesc
-    #mergeRequest
+    mergeRequest
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi
