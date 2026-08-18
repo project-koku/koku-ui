@@ -2,8 +2,8 @@ name: Tag Release
 on:
   push:
     branches:
-      - prod-hccm
-      - prod-ros
+      - release-hccm
+      - release-ros
 env:
   BRANCH: ${{ github.ref }}
 
