@@ -14,13 +14,13 @@ Please allow the PR to build successfully and merge before running the script ag
 ### Merge main to stage-hccm
 
 ```
-sh ../../scripts/release-branch.sh -s
+sh ../../scripts/release-branch.sh -q
 ```
 
 ### Merge stage-hccm to prod-hccm
 
 ```
-sh ../../scripts/release-branch.sh -p
+sh ../../scripts/release-branch.sh -s
 ```
 
 ### Wrapper for all merges
@@ -45,13 +45,13 @@ The release-app-interface.sh script will update app-interface with the latest SH
 ### Deploy stage-hccm to app-interface
 
 ```
-sh ../../scripts/release-app-interface.sh -s
+sh ../../scripts/release-app-interface.sh -q
 ```
 
 ### Deploy prod-hccm to app-interface
 
 ```
-sh ../../scripts/release-app-interface.sh -p
+sh ../../scripts/release-app-interface.sh -s
 ```
 
 ### Wrapper for all deployments
@@ -110,7 +110,7 @@ For release examples, please see existing releases here https://github.com/proje
 
 ## Troubleshooting
 
-If a staging environment has not updated as expected, it's best to ask questions in the forum-consoledot-ui or proj-fecontainer-migration channels of http://coreos.slack.com.
+If a staging environment has not updated as expected, it's best to ask questions in the konflux-users, forum-consoledot-ui, or proj-fecontainer-migration channels of http://coreos.slack.com.
 
 Alternatively, open a Jira issue under the "ConsoleDot Platform (console.redhat.com) (RHCLOUD)" project category. For an example, see https://redhat.atlassian.net/browse/RHCLOUD-18259
 
