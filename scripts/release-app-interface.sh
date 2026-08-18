@@ -78,6 +78,7 @@ cloneAppInterface()
   cd $TMP_DIR
 
   if [ ! -d "$APP_INTERFACE_DIR" ]; then
+    echo ""
     git clone $APP_INTERFACE_REPO
   fi
 }
@@ -88,6 +89,7 @@ cloneKokuUI()
   cd $TMP_DIR
 
   if [ ! -d "$KOKU_UI_DIR" ]; then
+    echo ""
     git clone $KOKU_UI_REPO
   fi
 }
@@ -149,53 +151,6 @@ QE has verified all queued issues
 EEOOFF
 }
 
-# Tag the prod SHA in koku-ui (does not tag stage deploys).
-# Triggers .github/workflows/tag_release.yml via workflow_dispatch.
-# HCCM and ROS can be tagged independently or together.
-tagProdReleases()
-{
-  cd $KOKU_UI_DIR
-
-  if [ "$DEPLOY_HCCM_PROD" = true ]; then
-    echo "\n*** Tagging prod release for $KOKU_UI_HCCM at $HCCM_SHA..."
-    gh workflow run tag_release.yml -f commit="$HCCM_SHA" -f app="$KOKU_UI_HCCM"
-    echo "Dispatched Tag Release. Check status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
-  fi
-
-  if [ "$DEPLOY_ROS_PROD" = true ]; then
-    echo "\n*** Tagging prod release for $KOKU_UI_ROS at $ROS_SHA..."
-    gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
-    echo "Dispatched Tag Release. Check status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
-  fi
-}
-
-# Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
-mergeRequest()
-{
-  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|<br/>|g' $DESC_FILE`
-
-  echo "\n*** Pushing $SOURCE_BRANCH..."
-
-  git push \
-    -o merge_request.create \
-    -o merge_request.title="$TITLE" \
-    -o merge_request.description="$DESC" \
-    -o merge_request.target_project=$TARGET_PROJECT \
-    -o merge_request.target=$TARGET_BRANCH origin $SOURCE_BRANCH
-}
-
-push()
-{
-  echo ""
-  read -p "*** You are pushing to the $SOURCE_BRANCH branch. Continue?" YN
-
-  case $YN in
-    [Yy]* ) echo "\n*** Pushing $SOURCE_BRANCH..."; git push -u origin $SOURCE_BRANCH;;
-    [Nn]* ) exit 0;;
-    * ) echo "Please answer yes or no."; push;;
-  esac
-}
-
 # Get SHA for given namespace ref
 #
 # Note that the deply-clowder.yml file may contain multiple namespace refs. However, koku-ui-hccm should be defined
@@ -251,7 +206,7 @@ initAppInterfaceSHA()
   getAppInterfaceSHA $KOKU_UI_ROS $PROD_MULTICLUSTER_FRONTENDS
   ROS_PROD_MULTICLUSTER_FRONTENDS_SHA="$RESULT"
 
-  echo "Existing SHA refs..."
+  echo "\nExisting SHA refs..."
   echo "koku-ui-hccm stage: $HCCM_STAGE_FRONTENDS_SHA"
   echo "koku-ui-hccm stage multicluster: $HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA"
   echo "koku-ui-hccm prod: $HCCM_PROD_FRONTENDS_SHA"
@@ -269,11 +224,39 @@ initKokuUISHA()
   HCCM_SHA=`git rev-parse origin/$HCCM_BRANCH`
   ROS_SHA=`git rev-parse origin/$ROS_BRANCH`
 
-  echo "Latest SHA refs..."
+  echo "\nLatest SHA refs..."
   echo "koku-ui-hccm ($HCCM_BRANCH): $HCCM_SHA"
   echo "koku-ui-ros ($ROS_BRANCH): $ROS_SHA"
 }
 
+# Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
+mergeRequest()
+{
+  createMergeRequestDesc
+
+  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|<br/>|g' $DESC_FILE`
+
+  echo "\n*** Pushing $SOURCE_BRANCH..."
+
+  git push \
+    -o merge_request.create \
+    -o merge_request.title="$TITLE" \
+    -o merge_request.description="$DESC" \
+    -o merge_request.target_project=$TARGET_PROJECT \
+    -o merge_request.target=$TARGET_BRANCH origin $SOURCE_BRANCH
+}
+
+push()
+{
+  echo ""
+  read -p "*** You are pushing to the $SOURCE_BRANCH branch. Continue?" YN
+
+  case $YN in
+    [Yy]* ) echo "\n*** Pushing $SOURCE_BRANCH..."; git push -u origin $SOURCE_BRANCH;;
+    [Nn]* ) exit 0;;
+    * ) echo "Please answer yes or no."; push;;
+  esac
+}
 # Replace the commit SHA only on the target whose namespace $ref matches.
 # Stage and prod can share the same SHA after consolidating to a single
 # release branch, so we must not gsub across the whole resource block.
@@ -312,6 +295,25 @@ replaceSHA()
     { print }
   ' "$DEPLOY_CLOWDER_FILE" > "${DEPLOY_CLOWDER_FILE}.tmp"
   mv "${DEPLOY_CLOWDER_FILE}.tmp" "$DEPLOY_CLOWDER_FILE"
+}
+
+# Tag the SHA in koku-ui (does not tag stage deploys).
+# Triggers .github/workflows/tag_release.yml via workflow_dispatch.
+tagRelease()
+{
+  cd $KOKU_UI_DIR
+
+  if [ "$DEPLOY_HCCM_PROD" = true ]; then
+    echo "\n*** Tagging prod release for $KOKU_UI_HCCM at $HCCM_SHA..."
+    gh workflow run tag_release.yml -f commit="$HCCM_SHA" -f app="$KOKU_UI_HCCM"
+  fi
+
+  if [ "$DEPLOY_ROS_PROD" = true ]; then
+    echo "\n*** Tagging prod release for $KOKU_UI_ROS at $ROS_SHA..."
+    gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
+  fi
+
+  echo "\nCheck workflow status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
 }
 
 updateDeploySHA()
@@ -366,7 +368,6 @@ updateDeploySHA()
   echo "\n*** Deploying $APP_INTERFACE with SHA updates for...\n"
   createDeploymentDesc
   cat $DEPLOYMENTS_FILE
-  echo
 
   cloneAppInterface
   cloneKokuUI
@@ -378,9 +379,8 @@ updateDeploySHA()
   commit
 
   if [ "$?" -eq 0 ]; then
-    createMergeRequestDesc
     mergeRequest
-    tagProdReleases
+    tagRelease
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi
