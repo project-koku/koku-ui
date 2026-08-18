@@ -11,13 +11,9 @@ default()
   TMP_DIR="/tmp/$SCRIPT.$$"
 
   MAIN_BRANCH="main"
-  STAGE_HCCM_BRANCH="stage-hccm"
-  STAGE_ONPREM_BRANCH="stage-onprem"
-  STAGE_ROS_BRANCH="stage-ros"
-
-  PROD_HCCM_BRANCH="prod-hccm"
-  PROD_ONPREM_BRANCH="prod-onprem"
-  PROD_ROS_BRANCH="prod-ros"
+  HCCM_BRANCH="release-hccm"
+  ONPREM_BRANCH="onprem-candidate"
+  ROS_BRANCH="release-ros"
 
   KOKU_UI=koku-ui
   KOKU_UI_DIR="$TMP_DIR/$KOKU_UI"
@@ -37,27 +33,18 @@ cat <<- EEOOFF
     This script will merge the following branches with the koku-ui and either create a pull request (default)
     or push to the origin without an PR. It's assumed SSH keys are in use.
 
-    $STAGE_HCCM_BRANCH is merged from $MAIN_BRANCH
-    $PROD_HCCM_BRANCH is merged from $STAGE_HCCM_BRANCH
+    $HCCM_BRANCH is merged from $MAIN_BRANCH
+    $ONPREM_BRANCH is merged from $MAIN_BRANCH
+    $ROS_BRANCH is merged from $MAIN_BRANCH
 
-    $STAGE_ROS_BRANCH is merged from $MAIN_BRANCH
-    $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
-
-    $STAGE_ONPREM_BRANCH is merged from $MAIN_BRANCH
-    $PROD_ONPREM_BRANCH is merged from $STAGE_ONPREM_BRANCH
-
-    sh [-x] $SCRIPT [-h|-o|-p|-q|-r|-s|-t|-u]
+    sh [-x] $SCRIPT [-h|-p|-q|-r|-u]
 
     OPTIONS:
     h       Display this message
 
-    o       Merge $MAIN_BRANCH to $STAGE_HCCM_BRANCH
-    p       Merge $MAIN_BRANCH to $STAGE_ONPREM_BRANCH
-    q       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
-
-    r       Merge $STAGE_HCCM_BRANCH to $PROD_HCCM_BRANCH
-    s       Merge $STAGE_ONPREM_BRANCH to $PROD_ONPREM_BRANCH
-    t       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
+    p       Merge $MAIN_BRANCH to $HCCM_BRANCH
+    q       Merge $MAIN_BRANCH to $ONPREM_BRANCH
+    r       Merge $MAIN_BRANCH to $ROS_BRANCH
 
     u       Push to upstream
 
@@ -109,7 +96,7 @@ Merged $SOURCE_BRANCH branch to $TARGET_BRANCH.
 
 This PR is set to auto-merge with a merge commit. Do not squash — squash breaks ancestry with $SOURCE_BRANCH and causes merge conflicts on the next release.
 
-After merge, use the latest commit SHA on \`$TARGET_BRANCH\` to update the namespace \`ref\` in app-interface. SHAs must be unique when images are created for each branch.
+After merge, use the latest commit SHA on \`$TARGET_BRANCH\` to update the namespace \`ref\` in app-interface.
 EEOOFF
 }
 
@@ -212,20 +199,14 @@ push()
 {
   default
 
-  while getopts hopqrstu c; do
+  while getopts hpqru c; do
     case $c in
-      o) SOURCE_BRANCH=$MAIN_BRANCH
-         TARGET_BRANCH=$STAGE_HCCM_BRANCH;;
       p) SOURCE_BRANCH=$MAIN_BRANCH
-         TARGET_BRANCH=$STAGE_ONPREM_BRANCH;;
+         TARGET_BRANCH=$HCCM_BRANCH;;
       q) SOURCE_BRANCH=$MAIN_BRANCH
-         TARGET_BRANCH=$STAGE_ROS_BRANCH;;
-      r) SOURCE_BRANCH=$STAGE_HCCM_BRANCH
-         TARGET_BRANCH=$PROD_HCCM_BRANCH;;
-      s) SOURCE_BRANCH=$STAGE_ONPREM_BRANCH
-         TARGET_BRANCH=$PROD_ONPREM_BRANCH;;
-      t) SOURCE_BRANCH=$STAGE_ROS_BRANCH
-         TARGET_BRANCH=$PROD_ROS_BRANCH;;
+         TARGET_BRANCH=$ONPREM_BRANCH;;
+      r) SOURCE_BRANCH=$MAIN_BRANCH
+         TARGET_BRANCH=$ROS_BRANCH;;
       u) PUSH=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
