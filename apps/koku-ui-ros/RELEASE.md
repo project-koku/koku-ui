@@ -92,7 +92,9 @@ Please ensure expected changes have been updated before releasing to the next en
 
 ## Release notes
 
-After releasing to prod, a new tag will be created here https://github.com/project-koku/koku-ui/tags. Create a new GitHub release based on this tag -- use the tag label as the "release title".
+After releasing to prod, `release-app-interface.sh` triggers the Tag Release workflow for the SHA deployed to prod. A new tag will be created here https://github.com/project-koku/koku-ui/tags. Create a new GitHub release based on this tag -- use the tag label as the "release title".
+
+You can also run the [Tag Release](https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml) workflow manually and enter the prod commit SHA plus app (`koku-ui-hccm` or `koku-ui-ros`).
 
 Note that you may  "Draft a new release", before the latest tag is available, and mark it as a "pre-release" -- don't click "publish release" yet, use "save draft".
 
