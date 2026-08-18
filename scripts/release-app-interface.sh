@@ -12,10 +12,8 @@ default()
 
   GITLAB_USER=${GITLAB_USER:-`whoami`}
   MAIN_BRANCH="main"
-  HCCM_STAGE_BRANCH="stage-hccm"
-  HCCM_PROD_BRANCH="prod-hccm"
-  ROS_STAGE_BRANCH="stage-ros"
-  ROS_PROD_BRANCH="prod-ros"
+  HCCM_BRANCH="release-hccm"
+  ROS_BRANCH="release-ros"
   TARGET_BRANCH="master"
   TARGET_PROJECT="service/app-interface"
 
@@ -45,22 +43,19 @@ cat <<- EEOOFF
     This script will deploy app-interface with the latest SHA refs from the koku-ui branches below. Then, it will
     either create an merge request (default) or push to the origin without an MR. It's assumed SSH keys are in use.
 
-    $HCCM_STAGE_BRANCH
-    $HCCM_PROD_BRANCH
+    $HCCM_BRANCH
+    $ROS_BRANCH
 
-    $ROS_PROD_BRANCH
-    $ROS_STAGE_BRANCH
-
-    sh [-x] $SCRIPT [-h|-q|-r|-s|-t]
+    sh [-x] $SCRIPT [-h|-p|-r|-s|-t]
 
     OPTIONS:
     h       Display this message
 
-    q       Deploy SHA refs from $HCCM_STAGE_BRANCH to $TARGET_BRANCH
-    r       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
+    p       Deploy SHA refs from $HCCM_BRANCH to app-interface stage
+    r       Deploy SHA refs from $ROS_BRANCH to app-interface stage
 
-    s       Deploy SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
-    t       Deploy SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
+    s       Deploy SHA refs from $HCCM_BRANCH to app-interface prod
+    t       Deploy SHA refs from $ROS_BRANCH to app-interface prod
 
     Note: This script does not support on-prem for app-interface deployments.
 
@@ -242,16 +237,12 @@ initKokuUISHA()
 {
   cd $KOKU_UI_DIR
 
-  HCCM_STAGE_SHA=`git rev-parse origin/$HCCM_STAGE_BRANCH`
-  HCCM_PROD_SHA=`git rev-parse origin/$HCCM_PROD_BRANCH`
-  ROS_STAGE_SHA=`git rev-parse origin/$ROS_STAGE_BRANCH`
-  ROS_PROD_SHA=`git rev-parse origin/$ROS_PROD_BRANCH`
+  HCCM_SHA=`git rev-parse origin/$HCCM_BRANCH`
+  ROS_SHA=`git rev-parse origin/$ROS_BRANCH`
 
   echo "Latest SHA refs..."
-  echo "koku-ui-hccm stage: $HCCM_STAGE_SHA"
-  echo "koku-ui-hccm prod: $HCCM_PROD_SHA"
-  echo "koku-ui-ros stage: $ROS_STAGE_SHA"
-  echo "koku-ui-ros prod: $ROS_PROD_SHA"
+  echo "koku-ui-hccm ($HCCM_BRANCH): $HCCM_SHA"
+  echo "koku-ui-ros ($ROS_BRANCH): $ROS_SHA"
 }
 
 # Replace old SHA with new SHA only inside the given resource block
@@ -281,24 +272,24 @@ updateDeploySHA()
 {
   # koku-ui-hccm stage deploy
   if [ "$DEPLOY_HCCM_STAGE" = true ]; then
-    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_FRONTENDS_SHA" "$HCCM_STAGE_SHA"
-    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$HCCM_STAGE_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_FRONTENDS_SHA" "$HCCM_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$HCCM_SHA"
   fi
 
   # koku-ui-hccm prod deploy
   if [ "$DEPLOY_HCCM_PROD" = true ]; then
-    replaceSHA "$KOKU_UI_HCCM" "$HCCM_PROD_FRONTENDS_SHA" "$HCCM_PROD_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$HCCM_PROD_FRONTENDS_SHA" "$HCCM_SHA"
   fi
 
   # koku-ui-ros stage deploy
   if [ "$DEPLOY_ROS_STAGE" = true ]; then
-    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_FRONTENDS_SHA" "$ROS_STAGE_SHA"
-    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$ROS_STAGE_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_FRONTENDS_SHA" "$ROS_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$ROS_SHA"
   fi
 
   # koku-ui-ros prod deploy
   if [ "$DEPLOY_ROS_PROD" = true ]; then
-    replaceSHA "$KOKU_UI_ROS" "$ROS_PROD_FRONTENDS_SHA" "$ROS_PROD_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$ROS_PROD_FRONTENDS_SHA" "$ROS_SHA"
   fi
 }
 
@@ -306,9 +297,9 @@ updateDeploySHA()
 {
   default
 
-  while getopts hqrst c; do
+  while getopts hprst c; do
     case $c in
-      q) DEPLOY_HCCM_STAGE=true;;
+      p) DEPLOY_HCCM_STAGE=true;;
       r) DEPLOY_ROS_STAGE=true;;
       s) DEPLOY_HCCM_PROD=true;;
       t) DEPLOY_ROS_PROD=true;;
@@ -340,7 +331,7 @@ updateDeploySHA()
 
   if [ "$?" -eq 0 ]; then
     createMergeRequestDesc
-    mergeRequest
+    #mergeRequest
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi

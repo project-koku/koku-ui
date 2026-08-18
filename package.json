@@ -45,7 +45,7 @@
     "install:lockfile:backfill": "Backfill missing resolved URLs in package-lock.json for Konflux hermetic builds",
     "quick:start:koku": "Start Koku (ONPREM=False) and load all sample cost data",
     "quick:start:koku:onprem": "Start Koku (ONPREM=True) and load on-prem OCP sample data",
-    "release:all": "Used to merge stage/prod branches and deploy app-interface with the latest SHA refs from same branches",
+    "release:all": "Used to merge release branches and deploy app-interface with the latest SHA refs from the same branches",
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI",
