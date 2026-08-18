@@ -136,6 +136,11 @@ npm run start:onprem:auth
 
 The host wraps the app in `FlagProvider` from the stub so federated remotes share the same context.
 
+## Releasing Koku UI OnPrem
+
+This [RELEASE][release-doc] doc describes how to release Koku UI OnPrem.
 
 [Jira]: https://redhat.atlassian.net/projects/COST/
 [Patternfly]: https://www.patternfly.org/
+[release-doc]: https://github.com/project-koku/koku-ui/blob/main/apps/koku-ui-onprem/RELEASE.md
+
