@@ -48,6 +48,7 @@ async function setConfig() {
         name: 'clouddotEnv',
         message: 'Which Chrome environment do you want to release?',
         choices: process.env.APP_INTERFACE === 'true' ? ['stage', 'prod', 'all'] : ['stage', 'prod'],
+        when: answers => answers.appEnv !== 'koku-ui-onprem',
       },
       {
         name: 'debug',
@@ -67,21 +68,19 @@ async function setConfig() {
       const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
       const isProd = clouddotEnv === 'prod' || clouddotEnv === 'all';
 
-      if (isStage && isHccm) {
-        process.env.HCCM_STAGE_ARG = '-o';
+      if (isOnprem) {
+        process.env.ONPREM_CANDIDATE_ARG = '-p';
       }
-      if (isStage && isOnprem) {
-        process.env.ONPREM_STAGE_ARG = '-p';
+
+      if (isStage && isHccm) {
+        process.env.HCCM_STAGE_ARG = '-q';
       }
       if (isStage && isRos) {
-        process.env.ROS_STAGE_ARG = '-q';
+        process.env.ROS_STAGE_ARG = '-r';
       }
 
       if (isProd && isHccm) {
-        process.env.HCCM_PROD_ARG = '-r';
-      }
-      if (isProd && isOnprem) {
-        process.env.ONPREM_PROD_ARG = '-s';
+        process.env.HCCM_PROD_ARG = '-s';
       }
       if (isProd && isRos) {
         process.env.ROS_PROD_ARG = '-t';
@@ -108,8 +107,7 @@ async function run() {
     'HCCM_PROD_ARG',
     'ROS_STAGE_ARG',
     'ROS_PROD_ARG',
-    'ONPREM_STAGE_ARG',
-    'ONPREM_PROD_ARG',
+    'ONPREM_CANDIDATE_ARG',
   ];
   const deploymentArgs = argVars.map(v => process.env[v]).filter(Boolean);
   allArgs.push(...deploymentArgs);
