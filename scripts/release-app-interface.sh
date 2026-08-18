@@ -148,6 +148,24 @@ QE has verified all queued issues
 EEOOFF
 }
 
+# Tag the prod SHA in koku-ui (does not tag stage deploys).
+# Triggers .github/workflows/tag_release.yml via workflow_dispatch.
+# HCCM and ROS can be tagged independently or together.
+tagProdReleases()
+{
+  cd $KOKU_UI_DIR
+
+  if [ "$DEPLOY_HCCM_PROD" = true ]; then
+    echo "\n*** Tagging prod release for $KOKU_UI_HCCM at $HCCM_SHA..."
+    gh workflow run tag_release.yml -f commit="$HCCM_SHA" -f app="$KOKU_UI_HCCM"
+  fi
+
+  if [ "$DEPLOY_ROS_PROD" = true ]; then
+    echo "\n*** Tagging prod release for $KOKU_UI_ROS at $ROS_SHA..."
+    gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
+  fi
+}
+
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 mergeRequest()
 {
@@ -332,6 +350,7 @@ updateDeploySHA()
   if [ "$?" -eq 0 ]; then
     createMergeRequestDesc
     mergeRequest
+    tagProdReleases
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi
