@@ -51,15 +51,15 @@ cat <<- EEOOFF
     $ROS_PROD_BRANCH
     $ROS_STAGE_BRANCH
 
-    sh [-x] $SCRIPT [-h|-o|-q|-r|-t]
+    sh [-x] $SCRIPT [-h|-q|-r|-s|-t]
 
     OPTIONS:
     h       Display this message
 
-    o       Deploy SHA refs from $HCCM_STAGE_BRANCH to $TARGET_BRANCH
-    q       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
+    q       Deploy SHA refs from $HCCM_STAGE_BRANCH to $TARGET_BRANCH
+    r       Deploy SHA refs from $ROS_STAGE_BRANCH to $TARGET_BRANCH
 
-    r       Deploy SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
+    s       Deploy SHA refs from $HCCM_PROD_BRANCH to $TARGET_BRANCH
     t       Deploy SHA refs from $ROS_PROD_BRANCH to $TARGET_BRANCH
 
     Note: This script does not support on-prem for app-interface deployments.
@@ -306,11 +306,11 @@ updateDeploySHA()
 {
   default
 
-  while getopts hoqrt c; do
+  while getopts hqrst c; do
     case $c in
-      o) DEPLOY_HCCM_STAGE=true;;
-      q) DEPLOY_ROS_STAGE=true;;
-      r) DEPLOY_HCCM_PROD=true;;
+      q) DEPLOY_HCCM_STAGE=true;;
+      r) DEPLOY_ROS_STAGE=true;;
+      s) DEPLOY_HCCM_PROD=true;;
       t) DEPLOY_ROS_PROD=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
