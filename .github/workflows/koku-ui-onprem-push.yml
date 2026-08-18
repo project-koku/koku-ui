@@ -1,9 +1,9 @@
-name: Koku UI OnPrem - Push to stage/tag
+name: Koku UI OnPrem - Push/tag
 
 on:
   push:
     branches:
-      - stage-onprem
+      - onprem-candidate
     tags:
       - 'onprem-*'
 env:
