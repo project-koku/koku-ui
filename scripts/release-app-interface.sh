@@ -313,7 +313,9 @@ tagRelease()
     gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
   fi
 
-  echo "\nCheck workflow status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
+  if [ "$DEPLOY_HCCM_PROD" = true -o "$DEPLOY_ROS_PROD" = true ]; then
+    echo "\nCheck workflow status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
+  fi
 }
 
 updateDeploySHA()
@@ -379,8 +381,8 @@ updateDeploySHA()
   commit
 
   if [ "$?" -eq 0 ]; then
-    mergeRequest
     tagRelease
+    mergeRequest
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi
