@@ -116,7 +116,7 @@ merge()
   fi
 
   if [ -n "$(git diff --name-only --diff-filter=U 2>/dev/null)" ]; then
-    resolveConflictsWithTheirs
+    resolveConflicts
     return $?
   fi
 
