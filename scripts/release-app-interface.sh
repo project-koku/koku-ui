@@ -28,6 +28,7 @@ default()
   KOKU_UI_ROS=koku-ui-ros
 
   PROD_FRONTENDS=/services/insights/frontend-operator/namespaces/prod-frontends.yml
+  PROD_MULTICLUSTER_FRONTENDS=/services/insights/frontend-operator/namespaces/prod-multicluster-frontends.yml
   STAGE_FRONTENDS=/services/insights/frontend-operator/namespaces/stage-frontends.yml
   STAGE_MULTICLUSTER_FRONTENDS=/services/insights/frontend-operator/namespaces/stage-multicluster-frontends.yml
 
@@ -77,6 +78,7 @@ cloneAppInterface()
   cd $TMP_DIR
 
   if [ ! -d "$APP_INTERFACE_DIR" ]; then
+    echo ""
     git clone $APP_INTERFACE_REPO
   fi
 }
@@ -87,6 +89,7 @@ cloneKokuUI()
   cd $TMP_DIR
 
   if [ ! -d "$KOKU_UI_DIR" ]; then
+    echo ""
     git clone $KOKU_UI_REPO
   fi
 }
@@ -148,51 +151,6 @@ QE has verified all queued issues
 EEOOFF
 }
 
-# Tag the prod SHA in koku-ui (does not tag stage deploys).
-# Triggers .github/workflows/tag_release.yml via workflow_dispatch.
-# HCCM and ROS can be tagged independently or together.
-tagProdReleases()
-{
-  cd $KOKU_UI_DIR
-
-  if [ "$DEPLOY_HCCM_PROD" = true ]; then
-    echo "\n*** Tagging prod release for $KOKU_UI_HCCM at $HCCM_SHA..."
-    gh workflow run tag_release.yml -f commit="$HCCM_SHA" -f app="$KOKU_UI_HCCM"
-  fi
-
-  if [ "$DEPLOY_ROS_PROD" = true ]; then
-    echo "\n*** Tagging prod release for $KOKU_UI_ROS at $ROS_SHA..."
-    gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
-  fi
-}
-
-# Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
-mergeRequest()
-{
-  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|<br/>|g' $DESC_FILE`
-
-  echo "\n*** Pushing $SOURCE_BRANCH..."
-
-  git push \
-    -o merge_request.create \
-    -o merge_request.title="$TITLE" \
-    -o merge_request.description="$DESC" \
-    -o merge_request.target_project=$TARGET_PROJECT \
-    -o merge_request.target=$TARGET_BRANCH origin $SOURCE_BRANCH
-}
-
-push()
-{
-  echo ""
-  read -p "*** You are pushing to the $SOURCE_BRANCH branch. Continue?" YN
-
-  case $YN in
-    [Yy]* ) echo "\n*** Pushing $SOURCE_BRANCH..."; git push -u origin $SOURCE_BRANCH;;
-    [Nn]* ) exit 0;;
-    * ) echo "Please answer yes or no."; push;;
-  esac
-}
-
 # Get SHA for given namespace ref
 #
 # Note that the deply-clowder.yml file may contain multiple namespace refs. However, koku-ui-hccm should be defined
@@ -233,6 +191,9 @@ initAppInterfaceSHA()
   getAppInterfaceSHA $KOKU_UI_HCCM $PROD_FRONTENDS
   HCCM_PROD_FRONTENDS_SHA="$RESULT"
 
+  getAppInterfaceSHA $KOKU_UI_HCCM $PROD_MULTICLUSTER_FRONTENDS
+  HCCM_PROD_MULTICLUSTER_FRONTENDS_SHA="$RESULT"
+
   getAppInterfaceSHA $KOKU_UI_ROS $STAGE_FRONTENDS
   ROS_STAGE_FRONTENDS_SHA="$RESULT"
 
@@ -242,13 +203,18 @@ initAppInterfaceSHA()
   getAppInterfaceSHA $KOKU_UI_ROS $PROD_FRONTENDS
   ROS_PROD_FRONTENDS_SHA="$RESULT"
 
-  echo "Existing SHA refs..."
+  getAppInterfaceSHA $KOKU_UI_ROS $PROD_MULTICLUSTER_FRONTENDS
+  ROS_PROD_MULTICLUSTER_FRONTENDS_SHA="$RESULT"
+
+  echo "\nExisting SHA refs..."
   echo "koku-ui-hccm stage: $HCCM_STAGE_FRONTENDS_SHA"
   echo "koku-ui-hccm stage multicluster: $HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA"
   echo "koku-ui-hccm prod: $HCCM_PROD_FRONTENDS_SHA"
+  echo "koku-ui-hccm prod multicluster: $HCCM_PROD_MULTICLUSTER_FRONTENDS_SHA"
   echo "koku-ui-ros stage: $ROS_STAGE_FRONTENDS_SHA"
   echo "koku-ui-ros stage multicluster: $ROS_STAGE_MULTICLUSTER_FRONTENDS_SHA"
   echo "koku-ui-ros prod: $ROS_PROD_FRONTENDS_SHA"
+  echo "koku-ui-ros prod multicluster: $ROS_PROD_MULTICLUSTER_FRONTENDS_SHA"
 }
 
 initKokuUISHA()
@@ -258,56 +224,122 @@ initKokuUISHA()
   HCCM_SHA=`git rev-parse origin/$HCCM_BRANCH`
   ROS_SHA=`git rev-parse origin/$ROS_BRANCH`
 
-  echo "Latest SHA refs..."
+  echo "\nLatest SHA refs..."
   echo "koku-ui-hccm ($HCCM_BRANCH): $HCCM_SHA"
   echo "koku-ui-ros ($ROS_BRANCH): $ROS_SHA"
 }
 
-# Replace old SHA with new SHA only inside the given resource block
+# Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
+mergeRequest()
+{
+  createMergeRequestDesc
+
+  DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|<br/>|g' $DESC_FILE`
+
+  echo "\n*** Pushing $SOURCE_BRANCH..."
+
+  git push \
+    -o merge_request.create \
+    -o merge_request.title="$TITLE" \
+    -o merge_request.description="$DESC" \
+    -o merge_request.target_project=$TARGET_PROJECT \
+    -o merge_request.target=$TARGET_BRANCH origin $SOURCE_BRANCH
+}
+
+push()
+{
+  echo ""
+  read -p "*** You are pushing to the $SOURCE_BRANCH branch. Continue?" YN
+
+  case $YN in
+    [Yy]* ) echo "\n*** Pushing $SOURCE_BRANCH..."; git push -u origin $SOURCE_BRANCH;;
+    [Nn]* ) exit 0;;
+    * ) echo "Please answer yes or no."; push;;
+  esac
+}
+# Replace the commit SHA only on the target whose namespace $ref matches.
+# Stage and prod can share the same SHA after consolidating to a single
+# release branch, so we must not gsub across the whole resource block.
+#
 # $1: resource name (koku-ui-hccm or koku-ui-ros)
-# $2: old SHA
+# $2: namespace $ref path
 # $3: new SHA
 replaceSHA()
 {
   RESOURCE="$1"
-  OLD_SHA="$2"
+  NAMESPACE="$2"
   NEW_SHA="$3"
 
-  if [ -z "$OLD_SHA" ] || [ "$OLD_SHA" = "$MAIN_BRANCH" ] || [ "$OLD_SHA" = "$NEW_SHA" ]; then
+  if [ -z "$NEW_SHA" ] || [ "$NEW_SHA" = "$MAIN_BRANCH" ]; then
     return
   fi
 
-  awk -v resource="$RESOURCE" -v old="$OLD_SHA" -v new="$NEW_SHA" '
-    $0 ~ "name:[[:space:]]*" resource "([[:space:]]|$)" { in_block = 1; print; next }
-    in_block && $0 ~ /name:[[:space:]]*koku-ui-/ { in_block = 0 }
-    in_block { gsub(old, new) }
+  awk -v resource="$RESOURCE" -v ns="$NAMESPACE" -v new="$NEW_SHA" '
+    /^[[:space:]]*- name:[[:space:]]+/ {
+      in_block = ($0 ~ ("name:[[:space:]]*" resource "([[:space:]]|$)"))
+      match_ns = 0
+      print
+      next
+    }
+    in_block && index($0, "$ref: " ns) {
+      match_ns = 1
+      print
+      next
+    }
+    in_block && match_ns && $0 ~ /^[[:space:]]*ref:[[:space:]]/ {
+      sub(/ref:[[:space:]].*/, "ref: " new)
+      match_ns = 0
+      print
+      next
+    }
     { print }
   ' "$DEPLOY_CLOWDER_FILE" > "${DEPLOY_CLOWDER_FILE}.tmp"
   mv "${DEPLOY_CLOWDER_FILE}.tmp" "$DEPLOY_CLOWDER_FILE"
+}
+
+# Tag the SHA in koku-ui (does not tag stage deploys).
+# Triggers .github/workflows/tag_release.yml via workflow_dispatch.
+tagRelease()
+{
+  cd $KOKU_UI_DIR
+
+  if [ "$DEPLOY_HCCM_PROD" = true ]; then
+    echo "\n*** Tagging prod release for $KOKU_UI_HCCM at $HCCM_SHA..."
+    gh workflow run tag_release.yml -f commit="$HCCM_SHA" -f app="$KOKU_UI_HCCM"
+  fi
+
+  if [ "$DEPLOY_ROS_PROD" = true ]; then
+    echo "\n*** Tagging prod release for $KOKU_UI_ROS at $ROS_SHA..."
+    gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
+  fi
+
+  echo "\nCheck workflow status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
 }
 
 updateDeploySHA()
 {
   # koku-ui-hccm stage deploy
   if [ "$DEPLOY_HCCM_STAGE" = true ]; then
-    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_FRONTENDS_SHA" "$HCCM_SHA"
-    replaceSHA "$KOKU_UI_HCCM" "$HCCM_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$HCCM_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$STAGE_FRONTENDS" "$HCCM_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$STAGE_MULTICLUSTER_FRONTENDS" "$HCCM_SHA"
   fi
 
   # koku-ui-hccm prod deploy
   if [ "$DEPLOY_HCCM_PROD" = true ]; then
-    replaceSHA "$KOKU_UI_HCCM" "$HCCM_PROD_FRONTENDS_SHA" "$HCCM_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$PROD_FRONTENDS" "$HCCM_SHA"
+    replaceSHA "$KOKU_UI_HCCM" "$PROD_MULTICLUSTER_FRONTENDS" "$HCCM_SHA"
   fi
 
   # koku-ui-ros stage deploy
   if [ "$DEPLOY_ROS_STAGE" = true ]; then
-    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_FRONTENDS_SHA" "$ROS_SHA"
-    replaceSHA "$KOKU_UI_ROS" "$ROS_STAGE_MULTICLUSTER_FRONTENDS_SHA" "$ROS_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$STAGE_FRONTENDS" "$ROS_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$STAGE_MULTICLUSTER_FRONTENDS" "$ROS_SHA"
   fi
 
   # koku-ui-ros prod deploy
   if [ "$DEPLOY_ROS_PROD" = true ]; then
-    replaceSHA "$KOKU_UI_ROS" "$ROS_PROD_FRONTENDS_SHA" "$ROS_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$PROD_FRONTENDS" "$ROS_SHA"
+    replaceSHA "$KOKU_UI_ROS" "$PROD_MULTICLUSTER_FRONTENDS" "$ROS_SHA"
   fi
 }
 
@@ -336,7 +368,6 @@ updateDeploySHA()
   echo "\n*** Deploying $APP_INTERFACE with SHA updates for...\n"
   createDeploymentDesc
   cat $DEPLOYMENTS_FILE
-  echo
 
   cloneAppInterface
   cloneKokuUI
@@ -348,9 +379,8 @@ updateDeploySHA()
   commit
 
   if [ "$?" -eq 0 ]; then
-    createMergeRequestDesc
     mergeRequest
-    tagProdReleases
+    tagRelease
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi
