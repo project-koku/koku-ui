@@ -100,36 +100,6 @@ After merge, use the latest commit SHA on \`$TARGET_BRANCH\` to update the names
 EEOOFF
 }
 
-resolveConflictsWithTheirs()
-{
-  echo ""
-  echo "*** Merge conflicts detected:"
-  git diff --name-only --diff-filter=U
-  echo ""
-  # Deployment PRs are often squash-merged, which breaks ancestry with the
-  # source branch and causes repeat content conflicts. Accepting "theirs"
-  # takes the source branch version for every conflicted path.
-  read -p "*** Accept origin/$SOURCE_BRANCH (theirs) for all conflicts and continue (y/n)? " YN
-
-  case $YN in
-    [Yy]* )
-      echo "\n*** Aborting conflicted merge and retrying with -X theirs..."
-      git merge --abort
-      git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff -X theirs
-      return $?
-      ;;
-    [Nn]* | "" )
-      echo "\n*** Aborting merge. Re-run and accept theirs, or resolve manually."
-      git merge --abort
-      return 1
-      ;;
-    * )
-      echo "Please answer yes or no."
-      resolveConflictsWithTheirs
-      ;;
-  esac
-}
-
 merge()
 {
   cd $KOKU_UI_DIR
@@ -146,7 +116,7 @@ merge()
   fi
 
   if [ -n "$(git diff --name-only --diff-filter=U 2>/dev/null)" ]; then
-    resolveConflictsWithTheirs
+    resolveConflicts
     return $?
   fi
 
@@ -192,6 +162,36 @@ push()
     [Yy]* ) echo "\n*** Pushing $NEW_BRANCH..."; git push -u origin $NEW_BRANCH;;
     [Nn]* ) exit 0;;
     * ) echo "Please answer yes or no."; push;;
+  esac
+}
+
+resolveConflicts()
+{
+  echo ""
+  echo "*** Merge conflicts detected:"
+  git diff --name-only --diff-filter=U
+  echo ""
+  # Deployment PRs are often squash-merged, which breaks ancestry with the
+  # source branch and causes repeat content conflicts. Accepting "theirs"
+  # takes the source branch version for every conflicted path.
+  read -p "*** Accept origin/$SOURCE_BRANCH (theirs) for all conflicts and continue (y/n)? " YN
+
+  case $YN in
+    [Yy]* )
+      echo "\n*** Aborting conflicted merge and retrying with -X theirs..."
+      git merge --abort
+      git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff -X theirs
+      return $?
+      ;;
+    [Nn]* | "" )
+      echo "\n*** Aborting merge. Re-run and accept theirs, or resolve manually."
+      git merge --abort
+      return 1
+      ;;
+    * )
+      echo "Please answer yes or no."
+      resolveConflicts
+      ;;
   esac
 }
 
