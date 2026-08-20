@@ -11,12 +11,16 @@ function defaults() {
 function usage() {
   console.log(
     [
-      'Use this script to create a PR, merging stage and prod branches first.',
-      'Run again to create an MR, deploying app-interface with the latest SHA refs from the same branches.',
+      'Use this script to create a PR, merging the release branch first.',
+      'Run again to create an MR, deploying app-interface with the latest SHA refs from the same branch.',
       'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
-      'Note: This script does not support on-prem for prod.\n',
+      'Note: This script does not support on-prem for app-interface.\n',
     ].join('\n')
   );
+}
+
+function appendArg(name, flag) {
+  process.env[name] = [process.env[name], flag].filter(Boolean).join(' ');
 }
 
 async function setAppInterfaceConfig() {
@@ -47,8 +51,8 @@ async function setConfig() {
         type: 'list',
         name: 'clouddotEnv',
         message: 'Which Chrome environment do you want to release?',
-        choices: process.env.APP_INTERFACE === 'true' ? ['stage', 'prod', 'all'] : ['stage', 'prod'],
-        when: answers => answers.appEnv !== 'koku-ui-onprem',
+        choices: ['stage', 'prod', 'all'],
+        when: () => process.env.APP_INTERFACE === 'true',
       },
       {
         name: 'debug',
@@ -61,29 +65,36 @@ async function setConfig() {
       const { appEnv, clouddotEnv, debug } = answers;
       process.env.DEBUG = debug.toString();
 
+      const isAppInterface = process.env.APP_INTERFACE === 'true';
       const isHccm = appEnv === 'koku-ui-hccm' || appEnv === 'all';
-      const isRos = appEnv === 'koku-ui-ros' || appEnv === 'all';
       const isOnprem = appEnv === 'koku-ui-onprem';
-
-      const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
       const isProd = clouddotEnv === 'prod' || clouddotEnv === 'all';
+      const isRos = appEnv === 'koku-ui-ros' || appEnv === 'all';
+      const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
 
-      if (isOnprem) {
-        process.env.ONPREM_CANDIDATE_ARG = '-p';
-      }
-
-      if (isStage && isHccm) {
-        process.env.HCCM_STAGE_ARG = '-q';
-      }
-      if (isStage && isRos) {
-        process.env.ROS_STAGE_ARG = '-r';
-      }
-
-      if (isProd && isHccm) {
-        process.env.HCCM_PROD_ARG = '-s';
-      }
-      if (isProd && isRos) {
-        process.env.ROS_PROD_ARG = '-t';
+      if (isAppInterface) {
+        if (isHccm && isStage) {
+          appendArg('HCCM_ARG', '-p');
+        }
+        if (isHccm && isProd) {
+          appendArg('HCCM_ARG', '-s');
+        }
+        if (isRos && isStage) {
+          appendArg('ROS_ARG', '-r');
+        }
+        if (isRos && isProd) {
+          appendArg('ROS_ARG', '-t');
+        }
+      } else {
+        if (isHccm) {
+          process.env.HCCM_ARG = '-p';
+        }
+        if (isOnprem) {
+          process.env.ONPREM_ARG = '-q';
+        }
+        if (isRos) {
+          process.env.ROS_ARG = '-r';
+        }
       }
     });
 }
@@ -102,14 +113,8 @@ async function run() {
 
   allArgs.push(process.env.APP_INTERFACE === 'true' ? 'release-app-interface.sh' : 'release-branch.sh');
 
-  const argVars = [
-    'HCCM_STAGE_ARG',
-    'HCCM_PROD_ARG',
-    'ROS_STAGE_ARG',
-    'ROS_PROD_ARG',
-    'ONPREM_CANDIDATE_ARG',
-  ];
-  const deploymentArgs = argVars.map(v => process.env[v]).filter(Boolean);
+  const argVars = ['HCCM_ARG', 'ONPREM_ARG', 'ROS_ARG'];
+  const deploymentArgs = argVars.flatMap(v => (process.env[v] || '').split(/\s+/)).filter(Boolean);
   allArgs.push(...deploymentArgs);
 
   spawn('sh', allArgs, {
