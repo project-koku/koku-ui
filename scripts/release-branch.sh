@@ -12,7 +12,7 @@ default()
 
   MAIN_BRANCH="main"
   HCCM_BRANCH="release-hccm"
-  ONPREM_BRANCH="onprem-candidate"
+  ONPREM_BRANCH="release-onprem"
   ROS_BRANCH="release-ros"
 
   KOKU_UI=koku-ui
