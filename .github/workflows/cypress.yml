@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      - onprem-candidate
+      - release-onprem
 
 env:
   NODEJS_VERSION: '22'

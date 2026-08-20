@@ -11,13 +11,9 @@ default()
   TMP_DIR="/tmp/$SCRIPT.$$"
 
   MAIN_BRANCH="main"
-  ONPREM_CANDIDATE_BRANCH=onprem-candidate
-
-  STAGE_HCCM_BRANCH="stage-hccm"
-  STAGE_ROS_BRANCH="stage-ros"
-
-  PROD_HCCM_BRANCH="prod-hccm"
-  PROD_ROS_BRANCH="prod-ros"
+  HCCM_BRANCH="release-hccm"
+  ONPREM_BRANCH="onprem-candidate"
+  ROS_BRANCH="release-ros"
 
   KOKU_UI=koku-ui
   KOKU_UI_DIR="$TMP_DIR/$KOKU_UI"
@@ -37,26 +33,18 @@ cat <<- EEOOFF
     This script will merge the following branches with the koku-ui and either create a pull request (default)
     or push to the origin without an PR. It's assumed SSH keys are in use.
 
-    $ONPREM_CANDIDATE_BRANCH is merged from $MAIN_BRANCH
+    $HCCM_BRANCH is merged from $MAIN_BRANCH
+    $ONPREM_BRANCH is merged from $MAIN_BRANCH
+    $ROS_BRANCH is merged from $MAIN_BRANCH
 
-    $STAGE_HCCM_BRANCH is merged from $MAIN_BRANCH
-    $PROD_HCCM_BRANCH is merged from $STAGE_HCCM_BRANCH
-
-    $STAGE_ROS_BRANCH is merged from $MAIN_BRANCH
-    $PROD_ROS_BRANCH is merged from $STAGE_ROS_BRANCH
-
-    sh [-x] $SCRIPT [-h|-p|-q|-r|-s|-t|-u]
+    sh [-x] $SCRIPT [-h|-p|-q|-r|-u]
 
     OPTIONS:
     h       Display this message
 
-    p       Merge $MAIN_BRANCH to $ONPREM_CANDIDATE_BRANCH
-
-    q       Merge $MAIN_BRANCH to $STAGE_HCCM_BRANCH
-    r       Merge $MAIN_BRANCH to $STAGE_ROS_BRANCH
-
-    s       Merge $STAGE_HCCM_BRANCH to $PROD_HCCM_BRANCH
-    t       Merge $STAGE_ROS_BRANCH to $PROD_ROS_BRANCH
+    p       Merge $MAIN_BRANCH to $HCCM_BRANCH
+    q       Merge $MAIN_BRANCH to $ONPREM_BRANCH
+    r       Merge $MAIN_BRANCH to $ROS_BRANCH
 
     u       Push to upstream
 
@@ -108,38 +96,8 @@ Merged $SOURCE_BRANCH branch to $TARGET_BRANCH.
 
 This PR is set to auto-merge with a merge commit. Do not squash — squash breaks ancestry with $SOURCE_BRANCH and causes merge conflicts on the next release.
 
-After merge, use the latest commit SHA on \`$TARGET_BRANCH\` to update the namespace \`ref\` in app-interface. SHAs must be unique when images are created for each branch.
+After merge, use the latest commit SHA on \`$TARGET_BRANCH\` to update the namespace \`ref\` in app-interface.
 EEOOFF
-}
-
-resolveConflictsWithTheirs()
-{
-  echo ""
-  echo "*** Merge conflicts detected:"
-  git diff --name-only --diff-filter=U
-  echo ""
-  # Deployment PRs are often squash-merged, which breaks ancestry with the
-  # source branch and causes repeat content conflicts. Accepting "theirs"
-  # takes the source branch version for every conflicted path.
-  read -p "*** Accept origin/$SOURCE_BRANCH (theirs) for all conflicts and continue (y/n)? " YN
-
-  case $YN in
-    [Yy]* )
-      echo "\n*** Aborting conflicted merge and retrying with -X theirs..."
-      git merge --abort
-      git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff -X theirs
-      return $?
-      ;;
-    [Nn]* | "" )
-      echo "\n*** Aborting merge. Re-run and accept theirs, or resolve manually."
-      git merge --abort
-      return 1
-      ;;
-    * )
-      echo "Please answer yes or no."
-      resolveConflictsWithTheirs
-      ;;
-  esac
 }
 
 merge()
@@ -158,7 +116,7 @@ merge()
   fi
 
   if [ -n "$(git diff --name-only --diff-filter=U 2>/dev/null)" ]; then
-    resolveConflictsWithTheirs
+    resolveConflicts
     return $?
   fi
 
@@ -207,22 +165,48 @@ push()
   esac
 }
 
+resolveConflicts()
+{
+  echo ""
+  echo "*** Merge conflicts detected:"
+  git diff --name-only --diff-filter=U
+  echo ""
+  # Deployment PRs are often squash-merged, which breaks ancestry with the
+  # source branch and causes repeat content conflicts. Accepting "theirs"
+  # takes the source branch version for every conflicted path.
+  read -p "*** Accept origin/$SOURCE_BRANCH (theirs) for all conflicts and continue (y/n)? " YN
+
+  case $YN in
+    [Yy]* )
+      echo "\n*** Aborting conflicted merge and retrying with -X theirs..."
+      git merge --abort
+      git merge origin/$SOURCE_BRANCH --commit --no-edit --no-ff -X theirs
+      return $?
+      ;;
+    [Nn]* | "" )
+      echo "\n*** Aborting merge. Re-run and accept theirs, or resolve manually."
+      git merge --abort
+      return 1
+      ;;
+    * )
+      echo "Please answer yes or no."
+      resolveConflicts
+      ;;
+  esac
+}
+
 # main()
 {
   default
 
-  while getopts hpqrstu c; do
+  while getopts hpqru c; do
     case $c in
       p) SOURCE_BRANCH=$MAIN_BRANCH
-         TARGET_BRANCH=$ONPREM_CANDIDATE_BRANCH;;
+         TARGET_BRANCH=$HCCM_BRANCH;;
       q) SOURCE_BRANCH=$MAIN_BRANCH
-         TARGET_BRANCH=$STAGE_HCCM_BRANCH;;
+         TARGET_BRANCH=$ONPREM_BRANCH;;
       r) SOURCE_BRANCH=$MAIN_BRANCH
-         TARGET_BRANCH=$STAGE_ROS_BRANCH;;
-      s) SOURCE_BRANCH=$STAGE_HCCM_BRANCH
-         TARGET_BRANCH=$PROD_HCCM_BRANCH;;
-      t) SOURCE_BRANCH=$STAGE_ROS_BRANCH
-         TARGET_BRANCH=$PROD_ROS_BRANCH;;
+         TARGET_BRANCH=$ROS_BRANCH;;
       u) PUSH=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;

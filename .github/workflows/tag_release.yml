@@ -1,11 +1,20 @@
 name: Tag Release
 on:
-  push:
-    branches:
-      - prod-hccm
-      - prod-ros
-env:
-  BRANCH: ${{ github.ref }}
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: 'Release commit SHA deployed to prod'
+        required: true
+      app:
+        description: 'App to tag'
+        required: true
+        type: choice
+        options:
+          - koku-ui-hccm
+          - koku-ui-ros
+
+permissions:
+  contents: write
 
 jobs:
   tag_release:
@@ -13,30 +22,39 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ env.BRANCH }}
-      - run: |
-          git fetch --prune --unshallow
+          fetch-depth: 0
+          fetch-tags: true
+          ref: ${{ inputs.commit }}
       - name: Tag this release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_COMMIT: ${{ inputs.commit }}
+          APP: ${{ inputs.app }}
         run: |
           DATE=$(date +"%Y.%m.%d")
-          PREV_RELEASE=$(git tag --list | tail -1)
+          APP_SUFFIX=${APP#koku-ui-}
+          PREV_RELEASE=$(git tag --list | grep -E "^r\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+-${APP_SUFFIX}$" | tail -1 || true)
+          PREV_SAME_DAY=$(git tag --list | grep -E "^r\.${DATE}\.[0-9]+-${APP_SUFFIX}$" | tail -1 || true)
           MINOR_VERSION=0
-          case $PREV_RELEASE in
-            *"$DATE"*)
-              MINOR_VERSION=$(echo "$PREV_RELEASE" | cut -d'.' -f5)
-              MINOR_VERSION=$((MINOR_VERSION+1))
-              ;;
-            *)
-              MINOR_VERSION=0
-              ;;
-          esac
-          BRANCH_BASE=$( echo $BRANCH | cut -d'/' -f3)
-          APP_PREFIX=$(echo "$BRANCH_BASE" | cut -d'-' -f2)
-          TAG="r-$APP_PREFIX.$DATE.$MINOR_VERSION"
+          if [ -n "$PREV_SAME_DAY" ]; then
+            MINOR_VERSION=$(echo "$PREV_SAME_DAY" | cut -d'.' -f5 | cut -d'-' -f1)
+            MINOR_VERSION=$((MINOR_VERSION+1))
+          fi
+          TAG="r.$DATE.$MINOR_VERSION-$APP_SUFFIX"
+          echo "PREV_RELEASE=$PREV_RELEASE"
+          echo "PREV_SAME_DAY=$PREV_SAME_DAY"
+          echo "TAG=$TAG"
           git config --local user.email "koku-ui-bot@redhat.com"
           git config --local user.name "Koku UI Bot"
-          git log $(git tag --list | tail -1)..$BRANCH_BASE | git tag -a $TAG -F -
-          git push origin $TAG
+          if [ -n "$PREV_RELEASE" ]; then
+            BODY=$(git log "$PREV_RELEASE".."$RELEASE_COMMIT")
+            if [ -n "$BODY" ]; then
+              echo "$BODY" | git tag -a "$TAG" "$RELEASE_COMMIT" -F -
+            else
+              git tag -a "$TAG" "$RELEASE_COMMIT" -m "Release $TAG"
+            fi
+          else
+            git tag -a "$TAG" "$RELEASE_COMMIT" -m "Release $TAG"
+          fi
+          git push origin "$TAG"
         shell: bash
