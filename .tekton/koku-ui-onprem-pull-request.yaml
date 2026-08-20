@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
-      == "onprem-candidate"
+      == "release-onprem"
   labels:
     appstudio.openshift.io/application: koku-ui-onprem
     appstudio.openshift.io/component: koku-ui-onprem
