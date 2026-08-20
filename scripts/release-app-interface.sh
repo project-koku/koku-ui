@@ -121,10 +121,18 @@ createDeploymentDesc()
     fi
 
     if [ "$DEPLOY_HCCM_PROD" = "true" ]; then
-      echo "${KOKU_UI_HCCM}: Prod deployment"
+      if [ -n "$HCCM_TAG" ]; then
+        echo "${KOKU_UI_HCCM}: Prod deployment | <a href=https://github.com/project-koku/koku-ui/releases/tag/${HCCM_TAG}>${HCCM_TAG}</a>"
+      else
+        echo "${KOKU_UI_HCCM}: Prod deployment"
+      fi
     fi
     if [ "$DEPLOY_ROS_PROD" = "true" ]; then
-      echo "${KOKU_UI_ROS}: Prod deployment"
+      if [ -n "$ROS_TAG" ]; then
+        echo "${KOKU_UI_ROS}: Prod deployment | <a href=https://github.com/project-koku/koku-ui/releases/tag/${ROS_TAG}>${ROS_TAG}</a>"
+      else
+        echo "${KOKU_UI_ROS}: Prod deployment"
+      fi
     fi
   } > "$DEPLOYMENTS_FILE"
 
@@ -133,6 +141,8 @@ createDeploymentDesc()
 
 createMergeRequestDesc()
 {
+  createDeploymentDesc
+
 cat <<- EEOOFF > $DESC_FILE
 <b>What:</b>
 Update Cost Management UI deployments to latest commit
@@ -232,6 +242,9 @@ initKokuUISHA()
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 mergeRequest()
 {
+  # tagRelease cds to koku-ui; the deploy branch lives in the app-interface clone.
+  cd $APP_INTERFACE_DIR
+
   createMergeRequestDesc
 
   DESC=`sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|<br/>|g' $DESC_FILE`
@@ -297,11 +310,35 @@ replaceSHA()
   mv "${DEPLOY_CLOWDER_FILE}.tmp" "$DEPLOY_CLOWDER_FILE"
 }
 
+# Tag created by tag_release.yml for the given SHA and app suffix, if it is new.
+#
+# $1: commit SHA
+# $2: app suffix (hccm or ros)
+# $3: tags that existed before the workflow ran
+createdTag()
+{
+  RESULT=
+  for TAG in `git tag --points-at "$1"`
+  do
+    echo "$TAG" | grep -Eq "^r\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+-${2}$" || continue
+    echo "$3" | grep -qx "$TAG" && continue
+    RESULT="$TAG"
+  done
+  echo "$RESULT"
+}
+
 # Tag the SHA in koku-ui (does not tag stage deploys).
-# Triggers .github/workflows/tag_release.yml via workflow_dispatch.
+# Triggers .github/workflows/tag_release.yml, then fetches the tags it created.
 tagRelease()
 {
   cd $KOKU_UI_DIR
+
+  if [ "$DEPLOY_HCCM_PROD" != true -a "$DEPLOY_ROS_PROD" != true ]; then
+    return
+  fi
+
+  git fetch origin --tags --force >/dev/null 2>&1
+  EXISTING_TAGS=`git tag --list 'r.*'`
 
   if [ "$DEPLOY_HCCM_PROD" = true ]; then
     echo "\n*** Tagging prod release for $KOKU_UI_HCCM at $HCCM_SHA..."
@@ -313,7 +350,24 @@ tagRelease()
     gh workflow run tag_release.yml -f commit="$ROS_SHA" -f app="$KOKU_UI_ROS"
   fi
 
-  echo "\nCheck workflow status: https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
+  echo "\n*** Waiting for tags... https://github.com/project-koku/koku-ui/actions/workflows/tag_release.yml"
+
+  TRIES=0
+  while [ $TRIES -lt 24 ]
+  do
+    sleep 5
+    git fetch origin --tags --force >/dev/null 2>&1
+    [ "$DEPLOY_HCCM_PROD" = true ] && HCCM_TAG=`createdTag "$HCCM_SHA" hccm "$EXISTING_TAGS"`
+    [ "$DEPLOY_ROS_PROD" = true ] && ROS_TAG=`createdTag "$ROS_SHA" ros "$EXISTING_TAGS"`
+    if { [ "$DEPLOY_HCCM_PROD" != true ] || [ -n "$HCCM_TAG" ]; } && \
+       { [ "$DEPLOY_ROS_PROD" != true ] || [ -n "$ROS_TAG" ]; }; then
+      break
+    fi
+    TRIES=`expr $TRIES + 1`
+  done
+
+  [ "$DEPLOY_HCCM_PROD" = true ] && echo "*** $KOKU_UI_HCCM tag: ${HCCM_TAG:-not found}"
+  [ "$DEPLOY_ROS_PROD" = true ] && echo "*** $KOKU_UI_ROS tag: ${ROS_TAG:-not found}"
 }
 
 updateDeploySHA()
@@ -379,8 +433,8 @@ updateDeploySHA()
   commit
 
   if [ "$?" -eq 0 ]; then
-    mergeRequest
     tagRelease
+    mergeRequest
   else
     echo "\n*** Cannot push. No changes or check for conflicts"
   fi
