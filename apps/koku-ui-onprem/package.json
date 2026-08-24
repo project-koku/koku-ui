@@ -55,9 +55,9 @@
   "devDependencies": {
     "@types/node": "^26.2.0",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "cypress": "^15.20.1",
+    "cypress": "^15.21.0",
     "pac-proxy-agent": "^9.1.0",
-    "sass": "^1.102.0",
+    "sass": "^1.103.1",
     "sass-loader": "^17.0.0",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.6.2",
