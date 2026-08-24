@@ -37,6 +37,10 @@ cat <<- EEOOFF
     $ONPREM_BRANCH is merged from $MAIN_BRANCH
     $ROS_BRANCH is merged from $MAIN_BRANCH
 
+    Prefer scripts/release-onprem.sh for on-prem. It assembles $ONPREM_BRANCH from $MAIN_BRANCH
+    with HCCM/ROS product UIs pinned to prod tags so in-progress SaaS work does not slip in.
+    -q still merges $MAIN_BRANCH as-is after a warning.
+
     sh [-x] $SCRIPT [-h|-p|-q|-r|-u]
 
     OPTIONS:
@@ -149,6 +153,28 @@ pullRequest()
   echo "\n*** Pull request: $PR_URL"
 }
 
+confirmOnpremDirectMerge()
+{
+  echo ""
+      echo "*** Warning: merging $MAIN_BRANCH into $ONPREM_BRANCH may include in-progress HCCM and ROS"
+  echo "*** product work that has not been promoted to SaaS prod."
+  echo "*** Prefer scripts/release-onprem.sh, which pins those UIs to their latest prod tags."
+  echo ""
+  read -p "*** Continue with a direct $MAIN_BRANCH merge (y/N)? " YN
+
+  case $YN in
+    [Yy]* ) return 0;;
+    [Nn]* | "" )
+      echo "\n*** Aborting. Use scripts/release-onprem.sh to assemble from prod pins."
+      exit 0
+      ;;
+    * )
+      echo "Please answer yes or no."
+      confirmOnpremDirectMerge
+      ;;
+  esac
+}
+
 push()
 {
   NEW_BRANCH="merge_${TARGET_BRANCH}.$$"
@@ -216,6 +242,10 @@ resolveConflicts()
   if [ -z "$TARGET_BRANCH" ]; then
     usage
     exit 1
+  fi
+
+  if [ "$TARGET_BRANCH" = "$ONPREM_BRANCH" ]; then
+    confirmOnpremDirectMerge
   fi
 
   trap cleanup SIGINT SIGTERM EXIT
