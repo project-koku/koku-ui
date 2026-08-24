@@ -17,7 +17,6 @@
     "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
     "release:branch": "sh ../../scripts/release-onprem.sh",
-    "release:branch:merge": "sh ../../scripts/release-branch.sh -q",
     "start": "npm run ts-webpack -- serve --mode=development --color --progress",
     "start:prod": "NODE_ENV=production npm run ts-webpack -- serve --mode=production --color --progress",
     "lint": "npm-run-all lint:*",
@@ -32,8 +31,7 @@
     "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"
   },
   "scripts-info": {
-    "release:branch": "Creates a PR to assemble release-onprem from main with HCCM/ROS UIs pinned to prod",
-    "release:branch:merge": "Creates a PR to merge main to the release-onprem branch (may include in-progress HCCM/ROS product work)"
+    "release:branch": "Creates a PR to assemble release-onprem from main with HCCM/ROS UIs pinned to prod"
   },
   "dependencies": {
     "@patternfly/patternfly": "6.6.1",

@@ -14,7 +14,7 @@ function usage() {
       'Use this script to create a PR, merging the release branch first.',
       'Run again to create an MR, deploying app-interface with the latest SHA refs from the same branch.',
       'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
-      'On-prem defaults to release-onprem.sh (assemble from main with HCCM/ROS prod pins).',
+      'On-prem defaults to release-onprem.sh (assemble from main with HCCM/ROS prod tags).',
       'Choose direct merge to run release-branch.sh -q if the assemble path fails.\n',
       'Note: This script does not support on-prem for app-interface.\n',
     ].join('\n')
@@ -55,11 +55,11 @@ async function setConfig() {
         message: 'How do you want to release on-prem?',
         choices: [
           {
-            name: 'Assemble from main with HCCM/ROS prod pins (recommended)',
+            name: 'Assemble from main with HCCM/ROS prod tags (recommended)',
             value: 'assemble',
           },
           {
-            name: 'Direct merge of main into release-onprem',
+            name: 'Direct merge main to release-onprem (may include in-progress HCCM/ROS work)',
             value: 'direct',
           },
         ],

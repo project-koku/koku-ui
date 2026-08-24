@@ -238,7 +238,7 @@ EEOOFF
 createCommitMessage()
 {
 cat <<- EEOOFF > $MSG_FILE
-Assemble $ONPREM_BRANCH from $MAIN_BRANCH with HCCM/ROS prod pins
+Assemble $ONPREM_BRANCH from $MAIN_BRANCH with HCCM/ROS prod tags
 
 On-prem shell: $MAIN_SHA
 HCCM UI: $HCCM_TAG ($HCCM_MAIN_SHA)
@@ -301,7 +301,7 @@ pullRequest()
   echo "\n*** Pushing $NEW_BRANCH..."
   git push -u origin HEAD
 
-  TITLE="Assemble $ONPREM_BRANCH from $MAIN_BRANCH with HCCM/ROS prod pins"
+  TITLE="Assemble $ONPREM_BRANCH from $MAIN_BRANCH with HCCM/ROS prod tags"
   BODY=`cat $BODY_FILE`
 
   echo "\n*** Creating pull request..."
@@ -344,7 +344,7 @@ push()
 
   trap cleanup SIGINT SIGTERM EXIT
 
-  echo "\n*** Assembling $KOKU_UI $ONPREM_BRANCH from $MAIN_BRANCH with HCCM/ROS prod pins...\n"
+  echo "\n*** Assembling $KOKU_UI $ONPREM_BRANCH from $MAIN_BRANCH with HCCM/ROS prod tags...\n"
 
   clone
   config
