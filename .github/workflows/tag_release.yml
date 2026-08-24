@@ -12,6 +12,7 @@ on:
         options:
           - koku-ui-hccm
           - koku-ui-ros
+          - koku-ui-onprem
 
 permissions:
   contents: write

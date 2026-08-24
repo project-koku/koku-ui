@@ -122,14 +122,14 @@ createDeploymentDesc()
 
     if [ "$DEPLOY_HCCM_PROD" = "true" ]; then
       if [ -n "$HCCM_TAG" ]; then
-        echo "${KOKU_UI_HCCM}: Prod deployment | <a href=https://github.com/project-koku/koku-ui/releases/tag/${HCCM_TAG}>${HCCM_TAG}</a>"
+        echo "${KOKU_UI_HCCM}: Prod deployment | <a href=https://github.com/project-koku/koku-ui/releases/tag/${HCCM_TAG} target="_blank">${HCCM_TAG}</a>"
       else
         echo "${KOKU_UI_HCCM}: Prod deployment"
       fi
     fi
     if [ "$DEPLOY_ROS_PROD" = "true" ]; then
       if [ -n "$ROS_TAG" ]; then
-        echo "${KOKU_UI_ROS}: Prod deployment | <a href=https://github.com/project-koku/koku-ui/releases/tag/${ROS_TAG}>${ROS_TAG}</a>"
+        echo "${KOKU_UI_ROS}: Prod deployment | <a href=https://github.com/project-koku/koku-ui/releases/tag/${ROS_TAG} target="_blank">${ROS_TAG}</a>"
       else
         echo "${KOKU_UI_ROS}: Prod deployment"
       fi
@@ -159,6 +159,23 @@ N/A
 <b>Validation:</b>
 QE has verified all queued issues
 EEOOFF
+}
+
+# Tag created by tag_release.yml for the given SHA and app suffix, if it is new.
+#
+# $1: commit SHA
+# $2: app suffix (hccm or ros)
+# $3: tags that existed before the workflow ran
+createdTag()
+{
+  RESULT=
+  for TAG in `git tag --points-at "$1"`
+  do
+    echo "$TAG" | grep -Eq "^r\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+-${2}$" || continue
+    echo "$3" | grep -qx "$TAG" && continue
+    RESULT="$TAG"
+  done
+  echo "$RESULT"
 }
 
 # Get SHA for given namespace ref
@@ -242,7 +259,6 @@ initKokuUISHA()
 # Use gh in a non-interactive way -- see https://github.com/cli/cli/issues/1718
 mergeRequest()
 {
-  # tagRelease cds to koku-ui; the deploy branch lives in the app-interface clone.
   cd $APP_INTERFACE_DIR
 
   createMergeRequestDesc
@@ -270,6 +286,7 @@ push()
     * ) echo "Please answer yes or no."; push;;
   esac
 }
+
 # Replace the commit SHA only on the target whose namespace $ref matches.
 # Stage and prod can share the same SHA after consolidating to a single
 # release branch, so we must not gsub across the whole resource block.
@@ -308,23 +325,6 @@ replaceSHA()
     { print }
   ' "$DEPLOY_CLOWDER_FILE" > "${DEPLOY_CLOWDER_FILE}.tmp"
   mv "${DEPLOY_CLOWDER_FILE}.tmp" "$DEPLOY_CLOWDER_FILE"
-}
-
-# Tag created by tag_release.yml for the given SHA and app suffix, if it is new.
-#
-# $1: commit SHA
-# $2: app suffix (hccm or ros)
-# $3: tags that existed before the workflow ran
-createdTag()
-{
-  RESULT=
-  for TAG in `git tag --points-at "$1"`
-  do
-    echo "$TAG" | grep -Eq "^r\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+-${2}$" || continue
-    echo "$3" | grep -qx "$TAG" && continue
-    RESULT="$TAG"
-  done
-  echo "$RESULT"
 }
 
 # Tag the SHA in koku-ui (does not tag stage deploys).
