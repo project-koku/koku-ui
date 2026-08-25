@@ -55,7 +55,7 @@
   "devDependencies": {
     "@types/node": "^26.3.0",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "cypress": "^15.21.0",
+    "cypress": "^15.21.1",
     "pac-proxy-agent": "^9.1.0",
     "sass": "^1.103.1",
     "sass-loader": "^17.0.0",
@@ -63,6 +63,6 @@
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "webpack-dev-server": "^5.2.6"
+    "webpack-dev-server": "^6.0.0"
   }
 }
