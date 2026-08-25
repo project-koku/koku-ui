@@ -165,7 +165,7 @@ confirmOnpremDirectMerge()
   case $YN in
     [Yy]* ) return 0;;
     [Nn]* | "" )
-      echo "\n*** Aborting. Use scripts/release-onprem.sh to assemble from prod pins."
+      echo "\n*** Aborting. Use scripts/release-onprem.sh to assemble from prod tags."
       exit 0
       ;;
     * )
