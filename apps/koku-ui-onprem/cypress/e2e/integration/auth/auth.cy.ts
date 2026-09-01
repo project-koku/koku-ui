@@ -1,5 +1,5 @@
 /**
- * Tests for authentication: toolbar logout.
+ * Tests for authentication: toolbar logout and axios 401 redirect.
  */
 
 describe('Authentication', () => {
@@ -32,6 +32,28 @@ describe('Authentication', () => {
 
       cy.get('#userMenu').click();
       cy.contains('Logout').click();
+
+      cy.url().should('include', '/logout');
+    });
+  });
+
+  describe('Axios 401 interceptor', () => {
+    beforeEach(() => {
+      cy.interceptLogout();
+
+      // Load normal API mocks first (including /api/me), then override the
+      // routes we want to diverge from the defaults. Cypress's last-registered
+      // route wins, so overrides must come AFTER loadApiInterceptors.
+      cy.loadApiInterceptors();
+
+      cy.intercept(
+        { method: 'GET', pathname: '/api/cost-management/v1/user-access/' },
+        { statusCode: 401, body: { detail: 'Authentication credentials were not provided.' } }
+      ).as('unauthorizedRequest');
+    });
+
+    it('should redirect to /logout when the backend returns 401', () => {
+      cy.visit('/openshift/cost-management');
 
       cy.url().should('include', '/logout');
     });
