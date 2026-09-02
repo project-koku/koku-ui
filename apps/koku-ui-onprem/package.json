@@ -16,7 +16,7 @@
     "check:dependencies": "ncu",
     "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
-    "release:branch": "sh ../../scripts/release-branch.sh -q",
+    "release:branch": "sh ../../scripts/release-onprem.sh",
     "start": "npm run ts-webpack -- serve --mode=development --color --progress",
     "start:prod": "NODE_ENV=production npm run ts-webpack -- serve --mode=production --color --progress",
     "lint": "npm-run-all lint:*",
@@ -31,15 +31,15 @@
     "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"
   },
   "scripts-info": {
-    "release:branch": "Creates a PR to merge main to the release-onprem branch"
+    "release:branch": "Creates a PR to assemble release-onprem from main with HCCM/ROS UIs pinned to prod"
   },
   "dependencies": {
     "@patternfly/patternfly": "6.6.1",
     "@patternfly/react-charts": "8.6.1",
-    "@patternfly/react-component-groups": "6.5.0",
-    "@patternfly/react-core": "6.6.1",
+    "@patternfly/react-component-groups": "6.7.0",
+    "@patternfly/react-core": "6.6.2",
     "@patternfly/react-icons": "6.6.1",
-    "@patternfly/react-table": "6.6.1",
+    "@patternfly/react-table": "6.6.2",
     "@patternfly/react-tokens": "6.6.1",
     "@scalprum/core": "0.10.3",
     "@scalprum/react-core": "0.13.3",
@@ -53,16 +53,16 @@
     "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.1",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "cypress": "^15.21.0",
+    "cypress": "^15.21.1",
     "pac-proxy-agent": "^9.1.0",
     "sass": "^1.103.1",
-    "sass-loader": "^17.0.0",
+    "sass-loader": "^17.0.1",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "webpack-dev-server": "^5.2.6"
+    "webpack-dev-server": "^6.0.0"
   }
 }
