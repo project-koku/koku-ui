@@ -21,6 +21,9 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
     '^@koku-ui/ui-lib/(.*)$': '<rootDir>/../../libs/ui-lib/src/$1',
+    // Jest 30.5+ prefers the `src/routes/` directory over `src/routes.tsx` for the
+    // bare specifier `routes` (used via moduleDirectories). Map the file explicitly.
+    '^routes$': '<rootDir>/src/routes.tsx',
   },
   preset: 'ts-jest',
   roots: ['<rootDir>/src/'],
