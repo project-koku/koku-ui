@@ -36,10 +36,10 @@
   "dependencies": {
     "@patternfly/patternfly": "6.6.1",
     "@patternfly/react-charts": "8.6.1",
-    "@patternfly/react-component-groups": "6.5.0",
-    "@patternfly/react-core": "6.6.1",
+    "@patternfly/react-component-groups": "6.7.0",
+    "@patternfly/react-core": "6.6.2",
     "@patternfly/react-icons": "6.6.1",
-    "@patternfly/react-table": "6.6.1",
+    "@patternfly/react-table": "6.6.2",
     "@patternfly/react-tokens": "6.6.1",
     "@scalprum/core": "0.10.3",
     "@scalprum/react-core": "0.13.3",
@@ -53,12 +53,12 @@
     "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
     "css-minimizer-webpack-plugin": "^8.0.0",
     "cypress": "^15.21.1",
     "pac-proxy-agent": "^9.1.0",
     "sass": "^1.103.1",
-    "sass-loader": "^17.0.0",
+    "sass-loader": "^17.0.1",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
