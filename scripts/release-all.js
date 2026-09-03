@@ -73,6 +73,13 @@ async function setConfig() {
         when: () => process.env.APP_INTERFACE === 'true',
       },
       {
+        name: 'updateForkMaster',
+        message: "Do you want to update your app-interface fork's master?",
+        type: 'confirm',
+        default: true,
+        when: () => process.env.APP_INTERFACE === 'true',
+      },
+      {
         name: 'debug',
         message: 'Do you want to debug?',
         type: 'confirm',
@@ -80,7 +87,7 @@ async function setConfig() {
       },
     ])
     .then(answers => {
-      const { appEnv, clouddotEnv, debug, onpremMode } = answers;
+      const { appEnv, clouddotEnv, debug, onpremMode, updateForkMaster } = answers;
       process.env.DEBUG = debug.toString();
 
       const isAppInterface = process.env.APP_INTERFACE === 'true';
@@ -92,6 +99,9 @@ async function setConfig() {
       const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
 
       if (isAppInterface) {
+        if (updateForkMaster) {
+          appendArg('FORK_ARG', '-u');
+        }
         if (isHccm && isStage) {
           appendArg('HCCM_ARG', '-p');
         }
@@ -141,7 +151,7 @@ async function run() {
   }
 
   if (!isOnpremAssemble || process.env.APP_INTERFACE === 'true') {
-    const argVars = isOnpremDirect ? ['ONPREM_ARG'] : ['HCCM_ARG', 'ROS_ARG'];
+    const argVars = isOnpremDirect ? ['ONPREM_ARG'] : ['HCCM_ARG', 'ROS_ARG', 'FORK_ARG'];
     const deploymentArgs = argVars.flatMap(v => (process.env[v] || '').split(/\s+/)).filter(Boolean);
     allArgs.push(...deploymentArgs);
   }
