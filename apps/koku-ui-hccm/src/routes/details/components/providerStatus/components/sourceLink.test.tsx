@@ -5,11 +5,11 @@ import { IntlProvider } from 'react-intl';
 import { SourceLink } from './sourceLink';
 
 jest.mock('components/featureToggle/featureToggle', () => ({
-  isSettingsSourcesTabEnabled: false,
+  isOnPremEnabled: false,
 }));
 
 const featureToggle = require('components/featureToggle/featureToggle') as {
-  isSettingsSourcesTabEnabled: boolean;
+  isOnPremEnabled: boolean;
 };
 
 const provider: Provider = {
@@ -28,17 +28,17 @@ const renderLink = (p: Provider = provider) =>
 
 describe('SourceLink', () => {
   beforeEach(() => {
-    featureToggle.isSettingsSourcesTabEnabled = false;
+    featureToggle.isOnPremEnabled = false;
   });
 
-  it('uses SaaS Integrations detail href when Sources tab is disabled', () => {
+  it('uses SaaS Integrations detail href when on-prem is disabled', () => {
     renderLink();
     const anchor = screen.getByRole('link', { name: 'My Source' });
     expect(anchor).toHaveAttribute('href', '/settings/integrations/detail/42');
   });
 
-  it('uses on-prem Settings path when Sources tab is enabled', () => {
-    featureToggle.isSettingsSourcesTabEnabled = true;
+  it('uses on-prem Settings path when on-prem is enabled', () => {
+    featureToggle.isOnPremEnabled = true;
     renderLink();
     const anchor = screen.getByRole('link', { name: 'My Source' });
     expect(anchor).toHaveAttribute('href', '/openshift/cost-management/settings');

@@ -11,6 +11,7 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import { ExportsLink } from 'components/drawers';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -176,32 +177,32 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
 
   private isAwsAvailable = () => {
     const { awsProviders, userAccess } = this.props;
-    return isAwsAvailable(userAccess, awsProviders);
+    return !isOnPremEnabled && isAwsAvailable(userAccess, awsProviders);
   };
 
   private isAwsOcpAvailable = () => {
     const { awsProviders, ocpProviders, userAccess } = this.props;
-    return hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
+    return !isOnPremEnabled && hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
   };
 
   private isAzureAvailable = () => {
     const { azureProviders, userAccess } = this.props;
-    return isAzureAvailable(userAccess, azureProviders);
+    return !isOnPremEnabled && isAzureAvailable(userAccess, azureProviders);
   };
 
   private isAzureOcpAvailable = () => {
     const { azureProviders, ocpProviders, userAccess } = this.props;
-    return hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
+    return !isOnPremEnabled && hasAzureAccess(userAccess) && hasCloudProvider(azureProviders, ocpProviders);
   };
 
   private isGcpAvailable = () => {
     const { gcpProviders, userAccess } = this.props;
-    return isGcpAvailable(userAccess, gcpProviders);
+    return !isOnPremEnabled && isGcpAvailable(userAccess, gcpProviders);
   };
 
   private isGcpOcpAvailable = () => {
     const { gcpProviders, ocpProviders, userAccess } = this.props;
-    return hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
+    return !isOnPremEnabled && hasGcpAccess(userAccess) && hasCloudProvider(gcpProviders, ocpProviders);
   };
 
   private isOcpAvailable = () => {

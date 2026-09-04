@@ -10,11 +10,11 @@ import { configureStore } from 'store/store';
 
 import { Display } from './display';
 
-let mockIsSettingsDataRetentionPeriodEnabled = true;
+let mockIsOnPremEnabled = true;
 
 jest.mock('components/featureToggle', () => ({
-  get isSettingsDataRetentionPeriodEnabled() {
-    return mockIsSettingsDataRetentionPeriodEnabled;
+  get isOnPremEnabled() {
+    return mockIsOnPremEnabled;
   },
 }));
 
@@ -90,7 +90,7 @@ jest.mock('./dataRetention', () => ({
 describe('Display', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockIsSettingsDataRetentionPeriodEnabled = true;
+    mockIsOnPremEnabled = true;
   });
 
   const renderDisplay = (canWrite = true) => {
@@ -143,7 +143,7 @@ describe('Display', () => {
   });
 
   test('hides data retention section when feature is disabled', () => {
-    mockIsSettingsDataRetentionPeriodEnabled = false;
+    mockIsOnPremEnabled = false;
     renderDisplay();
     expect(screen.queryByText(/data retention period/i)).not.toBeInTheDocument();
     expect(screen.queryByTestId('data-retention')).not.toBeInTheDocument();

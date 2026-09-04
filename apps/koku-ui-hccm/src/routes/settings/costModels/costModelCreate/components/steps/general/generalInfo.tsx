@@ -11,6 +11,7 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { MessageDescriptor } from 'react-intl';
@@ -35,7 +36,7 @@ interface GeneralInfoOwnProps {
 
 type GeneralInfoProps = GeneralInfoOwnProps;
 
-const sourceTypeOptions = [
+const allSourceTypeOptions = [
   {
     label: messages.awsAlt,
     value: ProviderType.aws,
@@ -54,6 +55,9 @@ const sourceTypeOptions = [
   },
 ];
 
+const getSourceTypeOptions = () =>
+  isOnPremEnabled ? allSourceTypeOptions.filter(option => option.value === ProviderType.ocp) : allSourceTypeOptions;
+
 const GeneralInfo: React.FC<GeneralInfoProps> = ({
   currency,
   description,
@@ -67,6 +71,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({
   sourceType,
 }: GeneralInfoProps) => {
   const intl = useIntl();
+  const sourceTypeOptions = getSourceTypeOptions();
 
   // Getters
 

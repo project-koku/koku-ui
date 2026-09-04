@@ -1,5 +1,6 @@
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -66,18 +67,22 @@ const CostModelToolbar: React.FC<CostModelToolbarProps> = ({
         placeholderKey: 'source_type', // place holder key for category input
         selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
         selectOptions: [
-          {
-            key: 'aws',
-            name: intl.formatMessage(messages.aws),
-          },
-          {
-            key: 'azure',
-            name: intl.formatMessage(messages.azure),
-          },
-          {
-            key: 'gcp',
-            name: intl.formatMessage(messages.gcp),
-          },
+          ...(!isOnPremEnabled
+            ? [
+                {
+                  key: 'aws',
+                  name: intl.formatMessage(messages.aws),
+                },
+                {
+                  key: 'azure',
+                  name: intl.formatMessage(messages.azure),
+                },
+                {
+                  key: 'gcp',
+                  name: intl.formatMessage(messages.gcp),
+                },
+              ]
+            : []),
           {
             key: 'ocp',
             name: intl.formatMessage(messages.openShift),

@@ -8,7 +8,7 @@ import { DateRangeType } from 'routes/utils/dateRange';
 import { DateRange } from './dateRange';
 
 jest.mock('components/featureToggle', () => ({
-  isSettingsDataRetentionPeriodEnabled: true,
+  isOnPremEnabled: true,
 }));
 
 jest.mock('@patternfly/react-core', () => {

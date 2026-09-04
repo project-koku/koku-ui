@@ -8,7 +8,7 @@ import type { ReportPathsType } from 'api/reports/report';
 import type { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import { ExportsLink } from 'components/drawers';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import fileDownload from 'js-file-download';
 import messages from 'locales/messages';
@@ -164,11 +164,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   private updateReport = () => {
     const { accountSettings, accountSettingsFetchStatus, fetchAccountSettings } = this.props;
 
-    if (
-      isSettingsDataRetentionPeriodEnabled &&
-      !accountSettings &&
-      accountSettingsFetchStatus !== FetchStatus.inProgress
-    ) {
+    if (isOnPremEnabled && !accountSettings && accountSettingsFetchStatus !== FetchStatus.inProgress) {
       fetchAccountSettings(AccountSettingsType.dataRetention);
     }
   };

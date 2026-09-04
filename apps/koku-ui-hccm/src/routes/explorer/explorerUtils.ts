@@ -5,6 +5,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import type { UserAccess } from 'api/userAccess';
+import { isOnPremEnabled } from 'components/featureToggle';
 import type { ComputedAwsReportItemsParams } from 'routes/utils/computedReport/getComputedAwsReportItems';
 import type { ComputedAzureReportItemsParams } from 'routes/utils/computedReport/getComputedAzureReportItems';
 import type { ComputedGcpReportItemsParams } from 'routes/utils/computedReport/getComputedGcpReportItems';
@@ -113,19 +114,25 @@ export const getPerspectiveDefault = ({
 
   // Upon page refresh, perspective param takes precedence
   // Todo: Add ocp here?
-  switch (perspective) {
-    case PerspectiveType.aws:
-    case PerspectiveType.awsOcp:
-    case PerspectiveType.azure:
-    case PerspectiveType.azureOcp:
-    case PerspectiveType.gcp:
-    case PerspectiveType.gcpOcp:
-    case PerspectiveType.ocpCloud:
-      return perspective;
+  if (!isOnPremEnabled) {
+    switch (perspective) {
+      case PerspectiveType.aws:
+      case PerspectiveType.awsOcp:
+      case PerspectiveType.azure:
+      case PerspectiveType.azureOcp:
+      case PerspectiveType.gcp:
+      case PerspectiveType.gcpOcp:
+      case PerspectiveType.ocpCloud:
+        return perspective;
+    }
   }
 
   if (isOcpAvailable(userAccess, ocpProviders)) {
     return PerspectiveType.ocp;
+  }
+
+  if (isOnPremEnabled) {
+    return undefined;
   }
 
   const hasAwsCloud = hasAwsAccess(userAccess) && hasCloudProvider(awsProviders, ocpProviders);
