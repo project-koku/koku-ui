@@ -67,7 +67,7 @@ const Header: React.FC<Props> = ({
   const dateTime: any = intl.formatDate(current.updated_timestamp, {
     day: 'numeric',
     hour: 'numeric',
-    hour12: false,
+    hourCycle: 'h23',
     minute: 'numeric',
     month: 'short',
     timeZone: 'UTC',

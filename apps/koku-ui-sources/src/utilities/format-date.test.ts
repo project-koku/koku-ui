@@ -2,7 +2,7 @@ import { createIntl, createIntlCache } from 'react-intl';
 
 import { formatDate } from './format-date';
 
-const intl = createIntl({ locale: 'en', defaultLocale: 'en' }, createIntlCache());
+const intl = createIntl({ locale: 'en', defaultLocale: 'en', timeZone: 'America/New_York' }, createIntlCache());
 
 describe('formatDate', () => {
   it('returns an empty string for undefined input', () => {

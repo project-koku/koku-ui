@@ -157,7 +157,7 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
                 ? intl.formatDate(priceList?.updated_timestamp, {
                     day: 'numeric',
                     hour: 'numeric',
-                    hour12: false,
+                    hourCycle: 'h23',
                     minute: 'numeric',
                     month: 'short',
                     timeZone: 'UTC',

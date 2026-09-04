@@ -12,7 +12,7 @@ export const formatDate = (intl: IntlShape, dateStr: string | undefined | null):
   return intl.formatDate(dateStr, {
     day: 'numeric',
     hour: 'numeric',
-    hour12: false,
+    hourCycle: 'h23',
     minute: 'numeric',
     month: 'short',
     timeZone: 'UTC',

@@ -48,7 +48,7 @@ export function getRowsByStateName(stateName: string, data: any) {
     const dateTime: any = intl.formatDate(item.updated_timestamp, {
       day: 'numeric',
       hour: 'numeric',
-      hour12: false,
+      hourCycle: 'h23',
       minute: 'numeric',
       month: 'short',
       timeZone: 'UTC',

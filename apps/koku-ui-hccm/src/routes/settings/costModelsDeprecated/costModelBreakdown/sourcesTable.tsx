@@ -67,7 +67,7 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
               {intl.formatDate(row.last_processed, {
                 day: 'numeric',
                 hour: 'numeric',
-                hour12: false,
+                hourCycle: 'h23',
                 minute: 'numeric',
                 month: 'short',
                 timeZone: 'UTC',
