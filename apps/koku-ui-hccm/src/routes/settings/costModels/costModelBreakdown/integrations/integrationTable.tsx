@@ -89,7 +89,7 @@ const IntegrationTable: React.FC<IntegrationTableProps> = ({
               ? intl.formatDate(item?.last_processed, {
                   day: 'numeric',
                   hour: 'numeric',
-                  hour12: false,
+                  hourCycle: 'h23',
                   minute: 'numeric',
                   month: 'short',
                   timeZone: 'UTC',

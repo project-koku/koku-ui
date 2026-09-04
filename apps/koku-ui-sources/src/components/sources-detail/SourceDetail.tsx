@@ -29,7 +29,7 @@ import { CredentialForm } from 'components/sources-detail/CredentialForm';
 import { messages } from 'i18n/messages';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { formatRelativeDate } from 'utilities/relative-date';
+import { formatDate } from 'utilities/format-date';
 
 interface SourceDetailProps {
   uuid: string;
@@ -265,7 +265,7 @@ export const SourceDetail: React.FC<SourceDetailProps> = ({ uuid, onBack, canWri
             <DescriptionListDescription>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 {source.last_polling_time
-                  ? formatRelativeDate(source.last_polling_time)
+                  ? formatDate(intl, source.last_polling_time)
                   : intl.formatMessage(messages.waitingForUpdate)}
                 <Button
                   variant="plain"
@@ -280,7 +280,7 @@ export const SourceDetail: React.FC<SourceDetailProps> = ({ uuid, onBack, canWri
           </DescriptionListGroup>
           <DescriptionListGroup>
             <DescriptionListTerm>{intl.formatMessage(messages.dateAdded)}</DescriptionListTerm>
-            <DescriptionListDescription>{formatRelativeDate(source.created_timestamp)}</DescriptionListDescription>
+            <DescriptionListDescription>{formatDate(intl, source.created_timestamp)}</DescriptionListDescription>
           </DescriptionListGroup>
         </DescriptionList>
 

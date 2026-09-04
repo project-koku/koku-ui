@@ -5,7 +5,7 @@ import { getSourceTypeById } from 'apis/source-types';
 import { messages } from 'i18n/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { formatRelativeDate } from 'utilities/relative-date';
+import { formatDate } from 'utilities/format-date';
 
 interface SourcesTableProps {
   sources: Source[];
@@ -116,7 +116,7 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
                   {sourceType?.product_name ?? source.source_type}
                 </Td>
                 <Td dataLabel={intl.formatMessage(messages.dateAdded)}>
-                  {formatRelativeDate(source.created_timestamp)}
+                  {formatDate(intl, source.created_timestamp)}
                 </Td>
                 <Td dataLabel={intl.formatMessage(messages.status)}>
                   <Label color={getStatusColor(source)}>{formatStatus(source)}</Label>
