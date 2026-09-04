@@ -158,10 +158,14 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.tags,
       },
-      {
-        contentRef: React.createRef(),
-        tab: SettingsTab.costCategory,
-      },
+      ...(!isOnPremEnabled
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: SettingsTab.costCategory,
+            },
+          ]
+        : []),
       {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
