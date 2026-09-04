@@ -84,10 +84,11 @@ describe('SourcesTable', () => {
     expect(pausedStatus.closest('.pf-v6-c-label')).toBeInTheDocument();
   });
 
-  it('renders relative dates in Date added column', () => {
+  it('renders UTC dates in Date added column', () => {
     renderWithIntl(mockSources);
-    // formatRelativeDate produces strings like "2 months ago" for Jan 2026 dates (vs Mar 2026)
-    expect(screen.getAllByText(/months? ago|\d+ days? ago|today|yesterday/).length).toBeGreaterThanOrEqual(2);
+
+    expect(screen.getByText(/Jan 15, 2026.*10:00.*UTC/)).toBeInTheDocument();
+    expect(screen.getByText(/Jan 10, 2026.*08:00.*UTC/)).toBeInTheDocument();
   });
 
   it('calls onSelectSource when row is clicked', async () => {
