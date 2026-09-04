@@ -1,6 +1,6 @@
 import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -86,7 +86,7 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   };
 
   const getDataRetention = () => {
-    if (!isSettingsDataRetentionPeriodEnabled) {
+    if (!isOnPremEnabled) {
       return null;
     }
     return (

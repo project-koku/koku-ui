@@ -1,5 +1,5 @@
 import type { Provider } from 'api/providers';
-import { isSettingsSourcesTabEnabled } from 'components/featureToggle/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -26,7 +26,7 @@ const SourceLink: React.FC<SourceLinkProps> = ({ provider, showLabel = true }: S
   const label = provider.name || provider.uuid;
   // On-prem: SaaS /settings/integrations/detail/<id> is outside the plugin mount (COST-7661 blank page).
   // Deep-link into a specific source is deferred to COST-7441; land on Settings (Sources tab available).
-  const href = isSettingsSourcesTabEnabled
+  const href = isOnPremEnabled
     ? formatPath(routes.settings.path, true)
     : `${getReleasePath()}/settings/integrations/detail/${provider.id}`;
 

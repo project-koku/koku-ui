@@ -3,7 +3,7 @@ import './dateRange.scss';
 import type { MessageDescriptor } from '@formatjs/intl';
 import type { MenuToggleElement } from '@patternfly/react-core';
 import { Dropdown, DropdownItem, DropdownList, MenuToggle } from '@patternfly/react-core';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -56,7 +56,7 @@ const DateRange: React.FC<DateRangeProps> = ({
       },
     ];
     if (isExplorer) {
-      if (isSettingsDataRetentionPeriodEnabled) {
+      if (isOnPremEnabled) {
         if (dataRetentionMonths > 2) {
           options.push({
             label: messages.explorerDateRange,

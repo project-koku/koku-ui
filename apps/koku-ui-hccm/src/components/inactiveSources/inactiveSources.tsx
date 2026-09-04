@@ -5,7 +5,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios';
-import { isSettingsSourcesTabEnabled } from 'components/featureToggle/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -92,7 +92,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
     }
 
     // On-prem: SaaS /settings/integrations is outside the plugin mount (COST-7661).
-    const integrationsHref = isSettingsSourcesTabEnabled
+    const integrationsHref = isOnPremEnabled
       ? formatPath(routes.settings.path, true)
       : `${getReleasePath()}/settings/integrations`;
 

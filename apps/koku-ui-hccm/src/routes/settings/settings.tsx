@@ -5,14 +5,11 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import {
+  isOnPremEnabled,
   useIsDisplayToggleEnabled,
   useIsExchangeRateToggleEnabled,
   useIsPriceListToggleEnabled,
 } from 'components/featureToggle';
-import {
-  isSettingsDataRetentionPeriodEnabled,
-  isSettingsSourcesTabEnabled,
-} from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -126,7 +123,7 @@ const Settings: React.FC<SettingsProps> = () => {
   }, [activeTabKeyState]);
 
   const getAvailableTabs = () => {
-    const showDisplayTab = isDisplayToggleEnabled || isSettingsDataRetentionPeriodEnabled;
+    const showDisplayTab = isDisplayToggleEnabled || isOnPremEnabled;
 
     const availableTabs: AvailableTab[] = [
       {
@@ -177,7 +174,7 @@ const Settings: React.FC<SettingsProps> = () => {
             },
           ]
         : []),
-      ...(isSettingsSourcesTabEnabled
+      ...(isOnPremEnabled
         ? [
             {
               contentRef: React.createRef(),

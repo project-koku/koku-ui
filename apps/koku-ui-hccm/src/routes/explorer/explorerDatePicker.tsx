@@ -1,6 +1,6 @@
 import type { DatePickerRef } from '@patternfly/react-core';
 import { DatePicker } from '@patternfly/react-core';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import { differenceInCalendarDays } from 'date-fns';
 import messages from 'locales/messages';
 import type { FormEvent } from 'react';
@@ -8,7 +8,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { DateRangeType } from 'routes/utils/dateRange';
-import { formatDate, getLast90DaysDate, getToday } from 'utils/dates';
+import { formatDate, getToday } from 'utils/dates';
 import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
@@ -37,7 +37,7 @@ const LEGACY_MAX_DAYS = 90; // Max date range allowed for cost API when retentio
 
 // See https://docs.google.com/document/d/1Dl8lKUz-fVTyWdyvZ4_8JjK1-ZjU3UrBKk7KGC3AwgE/edit?tab=t.0
 const getMaxDays = (dataRetentionMonths?: number) => {
-  if (!isSettingsDataRetentionPeriodEnabled || dataRetentionMonths === undefined) {
+  if (!isOnPremEnabled || dataRetentionMonths === undefined) {
     return LEGACY_MAX_DAYS;
   }
 
@@ -48,6 +48,12 @@ const getMaxDays = (dataRetentionMonths?: number) => {
 
   const retentionDays = differenceInCalendarDays(endDate, startDate) + 1;
   return Math.min(API_MAX_DAYS, retentionDays);
+};
+
+const getMinStartDate = (maxDays: number) => {
+  const minDate = getToday();
+  minDate.setDate(minDate.getDate() - maxDays);
+  return minDate;
 };
 
 class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, ExplorerDatePickerState> {
@@ -88,12 +94,13 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
     const { intl } = this.props;
     const { startDate } = this.state;
 
-    const { start_date, end_date } = getLast90DaysDate(false);
+    const minDate = getMinStartDate(this.getMaxDays());
+    const maxDate = getToday();
 
     const rangeValidator = (date: Date) => {
-      if (date < start_date) {
+      if (date < minDate) {
         return intl.formatMessage(messages.datePickerBeforeError);
-      } else if (date > end_date) {
+      } else if (date > maxDate) {
         return intl.formatMessage(messages.datePickerAfterError);
       }
       return '';
@@ -166,7 +173,7 @@ class ExplorerDatePickerBase extends React.Component<ExplorerDatePickerProps, Ex
 
   private isStartDateValid = startDate => {
     const maxDate = getToday();
-    const { start_date: minDate } = getLast90DaysDate(false);
+    const minDate = getMinStartDate(this.getMaxDays());
 
     return startDate >= minDate && startDate <= maxDate;
   };

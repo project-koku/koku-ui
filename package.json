@@ -37,7 +37,7 @@
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRCS,RBAC\" --prefix-colors \"yellow,cyan,magenta,green,blue\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\" \"npm run -w @koku-ui/rbac-ui-onprem start:onprem\"",
     "start:onprem:auth": ". scripts/setup-onprem-env.sh && scripts/start-onprem-auth.mts",
-    "start:quick:start:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD=false KOKU_UI_SETTINGS_SOURCES_TAB=false npm run start:onprem",
+    "start:quick:start:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 KOKU_UI_ONPREM_ENABLED=false npm run start:onprem",
     "start:quick:start:koku:onprem": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
   },
   "scripts-info": {

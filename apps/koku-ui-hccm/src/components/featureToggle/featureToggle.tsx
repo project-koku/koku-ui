@@ -7,8 +7,7 @@ import { FeatureToggleActions } from 'store/featureToggle';
 import { FeatureToggleType } from './featureToggleType';
 
 // Build-time flags from webpack DefinePlugin (`fec.config.js` / `webpack-onprem.config.ts`). Not Unleash toggles.
-export const isSettingsDataRetentionPeriodEnabled = process.env.KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD === 'true'; // https://redhat.atlassian.net/browse/COST-7396
-export const isSettingsSourcesTabEnabled = process.env.KOKU_UI_SETTINGS_SOURCES_TAB === 'true';
+export const isOnPremEnabled = process.env.KOKU_UI_ONPREM_ENABLED === 'true';
 
 const useIsToggleEnabled = (toggle: FeatureToggleType) => {
   const client = useUnleashClient();
