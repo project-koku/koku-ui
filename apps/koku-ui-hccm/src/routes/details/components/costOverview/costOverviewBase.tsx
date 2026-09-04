@@ -88,7 +88,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns cost breakdown chart
   private getCostBreakdownChart = (widget: CostOverviewWidget) => {
-    const { costDistribution, report, intl } = this.props;
+    const { costDistribution, currency, report, intl } = this.props;
 
     return (
       <Card>
@@ -135,7 +135,12 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
           </Title>
         </CardTitle>
         <CardBody>
-          <CostBreakdownChart costDistribution={costDistribution} id={widget.chartName} report={report} />
+          <CostBreakdownChart
+            costDistribution={costDistribution}
+            currency={currency}
+            id={widget.chartName}
+            report={report}
+          />
         </CardBody>
       </Card>
     );
