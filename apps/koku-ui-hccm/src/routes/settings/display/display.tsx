@@ -42,6 +42,9 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   useMapToProps({ setCostType, setCurrency });
 
   const getCostType = () => {
+    if (isOnPremEnabled) {
+      return null;
+    }
     return (
       <div style={styles.costTypeContainer}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
