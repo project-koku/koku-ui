@@ -115,9 +115,7 @@ export const SourcesTable: React.FC<SourcesTableProps> = ({
                 <Td dataLabel={intl.formatMessage(messages.sourceType)}>
                   {sourceType?.product_name ?? source.source_type}
                 </Td>
-                <Td dataLabel={intl.formatMessage(messages.dateAdded)}>
-                  {formatDate(intl, source.created_timestamp)}
-                </Td>
+                <Td dataLabel={intl.formatMessage(messages.dateAdded)}>{formatDate(intl, source.created_timestamp)}</Td>
                 <Td dataLabel={intl.formatMessage(messages.status)}>
                   <Label color={getStatusColor(source)}>{formatStatus(source)}</Label>
                 </Td>

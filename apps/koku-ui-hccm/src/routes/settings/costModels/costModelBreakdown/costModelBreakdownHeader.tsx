@@ -92,7 +92,7 @@ const CostModelBreakdownHeader: React.FC<CostModelBreakdownHeaderProps> = ({
               {intl.formatDate(costModel?.updated_timestamp || '', {
                 day: 'numeric',
                 hour: 'numeric',
-                hour12: false,
+                hourCycle: 'h23',
                 minute: 'numeric',
                 month: 'short',
                 timeZone: 'UTC',
