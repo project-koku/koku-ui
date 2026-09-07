@@ -30,7 +30,9 @@ spec:
   - name: hermetic
     value: "true"
   - name: prefetch-input
-    value: '{"type": "npm", "path": "."}'
+    value: >-
+      [{"type": "npm", "path": "."},
+       {"type": "npm", "path": "vendor/insights-rbac-ui"}]
   - name: build-source-image
     value: "true"
   - name: build-args
