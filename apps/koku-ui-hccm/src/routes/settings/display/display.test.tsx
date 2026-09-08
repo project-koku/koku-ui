@@ -10,11 +10,11 @@ import { configureStore } from 'store/store';
 
 import { Display } from './display';
 
-let mockIsSettingsDataRetentionPeriodEnabled = true;
+let mockIsOnPremEnabled = true;
 
 jest.mock('components/featureToggle', () => ({
-  get isSettingsDataRetentionPeriodEnabled() {
-    return mockIsSettingsDataRetentionPeriodEnabled;
+  get isOnPremEnabled() {
+    return mockIsOnPremEnabled;
   },
 }));
 
@@ -90,7 +90,7 @@ jest.mock('./dataRetention', () => ({
 describe('Display', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockIsSettingsDataRetentionPeriodEnabled = true;
+    mockIsOnPremEnabled = true;
   });
 
   const renderDisplay = (canWrite = true) => {
@@ -106,13 +106,21 @@ describe('Display', () => {
     return { ...view, store, dispatchSpy };
   };
 
-  test('renders currency and cost type sections', () => {
+  test('renders currency and cost type sections when on-prem is disabled', () => {
+    mockIsOnPremEnabled = false;
     renderDisplay();
     expect(screen.getByTestId('currency')).toBeInTheDocument();
     expect(screen.getByTestId('cost-type')).toBeInTheDocument();
   });
 
+  test('hides cost type section when on-prem is enabled', () => {
+    renderDisplay();
+    expect(screen.getByTestId('currency')).toBeInTheDocument();
+    expect(screen.queryByTestId('cost-type')).not.toBeInTheDocument();
+  });
+
   test('initializes cost type and currency from session storage', () => {
+    mockIsOnPremEnabled = false;
     renderDisplay();
     expect(screen.getByTestId('currency')).toHaveAttribute('data-value', 'USD');
     expect(screen.getByTestId('cost-type')).toHaveAttribute('data-value', 'unblended');
@@ -143,7 +151,7 @@ describe('Display', () => {
   });
 
   test('hides data retention section when feature is disabled', () => {
-    mockIsSettingsDataRetentionPeriodEnabled = false;
+    mockIsOnPremEnabled = false;
     renderDisplay();
     expect(screen.queryByText(/data retention period/i)).not.toBeInTheDocument();
     expect(screen.queryByTestId('data-retention')).not.toBeInTheDocument();
@@ -160,12 +168,14 @@ describe('Display', () => {
   });
 
   test('disables cost type and currency when canWrite is false', () => {
+    mockIsOnPremEnabled = false;
     renderDisplay(false);
     expect(screen.getByTestId('cost-type')).toHaveAttribute('data-disabled', 'true');
     expect(screen.getByTestId('currency')).toHaveAttribute('data-disabled', 'true');
   });
 
   test('dispatches cost type update when cost type is selected', () => {
+    mockIsOnPremEnabled = false;
     const { dispatchSpy } = renderDisplay();
     fireEvent.click(screen.getByTestId('cost-type'));
     expect(accountSettingsActions.updateAccountSettings).toHaveBeenCalledWith(AccountSettingsType.costType, {

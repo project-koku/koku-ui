@@ -1,3 +1,4 @@
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
@@ -84,17 +85,17 @@ const Perspective: React.FC<PerspectiveProps> = ({
 
   if (isInfrastructureTab !== undefined) {
     if (isInfrastructureTab) {
-      if (hasOcpCloud) {
+      if (hasOcpCloud && !isOnPremEnabled) {
         options.push(...infrastructureOcpCloudOptions);
       }
       options.push(
         ...getInfrastructureOptions({
-          hasAws,
-          hasAwsOcp,
-          hasAzure,
-          hasAzureOcp,
-          hasGcp,
-          hasGcpOcp,
+          hasAws: hasAws && !isOnPremEnabled,
+          hasAwsOcp: hasAwsOcp && !isOnPremEnabled,
+          hasAzure: hasAzure && !isOnPremEnabled,
+          hasAzureOcp: hasAzureOcp && !isOnPremEnabled,
+          hasGcp: hasGcp && !isOnPremEnabled,
+          hasGcpOcp: hasGcpOcp && !isOnPremEnabled,
         })
       );
     } else if (hasOcp) {
@@ -104,17 +105,17 @@ const Perspective: React.FC<PerspectiveProps> = ({
     if (hasOcp) {
       options.push(...ocpOptions);
     }
-    if (hasOcpCloud) {
+    if (hasOcpCloud && !isOnPremEnabled) {
       options.push(...infrastructureOcpCloudOptions);
     }
     options.push(
       ...getInfrastructureOptions({
-        hasAws,
-        hasAwsOcp,
-        hasAzure,
-        hasAzureOcp,
-        hasGcp,
-        hasGcpOcp,
+        hasAws: hasAws && !isOnPremEnabled,
+        hasAwsOcp: hasAwsOcp && !isOnPremEnabled,
+        hasAzure: hasAzure && !isOnPremEnabled,
+        hasAzureOcp: hasAzureOcp && !isOnPremEnabled,
+        hasGcp: hasGcp && !isOnPremEnabled,
+        hasGcpOcp: hasGcpOcp && !isOnPremEnabled,
       })
     );
   }

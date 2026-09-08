@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@patternfly/patternfly": "6.6.1",
-    "@patternfly/react-core": "6.6.1",
+    "@patternfly/react-core": "6.6.2",
     "@scalprum/core": "0.10.3",
     "@scalprum/react-core": "0.13.3",
     "react": "^18.3.1",
