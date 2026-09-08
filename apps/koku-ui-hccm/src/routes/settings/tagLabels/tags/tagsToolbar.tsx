@@ -1,6 +1,7 @@
 import { Button, ButtonVariant, Tooltip } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import type { SettingsData } from 'api/settings';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -105,18 +106,22 @@ const TagsToolbar: React.FC<TagsToolbarProps> = ({
         name: intl.formatMessage(messages.filterByValues, { value: 'source_type' }),
         selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
         selectOptions: [
-          {
-            key: 'AWS',
-            name: intl.formatMessage(messages.aws),
-          },
-          {
-            key: 'Azure',
-            name: intl.formatMessage(messages.azure),
-          },
-          {
-            key: 'GCP',
-            name: intl.formatMessage(messages.gcp),
-          },
+          ...(!isOnPremEnabled
+            ? [
+                {
+                  key: 'AWS',
+                  name: intl.formatMessage(messages.aws),
+                },
+                {
+                  key: 'Azure',
+                  name: intl.formatMessage(messages.azure),
+                },
+                {
+                  key: 'GCP',
+                  name: intl.formatMessage(messages.gcp),
+                },
+              ]
+            : []),
           {
             key: 'OCP',
             name: intl.formatMessage(messages.openShift),
