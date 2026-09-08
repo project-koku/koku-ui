@@ -2,6 +2,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
+import { isOnPremEnabled } from 'components/featureToggle';
 import React from 'react';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
@@ -20,6 +21,7 @@ import {
   hasGcpAccess,
   hasOcpAccess,
   hasSettingsAccess,
+  hasSourcesAccess,
 } from 'utils/userAccess';
 
 interface PermissionsOwnProps extends ChromeComponentProps {
@@ -53,6 +55,9 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const gcp = hasGcpAccess(userAccess);
     const ocp = hasOcpAccess(userAccess);
     const settings = hasSettingsAccess(userAccess);
+    // On-prem, the Settings page also hosts the Integrations tab, which is gated
+    // by sources (not settings) permissions — e.g. the "Sources administrator" role.
+    const sources = isOnPremEnabled && hasSourcesAccess(userAccess);
 
     switch (pathname) {
       case formatPath(routes.explorer.path):
@@ -80,7 +85,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
       case formatPath(routes.priceListCreate.path):
         return costModel;
       case formatPath(routes.settings.path):
-        return settings || costModel;
+        return settings || costModel || sources;
       default:
         return false;
     }

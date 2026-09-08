@@ -14,7 +14,7 @@ function usage() {
       'Use this script to create a PR, merging the release branch first.',
       'Run again to create an MR, deploying app-interface with the latest SHA refs from the same branch.',
       'Branch PRs are created in the koku-ui repo and MRs will be created in your app-interface fork.\n',
-      'On-prem defaults to release-onprem.sh (assemble from main with HCCM/ROS prod pins).',
+      'On-prem defaults to release-onprem.sh (assemble from main with HCCM/ROS prod tags).',
       'Choose direct merge to run release-branch.sh -q if the assemble path fails.\n',
       'Note: This script does not support on-prem for app-interface.\n',
     ].join('\n')
@@ -55,11 +55,11 @@ async function setConfig() {
         message: 'How do you want to release on-prem?',
         choices: [
           {
-            name: 'Assemble from main with HCCM/ROS prod pins (recommended)',
+            name: 'Assemble from main with HCCM/ROS prod tags (recommended)',
             value: 'assemble',
           },
           {
-            name: 'Direct merge of main into release-onprem',
+            name: 'Direct merge main to release-onprem (may include in-progress HCCM/ROS work)',
             value: 'direct',
           },
         ],
@@ -73,6 +73,13 @@ async function setConfig() {
         when: () => process.env.APP_INTERFACE === 'true',
       },
       {
+        name: 'updateForkMaster',
+        message: "Do you want to update your app-interface fork's master?",
+        type: 'confirm',
+        default: true,
+        when: () => process.env.APP_INTERFACE === 'true',
+      },
+      {
         name: 'debug',
         message: 'Do you want to debug?',
         type: 'confirm',
@@ -80,7 +87,7 @@ async function setConfig() {
       },
     ])
     .then(answers => {
-      const { appEnv, clouddotEnv, debug, onpremMode } = answers;
+      const { appEnv, clouddotEnv, debug, onpremMode, updateForkMaster } = answers;
       process.env.DEBUG = debug.toString();
 
       const isAppInterface = process.env.APP_INTERFACE === 'true';
@@ -92,6 +99,9 @@ async function setConfig() {
       const isStage = clouddotEnv === 'stage' || clouddotEnv === 'all';
 
       if (isAppInterface) {
+        if (updateForkMaster) {
+          appendArg('FORK_ARG', '-u');
+        }
         if (isHccm && isStage) {
           appendArg('HCCM_ARG', '-p');
         }
@@ -141,7 +151,7 @@ async function run() {
   }
 
   if (!isOnpremAssemble || process.env.APP_INTERFACE === 'true') {
-    const argVars = isOnpremDirect ? ['ONPREM_ARG'] : ['HCCM_ARG', 'ROS_ARG'];
+    const argVars = isOnpremDirect ? ['ONPREM_ARG'] : ['HCCM_ARG', 'ROS_ARG', 'FORK_ARG'];
     const deploymentArgs = argVars.flatMap(v => (process.env[v] || '').split(/\s+/)).filter(Boolean);
     allArgs.push(...deploymentArgs);
   }
