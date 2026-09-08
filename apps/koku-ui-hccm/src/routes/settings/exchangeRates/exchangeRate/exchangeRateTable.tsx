@@ -163,7 +163,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
                 ? intl.formatDate(rate.updated_timestamp, {
                     day: 'numeric',
                     hour: 'numeric',
-                    hour12: false,
+                    hourCycle: 'h23',
                     minute: 'numeric',
                     month: 'short',
                     timeZone: 'UTC',
