@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -30,6 +31,10 @@ jest.mock('utils/chrome', () => ({
 
 jest.mock('@scalprum/react-core', () => ({
   ScalprumComponent: () => <div data-testid="sources" />,
+}));
+
+jest.mock('routes/components/page/notAuthorized', () => ({
+  NotAuthorized: () => <div data-testid="not-authorized" />,
 }));
 
 jest.mock('./costCategory', () => ({
@@ -76,17 +81,19 @@ describe('Settings', () => {
     mockIsOnPremEnabled = false;
   });
 
-  const renderSettings = () => {
+  const defaultUserAccessData = [
+    { type: UserAccessType.costModel, access: true, write: true },
+    { type: UserAccessType.settings, access: true, write: true },
+  ];
+
+  const renderSettings = (userAccessData: any[] = defaultUserAccessData) => {
     const store = configureStore({
       [userAccessStateKey]: {
         byId: new Map([
           [
             userAccessFetchId,
             {
-              data: [
-                { type: UserAccessType.costModel, access: true, write: true },
-                { type: UserAccessType.settings, access: true, write: true },
-              ],
+              data: userAccessData,
             },
           ],
         ]),
@@ -115,5 +122,27 @@ describe('Settings', () => {
     mockIsOnPremEnabled = true;
     renderSettings();
     expect(screen.queryByRole('tab', { name: /cost categories/i })).not.toBeInTheDocument();
+  });
+
+  test('renders the Integrations tab content for a user with sources access but no settings access', async () => {
+    mockIsOnPremEnabled = true;
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    renderSettings([{ type: UserAccessType.sources, access: true, write: true }]);
+
+    await user.click(screen.getByRole('tab', { name: /integrations/i }));
+
+    expect(await screen.findByTestId('sources')).toBeInTheDocument();
+    expect(screen.queryByTestId('not-authorized')).not.toBeInTheDocument();
+  });
+
+  test('denies the Integrations tab for a user with settings access but no sources access', async () => {
+    mockIsOnPremEnabled = true;
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    renderSettings([{ type: UserAccessType.settings, access: true, write: true }]);
+
+    await user.click(screen.getByRole('tab', { name: /integrations/i }));
+
+    expect(await screen.findByTestId('not-authorized')).toBeInTheDocument();
+    expect(screen.queryByTestId('sources')).not.toBeInTheDocument();
   });
 });
