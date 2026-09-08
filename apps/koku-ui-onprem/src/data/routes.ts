@@ -13,9 +13,11 @@ export const costRoutes: NavRoute[] = [
   { path: COST_BASENAME, title: 'Overview' },
   { path: `${COST_BASENAME}/optimizations`, title: 'Optimizations' },
   { path: `${COST_BASENAME}/ocp`, title: 'OpenShift' },
+  /**
   { path: `${COST_BASENAME}/aws`, title: 'Amazon Web Services' },
   { path: `${COST_BASENAME}/gcp`, title: 'Google Cloud' },
   { path: `${COST_BASENAME}/azure`, title: 'Microsoft Azure' },
+    **/
   { path: `${COST_BASENAME}/explorer`, title: 'Cost Explorer' },
   { path: `${COST_BASENAME}/settings`, title: 'Settings' },
 ];
