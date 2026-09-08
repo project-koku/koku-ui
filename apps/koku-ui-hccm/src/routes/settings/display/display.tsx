@@ -1,6 +1,6 @@
 import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -42,6 +42,9 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   useMapToProps({ setCostType, setCurrency });
 
   const getCostType = () => {
+    if (isOnPremEnabled) {
+      return null;
+    }
     return (
       <div style={styles.costTypeContainer}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>
@@ -86,7 +89,7 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   };
 
   const getDataRetention = () => {
-    if (!isSettingsDataRetentionPeriodEnabled) {
+    if (!isOnPremEnabled) {
       return null;
     }
     return (

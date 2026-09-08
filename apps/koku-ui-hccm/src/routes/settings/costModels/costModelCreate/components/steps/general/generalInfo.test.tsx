@@ -4,6 +4,14 @@ import { IntlProvider } from 'react-intl';
 
 import { GeneralInfo } from './generalInfo';
 
+let mockIsOnPremEnabled = false;
+
+jest.mock('components/featureToggle', () => ({
+  get isOnPremEnabled() {
+    return mockIsOnPremEnabled;
+  },
+}));
+
 jest.mock('routes/settings/components/selector', () => ({
   Selector: (props: any) => (
     <button
@@ -11,7 +19,7 @@ jest.mock('routes/settings/components/selector', () => ({
       type="button"
       onClick={() => props.onSelect?.({}, props.options?.[0]?.value || 'AWS')}
     >
-      {props.id}
+      {props.options?.map((option: { value: string }) => option.value).join(',')}
     </button>
   ),
 }));
@@ -38,6 +46,7 @@ describe('GeneralInfo', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockIsOnPremEnabled = false;
   });
 
   test('calls onNameChange when name input changes', () => {
@@ -62,5 +71,20 @@ describe('GeneralInfo', () => {
 
     fireEvent.click(screen.getByTestId('source-type'));
     expect(onSourceTypeChange).toHaveBeenCalledWith('aws');
+  });
+
+  test('omits cloud source types when on-prem is enabled', () => {
+    mockIsOnPremEnabled = true;
+    const onSourceTypeChange = jest.fn();
+    render(
+      <IntlProvider locale="en">
+        <GeneralInfo {...defaultProps} onSourceTypeChange={onSourceTypeChange} />
+      </IntlProvider>
+    );
+
+    expect(screen.getByTestId('source-type')).toHaveTextContent('ocp');
+    expect(screen.getByTestId('source-type')).not.toHaveTextContent('aws');
+    fireEvent.click(screen.getByTestId('source-type'));
+    expect(onSourceTypeChange).toHaveBeenCalledWith('ocp');
   });
 });
