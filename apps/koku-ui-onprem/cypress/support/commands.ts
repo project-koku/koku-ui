@@ -6,7 +6,7 @@
 const userAccessResponse = {
   statusCode: 200,
   body: {
-    meta: { count: 6 },
+    meta: { count: 7 },
     links: {
       first: '/api/cost-management/v1/user-access/?limit=10&offset=0',
       next: null,
@@ -20,6 +20,7 @@ const userAccessResponse = {
       { type: 'gcp', access: true, write: true },
       { type: 'ocp', access: true, write: true },
       { type: 'settings', access: true, write: true },
+      { type: 'sources', access: true, write: true },
     ],
   },
 };
