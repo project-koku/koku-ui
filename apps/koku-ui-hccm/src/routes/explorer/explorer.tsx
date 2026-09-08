@@ -20,7 +20,7 @@ import { ReportType } from 'api/reports/report';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -455,11 +455,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
       reportQueryString,
     } = this.props;
 
-    if (
-      isSettingsDataRetentionPeriodEnabled &&
-      !accountSettings &&
-      accountSettingsFetchStatus !== FetchStatus.inProgress
-    ) {
+    if (isOnPremEnabled && !accountSettings && accountSettingsFetchStatus !== FetchStatus.inProgress) {
       fetchAccountSettings(AccountSettingsType.dataRetention);
     }
     if (perspective) {

@@ -22,6 +22,7 @@ echarts.use([SankeyChart, SVGRenderer, TitleComponent, TooltipComponent]);
 
 interface CostBreakdownChartOwnProps {
   costDistribution?: string;
+  currency?: string;
   id?: string;
   report?: Report;
 }
@@ -47,7 +48,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
   private observer: any = noop;
 
   public state: CostBreakdownChartStateProps = {
-    units: 'USD',
     width: 0,
   };
 
@@ -57,7 +57,11 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
   }
 
   public componentDidUpdate(prevProps: CostBreakdownChartProps) {
-    if (prevProps.costDistribution !== this.props.costDistribution || prevProps.report !== this.props.report) {
+    if (
+      prevProps.costDistribution !== this.props.costDistribution ||
+      prevProps.currency !== this.props.currency ||
+      prevProps.report !== this.props.report
+    ) {
       this.initDatum();
     }
   }
@@ -234,9 +238,9 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
   };
 
   private initDatum = () => {
-    const { costDistribution, report, intl } = this.props;
+    const { costDistribution, currency, report, intl } = this.props;
 
-    if (!report) {
+    if (!currency || !report) {
       return;
     }
 
@@ -300,9 +304,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const usageLabel = intl.formatMessage(messages.usageCostTitle);
     const workerUnallocatedLabel = intl.formatMessage(messages.workerUnallocated);
     const workloadCostLabel = intl.formatMessage(messages.allOtherProjectCosts);
-
-    const reportItemValue = costDistribution ? costDistribution : 'total';
-    const units = report.meta.total.cost?.[reportItemValue] ? report.meta.total.cost[reportItemValue].units : 'USD';
 
     const data = costDistribution
       ? [
@@ -546,14 +547,17 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       }
     }
 
-    this.setState({ data, links, units });
+    this.setState({ data, links, units: currency });
   };
 
   public render() {
-    const { id, intl } = this.props;
+    const { currency, id, intl, report } = this.props;
     const { data, links, units, width } = this.state;
 
-    const isSkeleton = !(data && links) || !links.find(link => link.value !== 0);
+    // componentDidUpdate rebuilds data after currency changes, but that runs after this
+    // render — skip the chart until state.units matches so we don't paint the previous currency.
+    const isSkeleton =
+      !currency || !report || currency !== units || !(data && links) || !links.find(link => link.value !== 0);
 
     return (
       <div className="chartOverride" ref={this.containerRef}>
