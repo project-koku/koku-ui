@@ -5,14 +5,11 @@ import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import {
+  isOnPremEnabled,
   useIsDisplayToggleEnabled,
   useIsExchangeRateToggleEnabled,
   useIsPriceListToggleEnabled,
 } from 'components/featureToggle';
-import {
-  isSettingsDataRetentionPeriodEnabled,
-  isSettingsSourcesTabEnabled,
-} from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -38,6 +35,8 @@ import {
   hasCostModelWritePermission,
   hasSettingsAccess,
   hasSettingsWritePermission,
+  hasSourcesAccess,
+  hasSourcesWritePermission,
 } from 'utils/userAccess';
 
 import { CostCategory } from './costCategory';
@@ -126,7 +125,7 @@ const Settings: React.FC<SettingsProps> = () => {
   }, [activeTabKeyState]);
 
   const getAvailableTabs = () => {
-    const showDisplayTab = isDisplayToggleEnabled || isSettingsDataRetentionPeriodEnabled;
+    const showDisplayTab = isDisplayToggleEnabled || isOnPremEnabled;
 
     const availableTabs: AvailableTab[] = [
       {
@@ -161,10 +160,14 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.tags,
       },
-      {
-        contentRef: React.createRef(),
-        tab: SettingsTab.costCategory,
-      },
+      ...(!isOnPremEnabled
+        ? [
+            {
+              contentRef: React.createRef(),
+              tab: SettingsTab.costCategory,
+            },
+          ]
+        : []),
       {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
@@ -177,7 +180,7 @@ const Settings: React.FC<SettingsProps> = () => {
             },
           ]
         : []),
-      ...(isSettingsSourcesTabEnabled
+      ...(isOnPremEnabled
         ? [
             {
               contentRef: React.createRef(),
@@ -226,6 +229,7 @@ const Settings: React.FC<SettingsProps> = () => {
 
     const canWriteCostModels = hasCostModelWritePermission(userAccess);
     const canWriteSettings = hasSettingsWritePermission(userAccess);
+    const canWriteSources = hasSourcesWritePermission(userAccess);
     const currentTab = getIdKeyForTab(tab);
 
     if (currentTab === SettingsTab.costModels) {
@@ -253,12 +257,14 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.tags) {
       return hasSettingsAccess(userAccess) ? <TagLabels canWrite={canWriteSettings} /> : notAuthorized;
     } else if (currentTab === SettingsTab.sources) {
-      return hasSettingsAccess(userAccess) ? (
+      // On-prem only. The Integrations tab is gated by sources permissions
+      // (e.g. the "Sources administrator" role), not settings permissions.
+      return hasSourcesAccess(userAccess) ? (
         <ScalprumComponent
           scope="sources"
           module="./SourcesPage"
           fallback={<LoadingState />}
-          {...({ canWrite: canWriteSettings } as Record<string, unknown>)}
+          {...({ canWrite: canWriteSources } as Record<string, unknown>)}
         />
       ) : (
         notAuthorized

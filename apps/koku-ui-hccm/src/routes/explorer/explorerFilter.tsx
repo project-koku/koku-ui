@@ -9,7 +9,7 @@ import { ResourceType } from 'api/resources/resource';
 import type { Tag, TagPathsType } from 'api/tags/tag';
 import { TagType } from 'api/tags/tag';
 import type { AxiosError } from 'axios';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -250,11 +250,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps, Exp
       tagPathsType,
     } = this.props;
 
-    if (
-      isSettingsDataRetentionPeriodEnabled &&
-      !accountSettings &&
-      accountSettingsFetchStatus !== FetchStatus.inProgress
-    ) {
+    if (isOnPremEnabled && !accountSettings && accountSettingsFetchStatus !== FetchStatus.inProgress) {
       fetchAccountSettings(AccountSettingsType.dataRetention);
     }
     if (orgPathsType) {

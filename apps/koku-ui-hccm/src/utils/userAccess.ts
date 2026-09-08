@@ -113,3 +113,13 @@ export const hasSettingsAccess = (userAccess: UserAccess) => {
 export const hasSettingsWritePermission = (userAccess: UserAccess) => {
   return hasWritePermission(userAccess, UserAccessType.settings);
 };
+
+// Returns true if user has access to sources (on-prem: gates the Integrations tab)
+export const hasSourcesAccess = (userAccess: UserAccess) => {
+  return hasAccess(userAccess, UserAccessType.sources);
+};
+
+// Returns true if user has sources write permission (on-prem)
+export const hasSourcesWritePermission = (userAccess: UserAccess) => {
+  return hasWritePermission(userAccess, UserAccessType.sources);
+};

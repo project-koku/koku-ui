@@ -25,6 +25,13 @@ describe('Live app loads', { testTimeout: 180_000 }, () => {
     IamPage.visitMyUserAccess();
   });
 
+  it('iam-my-user-access-defaults-to-openshift-bundle', () => {
+    IamPage.visitMyUserAccessWithoutBundle();
+    cy.url({ timeout: 30_000 }).should('include', 'bundle=openshift');
+    cy.url().should('not.include', 'bundle=rhel');
+    cy.contains('h2', /Your OpenShift roles/i, { timeout: 30_000 }).should('be.visible');
+  });
+
   it('cost-overview-loads', () => {
     HostNavPage.visitCostOverview();
     cy.url({ timeout: 30_000 }).should('include', '/openshift/cost-management');
