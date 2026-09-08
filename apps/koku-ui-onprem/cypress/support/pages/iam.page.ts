@@ -7,6 +7,12 @@ export const IamPage = {
     cy.contains('h1', /My User Access/i, { timeout: 30_000 }).should('be.visible');
   },
 
+  /** COST-8160: bare deep link must default to OpenShift, not SaaS RHEL. */
+  visitMyUserAccessWithoutBundle() {
+    cy.visit('/iam/my-user-access');
+    cy.contains('h1', /My User Access/i, { timeout: 30_000 }).should('be.visible');
+  },
+
   visitIamOverview() {
     cy.visit('/iam/user-access/overview');
     cy.contains('h1', /User Access/i, { timeout: 30_000 }).should('be.visible');

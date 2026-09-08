@@ -108,8 +108,7 @@ module.exports = {
       'process.env.KOKU_UI_COMMITHASH': JSON.stringify(commitHash),
       'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
       // Set to avoid potential runtime errors
-      'process.env.KOKU_UI_SETTINGS_DATA_RETENTION_PERIOD': JSON.stringify('false'),
-      'process.env.KOKU_UI_SETTINGS_SOURCES_TAB': JSON.stringify('false'),
+      'process.env.KOKU_UI_ONPREM_ENABLED': JSON.stringify('false'),
     }),
   ],
   resolve: {

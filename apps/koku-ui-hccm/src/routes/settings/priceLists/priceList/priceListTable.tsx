@@ -133,7 +133,7 @@ const PriceListTable: React.FC<PriceListTableProps> = ({
               ? intl.formatDate(item.updated_timestamp, {
                   day: 'numeric',
                   hour: 'numeric',
-                  hour12: false,
+                  hourCycle: 'h23',
                   minute: 'numeric',
                   month: 'short',
                   timeZone: 'UTC',
