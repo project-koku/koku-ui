@@ -114,6 +114,17 @@ describe('SourceDetail', () => {
     expect(screen.getByText('OpenShift Container Platform')).toBeInTheDocument();
   });
 
+  it('renders UTC timestamps for date added and last availability check', async () => {
+    mockedGetSource.mockResolvedValue({
+      ...activeSource,
+      last_polling_time: '2026-02-01T14:45:00Z',
+    });
+    await renderDetail();
+
+    expect(screen.getByText(/Jan 15, 2026.*10:00.*UTC/)).toBeInTheDocument();
+    expect(screen.getByText(/Feb 1, 2026.*14:45.*UTC/)).toBeInTheDocument();
+  });
+
   it('shows "Paused" label and warning alert for a paused source', async () => {
     mockedGetSource.mockResolvedValue(pausedSource);
     await renderDetail('uuid-2');

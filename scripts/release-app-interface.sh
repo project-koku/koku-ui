@@ -42,12 +42,12 @@ usage()
 cat <<- EEOOFF
 
     This script will deploy app-interface with the latest SHA refs from the koku-ui branches below. Then, it will
-    either create an merge request (default) or push to the origin without an MR. It's assumed SSH keys are in use.
+    create an merge request. It's assumed SSH keys are in use.
 
     $HCCM_BRANCH
     $ROS_BRANCH
 
-    sh [-x] $SCRIPT [-h|-p|-r|-s|-t]
+    sh [-x] $SCRIPT [-h|-p|-r|-s|-t|-u]
 
     OPTIONS:
     h       Display this message
@@ -57,6 +57,8 @@ cat <<- EEOOFF
 
     s       Deploy SHA refs from $HCCM_BRANCH to app-interface prod
     t       Deploy SHA refs from $ROS_BRANCH to app-interface prod
+
+    u       Update fork master to match upstream before pushing the deploy branch
 
     Note: This script does not support on-prem for app-interface deployments.
 
@@ -103,6 +105,10 @@ commit()
 
   git remote rename origin upstream
   git remote add origin $APP_INTERFACE_FORK
+
+  if [ "$UPDATE_FORK_MASTER" = true ]; then
+    updateForkMaster
+  fi
 
   git branch -m $SOURCE_BRANCH
   git commit -m "$TITLE" $DEPLOY_CLOWDER_FILE
@@ -275,18 +281,6 @@ mergeRequest()
     -o merge_request.target=$TARGET_BRANCH origin $SOURCE_BRANCH
 }
 
-push()
-{
-  echo ""
-  read -p "*** You are pushing to the $SOURCE_BRANCH branch. Continue?" YN
-
-  case $YN in
-    [Yy]* ) echo "\n*** Pushing $SOURCE_BRANCH..."; git push -u origin $SOURCE_BRANCH;;
-    [Nn]* ) exit 0;;
-    * ) echo "Please answer yes or no."; push;;
-  esac
-}
-
 # Replace the commit SHA only on the target whose namespace $ref matches.
 # Stage and prod can share the same SHA after consolidating to a single
 # release branch, so we must not gsub across the whole resource block.
@@ -397,16 +391,31 @@ updateDeploySHA()
   fi
 }
 
+# Push current upstream master to the fork. A large first-time pack can make
+# GitLab reject merge_request.create with "Source branch does not exist".
+updateForkMaster()
+{
+  cd $APP_INTERFACE_DIR
+
+  echo "\n*** Updating fork master..."
+  if git push origin HEAD:master; then
+    echo "*** Fork master updated."
+  else
+    echo "*** Failed to update fork master. Update it in GitLab (Update fork), then retry."
+  fi
+}
+
 # main()
 {
   default
 
-  while getopts hprst c; do
+  while getopts hprstu c; do
     case $c in
       p) DEPLOY_HCCM_STAGE=true;;
       r) DEPLOY_ROS_STAGE=true;;
       s) DEPLOY_HCCM_PROD=true;;
       t) DEPLOY_ROS_PROD=true;;
+      u) UPDATE_FORK_MASTER=true;;
       h) usage; exit 0;;
       \?) usage; exit 1;;
     esac
