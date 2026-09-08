@@ -12,11 +12,16 @@ const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'
 const distDir = path.resolve(__dirname, './dist');
 const srcDir = path.resolve(__dirname, './src');
 const useAppLinkShim = path.join(srcDir, 'shims/insights-rbac/useAppLink.ts');
+const constantsShim = path.join(srcDir, 'shims/insights-rbac/constants.ts');
 
 const insightsRbacModuleReplacements: readonly { match: RegExp; replacement: string }[] = [
   {
     match: /[/\\]insights-rbac-frontend[/\\]src[/\\]shared[/\\]hooks[/\\]useAppLink\.ts$/,
     replacement: useAppLinkShim,
+  },
+  {
+    match: /[/\\]insights-rbac-frontend[/\\]src[/\\]shared[/\\]utilities[/\\]constants\.ts$/,
+    replacement: constantsShim,
   },
 ];
 
@@ -137,6 +142,7 @@ const config: Configuration = {
     alias: {
       'insights-rbac-frontend': rbacPkgRoot,
       [path.join(rbacSrcDir, 'shared/hooks/useAppLink')]: useAppLinkShim,
+      [path.join(rbacSrcDir, 'shared/utilities/constants')]: constantsShim,
       '@redhat-cloud-services/frontend-components/useChrome': path.join(
         onpremDepsSrc,
         'frontend-components/useChrome.ts'

@@ -7,7 +7,7 @@ export const formatDate = (date: string) => {
   return intl.formatDate(date, {
     day: 'numeric',
     hour: 'numeric',
-    hour12: false,
+    hourCycle: 'h23',
     minute: 'numeric',
     month: 'short',
     timeZone: 'UTC',
