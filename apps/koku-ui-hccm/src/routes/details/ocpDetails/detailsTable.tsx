@@ -41,6 +41,7 @@ interface DetailsTableOwnProps extends RouterComponentProps, WrappedComponentPro
   hiddenColumns?: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
+  isRosAvailable?: boolean;
   onSelect(items: ComputedReportItem[], isSelected: boolean);
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
@@ -77,7 +78,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { costDistribution, hiddenColumns, report, selectedItems, timeScopeValue } = this.props;
+    const { costDistribution, hiddenColumns, isRosAvailable, report, selectedItems, timeScopeValue } = this.props;
     const currentReport = report?.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps?.report?.data ? JSON.stringify(prevProps.report.data) : '';
 
@@ -86,6 +87,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       prevProps.costDistribution !== costDistribution ||
       prevProps.selectedItems !== selectedItems ||
       prevProps.hiddenColumns !== hiddenColumns ||
+      prevProps.isRosAvailable !== isRosAvailable ||
       timeScopeValue !== prevProps.timeScopeValue
     ) {
       this.initDatum();
@@ -102,6 +104,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       hiddenColumns,
       intl,
       isAllSelected,
+      isRosAvailable,
       query,
       report,
       router,
@@ -134,7 +137,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             name: '', // Default & Overhead column
           },
           {
-            hidden: !isGroupByProject,
+            hidden: !isGroupByProject || !isRosAvailable,
             name: intl.formatMessage(messages.optimizations),
           },
           {
@@ -175,7 +178,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             name: '', // Default & Overhead column
           },
           {
-            hidden: !isGroupByProject,
+            hidden: !isGroupByProject || !isRosAvailable,
             name: intl.formatMessage(messages.optimizations),
           },
           {
@@ -308,7 +311,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
             ),
           },
           {
-            hidden: !isGroupByProject,
+            hidden: !isGroupByProject || !isRosAvailable,
             value: !isPlatformCosts && !isDisabled && (
               <AsyncComponent
                 scope="costManagementRos"
