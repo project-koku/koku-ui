@@ -29,7 +29,7 @@ import { Currency } from 'routes/components/currency';
 import { getActiveFilters, getChips } from 'routes/components/dataToolbar/utils/common';
 import { TagLink } from 'routes/details/components/tag';
 import { getGroupByCostCategory, getGroupByOrgValue, getGroupByTagKey } from 'routes/utils/groupBy';
-import { createMapStateToProps } from 'store/common';
+import { createMapStateToProps, FetchStatus } from 'store/common';
 import { getTotalCostDateRangeString } from 'utils/dates';
 import { formatCurrency } from 'utils/format';
 import { awsCategoryKey, orgUnitIdKey, tagKey } from 'utils/props';
@@ -55,6 +55,7 @@ interface BreakdownHeaderOwnProps extends RouterComponentProps {
   query: Query;
   queryStateName: string;
   report: Report;
+  reportFetchStatus?: FetchStatus;
   showCostDistribution?: boolean;
   showCostType?: boolean;
   showCurrency?: boolean;
@@ -206,6 +207,7 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
       onCurrencySelect,
       query,
       queryStateName,
+      reportFetchStatus,
       showCostDistribution,
       showCostType,
       showCurrency,
@@ -292,9 +294,11 @@ class BreakdownHeader extends React.Component<BreakdownHeaderProps, any> {
           </FlexItem>
           <FlexItem>
             <div style={styles.costLabel}>
-              <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
-                <span>{this.getTotalCost()}</span>
-              </Title>
+              {reportFetchStatus !== FetchStatus.inProgress && (
+                <Title headingLevel="h2" style={styles.costValue} size={TitleSizes['4xl']}>
+                  <span>{this.getTotalCost()}</span>
+                </Title>
+              )}
               <div style={styles.costLabelDate}>
                 {getTotalCostDateRangeString(
                   intl.formatMessage(messages.groupByValuesTitleCase, { value: groupByKey, count: 2 }),
