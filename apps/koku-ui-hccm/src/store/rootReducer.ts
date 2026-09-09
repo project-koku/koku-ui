@@ -27,6 +27,7 @@ import { priceListReducer, priceListStateKey } from 'store/priceLists';
 import { rateReducer, rateStateKey } from 'store/rates';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { resourceReducer, resourceStateKey } from 'store/resources';
+import { rosReducer, rosStateKey } from 'store/ros';
 import { settingsReducer, settingsStateKey } from 'store/settings';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { tagReducer, tagStateKey } from 'store/tags';
@@ -71,6 +72,7 @@ export const rootReducer = combineReducers({
   [rbacStateKey]: rbacReducer,
   [reportStateKey]: reportReducer,
   [resourceStateKey]: resourceReducer,
+  [rosStateKey]: rosReducer,
   [settingsStateKey]: settingsReducer,
   [sourcesStateKey]: sourcesReducer,
   [tagStateKey]: tagReducer,
