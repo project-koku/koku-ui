@@ -360,6 +360,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
             query={query}
             queryStateName={queryStateName}
             report={report}
+            reportFetchStatus={reportFetchStatus}
             showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}
             showCostType={showCostType}
             showCurrency={!(optimizationsComponent && activeTabKey === 3)}

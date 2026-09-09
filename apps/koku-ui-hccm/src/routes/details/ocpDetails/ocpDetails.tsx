@@ -15,6 +15,7 @@ import { getQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { RosType } from 'api/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
@@ -53,6 +54,7 @@ import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { rosActions, rosSelectors } from 'store/ros';
 import { uiActions } from 'store/ui';
 import type { openProvidersModal } from 'store/ui/uiActions';
 import { getSinceDateRangeString } from 'utils/dates';
@@ -79,6 +81,7 @@ export interface OcpDetailsStateProps {
   currentDateRangeType?: string;
   isCurrentMonthData?: boolean;
   isPreviousMonthData?: boolean;
+  isRosAvailable?: boolean;
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
@@ -92,6 +95,7 @@ export interface OcpDetailsStateProps {
 
 interface OcpDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
+  fetchRos: typeof rosActions.fetchRos;
   openProvidersModal: typeof openProvidersModal;
 }
 
@@ -156,6 +160,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   public state: OcpDetailsState = { ...this.defaultState };
 
   public componentDidMount() {
+    const { fetchRos } = this.props;
+    fetchRos(RosType.openApi);
     this.updateReport();
   }
 
@@ -265,8 +271,16 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
   };
 
   private getTable = () => {
-    const { costDistribution, query, report, reportFetchStatus, reportQueryString, router, timeScopeValue } =
-      this.props;
+    const {
+      costDistribution,
+      isRosAvailable,
+      query,
+      report,
+      reportFetchStatus,
+      reportQueryString,
+      router,
+      timeScopeValue,
+    } = this.props;
     const { hiddenColumns, isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -284,6 +298,7 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
         hiddenColumns={hiddenColumns}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isRosAvailable={isRosAvailable}
         onSelect={this.handleOnSelect}
         onSort={(sortType, isSortAscending) => handleOnSort(query, router, sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -617,11 +632,14 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     reportQueryString
   );
 
+  // ROS
+
   return {
     costDistribution,
     currency,
     isCurrentMonthData,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
+    isRosAvailable: rosSelectors.selectRosAvailable(state, RosType.openApi, undefined),
     providers: filteredProviders,
     providersError,
     providersFetchStatus,
@@ -636,6 +654,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
 
 const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
+  fetchRos: rosActions.fetchRos,
   openProvidersModal: uiActions.openProvidersModal,
 };
 
