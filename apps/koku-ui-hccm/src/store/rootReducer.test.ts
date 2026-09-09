@@ -8,6 +8,7 @@ describe('rootReducer', () => {
 		expect(state).toHaveProperty('metrics');
 		expect(state).toHaveProperty('providers');
 		expect(state).toHaveProperty('RBAC');
+		expect(state).toHaveProperty('ros');
 		expect(state).toHaveProperty('ui');
 		expect(state).toHaveProperty('userAccess');
 	});
