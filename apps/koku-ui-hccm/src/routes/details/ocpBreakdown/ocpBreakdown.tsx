@@ -3,9 +3,11 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { Query } from 'api/queries/query';
 import { getQuery, parseQuery } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { RosType } from 'api/ros';
 import { TagPathsType } from 'api/tags/tag';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -21,6 +23,7 @@ import { getTimeScopeValue } from 'routes/utils/timeScope';
 import { createMapStateToProps } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { rosActions, rosSelectors } from 'store/ros';
 import { uiActions } from 'store/ui';
 import { formatPath } from 'utils/paths';
 import {
@@ -42,6 +45,7 @@ import { Virtualization } from './virtualization';
 interface OcpBreakdownDispatchProps {
   closeOptimizationsDrawer?: typeof uiActions.closeOptimizationsDrawer;
   fetchReport?: typeof reportActions.fetchReport;
+  fetchRos?: typeof rosActions.fetchRos;
 }
 
 type OcpBreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
@@ -115,6 +119,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
   );
 
   const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
+  const isRosAvailable = !isOnPremEnabled || rosSelectors.selectRosAvailable(state, RosType.openApi, undefined);
 
   return {
     breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
@@ -152,7 +157,8 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       />
     ),
     isOptimizationsTab: queryFromRoute.optimizationsTab !== undefined,
-    optimizationsComponent: groupBy === 'project' && groupByValue !== '*' ? <OcpOptimizations /> : undefined,
+    optimizationsComponent:
+      isRosAvailable && groupBy === 'project' && groupByValue !== '*' ? <OcpOptimizations /> : undefined,
     providers: filterProviders(providers, ProviderType.ocp),
     providersFetchStatus,
     providerType: ProviderType.ocp,
@@ -178,10 +184,23 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 const mapDispatchToProps: OcpBreakdownDispatchProps = {
   closeOptimizationsDrawer: uiActions.closeOptimizationsDrawer,
   fetchReport: reportActions.fetchReport,
+  fetchRos: rosActions.fetchRos,
+};
+
+type OcpBreakdownProps = BreakdownStateProps & OcpBreakdownDispatchProps;
+
+const OcpBreakdown: React.FC<OcpBreakdownProps> = ({ fetchRos, ...props }) => {
+  useEffect(() => {
+    if (isOnPremEnabled && fetchRos) {
+      fetchRos(RosType.openApi);
+    }
+  }, [fetchRos]);
+
+  return <BreakdownBase {...props} />;
 };
 
 export default injectIntl(
   withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(BreakdownBase) as unknown as React.ComponentType<OcpBreakdownOwnProps>
+    connect(mapStateToProps, mapDispatchToProps)(OcpBreakdown) as unknown as React.ComponentType<OcpBreakdownOwnProps>
   )
 );
