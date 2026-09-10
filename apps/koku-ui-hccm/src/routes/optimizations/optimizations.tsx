@@ -1,7 +1,7 @@
 import { PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { RosType } from 'api/ros';
-import { useIsEfficiencyToggleEnabled } from 'components/featureToggle';
+import { isOnPremEnabled, useIsEfficiencyToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -109,7 +109,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
 const useMapToProps = (): OptimizationsStateProps => {
   const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
 
-  const isRosAvailable = useSelector((state: RootState) =>
+  const rosAvailable = useSelector((state: RootState) =>
     rosSelectors.selectRosAvailable(state, RosType.openApi, undefined)
   );
   const rosFetchStatus = useSelector((state: RootState) =>
@@ -117,13 +117,13 @@ const useMapToProps = (): OptimizationsStateProps => {
   );
 
   useEffect(() => {
-    if (rosFetchStatus !== FetchStatus.inProgress) {
+    if (isOnPremEnabled && rosFetchStatus !== FetchStatus.inProgress) {
       dispatch(rosActions.fetchRos(RosType.openApi));
     }
   }, [dispatch]);
 
   return {
-    isRosAvailable,
+    isRosAvailable: !isOnPremEnabled || rosAvailable,
   };
 };
 
