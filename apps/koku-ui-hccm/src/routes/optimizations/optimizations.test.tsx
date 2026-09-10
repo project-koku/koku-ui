@@ -37,8 +37,12 @@ const rosMock: RosData = {
 };
 
 let mockIsEfficiencyToggleEnabled = true;
+let mockIsOnPremEnabled = true;
 
 jest.mock('components/featureToggle', () => ({
+  get isOnPremEnabled() {
+    return mockIsOnPremEnabled;
+  },
   useIsEfficiencyToggleEnabled: () => mockIsEfficiencyToggleEnabled,
 }));
 
@@ -77,6 +81,7 @@ describe('Optimizations ROS availability', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockIsEfficiencyToggleEnabled = true;
+    mockIsOnPremEnabled = true;
     fetchRosMock.mockResolvedValue({ data: rosMock });
   });
 
@@ -106,5 +111,12 @@ describe('Optimizations ROS availability', () => {
     expect(screen.getByRole('tab', { name: 'Efficiency' })).toBeInTheDocument();
     expect(screen.getByTestId('efficiency')).toBeInTheDocument();
     expect(screen.queryByTestId('optimizations-details')).not.toBeInTheDocument();
+  });
+
+  test('does not fetch ROS on SaaS and shows the optimizations tab', async () => {
+    mockIsOnPremEnabled = false;
+    renderOptimizations();
+    expect(fetchRosMock).not.toHaveBeenCalled();
+    expect(screen.getByRole('tab', { name: 'Optimizations' })).toBeInTheDocument();
   });
 });
