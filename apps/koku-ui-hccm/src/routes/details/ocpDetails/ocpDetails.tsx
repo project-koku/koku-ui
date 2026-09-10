@@ -17,6 +17,7 @@ import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { RosType } from 'api/ros';
 import type { AxiosError } from 'axios';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
@@ -161,7 +162,9 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
   public componentDidMount() {
     const { fetchRos } = this.props;
-    fetchRos(RosType.openApi);
+    if (isOnPremEnabled) {
+      fetchRos(RosType.openApi);
+    }
     this.updateReport();
   }
 
@@ -639,7 +642,7 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     currency,
     isCurrentMonthData,
     isPreviousMonthData: hasPreviousMonthData(filteredProviders),
-    isRosAvailable: rosSelectors.selectRosAvailable(state, RosType.openApi, undefined),
+    isRosAvailable: !isOnPremEnabled || rosSelectors.selectRosAvailable(state, RosType.openApi, undefined),
     providers: filteredProviders,
     providersError,
     providersFetchStatus,
