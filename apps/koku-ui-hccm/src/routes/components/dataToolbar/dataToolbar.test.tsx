@@ -1,8 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
 import { DataToolbarBase } from './dataToolbar';
+
+jest.mock('./customSelect', () => ({
+  CustomSelect: ({ onSelect, options }: any) => (
+    <button type="button" onClick={() => onSelect({ target: { checked: true } }, { value: options?.[0]?.key })}>
+      custom-select
+    </button>
+  ),
+}));
 import { CriteriaType } from './utils/criteria';
 
 const categoryOptions = [
@@ -142,5 +151,77 @@ describe('DataToolbarBase', () => {
     await user.click(screen.getAllByRole('option')[1]);
 
     expect(screen.getByPlaceholderText(/project/i)).toBeInTheDocument();
+  });
+
+  test('renders platform costs and pagination slots', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const onPlatformCostsChanged = jest.fn();
+
+    render(
+      <DataToolbarBase
+        showPlatformCosts
+        showColumnManagement
+        showExport
+        intl={{} as any}
+        onPlatformCostsChanged={onPlatformCostsChanged}
+        pagination={<div>pager</div>}
+        dateRange={<div>date-range</div>}
+      />
+    );
+
+    expect(screen.getByText('pager')).toBeInTheDocument();
+    expect(screen.getByText('date-range')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /manage columns/i }));
+  });
+
+  test('renders bulk select and export controls', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const onBulkSelect = jest.fn();
+    const onExportClicked = jest.fn();
+
+    render(
+      <DataToolbarBase
+        showBulkSelect
+        showExport
+        showCriteria
+        isExactFilterToggleEnabled
+        itemsTotal={10}
+        itemsPerPage={5}
+        selectedItems={[{ id: '1' } as any]}
+        intl={{} as any}
+        onBulkSelect={onBulkSelect}
+        onExportClicked={onExportClicked}
+      />
+    );
+
+    await user.click(screen.getByRole('checkbox'));
+    expect(onBulkSelect).toHaveBeenCalled();
+    await user.click(screen.getByRole('button', { name: 'Export data' }));
+    expect(onExportClicked).toHaveBeenCalled();
+  });
+
+  test('renders a custom select category', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const onFilterAdded = jest.fn();
+
+    render(
+      <MemoryRouter>
+        <DataToolbarBase
+          showFilter
+          intl={{} as any}
+          onFilterAdded={onFilterAdded}
+          categoryOptions={[
+            {
+              name: 'Status',
+              key: 'status',
+              selectOptions: [{ name: 'Running', key: 'running' }],
+            },
+          ]}
+        />
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: 'custom-select' }));
+    expect(onFilterAdded).toHaveBeenCalled();
   });
 });

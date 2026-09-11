@@ -12,6 +12,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './dataTable.styles';
+import { getThScreenReaderText } from './thAccessibility';
 interface SelectableTableOwnProps {
   columns?: any[];
   emptyState?: ReactNode;
@@ -112,6 +113,10 @@ class SelectableTable extends React.Component<SelectableTableProps, any> {
                 <Th
                   key={`col-${index}-${col.value}`}
                   modifier="nowrap"
+                  screenReaderText={getThScreenReaderText(
+                    col.name,
+                    col.screenReaderText || intl.formatMessage(messages.emptyTableHeader, { value: index + 1 })
+                  )}
                   sort={col.isSortable ? this.getSortParams(index) : undefined}
                   style={col.style}
                 >
