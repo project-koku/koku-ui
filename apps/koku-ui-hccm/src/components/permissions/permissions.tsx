@@ -86,6 +86,8 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
         return costModel;
       case formatPath(routes.settings.path):
         return settings || costModel || sources;
+      case formatPath(routes.integrationBreakdown.basePath):
+        return sources;
       default:
         return false;
     }
