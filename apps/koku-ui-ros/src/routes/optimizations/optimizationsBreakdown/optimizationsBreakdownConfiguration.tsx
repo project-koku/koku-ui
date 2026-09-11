@@ -138,7 +138,6 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
       <CodeBlockAction>
         <ClipboardCopyButton
           id="copy-button"
-          textId="code-content"
           aria-label={intl.formatMessage(messages.copyToClipboard)}
           onClick={e => handleClipboardCopyOnClick(e, code)}
           onTooltipHidden={() => setCopied(false)}
