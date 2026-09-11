@@ -4,10 +4,17 @@ import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import localeMessages from '../../../locales/data.json';
 import type { Source } from '../../apis/models/sources';
 import { sourcesReducer } from '../../redux/sources-slice';
 import { SourcesPage } from './SourcesPage';
+
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
 
 jest.mock('apis/sources-service', () => {
   const actual = jest.requireActual<typeof import('../../apis/sources-service')>('../../apis/sources-service');
@@ -90,7 +97,9 @@ const renderWithProviders = (preloadedState = {}, props: { canWrite?: boolean } 
   return render(
     <IntlProvider locale="en" defaultLocale="en" messages={localeMessages.en}>
       <Provider store={store}>
-        <SourcesPage canWrite={props.canWrite} />
+        <MemoryRouter>
+          <SourcesPage canWrite={props.canWrite} />
+        </MemoryRouter>
       </Provider>
     </IntlProvider>
   );
@@ -100,6 +109,7 @@ describe('SourcesPage', () => {
   beforeEach(() => {
     jest.useRealTimers();
     jest.clearAllMocks();
+    mockNavigate.mockClear();
   });
 
   it('shows loading state when loading with no entities', async () => {
@@ -198,19 +208,18 @@ describe('SourcesPage', () => {
     ).toBeInTheDocument();
   });
 
-  it('switches to detail view when a source name is clicked', async () => {
+  it('navigates to the HCCM integration detail path when a source name is clicked', async () => {
     const user = userEvent.setup();
-    const { listSources, getSource } = require('apis/sources-service').SourcesService;
+    const { listSources } = require('apis/sources-service').SourcesService;
     listSources.mockReturnValue(new Promise(() => {}));
-    getSource.mockResolvedValue(mockSource);
 
     renderWithProviders({ entities: [mockSource], count: 1 });
 
     await user.click(screen.getByText('My OCP Source'));
 
-    await waitFor(() => {
-      expect(screen.queryByText('Add integration')).not.toBeInTheDocument();
-    });
+    expect(mockNavigate).toHaveBeenCalledWith(
+      '/openshift/cost-management/settings/integrations/detail/uuid-1'
+    );
   });
 
   it('pauses a source from the kebab menu', async () => {
@@ -358,27 +367,10 @@ describe('SourcesPage', () => {
     expect(mockAddNotification.mock.calls[0][0].title).toBe('Could not resume integration');
   });
 
-  it('switches to detail view and shows SourceDetail component', async () => {
+  it('navigates to the HCCM integration detail path from the kebab action', async () => {
     const user = userEvent.setup();
-    const { listSources, getSource } = require('apis/sources-service').SourcesService;
+    const { listSources } = require('apis/sources-service').SourcesService;
     listSources.mockReturnValue(new Promise(() => {}));
-    getSource.mockResolvedValue(mockSource);
-
-    renderWithProviders({ entities: [mockSource], count: 1 });
-
-    await user.click(screen.getByText('My OCP Source'));
-
-    await waitFor(() => {
-      expect(screen.queryByText('Add integration')).not.toBeInTheDocument();
-    });
-    expect(getSource).toHaveBeenCalledWith('uuid-1');
-  });
-
-  it('calls view details from kebab action', async () => {
-    const user = userEvent.setup();
-    const { listSources, getSource } = require('apis/sources-service').SourcesService;
-    listSources.mockReturnValue(new Promise(() => {}));
-    getSource.mockResolvedValue(mockSource);
 
     renderWithProviders({ entities: [mockSource], count: 1 });
 
@@ -386,9 +378,9 @@ describe('SourcesPage', () => {
     await user.click(kebabButtons[0]);
     await user.click(screen.getByText('View details'));
 
-    await waitFor(() => {
-      expect(getSource).toHaveBeenCalled();
-    });
+    expect(mockNavigate).toHaveBeenCalledWith(
+      '/openshift/cost-management/settings/integrations/detail/uuid-1'
+    );
   });
 
   it('closes remove modal via onClose', async () => {

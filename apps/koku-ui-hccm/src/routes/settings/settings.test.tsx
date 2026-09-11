@@ -12,9 +12,10 @@ import { configureStore } from 'store/store';
 import { userAccessQuery, userAccessStateKey } from 'store/userAccess';
 import { getFetchId } from 'store/userAccess/userAccessCommon';
 
-import Settings from './settings';
+import Settings, { SettingsTab } from './settings';
 
 let mockIsOnPremEnabled = false;
+let mockIsPriceListToggleEnabled = false;
 
 jest.mock('components/featureToggle', () => ({
   get isOnPremEnabled() {
@@ -22,7 +23,7 @@ jest.mock('components/featureToggle', () => ({
   },
   useIsDisplayToggleEnabled: () => true,
   useIsExchangeRateToggleEnabled: () => false,
-  useIsPriceListToggleEnabled: () => false,
+  useIsPriceListToggleEnabled: () => mockIsPriceListToggleEnabled,
 }));
 
 jest.mock('utils/chrome', () => ({
@@ -79,6 +80,7 @@ const userAccessFetchId = getFetchId(UserAccessType.all, userAccessQueryString);
 describe('Settings', () => {
   beforeEach(() => {
     mockIsOnPremEnabled = false;
+    mockIsPriceListToggleEnabled = false;
   });
 
   const defaultUserAccessData = [
@@ -86,7 +88,10 @@ describe('Settings', () => {
     { type: UserAccessType.settings, access: true, write: true },
   ];
 
-  const renderSettings = (userAccessData: any[] = defaultUserAccessData) => {
+  const renderSettings = (
+    userAccessData: any[] = defaultUserAccessData,
+    { initialEntries }: { initialEntries?: any[] } = {}
+  ) => {
     const store = configureStore({
       [userAccessStateKey]: {
         byId: new Map([
@@ -104,7 +109,7 @@ describe('Settings', () => {
 
     return render(
       <Provider store={store}>
-        <MemoryRouter>
+        <MemoryRouter initialEntries={initialEntries ?? ['/']}>
           <IntlProvider locale="en">
             <Settings />
           </IntlProvider>
@@ -144,5 +149,42 @@ describe('Settings', () => {
 
     expect(await screen.findByTestId('not-authorized')).toBeInTheDocument();
     expect(screen.queryByTestId('sources')).not.toBeInTheDocument();
+  });
+
+  test('selects the Integrations tab from settingsState.activeTab when Price list is enabled', async () => {
+    mockIsOnPremEnabled = true;
+    mockIsPriceListToggleEnabled = true;
+    renderSettings(
+      [
+        { type: UserAccessType.settings, access: true, write: true },
+        { type: UserAccessType.sources, access: true, write: true },
+      ],
+      {
+        initialEntries: [
+          {
+            pathname: '/',
+            state: { settingsState: { activeTab: SettingsTab.sources } },
+          },
+        ],
+      }
+    );
+
+    expect(await screen.findByTestId('sources')).toBeInTheDocument();
+    expect(screen.queryByTestId('display')).not.toBeInTheDocument();
+  });
+
+  test('selects the Price list tab from settingsState.activeTab', async () => {
+    mockIsPriceListToggleEnabled = true;
+    renderSettings(defaultUserAccessData, {
+      initialEntries: [
+        {
+          pathname: '/',
+          state: { settingsState: { activeTab: SettingsTab.priceList } },
+        },
+      ],
+    });
+
+    expect(await screen.findByTestId('price-list')).toBeInTheDocument();
+    expect(screen.queryByTestId('cost-model')).not.toBeInTheDocument();
   });
 });

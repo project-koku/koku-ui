@@ -44,4 +44,10 @@ describe('utils/paths', () => {
     mockUseLocation.mockReturnValue({ pathname: `${base}/123` })
     expect(usePathname()).toBe(base)
   })
+
+  test('usePathname collapses on-prem integration detail UUID path', () => {
+    const base = formatPath(routes.integrationBreakdown.basePath)
+    mockUseLocation.mockReturnValue({ pathname: `${base}/src-uuid` })
+    expect(usePathname()).toBe(base)
+  })
 })

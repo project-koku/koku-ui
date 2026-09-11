@@ -102,7 +102,8 @@ describe('SourceDetail', () => {
     mockedGetSource.mockRejectedValue(new Error('not found'));
     await renderDetail();
 
-    expect(screen.getByText('Integration not found')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Integration not found' })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: /breadcrumb/i })).toHaveTextContent('Integrations');
   });
 
   it('renders source name, type, and "Available" status for an active source', async () => {
@@ -212,13 +213,17 @@ describe('SourceDetail', () => {
     expect(screen.queryByText('Resume connection')).not.toBeInTheDocument();
   });
 
-  it('navigates back via Back to Integrations link button', async () => {
+  it('navigates back via the Integrations breadcrumb', async () => {
     const user = userEvent.setup();
     mockedGetSource.mockResolvedValue(activeSource);
     const onBack = jest.fn();
     await renderDetail('uuid-1', onBack);
 
-    await user.click(screen.getByRole('button', { name: 'Back to Integrations' }));
+    const breadcrumb = screen.getByRole('navigation', { name: /breadcrumb/i });
+    expect(breadcrumb).toHaveTextContent('Integrations');
+    expect(breadcrumb).toHaveTextContent('My OCP Source');
+
+    await user.click(screen.getByRole('button', { name: 'Integrations' }));
 
     expect(onBack).toHaveBeenCalled();
   });

@@ -1,5 +1,7 @@
 import {
   Alert,
+  Breadcrumb,
+  BreadcrumbItem,
   Bullseye,
   Button,
   DescriptionList,
@@ -17,7 +19,8 @@ import {
   Spinner,
   Title,
 } from '@patternfly/react-core';
-import { AngleLeftIcon, EllipsisVIcon, RedoIcon } from '@patternfly/react-icons';
+import { EllipsisVIcon, RedoIcon } from '@patternfly/react-icons';
+import t_global_spacer_md from '@patternfly/react-tokens/dist/js/t_global_spacer_md';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { ApiErrorService } from 'apis/api-error-service';
 import type { Source } from 'apis/models/sources';
@@ -30,6 +33,12 @@ import { messages } from 'i18n/messages';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { formatDate } from 'utilities/format-date';
+
+const styles = {
+  breadcrumb: {
+    paddingBottom: t_global_spacer_md.var,
+  },
+} as { [key: string]: React.CSSProperties };
 
 interface SourceDetailProps {
   uuid: string;
@@ -141,6 +150,16 @@ export const SourceDetail: React.FC<SourceDetailProps> = ({ uuid, onBack, canWri
   if (!source) {
     return (
       <PageSection>
+        <Breadcrumb style={styles.breadcrumb}>
+          <BreadcrumbItem
+            render={({ className }) => (
+              <button type="button" className={className} onClick={onBack}>
+                {intl.formatMessage(messages.sourcesTabTitle)}
+              </button>
+            )}
+          />
+          <BreadcrumbItem isActive>{intl.formatMessage(messages.sourceNotFound)}</BreadcrumbItem>
+        </Breadcrumb>
         <Title headingLevel="h2">{intl.formatMessage(messages.sourceNotFound)}</Title>
       </PageSection>
     );
@@ -153,11 +172,16 @@ export const SourceDetail: React.FC<SourceDetailProps> = ({ uuid, onBack, canWri
   return (
     <>
       <PageSection>
-        <Button variant="link" icon={<AngleLeftIcon />} iconPosition="start" onClick={onBack}>
-          {intl.formatMessage(messages.backToIntegrations)}
-        </Button>
-      </PageSection>
-      <PageSection>
+        <Breadcrumb style={styles.breadcrumb}>
+          <BreadcrumbItem
+            render={({ className }) => (
+              <button type="button" className={className} onClick={onBack}>
+                {intl.formatMessage(messages.sourcesTabTitle)}
+              </button>
+            )}
+          />
+          <BreadcrumbItem isActive>{source.name}</BreadcrumbItem>
+        </Breadcrumb>
         <Flex direction={{ default: 'column' }} gap={{ default: 'gap2xl' }}>
           <FlexItem className="pf-v6-u-mb-md">
             <Flex

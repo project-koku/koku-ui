@@ -22,6 +22,7 @@ import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { PriceListActions } from 'routes/settings/priceLists/priceList/components/actions';
 import { EditDetailModal } from 'routes/settings/priceLists/priceList/components/details';
+import { SettingsTab } from 'routes/settings/settings';
 import { getValidityPeriod } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
@@ -83,11 +84,11 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
                 state={{
                   ...(location?.state || {}),
                   settingsState: {
-                    activeTabKey: 1,
+                    activeTab: SettingsTab.priceList,
                   },
                 }}
               >
-                {intl.formatMessage(messages.priceList, { count: 1 })}
+                {intl.formatMessage(messages.priceList, { count: 2 })}
               </Link>
             )}
           />

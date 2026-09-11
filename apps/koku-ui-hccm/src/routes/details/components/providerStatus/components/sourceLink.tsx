@@ -24,10 +24,10 @@ const SourceLink: React.FC<SourceLinkProps> = ({ provider, showLabel = true }: S
   }
 
   const label = provider.name || provider.uuid;
-  // On-prem: SaaS /settings/integrations/detail/<id> is outside the plugin mount (COST-7661 blank page).
-  // Deep-link into a specific source is deferred to COST-7441; land on Settings (Sources tab available).
+  // On-prem: SaaS /settings/integrations/detail/<id> is outside the plugin mount (COST-7661).
+  // Stay under /openshift/cost-management and open koku-ui-sources via provider.uuid.
   const href = isOnPremEnabled
-    ? formatPath(routes.settings.path, true)
+    ? `${formatPath(routes.integrationBreakdown.basePath, true)}/${provider.uuid}`
     : `${getReleasePath()}/settings/integrations/detail/${provider.id}`;
 
   return (
