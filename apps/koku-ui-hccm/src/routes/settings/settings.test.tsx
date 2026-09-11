@@ -12,7 +12,7 @@ import { configureStore } from 'store/store';
 import { userAccessQuery, userAccessStateKey } from 'store/userAccess';
 import { getFetchId } from 'store/userAccess/userAccessCommon';
 
-import Settings, { SettingsTab } from './settings';
+import Settings, { getIdKeyForTab, SettingsTab } from './settings';
 
 let mockIsOnPremEnabled = false;
 let mockIsPriceListToggleEnabled = false;
@@ -186,5 +186,19 @@ describe('Settings', () => {
 
     expect(await screen.findByTestId('price-list')).toBeInTheDocument();
     expect(screen.queryByTestId('cost-model')).not.toBeInTheDocument();
+  });
+
+  test.each([
+    [SettingsTab.costModels, 'cost_models'],
+    [SettingsTab.calculations, 'calculations'],
+    [SettingsTab.costCategory, 'cost_category'],
+    [SettingsTab.display, 'display'],
+    [SettingsTab.exchangeRates, 'exchange_rates'],
+    [SettingsTab.platformProjects, 'platform_projects'],
+    [SettingsTab.priceList, 'price_list'],
+    [SettingsTab.tags, 'tags'],
+    [SettingsTab.sources, 'sources'],
+  ])('getIdKeyForTab(%s) returns %s', (tab, expected) => {
+    expect(getIdKeyForTab(tab)).toBe(expected);
   });
 });

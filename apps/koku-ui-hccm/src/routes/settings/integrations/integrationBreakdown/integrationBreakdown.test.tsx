@@ -44,7 +44,10 @@ describe('IntegrationBreakdown', () => {
     mockNavigate.mockClear();
   });
 
-  const renderDetail = (userAccessData: { type: string; access: boolean; write: boolean }[]) => {
+  const renderDetail = (
+    userAccessData: { type: string; access: boolean; write: boolean }[],
+    { fetchStatus = FetchStatus.complete }: { fetchStatus?: FetchStatus } = {}
+  ) => {
     const store = configureStore({
       [userAccessStateKey]: {
         byId: new Map([
@@ -56,7 +59,7 @@ describe('IntegrationBreakdown', () => {
           ],
         ]),
         errors: new Map([[userAccessFetchId, null]]),
-        fetchStatus: new Map([[userAccessFetchId, FetchStatus.complete]]),
+        fetchStatus: new Map([[userAccessFetchId, fetchStatus]]),
       },
     } as any);
 
@@ -87,6 +90,50 @@ describe('IntegrationBreakdown', () => {
 
   test('denies the page for a user without sources access', async () => {
     renderDetail([{ type: UserAccessType.settings, access: true, write: true }]);
+
+    expect(await screen.findByTestId('not-authorized')).toBeInTheDocument();
+    expect(screen.queryByTestId('source-detail')).not.toBeInTheDocument();
+  });
+
+  test('shows a loading state while user access is in progress', async () => {
+    renderDetail([], { fetchStatus: FetchStatus.inProgress });
+
+    expect(await screen.findByText(/looking for user access/i)).toBeInTheDocument();
+    expect(screen.queryByTestId('source-detail')).not.toBeInTheDocument();
+  });
+
+  test('denies the page when uuid is missing', async () => {
+    const store = configureStore({
+      [userAccessStateKey]: {
+        byId: new Map([
+          [
+            userAccessFetchId,
+            {
+              data: [{ type: UserAccessType.sources, access: true, write: true }],
+            },
+          ],
+        ]),
+        errors: new Map([[userAccessFetchId, null]]),
+        fetchStatus: new Map([[userAccessFetchId, FetchStatus.complete]]),
+      },
+    } as any);
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/settings/integrations/detail']}>
+          <Routes>
+            <Route
+              path="/settings/integrations/detail"
+              element={
+                <IntlProvider locale="en">
+                  <IntegrationBreakdown />
+                </IntlProvider>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    );
 
     expect(await screen.findByTestId('not-authorized')).toBeInTheDocument();
     expect(screen.queryByTestId('source-detail')).not.toBeInTheDocument();

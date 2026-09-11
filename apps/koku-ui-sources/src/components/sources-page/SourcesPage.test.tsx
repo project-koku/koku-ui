@@ -383,6 +383,28 @@ describe('SourcesPage', () => {
     );
   });
 
+  it('reloads after a successful remove', async () => {
+    const user = userEvent.setup();
+    const { listSources, deleteSource } = require('apis/sources-service').SourcesService;
+    listSources.mockReturnValue(new Promise(() => {}));
+    deleteSource.mockResolvedValue({});
+
+    renderWithProviders({ entities: [mockSource], count: 1 }, { canWrite: true });
+
+    const kebabButtons = screen.getAllByRole('button', { name: 'Kebab toggle' });
+    await user.click(kebabButtons[0]);
+    await user.click(screen.getByText('Remove'));
+    await user.click(screen.getByRole('checkbox', { name: /i acknowledge/i }));
+    await user.click(screen.getByRole('button', { name: 'Remove integration and its data' }));
+
+    await waitFor(() => {
+      expect(deleteSource).toHaveBeenCalledWith('uuid-1');
+    });
+    await waitFor(() => {
+      expect(screen.queryByText('Remove integration?')).not.toBeInTheDocument();
+    });
+  });
+
   it('closes remove modal via onClose', async () => {
     const user = userEvent.setup();
     const { listSources } = require('apis/sources-service').SourcesService;
