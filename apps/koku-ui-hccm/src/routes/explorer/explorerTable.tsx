@@ -23,6 +23,7 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { ComputedReportItemType, ComputedReportItemValueType } from 'routes/components/charts/common/chartDatum';
+import { getThScreenReaderText } from 'routes/components/dataTable/thAccessibility';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 import type { ComputedReportItem } from 'routes/utils/computedReport/getComputedReportItems';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
@@ -457,13 +458,22 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
             <Tr>
               {columns.map((col, index) =>
                 index === 0 ? (
-                  <Th isStickyColumn key={`col-${index}-${col.value}`} stickyMinWidth={`${selectColWidth}px`} />
+                  <Th
+                    isStickyColumn
+                    key={`col-${index}-${col.value}`}
+                    screenReaderText={intl.formatMessage(messages.selectAll)}
+                    stickyMinWidth={`${selectColWidth}px`}
+                  />
                 ) : index === 1 ? (
                   <Th
                     hasRightBorder={!showLabels}
                     isStickyColumn
                     key={`col-${index}-${col.value}`}
                     modifier="nowrap"
+                    screenReaderText={getThScreenReaderText(
+                      col.name,
+                      intl.formatMessage(messages.emptyTableHeader, { value: index + 1 })
+                    )}
                     sort={col.isSortable ? this.getSortParams(index) : undefined}
                     stickyMinWidth={showLabels ? `${nameColWidth}px` : `100px`}
                     stickyLeftOffset={`${selectColWidth}px`}
@@ -476,6 +486,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                     isStickyColumn
                     key={`col-${index}-${col.value}`}
                     modifier="nowrap"
+                    screenReaderText={getThScreenReaderText(
+                      col.name,
+                      intl.formatMessage(messages.emptyTableHeader, { value: index + 1 })
+                    )}
                     stickyMinWidth={`${labelColWidth}px`}
                     stickyLeftOffset={`${selectColWidth + nameColWidth}px`}
                   >
@@ -485,6 +499,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps, ExplorerTabl
                   <Th
                     key={`col-${index}-${col.value}`}
                     modifier="nowrap"
+                    screenReaderText={getThScreenReaderText(
+                      col.name,
+                      intl.formatMessage(messages.emptyTableHeader, { value: index + 1 })
+                    )}
                     sort={col.isSortable ? this.getSortParams(index) : undefined}
                   >
                     {col.name}

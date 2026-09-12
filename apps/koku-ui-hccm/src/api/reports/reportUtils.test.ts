@@ -1,50 +1,42 @@
-jest.mock('./reportUtils', () => ({
-  __esModule: true,
-  runReport: jest.fn(),
-}));
-import { waitFor } from '@testing-library/react';
-
+import { runReport } from './reportUtils';
 import { ReportPathsType, ReportType } from './report';
-import * as reportUtils from './reportUtils';
 
-// runReport is a mocked function via jest.mock above
+jest.mock('./awsReports', () => ({ runReport: jest.fn(() => 'aws') }));
+jest.mock('./awsOcpReports', () => ({ runReport: jest.fn(() => 'awsOcp') }));
+jest.mock('./azureReports', () => ({ runReport: jest.fn(() => 'azure') }));
+jest.mock('./azureOcpReports', () => ({ runReport: jest.fn(() => 'azureOcp') }));
+jest.mock('./gcpReports', () => ({ runReport: jest.fn(() => 'gcp') }));
+jest.mock('./gcpOcpReports', () => ({ runReport: jest.fn(() => 'gcpOcp') }));
+jest.mock('./ocpReports', () => ({ runReport: jest.fn(() => 'ocp') }));
+jest.mock('./ocpCloudReports', () => ({ runReport: jest.fn(() => 'ocpCloud') }));
 
-test('runReport API request for AWS', async () => {
-  reportUtils.runReport(ReportPathsType.aws, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
+import { runReport as runAwsOcpReport } from './awsOcpReports';
+import { runReport as runAwsReport } from './awsReports';
+import { runReport as runAzureOcpReport } from './azureOcpReports';
+import { runReport as runAzureReport } from './azureReports';
+import { runReport as runGcpOcpReport } from './gcpOcpReports';
+import { runReport as runGcpReport } from './gcpReports';
+import { runReport as runOcpCloudReport } from './ocpCloudReports';
+import { runReport as runOcpReport } from './ocpReports';
 
-test('runReport API request for OCP on AWS', async () => {
-  reportUtils.runReport(ReportPathsType.awsOcp, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
+describe('runReport', () => {
+  const query = 'filter[resolution]=daily';
 
-test('runReport API request for Azure', async () => {
-  reportUtils.runReport(ReportPathsType.azure, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
+  test.each([
+    [ReportPathsType.aws, runAwsReport, 'aws'],
+    [ReportPathsType.awsOcp, runAwsOcpReport, 'awsOcp'],
+    [ReportPathsType.azure, runAzureReport, 'azure'],
+    [ReportPathsType.azureOcp, runAzureOcpReport, 'azureOcp'],
+    [ReportPathsType.gcp, runGcpReport, 'gcp'],
+    [ReportPathsType.gcpOcp, runGcpOcpReport, 'gcpOcp'],
+    [ReportPathsType.ocp, runOcpReport, 'ocp'],
+    [ReportPathsType.ocpCloud, runOcpCloudReport, 'ocpCloud'],
+  ] as const)('dispatches %s reports', (pathType, fn, result) => {
+    expect(runReport(pathType, ReportType.cost, query)).toBe(result);
+    expect(fn).toHaveBeenCalledWith(ReportType.cost, query);
+  });
 
-test('runReport API request for OCP on Azure', async () => {
-  reportUtils.runReport(ReportPathsType.azureOcp, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
-test('runReport API request for GCP', async () => {
-  reportUtils.runReport(ReportPathsType.gcp, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
-test('runReport API request for OCP on GCP', async () => {
-  reportUtils.runReport(ReportPathsType.gcpOcp, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
-test('runReport API request for all cloud filtered by OCP', async () => {
-  reportUtils.runReport(ReportPathsType.ocpCloud, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
-});
-
-test('runReport API request for OCP', async () => {
-  reportUtils.runReport(ReportPathsType.ocp, ReportType.cost, '');
-  await waitFor(() => expect(reportUtils.runReport).toHaveBeenCalled());
+  test('returns undefined for unknown path types', () => {
+    expect(runReport('unknown' as ReportPathsType, ReportType.cost, query)).toBeUndefined();
+  });
 });

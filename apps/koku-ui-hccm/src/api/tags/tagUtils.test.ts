@@ -1,50 +1,42 @@
-jest.mock('./tagUtils', () => ({
-  __esModule: true,
-  runTag: jest.fn(),
-}));
-import { waitFor } from '@testing-library/react';
-
 import { TagPathsType, TagType } from './tag';
-import * as tagUtils from './tagUtils';
+import { runTag } from './tagUtils';
 
-// runTag is a mocked function via jest.mock above
+jest.mock('./awsTags', () => ({ runTag: jest.fn(() => 'aws') }));
+jest.mock('./awsOcpTags', () => ({ runTag: jest.fn(() => 'awsOcp') }));
+jest.mock('./azureTags', () => ({ runTag: jest.fn(() => 'azure') }));
+jest.mock('./azureOcpTags', () => ({ runTag: jest.fn(() => 'azureOcp') }));
+jest.mock('./gcpTags', () => ({ runTag: jest.fn(() => 'gcp') }));
+jest.mock('./gcpOcpTags', () => ({ runTag: jest.fn(() => 'gcpOcp') }));
+jest.mock('./ocpTags', () => ({ runTag: jest.fn(() => 'ocp') }));
+jest.mock('./ocpCloudTags', () => ({ runTag: jest.fn(() => 'ocpCloud') }));
 
-test('runTag API request for AWS', async () => {
-  tagUtils.runTag(TagPathsType.aws, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
+import { runTag as runAwsOcpTag } from './awsOcpTags';
+import { runTag as runAwsTag } from './awsTags';
+import { runTag as runAzureOcpTag } from './azureOcpTags';
+import { runTag as runAzureTag } from './azureTags';
+import { runTag as runGcpOcpTag } from './gcpOcpTags';
+import { runTag as runGcpTag } from './gcpTags';
+import { runTag as runOcpCloudTag } from './ocpCloudTags';
+import { runTag as runOcpTag } from './ocpTags';
 
-test('runTag API request for OCP on AWS', async () => {
-  tagUtils.runTag(TagPathsType.awsOcp, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
+describe('runTag', () => {
+  const query = 'key=env';
 
-test('runTag API request for Azure', async () => {
-  tagUtils.runTag(TagPathsType.azure, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
+  test.each([
+    [TagPathsType.aws, runAwsTag, 'aws'],
+    [TagPathsType.awsOcp, runAwsOcpTag, 'awsOcp'],
+    [TagPathsType.azure, runAzureTag, 'azure'],
+    [TagPathsType.azureOcp, runAzureOcpTag, 'azureOcp'],
+    [TagPathsType.gcp, runGcpTag, 'gcp'],
+    [TagPathsType.gcpOcp, runGcpOcpTag, 'gcpOcp'],
+    [TagPathsType.ocp, runOcpTag, 'ocp'],
+    [TagPathsType.ocpCloud, runOcpCloudTag, 'ocpCloud'],
+  ] as const)('dispatches %s tags', (pathType, fn, result) => {
+    expect(runTag(pathType, TagType.tag, query)).toBe(result);
+    expect(fn).toHaveBeenCalledWith(TagType.tag, query);
+  });
 
-test('runTag API request for OCP on Azure', async () => {
-  tagUtils.runTag(TagPathsType.azureOcp, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
-
-test('runTag API request for GCP', async () => {
-  tagUtils.runTag(TagPathsType.gcp, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
-
-test('runTag API request for OCP on GCP', async () => {
-  tagUtils.runTag(TagPathsType.gcpOcp, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
-
-test('runTag API request for all cloud filtered by OCP', async () => {
-  tagUtils.runTag(TagPathsType.ocpCloud, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
-});
-
-test('runTag API request for OCP', async () => {
-  tagUtils.runTag(TagPathsType.ocp, TagType.tag, '');
-  await waitFor(() => expect(tagUtils.runTag).toHaveBeenCalled());
+  test('returns undefined for unknown path types', () => {
+    expect(runTag('unknown' as TagPathsType, TagType.tag, query)).toBeUndefined();
+  });
 });

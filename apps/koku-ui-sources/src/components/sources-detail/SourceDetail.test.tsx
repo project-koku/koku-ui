@@ -27,17 +27,57 @@ jest.mock('@redhat-cloud-services/frontend-components-notifications/hooks', () =
 }));
 
 jest.mock('components/modals/SourceRemoveModal', () => ({
-  SourceRemoveModal: ({ isOpen }: { isOpen: boolean }) =>
-    isOpen ? <div data-testid="remove-modal">Remove Modal</div> : null,
+  SourceRemoveModal: ({
+    isOpen,
+    onClose,
+    onSuccess,
+  }: {
+    isOpen: boolean;
+    onClose?: () => void;
+    onSuccess?: () => void;
+  }) =>
+    isOpen ? (
+      <div>
+        <div data-testid="remove-modal">Remove Modal</div>
+        <button type="button" onClick={onClose}>
+          Close remove
+        </button>
+        <button type="button" onClick={onSuccess}>
+          Confirm remove
+        </button>
+      </div>
+    ) : null,
 }));
 
 jest.mock('components/modals/SourceRenameModal', () => ({
-  SourceRenameModal: ({ isOpen }: { isOpen: boolean }) =>
-    isOpen ? <div data-testid="rename-modal">Rename Modal</div> : null,
+  SourceRenameModal: ({
+    isOpen,
+    onClose,
+    onSuccess,
+  }: {
+    isOpen: boolean;
+    onClose?: () => void;
+    onSuccess?: () => void;
+  }) =>
+    isOpen ? (
+      <div>
+        <div data-testid="rename-modal">Rename Modal</div>
+        <button type="button" onClick={onClose}>
+          Close rename
+        </button>
+        <button type="button" onClick={onSuccess}>
+          Confirm rename
+        </button>
+      </div>
+    ) : null,
 }));
 
 jest.mock('components/sources-detail/CredentialForm', () => ({
-  CredentialForm: () => <div data-testid="credential-form" />,
+  CredentialForm: ({ onSave }: { onSave?: (credentials: Record<string, string>) => void }) => (
+    <button type="button" onClick={() => onSave?.({ token: 'secret' })}>
+      Save credentials
+    </button>
+  ),
 }));
 
 const mockedGetSource = SourcesService.getSource as jest.MockedFunction<typeof SourcesService.getSource>;
@@ -102,7 +142,8 @@ describe('SourceDetail', () => {
     mockedGetSource.mockRejectedValue(new Error('not found'));
     await renderDetail();
 
-    expect(screen.getByText('Integration not found')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Integration not found' })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: /breadcrumb/i })).toHaveTextContent('Integrations');
   });
 
   it('renders source name, type, and "Available" status for an active source', async () => {
@@ -212,13 +253,17 @@ describe('SourceDetail', () => {
     expect(screen.queryByText('Resume connection')).not.toBeInTheDocument();
   });
 
-  it('navigates back via Back to Integrations link button', async () => {
+  it('navigates back via the Integrations breadcrumb', async () => {
     const user = userEvent.setup();
     mockedGetSource.mockResolvedValue(activeSource);
     const onBack = jest.fn();
     await renderDetail('uuid-1', onBack);
 
-    await user.click(screen.getByRole('button', { name: 'Back to Integrations' }));
+    const breadcrumb = screen.getByRole('navigation', { name: /breadcrumb/i });
+    expect(breadcrumb).toHaveTextContent('Integrations');
+    expect(breadcrumb).toHaveTextContent('My OCP Source');
+
+    await user.click(screen.getByRole('button', { name: 'Integrations' }));
 
     expect(onBack).toHaveBeenCalled();
   });
@@ -311,17 +356,44 @@ describe('SourceDetail', () => {
     expect(mockAddNotification.mock.calls[0][0].title).toBe('Could not resume integration');
   });
 
-  it('renders the SourceRemoveModal and SourceRenameModal close handlers', async () => {
+  it('calls onBack when remove succeeds and refetches when rename succeeds', async () => {
+    const user = userEvent.setup();
+    mockedGetSource.mockResolvedValue(activeSource);
+    const onBack = jest.fn();
+    await renderDetail('uuid-1', onBack, true);
+
+    await user.click(screen.getByRole('button', { name: 'Actions' }));
+    await user.click(screen.getByText('Remove'));
+    await user.click(screen.getByRole('button', { name: 'Confirm remove' }));
+    expect(onBack).toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Actions' }));
+    await user.click(screen.getByText('Rename'));
+    await user.click(screen.getByRole('button', { name: 'Confirm rename' }));
+    expect(mockedGetSource).toHaveBeenCalledTimes(2);
+  });
+
+  it('closes the remove and rename modals', async () => {
     const user = userEvent.setup();
     mockedGetSource.mockResolvedValue(activeSource);
     await renderDetail('uuid-1', jest.fn(), true);
 
     await user.click(screen.getByRole('button', { name: 'Actions' }));
     await user.click(screen.getByText('Remove'));
-    expect(screen.getByTestId('remove-modal')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Close remove' }));
+    expect(screen.queryByTestId('remove-modal')).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Actions' }));
     await user.click(screen.getByText('Rename'));
-    expect(screen.getByTestId('rename-modal')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Close rename' }));
+    expect(screen.queryByTestId('rename-modal')).not.toBeInTheDocument();
+  });
+
+  it('invokes the credential save stub', async () => {
+    const user = userEvent.setup();
+    mockedGetSource.mockResolvedValue(activeSource);
+    await renderDetail();
+
+    await user.click(screen.getByRole('button', { name: 'Save credentials' }));
   });
 });

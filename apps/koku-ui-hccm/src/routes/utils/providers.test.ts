@@ -1,7 +1,17 @@
 import { ProviderType } from 'api/providers';
 import type { Providers } from 'api/providers';
 
-import { filterProviders, matchesProviderType } from './providers';
+import {
+  filterProviders,
+  hasCloudCurrentMonthData,
+  hasCloudData,
+  hasCloudPreviousMonthData,
+  hasCloudProvider,
+  hasCurrentMonthData,
+  hasData,
+  hasPreviousMonthData,
+  matchesProviderType,
+} from './providers';
 
 describe('matchesProviderType', () => {
   test('matches cloud and local source types without new ProviderType values', () => {
@@ -41,5 +51,39 @@ describe('filterProviders', () => {
 
   test('returns undefined providers unchanged', () => {
     expect(filterProviders(undefined as unknown as Providers, ProviderType.aws)).toBeUndefined();
+  });
+});
+
+describe('provider data helpers', () => {
+  const cloudProviders = {
+    data: [{ uuid: 'aws-1', has_data: true, current_month_data: true, previous_month_data: false }],
+  } as Providers;
+  const ocpProviders = {
+    data: [
+      {
+        uuid: 'ocp-1',
+        infrastructure: { uuid: 'aws-1' },
+        has_data: true,
+        current_month_data: false,
+        previous_month_data: true,
+      },
+    ],
+  } as Providers;
+
+  test('hasData flags look at source providers', () => {
+    expect(hasData(cloudProviders)).toBe(true);
+    expect(hasCurrentMonthData(cloudProviders)).toBe(true);
+    expect(hasPreviousMonthData(cloudProviders)).toBe(false);
+    expect(hasData({ data: [] } as Providers)).toBe(false);
+    expect(hasData(undefined as unknown as Providers)).toBe(false);
+  });
+
+  test('cloud helpers match infrastructure uuid against OpenShift providers', () => {
+    expect(hasCloudProvider(cloudProviders, ocpProviders)).toBe(true);
+    expect(hasCloudData(cloudProviders, ocpProviders)).toBe(true);
+    expect(hasCloudCurrentMonthData(cloudProviders, ocpProviders)).toBe(false);
+    expect(hasCloudPreviousMonthData(cloudProviders, ocpProviders)).toBe(true);
+    expect(hasCloudProvider(cloudProviders, { data: [] } as Providers)).toBe(false);
+    expect(hasCloudProvider(undefined as unknown as Providers, ocpProviders)).toBe(false);
   });
 });

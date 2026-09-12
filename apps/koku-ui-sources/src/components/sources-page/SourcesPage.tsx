@@ -7,13 +7,13 @@ import type { Source } from 'apis/models/sources';
 import { SourcesService } from 'apis/sources-service';
 import { AddSourceWizard } from 'components/add-source-wizard/AddSourceWizard';
 import { SourceRemoveModal } from 'components/modals/SourceRemoveModal';
-import { SourceDetail } from 'components/sources-detail/SourceDetail';
 import { SourcesTable } from 'components/sources-table/SourcesTable';
 import { SourcesToolbar } from 'components/sources-table/SourcesToolbar';
 import { messages } from 'i18n/messages';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { type AvailabilityFilterValue, loadEntities, setListFilters, setPage, setSort } from 'redux/sources-slice';
 import type { AppDispatch, RootState } from 'redux/store';
 
@@ -25,8 +25,6 @@ const styles = {
     marginTop: t_global_spacer_sm.var,
   },
 } as { [key: string]: React.CSSProperties };
-
-type ViewState = { type: 'list' } | { type: 'detail'; uuid: string };
 
 const NoMatchesEmptyState: React.FC = () => {
   const intl = useIntl();
@@ -149,10 +147,10 @@ interface SourcesPageProps {
 export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) => {
   const dispatch = useDispatch<AppDispatch>();
   const intl = useIntl();
+  const navigate = useNavigate();
   const addNotification = useAddNotification();
   const { entities, count, loading, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection } =
     useSelector((state: RootState) => state.sources);
-  const [currentView, setCurrentView] = useState<ViewState>({ type: 'list' });
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [removeSource, setRemoveSource] = useState<Source | null>(null);
 
@@ -162,10 +160,8 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   );
 
   useEffect(() => {
-    if (currentView.type === 'list') {
-      dispatch(loadEntities());
-    }
-  }, [dispatch, currentView.type, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection]);
+    dispatch(loadEntities());
+  }, [dispatch, nameFilter, availabilityFilter, page, perPage, sortBy, sortDirection]);
 
   const handleNameFilterChange = useCallback(
     (value: string) => {
@@ -207,9 +203,13 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
     dispatch(loadEntities());
   }, [dispatch]);
 
-  const handleSelectSource = useCallback((source: Source) => {
-    setCurrentView({ type: 'detail', uuid: source.uuid });
-  }, []);
+  const handleSelectSource = useCallback(
+    (source: Source) => {
+      // HCCM owns the on-prem detail route (same path as SourceLink / formatPath).
+      navigate(`/openshift/cost-management/settings/integrations/detail/${source.uuid}`);
+    },
+    [navigate]
+  );
 
   const handleTogglePause = useCallback(
     async (source: Source) => {
@@ -251,7 +251,6 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
   const handleRemoveSuccess = useCallback(() => {
     dispatch(loadEntities());
     setRemoveSource(null);
-    setCurrentView({ type: 'list' });
   }, [dispatch]);
 
   const handleClearFilters = useCallback(() => {
@@ -260,33 +259,29 @@ export const SourcesPage: React.FC<SourcesPageProps> = ({ canWrite = false }) =>
 
   return (
     <>
-      {currentView.type === 'detail' ? (
-        <SourceDetail uuid={currentView.uuid} onBack={() => setCurrentView({ type: 'list' })} canWrite={canWrite} />
-      ) : (
-        <SourcesPageListContent
-          loading={loading}
-          sources={entities}
-          count={count}
-          nameFilter={nameFilter}
-          availabilityFilter={availabilityFilter}
-          page={page}
-          perPage={perPage}
-          sortBy={sortBy}
-          sortDirection={sortDirection}
-          canWrite={canWrite}
-          paginationAriaLabel={intl.formatMessage(messages.integrationsTableBottomPagination)}
-          hasAnyListFilter={hasAnyListFilter}
-          onNameFilterChange={handleNameFilterChange}
-          onAvailabilityFilterChange={handleAvailabilityFilterChange}
-          onPageChange={handlePageChange}
-          onAddSource={handleAddSource}
-          onClearFilters={handleClearFilters}
-          onSelectSource={handleSelectSource}
-          onRemove={handleRemove}
-          onTogglePause={handleTogglePause}
-          onSort={handleSort}
-        />
-      )}
+      <SourcesPageListContent
+        loading={loading}
+        sources={entities}
+        count={count}
+        nameFilter={nameFilter}
+        availabilityFilter={availabilityFilter}
+        page={page}
+        perPage={perPage}
+        sortBy={sortBy}
+        sortDirection={sortDirection}
+        canWrite={canWrite}
+        paginationAriaLabel={intl.formatMessage(messages.integrationsTableBottomPagination)}
+        hasAnyListFilter={hasAnyListFilter}
+        onNameFilterChange={handleNameFilterChange}
+        onAvailabilityFilterChange={handleAvailabilityFilterChange}
+        onPageChange={handlePageChange}
+        onAddSource={handleAddSource}
+        onClearFilters={handleClearFilters}
+        onSelectSource={handleSelectSource}
+        onRemove={handleRemove}
+        onTogglePause={handleTogglePause}
+        onSort={handleSort}
+      />
       <AddSourceWizard isOpen={isWizardOpen} onClose={handleWizardClose} onSubmitSuccess={handleWizardSuccess} />
       {removeSource && (
         <SourceRemoveModal
