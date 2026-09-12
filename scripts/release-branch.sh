@@ -37,7 +37,7 @@ cat <<- EEOOFF
     $ONPREM_BRANCH is merged from $MAIN_BRANCH
     $ROS_BRANCH is merged from $MAIN_BRANCH
 
-    Prefer scripts/release-onprem.sh for on-prem. It assembles $ONPREM_BRANCH from $MAIN_BRANCH
+    Use scripts/release-onprem.sh to assemble $ONPREM_BRANCH from $MAIN_BRANCH
     with HCCM/ROS product UIs pinned to prod tags so in-progress SaaS work does not slip in.
     -q still merges $MAIN_BRANCH as-is after a warning.
 
@@ -158,7 +158,7 @@ confirmOnpremDirectMerge()
   echo ""
       echo "*** Warning: merging $MAIN_BRANCH into $ONPREM_BRANCH may include in-progress HCCM and ROS"
   echo "*** product work that has not been promoted to SaaS prod."
-  echo "*** Prefer scripts/release-onprem.sh, which pins those UIs to their latest prod tags."
+  echo "*** Use scripts/release-onprem.sh to pin those UIs to their latest prod tags."
   echo ""
   read -p "*** Continue with a direct $MAIN_BRANCH merge (y/N)? " YN
 
