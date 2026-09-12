@@ -1,50 +1,43 @@
-jest.mock('./exportUtils', () => ({
-  __esModule: true,
-  runExport: jest.fn(),
-}));
-import { waitFor } from '@testing-library/react';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
-import * as exportUtils from './exportUtils';
+import { runExport } from './exportUtils';
 
-// runExport is a mocked function via jest.mock above
+jest.mock('./awsExport', () => ({ runExport: jest.fn(() => 'aws') }));
+jest.mock('./awsOcpExport', () => ({ runExport: jest.fn(() => 'awsOcp') }));
+jest.mock('./azureExport', () => ({ runExport: jest.fn(() => 'azure') }));
+jest.mock('./azureOcpExport', () => ({ runExport: jest.fn(() => 'azureOcp') }));
+jest.mock('./gcpExport', () => ({ runExport: jest.fn(() => 'gcp') }));
+jest.mock('./gcpOcpExport', () => ({ runExport: jest.fn(() => 'gcpOcp') }));
+jest.mock('./ocpCloudExport', () => ({ runExport: jest.fn(() => 'ocpCloud') }));
+jest.mock('./ocpExport', () => ({ runExport: jest.fn(() => 'ocp') }));
 
-test('runExport API request for AWS', async () => {
-  exportUtils.runExport(ReportPathsType.aws, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
+import { runExport as runAwsExport } from './awsExport';
+import { runExport as runAwsOcpExport } from './awsOcpExport';
+import { runExport as runAzureExport } from './azureExport';
+import { runExport as runAzureOcpExport } from './azureOcpExport';
+import { runExport as runGcpExport } from './gcpExport';
+import { runExport as runGcpOcpExport } from './gcpOcpExport';
+import { runExport as runOcpCloudExport } from './ocpCloudExport';
+import { runExport as runOcpExport } from './ocpExport';
 
-test('runExport API request for OCP on AWS', async () => {
-  exportUtils.runExport(ReportPathsType.awsOcp, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
+describe('runExport', () => {
+  const query = 'group_by[account]=*';
 
-test('runExport API request for Azure', async () => {
-  exportUtils.runExport(ReportPathsType.azure, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
+  test.each([
+    [ReportPathsType.aws, runAwsExport, 'aws'],
+    [ReportPathsType.awsOcp, runAwsOcpExport, 'awsOcp'],
+    [ReportPathsType.azure, runAzureExport, 'azure'],
+    [ReportPathsType.azureOcp, runAzureOcpExport, 'azureOcp'],
+    [ReportPathsType.gcp, runGcpExport, 'gcp'],
+    [ReportPathsType.gcpOcp, runGcpOcpExport, 'gcpOcp'],
+    [ReportPathsType.ocpCloud, runOcpCloudExport, 'ocpCloud'],
+    [ReportPathsType.ocp, runOcpExport, 'ocp'],
+  ] as const)('dispatches %s exports', (pathType, fn, result) => {
+    expect(runExport(pathType, ReportType.cost, query)).toBe(result);
+    expect(fn).toHaveBeenCalledWith(ReportType.cost, query);
+  });
 
-test('runExport API request for OCP on Azure', async () => {
-  exportUtils.runExport(ReportPathsType.azureOcp, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
-
-test('runExport API request for GCP', async () => {
-  exportUtils.runExport(ReportPathsType.gcp, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
-
-test('runExport API request for OCP on GCP', async () => {
-  exportUtils.runExport(ReportPathsType.gcpOcp, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
-
-test('runExport API request for all cloud filtered by OCP', async () => {
-  exportUtils.runExport(ReportPathsType.ocpCloud, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
-});
-
-test('runExport API request for OCP', async () => {
-  exportUtils.runExport(ReportPathsType.ocp, ReportType.cost, '');
-  await waitFor(() => expect(exportUtils.runExport).toHaveBeenCalled());
+  test('returns undefined for unknown path types', () => {
+    expect(runExport('unknown' as ReportPathsType, ReportType.cost, query)).toBeUndefined();
+  });
 });

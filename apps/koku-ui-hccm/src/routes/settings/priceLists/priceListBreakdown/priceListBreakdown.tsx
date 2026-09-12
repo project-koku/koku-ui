@@ -19,6 +19,7 @@ import { routes } from 'routes';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { usePriceListNotifications } from 'routes/settings/priceLists/utils';
+import { SettingsTab } from 'routes/settings/settings';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
@@ -203,7 +204,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
       state: {
         ...(location?.state || {}),
         settingsState: {
-          activeTabKey: 1,
+          activeTab: SettingsTab.priceList,
         },
       },
     });

@@ -14,6 +14,7 @@ const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
 const exposedModules = {
+  './SourceDetail': './src/fed-modules/SourceDetailWrapper.tsx',
   './SourcesPage': './src/fed-modules/SourcesPageWrapper.tsx',
 };
 

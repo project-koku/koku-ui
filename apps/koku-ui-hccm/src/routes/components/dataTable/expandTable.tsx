@@ -22,6 +22,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './dataTable.styles';
+import { getThScreenReaderText } from './thAccessibility';
 
 interface ExpandTableOwnProps {
   columns?: any[];
@@ -129,6 +130,13 @@ class ExpandTable extends React.Component<ExpandTableProps, ExpandTableState> {
                 <Th
                   key={`col-${index}-${col.value}`}
                   modifier="nowrap"
+                  screenReaderText={getThScreenReaderText(
+                    col.name,
+                    col.screenReaderText ||
+                      (isActionsCell && index === columns.length - 1
+                        ? intl.formatMessage(messages.actionsColumn)
+                        : intl.formatMessage(messages.emptyTableHeader, { value: index + 1 }))
+                  )}
                   sort={col.isSortable ? this.getSortParams(index) : undefined}
                   style={col.style}
                 >
