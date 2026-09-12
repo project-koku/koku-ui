@@ -245,13 +245,28 @@ describe('Settings — Integrations (Sources)', () => {
     cy.contains('button', 'Save').click();
     cy.get('#source-rename', { timeout: 15000 }).should('not.exist');
     cy.contains('h1', 'rename-updated').should('be.visible');
-    cy.contains('button', 'Back to Integrations').click();
+    cy.get('[aria-label="Breadcrumb"]').contains('Integrations').click();
     cy.contains('tr', 'rename-updated').should('exist');
     cy.then(() => {
       void expect(store.rows.find(r => r.uuid === '60000000-0000-4000-8000-000000000007')?.name).to.eq(
         'rename-updated'
       );
     });
+  });
+
+  it('opens integration details from a deep-link URL', () => {
+    store.rows = [
+      makeMockSource({
+        id: 9,
+        uuid: '90000000-0000-4000-8000-000000000009',
+        name: 'deep-link-src',
+      }),
+    ];
+    cy.visit('/openshift/cost-management/settings/integrations/detail/90000000-0000-4000-8000-000000000009');
+    cy.contains('h1', 'deep-link-src', { timeout: 30000 }).should('be.visible');
+    cy.get('[aria-label="Breadcrumb"]').contains('Integrations').click();
+    cy.contains('h1', 'Cost management settings', { timeout: 30000 }).should('be.visible');
+    cy.contains('tr', 'deep-link-src').should('exist');
   });
 
   it('logs console.error when pause/resume fails', () => {

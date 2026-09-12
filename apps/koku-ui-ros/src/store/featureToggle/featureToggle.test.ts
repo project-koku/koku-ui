@@ -25,3 +25,16 @@ test('Project link feature is enabled', async () => {
   store.dispatch(actions.setFeatureToggle({ isProjectLinkToggleEnabled: true }));
   expect(featureToggleSelectors.selectIsProjectLinkToggleEnabled(store.getState())).toBe(true);
 });
+
+test('Namespace and debug features are enabled', () => {
+  const store = createUIStore();
+  store.dispatch(
+    actions.setFeatureToggle({
+      isNamespaceToggleEnabled: true,
+      isDebugToggleEnabled: true,
+    })
+  );
+  expect(featureToggleSelectors.selectIsNamespaceToggleEnabled(store.getState())).toBe(true);
+  expect(featureToggleSelectors.selectIsDebugToggleEnabled(store.getState())).toBe(true);
+  expect(featureToggleSelectors.selectHasFeatureToggle(store.getState())).toBe(true);
+});

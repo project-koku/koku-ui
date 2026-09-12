@@ -5,6 +5,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -62,7 +63,9 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
       <Content component="ul" isPlainList>
         <Content component="li">
           <span style={styles.spacingRight}>{clusterId}</span>
-          <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
+          {!isOnPremEnabled && (
+            <a href={`${release}/openshift/details/${clusterId}`}>{intl.formatMessage(messages.ocpClusterDetails)}</a>
+          )}
         </Content>
       </Content>
       <Content component={ContentVariants.h3}>{intl.formatMessage(messages.metricsOperatorVersion)}</Content>

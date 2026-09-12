@@ -30,6 +30,7 @@ import {
   validateName,
 } from 'routes/settings/costModels/costModelCreate/components/utils';
 import { useCostModelNotifications } from 'routes/settings/costModels/utils';
+import { SettingsTab } from 'routes/settings/settings';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -416,7 +417,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
       state: {
         ...(location?.state || {}),
         settingsState: {
-          activeTabKey: 0,
+          activeTab: SettingsTab.costModels,
         },
       },
     });

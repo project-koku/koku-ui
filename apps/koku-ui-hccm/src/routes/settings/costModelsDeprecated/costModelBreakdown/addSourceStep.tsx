@@ -181,6 +181,7 @@ class AddSourcesStepBase extends React.Component<AddSourcesStepProps, AddSources
             <Thead>
               <Tr>
                 <Th
+                  aria-label={intl.formatMessage(messages.selectAll)}
                   select={{
                     onSelect: (_evt, isSelecting) => onSelect(isSelecting, -1),
                     isSelected: sources.filter(s => s.isAssigned || s.selected).length === sources.length,

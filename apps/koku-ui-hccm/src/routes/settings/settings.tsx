@@ -46,7 +46,7 @@ import { ExchangeRate } from './exchangeRates';
 import { PriceList } from './priceLists';
 import { styles } from './settings.styles';
 
-const enum SettingsTab {
+export enum SettingsTab {
   costModels = 'cost_models',
   calculations = 'calculations',
   costCategory = 'cost_category',
@@ -95,7 +95,7 @@ export interface SettingsMapProps {
 }
 
 export interface SettingsStateProps {
-  activeTabKey?: number;
+  activeTab?: SettingsTab;
   isDisplayToggleEnabled: boolean;
   isExchangeRateToggleEnabled: boolean;
   isPriceListToggleEnabled: boolean;
@@ -112,7 +112,7 @@ const Settings: React.FC<SettingsProps> = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
 
   const {
-    activeTabKey: activeTabKeyState,
+    activeTab,
     isDisplayToggleEnabled,
     isExchangeRateToggleEnabled,
     isPriceListToggleEnabled,
@@ -120,9 +120,7 @@ const Settings: React.FC<SettingsProps> = () => {
     userAccessFetchStatus,
   } = useMapToProps();
 
-  useEffect(() => {
-    setActiveTabKey(activeTabKeyState ?? 0);
-  }, [activeTabKeyState]);
+  // Getters
 
   const getAvailableTabs = () => {
     const showDisplayTab = isDisplayToggleEnabled || isOnPremEnabled;
@@ -304,13 +302,22 @@ const Settings: React.FC<SettingsProps> = () => {
     }
   };
 
+  // Handlers
+
   const handleTabClick = (event, tabIndex) => {
     if (activeTabKey !== tabIndex) {
       setActiveTabKey(tabIndex);
     }
   };
 
+  // Effects
+
   const availableTabs = getAvailableTabs();
+
+  useEffect(() => {
+    const tabIndex = activeTab ? availableTabs.findIndex(val => val.tab === activeTab) : -1;
+    setActiveTabKey(tabIndex >= 0 ? tabIndex : 0);
+  }, [activeTab, isDisplayToggleEnabled, isExchangeRateToggleEnabled, isPriceListToggleEnabled]);
 
   return (
     <>
@@ -352,7 +359,7 @@ const useMapToProps = (): SettingsStateProps => {
   );
 
   return {
-    activeTabKey: queryState?.activeTabKey,
+    activeTab: queryState?.activeTab,
     isDisplayToggleEnabled: useIsDisplayToggleEnabled(),
     isExchangeRateToggleEnabled: useIsExchangeRateToggleEnabled(),
     isPriceListToggleEnabled: useIsPriceListToggleEnabled(),

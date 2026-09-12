@@ -9,6 +9,7 @@ import {
 	resetNotifications,
 	resetStatus,
 	updateCategorySettings,
+	updateCurrencySettings,
 	updatePlatformSettings,
 	updateTagSettings,
 	updateTagSettingsFailure,
@@ -28,6 +29,7 @@ jest.mock('api/settings', () => {
 		...actual,
 		fetchSettings: jest.fn(),
 		updateCategorySettings: jest.fn(),
+		updateCurrencySettings: jest.fn(),
 		updatePlatformSettings: jest.fn(),
 		updateTagSettings: jest.fn(),
 	};
@@ -234,5 +236,56 @@ describe('settings store', () => {
 		expect(dispatched[1].type).toBe('settings/platform/update/failure');
 		expect(dispatched[1].meta.notification.title).toBe('settingsErrorTitle');
 		expect(dispatched[1].meta.notification.description).toBe('settingsErrorDesc');
+	});
+
+	test.each([
+		[SettingsType.currencyAdd, 'add'],
+		[SettingsType.currencyDelete, 'delete'],
+		[SettingsType.currencyDisable, 'disable'],
+		[SettingsType.currencyEdit, 'edit'],
+		[SettingsType.currencyEnable, 'enable'],
+	])('updateCurrencySettings success notification for %s', async (type, status) => {
+		(api.updateCurrencySettings as jest.Mock).mockResolvedValue({} as any);
+		const dispatched: any[] = [];
+		const getState = () => makeRoot(emptySlice());
+		await (updateCurrencySettings({ settingsType: type, payload: {} } as any) as any)(
+			(a: any) => dispatched.push(a),
+			getState
+		);
+		expect(dispatched[0].type).toBe('settings/currency/update/request');
+		expect(dispatched[1].type).toBe('settings/currency/update/success');
+		expect(dispatched[1].meta.notification.title).toBe('settingsSuccessCurrency');
+		expect(status).toBeTruthy();
+	});
+
+	test.each([
+		[SettingsType.currencyAdd, 'currencyAddErrorTitle'],
+		[SettingsType.currencyDelete, 'currencyDeleteErrorTitle'],
+		[SettingsType.currencyDisable, 'currencyDisableErrorTitle'],
+		[SettingsType.currencyEdit, 'currencyEditErrorTitle'],
+		[SettingsType.currencyEnable, 'currencyEnableErrorTitle'],
+	])('updateCurrencySettings error notification for %s', async (type, expectedTitle) => {
+		(api.updateCurrencySettings as jest.Mock).mockRejectedValue({ response: { status: 400 } });
+		const dispatched: any[] = [];
+		const getState = () => makeRoot(emptySlice());
+		await (updateCurrencySettings({ settingsType: type, payload: {} } as any) as any)(
+			(a: any) => dispatched.push(a),
+			getState
+		);
+		expect(dispatched[1].type).toBe('settings/currency/update/failure');
+		expect(dispatched[1].meta.notification.title).toBe(expectedTitle);
+	});
+
+	test('updateCurrencySettings returns early when in progress', async () => {
+		const type = SettingsType.currencyAdd;
+		const fid = getFetchId(type);
+		const slice: any = emptySlice();
+		slice.status.set(fid, FetchStatus.inProgress);
+		const dispatched: any[] = [];
+		await (updateCurrencySettings({ settingsType: type, payload: {} } as any) as any)(
+			(a: any) => dispatched.push(a),
+			() => makeRoot(slice)
+		);
+		expect(dispatched.length).toBe(0);
 	});
 });

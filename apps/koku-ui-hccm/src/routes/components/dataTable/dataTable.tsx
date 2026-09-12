@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { EmptyFilterState } from 'routes/components/state/emptyFilterState';
 
 import { styles } from './dataTable.styles';
+import { getThScreenReaderText } from './thAccessibility';
 
 interface DataTableOwnProps {
   ariaLabel?: string;
@@ -126,6 +127,15 @@ const DataTable: React.FC<DataTableProps> = ({
               <Th
                 key={`col-${index}-${col.value}`}
                 modifier={isNoWrapHeader ? 'nowrap' : undefined}
+                screenReaderText={getThScreenReaderText(
+                  col.name,
+                  col.screenReaderText ||
+                    (isSelectable && index === 0
+                      ? intl.formatMessage(messages.selectAll)
+                      : isActionsCell && index === columns.length - 1
+                        ? intl.formatMessage(messages.actionsColumn)
+                        : intl.formatMessage(messages.emptyTableHeader, { value: index + 1 }))
+                )}
                 sort={col.isSortable ? getSortParams(index) : undefined}
                 style={col.style}
               >

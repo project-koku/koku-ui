@@ -44,6 +44,9 @@ const PriceListCreate = lazy(
   () => import(/* webpackChunkName: "PriceListCreate" */ 'routes/settings/priceLists/priceListCreate')
 );
 const Settings = lazy(() => import(/* webpackChunkName: "overview" */ 'routes/settings'));
+const IntegrationBreakdown = lazy(
+  () => import(/* webpackChunkName: "IntegrationBreakdown" */ 'routes/settings/integrations/integrationBreakdown')
+);
 
 const CostModelsBreakdownWrapper: React.FC = () => {
   const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
@@ -124,6 +127,13 @@ export const routes = {
   settings: {
     element: userAccess(Settings),
     path: '/settings',
+  },
+  // On-prem Integrations detail (koku-ui-sources). Must stay under the plugin mount
+  // (/openshift/cost-management/...), not SaaS /settings/integrations (COST-7661).
+  integrationBreakdown: {
+    basePath: '/settings/integrations/detail',
+    element: userAccess(IntegrationBreakdown),
+    path: '/settings/integrations/detail/:uuid',
   },
 };
 
