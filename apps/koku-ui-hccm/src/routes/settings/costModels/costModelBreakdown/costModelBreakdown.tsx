@@ -21,6 +21,7 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getSourceType } from 'routes/settings/costModels/costModel/utils';
 import { useCostModelNotifications } from 'routes/settings/costModels/utils';
+import { SettingsTab } from 'routes/settings/settings';
 import { parseApiError } from 'routes/settings/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -219,7 +220,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
       state: {
         ...(location?.state || {}),
         settingsState: {
-          activeTabKey: 0,
+          activeTab: SettingsTab.costModels,
         },
       },
     });

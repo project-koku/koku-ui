@@ -28,12 +28,13 @@ export const getReleasePath = () => {
 export const usePathname = () => {
   const location = useLocation();
 
-  // Cost models and price lists may include UUID in path
+  // Cost models, price lists, and on-prem integration breakdown may include UUID in path
   const costModelCreatePath = formatPath(routes.costModelCreate.path);
   const costModelPath = formatPath(routes.costModelBreakdown.basePath);
 
   const priceListCreatePath = formatPath(routes.priceListCreate.path);
   const priceListPath = formatPath(routes.priceListBreakdown.basePath);
+  const integrationBreakdownPath = formatPath(routes.integrationBreakdown.basePath);
 
   if (location.pathname.startsWith(costModelCreatePath)) {
     return costModelCreatePath;
@@ -43,6 +44,8 @@ export const usePathname = () => {
     return priceListCreatePath;
   } else if (location.pathname.startsWith(priceListPath)) {
     return priceListPath;
+  } else if (location.pathname.startsWith(integrationBreakdownPath)) {
+    return integrationBreakdownPath;
   } else {
     return location.pathname.replace(/\/$/, '');
   }
