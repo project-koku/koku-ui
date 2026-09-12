@@ -143,4 +143,20 @@ describe('DataToolbarBase', () => {
 
     expect(screen.getByPlaceholderText(/project/i)).toBeInTheDocument();
   });
+
+  test('renders date controls and pagination', () => {
+    render(
+      <DataToolbarBase
+        categoryOptions={categoryOptions}
+        showFilter
+        intl={{} as any}
+        dateRange={<div>date-range</div>}
+        datePicker={<div>date-picker</div>}
+        pagination={<div>pager</div>}
+      />
+    );
+    expect(screen.getByText('date-range')).toBeInTheDocument();
+    expect(screen.getByText('date-picker')).toBeInTheDocument();
+    expect(screen.getByText('pager')).toBeInTheDocument();
+  });
 });

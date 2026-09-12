@@ -4,6 +4,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
+import { SettingsTab } from 'routes/settings/settings';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './costModelCreateHeader.styles';
@@ -28,7 +29,7 @@ const CostModelCreateHeader: React.FC<CostModelCreateHeaderProps> = () => {
               state={{
                 ...(location?.state || {}),
                 settingsState: {
-                  activeTabKey: 0,
+                  activeTab: SettingsTab.costModels,
                 },
               }}
             >

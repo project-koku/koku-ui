@@ -22,6 +22,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 import { styles } from './dataTable.styles';
+import { getThScreenReaderText } from './thAccessibility';
 
 interface CompoundExpandTableOwnProps {
   columns?: any[];
@@ -129,6 +130,10 @@ class CompoundExpandTable extends React.Component<CompoundExpandTableProps, Comp
                 <Th
                   key={`col-${index}-${col.value}`}
                   modifier="nowrap"
+                  screenReaderText={getThScreenReaderText(
+                    col.name,
+                    col.screenReaderText || intl.formatMessage(messages.emptyTableHeader, { value: index + 1 })
+                  )}
                   sort={col.isSortable ? this.getSortParams(index) : undefined}
                   style={col.style}
                 >
@@ -192,6 +197,11 @@ class CompoundExpandTable extends React.Component<CompoundExpandTableProps, Comp
                                 {row?.children?.columns?.map((childCol, childColIndex) => (
                                   <Th
                                     key={`child-col-${rowId}-${rowIndex}-${childColIndex}`}
+                                    screenReaderText={getThScreenReaderText(
+                                      childCol.name,
+                                      childCol.screenReaderText ||
+                                        intl.formatMessage(messages.emptyTableHeader, { value: childColIndex + 1 })
+                                    )}
                                     sort={childCol.isSortable ? this.getSortParams(childColIndex) : undefined}
                                     style={childCol.style}
                                   >

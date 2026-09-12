@@ -2454,6 +2454,11 @@ export default defineMessages({
     description: 'No match found',
     id: 'emptyFilterStateTitle',
   },
+  emptyTableHeader: {
+    defaultMessage: 'Column {value}',
+    description: 'Screen reader label for a visually empty table column header',
+    id: 'emptyTableHeader',
+  },
   enableCategories: {
     defaultMessage: 'Enable categories',
     description: 'Enabled categories',

@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from 'routes';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { SettingsTab } from 'routes/settings/settings';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
@@ -68,7 +69,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
       state: {
         ...(location?.state || {}),
         settingsState: {
-          activeTabKey: 0,
+          activeTab: SettingsTab.costModels,
         },
       },
     });

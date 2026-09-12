@@ -16,6 +16,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { CostModelActions } from 'routes/settings/costModels/costModelBreakdown/components/actions';
+import { SettingsTab } from 'routes/settings/settings';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './costModelBreakdownHeader.styles';
@@ -53,7 +54,7 @@ const CostModelBreakdownHeader: React.FC<CostModelBreakdownHeaderProps> = ({
                 state={{
                   ...(location?.state || {}),
                   settingsState: {
-                    activeTabKey: 0,
+                    activeTab: SettingsTab.costModels,
                   },
                 }}
               >
