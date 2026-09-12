@@ -46,6 +46,7 @@ describe('App routes', () => {
 		expect(routesExport.costModelBreakdown.path).toMatch(/\/settings\/cost-model\/:uuid/);
 		expect(routesExport.overview.path).toBe('/');
 		expect(routesExport.settings.path).toBe('/settings');
+		expect(routesExport.integrationBreakdown.path).toBe('/settings/integrations/detail/:uuid');
 		// Ensure element is provided for each route
 		Object.values(routesExport).forEach(def => {
 			expect(def.element).toBeTruthy();

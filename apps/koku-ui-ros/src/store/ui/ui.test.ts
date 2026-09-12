@@ -25,3 +25,19 @@ test('open export drawer', async () => {
   store.dispatch(actions.openExportsDrawer());
   expect(uiSelectors.selectIsExportsDrawerOpen(store.getState())).toBe(true);
 });
+
+test('open and close optimizations drawer', () => {
+  const store = createUIStore();
+  store.dispatch(actions.openOptimizationsDrawer({ id: 'opt-1' }));
+  expect(uiSelectors.selectIsOptimizationsDrawerOpen(store.getState())).toBe(true);
+  expect(uiSelectors.selectOptimizationsDrawerPayload(store.getState())).toEqual({ id: 'opt-1' });
+  store.dispatch(actions.closeOptimizationsDrawer());
+  expect(uiSelectors.selectIsOptimizationsDrawerOpen(store.getState())).toBe(false);
+});
+
+test('reset state restores defaults', () => {
+  const store = createUIStore();
+  store.dispatch(actions.openExportsDrawer());
+  store.dispatch(actions.resetState());
+  expect(uiSelectors.selectIsExportsDrawerOpen(store.getState())).toBe(false);
+});

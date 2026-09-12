@@ -98,7 +98,7 @@ const SourcesTable: React.FC<WrappedComponentProps> = ({ intl }) => {
                 >
                   <Thead>
                     <Tr>
-                      <Th />
+                      <Th screenReaderText={intl.formatMessage(messages.selectAll)} />
                       <Th>{intl.formatMessage(messages.names, { count: 1 })}</Th>
                       {sourceType === 'OCP' && <Th>{intl.formatMessage(messages.operatorVersion)}</Th>}
                       <Th style={sourceType === 'OCP' ? styles.costModelAssigned : undefined}>

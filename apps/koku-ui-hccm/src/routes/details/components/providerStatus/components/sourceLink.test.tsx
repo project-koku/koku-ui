@@ -37,10 +37,13 @@ describe('SourceLink', () => {
     expect(anchor).toHaveAttribute('href', '/settings/integrations/detail/42');
   });
 
-  it('uses on-prem Settings path when on-prem is enabled', () => {
+  it('uses on-prem integration detail path when on-prem is enabled', () => {
     featureToggle.isOnPremEnabled = true;
     renderLink();
     const anchor = screen.getByRole('link', { name: 'My Source' });
-    expect(anchor).toHaveAttribute('href', '/openshift/cost-management/settings');
+    expect(anchor).toHaveAttribute(
+      'href',
+      '/openshift/cost-management/settings/integrations/detail/prov-uuid-1'
+    );
   });
 });
