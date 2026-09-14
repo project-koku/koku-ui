@@ -61,7 +61,7 @@
     "@formatjs/ecma402-abstract": "^3.2.0",
     "@formatjs/fast-memoize": "^3.1.7",
     "@formatjs/icu-messageformat-parser": "^3.5.17",
-    "@formatjs/intl": "^4.1.20",
+    "@formatjs/intl": "^4.2.0",
     "@formatjs/intl-localematcher": "^0.8.13",
     "@swc/core": "^1.16.2",
     "@swc/jest": "^0.2.39",
