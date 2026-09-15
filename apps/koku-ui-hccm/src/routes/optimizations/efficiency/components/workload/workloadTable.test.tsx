@@ -66,6 +66,7 @@ const mockOnSort = jest.fn();
 const defaultProps = {
   basePath: '/optimizations',
   groupBy: 'cluster',
+  isRosAvailable: true,
   onSort: mockOnSort,
   report: {} as any,
 };
@@ -96,6 +97,14 @@ describe('WorkloadTable', () => {
       renderWithProviders(<WorkloadTable {...defaultProps} />);
       expect(screen.getByRole('link', { name: 'cluster-1' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'cluster-2' })).toBeInTheDocument();
+    });
+
+    it('renders item labels as plain text when ROS is unavailable', () => {
+      renderWithProviders(<WorkloadTable {...defaultProps} isRosAvailable={false} />);
+      expect(screen.queryByRole('link', { name: 'cluster-1' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'cluster-2' })).not.toBeInTheDocument();
+      expect(screen.getByText('cluster-1')).toBeInTheDocument();
+      expect(screen.getByText('cluster-2')).toBeInTheDocument();
     });
   });
 
