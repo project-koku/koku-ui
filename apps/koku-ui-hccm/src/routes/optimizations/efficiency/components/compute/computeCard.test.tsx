@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { rosActions, rosSelectors } from 'store/ros';
 import * as queryUtils from 'routes/utils/query';
 
 import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
@@ -29,14 +30,37 @@ jest.mock('store/reports', () => ({
   },
 }));
 
+jest.mock('store/ros', () => ({
+  rosSelectors: {
+    selectRosAvailable: jest.fn(),
+    selectRosFetchStatus: jest.fn(),
+  },
+  rosActions: {
+    fetchRos: jest.fn(() => ({ type: 'FETCH_ROS' })),
+  },
+}));
+
+let mockIsOnPremEnabled = false;
+jest.mock('components/featureToggle', () => {
+  const actual = jest.requireActual('components/featureToggle');
+  return {
+    ...actual,
+    get isOnPremEnabled() {
+      return mockIsOnPremEnabled;
+    },
+  };
+});
+
 jest.mock('routes/utils/computedReport/getComputedReportItems', () => ({
   getUnsortedComputedReportItems: jest.fn(() => []),
 }));
 
 let capturedOnSort: any = null;
+let capturedWorkloadTableProps: any = null;
 jest.mock('routes/optimizations/efficiency/components/workload', () => ({
   WorkloadTable: (props: any) => {
     capturedOnSort = props.onSort;
+    capturedWorkloadTableProps = props;
     return <div data-testid="efficiency-table" />;
   },
   WorkloadSummary: () => <div data-testid="efficiency-summary" />,
@@ -122,11 +146,16 @@ const defaultProps = {
 
 describe('ComputeCard', () => {
   beforeEach(() => {
+    mockIsOnPremEnabled = false;
+    capturedWorkloadTableProps = null;
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
     (reportSelectors.selectReport as jest.Mock).mockReturnValue(null);
     (reportSelectors.selectReportFetchStatus as jest.Mock).mockReturnValue(FetchStatus.none);
     (reportSelectors.selectReportError as jest.Mock).mockReturnValue(null);
     (reportActions.fetchReport as jest.Mock).mockReturnValue({ type: 'FETCH_REPORT' });
+    (rosSelectors.selectRosAvailable as jest.Mock).mockReturnValue(undefined);
+    (rosSelectors.selectRosFetchStatus as jest.Mock).mockReturnValue(FetchStatus.none);
+    (rosActions.fetchRos as jest.Mock).mockReturnValue({ type: 'FETCH_ROS' });
   });
 
   describe('loading state', () => {
@@ -262,6 +291,40 @@ describe('ComputeCard', () => {
         capturedBottomPaginationProps.onPerPageSelect({}, 20);
       });
       expect(queryUtils.handleOnPerPageSelect).toHaveBeenCalled();
+    });
+  });
+
+  describe('ROS availability', () => {
+    beforeEach(() => {
+      (reportSelectors.selectReport as jest.Mock).mockReturnValue(mockReport);
+      (reportSelectors.selectReportFetchStatus as jest.Mock).mockReturnValue(FetchStatus.complete);
+    });
+
+    it('passes isRosAvailable true on SaaS without fetching ROS', () => {
+      renderWithProviders(<ComputeCard {...defaultProps} />);
+      expect(capturedWorkloadTableProps.isRosAvailable).toBe(true);
+      expect(rosActions.fetchRos).not.toHaveBeenCalled();
+    });
+
+    it('fetches ROS on-prem and hides the optimizations link until it is available', () => {
+      mockIsOnPremEnabled = true;
+      renderWithProviders(<ComputeCard {...defaultProps} />);
+      expect(rosActions.fetchRos).toHaveBeenCalled();
+      expect(capturedWorkloadTableProps.isRosAvailable).toBeFalsy();
+    });
+
+    it('passes isRosAvailable true on-prem when the OpenAPI spec is available', () => {
+      mockIsOnPremEnabled = true;
+      (rosSelectors.selectRosAvailable as jest.Mock).mockReturnValue(true);
+      renderWithProviders(<ComputeCard {...defaultProps} />);
+      expect(capturedWorkloadTableProps.isRosAvailable).toBe(true);
+    });
+
+    it('does not fetch ROS on-prem when a fetch is already in progress', () => {
+      mockIsOnPremEnabled = true;
+      (rosSelectors.selectRosFetchStatus as jest.Mock).mockReturnValue(FetchStatus.inProgress);
+      renderWithProviders(<ComputeCard {...defaultProps} />);
+      expect(rosActions.fetchRos).not.toHaveBeenCalled();
     });
   });
 });
