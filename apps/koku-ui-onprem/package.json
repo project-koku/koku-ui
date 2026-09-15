@@ -16,7 +16,7 @@
     "check:dependencies": "ncu",
     "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
-    "release:branch": "sh ../../scripts/release-onprem.sh",
+    "release:branch": "sh ../../scripts/release/release-onprem.sh",
     "start": "npm run ts-webpack -- serve --mode=development --color --progress",
     "start:prod": "NODE_ENV=production npm run ts-webpack -- serve --mode=production --color --progress",
     "lint": "npm-run-all lint:*",

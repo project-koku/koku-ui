@@ -9631,6 +9631,16 @@
         "value": "No match found"
       }
     ],
+    "emptyTableHeader": [
+      {
+        "type": 0,
+        "value": "Column "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      }
+    ],
     "enableCategories": [
       {
         "type": 0,

@@ -99,10 +99,10 @@ To ensure the local `oauth2-proxy` container behaves identically to the one runn
 
 | What | Where it comes from |
 |---|---|
-| `oauth2-proxy` image tag | `cost-onprem-ui` Deployment (container `oauth-proxy`) |
+| `oauth2-proxy` image tag | UI Deployment container `oauth-proxy` (`cost-onprem-ui`, or `{cr}-ui` for the operator) |
 | `oauth2-proxy` flags (`--provider`, `--oidc-issuer-url`, etc.) | Same Deployment's `args` list |
-| `cost-management-ui` client ID & secret | Secret `keycloak-client-secret-cost-management-ui` in the `keycloak` namespace |
-| Keycloak CA certificate | Secret `keycloak-ca-cert` in the `cost-onprem` namespace |
+| `cost-management-ui` client ID & secret | Secret `keycloak-client-secret-cost-management-ui` in the Keycloak namespace |
+| Keycloak CA certificate | Secret `keycloak-ca-cert` in the cost namespace, or the cluster ingress CA bundle |
 | Cookie secret | Generated fresh each run (32 random bytes) |
 
 A few cluster-only flags are stripped (TLS cert paths, HTTPS address) and replaced with local equivalents (plain HTTP on `:9002`, upstream pointing to `localhost:9001`).
@@ -133,8 +133,11 @@ ONPREM_AUTH_PORT=9002 ONPREM_UI_PORT=9001 npm run start:onprem:auth
 # Use a non-default podman or docker binary path
 CONTAINER_RUNTIME=/opt/podman/bin/podman npm run start:onprem:auth
 
-# Override cluster namespaces
-COST_NAMESPACE=my-cost KEYCLOAK_NAMESPACE=my-keycloak npm run start:onprem:auth
+# Override cluster namespaces / UI Deployment (Helm defaults shown)
+COST_NAMESPACE=my-cost COST_UI_DEPLOYMENT=cost-onprem-ui KEYCLOAK_NAMESPACE=my-keycloak npm run start:onprem:auth
+
+# koku-service-operator (discovers CostManagementServiceConfig)
+npm run start:onprem:operator
 ```
 
 ---
@@ -143,9 +146,9 @@ COST_NAMESPACE=my-cost KEYCLOAK_NAMESPACE=my-keycloak npm run start:onprem:auth
 
 **"no container runtime found"** — install [Podman](https://podman.io/docs/installation) or [Docker Desktop](https://docs.docker.com/get-started/get-docker/). If either is installed at a non-standard path, set `CONTAINER_RUNTIME=/path/to/podman` (or `docker`).
 
-**"API_PROXY_URL is not set"** — you ran `node scripts/start-onprem-auth.mts` directly. Always use `npm run start:onprem:auth`, which sources `setup-onprem-env.sh` first.
+**"API_PROXY_URL is not set"** — you ran `node scripts/onprem/start-onprem-auth.mts` directly. Always use `npm run start:onprem:auth`, which sources `setup-onprem-env.sh` first.
 
-**"could not read oauth-proxy image from cost-onprem-ui"** — the `cost-onprem` Helm chart is not deployed on the cluster, or you are not logged in (`oc whoami` to check).
+**"could not read oauth-proxy image from cost-onprem-ui"** — the `cost-onprem` Helm chart is not deployed on the cluster, or you are not logged in (`oc whoami` to check). For a koku-service-operator install use `npm run start:onprem:operator` instead.
 
 **Keycloak shows "invalid redirect URI"** — the `cost-management-ui` Keycloak client on the cluster may not have `http://localhost:9002/oauth2/callback` in its allowed redirect URIs. Ask your cluster admin to add it, or open the Keycloak admin console and add it yourself.
 

@@ -9,9 +9,9 @@ default()
   SCRIPT_DIR=`dirname $0`
   SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 
-  MSG_FILE=$SCRIPT_DIR/../src/locales/messages.ts
+  MSG_FILE=$PWD/src/locales/messages.ts
 
-  SRC_DIR=$SCRIPT_DIR/../src
+  SRC_DIR=$PWD/src
   TMP_DIR="/tmp/$SCRIPT.$$"
 }
 
