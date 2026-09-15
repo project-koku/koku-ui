@@ -32,7 +32,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-KOKU_UI_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+KOKU_UI_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 REPOS_DIR="$(cd "${KOKU_UI_DIR}/.." && pwd)"
 
 OPERATOR_DIR="${OPERATOR_DIR:-${REPOS_DIR}/koku-service-operator}"

@@ -374,6 +374,7 @@
   "emptyFilterSourceStateSubtitle": "Sorry, no source with the given filter was found.",
   "emptyFilterStateSubtitle": "Sorry, no data with the given filter was found.",
   "emptyFilterStateTitle": "No match found",
+  "emptyTableHeader": "Column {value}",
   "enableCategories": "Enable categories",
   "enableTags": "Enable tags",
   "enabled": "Enabled",

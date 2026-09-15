@@ -70,13 +70,13 @@ default()
 
   # Find Koku dirs
   if [ -z "$KOKU_UI_DIR" ]; then
-    KOKU_UI_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
+    KOKU_UI_DIR=$(cd "$SCRIPT_DIR/../.." && pwd)
   fi
   if [ -z "$KOKU_DIR" ]; then
-    KOKU_DIR=$(cd "$SCRIPT_DIR/../../koku" && pwd)
+    KOKU_DIR=$(cd "$SCRIPT_DIR/../../../koku" && pwd)
   fi
   if [ -z "$NISE_DIR" ]; then
-    NISE_DIR=$(cd "$SCRIPT_DIR/../../nise" && pwd)
+    NISE_DIR=$(cd "$SCRIPT_DIR/../../../nise" && pwd)
   fi
 
   # Find pipenv -- on macOS, use '/usr/local/bin/python3.11 -m pip install pipenv'

@@ -146,7 +146,7 @@ npm run start:onprem:operator
 
 **"no container runtime found"** — install [Podman](https://podman.io/docs/installation) or [Docker Desktop](https://docs.docker.com/get-started/get-docker/). If either is installed at a non-standard path, set `CONTAINER_RUNTIME=/path/to/podman` (or `docker`).
 
-**"API_PROXY_URL is not set"** — you ran `node scripts/start-onprem-auth.mts` directly. Always use `npm run start:onprem:auth`, which sources `setup-onprem-env.sh` first.
+**"API_PROXY_URL is not set"** — you ran `node scripts/onprem/start-onprem-auth.mts` directly. Always use `npm run start:onprem:auth`, which sources `setup-onprem-env.sh` first.
 
 **"could not read oauth-proxy image from cost-onprem-ui"** — the `cost-onprem` Helm chart is not deployed on the cluster, or you are not logged in (`oc whoami` to check). For a koku-service-operator install use `npm run start:onprem:operator` instead.
 

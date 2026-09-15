@@ -12,9 +12,9 @@
 # Force a backend with ONPREM_BACKEND=operator|helm|cmmo.
 #
 # Usage:
-#   source scripts/setup-onprem-env.sh            # auto-detect everything
-#   source scripts/setup-onprem-env.sh my-ns      # override cost namespace
-#   ONPREM_BACKEND=operator source scripts/setup-onprem-env.sh
+#   source scripts/onprem/setup-onprem-env.sh            # auto-detect everything
+#   source scripts/onprem/setup-onprem-env.sh my-ns      # override cost namespace
+#   ONPREM_BACKEND=operator source scripts/onprem/setup-onprem-env.sh
 #
 # Then run:
 #   npm run start:onprem:auth          # Helm chart

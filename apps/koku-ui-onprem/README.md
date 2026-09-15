@@ -30,6 +30,17 @@ export API_PROXY_URL=<backend_url>
 export API_TOKEN=<auth_token_for_backend>
 ```
 
+### Pointing to a local koku backend
+
+For a local koku + nise stack (no OpenShift cluster), see [QUICK_START_KOKU.md](../../QUICK_START_KOKU.md). From the repo root:
+
+```
+npm run quick:start:koku:onprem
+npm run start:quick:start:koku:onprem
+```
+
+The setup script is `scripts/onprem/quick-start-koku.sh`. Use `npm run quick:start:koku` / `npm run start:quick:start:koku` for SaaS-local providers against the same local API.
+
 ### Pointing to the SaaS (console.redhat.com) backend
 
 Download [ocm CLI](https://console.redhat.com/openshift/downloads)
@@ -48,7 +59,7 @@ environment variables:
 
 ```
 oc login -s <cluster_api_url> -u <username> --password <password>
-source scripts/setup-onprem-env.sh
+source scripts/onprem/setup-onprem-env.sh
 ```
 
 This sets `API_PROXY_URL` and `API_TOKEN` (a short-lived token, used only as a
@@ -75,7 +86,7 @@ guides. First run typically takes 20–40 minutes for the operator, then IQE
 `test_data_setup_ocp_single` (source `test_cost_ocp_cluster_advanced`, cost model
 in SEK). NISE monthly CSVs land in `nise-output/` (gitignored).
 
-Then start the local UI (sources `scripts/setup-onprem-env.sh` so the RBAC remote
+Then start the local UI (sources `scripts/onprem/setup-onprem-env.sh` so the RBAC remote
 can reach the operator gateway):
 
 ```
@@ -88,7 +99,7 @@ Open **http://localhost:9002** and sign in as `admin` / `admin`, or `rbac_user` 
 #### `setup:operator` npm targets
 
 All of these require `oc` login to the target cluster. Extra flags after `--` are
-forwarded to `scripts/setup-operator.sh` or `scripts/setup-operator-iqe.sh`
+forwarded to `scripts/onprem/setup-operator.sh` or `scripts/onprem/setup-operator-iqe.sh`
 depending on the target.
 
 | Command | Use when |
@@ -104,8 +115,8 @@ depending on the target.
 
 Environment overrides (optional): `NAMESPACE`, `CR_NAME`, `KEYCLOAK_NAMESPACE`,
 `OPERATOR_DIR`, `CHART_ROOT`, `KOKU_IMAGE_TAG`, `IQE_CORE_PATH`, `IQE_PLUGIN_PATH`,
-`NISE_OUTPUT_DIR`. See the header comments in `scripts/setup-operator.sh` and
-`scripts/setup-operator-iqe.sh`.
+`NISE_OUTPUT_DIR`. See the header comments in `scripts/onprem/setup-operator.sh` and
+`scripts/onprem/setup-operator-iqe.sh`.
 
 IQE ingest uses `cost_skip_cleanup` so the source and cost model stay in the
 cluster. Re-ingest:
@@ -127,7 +138,7 @@ From the root of the repo, run
 npm run start:onprem:auth
 ```
 
-`start:onprem:auth` sources `scripts/setup-onprem-env.sh` (requires `oc` login; auto-discovers
+`start:onprem:auth` sources `scripts/onprem/setup-onprem-env.sh` (requires `oc` login; auto-discovers
 API URL and Keycloak credentials from cluster resources), then starts the full on-prem stack
 behind a local `oauth2-proxy` container so you sign in as a real user (real OIDC flow, session
 expiry, logout redirect — see below). All remotes share `libs/onprem-cloud-deps` (feat shims;
