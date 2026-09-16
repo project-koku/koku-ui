@@ -67,11 +67,12 @@ export const usernameFromAuthHeaders = (headers: RequestHeaders): string | undef
 
 /**
  * Derive org-admin status from oauth2-proxy auth headers.
- * Prefers X-Auth-Request-Groups; falls back to decoding the Bearer JWT.
+ * When X-Auth-Request-Groups is present it is authoritative; otherwise decode the Bearer JWT.
  */
 export const isOrgAdminFromAuthHeaders = (headers: RequestHeaders): boolean => {
-  if (isOrgAdminFromGroupsHeader(headers['x-auth-request-groups'])) {
-    return true;
+  const groupsHeader = headers['x-auth-request-groups'];
+  if (groupsHeader !== undefined) {
+    return isOrgAdminFromGroupsHeader(groupsHeader);
   }
 
   const authorization = headerValue(headers.authorization);

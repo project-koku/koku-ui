@@ -61,13 +61,22 @@ describe('usernameFromAuthHeaders', () => {
 });
 
 describe('isOrgAdminFromAuthHeaders', () => {
-  it('prefers x-auth-request-groups over JWT', () => {
+  it('uses x-auth-request-groups when org-admin is present, ignoring JWT', () => {
     expect(
       isOrgAdminFromAuthHeaders({
         'x-auth-request-groups': 'org-admin',
         authorization: `Bearer ${viewerJwt}`,
       })
     ).toBe(true);
+  });
+
+  it('treats a present non-admin groups header as authoritative over an admin JWT', () => {
+    expect(
+      isOrgAdminFromAuthHeaders({
+        'x-auth-request-groups': 'default-roles-kubernetes',
+        authorization: `Bearer ${adminJwt}`,
+      })
+    ).toBe(false);
   });
 
   it('falls back to JWT when groups header is absent', () => {
