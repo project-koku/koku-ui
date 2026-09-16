@@ -2245,79 +2245,79 @@ export default defineMessages({
     id: 'distributionTypeDesc',
   },
   docsAccomplish: {
-    defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_cost_management/about-cost-management#what_can_you_accomplish_with_cost_management',
+    defaultMessage: 'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-whatis',
     description: 'What can you accomplish with cost management?',
     id: 'docsAccomplish',
   },
   docsCostCategory: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configuring-categories_planning',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_categories',
     description: 'Configuring Amazon Web Services cost categories in cost management',
     id: 'docsCostCategory',
   },
   docsCostManagement: {
-    defaultMessage: 'https://docs.redhat.com/en/documentation/cost_management_service/1-latest',
+    defaultMessage:
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-cost_management_overview',
     description: 'Introduction to cost management',
     id: 'docsCostManagement',
   },
   docsCostModelTerminology: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#con-using-cost-models_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_model_workflow',
     description: 'Cost model terminology',
     id: 'docsCostModelTerminology',
   },
   docsCostModels: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_mod_setting_up',
     description: 'Setting up a cost model',
     id: 'docsCostModels',
   },
   docsCostModelsDistribution: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#understanding-cost-distribution_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-understanding_cost_distribution',
     description: 'Distributing costs',
     id: 'docsCostModelsDistribution',
   },
   docsCostModelsGpu: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrating_os',
     description: 'Read more about GPUs by reviewing our documentation',
     id: 'docsCostModelsGpu',
   },
   docsCostModelsMarkup: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_mod_setting_up',
     description: 'Applying a markup or discount to cloud integrations',
     id: 'docsCostModelsMarkup',
   },
   docsCostModelsOcp: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#creating-an-ocp-cost-model_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_mod_setting_up#creating-an-ocp-cost-model',
     description: 'Creating a cost model for an OpenShift Container Platform cluster',
     id: 'docsCostModelsOcp',
   },
   docsIntegrations: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/#Setting%20up%20integrations',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrate_your_data_with_cost_management',
     description: 'Setting up integrations',
     id: 'docsIntegrations',
   },
   docsIntegrationsAws: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_amazon_web_services_aws_data_into_cost_management/index',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrate_amazon_web_services_data_with_cost_management',
     description: 'Integrating Amazon Web Services (AWS) data into cost management',
     id: 'docsIntegrationsAws',
   },
   docsIntegrationsAzure: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_microsoft_azure_data_into_cost_management/index',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrating_azure',
     description: 'Integrating Microsoft Azure data into cost management',
     id: 'docsIntegrationsAzure',
   },
   docsIntegrationsGcp: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_google_cloud_data_into_cost_management/index',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrate_google_cloud_data_with_cost_management',
     description: 'Integrating Google Cloud data into cost management',
     id: 'docsIntegrationsGcp',
   },
@@ -2328,25 +2328,25 @@ export default defineMessages({
   },
   docsMetricsOperator: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-install_cost_operator',
     description: 'Installing the cost operator by using OperatorHub',
     id: 'docsMetricsOperator',
   },
   docsOcpCli: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp#installing-cost-operator-cli_integrating-ocp',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-installing_cost_operator_cli',
     description: 'Optional: Installing the cost management operator by using the CLI',
     id: 'docsOcpCli',
   },
   docsPlatformProjects: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-using-cost-models_reflect-costs#add-openshift-projects_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-adding_openshift_projects',
     description: 'Adding OpenShift projects',
     id: 'docsPlatformProjects',
   },
   docsPriceList: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#calculating-effective-cost-max_reflect-costs',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-calculate_resource_usage_costs_with_price_lists',
     description: 'Adding a price list',
     id: 'docsPriceList',
   },
@@ -2357,25 +2357,25 @@ export default defineMessages({
   },
   docsTagMapping: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-con_allocate_costs_to_business_units',
     description: 'Managing cost data using tagging',
     id: 'docsTagMapping',
   },
   docsTags: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configure-tags_planning',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-planning_tagging_strategy',
     description: 'Configuring tags and labels in cost management',
     id: 'docsTags',
   },
   docsTroubleshooting: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_integrating-ocp',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-verifying_cost_operator',
     description: 'Troubleshooting issues with your Cost Management Operator',
     id: 'docsTroubleshooting',
   },
   docsUsingCostModels: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-analyze_your_usage',
     description: 'Using cost models',
     id: 'docsUsingCostModels',
   },
