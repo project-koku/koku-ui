@@ -85,11 +85,11 @@ After a successful login, Keycloak sends your browser to `http://localhost:9002/
 
 webpack-dev-server is running in `OAUTH2_PROXY_MODE=true`. In this mode:
 - Its `/api/me` endpoint reads the `x-auth-request-preferred-username`, `x-forwarded-email`, and `x-auth-request-groups` headers (or the Bearer JWT) that `oauth2-proxy` injects, so the app shows your real username and org-admin status.
-- Its `/logout` endpoint redirects to `/oauth2/sign_out`, which tells `oauth2-proxy` to clear your session and send you back to the Keycloak logout page.
+- Its `/logout` endpoint redirects to `/oauth2/sign_out`, which tells `oauth2-proxy` to clear your session, call Keycloak's logout endpoint, and then send you back to the login flow.
 
 ### 6. Token refresh and logout
 
-`oauth2-proxy` silently refreshes your access token in the background (every ~4 minutes, matching the cluster configuration). When the token can no longer be refreshed — or when you click **Log out** — `oauth2-proxy` clears the session cookie and redirects you back to the Keycloak login page.
+`oauth2-proxy` silently refreshes your access token in the background (every ~4 minutes, matching the cluster configuration). When the token can no longer be refreshed — or when you click **Log out** — `oauth2-proxy` clears its session cookie, calls Keycloak's end-session URL via `--backend-logout-url`, and redirects the browser to `/oauth2/start` (which shows the Keycloak login page when SSO is no longer active).
 
 ---
 
@@ -103,9 +103,10 @@ To ensure the local `oauth2-proxy` container behaves identically to the one runn
 | `oauth2-proxy` flags (`--provider`, `--oidc-issuer-url`, etc.) | Same Deployment's `args` list |
 | `cost-management-ui` client ID & secret | Secret `keycloak-client-secret-cost-management-ui` in the Keycloak namespace |
 | Keycloak CA certificate | Secret `keycloak-ca-cert` in the cost namespace, or the cluster ingress CA bundle |
+| `--backend-logout-url` | Derived from `KEYCLOAK_TOKEN_URL` (cluster value is stripped as cluster-scoped) |
 | Cookie secret | Generated fresh each run (32 random bytes) |
 
-A few cluster-only flags are stripped (TLS cert paths, HTTPS address) and replaced with local equivalents (plain HTTP on `:9002`, upstream pointing to `localhost:9001`).
+A few cluster-only flags are stripped (TLS cert paths, HTTPS address, cluster-scoped `--backend-logout-url`) and replaced with local equivalents (plain HTTP on `:9002`, upstream pointing to `localhost:9001`, and a `--backend-logout-url` derived from `KEYCLOAK_TOKEN_URL` so Keycloak SSO is cleared on logout instead of silently re-authenticating).
 
 ---
 
@@ -151,5 +152,7 @@ npm run start:onprem:operator
 **"could not read oauth-proxy image from cost-onprem-ui"** — the `cost-onprem` Helm chart is not deployed on the cluster, or you are not logged in (`oc whoami` to check). For a koku-service-operator install use `npm run start:onprem:operator` instead.
 
 **Keycloak shows "invalid redirect URI"** — the `cost-management-ui` Keycloak client on the cluster may not have `http://localhost:9002/oauth2/callback` in its allowed redirect URIs. Ask your cluster admin to add it, or open the Keycloak admin console and add it yourself.
+
+**Logout returns to the app without showing the login page** — open DevTools → Network and confirm `/oauth2/sign_out` is followed by a Keycloak logout/end-session request, not an immediate `/oauth2/start` → `/oauth2/callback` loop. Restart via `npm run start:onprem:auth` or `npm run start:onprem:operator` so the local oauth2-proxy container picks up `--backend-logout-url` from `KEYCLOAK_TOKEN_URL`. Use `http://localhost:9002`, not `:9001`.
 
 **Browser shows a blank page after login** — webpack may still be starting up. Wait a few seconds and reload.

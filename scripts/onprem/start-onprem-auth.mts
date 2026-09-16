@@ -397,6 +397,23 @@ function parseKeycloakTokenUrl(tokenUrl: string): { baseUrl: string; realm: stri
 }
 
 /**
+ * Keycloak OIDC end-session URL for oauth2-proxy's `--backend-logout-url`.
+ *
+ * On `/oauth2/sign_out`, oauth2-proxy clears its session cookie, calls this URL
+ * server-side with `{id_token}` substituted, then redirects the browser to the
+ * `rd` query param (`/oauth2/start`). Without this, only the proxy cookie is
+ * cleared and Keycloak SSO immediately re-authenticates the user.
+ */
+function buildLocalBackendLogoutUrl(): string {
+  const tokenUrl = process.env.KEYCLOAK_TOKEN_URL ?? '';
+  if (!tokenUrl) {
+    log.fail('KEYCLOAK_TOKEN_URL is not set — cannot configure backend logout URL');
+  }
+  const { baseUrl, realm } = parseKeycloakTokenUrl(tokenUrl);
+  return `${baseUrl}/realms/${realm}/protocol/openid-connect/logout?id_token_hint={id_token}`;
+}
+
+/**
  * Fetches a short-lived Keycloak admin token from the master realm using the
  * `admin-cli` client and the provided credentials.
  */
@@ -537,18 +554,22 @@ async function assembleProxyArgs(upstreamHost: string): Promise<ProxyConfig> {
     '--provider-ca-file',
   ];
 
+  const backendLogoutUrl = buildLocalBackendLogoutUrl();
+
   const args = [
     ...(JSON.parse(argsJson) as string[]).filter(a => !STRIP.some(p => a === p || a.startsWith(`${p}=`))),
     `--http-address=0.0.0.0:${AUTH_PORT}`,
     `--upstream=http://${upstreamHost}:${UI_PORT}`,
     `--redirect-url=${LOCAL_REDIRECT_URI}`,
     '--cookie-secure=false',
+    `--backend-logout-url=${backendLogoutUrl}`,
     '--provider-ca-file=/etc/keycloak-ca.crt',
   ];
 
   log.info(`image:    ${image}`);
   log.info(`upstream: http://${upstreamHost}:${UI_PORT}`);
   log.info(`proxy:    http://localhost:${AUTH_PORT}`);
+  log.info(`backend-logout-url: ${backendLogoutUrl}`);
   return { image, args };
 }
 
