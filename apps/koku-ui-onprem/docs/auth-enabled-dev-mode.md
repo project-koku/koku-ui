@@ -84,7 +84,7 @@ After a successful login, Keycloak sends your browser to `http://localhost:9002/
 ### 5. webpack proxies API calls to the cluster
 
 webpack-dev-server is running in `OAUTH2_PROXY_MODE=true`. In this mode:
-- Its `/api/me` endpoint reads the `x-auth-request-preferred-username` and `x-forwarded-email` headers that `oauth2-proxy` injects, so the app shows your real username.
+- Its `/api/me` endpoint reads the `x-auth-request-preferred-username`, `x-forwarded-email`, and `x-auth-request-groups` headers (or the Bearer JWT) that `oauth2-proxy` injects, so the app shows your real username and org-admin status.
 - Its `/logout` endpoint redirects to `/oauth2/sign_out`, which tells `oauth2-proxy` to clear your session and send you back to the Keycloak logout page.
 
 ### 6. Token refresh and logout

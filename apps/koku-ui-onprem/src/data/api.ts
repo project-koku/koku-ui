@@ -3,6 +3,7 @@ import { createAxiosInstance } from '@koku-ui/ui-lib/api';
 export interface UserData {
   username?: string;
   email?: string;
+  is_org_admin?: boolean;
 }
 
 export const fetchCurrentUser = (): Promise<UserData> =>
