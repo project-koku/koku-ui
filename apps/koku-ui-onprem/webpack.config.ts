@@ -9,6 +9,7 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import { isOrgAdminFromAuthHeaders, usernameFromAuthHeaders } from './src/utils/isOrgAdmin';
 
 const pacAgent = process.env.PAC_URL
   ? new PacProxyAgent(process.env.PAC_URL, { rejectUnauthorized: false })
@@ -27,11 +28,7 @@ const setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = (mid
     // x-auth-request-preferred-username mirrors nginx $http_x_auth_request_preferred_username.
     // Fall back to x-auth-request-user when preferred_username is absent from the OIDC token
     // (e.g. older oauth2-proxy images or Keycloak clients without the profile scope mapper).
-    const username = isOauth2ProxyMode
-      ? ((req.headers['x-auth-request-preferred-username'] as string | undefined) ??
-        (req.headers['x-auth-request-user'] as string | undefined) ??
-        'dev-user')
-      : 'dev-user';
+    const username = isOauth2ProxyMode ? (usernameFromAuthHeaders(req.headers) ?? 'dev-user') : 'dev-user';
     const email = isOauth2ProxyMode
       ? ((req.headers['x-forwarded-email'] as string | undefined) ??
         (req.headers['x-auth-request-email'] as string | undefined) ??
@@ -51,7 +48,8 @@ const setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = (mid
           ' — oauth2-proxy may be misconfigured or the request bypassed the proxy'
       );
     }
-    res.json({ username, email });
+    const is_org_admin = isOauth2ProxyMode ? isOrgAdminFromAuthHeaders(req.headers) : false;
+    res.json({ username, email, is_org_admin });
   });
   // Mirrors nginx: `location = /logout { return 302 /oauth2/sign_out?rd=/oauth2/start; }`
   devServer.app?.get('/logout', (_, res) => {
