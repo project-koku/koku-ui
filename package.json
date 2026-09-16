@@ -41,6 +41,7 @@
     "setup:operator:iqe": "bash scripts/onprem/setup-operator-iqe.sh",
     "setup:operator:iqe:setup": "bash scripts/onprem/setup-operator-iqe.sh --setup-only",
     "setup:operator:iqe:ingest": "bash scripts/onprem/setup-operator-iqe.sh --ingest-only",
+    "setup:operator:sync-users": "bash scripts/onprem/sync-keycloak-realm-users.sh",
     "start:hccm": "npm run -w @koku-ui/koku-ui-hccm start",
     "start:ros": "npm run -w @koku-ui/koku-ui-ros start",
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRCS,RBAC\" --prefix-colors \"yellow,cyan,magenta,green,blue\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\" \"npm run -w @koku-ui/rbac-ui-onprem start:onprem\"",
