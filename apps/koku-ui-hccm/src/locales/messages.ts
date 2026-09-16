@@ -2257,13 +2257,13 @@ export default defineMessages({
   },
   docsCostManagement: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-cost_management_overview',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-manage_resources_and_costs',
     description: 'Introduction to cost management',
     id: 'docsCostManagement',
   },
   docsCostModelTerminology: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_model_workflow',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-cost_management_workflow',
     description: 'Cost model terminology',
     id: 'docsCostModelTerminology',
   },
@@ -2311,7 +2311,7 @@ export default defineMessages({
   },
   docsIntegrationsAzure: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrating_azure',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-azure_integration',
     description: 'Integrating Microsoft Azure data into cost management',
     id: 'docsIntegrationsAzure',
   },
@@ -2334,7 +2334,7 @@ export default defineMessages({
   },
   docsOcpCli: {
     defaultMessage:
-      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-installing_cost_operator_cli',
+      'https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-cost_operator_cli_install',
     description: 'Optional: Installing the cost management operator by using the CLI',
     id: 'docsOcpCli',
   },

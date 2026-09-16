@@ -9397,13 +9397,13 @@
     "docsCostManagement": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-cost_management_overview"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-manage_resources_and_costs"
       }
     ],
     "docsCostModelTerminology": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_model_workflow"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-cost_management_workflow"
       }
     ],
     "docsCostModels": [
@@ -9451,7 +9451,7 @@
     "docsIntegrationsAzure": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrating_azure"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-azure_integration"
       }
     ],
     "docsIntegrationsGcp": [
@@ -9475,7 +9475,7 @@
     "docsOcpCli": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-installing_cost_operator_cli"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-cost_operator_cli_install"
       }
     ],
     "docsPlatformProjects": [
