@@ -8,10 +8,6 @@ import { configureStore } from 'store/store';
 
 import { ReviewDetails } from './reviewDetails';
 
-jest.mock('components/featureToggle', () => ({
-  useIsGpuToggleEnabled: () => false,
-}));
-
 describe('ReviewDetails', () => {
   test('renders cost model summary fields', () => {
     const store = configureStore({

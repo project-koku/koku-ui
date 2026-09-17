@@ -16,12 +16,9 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { RateTable } from 'routes/settings/costModelsDeprecated/components/rateTable';
 import { WarningIcon } from 'routes/settings/costModelsDeprecated/components/warningIcon';
-import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { CostModelContext } from './context';
 
@@ -50,13 +47,9 @@ interface ReviewDetailsOwnProps extends WrappedComponentProps {
   // TBD...
 }
 
-interface ReviewDetailsStateProps {
-  isGpuToggleEnabled?: boolean;
-}
+type ReviewDetailsProps = ReviewDetailsOwnProps;
 
-type ReviewDetailsProps = ReviewDetailsOwnProps & ReviewDetailsStateProps;
-
-const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isGpuToggleEnabled }) => (
+const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({
       checked,
@@ -155,11 +148,9 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isGpuToggleEnab
                           type: 'storage',
                         })}
                       </Content>
-                      {isGpuToggleEnabled && (
-                        <Content component={ContentVariants.dd}>
-                          {intl.formatMessage(messages.distributeGpuCosts, { value: distributeGpu })}
-                        </Content>
-                      )}
+                      <Content component={ContentVariants.dd}>
+                        {intl.formatMessage(messages.distributeGpuCosts, { value: distributeGpu })}
+                      </Content>
                     </>
                   )}
                   <Content component={ContentVariants.dt}>
@@ -179,13 +170,7 @@ const ReviewDetailsBase: React.FC<ReviewDetailsProps> = ({ intl, isGpuToggleEnab
   </CostModelContext.Consumer>
 );
 
-const mapStateToProps = createMapStateToProps<undefined, ReviewDetailsStateProps>(state => {
-  return {
-    isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
-  };
-});
-
-const ReviewDetails = injectIntl(connect(mapStateToProps, {})(ReviewDetailsBase));
+const ReviewDetails = injectIntl(ReviewDetailsBase);
 
 const ReviewWithDistribution = () => {
   return (

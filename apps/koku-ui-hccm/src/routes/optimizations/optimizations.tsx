@@ -1,7 +1,7 @@
 import { PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { RosType } from 'api/ros';
-import { isOnPremEnabled, useIsEfficiencyToggleEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -35,8 +35,6 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
-
-  const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
 
   // Initialize from location state if available (e.g. page reload or direct link)
   const [activeTabKey, setActiveTabKey] = useState<number>(location?.state?.efficiencyState?.activeTabKey ?? 0);
@@ -82,26 +80,20 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           <div style={styles.headerContent}>
             <AsyncComponent scope="costManagementRos" module="./OptimizationsDetailsTitle" />
           </div>
-          {isEfficiencyToggleEnabled && (
-            <div style={styles.tabs}>
-              <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-                <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
-                {isRosAvailable && (
-                  <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
-                )}
-              </Tabs>
-            </div>
-          )}
+          <div style={styles.tabs}>
+            <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+              <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
+              {isRosAvailable && (
+                <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
+              )}
+            </Tabs>
+          </div>
         </header>
       </PageSection>
-      {isEfficiencyToggleEnabled ? (
-        <PageSection>
-          {activeTabKey === 0 && <Efficiency />}
-          {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} />}
-        </PageSection>
-      ) : (
-        <OptimizationsDetails />
-      )}
+      <PageSection>
+        {activeTabKey === 0 && <Efficiency />}
+        {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} />}
+      </PageSection>
     </>
   );
 };

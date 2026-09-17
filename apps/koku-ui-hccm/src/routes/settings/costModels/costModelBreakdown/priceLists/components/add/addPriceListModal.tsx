@@ -18,7 +18,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import type { PriceListContentHandle } from 'routes/settings/costModels/costModelBreakdown/priceLists/components';
 import { PriceListContent } from 'routes/settings/costModels/costModelBreakdown/priceLists/components';
-import { getSourceType } from 'routes/settings/costModelsDeprecated/costModelBreakdown/utils/sourceType';
+import { getSourceType } from 'routes/settings/costModels/costModelBreakdown/utils/sourceType';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';

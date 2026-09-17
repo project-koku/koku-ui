@@ -46,7 +46,6 @@ interface CostOverviewOwnProps {
 }
 
 export interface CostOverviewStateProps {
-  isGpuToggleEnabled?: boolean;
   selectWidgets?: Record<number, any>;
   title?: string;
   widgets: number[];
@@ -466,8 +465,6 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
 
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
-    const { isGpuToggleEnabled } = this.props;
-
     switch (widget.type) {
       case CostOverviewWidgetType.cluster:
         return this.getClusterCard(widget);
@@ -480,7 +477,7 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.gpu:
-        return isGpuToggleEnabled ? this.getGpuData(widget) : null;
+        return this.getGpuData(widget);
       case CostOverviewWidgetType.memoryUsage:
         return this.getMemoryUsageChart(widget);
       case CostOverviewWidgetType.pvc:
