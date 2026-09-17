@@ -16,7 +16,7 @@ This workflow involves three repositories:
 | [project-koku/nise](https://github.com/project-koku/nise) | Test data generator — seeds sample cost reports into koku |
 | [project-koku/koku-ui](https://github.com/project-koku/koku-ui) | This repo — React monorepo, serves the UI |
 
-The setup script (`scripts/quick-start-koku.sh`) automates the backend setup. Once it completes, you start the frontend with a single npm command. The frontend proxies all API calls to the local koku server at `localhost:8000`.
+The setup script (`scripts/onprem/quick-start-koku.sh`) automates the backend setup. Once it completes, you start the frontend with a single npm command. The frontend proxies all API calls to the local koku server at `localhost:8000`.
 
 ### The onprem build
 
@@ -209,8 +209,8 @@ npm run quick:start:koku:onprem   # on-prem OCP only
 Equivalent direct invocations:
 
 ```bash
-bash scripts/quick-start-koku.sh -c -k -n       # full
-bash scripts/quick-start-koku.sh -c -k -n -o    # on-prem (-o)
+bash scripts/onprem/quick-start-koku.sh -c -k -n       # full
+bash scripts/onprem/quick-start-koku.sh -c -k -n -o    # on-prem (-o)
 ```
 
 Expected output on success:
@@ -335,7 +335,7 @@ npm run start:quick:start:koku:onprem  # on-prem
 ### Script flags
 
 ```text
-bash scripts/quick-start-koku.sh [-h|-c|-k|-n|-o|-v]
+bash scripts/onprem/quick-start-koku.sh [-h|-c|-k|-n|-o|-v]
 
     h    Display the usage message
     c    Clean previous build (removes containers and all data — destructive)
@@ -348,7 +348,7 @@ bash scripts/quick-start-koku.sh [-h|-c|-k|-n|-o|-v]
 Run the script with `-h` to print this message at any time:
 
 ```bash
-bash scripts/quick-start-koku.sh -h
+bash scripts/onprem/quick-start-koku.sh -h
 ```
 
 ### Useful commands
@@ -481,7 +481,7 @@ Then re-run the setup script.
 
 Unleash itself usually starts in under a minute (`curl http://localhost:4242/health` → `{"health":"GOOD"}`). If the script sits much longer, Podman’s `docker-compose up -d unleash` is likely stuck on a dependency health wait even though the container is already up.
 
-Ctrl+C and re-run with the latest `scripts/quick-start-koku.sh` (it starts services with `--no-deps` and polls health directly).
+Ctrl+C and re-run with the latest `scripts/onprem/quick-start-koku.sh` (it starts services with `--no-deps` and polls health directly).
 
 ### Script hangs after “Scaling koku-worker” / `koku-koku-base-1 Started`
 

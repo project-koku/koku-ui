@@ -17,6 +17,7 @@ interface WorkloadTableOwnProps {
   filterBy?: any;
   groupBy: string;
   isLoading?: boolean;
+  isRosAvailable?: boolean;
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   report: OcpReport;
@@ -30,6 +31,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
   filterBy,
   groupBy,
   isLoading,
+  isRosAvailable,
   onSort,
   orderBy,
   report,
@@ -90,7 +92,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
       const label = item?.label !== null ? item.label : '';
       const desc = item?.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
 
-      const name = (
+      const name = isRosAvailable ? (
         <Link
           to={basePath}
           replace
@@ -110,6 +112,8 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
         >
           {label}
         </Link>
+      ) : (
+        label
       );
 
       return {
@@ -143,7 +147,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
         item,
       };
     });
-  }, [computedItems, location, groupBy, isWastedCostToggleEnabled]);
+  }, [basePath, computedItems, groupBy, isRosAvailable, isWastedCostToggleEnabled, location]);
 
   const filteredColumns = (columns as any[]).filter(column => !column.hidden);
   const filteredRows = rows.map(({ ...row }) => {

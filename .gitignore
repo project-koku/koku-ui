@@ -57,6 +57,10 @@ report.*.json
 .dccache
 /docs
 
+# NISE leftover monthly CSVs (IQE ingest uses nise-output/; nise writes to cwd)
+nise-output/
+/*-ocp_*.csv
+
 apps/**/cypress/videos/
 apps/**/cypress/screenshots/
 apps/**/cypress/visual-compare/
