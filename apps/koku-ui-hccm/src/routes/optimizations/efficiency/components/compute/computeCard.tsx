@@ -18,8 +18,9 @@ import type { OcpQuery } from 'api/queries/ocpQuery';
 import { getQuery } from 'api/queries/ocpQuery';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { RosType } from 'api/ros';
 import type { AxiosError } from 'axios';
-import { useIsWastedCostToggleEnabled } from 'components/featureToggle';
+import { isOnPremEnabled, useIsWastedCostToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -39,6 +40,7 @@ import { getQueryState } from 'routes/utils/queryState';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { rosActions, rosSelectors } from 'store/ros';
 import { getSinceDateRangeString } from 'utils/dates';
 import { formatPath } from 'utils/paths';
 
@@ -54,6 +56,7 @@ interface ComputeCardOwnProps {
 
 export interface ComputeCardStateProps {
   computedItems?: any;
+  isRosAvailable?: boolean;
   report: OcpReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -109,7 +112,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
     setQuery({ ...query, order_by: baseQuery.order_by });
   }
 
-  const { computedItems, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const { computedItems, isRosAvailable, report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
     currency,
     exclude,
     filterBy,
@@ -177,6 +180,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
         filterBy={filterBy}
         groupBy={groupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        isRosAvailable={isRosAvailable}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
@@ -315,6 +319,21 @@ const useMapToProps = ({
     }
   }, [currency, exclude, filterBy, groupBy, query, timeScopeValue]);
 
+  // ROS
+
+  const rosAvailable = useSelector((state: RootState) =>
+    rosSelectors.selectRosAvailable(state, RosType.openApi, undefined)
+  );
+  const rosFetchStatus = useSelector((state: RootState) =>
+    rosSelectors.selectRosFetchStatus(state, RosType.openApi, undefined)
+  );
+
+  useEffect(() => {
+    if (isOnPremEnabled && rosFetchStatus !== FetchStatus.inProgress) {
+      dispatch(rosActions.fetchRos(RosType.openApi));
+    }
+  }, [dispatch]);
+
   const getComputedItems = () => {
     return getUnsortedComputedReportItems({
       report,
@@ -324,6 +343,7 @@ const useMapToProps = ({
 
   return {
     computedItems: getComputedItems(),
+    isRosAvailable: !isOnPremEnabled || rosAvailable,
     report,
     reportError,
     reportFetchStatus,

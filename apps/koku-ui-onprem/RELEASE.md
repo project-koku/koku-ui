@@ -54,13 +54,13 @@ Shared `libs/ui-lib` comes from `main` with the rest of the shell. On-prem QE is
 Preview pins and which HCCM/ROS UI files on `main` will be omitted (no PR):
 
 ```
-sh ../../scripts/release-onprem.sh -n
+sh ../../scripts/release/release-onprem.sh -n
 ```
 
 Create the PR:
 
 ```
-sh ../../scripts/release-onprem.sh
+sh ../../scripts/release/release-onprem.sh
 ```
 
 Or from the on-prem workspace:
@@ -72,7 +72,7 @@ npm run release:branch
 ### Wrapper
 
 ```
-node ../../scripts/release-all.js
+node ../../scripts/release/release-all.js
 ```
 
 Follow the prompts below.
@@ -94,7 +94,7 @@ Please allow the PR to build successfully and merge before using the latest SHA.
 ### Merge main to release-onprem
 
 ```
-sh ../../scripts/release-branch.sh -q
+sh ../../scripts/release/release-branch.sh -q
 ```
 
 Or from the on-prem workspace:
@@ -106,7 +106,7 @@ npm run release:branch:merge
 ### Wrapper
 
 ```
-node ../../scripts/release-all.js
+node ../../scripts/release/release-all.js
 ```
 
 Follow the prompts below.
