@@ -7,8 +7,6 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin } from 'webpack';
 
-import { FeatureToggleType } from './src/components/featureToggle/featureToggleType';
-
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
 const onpremDepsSrc = path.resolve(__dirname, '../../libs/onprem-cloud-deps/src');
@@ -117,9 +115,7 @@ const config: Configuration = {
     new DefinePlugin({
       'process.env.KOKU_UI_COMMITHASH': undefined,
       'process.env.KOKU_UI_PKGNAME': undefined,
-      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(
-        process.env.ONPREM_UNLEASH_FLAGS?.trim() || [FeatureToggleType.boxPlot, FeatureToggleType.projectLink].join(',')
-      ),
+      'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS?.trim() || ''),
     }),
   ],
   resolve: {

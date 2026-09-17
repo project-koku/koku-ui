@@ -1,5 +1,4 @@
 import { Checkbox, Content, Form, FormGroup, Radio, Stack, StackItem, Title, TitleSizes } from '@patternfly/react-core';
-import { useIsGpuToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -38,7 +37,6 @@ const Distribution: React.FC<DistributionProps> = ({
   onDistributionTypeChange,
 }: DistributionProps) => {
   const intl = useIntl();
-  const isGpuToggleEnabled = useIsGpuToggleEnabled();
 
   return (
     <Stack hasGutter>
@@ -120,15 +118,13 @@ const Distribution: React.FC<DistributionProps> = ({
               label={intl.formatMessage(messages.distributeStorage)}
               onChange={(_event, checked) => onDistributeStorageChange(checked)}
             />
-            {isGpuToggleEnabled && (
-              <Checkbox
-                aria-label={intl.formatMessage(messages.distributeGpu)}
-                id="distribute-gpu"
-                isChecked={distributeGpu}
-                label={intl.formatMessage(messages.distributeGpu)}
-                onChange={(_event, checked) => onDistributeGpuChange(checked)}
-              />
-            )}
+            <Checkbox
+              aria-label={intl.formatMessage(messages.distributeGpu)}
+              id="distribute-gpu"
+              isChecked={distributeGpu}
+              label={intl.formatMessage(messages.distributeGpu)}
+              onChange={(_event, checked) => onDistributeGpuChange(checked)}
+            />
           </FormGroup>
         </Form>
       </StackItem>

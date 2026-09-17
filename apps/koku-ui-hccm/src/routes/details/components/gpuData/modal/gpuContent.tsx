@@ -38,7 +38,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
   const intl = useIntl();
 
   const [query, setQuery] = useState({ ...baseQuery });
-  const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
+  const { report, reportError, reportFetchStatus } = useMapToProps({
     query,
     queryStateName,
     reportPathsType,
@@ -81,7 +81,6 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
         filterBy={query.filter_by}
         gridBreakPoint={width < 650 ? 'grid' : undefined}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         queryStateName={queryStateName}

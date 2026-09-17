@@ -14,7 +14,6 @@ import type { ComputedReportItem } from 'routes/utils/computedReport/getComputed
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { awsCategoryKey, orgUnitIdKey, platformCategoryKey, tagKey } from 'utils/props';
 
 import { getColumnManagement, getExportButton, getKebab, getPlatformCosts } from './utils/actions';
@@ -96,7 +95,7 @@ interface DataToolbarState {
 }
 
 interface DataToolbarStateProps {
-  isExactFilterToggleEnabled?: boolean;
+  // TBD...
 }
 
 type DataToolbarProps = DataToolbarOwnProps & DataToolbarStateProps & WrappedComponentProps;
@@ -484,7 +483,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   // Criteria select
 
   public getCriteriaSelectComponent() {
-    const { isDisabled, isExactFilterToggleEnabled } = this.props;
+    const { isDisabled } = this.props;
     const { currentCriteria, filters } = this.state;
 
     return getCriteriaSelect({
@@ -492,7 +491,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
       filters,
       isDisabled,
       onCriteriaSelect: this.handleOnCriteriaSelect,
-      showExact: isExactFilterToggleEnabled,
+      showExact: true,
     });
   }
 
@@ -809,9 +808,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps, DataToolb
   }
 }
 
-const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(state => {
+const mapStateToProps = createMapStateToProps<DataToolbarOwnProps, DataToolbarStateProps>(() => {
   return {
-    isExactFilterToggleEnabled: FeatureToggleSelectors.selectIsExactFilterToggleEnabled(state),
+    // TBD...
   };
 });
 

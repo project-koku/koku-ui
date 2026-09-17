@@ -68,17 +68,6 @@ jest.mock('store/resources', () => {
   };
 });
 
-jest.mock('store/featureToggle', () => {
-  const actual = jest.requireActual('store/featureToggle');
-  return {
-    ...actual,
-    FeatureToggleSelectors: {
-      ...actual.FeatureToggleSelectors,
-      selectIsGpuToggleEnabled: jest.fn(() => true),
-    },
-  };
-});
-
 const noopStore = createStore(() => ({}));
 
 const samplePriceList = {

@@ -7,10 +7,6 @@ jest.mock('utils/format', () => ({
   formatCurrency: jest.fn((value: number, units: string) => `${units ?? 'USD'}${value ?? 0}`),
 }));
 
-jest.mock('components/featureToggle', () => ({
-  useIsWastedCostToggleEnabled: jest.fn(() => true),
-}));
-
 import { renderWithProviders } from 'routes/optimizations/efficiency/testUtils';
 import { WorkloadSummary } from './workloadSummary';
 
