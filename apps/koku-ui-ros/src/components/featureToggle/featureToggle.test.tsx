@@ -6,12 +6,7 @@ import { useUnleashClient } from '@unleash/proxy-client-react';
 import { createMockStoreCreator } from 'store/mockStore';
 import { featureToggleReducer, featureToggleSelectors, featureToggleStateKey } from 'store/featureToggle';
 
-import useFeatureToggle, {
-  useIsBoxPlotToggleEnabled,
-  useIsDebugToggleEnabled,
-  useIsNamespaceToggleEnabled,
-  useIsProjectLinkToggleEnabled,
-} from './featureToggle';
+import useFeatureToggle, { useIsDebugToggleEnabled, useIsNamespaceToggleEnabled } from './featureToggle';
 import { FeatureToggleType } from './featureToggleType';
 
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
@@ -44,22 +39,20 @@ describe('featureToggle hooks', () => {
   });
 
   it('reports Unleash toggle state for each flag', () => {
-    isEnabled.mockImplementation((toggle: string) => toggle === FeatureToggleType.boxPlot);
+    isEnabled.mockImplementation((toggle: string) => toggle === FeatureToggleType.debug);
 
     const store = createUIStore();
     const { result } = renderHook(
       () => ({
-        boxPlot: useIsBoxPlotToggleEnabled(),
         debug: useIsDebugToggleEnabled(),
         namespace: useIsNamespaceToggleEnabled(),
-        projectLink: useIsProjectLinkToggleEnabled(),
       }),
       { wrapper: wrapperFor(store) }
     );
 
-    expect(result.current.boxPlot).toBe(true);
-    expect(result.current.debug).toBe(false);
-    expect(isEnabled).toHaveBeenCalledWith(FeatureToggleType.boxPlot);
+    expect(result.current.debug).toBe(true);
+    expect(result.current.namespace).toBe(false);
+    expect(isEnabled).toHaveBeenCalledWith(FeatureToggleType.debug);
     expect(isEnabled).toHaveBeenCalledWith(FeatureToggleType.namespace);
   });
 
@@ -67,7 +60,7 @@ describe('featureToggle hooks', () => {
     (useUnleashClient as jest.Mock).mockReturnValue(undefined);
 
     const store = createUIStore();
-    const { result } = renderHook(() => useIsBoxPlotToggleEnabled(), {
+    const { result } = renderHook(() => useIsDebugToggleEnabled(), {
       wrapper: wrapperFor(store),
     });
 
@@ -75,14 +68,14 @@ describe('featureToggle hooks', () => {
   });
 
   it('dispatches Unleash toggle values into the store', async () => {
-    isEnabled.mockImplementation((toggle: string) => toggle === FeatureToggleType.projectLink);
+    isEnabled.mockImplementation((toggle: string) => toggle === FeatureToggleType.namespace);
 
     const store = createUIStore();
     renderHook(() => useFeatureToggle(), { wrapper: wrapperFor(store) });
 
     await waitFor(() => {
-      expect(featureToggleSelectors.selectIsProjectLinkToggleEnabled(store.getState())).toBe(true);
-      expect(featureToggleSelectors.selectIsBoxPlotToggleEnabled(store.getState())).toBe(false);
+      expect(featureToggleSelectors.selectIsNamespaceToggleEnabled(store.getState())).toBe(true);
+      expect(featureToggleSelectors.selectIsDebugToggleEnabled(store.getState())).toBe(false);
     });
   });
 

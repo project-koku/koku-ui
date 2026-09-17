@@ -6,7 +6,7 @@ import { parseQuery } from 'api/queries/query';
 import type { RecommendationReportData } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
-import { useIsBoxPlotToggleEnabled, useIsNamespaceToggleEnabled } from 'components/featureToggle';
+import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -58,7 +58,6 @@ interface OptimizationsBreakdownStateProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
   interval?: Interval;
-  isBoxPlotToggleEnabled?: boolean;
   isContainers?: boolean;
   optimizationType?: OptimizationType;
   report?: RecommendationReportData;
@@ -75,18 +74,10 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
 
-  const {
-    breadcrumbLabel,
-    breadcrumbPath,
-    interval,
-    isBoxPlotToggleEnabled,
-    isContainers,
-    optimizationType,
-    report,
-    reportFetchStatus,
-  } = useMapToProps({
-    queryStateName,
-  });
+  const { breadcrumbLabel, breadcrumbPath, interval, isContainers, optimizationType, report, reportFetchStatus } =
+    useMapToProps({
+      queryStateName,
+    });
 
   // Getters
 
@@ -159,7 +150,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
             optimizationType={tab}
             recommendations={report?.recommendations}
           />
-          {plotsData && isBoxPlotToggleEnabled && (
+          {plotsData && (
             <div style={styles.utilizationContainer}>
               <OptimizationsBreakdownUtilization
                 currentInterval={currentInterval}
@@ -309,7 +300,6 @@ const useMapToProps = ({ queryStateName }: OptimizationsBreakdownMapProps): Opti
   return {
     breadcrumbLabel: queryFromRoute?.[breadcrumbLabelKey],
     breadcrumbPath: queryFromRoute?.[breadcrumbPathKey],
-    isBoxPlotToggleEnabled: useIsBoxPlotToggleEnabled(),
     interval: location?.state?.[queryStateName]?.interval,
     isContainers,
     optimizationType: location?.state?.[queryStateName]?.optimizationType,
