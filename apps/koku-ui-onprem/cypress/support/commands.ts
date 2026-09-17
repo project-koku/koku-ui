@@ -81,7 +81,7 @@ Cypress.Commands.add('loadApiInterceptors', () => {
   // makes the WDS client overlay appear and blocks subsequent cy.click() calls.
   cy.intercept('GET', '/api/me', {
     statusCode: 200,
-    body: { username: 'dev-user', email: 'dev@example.com' },
+    body: { username: 'dev-user', email: 'dev@example.com', is_org_admin: false },
   }).as('getMe');
 
   // Mock user-access API - provides permissions for all resource types

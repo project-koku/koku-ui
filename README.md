@@ -27,7 +27,7 @@ For specific instructions look at app's README. Available apps:
 
 Quick starts:
 
-- [Start koku and load sample cost data (experimental)][koku-quick-start]
+- [Start koku and load sample cost data (experimental)][koku-quick-start] (`scripts/onprem/quick-start-koku.sh`)
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe

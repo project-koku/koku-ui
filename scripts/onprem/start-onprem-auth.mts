@@ -8,7 +8,7 @@
  *
  * Prerequisites:
  *   - Podman or Docker with daemon running
- *   - Run via: npm run start:onprem:auth
+ *   - Run via: npm run start:onprem:auth  or  npm run start:onprem:operator
  *     (sources setup-onprem-env.sh first, which requires `oc` login)
  *
  * Optional environment overrides:
@@ -16,7 +16,8 @@
  *   ONPREM_AUTH_PORT      Port oauth2-proxy listens on        (default: 9002)
  *   ONPREM_UI_PORT        Port webpack dev server listens on  (default: 9001)
  *   KEYCLOAK_NAMESPACE    Namespace of Keycloak secrets       (default: keycloak)
- *   COST_NAMESPACE        Namespace of cost-onprem resources  (default: cost-onprem)
+ *   COST_NAMESPACE        Namespace of cost resources         (default: cost-onprem; set by setup-onprem-env.sh)
+ *   COST_UI_DEPLOYMENT    UI Deployment name                  (default: cost-onprem-ui; operator: {cr}-ui)
  */
 
 import { type ChildProcess, spawn as cpSpawn } from 'node:child_process';
@@ -37,6 +38,7 @@ const AUTH_PORT = process.env.ONPREM_AUTH_PORT ?? '9002';
 const UI_PORT = process.env.ONPREM_UI_PORT ?? '9001';
 const KC_NS = process.env.KEYCLOAK_NAMESPACE ?? 'keycloak';
 const COST_NS = process.env.COST_NAMESPACE ?? 'cost-onprem';
+const UI_DEPLOY = process.env.COST_UI_DEPLOYMENT ?? 'cost-onprem-ui';
 const LOCAL_REDIRECT_URI = `http://localhost:${AUTH_PORT}/oauth2/callback`;
 
 // ---------------------------------------------------------------------------
@@ -277,20 +279,43 @@ async function readUiClientCredentials(): Promise<ClientCredentials> {
 }
 
 /**
- * Fetches the Keycloak CA certificate from the `keycloak-ca-cert` secret in
- * the cost-onprem namespace, writes it to a temp file (mode 0600), and returns
- * the path. The file is removed during `cleanup()`.
+ * Reads the Keycloak CA certificate used by oauth2-proxy TLS trust.
+ * Prefers secret `keycloak-ca-cert` in the cost namespace (Helm and
+ * `setup:operator` both write this). Falls back to the cluster ingress CA
+ * bundle so operator labs still work if the secret was not created.
  */
 async function fetchKeycloakCaCert(): Promise<string> {
   log.step('Fetching Keycloak CA certificate');
 
-  const b64 = (await shell`oc get secret keycloak-ca-cert -n ${COST_NS} -o jsonpath={.data.ca\\.crt}`).trim();
-  if (!b64) {
-    log.fail(`keycloak CA cert is empty — check secret keycloak-ca-cert in ${COST_NS}`);
+  let pem = '';
+  try {
+    const b64 = (await shell`oc get secret keycloak-ca-cert -n ${COST_NS} -o jsonpath={.data.ca\\.crt}`).trim();
+    if (b64) {
+      pem = fromBase64(b64);
+    }
+  } catch {
+    // secret missing — try cluster ingress CA below
+  }
+
+  if (!pem) {
+    log.dim(`secret keycloak-ca-cert not found in ${COST_NS} — using cluster ingress CA`);
+    try {
+      pem = (
+        await shell`oc get configmap default-ingress-cert -n openshift-config-managed -o jsonpath={.data.ca-bundle\\.crt}`
+      ).trim();
+    } catch {
+      pem = '';
+    }
+  }
+
+  if (!pem) {
+    log.fail(
+      `could not load a Keycloak CA — create secret keycloak-ca-cert in ${COST_NS} or ensure default-ingress-cert exists`
+    );
   }
 
   const certPath = join(tmpdir(), `keycloak-ca-${Date.now()}.crt`);
-  await writeFile(certPath, Buffer.from(b64, 'base64'), { mode: 0o600 });
+  await writeFile(certPath, pem, { mode: 0o600 });
 
   log.info(`saved to ${certPath}`);
   return certPath;
@@ -369,6 +394,23 @@ function parseKeycloakTokenUrl(tokenUrl: string): { baseUrl: string; realm: stri
     throw new Error(`Cannot parse Keycloak base URL from: ${tokenUrl}`);
   }
   return { baseUrl: match[1], realm: match[2] };
+}
+
+/**
+ * Keycloak OIDC end-session URL for oauth2-proxy's `--backend-logout-url`.
+ *
+ * On `/oauth2/sign_out`, oauth2-proxy clears its session cookie, calls this URL
+ * server-side with `{id_token}` substituted, then redirects the browser to the
+ * `rd` query param (`/oauth2/start`). Without this, only the proxy cookie is
+ * cleared and Keycloak SSO immediately re-authenticates the user.
+ */
+function buildLocalBackendLogoutUrl(): string {
+  const tokenUrl = process.env.KEYCLOAK_TOKEN_URL ?? '';
+  if (!tokenUrl) {
+    log.fail('KEYCLOAK_TOKEN_URL is not set — cannot configure backend logout URL');
+  }
+  const { baseUrl, realm } = parseKeycloakTokenUrl(tokenUrl);
+  return `${baseUrl}/realms/${realm}/protocol/openid-connect/logout?id_token_hint={id_token}`;
 }
 
 /**
@@ -473,29 +515,30 @@ async function unregisterLocalRedirectUri(): Promise<void> {
 }
 
 /**
- * Reads the oauth2-proxy image and startup args from the live `cost-onprem-ui`
- * Deployment on the cluster (single source of truth). Strips cluster-specific
- * flags (TLS, upstream URL, redirect URL, etc.) and replaces them with local
- * equivalents pointing at the webpack dev server and this machine's ports.
+ * Reads the oauth2-proxy image and startup args from the live UI Deployment on
+ * the cluster (Helm: `cost-onprem-ui`; operator: `{cr-name}-ui`). Strips
+ * cluster-specific flags (TLS, upstream URL, redirect URL, etc.) and replaces
+ * them with local equivalents pointing at the webpack dev server and this
+ * machine's ports.
  *
  * @param upstreamHost - Hostname the container runtime uses to reach the host
  *   machine (e.g. `host.containers.internal` for Podman).
  */
 async function assembleProxyArgs(upstreamHost: string): Promise<ProxyConfig> {
-  log.step('Reading oauth2-proxy configuration from cluster Deployment');
+  log.step(`Reading oauth2-proxy configuration from ${UI_DEPLOY}`);
 
   const sel = '{.spec.template.spec.containers[?(@.name=="oauth-proxy")]';
   const imageJsonpath = `jsonpath=${sel}.image}`;
   const argsJsonpath = `jsonpath=${sel}.args}`;
 
-  const image = (await shell`oc get deployment cost-onprem-ui -n ${COST_NS} -o ${imageJsonpath}`).trim();
+  const image = (await shell`oc get deployment ${UI_DEPLOY} -n ${COST_NS} -o ${imageJsonpath}`).trim();
   if (!image) {
-    log.fail(`could not read oauth-proxy image from cost-onprem-ui in ${COST_NS}`);
+    log.fail(`could not read oauth-proxy image from ${UI_DEPLOY} in ${COST_NS}`);
   }
 
-  const argsJson = (await shell`oc get deployment cost-onprem-ui -n ${COST_NS} -o ${argsJsonpath}`).trim();
+  const argsJson = (await shell`oc get deployment ${UI_DEPLOY} -n ${COST_NS} -o ${argsJsonpath}`).trim();
   if (!argsJson) {
-    log.fail(`could not read oauth-proxy args from cost-onprem-ui in ${COST_NS}`);
+    log.fail(`could not read oauth-proxy args from ${UI_DEPLOY} in ${COST_NS}`);
   }
 
   // Strip cluster-specific flags; re-add with local overrides below
@@ -511,19 +554,52 @@ async function assembleProxyArgs(upstreamHost: string): Promise<ProxyConfig> {
     '--provider-ca-file',
   ];
 
+  const backendLogoutUrl = buildLocalBackendLogoutUrl();
+
   const args = [
     ...(JSON.parse(argsJson) as string[]).filter(a => !STRIP.some(p => a === p || a.startsWith(`${p}=`))),
     `--http-address=0.0.0.0:${AUTH_PORT}`,
     `--upstream=http://${upstreamHost}:${UI_PORT}`,
     `--redirect-url=${LOCAL_REDIRECT_URI}`,
     '--cookie-secure=false',
+    `--backend-logout-url=${backendLogoutUrl}`,
     '--provider-ca-file=/etc/keycloak-ca.crt',
   ];
 
   log.info(`image:    ${image}`);
   log.info(`upstream: http://${upstreamHost}:${UI_PORT}`);
   log.info(`proxy:    http://localhost:${AUTH_PORT}`);
+  log.info(`backend-logout-url: ${backendLogoutUrl}`);
   return { image, args };
+}
+
+const PUBLIC_OAUTH2_PROXY = 'quay.io/oauth2-proxy/oauth2-proxy:v7.6.0';
+
+/**
+ * Makes sure the oauth2-proxy image can be pulled on this machine. Cluster UI
+ * Deployments use `registry.redhat.io/…`, which requires a Red Hat Registry
+ * login locally. Fall back to the public quay.io image when that pull fails.
+ */
+async function ensureProxyImage(runtime: string, preferred: string): Promise<string> {
+  log.step(`Pulling oauth2-proxy image ${preferred}`);
+  const pullOk = (await stream(runtime, ['pull', preferred], { nothrow: true })) === 0;
+  if (pullOk) {
+    log.info(preferred);
+    return preferred;
+  }
+
+  const tag = preferred.includes(':') ? (preferred.split(':').pop() ?? '') : '';
+  const fallback = tag.startsWith('v') ? `quay.io/oauth2-proxy/oauth2-proxy:${tag}` : PUBLIC_OAUTH2_PROXY;
+
+  log.warn(`could not pull ${preferred} — Red Hat Registry login is required for that image`);
+  log.warn(`falling back to ${fallback}`);
+  if ((await stream(runtime, ['pull', fallback], { nothrow: true })) !== 0) {
+    log.fail(
+      `could not pull ${fallback} either. Fix: podman login registry.redhat.io, or check your container runtime.`
+    );
+  }
+  log.info(fallback);
+  return fallback;
 }
 
 /**
@@ -618,7 +694,10 @@ async function startProxyContainer(
 
   const exitCode = await stream(runtime, containerArgs, { nothrow: true });
   if (exitCode !== 0 && !cleaningUp) {
-    throw new Error(`oauth2-proxy container failed to start (exit code ${exitCode})`);
+    throw new Error(
+      `oauth2-proxy container failed to start (exit code ${exitCode}). ` +
+        `Check the container runtime output above (image pull / port bind / invalid flags).`
+    );
   }
 }
 
@@ -686,7 +765,8 @@ async function main(): Promise<void> {
 
     const cookieSecret = generateCookieSecret();
 
-    const { image, args } = await assembleProxyArgs(upstreamHost);
+    const { image: clusterImage, args } = await assembleProxyArgs(upstreamHost);
+    const image = await ensureProxyImage(runtime, clusterImage);
 
     // Set secrets on process.env — inherited by the container runtime subprocess.
     // Combined with bare -e KEY flags (no value in CLI), they stay out of ps output.

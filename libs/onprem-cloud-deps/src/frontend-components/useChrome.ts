@@ -31,7 +31,7 @@ const chromeApi = {
   auth: {
     getUser: async () =>
       (await getInsightsChrome()?.auth?.getUser?.()) ?? {
-        identity: { user: { is_org_admin: true } },
+        identity: { user: { is_org_admin: false } },
       },
     getToken: async () => (await getInsightsChrome()?.auth?.getToken?.()) ?? '',
   },
