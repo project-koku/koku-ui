@@ -3,7 +3,6 @@ import { getQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
-import { useIsProjectLinkToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
@@ -28,7 +27,6 @@ interface OptimizationsBreakdownProjectLinkOwnProps {
 }
 
 interface OptimizationsBreakdownProjectLinkStateProps {
-  isProjectLinkToggleEnabled?: boolean;
   report?: OcpReport;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -51,10 +49,10 @@ const OptimizationsBreakdownProjectLink: React.FC<OptimizationsBreakdownProjectL
   const location = useLocation();
   const intl = useIntl();
 
-  const { isProjectLinkToggleEnabled, report } = useMapToProps({ project, projectPath });
+  const { report } = useMapToProps({ project, projectPath });
 
   // Is stand alone?
-  if (!projectPath || !isProjectLinkToggleEnabled) {
+  if (!projectPath) {
     return project;
   }
   if (!report) {
@@ -133,7 +131,6 @@ const useMapToProps = ({ project, projectPath }): OptimizationsBreakdownProjectL
   }, [projectPath, reportQueryString]);
 
   return {
-    isProjectLinkToggleEnabled: useIsProjectLinkToggleEnabled(),
     report,
     reportError,
     reportFetchStatus,

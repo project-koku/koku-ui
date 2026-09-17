@@ -6,15 +6,10 @@ import { FetchStatus } from 'store/common';
 import { OptimizationsBreakdownProjectLink } from './optimizationsBreakdownProjectLink';
 
 const mockUseSelector = jest.fn();
-let mockIsProjectLinkToggleEnabled = false;
 
 jest.mock('react-redux', () => ({
   useDispatch: () => jest.fn(),
   useSelector: (selector: any) => mockUseSelector(selector),
-}));
-
-jest.mock('components/featureToggle', () => ({
-  useIsProjectLinkToggleEnabled: () => mockIsProjectLinkToggleEnabled,
 }));
 
 jest.mock('store/reports', () => ({
@@ -33,11 +28,10 @@ jest.mock('routes/utils/computedReport/getComputedReportItems', () => ({
 describe('OptimizationsBreakdownProjectLink', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockIsProjectLinkToggleEnabled = false;
     mockUseSelector.mockImplementation(() => undefined);
   });
 
-  test('returns plain project text when the link is disabled', () => {
+  test('returns plain project text when there is no project path', () => {
     render(
       <MemoryRouter>
         <OptimizationsBreakdownProjectLink project="app" />
@@ -48,7 +42,6 @@ describe('OptimizationsBreakdownProjectLink', () => {
   });
 
   test('returns null while the report is loading', () => {
-    mockIsProjectLinkToggleEnabled = true;
     const { container } = render(
       <MemoryRouter>
         <OptimizationsBreakdownProjectLink project="app" projectPath="/ocp" />
@@ -58,7 +51,6 @@ describe('OptimizationsBreakdownProjectLink', () => {
   });
 
   test('renders a disabled link when there are no computed items', () => {
-    mockIsProjectLinkToggleEnabled = true;
     mockUseSelector
       .mockImplementationOnce(() => ({ items: [] }))
       .mockImplementationOnce(() => FetchStatus.complete)
@@ -74,7 +66,6 @@ describe('OptimizationsBreakdownProjectLink', () => {
   });
 
   test('renders an enabled project link', () => {
-    mockIsProjectLinkToggleEnabled = true;
     mockUseSelector
       .mockImplementationOnce(() => ({ items: [{ id: 'app' }] }))
       .mockImplementationOnce(() => FetchStatus.complete)
