@@ -23,7 +23,6 @@ interface GpuDataOwnProps {
 }
 
 export interface GpuStateProps {
-  isMigToggleEnabled?: boolean;
   report: OcpReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -55,7 +54,7 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState({ ...baseQuery });
 
-  const { isMigToggleEnabled, report, reportError, reportFetchStatus } = useMapToProps({
+  const { report, reportError, reportFetchStatus } = useMapToProps({
     query,
     queryStateName,
     reportPathsType,
@@ -94,7 +93,6 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
       <GpuTable
         gridBreakPoint={width < 600 ? 'grid' : undefined}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isMigToggleEnabled={isMigToggleEnabled}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         queryStateName={queryStateName}

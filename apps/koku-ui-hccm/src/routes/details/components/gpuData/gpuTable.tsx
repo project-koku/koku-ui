@@ -4,7 +4,7 @@ import type { OcpReportItem } from 'api/reports/ocpReports';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { DataTable, ExpandTable } from 'routes/components/dataTable';
+import { ExpandTable } from 'routes/components/dataTable';
 import { getUnsortedComputedReportItems } from 'routes/utils/computedReport/getComputedReportItems';
 import { formatUnits, unitsLookupKey } from 'utils/format';
 
@@ -15,7 +15,6 @@ interface GpuTableOwnProps {
   filterBy?: any;
   gridBreakPoint?: '' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl' | 'grid-2xl';
   isLoading?: boolean;
-  isMigToggleEnabled?: boolean;
   onSort(sortType: string, isSortAscending: boolean);
   orderBy?: any;
   queryStateName: string;
@@ -27,7 +26,6 @@ const GpuTable: React.FC<GpuTableProps> = ({
   filterBy,
   gridBreakPoint,
   isLoading,
-  isMigToggleEnabled,
   onSort,
   orderBy,
   queryStateName,
@@ -85,7 +83,6 @@ const GpuTable: React.FC<GpuTableProps> = ({
         style: styles.column,
       },
       {
-        hidden: !isMigToggleEnabled,
         name: intl.formatMessage(messages.gpuColumns, { value: 'mode' }),
         orderBy: 'gpu_mode',
         isSortable: true,
@@ -126,33 +123,25 @@ const GpuTable: React.FC<GpuTableProps> = ({
             }),
           },
           {
-            hidden: !isMigToggleEnabled,
             style: styles.column,
             value: item?.gpu_mode ?? '',
           },
         ],
         // Workaround for old versions of the operator not having mig profile fields yet, so the API may return zero here
-        children: typeof item?.gpu_mode === 'string' &&
-          item?.gpu_mode?.toLowerCase() === 'mig' &&
-          isMigToggleEnabled && (
-            <MigData
-              gpu_model={item?.gpu_model}
-              gpu_vendor={item?.gpu_vendor}
-              node={item?.node}
-              queryStateName={queryStateName}
-            />
-          ),
+        children: typeof item?.gpu_mode === 'string' && item?.gpu_mode?.toLowerCase() === 'mig' && (
+          <MigData
+            gpu_model={item?.gpu_model}
+            gpu_vendor={item?.gpu_vendor}
+            node={item?.node}
+            queryStateName={queryStateName}
+          />
+        ),
         item,
       });
     });
 
-    const filteredColumns = (newColumns as any[]).filter(column => !column.hidden);
-    const filteredRows = newRows.map(({ ...row }) => {
-      row.cells = row.cells.filter(cell => !cell.hidden);
-      return row;
-    });
-    setColumns(filteredColumns);
-    setRows(filteredRows);
+    setColumns(newColumns);
+    setRows(newRows);
   };
 
   const handleOnSort = (sortType: string, isSortAscending: boolean) => {
@@ -165,20 +154,11 @@ const GpuTable: React.FC<GpuTableProps> = ({
     initDatum();
   }, [report]);
 
-  return isMigToggleEnabled ? (
+  return (
     <ExpandTable
       columns={columns}
       filterBy={filterBy}
       gridBreakPoint={gridBreakPoint}
-      isLoading={isLoading}
-      onSort={handleOnSort}
-      orderBy={orderBy}
-      rows={rows}
-    />
-  ) : (
-    <DataTable
-      columns={columns}
-      filterBy={filterBy}
       isLoading={isLoading}
       onSort={handleOnSort}
       orderBy={orderBy}

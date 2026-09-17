@@ -36,14 +36,12 @@ const rosMock: RosData = {
   paths: {},
 };
 
-let mockIsEfficiencyToggleEnabled = true;
 let mockIsOnPremEnabled = true;
 
 jest.mock('components/featureToggle', () => ({
   get isOnPremEnabled() {
     return mockIsOnPremEnabled;
   },
-  useIsEfficiencyToggleEnabled: () => mockIsEfficiencyToggleEnabled,
 }));
 
 jest.mock('utils/chrome', () => ({
@@ -80,7 +78,6 @@ const renderOptimizations = (store = createRosStore()) =>
 describe('Optimizations ROS availability', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockIsEfficiencyToggleEnabled = true;
     mockIsOnPremEnabled = true;
     fetchRosMock.mockResolvedValue({ data: rosMock });
   });
