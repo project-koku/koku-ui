@@ -6,7 +6,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { getCurrencyLabel } from 'routes/components/currency';
-import { WarningIcon } from 'routes/settings/costModelsDeprecated/components/warningIcon';
+import { WarningIcon } from 'routes/settings/costModels/components/warningIcon';
 
 import { styles } from './reviewDetails.styles';
 
