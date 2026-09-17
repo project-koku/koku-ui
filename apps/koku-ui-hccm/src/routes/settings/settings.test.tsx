@@ -15,15 +15,12 @@ import { getFetchId } from 'store/userAccess/userAccessCommon';
 import Settings, { getIdKeyForTab, SettingsTab } from './settings';
 
 let mockIsOnPremEnabled = false;
-let mockIsPriceListToggleEnabled = false;
 
 jest.mock('components/featureToggle', () => ({
   get isOnPremEnabled() {
     return mockIsOnPremEnabled;
   },
-  useIsDisplayToggleEnabled: () => true,
   useIsExchangeRateToggleEnabled: () => false,
-  useIsPriceListToggleEnabled: () => mockIsPriceListToggleEnabled,
 }));
 
 jest.mock('utils/chrome', () => ({
@@ -44,10 +41,6 @@ jest.mock('./costCategory', () => ({
 
 jest.mock('./costModels', () => ({
   CostModel: () => <div data-testid="cost-model" />,
-}));
-
-jest.mock('./costModelsDeprecated', () => ({
-  CostModelsDetails: () => <div data-testid="cost-models-details" />,
 }));
 
 jest.mock('./display', () => ({
@@ -80,7 +73,6 @@ const userAccessFetchId = getFetchId(UserAccessType.all, userAccessQueryString);
 describe('Settings', () => {
   beforeEach(() => {
     mockIsOnPremEnabled = false;
-    mockIsPriceListToggleEnabled = false;
   });
 
   const defaultUserAccessData = [
@@ -151,9 +143,8 @@ describe('Settings', () => {
     expect(screen.queryByTestId('sources')).not.toBeInTheDocument();
   });
 
-  test('selects the Integrations tab from settingsState.activeTab when Price list is enabled', async () => {
+  test('selects the Integrations tab from settingsState.activeTab', async () => {
     mockIsOnPremEnabled = true;
-    mockIsPriceListToggleEnabled = true;
     renderSettings(
       [
         { type: UserAccessType.settings, access: true, write: true },
@@ -174,7 +165,6 @@ describe('Settings', () => {
   });
 
   test('selects the Price list tab from settingsState.activeTab', async () => {
-    mockIsPriceListToggleEnabled = true;
     renderSettings(defaultUserAccessData, {
       initialEntries: [
         {

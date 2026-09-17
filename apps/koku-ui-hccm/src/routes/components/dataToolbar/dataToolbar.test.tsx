@@ -131,7 +131,7 @@ describe('DataToolbarBase', () => {
 
     await user.click(screen.getByRole('button', { name: /includes/i }));
     const options = screen.getAllByRole('option');
-    await user.click(options.find(option => option.textContent?.includes('exclude')) as HTMLElement);
+    await user.click(options.find(option => option.textContent?.includes('"value":"exclude"')) as HTMLElement);
 
     const input = screen.getByPlaceholderText(/name/i);
     await user.type(input, 'excluded{enter}');
@@ -184,7 +184,6 @@ describe('DataToolbarBase', () => {
         showBulkSelect
         showExport
         showCriteria
-        isExactFilterToggleEnabled
         itemsTotal={10}
         itemsPerPage={5}
         selectedItems={[{ id: '1' } as any]}

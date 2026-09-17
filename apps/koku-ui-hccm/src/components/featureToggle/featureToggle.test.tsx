@@ -10,18 +10,11 @@ import {
   useFeatureToggle,
   useIsAwsEc2InstancesToggleEnabled,
   useIsDebugToggleEnabled,
-  useIsDisplayToggleEnabled,
-  useIsEfficiencyToggleEnabled,
-  useIsExactFilterToggleEnabled,
   useIsExportsToggleEnabled,
-  useIsGpuToggleEnabled,
-  useIsMigToggleEnabled,
   useIsNamespaceToggleEnabled,
   useIsOrgAdmin,
   useIsPriceListRatesToggleEnabled,
-  useIsPriceListToggleEnabled,
   useIsSystemsToggleEnabled,
-  useIsWastedCostToggleEnabled,
 } from './featureToggle';
 import { FeatureToggleType } from './featureToggleType';
 
@@ -65,31 +58,24 @@ describe('featureToggle hooks', () => {
   });
 
   it('reports Unleash toggle state for each flag', () => {
-    isEnabled.mockImplementation((toggle: string) => toggle === FeatureToggleType.display);
+    isEnabled.mockImplementation((toggle: string) => toggle === FeatureToggleType.debug);
 
     const store = createUIStore();
     const { result } = renderHook(
       () => ({
         awsEc2: useIsAwsEc2InstancesToggleEnabled(),
         debug: useIsDebugToggleEnabled(),
-        display: useIsDisplayToggleEnabled(),
-        efficiency: useIsEfficiencyToggleEnabled(),
-        exactFilter: useIsExactFilterToggleEnabled(),
         exports: useIsExportsToggleEnabled(),
-        gpu: useIsGpuToggleEnabled(),
-        mig: useIsMigToggleEnabled(),
         namespace: useIsNamespaceToggleEnabled(),
-        priceList: useIsPriceListToggleEnabled(),
         priceListRates: useIsPriceListRatesToggleEnabled(),
         systems: useIsSystemsToggleEnabled(),
-        wastedCost: useIsWastedCostToggleEnabled(),
       }),
       { wrapper: wrapperFor(store) }
     );
 
-    expect(result.current.display).toBe(true);
-    expect(result.current.debug).toBe(false);
-    expect(isEnabled).toHaveBeenCalledWith(FeatureToggleType.display);
+    expect(result.current.debug).toBe(true);
+    expect(result.current.systems).toBe(false);
+    expect(isEnabled).toHaveBeenCalledWith(FeatureToggleType.debug);
     expect(isEnabled).toHaveBeenCalledWith(FeatureToggleType.awsEc2Instances);
   });
 
@@ -97,7 +83,7 @@ describe('featureToggle hooks', () => {
     (useUnleashClient as jest.Mock).mockReturnValue(undefined);
 
     const store = createUIStore();
-    const { result } = renderHook(() => useIsDisplayToggleEnabled(), {
+    const { result } = renderHook(() => useIsDebugToggleEnabled(), {
       wrapper: wrapperFor(store),
     });
 

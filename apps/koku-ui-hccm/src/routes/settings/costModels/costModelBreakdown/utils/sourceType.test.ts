@@ -1,6 +1,6 @@
 import { getSourceType } from './sourceType';
 
-describe('deprecated getSourceType', () => {
+describe('getSourceType', () => {
   test('maps cloud and local source types to API strings', () => {
     expect(getSourceType('Amazon Web Services')).toBe('AWS');
     expect(getSourceType('AWS-local')).toBe('AWS');

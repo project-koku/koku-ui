@@ -22,32 +22,12 @@ export const useIsDebugToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.debug);
 };
 
-export const useIsDisplayToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.display);
-};
-
-export const useIsExactFilterToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.exactFilter);
-};
-
 export const useIsExchangeRateToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.exchangeRate);
 };
 
-export const useIsEfficiencyToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.efficiency);
-};
-
 export const useIsExportsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.exports);
-};
-
-export const useIsGpuToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.gpu);
-};
-
-export const useIsMigToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.mig);
 };
 
 export const useIsNamespaceToggleEnabled = () => {
@@ -75,20 +55,12 @@ export const useIsOrgAdmin = () => {
   return isOrgAdmin;
 };
 
-export const useIsPriceListToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.priceList);
-};
-
 export const useIsPriceListRatesToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.priceListRates);
 };
 
 export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.systems);
-};
-
-export const useIsWastedCostToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.wastedCost);
 };
 
 // FeatureToggle saves feature toggles in store for places where the Unleash hook is not available
@@ -98,18 +70,11 @@ export const useFeatureToggle = () => {
 
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
-  const isDisplayToggleEnabled = useIsDisplayToggleEnabled();
-  const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
-  const isExactFilterToggleEnabled = useIsExactFilterToggleEnabled();
   const isExchangeRateToggleEnabled = useIsExchangeRateToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
-  const isGpuToggleEnabled = useIsGpuToggleEnabled();
-  const isMigToggleEnabled = useIsMigToggleEnabled();
   const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
-  const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
   const isPriceListRatesToggleEnabled = useIsPriceListRatesToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
-  const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -126,19 +91,12 @@ export const useFeatureToggle = () => {
       FeatureToggleActions.setFeatureToggle({
         isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled,
-        isDisplayToggleEnabled,
-        isEfficiencyToggleEnabled,
-        isExactFilterToggleEnabled,
         isExchangeRateToggleEnabled,
         isExportsToggleEnabled,
-        isGpuToggleEnabled,
-        isMigToggleEnabled,
         isNamespaceToggleEnabled,
         isOrgAdmin,
-        isPriceListToggleEnabled,
         isPriceListRatesToggleEnabled,
         isSystemsToggleEnabled,
-        isWastedCostToggleEnabled,
       })
     );
     if (isDebugToggleEnabled) {
@@ -148,19 +106,12 @@ export const useFeatureToggle = () => {
   }, [
     isAwsEc2InstancesToggleEnabled,
     isDebugToggleEnabled,
-    isDisplayToggleEnabled,
-    isEfficiencyToggleEnabled,
-    isExactFilterToggleEnabled,
     isExchangeRateToggleEnabled,
     isExportsToggleEnabled,
-    isGpuToggleEnabled,
-    isMigToggleEnabled,
     isNamespaceToggleEnabled,
     isOrgAdmin,
-    isPriceListToggleEnabled,
     isPriceListRatesToggleEnabled,
     isSystemsToggleEnabled,
-    isWastedCostToggleEnabled,
   ]);
 };
 

@@ -4,10 +4,6 @@ import { IntlProvider } from 'react-intl';
 
 import { Distribution } from './distribution';
 
-jest.mock('components/featureToggle', () => ({
-  useIsGpuToggleEnabled: () => false,
-}));
-
 describe('Distribution step', () => {
   const defaultProps = {
     distributeGpu: true,
@@ -35,7 +31,7 @@ describe('Distribution step', () => {
     expect(screen.getByRole('heading', { name: /distribution type/i })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: /cpu/i })).toBeChecked();
     expect(screen.getByRole('checkbox', { name: /platform overhead/i })).toBeChecked();
-    expect(screen.queryByRole('checkbox', { name: /distribute gpu/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: /gpu unallocated/i })).toBeChecked();
   });
 
   test('change handlers fire callbacks', () => {
