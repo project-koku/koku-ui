@@ -62,7 +62,9 @@ export function usePermissions(
       const isOrgAdmin = Boolean(
         (user as { identity?: { user?: { is_org_admin?: boolean } } })?.identity?.user?.is_org_admin
       );
-      const userPermissions = ((await chrome.getUserPermissions()) ?? []).map(toPermissionString).filter(Boolean);
+      const userPermissions = ((await chrome.getUserPermissions(appName, _disableCache)) ?? [])
+        .map(toPermissionString)
+        .filter(Boolean);
 
       if (ignore) {
         return;
