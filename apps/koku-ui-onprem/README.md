@@ -30,6 +30,17 @@ export API_PROXY_URL=<backend_url>
 export API_TOKEN=<auth_token_for_backend>
 ```
 
+### Pointing to a local koku backend
+
+For a local koku + nise stack (no OpenShift cluster), see [QUICK_START_KOKU.md](../../QUICK_START_KOKU.md). From the repo root:
+
+```
+npm run quick:start:koku:onprem
+npm run start:quick:start:koku:onprem
+```
+
+The setup script is `scripts/onprem/quick-start-koku.sh`. Use `npm run quick:start:koku` / `npm run start:quick:start:koku` for SaaS-local providers against the same local API.
+
 ### Pointing to the SaaS (console.redhat.com) backend
 
 Download [ocm CLI](https://console.redhat.com/openshift/downloads)
@@ -48,13 +59,76 @@ environment variables:
 
 ```
 oc login -s <cluster_api_url> -u <username> --password <password>
-source scripts/setup-onprem-env.sh
+source scripts/onprem/setup-onprem-env.sh
 ```
 
 This sets `API_PROXY_URL` and `API_TOKEN` (a short-lived token, used only as a
 connectivity check) by auto-discovering cluster configuration. Discovery order:
-(1) `CostManagementMetricsConfig` CR if the CMMO operator is installed,
-(2) `cost-onprem` Helm chart resources (gateway route + keycloak-debug ConfigMap + Keycloak secret).
+(1) `CostManagementServiceConfig` if koku-service-operator is installed,
+(2) `CostManagementMetricsConfig` CR if the CMMO operator is installed,
+(3) `cost-onprem` Helm chart resources (gateway route + keycloak-debug ConfigMap + Keycloak secret).
+
+### Pointing to a koku-service-operator deployment
+
+From a cluster-admin `oc` login, install the operator (BYOI dependencies, in-cluster
+manager, `CostManagementServiceConfig`) and ingest QE's IQE OpenShift source and
+cost model:
+
+```
+npm run setup:operator
+```
+
+This clones [koku-service-operator](https://github.com/martinpovolny/koku-service-operator)
+next to this repo if needed, uses the sibling `cost-onprem-chart` checkout for RHBK,
+and follows the operator [pre-prod install](https://github.com/martinpovolny/koku-service-operator/blob/2f10a1beab3d9ab47431f89cfa26b0db8f94deba/docs/development/pre-prod-install.md)
+and [UI development](https://github.com/martinpovolny/koku-service-operator/blob/2f10a1beab3d9ab47431f89cfa26b0db8f94deba/docs/development/ui-development.md)
+guides. First run typically takes 20–40 minutes for the operator, then IQE
+`test_data_setup_ocp_single` (source `test_cost_ocp_cluster_advanced`, cost model
+in SEK). NISE monthly CSVs land in `nise-output/` (gitignored).
+
+Then start the local UI (sources `scripts/onprem/setup-onprem-env.sh` so the RBAC remote
+can reach the operator gateway):
+
+```
+npm run start:onprem:operator
+```
+
+Open **http://localhost:9002** and sign in as `admin` / `admin`, or `rbac_user` /
+`rbac_user` (created by QE's `setup_onprem_cluster.sh`).
+
+#### `setup:operator` npm targets
+
+All of these require `oc` login to the target cluster. Extra flags after `--` are
+forwarded to `scripts/onprem/setup-operator.sh` or `scripts/onprem/setup-operator-iqe.sh`
+depending on the target.
+
+| Command | Use when |
+|---|---|
+| `npm run setup:operator` | **From scratch.** Install operator + BYOI, then IQE leftover-UI ingest. |
+| `npm run setup:operator:install` | Operator stack only (API, UI, Keycloak). Overview stays empty until IQE. |
+| `npm run setup:operator:reset` | Tear down namespaces/CR, reinstall, then IQE ingest. **Destructive.** |
+| `npm run setup:operator:dry-run` | Preview the installer without changing the cluster. |
+| `npm run setup:operator:sync-images` | Live CMSC is on an older koku image (no `sources` user-access type). Copies the koku tag from `cost-onprem-chart`. |
+| `npm run setup:operator:iqe` | Operator already installed. IQE venv + `setup_onprem_cluster.sh` + leftover-UI ingest. |
+| `npm run setup:operator:iqe:setup` | IQE venv + cluster setup only (`rbac_user`, masu `IQE_TEST_RUN`). |
+| `npm run setup:operator:iqe:ingest` | IQE leftover-UI ingest only. Add `-- --smoke` for the PR smoke suite (that suite deletes sources after tests). |
+
+Environment overrides (optional): `NAMESPACE`, `CR_NAME`, `KEYCLOAK_NAMESPACE`,
+`OPERATOR_DIR`, `CHART_ROOT`, `KOKU_IMAGE_TAG`, `IQE_CORE_PATH`, `IQE_PLUGIN_PATH`,
+`NISE_OUTPUT_DIR`. See the header comments in `scripts/onprem/setup-operator.sh` and
+`scripts/onprem/setup-operator-iqe.sh`.
+
+IQE ingest uses `cost_skip_cleanup` so the source and cost model stay in the
+cluster. Re-ingest:
+
+```
+npm run setup:operator:iqe:ingest
+```
+
+The chart script `cost-onprem-chart/scripts/setup-test-data.sh` is a richer NISE
+generator for **Helm** installs (`{release}-gateway`, bundled Postgres). It does
+not match operator BYOI resource names. Prefer IQE against a koku-service-operator
+cluster.
 
 ### Starting the dev server
 
@@ -64,7 +138,7 @@ From the root of the repo, run
 npm run start:onprem:auth
 ```
 
-`start:onprem:auth` sources `scripts/setup-onprem-env.sh` (requires `oc` login; auto-discovers
+`start:onprem:auth` sources `scripts/onprem/setup-onprem-env.sh` (requires `oc` login; auto-discovers
 API URL and Keycloak credentials from cluster resources), then starts the full on-prem stack
 behind a local `oauth2-proxy` container so you sign in as a real user (real OIDC flow, session
 expiry, logout redirect — see below). All remotes share `libs/onprem-cloud-deps` (feat shims;

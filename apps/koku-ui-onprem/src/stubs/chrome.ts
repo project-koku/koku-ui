@@ -12,7 +12,7 @@ const chromeStub = {
             first_name: 'Dev',
             is_active: true,
             is_internal: false,
-            is_org_admin: true,
+            is_org_admin: Boolean(user.is_org_admin),
             last_name: 'User',
             locale: 'en',
             username: user.username || 'dev-user',

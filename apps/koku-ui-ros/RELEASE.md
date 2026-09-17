@@ -11,13 +11,13 @@ Please allow the PR to build successfully and merge before deploying to app-inte
 ### Merge main to release-ros
 
 ```
-sh ../../scripts/release-branch.sh -r
+sh ../../scripts/release/release-branch.sh -r
 ```
 
 ### Wrapper for all merges
 
 ```
-node ../../scripts/release-all.js
+node ../../scripts/release/release-all.js
 ```
 
 Follow the prompts below.
@@ -37,19 +37,19 @@ The release-app-interface.sh script will update app-interface with the latest SH
 ### Deploy release-ros to app-interface stage
 
 ```
-sh ../../scripts/release-app-interface.sh -r
+sh ../../scripts/release/release-app-interface.sh -r
 ```
 
 ### Deploy release-ros to app-interface prod
 
 ```
-sh ../../scripts/release-app-interface.sh -t
+sh ../../scripts/release/release-app-interface.sh -t
 ```
 
 ### Wrapper for all deployments
 
 ```
-node ../../scripts/release-all.js
+node ../../scripts/release/release-all.js
 ```
 
 Follow the prompts below.
