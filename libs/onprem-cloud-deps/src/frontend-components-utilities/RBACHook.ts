@@ -3,6 +3,31 @@ import { useEffect, useState } from 'react';
 // eslint-disable-next-line no-restricted-imports -- sibling module under onprem-cloud-deps/src; webpack cannot resolve baseUrl-style paths here
 import useChrome from '../frontend-components/useChrome';
 
+const toPermissionString = (permission: unknown): string => {
+  if (typeof permission === 'string') {
+    return permission;
+  }
+
+  if (permission && typeof permission === 'object' && 'permission' in permission) {
+    return String((permission as { permission: string }).permission);
+  }
+
+  return '';
+};
+
+const permissionMatches = (userPermission: string, requestedPermission: string): boolean => {
+  const userParts = userPermission.split(':');
+  const requestedParts = requestedPermission.split(':');
+
+  return userParts.every((part, index) => part === '*' || part === requestedParts[index]);
+};
+
+const hasAllPermissions = (userPermissions: string[], requested: string[]): boolean =>
+  requested.every(req => userPermissions.some(userPerm => permissionMatches(userPerm, req)));
+
+const hasAnyPermission = (userPermissions: string[], requested: string[]): boolean =>
+  requested.some(req => userPermissions.some(userPerm => permissionMatches(userPerm, req)));
+
 export interface PermissionsResult {
   isLoading: boolean;
   hasAccess: boolean;
@@ -37,7 +62,7 @@ export function usePermissions(
       const isOrgAdmin = Boolean(
         (user as { identity?: { user?: { is_org_admin?: boolean } } })?.identity?.user?.is_org_admin
       );
-      const userPermissions = ((await chrome.getUserPermissions()) ?? []) as string[];
+      const userPermissions = ((await chrome.getUserPermissions()) ?? []).map(toPermissionString).filter(Boolean);
 
       if (ignore) {
         return;
@@ -48,7 +73,11 @@ export function usePermissions(
         isOrgAdmin,
         permissions: userPermissions,
         hasAccess:
-          isOrgAdmin || permissionsList.length === 0 || permissionsList.every(p => userPermissions.includes(p)),
+          isOrgAdmin ||
+          permissionsList.length === 0 ||
+          (_checkAll
+            ? hasAllPermissions(userPermissions, permissionsList)
+            : hasAnyPermission(userPermissions, permissionsList)),
       });
     })();
 

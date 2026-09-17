@@ -93,8 +93,9 @@ can reach the operator gateway):
 npm run start:onprem:operator
 ```
 
-Open **http://localhost:9002** and sign in as `admin` / `admin`, or `rbac_user` /
-`rbac_user` (created by QE's `setup_onprem_cluster.sh`).
+Open **http://localhost:9002** and sign in as `admin` / `admin`, `viewer` / `viewer`
+(non-org-admin with IAM read RBAC roles), or `rbac_user` / `rbac_user` (created by
+QE's `setup_onprem_cluster.sh`).
 
 #### `setup:operator` npm targets
 
@@ -112,6 +113,7 @@ depending on the target.
 | `npm run setup:operator:iqe` | Operator already installed. IQE venv + `setup_onprem_cluster.sh` + leftover-UI ingest. |
 | `npm run setup:operator:iqe:setup` | IQE venv + cluster setup only (`rbac_user`, masu `IQE_TEST_RUN`). |
 | `npm run setup:operator:iqe:ingest` | IQE leftover-UI ingest only. Add `-- --smoke` for the PR smoke suite (that suite deletes sources after tests). |
+| `npm run setup:operator:sync-users` | Re-sync Keycloak `admin`/`viewer` users and re-grant viewer IAM read RBAC roles. |
 
 Environment overrides (optional): `NAMESPACE`, `CR_NAME`, `KEYCLOAK_NAMESPACE`,
 `OPERATOR_DIR`, `CHART_ROOT`, `KOKU_IMAGE_TAG`, `IQE_CORE_PATH`, `IQE_PLUGIN_PATH`,

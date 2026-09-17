@@ -1,4 +1,7 @@
-import { fetchCurrentUser } from '#/data/api';
+import { type AccessPermission, fetchCurrentUser, fetchUserPermissions } from '#/data/api';
+
+let permissionsCache: AccessPermission[] | null = null;
+let permissionsCacheKey: string | null = null;
 
 const chromeStub = {
   auth: {
@@ -27,7 +30,20 @@ const chromeStub = {
       };
     },
   },
-  getUserPermissions: async () => [],
+  getUserPermissions: async (applicationName = '', disableCache = false) => {
+    const cacheKey = applicationName || '';
+    if (!disableCache && permissionsCache && permissionsCacheKey === cacheKey) {
+      return permissionsCache;
+    }
+
+    try {
+      permissionsCache = await fetchUserPermissions(applicationName);
+      permissionsCacheKey = cacheKey;
+      return permissionsCache;
+    } catch {
+      return [];
+    }
+  },
   getEnvironment: () => 'prod',
   getEnvironmentDetails: async () => ({}),
   on: () => {},
