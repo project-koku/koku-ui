@@ -3,7 +3,6 @@ import type { CostOverviewStateProps } from 'routes/details/components/costOverv
 import { CostOverviewBase } from 'routes/details/components/costOverview';
 import { ocpCostOverviewSelectors } from 'store/breakdown/costOverview/ocpCostOverview';
 import { createMapStateToProps } from 'store/common';
-import { selectIsGpuToggleEnabled } from 'store/featureToggle/featureToggleSelectors';
 
 interface OcpCostOverviewOwnProps {
   queryStateName: string;
@@ -13,7 +12,6 @@ interface OcpCostOverviewOwnProps {
 const mapStateToProps = createMapStateToProps<OcpCostOverviewOwnProps, CostOverviewStateProps>(
   (state, { queryStateName, title }) => {
     return {
-      isGpuToggleEnabled: selectIsGpuToggleEnabled(state),
       selectWidgets: ocpCostOverviewSelectors.selectWidgets(state),
       queryStateName,
       title,

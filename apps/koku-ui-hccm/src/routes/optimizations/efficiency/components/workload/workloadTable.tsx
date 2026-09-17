@@ -1,5 +1,4 @@
 import type { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
-import { useIsWastedCostToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
@@ -38,7 +37,6 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
 }) => {
   const intl = useIntl();
   const location = useLocation();
-  const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
   // Compute items and columns from report only (no location dependency)
   const computedItems = useMemo(() => {
@@ -65,8 +63,6 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
         style: styles.column,
       },
       {
-        hidden: !isWastedCostToggleEnabled,
-
         name: intl.formatMessage(messages.wastedCost),
         ...(computedItems.length && { isSortable: true }),
         orderBy: 'wasted_cost',
@@ -83,7 +79,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
         style: styles.column,
       },
     ];
-  }, [computedItems, groupBy, intl, isWastedCostToggleEnabled]);
+  }, [computedItems, groupBy, intl]);
 
   // Rows are computed fresh on every render so the Link state always uses
   // the current location — never a stale closure from a previous useMemo run.
@@ -133,9 +129,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
             }),
           },
           {
-            hidden: !isWastedCostToggleEnabled,
             style: styles.column,
-
             value: formatCurrency(item.score?.wasted_cost?.value || 0, item.score?.wasted_cost?.units || 'USD'),
           },
           {
@@ -147,18 +141,12 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
         item,
       };
     });
-  }, [basePath, computedItems, groupBy, isRosAvailable, isWastedCostToggleEnabled, location]);
-
-  const filteredColumns = (columns as any[]).filter(column => !column.hidden);
-  const filteredRows = rows.map(({ ...row }) => {
-    row.cells = row.cells.filter(cell => !cell.hidden);
-    return row;
-  });
+  }, [basePath, computedItems, groupBy, isRosAvailable, location]);
 
   return (
     <div style={{ overflow: 'auto' }}>
       <DataTable
-        columns={filteredColumns}
+        columns={columns}
         exclude={exclude}
         filterBy={filterBy}
         gridBreakPoint="grid-md"
@@ -166,7 +154,7 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
         isNoWrapHeader={false}
         onSort={onSort}
         orderBy={orderBy}
-        rows={filteredRows}
+        rows={rows}
       />
     </div>
   );

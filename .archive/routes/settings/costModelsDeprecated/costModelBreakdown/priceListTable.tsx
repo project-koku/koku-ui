@@ -23,7 +23,6 @@ import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { getError } from 'store/costModels/costModelSelectors';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
 import { unitsLookupKey } from 'utils/format';
@@ -42,7 +41,6 @@ interface PriceListTableProps extends WrappedComponentProps {
   fetchError: AxiosError;
   fetchStatus: FetchStatus;
   isDialogOpen: { deleteRate: boolean; updateRate: boolean; addRate: boolean };
-  isGpuToggleEnabled?: boolean;
   isLoading: boolean;
   isWritePermission: boolean;
   metricsHash: MetricHash;
@@ -79,8 +77,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
   public state: PriceListTableState = { ...this.defaultState };
 
   public render() {
-    const { fetchStatus, fetchError, intl, isDialogOpen, isGpuToggleEnabled, isWritePermission, metricsHash } =
-      this.props;
+    const { fetchStatus, fetchError, intl, isDialogOpen, isWritePermission, metricsHash } = this.props;
 
     const getMetricLabel = m => {
       // Match message descriptor or default to API string
@@ -181,7 +178,7 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
             const from = (this.state.pagination.page - 1) * this.state.pagination.perPage;
             const to = this.state.pagination.page * this.state.pagination.perPage;
 
-            let res = this.props.current.rates
+            const res = this.props.current.rates
               .map((r, i) => {
                 return { ...r, rateIndex: i };
               })
@@ -199,9 +196,6 @@ class PriceListTable extends React.Component<PriceListTableProps, PriceListTable
                 return compareBy(r1, r2, this.state.sortBy.direction, projection);
               });
 
-            if (!isGpuToggleEnabled) {
-              res = res.filter(item => item.metric.label_metric.toLowerCase() !== 'gpu');
-            }
             const filtered = res.slice(from, to);
 
             return (
@@ -408,7 +402,6 @@ export default injectIntl(
       fetchError: getError(costModelsSelectors.selectCostModelsFetchError(state)),
       fetchStatus: costModelsSelectors.selectCostModelsFetchStatus(state),
       isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
-      isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
       isLoading: costModelsSelectors.updateProcessing(state),
       isWritePermission: rbacSelectors.isCostModelWritePermission(state),
       metricsHash: metricsSelectors.metrics(state),

@@ -60,6 +60,10 @@ echo "Syncing Keycloak realm users (namespace=${KEYCLOAK_NAMESPACE}, app=${NAMES
 )
 
 echo ""
+echo "Granting IAM read RBAC permissions to viewer..."
+bash "${SCRIPT_DIR}/grant-viewer-rbac-permissions.sh"
+
+echo ""
 echo "Realm users synced. UI logins:"
 echo "  admin / admin   (org-admin)"
-echo "  viewer / viewer (non-org-admin)"
+echo "  viewer / viewer (non-org-admin, IAM read via RBAC roles)"
