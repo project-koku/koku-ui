@@ -2,7 +2,6 @@ import type { MetricHash } from 'api/metrics';
 import type { AxiosError } from 'axios';
 import { parseApiError } from 'routes/settings/utils';
 import type { FetchStatus } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 import type { RootState } from 'store/rootReducer';
 
 import { stateKey } from './reducer';
@@ -24,12 +23,7 @@ export const metrics = (state: RootState): MetricHash => {
   if (metricsPayload === null) {
     return {};
   }
-  const isGpuToggleEnabled = FeatureToggleSelectors.selectIsGpuToggleEnabled(state);
-
   return metricsPayload.data.reduce<MetricHash>((acc, curr) => {
-    if (!isGpuToggleEnabled && curr.label_metric.toLowerCase() === 'gpu') {
-      return acc;
-    }
     const prev = acc[curr.label_metric] ? { ...acc[curr.label_metric] } : {};
     return {
       ...acc,

@@ -1,6 +1,5 @@
 import { Button, ButtonVariant, Card, CardBody, CardHeader, Title, TitleSizes } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
-import { useIsGpuToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -19,7 +18,6 @@ type DistributionProps = DistributionOwnProps;
 
 const Distribution: React.FC<DistributionProps> = ({ canWrite, costModel, onSave }) => {
   const intl = useIntl();
-  const isGpuToggleEnabled = useIsGpuToggleEnabled();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -93,13 +91,11 @@ const Distribution: React.FC<DistributionProps> = ({ canWrite, costModel, onSave
               type: 'storage',
             })}
           </div>
-          {isGpuToggleEnabled && (
-            <div>
-              {intl.formatMessage(messages.distributeGpuCosts, {
-                value: costModel?.distribution_info?.gpu_unallocated || false,
-              })}
-            </div>
-          )}
+          <div>
+            {intl.formatMessage(messages.distributeGpuCosts, {
+              value: costModel?.distribution_info?.gpu_unallocated || false,
+            })}
+          </div>
         </CardBody>
       </Card>
       <DistributionModal

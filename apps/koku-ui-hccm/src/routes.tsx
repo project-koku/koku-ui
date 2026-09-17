@@ -1,5 +1,4 @@
 import { Bullseye, Spinner } from '@patternfly/react-core';
-import { useIsPriceListToggleEnabled } from 'components/featureToggle';
 import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
@@ -11,12 +10,6 @@ const AzureBreakdown = lazy(() => import(/* webpackChunkName: "azureBreakdown" *
 const AzureDetails = lazy(() => import(/* webpackChunkName: "azureDetails" */ 'routes/details/azureDetails'));
 const CostModelBreakdown = lazy(
   () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelBreakdown')
-);
-const CostModelBreakdownDeprecated = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "CostModelBreakdownDeprecated" */ 'routes/settings/costModelsDeprecated/costModelBreakdown'
-    )
 );
 const CostModelCreate = lazy(
   () => import(/* webpackChunkName: "CostModelBreakdown" */ 'routes/settings/costModels/costModelCreate')
@@ -48,11 +41,6 @@ const IntegrationBreakdown = lazy(
   () => import(/* webpackChunkName: "IntegrationBreakdown" */ 'routes/settings/integrations/integrationBreakdown')
 );
 
-const CostModelsBreakdownWrapper: React.FC = () => {
-  const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
-  return isPriceListToggleEnabled ? <CostModelBreakdown /> : <CostModelBreakdownDeprecated />;
-};
-
 export const routes = {
   awsBreakdown: {
     element: userAccess(AwsBreakdown),
@@ -72,7 +60,7 @@ export const routes = {
   },
   costModelBreakdown: {
     basePath: `/settings/cost-model`,
-    element: userAccess(CostModelsBreakdownWrapper),
+    element: userAccess(CostModelBreakdown),
     path: `/settings/cost-model/:uuid`, // Note: Order matters (i.e., dynamic segment must be defined after costModelsDetails)
   },
   costModelCreate: {

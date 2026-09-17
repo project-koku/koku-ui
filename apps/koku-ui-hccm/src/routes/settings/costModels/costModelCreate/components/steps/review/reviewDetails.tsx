@@ -2,7 +2,6 @@ import { Content, ContentVariants, Stack, StackItem, Title, TitleSizes } from '@
 import type { PriceListData } from 'api/priceList';
 import type { Provider } from 'api/providers';
 import { ProviderType } from 'api/providers';
-import { useIsGpuToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -47,7 +46,6 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
   sourceType,
 }: ReviewDetailsProps) => {
   const intl = useIntl();
-  const isGpuToggleEnabled = useIsGpuToggleEnabled();
 
   return (
     <>
@@ -124,11 +122,9 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({
                       type: 'storage',
                     })}
                   </Content>
-                  {isGpuToggleEnabled && (
-                    <Content component={ContentVariants.dd}>
-                      {intl.formatMessage(messages.distributeGpuCosts, { value: distributeGpu })}
-                    </Content>
-                  )}
+                  <Content component={ContentVariants.dd}>
+                    {intl.formatMessage(messages.distributeGpuCosts, { value: distributeGpu })}
+                  </Content>
                 </>
               )}
               <Content component={ContentVariants.dt}>

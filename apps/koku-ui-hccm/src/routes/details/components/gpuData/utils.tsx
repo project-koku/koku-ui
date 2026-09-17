@@ -4,7 +4,6 @@ import { getQuery } from 'api/queries/query';
 import type { OcpReport } from 'api/reports/ocpReports';
 import type { ReportPathsType, ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
-import { useIsMigToggleEnabled } from 'components/featureToggle';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -20,7 +19,6 @@ import { useQueryFromRoute } from 'utils/hooks';
 import { platformCategoryKey } from 'utils/props';
 
 export interface GpuStateProps {
-  isMigToggleEnabled?: boolean;
   report: OcpReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
@@ -93,7 +91,6 @@ export const useMapToProps = ({ query, queryStateName, reportPathsType, reportTy
   }, [dispatch, reportFetchStatus, reportPathsType, reportQueryString, reportType]);
 
   return {
-    isMigToggleEnabled: useIsMigToggleEnabled(),
     report,
     reportError,
     reportFetchStatus,

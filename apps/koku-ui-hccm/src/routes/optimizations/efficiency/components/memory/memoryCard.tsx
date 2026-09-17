@@ -20,7 +20,7 @@ import type { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { RosType } from 'api/ros';
 import type { AxiosError } from 'axios';
-import { isOnPremEnabled, useIsWastedCostToggleEnabled } from 'components/featureToggle';
+import { isOnPremEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -98,7 +98,6 @@ const reportPathsType = ReportPathsType.ocp;
 const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, groupBy, timeScopeValue }) => {
   const intl = useIntl();
   const location = useLocation();
-  const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
   const queryState = getQueryState(location, 'efficiencyMemory');
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
@@ -239,9 +238,7 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
                     {intl.formatMessage(messages.formula)}
                   </Title>
                   <p>{intl.formatMessage(messages.memoryEfficiencyInfoFormulaUsageScore)}</p>
-                  {isWastedCostToggleEnabled && (
-                    <p>{intl.formatMessage(messages.memoryEfficiencyInfoFormulaWasteCost)}</p>
-                  )}
+                  <p>{intl.formatMessage(messages.memoryEfficiencyInfoFormulaWasteCost)}</p>
                 </>
               }
               enableFlip
