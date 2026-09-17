@@ -14,7 +14,7 @@ Live specs: `01`–`04` (**21** tests) for local `start:onprem:auth`. The `test:
 **Do not** wire `test:cypress:live` into CI. It requires a developer machine with:
 
 1. `oc login` to a cluster with Cost Management deployed
-2. `npm run start:onprem:auth` from koku-ui root (sources `scripts/setup-onprem-env.sh`, starts the full on-prem stack behind a local `oauth2-proxy`, and requires completing the Keycloak login once in the browser it opens)
+2. `npm run start:onprem:auth` from koku-ui root (sources `scripts/onprem/setup-onprem-env.sh`, starts the full on-prem stack behind a local `oauth2-proxy`, and requires completing the Keycloak login once in the browser it opens)
 3. In another terminal: `npm run test:cypress:live` (from `apps/koku-ui-onprem`, or `-w @koku-ui/koku-ui-onprem` from koku-ui root)
 
 Automatable pre-merge check: `npm run build:onprem` in `@koku-ui/rbac-ui-onprem` (after `git submodule update --init vendor/insights-rbac-ui` and `npm ci`).
