@@ -9385,79 +9385,79 @@
     "docsAccomplish": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_cost_management/about-cost-management#what_can_you_accomplish_with_cost_management"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-whatis"
       }
     ],
     "docsCostCategory": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configuring-categories_planning"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_categories"
       }
     ],
     "docsCostManagement": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-manage_resources_and_costs"
       }
     ],
     "docsCostModelTerminology": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#con-using-cost-models_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/discover-cost_management_workflow"
       }
     ],
     "docsCostModels": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#assembly-setting-up-cost-models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_mod_setting_up"
       }
     ],
     "docsCostModelsDistribution": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#understanding-cost-distribution_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-understanding_cost_distribution"
       }
     ],
     "docsCostModelsGpu": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models/index#creating-an-ocp-cost-model_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrating_os"
       }
     ],
     "docsCostModelsMarkup": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_mod_setting_up"
       }
     ],
     "docsCostModelsOcp": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#creating-an-ocp-cost-model_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-cost_mod_setting_up#creating-an-ocp-cost-model"
       }
     ],
     "docsIntegrations": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/#Setting%20up%20integrations"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrate_your_data_with_cost_management"
       }
     ],
     "docsIntegrationsAws": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_amazon_web_services_aws_data_into_cost_management/index"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrate_amazon_web_services_data_with_cost_management"
       }
     ],
     "docsIntegrationsAzure": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_microsoft_azure_data_into_cost_management/index"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-azure_integration"
       }
     ],
     "docsIntegrationsGcp": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_google_cloud_data_into_cost_management/index"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-integrate_google_cloud_data_with_cost_management"
       }
     ],
     "docsKokuMetricsOperator": [
@@ -9469,25 +9469,25 @@
     "docsMetricsOperator": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-install_cost_operator"
       }
     ],
     "docsOcpCli": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/integrating_openshift_container_platform_data_into_cost_management/install-operator_integrating-ocp#installing-cost-operator-cli_integrating-ocp"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-cost_operator_cli_install"
       }
     ],
     "docsPlatformProjects": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-using-cost-models_reflect-costs#add-openshift-projects_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-adding_openshift_projects"
       }
     ],
     "docsPriceList": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/using_cost_models/con-setting-up-cost-models_reflect-costs#calculating-effective-cost-max_reflect-costs"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-calculate_resource_usage_costs_with_price_lists"
       }
     ],
     "docsReleases": [
@@ -9499,25 +9499,25 @@
     "docsTagMapping": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-con_allocate_costs_to_business_units"
       }
     ],
     "docsTags": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/managing_cost_data_using_tagging/configure-tags_planning"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-planning_tagging_strategy"
       }
     ],
     "docsTroubleshooting": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/integrating_openshift_container_platform_data_into_cost_management/index?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#verifying-cost-operator_integrating-ocp"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/integrate-verifying_cost_operator"
       }
     ],
     "docsUsingCostModels": [
       {
         "type": 0,
-        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html-single/using_cost_models"
+        "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/configure-analyze_your_usage"
       }
     ],
     "documentation": [
@@ -9629,6 +9629,16 @@
       {
         "type": 0,
         "value": "No match found"
+      }
+    ],
+    "emptyTableHeader": [
+      {
+        "type": 0,
+        "value": "Column "
+      },
+      {
+        "type": 1,
+        "value": "value"
       }
     ],
     "enableCategories": [

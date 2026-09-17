@@ -55,12 +55,12 @@ async function setConfig() {
         message: 'How do you want to release on-prem?',
         choices: [
           {
-            name: 'Assemble from main with HCCM/ROS prod tags (recommended)',
-            value: 'assemble',
-          },
-          {
             name: 'Direct merge main to release-onprem (may include in-progress HCCM/ROS work)',
             value: 'direct',
+          },
+          {
+            name: 'Assemble from main with HCCM/ROS prod tags (pins UIs to their latest prod tags)',
+            value: 'assemble',
           },
         ],
         when: answers => process.env.APP_INTERFACE !== 'true' && answers.appEnv === 'koku-ui-onprem',
