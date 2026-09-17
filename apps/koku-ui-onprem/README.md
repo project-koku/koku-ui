@@ -197,10 +197,8 @@ Details: [`cypress/README.md`](cypress/README.md).
 ### Feature flags (Unleash stub)
 
 On-prem uses `@koku-ui/onprem-cloud-deps` instead of a live Unleash proxy. Flags
-default to **off**, except ROS on-prem webpack defaults
-`cost-management.koku-ui-ros.box-plot` so Optimizations utilization charts render
-(COST-7658). That default lives only in
-`apps/koku-ui-ros/webpack-onprem.config.ts`.
+default to **off**. HCCM on-prem webpack enables a set of Cost Management flags
+by default; ROS does not.
 
 To override (replace) the flag list for a build or local server, set a
 comma-separated env before starting:

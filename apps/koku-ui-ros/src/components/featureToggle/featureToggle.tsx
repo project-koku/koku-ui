@@ -15,14 +15,6 @@ export const useIsDebugToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.debug);
 };
 
-export const useIsBoxPlotToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.boxPlot);
-};
-
-export const useIsProjectLinkToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggleType.projectLink);
-};
-
 export const useIsNamespaceToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.namespace);
 };
@@ -33,9 +25,7 @@ const useFeatureToggle = () => {
   const { auth } = useChrome();
 
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
-  const isBoxPlotToggleEnabled = useIsBoxPlotToggleEnabled();
   const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
-  const isProjectLinkToggleEnabled = useIsProjectLinkToggleEnabled();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -48,16 +38,14 @@ const useFeatureToggle = () => {
     dispatch(
       featureToggleActions.setFeatureToggle({
         isDebugToggleEnabled,
-        isBoxPlotToggleEnabled,
         isNamespaceToggleEnabled,
-        isProjectLinkToggleEnabled,
       })
     );
     if (isDebugToggleEnabled) {
       // eslint-disable-next-line no-console
       fetchUser(identity => console.log('User identity:', identity));
     }
-  }, [isDebugToggleEnabled, isBoxPlotToggleEnabled, isNamespaceToggleEnabled, isProjectLinkToggleEnabled]);
+  }, [isDebugToggleEnabled, isNamespaceToggleEnabled]);
 };
 
 export default useFeatureToggle;
