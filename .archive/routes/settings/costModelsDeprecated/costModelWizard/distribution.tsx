@@ -3,10 +3,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
 import { Form } from 'routes/settings/costModelsDeprecated/components/forms/form';
-import { createMapStateToProps } from 'store/common';
-import { FeatureToggleSelectors } from 'store/featureToggle';
 
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
@@ -15,15 +12,11 @@ interface DistributionOwnProps extends WrappedComponentProps {
   // TBD...
 }
 
-interface DistributionStateProps {
-  isGpuToggleEnabled?: boolean;
-}
+type DistributionProps = DistributionOwnProps;
 
-type DistributionProps = DistributionOwnProps & DistributionStateProps;
-
-class DistributionBase extends React.Component<DistributionProps, DistributionStateProps> {
+class DistributionBase extends React.Component<DistributionProps> {
   public render() {
-    const { intl, isGpuToggleEnabled } = this.props;
+    const { intl } = this.props;
 
     return (
       <CostModelContext.Consumer>
@@ -121,15 +114,13 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
                       label={intl.formatMessage(messages.distributeStorage)}
                       onChange={handleDistributeStorageChange}
                     />
-                    {isGpuToggleEnabled && (
-                      <Checkbox
-                        aria-label={intl.formatMessage(messages.distributeGpu)}
-                        id="distribute-gpu"
-                        isChecked={distributeGpu}
-                        label={intl.formatMessage(messages.distributeGpu)}
-                        onChange={handleDistributeGpuChange}
-                      />
-                    )}
+                    <Checkbox
+                      aria-label={intl.formatMessage(messages.distributeGpu)}
+                      id="distribute-gpu"
+                      isChecked={distributeGpu}
+                      label={intl.formatMessage(messages.distributeGpu)}
+                      onChange={handleDistributeGpuChange}
+                    />
                   </FormGroup>
                 </Form>
               </StackItem>
@@ -141,12 +132,6 @@ class DistributionBase extends React.Component<DistributionProps, DistributionSt
   }
 }
 
-const mapStateToProps = createMapStateToProps<undefined, DistributionStateProps>(state => {
-  return {
-    isGpuToggleEnabled: FeatureToggleSelectors.selectIsGpuToggleEnabled(state),
-  };
-});
-
-const Distribution = injectIntl(connect(mapStateToProps, {})(DistributionBase));
+const Distribution = injectIntl(DistributionBase);
 
 export default Distribution;

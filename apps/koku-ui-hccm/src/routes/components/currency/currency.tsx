@@ -33,13 +33,14 @@ const Currency: React.FC<CurrencyProps> = ({
   const { settings } = useCurrencySettings();
 
   const getSelect = () => {
-    const selectOptions = getCurrencyOptions(settings?.data ?? []);
+    const isEmpty = !settings?.data?.length;
+    const selectOptions = getCurrencyOptions(settings?.data?.length ? settings.data : [{ code: 'USD' }]);
     const selection = selectOptions.find(option => option.value === currency);
 
     return (
       <SelectWrapper
         id={id}
-        isDisabled={isDisabled}
+        isDisabled={isDisabled || isEmpty}
         onSelect={handleOnSelect}
         options={selectOptions}
         position={showLabel ? 'right' : undefined}

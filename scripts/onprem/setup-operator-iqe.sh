@@ -226,11 +226,17 @@ PY
   [[ $rc -eq 0 ]] || fail "QE setup_onprem_cluster.sh failed (exit ${rc})"
   ok "QE cluster setup finished (rbac_user / masu IQE_TEST_RUN / dynaconf)"
   sync_keycloak_realm_users
+  grant_viewer_rbac_permissions
 }
 
 sync_keycloak_realm_users() {
   log "Syncing Keycloak realm users (admin/viewer + org-admin role)"
   bash "${SCRIPT_DIR}/sync-keycloak-realm-users.sh"
+}
+
+grant_viewer_rbac_permissions() {
+  log "Granting IAM read RBAC permissions to viewer user"
+  bash "${SCRIPT_DIR}/grant-viewer-rbac-permissions.sh"
 }
 
 # ---------------------------------------------------------------------------
@@ -442,7 +448,7 @@ fi
 if [[ "$SETUP_ONLY" == "1" ]]; then
   echo ""
   echo "${C_BOLD}${C_GREEN}QE IQE cluster setup complete.${C_RESET}"
-  echo "  Keycloak UI users:  admin / admin (org-admin), viewer / viewer (G-01)"
+  echo "  Keycloak UI users:  admin / admin (org-admin), viewer / viewer (IAM read)"
   echo "  Extra RBAC user:    rbac_user / rbac_user"
   keycloak_host="$(oc get route keycloak -n "$KEYCLOAK_NAMESPACE" -o jsonpath='{.spec.host}' 2>/dev/null || true)"
   [[ -n "$keycloak_host" ]] && echo "  Keycloak console:   https://${keycloak_host}/admin/"

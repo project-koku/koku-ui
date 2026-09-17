@@ -35,7 +35,6 @@ jest.mock('react-router-dom', () => ({
 }));
 
 jest.mock('components/featureToggle', () => ({
-  useIsBoxPlotToggleEnabled: () => true,
   useIsNamespaceToggleEnabled: () => true,
 }));
 

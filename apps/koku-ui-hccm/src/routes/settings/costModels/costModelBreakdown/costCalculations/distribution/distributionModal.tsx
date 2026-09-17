@@ -18,7 +18,6 @@ import {
 } from '@patternfly/react-core';
 import { type CostModel } from 'api/costModels';
 import type { AxiosError } from 'axios';
-import { useIsGpuToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -59,7 +58,6 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
 }) => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const intl = useIntl();
-  const isGpuToggleEnabled = useIsGpuToggleEnabled();
 
   const [distribution, setDistribution] = useState(costModel?.distribution_info?.distribution_type ?? 'cpu');
   const [distributeGpu, setDistributeGpu] = useState(costModel?.distribution_info?.gpu_unallocated === true);
@@ -234,15 +232,13 @@ const DistributionModal: React.FC<DistributionModalProps> = ({
                   label={intl.formatMessage(messages.distributeStorage)}
                   onChange={handleOnDistributeStorageChange}
                 />
-                {isGpuToggleEnabled && (
-                  <Checkbox
-                    aria-label={intl.formatMessage(messages.distributeGpu)}
-                    id="distribute-gpu"
-                    isChecked={distributeGpu}
-                    label={intl.formatMessage(messages.distributeGpu)}
-                    onChange={handleOnDistributeGpuChange}
-                  />
-                )}
+                <Checkbox
+                  aria-label={intl.formatMessage(messages.distributeGpu)}
+                  id="distribute-gpu"
+                  isChecked={distributeGpu}
+                  label={intl.formatMessage(messages.distributeGpu)}
+                  onChange={handleOnDistributeGpuChange}
+                />
               </FormGroup>
             </Form>
           </StackItem>

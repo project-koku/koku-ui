@@ -4,12 +4,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import {
-  isOnPremEnabled,
-  useIsDisplayToggleEnabled,
-  useIsExchangeRateToggleEnabled,
-  useIsPriceListToggleEnabled,
-} from 'components/featureToggle';
+import { isOnPremEnabled, useIsExchangeRateToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -20,7 +15,6 @@ import { routes } from 'routes';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { Calculations } from 'routes/settings/calculations';
-import { CostModelsDetails } from 'routes/settings/costModelsDeprecated';
 import { PlatformProjects } from 'routes/settings/platformProjects';
 import { TagLabels } from 'routes/settings/tagLabels';
 import { getQueryState } from 'routes/utils/queryState';
@@ -96,9 +90,7 @@ export interface SettingsMapProps {
 
 export interface SettingsStateProps {
   activeTab?: SettingsTab;
-  isDisplayToggleEnabled: boolean;
   isExchangeRateToggleEnabled: boolean;
-  isPriceListToggleEnabled: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -111,46 +103,25 @@ const Settings: React.FC<SettingsProps> = () => {
   const intl = useIntl();
   const [activeTabKey, setActiveTabKey] = useState(0);
 
-  const {
-    activeTab,
-    isDisplayToggleEnabled,
-    isExchangeRateToggleEnabled,
-    isPriceListToggleEnabled,
-    userAccess,
-    userAccessFetchStatus,
-  } = useMapToProps();
+  const { activeTab, isExchangeRateToggleEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
 
   // Getters
 
   const getAvailableTabs = () => {
-    const showDisplayTab = isDisplayToggleEnabled || isOnPremEnabled;
-
     const availableTabs: AvailableTab[] = [
       {
         contentRef: React.createRef(),
         tab: SettingsTab.costModels,
       },
-      ...(isPriceListToggleEnabled
-        ? [
-            {
-              contentRef: React.createRef(),
-              tab: SettingsTab.priceList,
-            },
-          ]
-        : []),
+      {
+        contentRef: React.createRef(),
+        tab: SettingsTab.priceList,
+      },
       ...(isExchangeRateToggleEnabled
         ? [
             {
               contentRef: React.createRef(),
               tab: SettingsTab.exchangeRates,
-            },
-          ]
-        : []),
-      ...(!showDisplayTab
-        ? [
-            {
-              contentRef: React.createRef(),
-              tab: SettingsTab.calculations,
             },
           ]
         : []),
@@ -170,14 +141,10 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.platformProjects,
       },
-      ...(showDisplayTab
-        ? [
-            {
-              contentRef: React.createRef(),
-              tab: SettingsTab.display,
-            },
-          ]
-        : []),
+      {
+        contentRef: React.createRef(),
+        tab: SettingsTab.display,
+      },
       ...(isOnPremEnabled
         ? [
             {
@@ -232,11 +199,7 @@ const Settings: React.FC<SettingsProps> = () => {
 
     if (currentTab === SettingsTab.costModels) {
       return hasCostModelAccess(userAccess) ? (
-        isPriceListToggleEnabled ? (
-          <CostModel canWrite={canWriteCostModels} />
-        ) : (
-          <CostModelsDetails />
-        )
+        <CostModel canWrite={canWriteCostModels} />
       ) : (
         <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />
       );
@@ -317,7 +280,7 @@ const Settings: React.FC<SettingsProps> = () => {
   useEffect(() => {
     const tabIndex = activeTab ? availableTabs.findIndex(val => val.tab === activeTab) : -1;
     setActiveTabKey(tabIndex >= 0 ? tabIndex : 0);
-  }, [activeTab, isDisplayToggleEnabled, isExchangeRateToggleEnabled, isPriceListToggleEnabled]);
+  }, [activeTab, isExchangeRateToggleEnabled]);
 
   return (
     <>
@@ -360,9 +323,7 @@ const useMapToProps = (): SettingsStateProps => {
 
   return {
     activeTab: queryState?.activeTab,
-    isDisplayToggleEnabled: useIsDisplayToggleEnabled(),
     isExchangeRateToggleEnabled: useIsExchangeRateToggleEnabled(),
-    isPriceListToggleEnabled: useIsPriceListToggleEnabled(),
     userAccess,
     userAccessError,
     userAccessFetchStatus,

@@ -7,10 +7,6 @@ import { exactPrefix } from 'utils/props';
 let capturedRows: any[] = [];
 let capturedOnSort: any;
 
-jest.mock('components/featureToggle', () => ({
-  useIsWastedCostToggleEnabled: jest.fn(() => true),
-}));
-
 jest.mock('routes/components/dataTable', () => ({
   DataTable: ({ rows, columns, onSort }: any) => {
     capturedRows = rows;
