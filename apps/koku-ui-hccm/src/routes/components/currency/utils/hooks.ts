@@ -19,9 +19,6 @@ export const useCurrencySettings = (): CurrencySettingsProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
   const settingsQuery = {
-    filter: {
-      enabled: true, // Show only enabled
-    },
     limit: 1000, // Need all currencies for base and target options
   };
   const settingsQueryString = getQuery(settingsQuery);
