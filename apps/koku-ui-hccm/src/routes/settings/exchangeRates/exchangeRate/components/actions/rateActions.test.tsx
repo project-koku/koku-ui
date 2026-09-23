@@ -76,4 +76,12 @@ describe('RateActions', () => {
     fireEvent.click(screen.getByRole('button', { name: /more options/i }));
     expect(await screen.findByRole('menuitem', { name: /edit rate/i })).toHaveAttribute('aria-disabled', 'true');
   });
+
+  test('disables edit and remove when isExpired is true', async () => {
+    renderActions(<RateActions canWrite isExpired settings={settings} uuid="rate-1" />);
+    fireEvent.click(screen.getByRole('button', { name: /more options/i }));
+    expect(await screen.findByRole('menuitem', { name: /edit rate/i })).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('menuitem', { name: /^remove$/i })).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('menuitem', { name: /duplicate/i })).not.toHaveAttribute('aria-disabled', 'true');
+  });
 });
