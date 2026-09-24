@@ -9809,6 +9809,18 @@
         "value": "Toggle currency enabled or disabled"
       }
     ],
+    "exchangeRateExpiredCannotDelete": [
+      {
+        "type": 0,
+        "value": "Rates with finalized months cannot be deleted"
+      }
+    ],
+    "exchangeRateExpiredCannotEdit": [
+      {
+        "type": 0,
+        "value": "Rates with finalized months cannot be edited"
+      }
+    ],
     "exchangeRateLoadingStateDesc": [
       {
         "type": 0,

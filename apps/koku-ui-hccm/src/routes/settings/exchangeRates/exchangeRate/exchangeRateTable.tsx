@@ -178,6 +178,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
                 <RateActions
                   canWrite={canWrite}
                   isDisabled={isDisabled}
+                  isExpired={getStaticRateStatus(rate?.start_date, rate?.end_date) === 'expired'}
                   onClose={onClose}
                   onDelete={onDelete}
                   onDuplicate={onDuplicate}
