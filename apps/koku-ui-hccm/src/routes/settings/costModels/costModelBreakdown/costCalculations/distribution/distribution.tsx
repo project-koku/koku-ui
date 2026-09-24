@@ -3,7 +3,7 @@ import type { CostModel } from 'api/costModels';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'routes/settings/components/readOnlyTooltip';
 
 import { styles } from './distribution.styles';
 import { DistributionModal } from './distributionModal';

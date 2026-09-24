@@ -399,6 +399,8 @@
   "exchangeRateEmpty": "No exchange rates",
   "exchangeRateEmptyDesc": "Exchange rates may be disabled. Turn on Show disabled to view and restore them.",
   "exchangeRateEnableAriaLabel": "Toggle currency enabled or disabled",
+  "exchangeRateExpiredCannotDelete": "Rates with finalized months cannot be deleted",
+  "exchangeRateExpiredCannotEdit": "Rates with finalized months cannot be edited",
   "exchangeRateLoadingStateDesc": "Searching for your exchange rates. Do not refresh the browser",
   "exchangeRateLoadingStateTitle": "Looking for exchange rates...",
   "exchangeRateNotAssigned": "No exchange rates are assigned",
