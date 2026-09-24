@@ -22,25 +22,6 @@ jest.mock('components/i18n', () => ({
 }));
 
 jest.mock('routes/components/currency', () => ({
-  useCurrencySettings: () => ({
-    settings: {
-      data: [
-        {
-          code: 'USD',
-          static_rates: [
-            {
-              uuid: 'rate-1',
-              base_currency: 'USD',
-              target_currency: 'EUR',
-              start_date: '2026-08-01',
-              end_date: '2026-08-31',
-              exchange_rate: 1.1,
-            },
-          ],
-        },
-      ],
-    },
-  }),
   CurrencyWrapper: ({
     id,
     value,
@@ -85,6 +66,30 @@ const sampleSettings = [
     ],
   },
 ] as any;
+
+/** Overlaps the default add-form validity period (current month). */
+const overlappingAddSettings = (() => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth(); // 0-based
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const lastDay = new Date(year, month + 1, 0).getDate();
+  return [
+    {
+      code: 'GBP',
+      static_rates: [
+        {
+          uuid: 'rate-gbp-jpy',
+          base_currency: 'GBP',
+          target_currency: 'JPY',
+          start_date: `${year}-${pad(month + 1)}-01`,
+          end_date: `${year}-${pad(month + 1)}-${pad(lastDay)}`,
+          exchange_rate: 190,
+        },
+      ],
+    },
+  ] as any;
+})();
 
 const getRateInput = (container: HTMLElement) => container.querySelector('#exchange-rate') as HTMLInputElement;
 
@@ -167,5 +172,20 @@ describe('RateContent', () => {
     const onDisabled = jest.fn();
     renderContent(<RateContent isAddRate onDisabled={onDisabled} />);
     await waitFor(() => expect(onDisabled).toHaveBeenCalledWith(true));
+  });
+
+  test('shows overlap alert and keeps save disabled when validity period overlaps an existing rate', async () => {
+    const onDisabled = jest.fn();
+    const { container } = renderContent(
+      <RateContent isAddRate onDisabled={onDisabled} settings={overlappingAddSettings} />
+    );
+
+    fireEvent.click(screen.getByTestId('base-currency'));
+    fireEvent.click(screen.getByTestId('target-currency'));
+    fireEvent.change(getRateInput(container), { target: { value: '1.5' } });
+
+    expect(await screen.findByText(/validity period overlaps another rate/i)).toBeInTheDocument();
+    await waitFor(() => expect(onDisabled).toHaveBeenCalledWith(true));
+    expect(onDisabled).not.toHaveBeenCalledWith(false);
   });
 });

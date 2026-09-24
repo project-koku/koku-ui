@@ -25,7 +25,7 @@ import { isEqual } from 'lodash';
 import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
-import { CurrencyWrapper, useCurrencySettings } from 'routes/components/currency';
+import { CurrencyWrapper } from 'routes/components/currency';
 import { SimpleInput } from 'routes/settings/components';
 import { formatDate } from 'utils/dates';
 import { formatCurrencyRateRaw } from 'utils/format';
@@ -46,6 +46,7 @@ interface RateContentOwnProps {
   isAddRate?: boolean;
   onDisabled?: (value: boolean) => void;
   onSave?: (payload: SettingsRateData) => void;
+  /** Currency settings rows (from settings/currency/) including static_rates for overlap checks. */
   settings?: SettingsData[];
   uuid?: string;
 }
@@ -68,8 +69,6 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
 
     const effectiveEnd = getEffectiveEndDate(getEffectiveDate(rate?.end_date));
     const effectiveStart = getEffectiveStartDate(getEffectiveDate(rate?.start_date));
-
-    const { settings: currencies } = useCurrencySettings();
 
     // Form variables
 
@@ -104,9 +103,10 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const isStartDateInvalid = (!startDate && isStartDateDirty) || startDateError !== undefined;
     const isTargetCurrencyInvalid = !targetCurrency && isTargetCurrencyDirty;
 
+    // Use the settings prop (settings/currency/), not the currency list API — that omits static_rates.
     // Edit excludes self; add/duplicate create a new rate so the source uuid must not be excluded.
     const overlappingRate = findOverlappingRate(
-      currencies?.data,
+      settings,
       baseCurrency,
       targetCurrency,
       startDate,
