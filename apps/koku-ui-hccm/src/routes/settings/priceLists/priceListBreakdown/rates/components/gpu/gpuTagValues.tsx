@@ -22,7 +22,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
-import { ReadOnlyTooltip } from 'routes/settings/costModels/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'routes/settings/components/readOnlyTooltip';
 import type { TagValueExt } from 'routes/settings/priceLists/priceListBreakdown/rates/components/utils';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
