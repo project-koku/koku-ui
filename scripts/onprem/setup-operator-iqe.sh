@@ -32,6 +32,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# setup_onprem_cluster.sh is sourced and assigns SCRIPT_DIR to its own temp copy.
+# Keep this path for the koku-ui scripts invoked after that source.
+KOKU_ONPREM_DIR="$SCRIPT_DIR"
 KOKU_UI_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 REPOS_DIR="$(cd "${KOKU_UI_DIR}/.." && pwd)"
 
@@ -231,12 +234,12 @@ PY
 
 sync_keycloak_realm_users() {
   log "Syncing Keycloak realm users (admin/viewer + org-admin role)"
-  bash "${SCRIPT_DIR}/sync-keycloak-realm-users.sh"
+  bash "${KOKU_ONPREM_DIR}/sync-keycloak-realm-users.sh"
 }
 
 grant_viewer_rbac_permissions() {
   log "Granting IAM read RBAC permissions to viewer user"
-  bash "${SCRIPT_DIR}/grant-viewer-rbac-permissions.sh"
+  bash "${KOKU_ONPREM_DIR}/grant-viewer-rbac-permissions.sh"
 }
 
 # ---------------------------------------------------------------------------
