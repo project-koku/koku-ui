@@ -98,7 +98,7 @@
     "concurrently": "^10.0.5",
     "copy-webpack-plugin": "^14.0.0",
     "eslint": "^10.11.0",
-    "eslint-plugin-formatjs": "^8.0.5",
+    "eslint-plugin-formatjs": "^8.1.0",
     "eslint-plugin-jest-dom": "^5.10.1",
     "eslint-plugin-jsdoc": "^64.5.4",
     "eslint-plugin-markdown": "^5.1.0",
