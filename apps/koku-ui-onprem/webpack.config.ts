@@ -16,6 +16,7 @@ const pacAgent = process.env.PAC_URL
   : undefined;
 
 const isOauth2ProxyMode = process.env.OAUTH2_PROXY_MODE === 'true';
+const UI_PORT = Number(process.env.ONPREM_UI_PORT ?? 9001);
 
 let proxyHeaders: Record<string, string> | undefined;
 
@@ -107,7 +108,7 @@ const config: Configuration & {
     // In oauth2-proxy mode webpack must bind to all interfaces so the proxy
     // container can reach it via host.containers.internal / host.docker.internal.
     host: isOauth2ProxyMode ? '0.0.0.0' : 'localhost',
-    port: 9001,
+    port: UI_PORT,
     historyApiFallback: true,
     // In oauth2-proxy mode open the proxy port (9002) so the auth flow kicks in immediately.
     open: isOauth2ProxyMode ? `http://localhost:${process.env.ONPREM_AUTH_PORT ?? '9002'}/` : true,
@@ -141,6 +142,21 @@ const config: Configuration & {
       // asset-size warnings from appearing as a full-screen iframe during
       // Cypress runs (production build routinely exceeds the 244 KiB limit).
       overlay: { errors: true, warnings: false },
+      // oauth2-proxy mode binds 0.0.0.0 so the container can reach webpack.
+      // The HMR client would otherwise dial `localhost`, which prefers IPv6
+      // and can attach to a different dev server. That server's hash never
+      // matches this build, so the page requests a missing hot-update and
+      // reloads forever. Pin the socket to this process's IPv4 listener.
+      ...(isOauth2ProxyMode
+        ? {
+            webSocketURL: {
+              hostname: '127.0.0.1',
+              pathname: '/ws',
+              port: UI_PORT,
+              protocol: 'ws' as const,
+            },
+          }
+        : {}),
     },
     setupMiddlewares,
     proxy: [
