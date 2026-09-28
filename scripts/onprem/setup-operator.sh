@@ -166,24 +166,91 @@ ensure_operator_checkout() {
 
 ensure_operator_checkout
 
-# Docker Hub denies anonymous pulls of minio/minio and minio/mc on typical
-# OpenShift clusters (postgres/valkey from docker.io still work). Point BYOI
-# MinIO at quay.io so deploy-byoi.sh can roll out object storage.
+# minio/minio and minio/mc no longer allow anonymous pulls on Docker Hub or
+# quay.io (the repos went source-only). Postgres and Valkey on docker.io still
+# pull. Use the Bitnami legacy archive, which publishes the same server and mc
+# binaries, and invoke the server binary directly so the fixture args
+# (`server /data --console-address :9001`) keep working.
 patch_byoi_minio_images() {
   local f="${OPERATOR_DIR}/config/samples/byoi/infra/minio.yaml"
   [[ -f "$f" ]] || fail "MinIO fixture not found: $f"
-  if grep -q 'image: docker.io/minio/' "$f"; then
-    local tmp
-    tmp="$(mktemp)"
-    sed \
-      -e 's|image: docker.io/minio/minio:|image: quay.io/minio/minio:|' \
-      -e 's|image: docker.io/minio/mc:|image: quay.io/minio/mc:|' \
-      "$f" >"$tmp"
-    mv "$tmp" "$f"
-    ok "rewrote BYOI MinIO images to quay.io (Docker Hub anonymous pull denied)"
-  else
-    ok "BYOI MinIO images already use a non-docker.io registry"
-  fi
+  local tmp
+  tmp="$(mktemp)"
+  python3 - "$f" "$tmp" <<'PY'
+from pathlib import Path
+import re, sys
+src, dest = sys.argv[1:3]
+text = Path(src).read_text()
+server = "docker.io/bitnamilegacy/minio:2025.7.23-debian-12-r5"
+client = "docker.io/bitnamilegacy/minio-client:2025.7.21-debian-12-r0"
+server_bin = '["/opt/bitnami/minio/bin/minio"]'
+
+def sub_image(doc, name, image):
+    pat = re.compile(
+        rf"((?:^|\n)        - name: {re.escape(name)}\n          )image: \S+"
+    )
+    new, n = pat.subn(rf"\1image: {image}", doc, count=1)
+    if n != 1:
+        raise SystemExit(f"container {name!r} image line not found")
+    return new
+
+docs = re.split(r"\n---\n", text)
+out = []
+saw_server = False
+saw_client = False
+for doc in docs:
+    if re.search(r"(?m)^kind: Deployment$", doc) and "name: minio\n" in doc:
+        saw_server = True
+        doc = sub_image(doc, "minio", server)
+        if server_bin not in doc:
+            needle = "imagePullPolicy: IfNotPresent\n          args:"
+            if needle not in doc:
+                raise SystemExit("minio container args line not found")
+            doc = doc.replace(
+                needle,
+                'imagePullPolicy: IfNotPresent\n'
+                f"          command: {server_bin}\n"
+                "          args:",
+                1,
+            )
+        if "runAsUser: 0" not in doc:
+            doc = doc.replace(
+                f"          command: {server_bin}\n",
+                f"          command: {server_bin}\n"
+                "          securityContext:\n"
+                "            runAsUser: 0\n",
+                1,
+            )
+    elif re.search(r"(?m)^kind: Job$", doc) and "name: mc\n" in doc:
+        saw_client = True
+        doc = sub_image(doc, "mc", client)
+        # Image USER is 1001; mc writes its config under /tmp. anyuid lets
+        # the lab fixture keep running as root, matching the old mc image.
+        if "runAsUser: 0" not in doc:
+            needle = "imagePullPolicy: IfNotPresent\n          env:"
+            if needle not in doc:
+                raise SystemExit("mc container env line not found")
+            doc = doc.replace(
+                needle,
+                "imagePullPolicy: IfNotPresent\n"
+                "          securityContext:\n"
+                "            runAsUser: 0\n"
+                "          env:",
+                1,
+            )
+        # bitnamilegacy/minio-client uses dash as sh, which rejects `set -o pipefail`.
+        doc = doc.replace(
+            "          command:\n            - sh\n            - -c\n",
+            "          command:\n            - bash\n            - -c\n",
+            1,
+        )
+    out.append(doc)
+if not saw_server or not saw_client:
+    raise SystemExit("MinIO fixture is missing the server Deployment or the mc Job")
+Path(dest).write_text("\n---\n".join(out))
+PY
+  mv "$tmp" "$f"
+  ok "BYOI MinIO uses bitnamilegacy images (quay.io/minio and docker.io/minio reject anonymous pulls)"
 }
 
 # deploy-byoi.sh's EXIT trap returns 1 when SKIP_INFRA=1 (TMP_INFRA is empty),
@@ -410,6 +477,27 @@ if [[ "$SYNC_IMAGES_ONLY" == "1" ]]; then
   ok "skipping installer (--sync-images)"
 else
   ensure_hack_scripts_executable
+  # Job pod templates are immutable. Recreate minio-init when it did not
+  # finish, or when a finished Job still has a different mc image, so the
+  # next apply can update the template. Skip this on --dry-run.
+  if [[ "$DEMO_DRY_RUN" != "1" ]] && oc get job minio-init -n "$INFRA_NAMESPACE" >/dev/null 2>&1; then
+    succeeded="$(oc get job minio-init -n "$INFRA_NAMESPACE" -o jsonpath='{.status.succeeded}' 2>/dev/null || true)"
+    job_image="$(oc get job minio-init -n "$INFRA_NAMESPACE" -o jsonpath='{.spec.template.spec.containers[?(@.name=="mc")].image}' 2>/dev/null || true)"
+    desired_mc_image="$(python3 - "${OPERATOR_DIR}/config/samples/byoi/infra/minio.yaml" <<'PY'
+from pathlib import Path
+import re, sys
+text = Path(sys.argv[1]).read_text()
+m = re.search(r"- name: mc\n\s+image: (\S+)", text)
+if not m:
+    raise SystemExit("mc image not found in MinIO fixture")
+print(m.group(1))
+PY
+)"
+    if [[ "${succeeded:-0}" != "1" || "$job_image" != "$desired_mc_image" ]]; then
+      log "Removing job ${INFRA_NAMESPACE}/minio-init so it can be recreated"
+      oc delete job minio-init -n "$INFRA_NAMESPACE" --wait=true >/dev/null
+    fi
+  fi
   log "Running operator pre-prod demo installer (this can take 20–40 minutes)"
   echo "  NAMESPACE=${NAMESPACE}  CR_NAME=${CR_NAME}  INFRA=${INFRA_NAMESPACE}"
   echo "  KAFKA=${KAFKA_NAMESPACE}  KEYCLOAK=${KEYCLOAK_NAMESPACE}"

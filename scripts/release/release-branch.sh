@@ -86,10 +86,18 @@ config()
   if ! gh auth status | grep -q "$GIT_USER"; then
     echo "*** Preferred $GIT_USER user not available, run 'gh auth login'"
   else
-    ACTIVE_GH_USER=`gh api user --jq .login`
+    CURRENT_GH_USER=`gh api user --jq .login`
 
-    echo "\n*** Switching GitHub user: $GIT_USER"
-    gh auth switch --user $GIT_USER
+    # Another release may already be running as GIT_USER. Don't switch again,
+    # and don't restore a user on exit — that other script owns the switch back.
+    if [ "$CURRENT_GH_USER" = "$GIT_USER" ]; then
+      echo "\n*** GitHub user is already $GIT_USER; leaving the active user unchanged"
+    else
+      ACTIVE_GH_USER=$CURRENT_GH_USER
+
+      echo "\n*** Switching GitHub user: $GIT_USER"
+      gh auth switch --user $GIT_USER
+    fi
   fi
 }
 
