@@ -3,9 +3,9 @@ import type { FormGroupProps } from '@patternfly/react-core';
 import React from 'react';
 import { Selector } from 'routes/settings/components';
 
-import { getCurrencyOptions, useCurrency } from './utils';
+import { getCurrencyOptions, useCurrencySettings } from './utils';
 
-interface CurrencyWrapperOwnProps {
+interface CurrencySettingsWrapperOwnProps {
   appendMenuTo?: HTMLElement | (() => HTMLElement) | 'inline' | 'parent';
   'aria-label'?: string;
   direction?: 'up' | 'down';
@@ -24,9 +24,9 @@ interface CurrencyWrapperOwnProps {
   value?: string;
 }
 
-type CurrencyWrapperProps = CurrencyWrapperOwnProps & Pick<FormGroupProps, 'style'>;
+type CurrencySettingsWrapperProps = CurrencySettingsWrapperOwnProps & Pick<FormGroupProps, 'style'>;
 
-const CurrencyWrapper: React.FC<CurrencyWrapperProps> = ({
+const CurrencySettingsWrapper: React.FC<CurrencySettingsWrapperProps> = ({
   appendMenuTo,
   'aria-label': ariaLabel,
   direction,
@@ -44,8 +44,8 @@ const CurrencyWrapper: React.FC<CurrencyWrapperProps> = ({
   toggleAriaLabel,
   value,
 }) => {
-  const { currency } = useCurrency();
-  const selectOptions = getCurrencyOptions(currency?.data ?? [], disabledCode);
+  const { settings } = useCurrencySettings();
+  const selectOptions = getCurrencyOptions(settings?.data ?? [], disabledCode);
 
   return (
     <Selector
@@ -69,4 +69,4 @@ const CurrencyWrapper: React.FC<CurrencyWrapperProps> = ({
   );
 };
 
-export default CurrencyWrapper;
+export default CurrencySettingsWrapper;

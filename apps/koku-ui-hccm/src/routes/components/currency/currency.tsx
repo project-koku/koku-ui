@@ -7,7 +7,7 @@ import { SelectWrapper } from 'routes/components/selectWrapper';
 import { setCurrency } from 'utils/sessionStorage';
 
 import { styles } from './currency.styles';
-import { getCurrencyOptions, useCurrencySettings } from './utils';
+import { getCurrencyOptions, useCurrency } from './utils';
 
 interface CurrencyOwnProps {
   currency?: string;
@@ -21,7 +21,7 @@ interface CurrencyOwnProps {
 type CurrencyProps = CurrencyOwnProps;
 
 const Currency: React.FC<CurrencyProps> = ({
-  currency,
+  currency: currencyValue,
   id = 'currency-select',
   isDisabled,
   isSessionStorage = true,
@@ -30,12 +30,12 @@ const Currency: React.FC<CurrencyProps> = ({
 }) => {
   const intl = useIntl();
 
-  const { settings } = useCurrencySettings();
+  const { currency } = useCurrency();
 
   const getSelect = () => {
-    const isEmpty = !settings?.data?.length;
-    const selectOptions = getCurrencyOptions(settings?.data?.length ? settings.data : [{ code: 'USD' }]);
-    const selection = selectOptions.find(option => option.value === currency);
+    const isEmpty = !currency?.data?.length;
+    const selectOptions = getCurrencyOptions(currency?.data?.length ? currency.data : [{ code: 'USD' }]);
+    const selection = selectOptions.find(option => option.value === currencyValue);
 
     return (
       <SelectWrapper

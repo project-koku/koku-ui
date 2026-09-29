@@ -66,9 +66,7 @@ function mockThunkLifecycle(
       originalDispatch(settingsActions.updateCurrencySettingsRequest({ fetchId } as any));
       Promise.resolve().then(() => {
         if (options.error) {
-          originalDispatch(
-            settingsActions.updateCurrencySettingsFailure(options.error as any, { fetchId } as any)
-          );
+          originalDispatch(settingsActions.updateCurrencySettingsFailure(options.error as any, { fetchId } as any));
         } else {
           originalDispatch(settingsActions.updateCurrencySettingsSuccess({} as any, { fetchId } as any));
         }
@@ -108,6 +106,36 @@ describe('EnableRate', () => {
   test('disables switch when currency is not disableable', () => {
     renderEnable(<EnableRate canWrite settings={{ ...currency, is_disableable: false }} />);
     expect(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i })).toBeDisabled();
+  });
+
+  test('disables switch when there is no static rate and no dynamic rate', () => {
+    renderEnable(<EnableRate canWrite settings={{ ...currency, has_dynamic_rate: false }} />);
+    expect(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i })).toBeDisabled();
+
+    renderEnable(<EnableRate canWrite settings={{ ...currency, has_dynamic_rate: false, static_rates: [] }} />);
+    expect(screen.getAllByRole('switch', { name: /toggle currency enabled or disabled/i })[1]).toBeDisabled();
+  });
+
+  test('leaves switch enabled when a static rate exists', () => {
+    renderEnable(
+      <EnableRate canWrite settings={{ ...currency, has_dynamic_rate: false, static_rates: [{ uuid: 'rate-1' }] }} />
+    );
+    expect(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i })).toBeEnabled();
+  });
+
+  test('leaves switch enabled when a dynamic rate exists', () => {
+    renderEnable(<EnableRate canWrite settings={{ ...currency, has_dynamic_rate: true, static_rates: [] }} />);
+    expect(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i })).toBeEnabled();
+  });
+
+  test('explains that a static exchange rate is required', async () => {
+    renderEnable(<EnableRate canWrite settings={{ ...currency, has_dynamic_rate: false, static_rates: [] }} />);
+
+    fireEvent.mouseEnter(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i }).closest('span')!);
+
+    expect(await screen.findByRole('tooltip')).toHaveTextContent(
+      'Create a static exchange rate before enabling this currency.'
+    );
   });
 
   test('invokes onEnable when isDispatch is false', () => {
