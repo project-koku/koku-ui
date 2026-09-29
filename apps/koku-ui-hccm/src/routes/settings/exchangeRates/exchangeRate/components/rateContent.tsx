@@ -25,7 +25,7 @@ import { isEqual } from 'lodash';
 import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
-import { CurrencyWrapper } from 'routes/components/currency';
+import { CurrencySettingsWrapper } from 'routes/components/currency';
 import { SimpleInput } from 'routes/settings/components';
 import { formatDate } from 'utils/dates';
 import { formatCurrencyRateRaw } from 'utils/format';
@@ -161,7 +161,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const getBaseCurrencySelector = () => {
       const isEditMode = !isAddRate;
       const select = (
-        <CurrencyWrapper
+        <CurrencySettingsWrapper
           disabledCode={targetCurrency}
           helperTextInvalid={messages.requiredField}
           id="base-currency"
@@ -302,7 +302,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
                     <div style={styles.swapCurrency}>{getSwapCurrencyButton()}</div>
                   </SplitItem>
                   <SplitItem isFilled>
-                    <CurrencyWrapper
+                    <CurrencySettingsWrapper
                       disabledCode={baseCurrency}
                       helperTextInvalid={messages.requiredField}
                       id="target-currency"

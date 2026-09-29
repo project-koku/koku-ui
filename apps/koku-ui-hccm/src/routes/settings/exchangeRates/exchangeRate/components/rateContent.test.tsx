@@ -22,7 +22,7 @@ jest.mock('components/i18n', () => ({
 }));
 
 jest.mock('routes/components/currency', () => ({
-  CurrencyWrapper: ({
+  CurrencySettingsWrapper: ({
     id,
     value,
     onSelect,
