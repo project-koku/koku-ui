@@ -7,21 +7,21 @@ jest.mock('react-redux', () => ({
   useDispatch: () => jest.fn(),
   useSelector: (selector: any) =>
     selector({
-      // Minimal shape so settings selectors return undefined without throwing
+      // Minimal shape so currency selectors return undefined without throwing
     }),
 }));
 
-const mockSelectSettings = jest.fn();
+const mockSelectCurrency = jest.fn();
 
-jest.mock('store/settings', () => ({
+jest.mock('store/currency', () => ({
   __esModule: true,
-  settingsActions: {
-    fetchSettings: jest.fn(),
+  currencyActions: {
+    fetchCurrency: jest.fn(),
   },
-  settingsSelectors: {
-    selectSettings: (...args: any[]) => mockSelectSettings(...args),
-    selectSettingsError: () => undefined,
-    selectSettingsFetchStatus: () => 'complete',
+  currencySelectors: {
+    selectCurrency: (...args: any[]) => mockSelectCurrency(...args),
+    selectCurrencyError: () => undefined,
+    selectCurrencyFetchStatus: () => 'complete',
   },
 }));
 
@@ -52,7 +52,7 @@ const renderCurrency = (props: React.ComponentProps<typeof Currency> = {}) =>
     </IntlProvider>
   );
 
-const defaultSettings = {
+const defaultCurrency = {
   data: [
     { code: 'USD', description: 'US Dollar' },
     { code: 'EUR', description: 'Euro' },
@@ -62,7 +62,7 @@ const defaultSettings = {
 describe('Currency', () => {
   beforeEach(() => {
     setCurrency.mockClear();
-    mockSelectSettings.mockReturnValue(defaultSettings);
+    mockSelectCurrency.mockReturnValue(defaultCurrency);
   });
 
   test('builds options and renders select', () => {
@@ -89,9 +89,9 @@ describe('Currency', () => {
   });
 
   test.each([undefined, { data: [] }])(
-    'provides a default USD option and disables the menu when settings data is empty (%j)',
-    settings => {
-      mockSelectSettings.mockReturnValue(settings);
+    'provides a default USD option and disables the menu when currency data is empty (%j)',
+    currency => {
+      mockSelectCurrency.mockReturnValue(currency);
       const { container } = renderCurrency();
       const btn = container.querySelector('#currency-select') as HTMLButtonElement;
       expect(btn.disabled).toBe(true);
