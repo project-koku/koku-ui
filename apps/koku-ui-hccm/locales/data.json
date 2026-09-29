@@ -8433,14 +8433,6 @@
               }
             ]
           },
-          "on_off": {
-            "value": [
-              {
-                "type": 0,
-                "value": "On/off"
-              }
-            ]
-          },
           "operating_system": {
             "value": [
               {
@@ -9837,6 +9829,12 @@
       {
         "type": 0,
         "value": "No exchange rates are assigned"
+      }
+    ],
+    "exchangeRateRequiresStatic": [
+      {
+        "type": 0,
+        "value": "Create a static exchange rate before enabling this currency."
       }
     ],
     "exchangeRateStatus": [
