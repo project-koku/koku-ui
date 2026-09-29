@@ -186,6 +186,7 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   };
 
   const handleOnShowDeprecated = (checked: boolean) => {
+    handleOnSetPage(1);
     setIsShowDisabled(checked);
   };
 
@@ -243,18 +244,18 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
-    settingsSelectors.selectSettings(state, SettingsType.currencySettings, settingsQueryString)
+    settingsSelectors.selectSettings(state, SettingsType.currency, settingsQueryString)
   );
   const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.currencySettings, settingsQueryString)
+    settingsSelectors.selectSettingsError(state, SettingsType.currency, settingsQueryString)
   );
   const settingsFetchStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currencySettings, settingsQueryString)
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currency, settingsQueryString)
   );
 
   useEffect(() => {
     if (settingsFetchStatus !== FetchStatus.inProgress) {
-      dispatch(settingsActions.fetchSettings(SettingsType.currencySettings, settingsQueryString));
+      dispatch(settingsActions.fetchSettings(SettingsType.currency, settingsQueryString));
     }
   }, [dispatch, query, settingsQueryString]);
 

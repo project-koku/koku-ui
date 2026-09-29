@@ -72,7 +72,6 @@ export const enum SettingsType {
   costCategoriesEnable = 'costCategoriesEnable',
   costCategoriesDisable = 'costCategoriesDisable',
   currency = 'currency',
-  currencySettings = 'currencySettings',
   currencyAdd = 'currencyAdd',
   currencyDelete = 'currencyDelete',
   currencyDisable = 'currencyDisable',
@@ -96,10 +95,7 @@ export const SettingsTypePaths: Partial<Record<SettingsType, string>> = {
   [SettingsType.costCategories]: 'settings/aws_category_keys/',
   [SettingsType.costCategoriesEnable]: 'settings/aws_category_keys/enable/',
   [SettingsType.costCategoriesDisable]: 'settings/aws_category_keys/disable/',
-  // Page dropdowns (Overview/Details/Explorer) — authenticated, not settings RBAC
-  [SettingsType.currency]: 'currency/',
-  // Settings → Exchange rates catalog — settings RBAC
-  [SettingsType.currencySettings]: 'settings/currency/',
+  [SettingsType.currency]: 'settings/currency/',
   [SettingsType.currencyAdd]: 'settings/currency/static-rates/',
   [SettingsType.currencyDelete]: 'settings/currency/static-rates/',
   [SettingsType.currencyDisable]: 'settings/currency/enabled/',

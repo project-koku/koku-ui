@@ -12,6 +12,7 @@ import {
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/breakdown/historicalData/gcpHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/breakdown/historicalData/ocpHistoricalData';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
+import { currencyReducer, currencyStateKey } from 'store/currency';
 import { awsDashboardReducer, awsDashboardStateKey } from 'store/dashboard/awsDashboard';
 import { awsOcpDashboardReducer, awsOcpDashboardStateKey } from 'store/dashboard/awsOcpDashboard';
 import { azureDashboardReducer, azureDashboardStateKey } from 'store/dashboard/azureDashboard';
@@ -53,6 +54,7 @@ export const rootReducer = combineReducers({
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
   [costModelsStateKey]: costModelsReducer,
+  [currencyStateKey]: currencyReducer,
   [exportStateKey]: exportReducer,
   [FeatureToggleStateKey]: FeatureToggleReducer,
   [forecastStateKey]: forecastReducer,

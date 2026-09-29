@@ -56,13 +56,14 @@ const EnableRate: React.FC<EnableRateProps> = ({ canWrite, isDisabled, isDispatc
 
   const getEnableToggle = () => {
     const canDisable = settings?.is_disableable;
+    const requiresStaticRate = !settings?.static_rates?.length && settings?.has_dynamic_rate === false;
 
     const enableToggle = (
       <Switch
         aria-label={intl.formatMessage(messages.exchangeRateEnableAriaLabel)}
         id={`currency-enable-${settings?.code ?? ''}`}
         isChecked={isEnabled}
-        isDisabled={!canDisable || !canWrite || isDisabled}
+        isDisabled={!canDisable || !canWrite || isDisabled || requiresStaticRate}
         onChange={(_evt, checked: boolean) => handleOnChange(checked)}
       />
     );
@@ -71,6 +72,8 @@ const EnableRate: React.FC<EnableRateProps> = ({ canWrite, isDisabled, isDispatc
       return getTooltip(enableToggle, messages.readOnlyPermissions);
     } else if (!canDisable) {
       return getTooltip(enableToggle, messages.exchangeRateDisabled);
+    } else if (requiresStaticRate) {
+      return getTooltip(enableToggle, messages.exchangeRateRequiresStatic);
     } else {
       return enableToggle;
     }

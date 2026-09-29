@@ -2012,7 +2012,6 @@ export default defineMessages({
       'metric {Metric} ' +
       'name {Name} ' +
       'node {Node names} ' +
-      'on_off {On/off} ' +
       'operating_system {Operating system} ' +
       'operator_version {Operator version} ' +
       'org_unit_id {Organizational unit names} ' +
@@ -2592,6 +2591,12 @@ export default defineMessages({
     defaultMessage: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
     description: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
     id: 'exchangeRateDisabled',
+  },
+  exchangeRateRequiresStatic: {
+    defaultMessage: 'Create a static exchange rate before enabling this currency.',
+    description:
+      'Create a static exchange rate before enabling this currency. Reports cannot convert costs without one.',
+    id: 'exchangeRateRequiresStatic',
   },
   exchangeRateLoadingStateDesc: {
     defaultMessage: 'Searching for your exchange rates. Do not refresh the browser',
