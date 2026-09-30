@@ -3,6 +3,8 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
+import { SettingsType } from 'api/settings';
 import { FetchStatus } from 'store/common';
 
 import messages from '../../../../../locales/translations.json';
@@ -48,13 +50,17 @@ jest.mock('./exchangeRateTable', () => ({
     onDuplicate,
     onEdit,
     onEnable,
+    onSort,
+    orderBy,
   }: {
     onDelete?: () => void;
     onDuplicate?: () => void;
     onEdit?: () => void;
     onEnable?: () => void;
+    onSort?: (sortType: string, isSortAscending: boolean) => void;
+    orderBy?: Record<string, string>;
   }) => (
-    <div data-testid="exchange-rate-table">
+    <div data-testid="exchange-rate-table" data-order-by={JSON.stringify(orderBy ?? {})}>
       <button type="button" onClick={() => onDelete?.()}>
         table-delete
       </button>
@@ -66,6 +72,12 @@ jest.mock('./exchangeRateTable', () => ({
       </button>
       <button type="button" onClick={() => onEnable?.()}>
         table-enable
+      </button>
+      <button type="button" onClick={() => onSort?.('code', false)}>
+        table-sort-desc
+      </button>
+      <button type="button" onClick={() => onSort?.('code', true)}>
+        table-sort-asc
       </button>
     </div>
   ),
@@ -185,5 +197,41 @@ describe('ExchangeRate', () => {
     fireEvent.click(screen.getByRole('button', { name: /table-duplicate/i }));
     fireEvent.click(screen.getByRole('button', { name: /table-edit/i }));
     fireEvent.click(screen.getByRole('button', { name: /table-enable/i }));
+  });
+
+  test('fetches currencies sorted by code and refetches when the sort changes', () => {
+    mockSelectSettings.mockReturnValue({
+      data: [{ code: 'USD', enabled: true, static_rates: [] }],
+      meta: { count: 1, limit: 10, offset: 0 },
+    });
+    renderPage(<ExchangeRate canWrite />);
+
+    const encodedOrderBy = (direction: 'asc' | 'desc') => `order_by%5Bcode%5D=${direction}`;
+
+    expect(screen.getByTestId('exchange-rate-table')).toHaveAttribute('data-order-by', JSON.stringify({ code: 'asc' }));
+    expect(mockFetchSettings).toHaveBeenCalledWith(
+      SettingsType.currency,
+      expect.stringContaining(encodedOrderBy('asc'))
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /table-sort-desc/i }));
+
+    expect(screen.getByTestId('exchange-rate-table')).toHaveAttribute(
+      'data-order-by',
+      JSON.stringify({ code: 'desc' })
+    );
+    expect(mockFetchSettings).toHaveBeenCalledWith(
+      SettingsType.currency,
+      expect.stringContaining(encodedOrderBy('desc'))
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /table-sort-asc/i }));
+
+    expect(screen.getByTestId('exchange-rate-table')).toHaveAttribute('data-order-by', JSON.stringify({ code: 'asc' }));
+    const latestQuery = mockFetchSettings.mock.calls.at(-1)?.[1] as string;
+    expect(latestQuery).toEqual(expect.stringContaining(encodedOrderBy('asc')));
+    expect(latestQuery).toEqual(expect.stringContaining('filter%5Benabled%5D=true'));
+    expect(latestQuery).toEqual(expect.stringContaining('limit=10'));
+    expect(latestQuery).toEqual(expect.stringContaining('offset=0'));
   });
 });

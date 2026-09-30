@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -15,7 +15,14 @@ jest.mock('routes/components/dataTable', () => ({
       data-rows={props.rows?.length ?? 0}
       data-cols={props.columns?.length ?? 0}
       data-loading={String(!!props.isLoading)}
-    />
+      data-order-by={props.orderBy ? JSON.stringify(props.orderBy) : ''}
+      data-sort-key={props.columns?.find((col: { orderBy?: string }) => col.orderBy)?.orderBy ?? ''}
+      data-sortable={String(!!props.columns?.some((col: { isSortable?: boolean }) => col.isSortable))}
+    >
+      <button type="button" onClick={() => props.onSort?.(props.columns?.[1]?.orderBy, false)}>
+        sort-currency
+      </button>
+    </div>
   ),
   DataTable: (props: any) => <div data-testid="mock-data-table" data-rows={props.rows?.length ?? 0} />,
 }));
@@ -121,6 +128,53 @@ describe('ExchangeRateTable', () => {
     renderTable(<ExchangeRateTable canWrite filterBy={{}} isDisabled={false} isLoading settings={settings} />);
     await waitFor(() => {
       expect(screen.getByTestId('mock-expand-table')).toHaveAttribute('data-loading', 'true');
+    });
+  });
+
+  test('marks the currency column as sortable and forwards the current sort', async () => {
+    const onSort = jest.fn();
+    renderTable(
+      <ExchangeRateTable
+        canWrite
+        filterBy={{}}
+        isDisabled={false}
+        isLoading={false}
+        onSort={onSort}
+        orderBy={{ code: 'asc' }}
+        settings={settings}
+      />
+    );
+
+    await waitFor(() => {
+      const table = screen.getByTestId('mock-expand-table');
+      expect(table).toHaveAttribute('data-sortable', 'true');
+      expect(table).toHaveAttribute('data-sort-key', 'code');
+      expect(table).toHaveAttribute('data-order-by', JSON.stringify({ code: 'asc' }));
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'sort-currency' }));
+    expect(onSort).toHaveBeenCalledTimes(1);
+    expect(onSort).toHaveBeenCalledWith('code', false);
+  });
+
+  test('does not mark columns sortable when there are no currencies', async () => {
+    renderTable(
+      <ExchangeRateTable
+        canWrite
+        filterBy={{}}
+        isDisabled={false}
+        isLoading={false}
+        onSort={jest.fn()}
+        orderBy={{ code: 'asc' }}
+        settings={{ meta: { count: 0, limit: 10, offset: 0 }, data: [] } as any}
+      />
+    );
+
+    await waitFor(() => {
+      const table = screen.getByTestId('mock-expand-table');
+      expect(table).toHaveAttribute('data-rows', '0');
+      expect(table).toHaveAttribute('data-sortable', 'false');
+      expect(table).toHaveAttribute('data-sort-key', 'code');
     });
   });
 });
