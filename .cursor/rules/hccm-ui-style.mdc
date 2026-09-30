@@ -1,0 +1,21 @@
+---
+description: Cost Management route UI style. Apply when writing or rewriting HCCM route components. Use the transform-generated-ui skill for a full prototype rewrite.
+globs: apps/koku-ui-hccm/src/routes/**/*.{ts,tsx,scss}
+alwaysApply: false
+---
+
+# HCCM route UI
+
+Do not restructure unrelated code. Restructure only when the user asked to transform a generated feature. Then follow `.cursor/skills/transform-generated-ui/SKILL.md` and its reference files.
+
+When editing route UI:
+
+- Use `React.FC`. Do not add class components, `connect`, or `injectIntl`.
+- Split pages, tables, toolbars, headers, and actions into a tree. Name journey folders for what they contain. Do not clone another feature's directory names.
+- Put actions under `components/`, empty states under `components/state`, and shared hooks under `utils`.
+- Reuse shared route and settings components before adding a component, then PatternFly. Charts use PatternFly charts, not divs or HTML tables.
+- Colocate `*.styles.ts` and use `@patternfly/react-tokens` via `.var`. Do not use `style={{}}`, hex colors, or color names. Use SCSS only to override PatternFly internals, with PatternFly CSS variables.
+- Localize every user-visible string with `messages` from `locales/messages` and `useIntl().formatMessage`.
+- Read server-shaped data from `useMapToProps` in that file. Until an API exists, return mocked data, error, and fetch status from that function. Do not add API calls or sessionStorage stores.
+
+Do not use the settings integrations feature as a style reference.
