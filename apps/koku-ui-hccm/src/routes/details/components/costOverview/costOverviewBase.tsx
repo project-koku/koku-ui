@@ -123,9 +123,6 @@ class CostOverviewsBase extends React.Component<CostOverviewProps, any> {
                   <a href={intl.formatMessage(messages.docsCostModelTerminology)} rel="noreferrer" target="_blank">
                     {intl.formatMessage(messages.learnMore)}
                   </a>
-                  <a href={intl.formatMessage(messages.docsCostModelTerminology)} rel="noreferrer" target="_blank">
-                    {intl.formatMessage(messages.learnMore)}
-                  </a>
                 </>
               }
             >
