@@ -11,7 +11,7 @@ Do not restructure unrelated code. Restructure only when the user asked to trans
 When editing route UI:
 
 - Use `React.FC`. Do not add class components, `connect`, or `injectIntl`.
-- Split pages, tables, toolbars, headers, and actions into a tree. Name journey folders for what they contain. Do not clone another feature's directory names.
+- Split pages, tables, toolbars, headers, and actions into a tree. Name journey folders for what they contain. Do not clone another feature's directory names. Match the page, table, and action layout in `.cursor/skills/transform-generated-ui/composition.md`.
 - Put actions under `components/`, empty states under `components/state`, and shared hooks under `utils`.
 - Reuse shared route and settings components before adding a component, then PatternFly. Charts use PatternFly charts, not divs or HTML tables.
 - Colocate `*.styles.ts` and use `@patternfly/react-tokens` via `.var`. Do not use `style={{}}`, hex colors, or color names. Use SCSS only to override PatternFly internals, with PatternFly CSS variables.
