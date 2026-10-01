@@ -41,9 +41,12 @@ export interface ExchangeRateStateProps {
 type ExchangeRateProps = ExchangeRateOwnProps;
 
 const baseQuery: Query = {
+  filter_by: {},
   limit: 10,
   offset: 0,
-  filter_by: {},
+  order_by: {
+    code: 'asc',
+  },
 };
 
 const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
@@ -113,6 +116,8 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
         onDuplicate={handleOnDuplicate}
         onEdit={handleOnEdit}
         onEnable={handleOnEnable}
+        onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        orderBy={query.order_by}
         settings={settings}
       />
     );
@@ -190,6 +195,11 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
     setIsShowDisabled(checked);
   };
 
+  const handleOnSort = (sortType, isSortAscending) => {
+    const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
+    setQuery(newQuery);
+  };
+
   if (settingsError) {
     return <NotAvailable />;
   }
@@ -241,6 +251,7 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
     },
     limit: query.limit,
     offset: query.offset,
+    order_by: query.order_by,
   };
   const settingsQueryString = getQuery(settingsQuery);
   const settings = useSelector((state: RootState) =>
