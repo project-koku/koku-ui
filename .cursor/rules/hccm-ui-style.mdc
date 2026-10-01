@@ -1,10 +1,10 @@
 ---
-description: Cost Management route UI style. Apply when creating or editing HCCM route components. Read the shared standards before adding a page, table, or action. Use transform-generated-ui only to rewrite an existing generated tree.
-globs: apps/koku-ui-hccm/src/routes/**/*.{ts,tsx,scss}
+description: Cost Management route UI style for koku-ui-hccm and koku-ui-ros. Apply when creating or editing route components in those apps. Read the shared standards before adding a page, table, or action. Use transform-generated-ui only to rewrite an existing generated tree.
+globs: apps/koku-ui-hccm/src/routes/**/*.{ts,tsx,scss},apps/koku-ui-ros/src/routes/**/*.{ts,tsx,scss}
 alwaysApply: false
 ---
 
-# HCCM route UI
+# Cost Management route UI
 
 When creating or editing route UI, read these files before adding a page, table, or action:
 
@@ -13,7 +13,7 @@ When creating or editing route UI, read these files before adding a page, table,
 - `.cursor/skills/transform-generated-ui/presentation.md`
 - `.cursor/skills/transform-generated-ui/data.md`
 
-Write that structure on the first pass. Before writing a page, a table, or an action, open one of each under `apps/koku-ui-hccm/src/routes/settings/exchangeRates` or `priceLists`. Do not copy those directory or file names.
+Write that structure on the first pass in `apps/koku-ui-hccm` or `apps/koku-ui-ros`. Before writing a page, a table, or an action, open one of each under `apps/koku-ui-hccm/src/routes/settings/exchangeRates` or `priceLists`, including when the new feature is in `apps/koku-ui-ros`. Do not copy those directory or file names.
 
 Do not restructure unrelated code. Use `.cursor/skills/transform-generated-ui/SKILL.md` only when the user asked to rewrite an existing generated tree. Use `.cursor/skills/create-hccm-ui/SKILL.md` when creating a feature.
 
