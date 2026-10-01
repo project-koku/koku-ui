@@ -41,9 +41,9 @@ export interface PriceListStateProps {
 type PriceListProps = PriceListOwnProps;
 
 const baseQuery: Query = {
+  filter_by: {},
   limit: 10,
   offset: 0,
-  filter_by: {},
   order_by: {
     name: 'asc',
   },
@@ -120,8 +120,8 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
         onDelete={handleOnDelete}
         onDeprecate={forceUpdate}
         onDuplicate={forceUpdate}
-        orderBy={query.order_by}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
+        orderBy={query.order_by}
         priceList={priceList}
       />
     );

@@ -1,0 +1,31 @@
+---
+description: Cost Management route UI style. Apply when creating or editing HCCM route components. Read the shared standards before adding a page, table, or action. Use transform-generated-ui only to rewrite an existing generated tree.
+globs: apps/koku-ui-hccm/src/routes/**/*.{ts,tsx,scss}
+alwaysApply: false
+---
+
+# HCCM route UI
+
+When creating or editing route UI, read these files before adding a page, table, or action:
+
+- `.cursor/skills/transform-generated-ui/organization.md`
+- `.cursor/skills/transform-generated-ui/composition.md`
+- `.cursor/skills/transform-generated-ui/presentation.md`
+- `.cursor/skills/transform-generated-ui/data.md`
+
+Write that structure on the first pass. Before writing a page, a table, or an action, open one of each under `apps/koku-ui-hccm/src/routes/settings/exchangeRates` or `priceLists`. Do not copy those directory or file names.
+
+Do not restructure unrelated code. Use `.cursor/skills/transform-generated-ui/SKILL.md` only when the user asked to rewrite an existing generated tree. Use `.cursor/skills/create-hccm-ui/SKILL.md` when creating a feature.
+
+When creating or editing route UI:
+
+- Use `React.FC`. Do not add class components, `connect`, or `injectIntl`.
+- Split pages, tables, toolbars, headers, and actions into a tree. A settings-page tab is its own directory under `routes/settings/` (`settings/priceLists` and `settings/requests` are separate features; do not put Requests in `settings/priceLists/requests`). Name journey folders for what they contain. Do not clone another feature's directory names. The file basename and the component name are the same identifier (`list.tsx` exports `List`; `priceListCatalog.tsx` exports `PriceListCatalog`, with `priceListCatalogTable` and `priceListCatalogToolbar`). A modal or panel uses that same rule (`requestsModal.tsx` exports `RequestsModal`). Name that identifier for the behavior the parent, the props, and the message descriptions already use (`priceListDetailAuditHistoryPanel.tsx` exports `PriceListDetailAuditHistoryPanel`; the view it renders is `AuditHistoryView`, not `HistoryView`). Do not rename the export in a barrel. Every React component has a usage comment on the line immediately above its declaration, including child views, action menus, and modals (`DetailActions`, `AuditHistoryView`, `DraftRateModal`). The comment names this component's role, then where it is used (`Create price list action in the catalog toolbar`, `Price list settings tab`). `Settings price lists toolbar` and `Settings tab` name the parent. Match the page, table, and action layout in `.cursor/skills/transform-generated-ui/composition.md`. Inside a component, group methods as `// Getters`, `// Handlers`, `// Effects`, then `// Render` immediately before the return.
+- Put actions under `components/`, empty states under `components/state`, and shared hooks under `utils`.
+- Reuse shared route and settings components before adding a component, then PatternFly. Charts use PatternFly charts, not divs or HTML tables.
+- Colocate `*.styles.ts` and use `@patternfly/react-tokens` via `.var`. Do not use `style={{}}`, hex colors, or color names. Use SCSS only to override PatternFly internals, with PatternFly CSS variables.
+- Localize every user-visible string with `messages` from `locales/messages` and `useIntl().formatMessage`.
+- Read server-shaped data from `useMapToProps` in that file. Until an API exists, return mocked data, error, and fetch status from that function. Keep a mock value in that file when only that function uses it. Do not add a file for one constant. Do not add API calls or sessionStorage stores.
+- After creating or rewriting route UI, run the feature tests and the app typecheck, and confirm `node_modules/.bin` launchers such as `concurrently` and `ts-patch` still run. Fix failures this work introduced. Do not edit `package.json` or the lockfile. If a `.bin` launcher is a copied file, restore the symlink into its package. Do not change application source to work around that.
+
+Do not use the settings integrations feature as a style reference.
