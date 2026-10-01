@@ -97,16 +97,16 @@ Do not paste those agents' rules into the feature. Fix the code they flag.
 
 Do not change `package.json` or the lockfile. Do not edit files inside installed packages.
 
-From `apps/koku-ui-hccm`, run the tests for the rewritten feature:
+From the app that owns the feature (`apps/koku-ui-hccm` or `apps/koku-ui-ros`), run the tests:
 
 ```
 npx jest --watchman=false <feature test paths> --no-coverage --forceExit
 ```
 
-From the repo root, typecheck the app:
+From the repo root, typecheck that same app:
 
 ```
-./node_modules/typescript/bin/tsc --noEmit --pretty false -p apps/koku-ui-hccm/tsconfig.json
+./node_modules/typescript/bin/tsc --noEmit --pretty false -p <app>/tsconfig.json
 ```
 
 Fix type errors and test failures in the rewritten feature. Errors that already exist outside that feature, such as `api/rbac.ts`, stay as they are.
