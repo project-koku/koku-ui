@@ -23,6 +23,8 @@ interface ExchangeRateTableOwnProps {
   onDuplicate?: (rate: SettingsRateData) => void;
   onEdit?: (rate: SettingsRateData) => void;
   onEnable?: (checked: boolean) => void;
+  onSort(sortType: string, isSortAscending: boolean);
+  orderBy?: any;
   settings: Settings;
 }
 
@@ -55,6 +57,8 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
   onDuplicate,
   onEdit,
   onEnable,
+  onSort,
+  orderBy,
   settings,
 }) => {
   const [columns, setColumns] = useState([]);
@@ -75,7 +79,9 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
         style: styles.column,
       },
       {
+        orderBy: 'code',
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'currency_name' }),
+        ...(computedItems.length && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.detailsResourceNames, { value: 'enabled' }),
@@ -231,7 +237,16 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
     // Rebuild rows whenever the fetched currency list changes (e.g. filter cleared)
   }, [intl, settings]);
 
-  return <ExpandTable columns={columns} filterBy={filterBy} isLoading={isLoading} rows={rows} />;
+  return (
+    <ExpandTable
+      columns={columns}
+      filterBy={filterBy}
+      isLoading={isLoading}
+      onSort={onSort}
+      orderBy={orderBy}
+      rows={rows}
+    />
+  );
 };
 
 export { ExchangeRateTable };
