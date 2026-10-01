@@ -2,9 +2,9 @@
 name: create-hccm-ui
 description: >-
   Creates a Cost Management page, settings tab, table, toolbar, modal, or chart
-  in apps/koku-ui-hccm. Use when adding a new screen or settings feature.
-  Reads the shared route standards and generates that structure on the first
-  pass. Does not implement new APIs.
+  in apps/koku-ui-hccm or apps/koku-ui-ros. Use when adding a new screen or
+  settings feature in either app. Reads the shared route standards and
+  generates that structure on the first pass. Does not implement new APIs.
 ---
 
 # Create Cost Management UI
@@ -24,7 +24,8 @@ Read these files before writing any component. Do not rely on a summary of them:
 - Wire existing entry points (tabs, routes) so they render the new components.
 - Do not add API modules, store slices, or network calls. Mock data is returned from `useMapToProps`. See [data.md](../transform-generated-ui/data.md).
 - Do not use the settings integrations feature as a style reference.
-- Before writing a page, a table, or an action, open one of each under `apps/koku-ui-hccm/src/routes/settings/exchangeRates` or `priceLists` and match [composition.md](../transform-generated-ui/composition.md). Do not copy those directory or file names. Name each new folder for the responsibility it has in this feature. A settings-page tab is its own directory under `routes/settings/`. Do not nest one settings tab inside another feature.
+- Before writing a page, a table, or an action, open one of each under `apps/koku-ui-hccm/src/routes/settings/exchangeRates` or `priceLists` and match [composition.md](../transform-generated-ui/composition.md). Do that when the new feature is in `apps/koku-ui-ros` as well. Do not copy those directory or file names. Name each new folder for the responsibility it has in this feature. A settings-page tab is its own directory under `routes/settings/`. Do not nest one settings tab inside another feature.
+- Put the feature in the app the user named: `apps/koku-ui-hccm` or `apps/koku-ui-ros`. Do not apply this skill to `apps/koku-ui-sources` or `apps/koku-ui-onprem`.
 
 Use [transform-generated-ui](../transform-generated-ui/SKILL.md) only when the user asks to rewrite an existing generated tree.
 
@@ -61,4 +62,4 @@ Each view that needs remote-shaped data reads it from `useMapToProps` at the bot
 
 ### 4. Review and check
 
-After the UI exists, follow sections 5, 6, and 7 of [transform-generated-ui/SKILL.md](../transform-generated-ui/SKILL.md): PatternFly reviews, the structure and copy checks, feature tests, the app typecheck, and the `.bin` launcher checks. Apply findings that do not conflict with [composition.md](../transform-generated-ui/composition.md). Do not edit `package.json` or the lockfile.
+After the UI exists, follow sections 5, 6, and 7 of [transform-generated-ui/SKILL.md](../transform-generated-ui/SKILL.md): PatternFly reviews, the structure and copy checks, feature tests, the app typecheck, and the `.bin` launcher checks. Run Jest from the app that owns the feature, and pass that app's `tsconfig.json` to `tsc`. Apply findings that do not conflict with [composition.md](../transform-generated-ui/composition.md). Do not edit `package.json` or the lockfile.
