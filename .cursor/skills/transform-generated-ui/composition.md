@@ -21,12 +21,15 @@ Order inside the component:
 1. `baseQuery` (`limit`, `offset`, `filter_by`, `order_by`) and `useState` for that query.
 2. `useMapToProps({ query })`. Until an API exists, that function returns fixtures. See [data.md](data.md).
 3. `hasFilters`, `hasNoItems`, and `isLoading`.
-4. `get*` functions that return the toolbar, the table, and pagination.
+4. A `// Getters` block of `get*` functions that return the toolbar, the table, and pagination.
 5. A `// Handlers` block. Names are `handleOnFilterAdded`, `handleOnFilterRemoved`, `handleOnPerPageSelect`, `handleOnSetPage`, `handleOnSort`, and `handleOn*` for each mutation. Filter, page, per-page, and sort go through `routes/utils/query`.
-6. The return: error (`NotAvailable`), then loading, then the no-data empty state, otherwise the card with toolbar and table. When filters match nothing, keep the toolbar and let the table show the empty-filter state.
-7. `useMapToProps` at the bottom of the file.
+6. A `// Effects` block. Every `useEffect` in the component goes here, after the handlers. Do not leave a `useEffect` above the getters.
+7. A `// Render` comment immediately after `// Effects` and immediately before the first return. The return is error (`NotAvailable`), then loading, then the no-data empty state, otherwise the card with toolbar and table. When filters match nothing, keep the toolbar and let the table show the empty-filter state.
+8. `useMapToProps` at the bottom of the file.
 
 ```tsx
+// Getters
+
 const getTable = () => (
   <ItemTable
     canWrite={canWrite}
@@ -44,7 +47,23 @@ const getTable = () => (
 const handleOnFilterAdded = filter => {
   setQuery(queryUtils.handleOnFilterAdded(query, filter));
 };
+
+// Effects
+
+useEffect(() => {
+  // subscribe, reset, or fetch
+}, []);
+
+// Render
+
+if (itemsError) {
+  return <NotAvailable />;
+}
+
+return getCardLayout(getTable());
 ```
+
+`useEffect` stays in `// Effects`, above `// Render` and above any `return`, including an early error or loading return. That is as late as the rules of hooks allow. A component with no getters, handlers, or effects still marks its return with `// Render`.
 
 Pagination is PatternFly `Pagination`, top and bottom, built by `getPagination`. Aria titles use the shared pagination message.
 
@@ -52,7 +71,7 @@ Pagination is PatternFly `Pagination`, top and bottom, built by `getPagination`.
 
 A settings list is `DataTable` or `ExpandTable` from `routes/components/dataTable`. Import `routes/components/dataTable/dataTable.scss`.
 
-`initDatum` builds `columns` and `rows`. A column has `name`, and `orderBy` plus `isSortable` when the page can sort it. A cell is `{ value }`. An actions cell sets `isActionsCell: true` and renders the action component as `value`. Call `initDatum` from `useEffect` when the rows or `intl` change.
+`initDatum` builds `columns` and `rows`. A column has `name`, and `orderBy` plus `isSortable` when the page can sort it. A cell is `{ value }`. An actions cell sets `isActionsCell: true` and renders the action component as `value`. Call `initDatum` from a `useEffect` when the rows or `intl` change. That effect sits under a `// Effects` comment, after the other functions in the component and immediately before `// Render`. Do not put that `useEffect` above `initDatum`.
 
 Do not hand-write `Table`, `Thead`, and `Tbody` for a settings list. Do not put a second filter, sort, or page state machine in the table. The page query is that state. Pass `filterBy`, `orderBy`, `onSort`, and `isLoading` through.
 
@@ -82,4 +101,4 @@ Pure calculations live in that feature's `utils`, not in a chain of `useMemo` bl
 
 Do not pass a `model` object or `Record<string, any>` through a table, toolbar, and row. Pass the fields those components use.
 
-If a view file is mostly derivation, move the derivation until the component is `get*` functions, handlers, and the return.
+If a view file is mostly derivation, move the derivation until the component is `// Getters`, `// Handlers`, `// Effects`, and `// Render`.

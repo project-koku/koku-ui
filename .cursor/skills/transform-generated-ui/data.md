@@ -6,7 +6,26 @@ The component that owns a fetch reads `data`, `error`, and `fetchStatus` from `u
 
 Until an API exists, `useMapToProps` returns mocked values in that shape. Do not add `useDispatch`, selectors, or `useEffect` fetches during the transform. The return shape stays stable so those calls can replace the mock body later without rewriting the view.
 
-Do not keep a sessionStorage provider, a mega context, or a fake backend as the architecture. If several components share fixtures, put the fixtures in a small data module next to the feature and return them from `useMapToProps`.
+Do not keep a sessionStorage provider, a mega context, or a fake backend as the architecture.
+
+Put the mock values in the same file as the `useMapToProps` that returns them. A default list, an empty array, or any other value used by only that function stays next to the function. Do not add a `fixtures/` file, or any other file, for a single constant.
+
+```tsx
+const defaultStaticRates = (): StaticExchangeRateRecord[] => [];
+
+const useMapToProps = ({ query }: CurrencySettingsMapProps): CurrencySettingsStateProps => {
+  void query;
+
+  return {
+    currencies: defaultDynamicExchangeCurrenciesState(),
+    rates: defaultStaticRates(),
+    ratesError: undefined,
+    ratesFetchStatus: FetchStatus.complete,
+  };
+};
+```
+
+A separate data module is only for records that more than one component imports. If a later edit leaves that module with a single consumer, move the values back into that consumer and delete the module.
 
 ```tsx
 import type { Query } from 'api/queries/query';
