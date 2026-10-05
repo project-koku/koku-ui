@@ -73,7 +73,7 @@
     "@redhat-cloud-services/frontend-components": "^7.10.12",
     "@redhat-cloud-services/frontend-components-notifications": "^6.11.12",
     "@redhat-cloud-services/frontend-components-utilities": "^7.5.8",
-    "@reduxjs/toolkit": "^2.12.0",
+    "@reduxjs/toolkit": "^2.13.0",
     "@unleash/proxy-client-react": "^6.0.1",
     "axios": "^1.20.0",
     "date-fns": "^4.4.0",
