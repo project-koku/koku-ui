@@ -36,15 +36,16 @@
     "@patternfly/react-icons": "6.6.1",
     "@patternfly/react-table": "6.6.2",
     "@patternfly/react-tokens": "6.6.1",
-    "@redhat-cloud-services/frontend-components-notifications": "^6.11.12",
-    "@reduxjs/toolkit": "^2.12.0",
+    "@redhat-cloud-services/frontend-components-notifications": "^6.11.14",
+    "@reduxjs/toolkit": "^2.13.0",
     "axios": "^1.20.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intl": "^7.1.14",
     "react-redux": "^9.3.0",
     "react-router-dom": "^6.30.6",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.3.0",
