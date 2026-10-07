@@ -203,7 +203,7 @@ const InstancesTable: React.FC<InstancesTableProps> = ({
         groupBy={'instance'}
         isDisabled={isDisabled}
         item={item}
-        isTimeScoped
+        dateFilter="timeScope"
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}

@@ -158,15 +158,15 @@ class GcpDetails extends React.Component<GcpDetailsProps, GcpDetailsState> {
     return (
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
+        exportPathsType={reportPathsType}
+        exportQueryString={reportQueryString}
+        exportType={reportType}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
-        isTimeScoped
+        dateFilter="timeScope"
         items={items}
         onClose={this.handleOnExportModalClose}
-        reportPathsType={reportPathsType}
-        reportQueryString={reportQueryString}
-        reportType={reportType}
         timeScopeValue={timeScopeValue}
       />
     );

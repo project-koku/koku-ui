@@ -1,4 +1,4 @@
-import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ExportPathsType, ExportType } from 'api/export/export';
 import type { RootState } from 'store/rootReducer';
 
 import { exportStateKey, getFetchId } from './exportCommon';
@@ -7,28 +7,28 @@ export const selectExportState = (state: RootState) => state[exportStateKey];
 
 export const selectExport = (
   state: RootState,
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  reportQueryString: string
-) => selectExportState(state).byId.get(getFetchId(reportPathsType, reportType, reportQueryString));
+  exportPathsType: ExportPathsType,
+  exportType: ExportType,
+  exportQueryString: string
+) => selectExportState(state).byId.get(getFetchId(exportPathsType, exportType, exportQueryString));
 
 export const selectExportError = (
   state: RootState,
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  reportQueryString: string
-) => selectExportState(state).errors.get(getFetchId(reportPathsType, reportType, reportQueryString));
+  exportPathsType: ExportPathsType,
+  exportType: ExportType,
+  exportQueryString: string
+) => selectExportState(state).errors.get(getFetchId(exportPathsType, exportType, exportQueryString));
 
 export const selectExportFetchNotification = (
   state: RootState,
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  reportQueryString: string
-) => selectExportState(state).notification?.get(getFetchId(reportPathsType, reportType, reportQueryString));
+  exportPathsType: ExportPathsType,
+  exportType: ExportType,
+  exportQueryString: string
+) => selectExportState(state).notification?.get(getFetchId(exportPathsType, exportType, exportQueryString));
 
 export const selectExportFetchStatus = (
   state: RootState,
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  reportQueryString: string
-) => selectExportState(state).fetchStatus.get(getFetchId(reportPathsType, reportType, reportQueryString));
+  exportPathsType: ExportPathsType,
+  exportType: ExportType,
+  exportQueryString: string
+) => selectExportState(state).fetchStatus.get(getFetchId(exportPathsType, exportType, exportQueryString));

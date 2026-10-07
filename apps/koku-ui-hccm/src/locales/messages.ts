@@ -2726,6 +2726,7 @@ export default defineMessages({
       'account {{resolution, select, daily {{provider}_accounts_daily_{startDate}_{endDate}} monthly {{provider}_accounts_monthly_{startDate}_{endDate}} other {}}} ' +
       'aws_category {{resolution, select, daily {{provider}_cost_category_daily_{startDate}_{endDate}} monthly {{provider}_cost_category_monthly_{startDate}_{endDate}} other {}}} ' +
       'cluster {{resolution, select, daily {{provider}_clusters_daily_{startDate}_{endDate}} monthly {{provider}_clusters_monthly_{startDate}_{endDate}} other {}}} ' +
+      'currency {static_exchange_rates_{date}} ' +
       'gcp_project {{resolution, select, daily {{provider}_gcp-projects_daily_{startDate}_{endDate}} monthly {{provider}_gcp-projects_monthly_{startDate}_{endDate}} other {}}} ' +
       'instance {{resolution, select, daily {{provider}_instances_daily_{startDate}_{endDate}} monthly {{provider}_instances_monthly_{startDate}_{endDate}} other {}}} ' +
       'node {{resolution, select, daily {{provider}_node_daily_{startDate}_{endDate}} monthly {{provider}_node_monthly_{startDate}_{endDate}} other {}}} ' +
@@ -2824,6 +2825,7 @@ export default defineMessages({
       'account {Selected accounts ({count})} ' +
       'aws_category {Selected cost categories ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
+      'currency {Selected currencies ({count})} ' +
       'gcp_project {Selected Google Cloud projects ({count})} ' +
       'instance {Selected instances ({count})} ' +
       'node {Selected nodes ({count})} ' +

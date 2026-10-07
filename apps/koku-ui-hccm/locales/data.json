@@ -10326,6 +10326,18 @@
               }
             ]
           },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "static_exchange_rates_"
+              },
+              {
+                "type": 1,
+                "value": "date"
+              }
+            ]
+          },
           "gcp_project": {
             "value": [
               {
@@ -12534,6 +12546,22 @@
               {
                 "type": 0,
                 "value": "Selected clusters ("
+              },
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": ")"
+              }
+            ]
+          },
+          "currency": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Selected currencies ("
               },
               {
                 "type": 1,
