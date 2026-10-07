@@ -146,15 +146,15 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency, queryStateNam
     return (
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
+        exportPathsType={reportPathsType}
+        exportQueryString={reportQueryString}
+        exportType={reportType}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy="instance"
         isOpen={isExportModalOpen}
-        isTimeScoped
+        dateFilter="timeScope"
         items={items}
         onClose={handleOnExportModalClose}
-        reportPathsType={reportPathsType}
-        reportQueryString={reportQueryString}
-        reportType={reportType}
         showAggregateType={false}
         timeScopeValue={timeScopeValue}
       />
