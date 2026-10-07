@@ -128,6 +128,11 @@ jest.mock('routes/components/state/loadingState', () => ({
   LoadingState: ({ heading }: { heading?: string }) => <div data-testid="loading-state">{heading}</div>,
 }));
 
+jest.mock('routes/components/export', () => ({
+  ExportModal: ({ isOpen }: { isOpen?: boolean }) =>
+    isOpen ? <div data-testid="export-modal" /> : null,
+}));
+
 import { ExchangeRate } from './exchangeRate';
 
 const noopStore = createStore(() => ({}));

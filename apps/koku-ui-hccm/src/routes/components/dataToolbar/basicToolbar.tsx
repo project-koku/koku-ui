@@ -12,6 +12,7 @@ import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 
+import { getExportButton } from './utils/actions';
 import { getBulkSelect } from './utils/bulkSelect';
 import {
   getCategoryInput,
@@ -32,10 +33,12 @@ interface BasicToolbarOwnProps {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
   isDisabled?: boolean;
+  isExportDisabled?: boolean; // Show export icon as disabled
   isReadOnly?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelect?: (action: string) => void;
+  onExportClicked?: () => void;
   onFilterAdded?: (filter: Filter) => void;
   onFilterRemoved?: (filterType: Filter) => void;
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
@@ -46,6 +49,7 @@ interface BasicToolbarOwnProps {
   showBulkSelect?: boolean; // Show bulk select
   showBulkSelectAll?: boolean; // Show bulk select all option
   showBulkSelectPage?: boolean; // Show bulk select page option
+  showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
   useActiveFilters?: boolean;
@@ -333,8 +337,27 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     );
   };
 
+  // Export button
+
+  public getExportButtonComponent = () => {
+    const { isDisabled, isExportDisabled } = this.props;
+
+    return getExportButton({
+      isDisabled,
+      isExportDisabled,
+      onExportClicked: this.handleOnExportClicked,
+    });
+  };
+
+  private handleOnExportClicked = () => {
+    const { onExportClicked } = this.props;
+    if (onExportClicked) {
+      onExportClicked();
+    }
+  };
+
   public render() {
-    const { actions, categoryOptions, pagination, showBulkSelect, showFilter, style } = this.props;
+    const { actions, categoryOptions, pagination, showBulkSelect, showExport, showFilter, style } = this.props;
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
@@ -353,6 +376,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
               </ToolbarToggleGroup>
             )}
             {actions && <ToolbarGroup>{actions}</ToolbarGroup>}
+            {showExport && <ToolbarGroup>{showExport && this.getExportButtonComponent()}</ToolbarGroup>}
             <ToolbarItem align={{ default: 'alignEnd' }} variant="pagination">
               {pagination}
             </ToolbarItem>
