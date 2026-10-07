@@ -16,7 +16,7 @@ import {
   Radio,
   TextInput,
 } from '@patternfly/react-core';
-import type { ReportPathsType, ReportType } from 'api/reports/report';
+import type { ExportPathsType, ExportType } from 'api/export/export';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import { orderBy } from 'lodash';
@@ -34,15 +34,15 @@ import { ExportSubmit } from './exportSubmit';
 
 export interface ExportModalOwnProps {
   count?: number;
+  exportPathsType: ExportPathsType;
+  exportQueryString: string;
+  exportType: ExportType;
   groupBy?: string;
+  dateFilter?: 'timeScope' | 'dateRange'; // Omit for no date params; timeScope uses time_scope_value, dateRange uses start/end
   isAllItems?: boolean;
   isOpen: boolean;
-  isTimeScoped?: boolean; // Indicates API should use time_scope_value or start and end date parameters
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
-  reportPathsType: ReportPathsType;
-  reportQueryString: string;
-  reportType: ReportType;
   resolution?: 'daily' | 'monthly'; // Default resolution
   showAggregateType?: boolean; // Monthly resolution filters are not valid with date range
   showFormatType?: boolean; // Format type; CVS / JSON
@@ -124,15 +124,15 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
   public render() {
     const {
       count = 0,
+      exportPathsType,
+      exportType,
       groupBy,
       intl,
+      dateFilter,
       isAllItems,
       isExportsToggleEnabled,
-      isTimeScoped,
       items = [],
-      reportPathsType,
-      reportQueryString,
-      reportType,
+      exportQueryString,
       showAggregateType = true,
       showFormatType = true,
       timeScopeValue,
@@ -157,11 +157,12 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       selectedLabel = intl.formatMessage(messages.exportSelected, { groupBy: 'tag', count });
     }
 
+    // Custom export name (future feature)
     const defaultName =
       name !== undefined
         ? name
         : intl.formatMessage(messages.exportName, {
-            provider: reportPathsType,
+            provider: exportPathsType,
             groupBy: groupBy?.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
           });
 
@@ -257,19 +258,19 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
         <ModalFooter>
           <ExportSubmit
             disabled={validated === 'error'}
+            dateFilter={dateFilter}
             formatType={formatType}
             groupBy={groupBy}
             isAllItems={isAllItems}
-            isTimeScoped={isTimeScoped}
             items={items}
             key="confirm"
             onClose={this.handleOnClose}
             onError={this.handleOnError}
             name={defaultName}
-            reportPathsType={reportPathsType}
-            reportQueryString={reportQueryString}
-            reportType={reportType}
-            resolution={resolution}
+            exportPathsType={exportPathsType}
+            exportType={exportType}
+            exportQueryString={exportQueryString}
+            resolution={dateFilter ? resolution : undefined}
             timeScopeValue={timeScopeValue}
           />
           <Button ouiaId="cancel-btn" key="cancel" onClick={this.handleOnClose} variant={ButtonVariant.link}>
