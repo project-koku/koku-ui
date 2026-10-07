@@ -196,6 +196,24 @@ describe('ExchangeRateTable', () => {
     );
   });
 
+  test('shows none when the currency is enabled without an active rate type', async () => {
+    const missingRateType = {
+      ...settings,
+      data: [{ ...settings.data[0], enabled: true, active_rate_type: undefined }],
+    };
+
+    renderTable(
+      <ExchangeRateTable canWrite filterBy={{}} isDisabled={false} isLoading={false} settings={missingRateType} />
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId('cell-0-3')).toHaveTextContent('active-rate:none');
+    });
+    expect(mockFormatMessage).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'activeRate' }),
+      expect.objectContaining({ value: 'none' })
+    );
+  });
+
   test('builds parent rows without children when there are no static rates', async () => {
     const noStatic = {
       meta: { count: 1, limit: 10, offset: 0 },
