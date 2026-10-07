@@ -6,6 +6,12 @@ export default defineMessages({
     description: 'Actions column',
     id: 'actionsColumn',
   },
+  activeRate: {
+    defaultMessage:
+      '{value, select, ' + 'dynamic {Dynamic} ' + 'static {Static} ' + 'none {Not enabled} ' + 'other {}}',
+    description: 'Active rate',
+    id: 'activeRate',
+  },
   addProjects: {
     defaultMessage: 'Add projects',
     description: 'Add projects',
@@ -2397,11 +2403,6 @@ export default defineMessages({
     defaultMessage: 'Duplicate price list',
     description: 'Duplicate price list',
     id: 'duplicatePriceList',
-  },
-  dynamicRate: {
-    defaultMessage: '{value, select, ' + 'false {Not enabled} ' + 'true {Dynamic} ' + 'other {}}',
-    description: 'Dynamic rate',
-    id: 'dynamicRate',
   },
   edit: {
     defaultMessage: 'Edit',

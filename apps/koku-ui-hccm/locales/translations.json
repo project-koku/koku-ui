@@ -1,5 +1,6 @@
 {
   "actionsColumn": "Actions column",
+  "activeRate": "{value, select, dynamic {Dynamic} static {Static} none {Not enabled} other {}}",
   "addProjects": "Add projects",
   "allOtherProjectCosts": "Project (All other costs)",
   "assignCostModel": "Assign cost model",
@@ -363,7 +364,6 @@
   "download": "Download",
   "duplicate": "Duplicate",
   "duplicatePriceList": "Duplicate price list",
-  "dynamicRate": "{value, select, false {Not enabled} true {Dynamic} other {}}",
   "edit": "Edit",
   "editCostModel": "Edit cost model",
   "editDetails": "Edit details",

@@ -6,6 +6,41 @@
         "value": "Actions column"
       }
     ],
+    "activeRate": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "dynamic": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Dynamic"
+              }
+            ]
+          },
+          "static": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Static"
+              }
+            ]
+          },
+          "none": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Not enabled"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
+      }
+    ],
     "addProjects": [
       {
         "type": 0,
@@ -9534,33 +9569,6 @@
       {
         "type": 0,
         "value": "Duplicate price list"
-      }
-    ],
-    "dynamicRate": [
-      {
-        "type": 5,
-        "value": "value",
-        "options": {
-          "false": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Not enabled"
-              }
-            ]
-          },
-          "true": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Dynamic"
-              }
-            ]
-          },
-          "other": {
-            "value": []
-          }
-        }
       }
     ],
     "edit": [
