@@ -19,9 +19,9 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 
 interface DetailsActionsOwnProps extends NotificationComponentProps, RouterComponentProps, WrappedComponentProps {
+  dateFilter?: 'timeScope' | 'dateRange';
   groupBy?: string;
   isDisabled?: boolean;
-  isTimeScoped?: boolean;
   item: ComputedReportItem;
   reportPathsType: ReportPathsType;
   reportQueryString: string;
@@ -81,8 +81,8 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
 
   private getExportModal = () => {
     const {
+      dateFilter,
       groupBy,
-      isTimeScoped,
       item,
       timeScopeValue,
       reportPathsType,
@@ -95,14 +95,14 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps, DetailsAct
     return (
       <ExportModal
         count={1}
+        dateFilter={dateFilter}
+        exportPathsType={reportPathsType}
+        exportQueryString={reportQueryString}
+        exportType={reportType}
         groupBy={groupBy}
         isOpen={isExportModalOpen}
-        isTimeScoped={isTimeScoped}
         items={[item]}
         onClose={this.handleExportModalClose}
-        reportPathsType={reportPathsType}
-        reportQueryString={reportQueryString}
-        reportType={reportType}
         showAggregateType={showAggregateType}
         timeScopeValue={timeScopeValue}
       />

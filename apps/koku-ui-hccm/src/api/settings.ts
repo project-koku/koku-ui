@@ -25,6 +25,7 @@ export interface SettingsRateData extends SettingsRatePayload {
 }
 
 export interface SettingsCurrencyData {
+  active_rate_type?: string;
   code?: string;
   name?: string;
   symbol?: string;
