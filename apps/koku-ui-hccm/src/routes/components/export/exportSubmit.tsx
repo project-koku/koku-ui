@@ -1,11 +1,9 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { type AccountSettingsData, AccountSettingsType } from 'api/accountSettings';
-import type { Export } from 'api/export/export';
+import type { Export, ExportPathsType, ExportType } from 'api/export/export';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import { getQuery } from 'api/queries/query';
-import type { ReportPathsType } from 'api/reports/report';
-import type { ReportType } from 'api/reports/report';
 import type { AxiosError } from 'axios';
 import { ExportsLink } from 'components/drawers';
 import { isOnPremEnabled } from 'components/featureToggle';
@@ -32,18 +30,18 @@ import { withRouter } from 'utils/router';
 
 export interface ExportSubmitOwnProps extends NotificationComponentProps, RouterComponentProps, WrappedComponentProps {
   disabled?: boolean;
+  dateFilter?: 'timeScope' | 'dateRange';
+  exportPathsType: ExportPathsType;
+  exportQueryString: string;
+  exportType: ExportType;
   formatType: 'csv' | 'json';
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
-  isTimeScoped?: boolean;
   name?: string;
   onClose(isOpen: boolean);
   onError(error: AxiosError);
-  reportPathsType: ReportPathsType;
-  reportQueryString: string;
-  reportType: ReportType;
-  resolution: string;
+  resolution?: string;
   timeScopeValue?: number;
 }
 
@@ -113,9 +111,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   }
 
   private fetchExport = () => {
-    const { exportQueryString, fetchExport, isExportsToggleEnabled, reportPathsType, reportType } = this.props;
+    const { exportPathsType, exportQueryString, exportType, fetchExport, isExportsToggleEnabled } = this.props;
 
-    fetchExport(reportPathsType, reportType, exportQueryString, isExportsToggleEnabled);
+    fetchExport(exportPathsType, exportType, exportQueryString, isExportsToggleEnabled);
 
     this.setState(
       {
@@ -137,12 +135,13 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
   };
 
   private getFileName = () => {
-    const { endDate, groupBy, intl, reportPathsType, resolution, startDate } = this.props;
+    const { endDate, exportPathsType, groupBy, intl, resolution, startDate } = this.props;
 
     // defaultMessage: '<provider>_<groupBy>_<resolution>_<start-date>_<end-date>',
     const fileName = intl.formatMessage(messages.exportFileName, {
+      date: format(getToday(), 'yyyy-MM-dd'),
       endDate,
-      provider: reportPathsType,
+      provider: exportPathsType,
       groupBy: groupBy && groupBy.indexOf(tagPrefix) !== -1 ? 'tag' : groupBy,
       resolution,
       startDate,
@@ -188,13 +187,13 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps, ExportS
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
   const {
+    dateFilter,
+    exportPathsType,
+    exportQueryString: pageQueryString,
+    exportType,
     groupBy,
     isAllItems,
-    isTimeScoped,
     items,
-    reportPathsType,
-    reportQueryString,
-    reportType,
     resolution,
     router,
     timeScopeValue,
@@ -237,24 +236,24 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const { end_date, start_date } = getDateRange();
 
   const getQueryString = () => {
-    const reportQuery = parseQuery(reportQueryString);
+    const pageQuery = parseQuery(pageQueryString);
     const newQuery: Query = {
-      ...reportQuery,
+      ...pageQuery,
       delta: undefined, // Don't want cost delta percentage
       filter: {
-        ...(reportQuery.filter ? reportQuery.filter : {}),
+        ...(pageQuery.filter ? pageQuery.filter : {}),
         limit: undefined, // Don't want paginated data
         offset: undefined, // Don't want a specific page
         time_scope_units: undefined, // Omitted for export?
-        time_scope_value: undefined, // Not used with start and end date, use isTimeScoped
-        resolution: resolution ? resolution : undefined, // Resolution is defined by export modal
-        ...(isTimeScoped && { time_scope_value: isPrevious ? -2 : -1 }),
+        time_scope_value: undefined, // Set below when dateFilter is timeScope
+        resolution: dateFilter && resolution ? resolution : undefined, // Only with dateFilter (report exports)
+        ...(dateFilter === 'timeScope' && { time_scope_value: isPrevious ? -2 : -1 }),
       },
       filter_by: {}, // Don't want page filter, selected items will be filtered below
       limit: 0, // No limit to number of items returned
       offset: undefined,
       order_by: undefined, // Don't want items sorted by cost
-      ...(!isTimeScoped && {
+      ...(dateFilter === 'dateRange' && {
         start_date,
         end_date,
       }),
@@ -305,7 +304,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       }
     }
 
-    // reportQueryString is built via getQuery(), which already converts page filter_by
+    // pageQueryString is built via getQuery(), which already converts page filter_by
     // values into filter. Clear those keys so convertFilterBy does not emit duplicates
     // or retain unselected group_by filter values from the page.
     const filterKeysToReplace = new Set(Object.keys(newQuery.filter_by));
@@ -322,18 +321,18 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   };
 
   const exportQueryString = getQueryString();
-  const exportReport = exportSelectors.selectExport(state, reportPathsType, reportType, exportQueryString);
-  const exportError = exportSelectors.selectExportError(state, reportPathsType, reportType, exportQueryString);
+  const exportReport = exportSelectors.selectExport(state, exportPathsType, exportType, exportQueryString);
+  const exportError = exportSelectors.selectExportError(state, exportPathsType, exportType, exportQueryString);
   const exportFetchNotification = exportSelectors.selectExportFetchNotification(
     state,
-    reportPathsType,
-    reportType,
+    exportPathsType,
+    exportType,
     exportQueryString
   );
   const exportFetchStatus = exportSelectors.selectExportFetchStatus(
     state,
-    reportPathsType,
-    reportType,
+    exportPathsType,
+    exportType,
     exportQueryString
   );
 

@@ -15,11 +15,13 @@ interface ExchangeRateToolbarOwnProps {
   canWrite?: boolean;
   isAllSelected?: boolean;
   isDisabled?: boolean;
+  isExportDisabled?: boolean;
   isShowDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onAdd?: (rate: SettingsRateData) => void;
   onClose?: () => void;
+  onExportClicked();
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onShowDeprecated(checked: boolean);
@@ -34,11 +36,13 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
   canWrite,
   isAllSelected,
   isDisabled,
+  isExportDisabled,
   isShowDisabled,
   itemsPerPage,
   itemsTotal,
   onAdd,
   onClose,
+  onExportClicked,
   onFilterAdded,
   onFilterRemoved,
   onShowDeprecated,
@@ -108,14 +112,17 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
       categoryOptions={getCategoryOptions()}
       isAllSelected={isAllSelected}
       isDisabled={isDisabled}
+      isExportDisabled={isExportDisabled}
       isReadOnly={!canWrite}
       itemsPerPage={itemsPerPage}
       itemsTotal={itemsTotal}
+      onExportClicked={onExportClicked}
       onFilterAdded={onFilterAdded}
       onFilterRemoved={onFilterRemoved}
       pagination={pagination}
       query={query}
       resourcePathsType={ResourcePathsType.ocp}
+      showExport
       showFilter
     />
   );

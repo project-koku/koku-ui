@@ -203,7 +203,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       <Actions
         groupBy={groupBy}
         isDisabled={isDisabled}
-        isTimeScoped
+        dateFilter="timeScope"
         item={item}
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}

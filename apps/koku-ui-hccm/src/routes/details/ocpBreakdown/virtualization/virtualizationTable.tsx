@@ -225,7 +225,7 @@ const VirtualizationTable: React.FC<VirtualizationTableProps> = ({
         groupBy="vm_name"
         isDisabled={isDisabled}
         item={item}
-        isTimeScoped
+        dateFilter="timeScope"
         reportPathsType={reportPathsType}
         reportQueryString={reportQueryString}
         reportType={reportType}

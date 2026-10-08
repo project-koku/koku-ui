@@ -228,6 +228,9 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
     return (
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
+        exportPathsType={getReportPathsType(perspective)}
+        exportQueryString={reportQueryString}
+        exportType={ReportType.cost}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={
           groupByCostCategory
@@ -236,12 +239,10 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
               ? `${tagPrefix}${groupByTagKey}`
               : groupById
         }
+        dateFilter="dateRange"
         isOpen={isExportModalOpen}
         items={items}
         onClose={this.handleOnExportModalClose}
-        reportPathsType={getReportPathsType(perspective)}
-        reportQueryString={reportQueryString}
-        reportType={ReportType.cost}
         resolution="daily"
       />
     );
