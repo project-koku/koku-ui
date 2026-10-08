@@ -165,6 +165,9 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
     return (
       <ExportModal
         count={isAllSelected ? itemsTotal : items.length}
+        exportPathsType={reportPathsType}
+        exportQueryString={reportQueryString}
+        exportType={reportType}
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={
           groupByCostCategory
@@ -174,12 +177,9 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
               : groupById
         }
         isOpen={isExportModalOpen}
-        isTimeScoped
+        dateFilter="timeScope"
         items={items}
         onClose={this.handleOnExportModalClose}
-        reportPathsType={reportPathsType}
-        reportQueryString={reportQueryString}
-        reportType={reportType}
         timeScopeValue={timeScopeValue}
       />
     );

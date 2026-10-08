@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { ExportModal } from 'routes/components/export';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { useSettingsNotifications } from 'routes/settings/utils';
@@ -36,6 +37,7 @@ export interface ExchangeRateStateProps {
   settings?: Settings;
   settingsError?: AxiosError;
   settingsFetchStatus?: FetchStatus;
+  settingsQueryString?: string;
 }
 
 type ExchangeRateProps = ExchangeRateOwnProps;
@@ -52,10 +54,14 @@ const baseQuery: Query = {
 const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   const intl = useIntl();
 
+  const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isShowDisabled, setIsShowDisabled] = useState<boolean>(false);
   const [query, setQuery] = useState({ ...baseQuery });
 
-  const { settings, settingsError, settingsFetchStatus } = useMapToProps({ isShowDisabled, query });
+  const { settings, settingsError, settingsFetchStatus, settingsQueryString } = useMapToProps({
+    isShowDisabled,
+    query,
+  });
 
   const hasFilters = Object.keys(query?.filter_by ?? {}).some(key => query.filter_by[key]?.length > 0);
   const hasNoCurrency = (!settings || settings?.data?.length === 0) && !hasFilters;
@@ -77,6 +83,23 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
       </CardBody>
     </Card>
   );
+
+  const getExportModal = () => {
+    return (
+      <ExportModal
+        count={settings?.meta?.count ?? 0}
+        exportPathsType={SettingsType.currency}
+        exportQueryString={settingsQueryString}
+        exportType={SettingsType.currency}
+        groupBy="currency"
+        isAllItems={true}
+        isOpen={isExportModalOpen}
+        onClose={handleOnExportModalClose}
+        showAggregateType={false}
+        showFormatType={false}
+      />
+    );
+  };
 
   const getPagination = (isBottom = false) => {
     const count = settings?.meta?.count ?? 0;
@@ -128,10 +151,12 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
       <ExchangeRateToolbar
         canWrite={canWrite}
         isDisabled={hasNoCurrency}
+        isExportDisabled={settings?.meta?.count === 0}
         isShowDisabled={isShowDisabled}
         itemsPerPage={settings?.meta?.limit ?? baseQuery.limit}
         itemsTotal={settings?.meta?.count ?? 0}
         onAdd={handleOnAdd}
+        onExportClicked={handleOnExportModalOpen}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         onShowDeprecated={handleOnShowDeprecated}
@@ -168,6 +193,14 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
 
   const handleOnEdit = () => {
     forceUpdate();
+  };
+
+  const handleOnExportModalClose = (isOpen: boolean) => {
+    setIsExportModalOpen(isOpen);
+  };
+
+  const handleOnExportModalOpen = () => {
+    setIsExportModalOpen(true);
   };
 
   const handleOnFilterAdded = filter => {
@@ -216,6 +249,7 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
               />
             ) : (
               <>
+                {getExportModal()}
                 {getTable()}
                 <div style={styles.paginationContainer}>{getPagination(true)}</div>
               </>
@@ -291,6 +325,7 @@ const useMapToProps = ({ isShowDisabled, query }: ExchangeRateMapProps): Exchang
     settings,
     settingsError,
     settingsFetchStatus,
+    settingsQueryString,
   };
 };
 

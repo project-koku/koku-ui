@@ -1,4 +1,5 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { SettingsType } from 'api/settings';
 
 import { runExport } from './exportUtils';
 
@@ -6,6 +7,7 @@ jest.mock('./awsExport', () => ({ runExport: jest.fn(() => 'aws') }));
 jest.mock('./awsOcpExport', () => ({ runExport: jest.fn(() => 'awsOcp') }));
 jest.mock('./azureExport', () => ({ runExport: jest.fn(() => 'azure') }));
 jest.mock('./azureOcpExport', () => ({ runExport: jest.fn(() => 'azureOcp') }));
+jest.mock('./currencyExport', () => ({ runExport: jest.fn(() => 'currency') }));
 jest.mock('./gcpExport', () => ({ runExport: jest.fn(() => 'gcp') }));
 jest.mock('./gcpOcpExport', () => ({ runExport: jest.fn(() => 'gcpOcp') }));
 jest.mock('./ocpCloudExport', () => ({ runExport: jest.fn(() => 'ocpCloud') }));
@@ -15,6 +17,8 @@ import { runExport as runAwsExport } from './awsExport';
 import { runExport as runAwsOcpExport } from './awsOcpExport';
 import { runExport as runAzureExport } from './azureExport';
 import { runExport as runAzureOcpExport } from './azureOcpExport';
+import { runExport as runCurrencyExport } from './currencyExport';
+import type { ExportPathsType } from './export';
 import { runExport as runGcpExport } from './gcpExport';
 import { runExport as runGcpOcpExport } from './gcpOcpExport';
 import { runExport as runOcpCloudExport } from './ocpCloudExport';
@@ -37,7 +41,12 @@ describe('runExport', () => {
     expect(fn).toHaveBeenCalledWith(ReportType.cost, query);
   });
 
+  test('dispatches currency exports', () => {
+    expect(runExport(SettingsType.currency, SettingsType.currency, query)).toBe('currency');
+    expect(runCurrencyExport).toHaveBeenCalledWith(SettingsType.currency, query);
+  });
+
   test('returns undefined for unknown path types', () => {
-    expect(runExport('unknown' as ReportPathsType, ReportType.cost, query)).toBeUndefined();
+    expect(runExport('unknown' as ExportPathsType, ReportType.cost, query)).toBeUndefined();
   });
 });

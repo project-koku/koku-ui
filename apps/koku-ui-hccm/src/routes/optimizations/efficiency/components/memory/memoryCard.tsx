@@ -131,14 +131,14 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ currency, exclude, filterBy, gr
     return (
       <ExportModal
         count={report?.meta ? report.meta.count : 0}
+        exportPathsType={reportPathsType}
+        exportQueryString={reportQueryString}
+        exportType={reportType}
         isAllItems
         groupBy={groupBy}
         isOpen={isExportModalOpen}
-        isTimeScoped
+        dateFilter="timeScope"
         onClose={handleOnExportModalClose}
-        reportPathsType={reportPathsType}
-        reportQueryString={reportQueryString}
-        reportType={reportType}
         timeScopeValue={timeScopeValue}
       />
     );
