@@ -1,7 +1,7 @@
 import { AlertVariant } from '@patternfly/react-core';
-import type { Export } from 'api/export/export';
+import type { Export, ExportPathsType, ExportType } from 'api/export/export';
 import { runExport } from 'api/export/exportUtils';
-import type { ReportPathsType, ReportType } from 'api/reports/report';
+import { SettingsType } from 'api/settings';
 import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
@@ -26,22 +26,22 @@ export const fetchExportFailure = createAction('report/failure')<AxiosError, Exp
 const exportSuccessID = 'cost_management_export_success';
 
 export function fetchExport(
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  reportQueryString: string,
+  exportPathsType: ExportPathsType,
+  exportType: ExportType,
+  exportQueryString: string,
   isExportsToggleEnabled: boolean = false
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    if (!isExportExpired(getState(), reportPathsType, reportType, reportQueryString)) {
+    if (!isExportExpired(getState(), exportPathsType, exportType, exportQueryString)) {
       return;
     }
 
     const meta: ExportActionMeta = {
-      fetchId: getFetchId(reportPathsType, reportType, reportQueryString),
+      fetchId: getFetchId(exportPathsType, exportType, exportQueryString),
     };
 
     dispatch(fetchExportRequest(meta));
-    runExport(reportPathsType, reportType, reportQueryString)
+    runExport(exportPathsType, exportType, exportQueryString)
       .then(res => {
         dispatch(
           fetchExportSuccess(res.data, {
@@ -77,14 +77,23 @@ export function fetchExport(
 
 function isExportExpired(
   state: RootState,
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  reportQueryString: string
+  exportPathsType: ExportPathsType,
+  exportType: ExportType,
+  exportQueryString: string
 ) {
-  const report = selectExport(state, reportPathsType, reportType, reportQueryString);
-  const fetchError = selectExportError(state, reportPathsType, reportType, reportQueryString);
-  const fetchStatus = selectExportFetchStatus(state, reportPathsType, reportType, reportQueryString);
-  if (fetchError || fetchStatus === FetchStatus.inProgress) {
+  const fetchStatus = selectExportFetchStatus(state, exportPathsType, exportType, exportQueryString);
+  if (fetchStatus === FetchStatus.inProgress) {
+    return false;
+  }
+
+  // Static rates change without changing the export query string
+  if (exportPathsType === SettingsType.currency) {
+    return true;
+  }
+
+  const report = selectExport(state, exportPathsType, exportType, exportQueryString);
+  const fetchError = selectExportError(state, exportPathsType, exportType, exportQueryString);
+  if (fetchError) {
     return false;
   }
 

@@ -131,14 +131,14 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
     return (
       <ExportModal
         count={report?.meta ? report.meta.count : 0}
+        exportPathsType={reportPathsType}
+        exportQueryString={reportQueryString}
+        exportType={reportType}
         isAllItems
         groupBy={groupBy}
         isOpen={isExportModalOpen}
-        isTimeScoped
+        dateFilter="timeScope"
         onClose={handleOnExportModalClose}
-        reportPathsType={reportPathsType}
-        reportQueryString={reportQueryString}
-        reportType={reportType}
         timeScopeValue={timeScopeValue}
       />
     );

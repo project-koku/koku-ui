@@ -220,7 +220,9 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
           },
           {
             style: styles.column,
-            value: intl.formatMessage(messages.dynamicRate, { value: item?.has_dynamic_rate }),
+            value: intl.formatMessage(messages.activeRate, {
+              value: item?.enabled ? (item.active_rate_type ?? 'none') : 'none',
+            }),
           },
         ],
         ...(children && { children }),
