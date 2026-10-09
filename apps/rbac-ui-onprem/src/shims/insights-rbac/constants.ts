@@ -7,6 +7,8 @@
  *
  * Keep exports in sync with vendor/insights-rbac-ui/src/shared/utilities/constants.ts
  * on submodule bump (only DEFAULT_MUA_BUNDLE should differ).
+ *
+ * Note: Upstream no longer requires a shim for DEFAULT_MUA_BUNDLE -- see COST-8204 and COST-8225
  */
 export const RBAC_API_BASE = `/api/rbac/v1` as const;
 export const RBAC_API_BASE_2 = `/api/rbac/v2` as const;
