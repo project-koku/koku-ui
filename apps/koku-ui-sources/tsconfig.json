@@ -5,6 +5,9 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": true,
+    // MSW 3 relies on package.json "exports"; legacy "node" resolution
+    // resolves msw/browser to the repo-root MSW 2 copy instead.
+    "moduleResolution": "bundler",
     "baseUrl": "./src",
     "outDir": "./dist/",
     "paths": {
