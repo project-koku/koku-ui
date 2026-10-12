@@ -2616,12 +2616,7 @@ export default defineMessages({
   },
   exchangeRateStatus: {
     defaultMessage:
-      '{value, select, ' +
-      'active {Active} ' +
-      'expired {Expired} ' +
-      'upcoming {Upcoming} ' +
-      'unavailable {Unavailable} ' +
-      'other {}}',
+      '{value, select, ' + 'active {Active} ' + 'expired {Expired} ' + 'upcoming {Upcoming} ' + 'other {}}',
     description: 'Exchange rate status',
     id: 'exchangeRateStatus',
   },

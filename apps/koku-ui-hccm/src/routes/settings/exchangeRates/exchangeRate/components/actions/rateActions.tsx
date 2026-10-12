@@ -16,7 +16,6 @@ interface RateActionsOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   isDispatch?: boolean;
-  isExpired?: boolean;
   onClose?: () => void;
   onDelete?: (rate: SettingsRateData) => void;
   onDuplicate?: (rate: SettingsRateData) => void;
@@ -31,7 +30,6 @@ const RateActions: React.FC<RateActionsProps> = ({
   canWrite,
   isDisabled,
   isDispatch,
-  isExpired,
   onClose,
   onDelete,
   onDuplicate,
@@ -58,18 +56,11 @@ const RateActions: React.FC<RateActionsProps> = ({
   });
 
   const menuItems: DropdownWrapperItem[] = useMemo(() => {
-    const getReadOnlyTooltip = (expiredMessage: MessageDescriptor) => {
+    const getReadOnlyTooltip = (msg: MessageDescriptor) => {
       if (!canWrite) {
         return {
           tooltipProps: {
             content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
-          },
-        };
-      }
-      if (isExpired) {
-        return {
-          tooltipProps: {
-            content: <div>{intl.formatMessage(expiredMessage)}</div>,
           },
         };
       }
@@ -78,7 +69,7 @@ const RateActions: React.FC<RateActionsProps> = ({
 
     return [
       {
-        isDisabled: isDisabled || !canWrite || isExpired,
+        isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.openEdit(),
         toString: () => intl.formatMessage(messages.priceListEditRate),
         ...getReadOnlyTooltip(messages.exchangeRateExpiredCannotEdit),
@@ -94,13 +85,13 @@ const RateActions: React.FC<RateActionsProps> = ({
         }),
       },
       {
-        isDisabled: isDisabled || !canWrite || isExpired,
+        isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.delete(),
         toString: () => intl.formatMessage(messages.remove),
         ...getReadOnlyTooltip(messages.exchangeRateExpiredCannotDelete),
       },
     ];
-  }, [canWrite, intl, isDisabled, isExpired]);
+  }, [canWrite, intl, isDisabled]);
 
   return (
     <>

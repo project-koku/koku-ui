@@ -21,6 +21,7 @@ export interface SettingsRateData extends SettingsRatePayload {
   name?: string;
   created_timestamp?: string;
   updated_timestamp?: string;
+  status?: string;
   uuid?: string;
 }
 
