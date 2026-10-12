@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 
 import { APPLICATIONS_PATH } from '../applications-service';
 import { SOURCES_PATH } from '../sources-service';
