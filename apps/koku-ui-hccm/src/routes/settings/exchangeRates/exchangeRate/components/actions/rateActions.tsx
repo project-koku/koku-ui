@@ -1,7 +1,6 @@
 import type { SettingsData, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useLayoutEffect, useMemo, useRef } from 'react';
-import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
@@ -16,7 +15,6 @@ interface RateActionsOwnProps {
   canWrite?: boolean;
   isDisabled?: boolean;
   isDispatch?: boolean;
-  isExpired?: boolean;
   onClose?: () => void;
   onDelete?: (rate: SettingsRateData) => void;
   onDuplicate?: (rate: SettingsRateData) => void;
@@ -31,7 +29,6 @@ const RateActions: React.FC<RateActionsProps> = ({
   canWrite,
   isDisabled,
   isDispatch,
-  isExpired,
   onClose,
   onDelete,
   onDuplicate,
@@ -58,49 +55,33 @@ const RateActions: React.FC<RateActionsProps> = ({
   });
 
   const menuItems: DropdownWrapperItem[] = useMemo(() => {
-    const getReadOnlyTooltip = (expiredMessage: MessageDescriptor) => {
-      if (!canWrite) {
-        return {
-          tooltipProps: {
-            content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
-          },
-        };
-      }
-      if (isExpired) {
-        return {
-          tooltipProps: {
-            content: <div>{intl.formatMessage(expiredMessage)}</div>,
-          },
-        };
-      }
-      return {};
+    const readOnlyTooltip = {
+      tooltipProps: {
+        content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
+      },
     };
 
     return [
       {
-        isDisabled: isDisabled || !canWrite || isExpired,
+        isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.openEdit(),
         toString: () => intl.formatMessage(messages.priceListEditRate),
-        ...getReadOnlyTooltip(messages.exchangeRateExpiredCannotEdit),
+        ...(!canWrite && readOnlyTooltip),
       },
       {
         isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.openDuplicate(),
         toString: () => intl.formatMessage(messages.duplicate),
-        ...(!canWrite && {
-          tooltipProps: {
-            content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
-          },
-        }),
+        ...(!canWrite && readOnlyTooltip),
       },
       {
-        isDisabled: isDisabled || !canWrite || isExpired,
+        isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.delete(),
         toString: () => intl.formatMessage(messages.remove),
-        ...getReadOnlyTooltip(messages.exchangeRateExpiredCannotDelete),
+        ...(!canWrite && readOnlyTooltip),
       },
     ];
-  }, [canWrite, intl, isDisabled, isExpired]);
+  }, [canWrite, intl, isDisabled]);
 
   return (
     <>
