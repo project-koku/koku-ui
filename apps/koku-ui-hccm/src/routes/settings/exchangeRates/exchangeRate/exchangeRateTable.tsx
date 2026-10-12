@@ -139,10 +139,12 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
                 : '',
             },
             {
-              value: (
+              value: rate?.status ? (
                 <Label variant="outline">
-                  {intl.formatMessage(messages.exchangeRateStatus, { value: rate?.status })}
+                  {intl.formatMessage(messages.exchangeRateStatus, { value: rate.status })}
                 </Label>
+              ) : (
+                ''
               ),
             },
             {

@@ -1,7 +1,6 @@
 import type { SettingsData, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useLayoutEffect, useMemo, useRef } from 'react';
-import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
@@ -56,15 +55,10 @@ const RateActions: React.FC<RateActionsProps> = ({
   });
 
   const menuItems: DropdownWrapperItem[] = useMemo(() => {
-    const getReadOnlyTooltip = (msg: MessageDescriptor) => {
-      if (!canWrite) {
-        return {
-          tooltipProps: {
-            content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
-          },
-        };
-      }
-      return {};
+    const readOnlyTooltip = {
+      tooltipProps: {
+        content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
+      },
     };
 
     return [
@@ -72,23 +66,19 @@ const RateActions: React.FC<RateActionsProps> = ({
         isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.openEdit(),
         toString: () => intl.formatMessage(messages.priceListEditRate),
-        ...getReadOnlyTooltip(messages.exchangeRateExpiredCannotEdit),
+        ...(!canWrite && readOnlyTooltip),
       },
       {
         isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.openDuplicate(),
         toString: () => intl.formatMessage(messages.duplicate),
-        ...(!canWrite && {
-          tooltipProps: {
-            content: <div>{intl.formatMessage(messages.readOnlyPermissions)}</div>,
-          },
-        }),
+        ...(!canWrite && readOnlyTooltip),
       },
       {
         isDisabled: isDisabled || !canWrite,
         onClick: () => menuDispatchRef.current.delete(),
         toString: () => intl.formatMessage(messages.remove),
-        ...getReadOnlyTooltip(messages.exchangeRateExpiredCannotDelete),
+        ...(!canWrite && readOnlyTooltip),
       },
     ];
   }, [canWrite, intl, isDisabled]);
