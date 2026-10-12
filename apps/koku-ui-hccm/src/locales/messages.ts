@@ -2578,16 +2578,6 @@ export default defineMessages({
     description: 'Toggle currency enabled or disabled',
     id: 'exchangeRateEnableAriaLabel',
   },
-  exchangeRateExpiredCannotDelete: {
-    defaultMessage: 'Rates with finalized months cannot be deleted',
-    description: 'Rates with finalized months cannot be deleted',
-    id: 'exchangeRateExpiredCannotDelete',
-  },
-  exchangeRateExpiredCannotEdit: {
-    defaultMessage: 'Rates with finalized months cannot be edited',
-    description: 'Rates with finalized months cannot be edited',
-    id: 'exchangeRateExpiredCannotEdit',
-  },
   exchangeRateDisabled: {
     defaultMessage: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
     description: 'This currency cannot be disabled while it is the default or in use by a cost model or price list.',
@@ -2616,12 +2606,7 @@ export default defineMessages({
   },
   exchangeRateStatus: {
     defaultMessage:
-      '{value, select, ' +
-      'active {Active} ' +
-      'expired {Expired} ' +
-      'upcoming {Upcoming} ' +
-      'unavailable {Unavailable} ' +
-      'other {}}',
+      '{value, select, ' + 'active {Active} ' + 'expired {Expired} ' + 'upcoming {Upcoming} ' + 'other {}}',
     description: 'Exchange rate status',
     id: 'exchangeRateStatus',
   },
