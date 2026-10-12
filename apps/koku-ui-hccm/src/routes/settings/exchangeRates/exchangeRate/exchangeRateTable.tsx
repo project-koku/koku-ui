@@ -30,23 +30,6 @@ interface ExchangeRateTableOwnProps {
 
 type ExchangeRateTableProps = ExchangeRateTableOwnProps;
 
-const getStaticRateStatus = (startDate?: string, endDate?: string) => {
-  if (!startDate || !endDate) {
-    return 'unavailable';
-  }
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const start = new Date(`${startDate}T00:00:00`);
-  const end = new Date(`${endDate}T00:00:00`);
-  if (today < start) {
-    return 'upcoming';
-  }
-  if (today > end) {
-    return 'expired';
-  }
-  return 'active';
-};
-
 const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
   canWrite,
   filterBy,
@@ -156,12 +139,12 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
                 : '',
             },
             {
-              value: (
+              value: rate?.status ? (
                 <Label variant="outline">
-                  {intl.formatMessage(messages.exchangeRateStatus, {
-                    value: getStaticRateStatus(rate?.start_date, rate?.end_date),
-                  })}
+                  {intl.formatMessage(messages.exchangeRateStatus, { value: rate.status })}
                 </Label>
+              ) : (
+                ''
               ),
             },
             {
@@ -184,7 +167,6 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
                 <RateActions
                   canWrite={canWrite}
                   isDisabled={isDisabled}
-                  isExpired={getStaticRateStatus(rate?.start_date, rate?.end_date) === 'expired'}
                   onClose={onClose}
                   onDelete={onDelete}
                   onDuplicate={onDuplicate}
