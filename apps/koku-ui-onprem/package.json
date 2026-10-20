@@ -34,13 +34,13 @@
     "release:branch": "Creates a PR to assemble release-onprem from main with HCCM/ROS UIs pinned to prod"
   },
   "dependencies": {
-    "@patternfly/patternfly": "6.6.1",
-    "@patternfly/react-charts": "8.6.1",
+    "@patternfly/patternfly": "6.7.0",
+    "@patternfly/react-charts": "8.7.0",
     "@patternfly/react-component-groups": "6.7.0",
-    "@patternfly/react-core": "6.6.2",
-    "@patternfly/react-icons": "6.6.1",
-    "@patternfly/react-table": "6.6.2",
-    "@patternfly/react-tokens": "6.6.1",
+    "@patternfly/react-core": "6.7.0",
+    "@patternfly/react-icons": "6.7.0",
+    "@patternfly/react-table": "6.7.0",
+    "@patternfly/react-tokens": "6.7.0",
     "@scalprum/core": "0.11.1",
     "@scalprum/react-core": "0.14.1",
     "react": "^18.3.1",
@@ -63,6 +63,6 @@
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "webpack-dev-server": "^6.0.0"
+    "webpack-dev-server": "^6.1.0"
   }
 }
