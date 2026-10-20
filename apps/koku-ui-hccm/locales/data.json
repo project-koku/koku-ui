@@ -19864,12 +19864,6 @@
         "value": "Start period must be <= end period"
       }
     ],
-    "validityPeriodStartMonthPastError": [
-      {
-        "type": 0,
-        "value": "Start period cannot be a past month"
-      }
-    ],
     "validityPeriodWarning": [
       {
         "type": 0,
