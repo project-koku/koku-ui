@@ -222,9 +222,9 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       const newDate = getEffectiveEndDate(date);
       setEndDate(newDate);
 
-      // Only the field being edited shows an ordering error; keep past-month start errors
+      // Only the field being edited shows an ordering error; clear the other so it doesn't go stale
       setEndDateError(validateEndDate(newDate, startDate) || undefined);
-      setStartDateError(validateStartDate(startDate) || undefined);
+      setStartDateError(undefined);
     };
 
     const handleOnExchangeRateChange = (value: string) => {

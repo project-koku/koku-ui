@@ -5256,11 +5256,6 @@ export default defineMessages({
     description: 'Start periodmust be <= end period',
     id: 'validityPeriodStartMonthError',
   },
-  validityPeriodStartMonthPastError: {
-    defaultMessage: 'Start period cannot be a past month',
-    description: 'Start period cannot be a past month',
-    id: 'validityPeriodStartMonthPastError',
-  },
   validityPeriodWarning: {
     defaultMessage:
       'The start period must be the same as or before the end period. Adjust the month and year so the list does not end before it begins.',
