@@ -189,11 +189,24 @@ describe('rates/utils', () => {
   });
 
   describe('validateTagValue', () => {
+    const rows: TagValue[] = [
+      { tag_value: 'a', unit: 'USD', value: 1 } as TagValue,
+      { tag_value: 'b', unit: 'USD', value: 2 } as TagValue,
+    ];
+
+    test('requires a value and limits length', () => {
+      expect(validateTagValue('', rows, 0)).toBe(messages.requiredField);
+      expect(validateTagValue('   ', rows, 0)).toBe(messages.requiredField);
+      expect(validateTagValue('x'.repeat(101), rows, 0)).toBe(messages.costModelsInfoTooLong);
+    });
+
+    test('allows characters outside the tag key pattern', () => {
+      expect(validateTagValue('vsphere-vm.cpu-8.mem-64gb.os-unknown', rows, 0)).toBeNull();
+      expect(validateTagValue('us-east-1a', rows, 0)).toBeNull();
+      expect(validateTagValue('v1.28.4+rhaos4.15', rows, 0)).toBeNull();
+    });
+
     test('detects duplicate tag_value at another index', () => {
-      const rows: TagValue[] = [
-        { tag_value: 'a', unit: 'USD', value: 1 } as TagValue,
-        { tag_value: 'b', unit: 'USD', value: 2 } as TagValue,
-      ];
       expect(validateTagValue('b', rows, 0)).toBe(messages.priceListDuplicateValue);
       expect(validateTagValue('a', rows, 0)).toBeNull();
     });
