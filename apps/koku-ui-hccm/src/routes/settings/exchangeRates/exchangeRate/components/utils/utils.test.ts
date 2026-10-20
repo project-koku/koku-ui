@@ -137,15 +137,12 @@ describe('details/utils', () => {
     const endOfCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     const endOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 0);
 
-    test('returns error when start is a past month', () => {
-      expect(validateStartDate(previousMonth, endOfNextMonth)).toBe(messages.validityPeriodStartMonthPastError);
-    });
-
     test('returns error when start is after end', () => {
       expect(validateStartDate(nextMonth, endOfCurrentMonth)).toBe(messages.validityPeriodStartMonthError);
     });
 
-    test('returns null when start is current or future month on or before end', () => {
+    test('returns null when start is on or before end, including past months', () => {
+      expect(validateStartDate(previousMonth, endOfNextMonth)).toBeNull();
       expect(validateStartDate(currentMonth, endOfNextMonth)).toBeNull();
       expect(validateStartDate(nextMonth, endOfNextMonth)).toBeNull();
     });
