@@ -86,9 +86,6 @@ export const validateName = (value: string) => {
 };
 
 export const validateStartDate = (date: Date, endDate?: Date) => {
-  if (date !== undefined && startOfMonth(date) < startOfMonth(getTodayDate())) {
-    return messages.validityPeriodStartMonthPastError;
-  }
   if (endDate !== undefined && date > endDate) {
     return messages.validityPeriodStartMonthError;
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import localeEn from '../../../locales/data.json';
 import { IntlProvider } from 'react-intl';
@@ -111,7 +111,9 @@ describe('AddSourceWizard', () => {
     expect(screen.getByText('Exit integration creation?')).toBeInTheDocument();
 
     await user.click(screen.getByText('Stay'));
-    expect(screen.queryByText('Exit integration creation?')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('Exit integration creation?')).not.toBeInTheDocument();
+    });
   });
 
   it('submits successfully and calls onSubmitSuccess + onClose', async () => {
