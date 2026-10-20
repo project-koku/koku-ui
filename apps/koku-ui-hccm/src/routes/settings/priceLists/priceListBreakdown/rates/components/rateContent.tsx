@@ -362,7 +362,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       newTagValues[index].tag_value = value;
       setGpuTagValues(newTagValues);
 
-      const error = validateTagKey(value, true) || validateTagValue(value, gpuTagValues, index);
+      const error = validateTagValue(value, gpuTagValues, index);
       updateGpuTagValuesErrors('tag_value', error, index);
     };
 
@@ -526,7 +526,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       newTagValues[index].tag_value = value;
       setTagValues(newTagValues);
 
-      const error = validateTagKey(value, isSubmitModeGpuValues) || validateTagValue(value, tagValues, index);
+      const error = validateTagValue(value, tagValues, index);
       updateTagValuesErrors('tag_value', error, index);
     };
 
