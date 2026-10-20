@@ -361,9 +361,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       const newTagValues = cloneDeep(gpuTagValues ?? []);
       newTagValues[index].tag_value = value;
       setGpuTagValues(newTagValues);
-
-      const error = validateTagKey(value, true) || validateTagValue(value, gpuTagValues, index);
-      updateGpuTagValuesErrors('tag_value', error, index);
+      revalidateTagValueErrors(newTagValues, updateGpuTagValuesErrors);
     };
 
     const handleOnMeasurementSelect = (value: string) => {
@@ -525,9 +523,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       const newTagValues = cloneDeep(tagValues ?? []);
       newTagValues[index].tag_value = value;
       setTagValues(newTagValues);
-
-      const error = validateTagKey(value, isSubmitModeGpuValues) || validateTagValue(value, tagValues, index);
-      updateTagValuesErrors('tag_value', error, index);
+      revalidateTagValueErrors(newTagValues, updateTagValuesErrors);
     };
 
     const handleOnTieredRateValueChange = (value: string) => {
@@ -537,6 +533,15 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     };
 
     // Update functions
+
+    const revalidateTagValueErrors = (
+      values: TagValueExt[],
+      updateErrors: (key: keyof TagValueRowErrors, error: MessageDescriptor | null | undefined, index: number) => void
+    ) => {
+      values.forEach((tagValue, valueIndex) => {
+        updateErrors('tag_value', validateTagValue(tagValue.tag_value ?? '', values, valueIndex), valueIndex);
+      });
+    };
 
     const updateGpuTagValuesErrors = (
       key: keyof TagValueRowErrors,
