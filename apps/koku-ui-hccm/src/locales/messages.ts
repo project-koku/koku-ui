@@ -1849,6 +1849,16 @@ export default defineMessages({
     description: 'Delete',
     id: 'delete',
   },
+  deleteExchangeRateDesc: {
+    defaultMessage: 'This action will remove the {base} to {target} exchange rate from {startDate} to {endDate}.',
+    description: 'This action will remove the {base} to {target} exchange rate from {startDate} to {endDate}.',
+    id: 'deleteExchangeRateDesc',
+  },
+  deleteExchangeRateTitle: {
+    defaultMessage: 'Remove exchange rate?',
+    description: 'Remove exchange rate?',
+    id: 'deleteExchangeRateTitle',
+  },
   deletePriceList: {
     defaultMessage: 'Delete price list',
     description: 'Delete price list',
