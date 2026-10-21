@@ -2810,7 +2810,7 @@ export default defineMessages({
       'account {Selected accounts ({count})} ' +
       'aws_category {Selected cost categories ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
-      'currency {Exchange rates for enabled currencies ({count})} ' +
+      'currency {Exchange rates for currencies ({count})} ' +
       'gcp_project {Selected Google Cloud projects ({count})} ' +
       'instance {Selected instances ({count})} ' +
       'node {Selected nodes ({count})} ' +
