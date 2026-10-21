@@ -2558,9 +2558,9 @@ export default defineMessages({
   },
   exchangeRateDesc: {
     defaultMessage:
-      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
+      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range.',
     description:
-      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
+      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range.',
     id: 'exchangeRateDesc',
   },
   exchangeRateEmpty: {

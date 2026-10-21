@@ -9770,7 +9770,7 @@
     "exchangeRateDesc": [
       {
         "type": 0,
-        "value": "Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled."
+        "value": "Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range."
       }
     ],
     "exchangeRateDisabled": [

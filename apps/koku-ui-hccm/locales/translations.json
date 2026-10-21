@@ -392,7 +392,7 @@
   "exchangeRateBaseCurrencyImmutable": "Base currency cannot be modified. Delete and recreate the exchange rate instead.",
   "exchangeRateCurrencyPair": "Currency pair",
   "exchangeRateCurrencyPairDesc": "If a code is not yet on in the Currencies tab, it is turned on when you save, so this custom window and the daily reference can both work for that path over time.",
-  "exchangeRateDesc": "Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.",
+  "exchangeRateDesc": "Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range.",
   "exchangeRateDisabled": "This currency cannot be disabled while it is the default or in use by a cost model or price list.",
   "exchangeRateDuplicateTitle": "Duplicate exchange rate",
   "exchangeRateEditTitle": "Edit exchange rate",
