@@ -138,11 +138,11 @@ describe('RateContent', () => {
     expect(screen.getByText(/rate must be a number/i)).toBeInTheDocument();
   });
 
-  test('dismisses validity period info alert', () => {
+  test('shows validity period description', () => {
     renderContent(<RateContent isAddRate />);
-    expect(screen.getByText(/start period must be the same as or before the end period/i)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: /close/i }));
-    expect(screen.queryByText(/start period must be the same as or before the end period/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/start month is counted from the 1st.*end month includes every day/i)
+    ).toBeInTheDocument();
   });
 
   test('save() invokes onSave with form values in edit mode after a change', async () => {
