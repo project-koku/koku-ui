@@ -2558,9 +2558,9 @@ export default defineMessages({
   },
   exchangeRateDesc: {
     defaultMessage:
-      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
+      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range.',
     description:
-      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range. At least one currency must stay enabled.',
+      'Select which currencies are in scope, review reference conversion paths, and add optional custom rates for a pair and time range.',
     id: 'exchangeRateDesc',
   },
   exchangeRateEmpty: {
@@ -2810,7 +2810,7 @@ export default defineMessages({
       'account {Selected accounts ({count})} ' +
       'aws_category {Selected cost categories ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
-      'currency {Exchange rates for enabled currencies ({count})} ' +
+      'currency {Exchange rates for currencies ({count})} ' +
       'gcp_project {Selected Google Cloud projects ({count})} ' +
       'instance {Selected instances ({count})} ' +
       'node {Selected nodes ({count})} ' +

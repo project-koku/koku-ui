@@ -65,7 +65,7 @@ jobs:
       - name: Cypress run
         if: steps.changes.outputs.run == 'true'
         id: cypress_run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7.4.6
         with:
           install-command: npm ci
           build: npm run build:onprem
