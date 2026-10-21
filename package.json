@@ -57,7 +57,7 @@
     "quick:start:koku:onprem": "Start Koku (ONPREM=True) and load on-prem OCP sample data",
     "release:all": "Used to merge HCCM/ROS release branches, assemble on-prem from main with HCCM/ROS prod tags, and deploy app-interface SHA refs",
     "setup:operator": "Install koku-service-operator (BYOI + CR), then IQE leftover-UI ingest (OCP source + cost model)",
-    "setup:operator:install": "Install the operator stack only — empty UI until you run setup:operator:iqe",
+    "setup:operator:install": "Install the operator stack only \u2014 empty UI until you run setup:operator:iqe",
     "setup:operator:reset": "Tear down the previous operator install, reinstall, then IQE ingest (destructive)",
     "setup:operator:dry-run": "Print what the operator installer would do without changing the cluster",
     "setup:operator:sync-images": "Patch the live CMSC koku api/masu image tags from cost-onprem-chart (or KOKU_IMAGE_TAG) so user-access includes sources",
@@ -67,7 +67,7 @@
     "start:hccm": "Run Koku UI",
     "start:ros": "Run ROS UI",
     "start:onprem": "Run onprem UI",
-    "start:onprem:auth": "Runs onprem UI against a deployment made with the cost-onprem Helm chart, behind a local oauth2-proxy container (real OIDC PKCE flow, login screen, session expiry, logout redirect) — requires Podman or Docker",
+    "start:onprem:auth": "Runs onprem UI against a deployment made with the cost-onprem Helm chart, behind a local oauth2-proxy container (real OIDC PKCE flow, login screen, session expiry, logout redirect) \u2014 requires Podman or Docker",
     "start:onprem:operator": "Runs onprem UI against a koku-service-operator CostManagementServiceConfig (sources setup-onprem-env.sh with ONPREM_BACKEND=operator, then the same oauth2-proxy stack as start:onprem:auth)",
     "start:quick:start:koku": "Run onprem UI with local Koku API (SaaS-local; data retention and Sources tab disabled)",
     "start:quick:start:koku:onprem": "Run onprem UI with local Koku API (on-prem; data retention and Sources tab enabled)"
@@ -128,7 +128,14 @@
     "eslint": "^10.13.0",
     "nanoid": "^6.0.1",
     "webpack": "5.112.0",
-    "zod@4": "4.6.7"
+    "zod@4": "4.6.7",
+    "@patternfly/patternfly": "6.6.1",
+    "@patternfly/react-charts": "8.6.1",
+    "@patternfly/react-core": "6.6.2",
+    "@patternfly/react-icons": "6.6.1",
+    "@patternfly/react-styles": "6.6.1",
+    "@patternfly/react-table": "6.6.2",
+    "@patternfly/react-tokens": "6.6.1"
   },
   "dependencies": {
     "qs": "^6.16.1"
