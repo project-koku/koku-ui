@@ -3,7 +3,6 @@ import './rateContent.scss';
 import type { CalendarMonthInlineProps } from '@patternfly/react-core';
 import {
   Alert,
-  AlertActionCloseButton,
   Button,
   CalendarMonth,
   Content,
@@ -88,8 +87,6 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const [startDateError, setStartDateError] = useState<MessageDescriptor>();
     const [targetCurrency, setTargetCurrency] = useState<string>(rate?.target_currency);
     const [targetCurrencyBaseline] = useState<string>(rate?.target_currency);
-
-    const [isValidityAlertOpen, setIsValidityAlertOpen] = useState(true);
 
     const isBaseCurrencyDirty = baseCurrency !== baseCurrencyBaseline;
     const isEndDateDirty = !isEqual(endDate, endDateBaseline);
@@ -317,11 +314,6 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
                     />
                   </SplitItem>
                 </Split>
-                <div style={styles.currencyPairDesc}>
-                  <Content component={ContentVariants.p}>
-                    {intl.formatMessage(messages.exchangeRateCurrencyPairDesc)}
-                  </Content>
-                </div>
               </FormGroup>
             </StackItem>
           </Stack>
@@ -374,16 +366,6 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
             )}
           </FormGroup>
         </Form>
-        {isValidityAlertOpen && (
-          <Alert
-            actionClose={<AlertActionCloseButton onClose={() => setIsValidityAlertOpen(false)} />}
-            id="info"
-            isInline
-            style={isDateRangeOverlapping ? styles.validityAlert : undefined}
-            title={intl.formatMessage(messages.validityPeriodWarning)}
-            variant="info"
-          />
-        )}
       </>
     );
   }
