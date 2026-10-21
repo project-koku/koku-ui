@@ -161,6 +161,14 @@ export const validateTagKeyDuplicate = (rate, priceListRates, metricsHashByName:
 };
 
 export const validateTagValue = (value: string, tagValues: TagValue[], index: number) => {
+  if (value?.trim()?.length === 0) {
+    return messages.requiredField;
+  }
+  if (value.length > 100) {
+    return messages.costModelsInfoTooLong;
+  }
+
+  // Tag values are not limited to the Prometheus label-name pattern -- see https://redhat.atlassian.net/browse/COST-7528
   const isDuplicate = tagValues?.some((item, i) => i !== index && item?.tag_value === value);
 
   if (isDuplicate) {

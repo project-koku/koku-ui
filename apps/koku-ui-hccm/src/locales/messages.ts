@@ -2810,7 +2810,7 @@ export default defineMessages({
       'account {Selected accounts ({count})} ' +
       'aws_category {Selected cost categories ({count})} ' +
       'cluster {Selected clusters ({count})} ' +
-      'currency {Selected currencies ({count})} ' +
+      'currency {Exchange rates for enabled currencies ({count})} ' +
       'gcp_project {Selected Google Cloud projects ({count})} ' +
       'instance {Selected instances ({count})} ' +
       'node {Selected nodes ({count})} ' +
@@ -5255,11 +5255,6 @@ export default defineMessages({
     defaultMessage: 'Start period must be <= end period',
     description: 'Start periodmust be <= end period',
     id: 'validityPeriodStartMonthError',
-  },
-  validityPeriodStartMonthPastError: {
-    defaultMessage: 'Start period cannot be a past month',
-    description: 'Start period cannot be a past month',
-    id: 'validityPeriodStartMonthPastError',
   },
   validityPeriodWarning: {
     defaultMessage:
