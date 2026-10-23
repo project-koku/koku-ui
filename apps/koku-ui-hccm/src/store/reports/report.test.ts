@@ -36,6 +36,7 @@ global.Date.now = jest.fn(() => 12345);
 test('default state', () => {
   const store = createReportsStore();
   expect(selectors.selectReportState(store.getState())).toMatchSnapshot();
+  expect(selectors.selectAnyReportError(store.getState())).toBeUndefined();
 });
 
 test('fetch report success', async () => {
@@ -55,6 +56,7 @@ test('fetch report success', async () => {
     FetchStatus.complete
   );
   expect(selectors.selectReportError(finishedState, reportPathsType, reportType, reportQueryString)).toBe(null);
+  expect(selectors.selectAnyReportError(finishedState)).toBeUndefined();
 });
 
 test('fetch report failure', async () => {
@@ -76,6 +78,7 @@ test('fetch report failure', async () => {
     FetchStatus.complete
   );
   expect(selectors.selectReportError(finishedState, reportPathsType, reportType, reportQueryString)).toBe(error);
+  expect(selectors.selectAnyReportError(finishedState)).toBe(error);
 });
 
 test('does not fetch report if the request is in progress', () => {

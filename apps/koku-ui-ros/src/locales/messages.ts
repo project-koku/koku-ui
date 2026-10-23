@@ -263,6 +263,11 @@ export default defineMessages({
     description: '{value} for {Jan 1-31}',
     id: 'forDate',
   },
+  hideDetails: {
+    defaultMessage: 'Hide details',
+    description: 'Hide details',
+    id: 'hideDetails',
+  },
   kokuAppUrl: {
     defaultMessage: 'https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros',
     description: 'https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros',
@@ -329,6 +334,13 @@ export default defineMessages({
     defaultMessage: 'No results found',
     description: 'No results found',
     id: 'noResultsFound',
+  },
+  notAvailableDesc: {
+    defaultMessage:
+      'Try refreshing the page. If the problem persists, contact your organization administrator or visit our status page for known outages.',
+    description:
+      'Try refreshing the page. If the problem persists, contact your organization administrator or visit our status page for known outages.',
+    id: 'notAvailableDesc',
   },
   notConfiguredChanges: {
     defaultMessage: 'Changes will be reflected within 24 hours. {learnMore}',
@@ -630,6 +642,11 @@ export default defineMessages({
     defaultMessage: 'Application settings saved',
     description: 'Application settings saved',
     id: 'settingsSuccessTitle',
+  },
+  showDetails: {
+    defaultMessage: 'Show details',
+    description: 'Show details',
+    id: 'showDetails',
   },
   sinceDate: {
     defaultMessage: '{dateRange}',

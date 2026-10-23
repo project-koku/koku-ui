@@ -334,7 +334,7 @@ const Virtualization: React.FC<VirtualizationProps> = ({ costDistribution, costT
   const hasVirtualization = report?.meta?.count > 0;
 
   if (reportError) {
-    return <NotAvailable isPageSection={false} />;
+    return <NotAvailable error={reportError} isPageSection={false} />;
   }
   if (!query.filter_by && !query.exclude && !hasVirtualization && reportFetchStatus === FetchStatus.complete) {
     return <NoVirtualization isPageSection={false} />;

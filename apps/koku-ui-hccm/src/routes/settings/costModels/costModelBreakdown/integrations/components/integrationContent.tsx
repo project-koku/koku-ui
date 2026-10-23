@@ -227,7 +227,7 @@ const IntegrationContent = forwardRef<IntegrationContentHandle, IntegrationConte
     });
 
     if (providersError) {
-      return <NotAvailable />;
+      return <NotAvailable error={providersError} />;
     }
 
     return (

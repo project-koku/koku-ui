@@ -509,7 +509,7 @@ class Explorer extends React.Component<ExplorerProps, ExplorerState> {
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
-      return <NotAvailable title={title} />;
+      return <NotAvailable error={reportError} title={title} />;
     } else if (isLoading) {
       return <Loading title={title} />;
     } else if (noProviders) {

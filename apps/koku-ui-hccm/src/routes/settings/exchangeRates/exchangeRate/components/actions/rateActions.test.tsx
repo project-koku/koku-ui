@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 
@@ -30,10 +30,10 @@ jest.mock('routes/settings/exchangeRates/exchangeRate/components/duplicate', () 
 jest.mock('routes/settings/exchangeRates/exchangeRate/components/delete', () => {
   const React = require('react');
   return {
-    DeleteRate: React.forwardRef((_props: unknown, ref: React.Ref<{ delete: () => void }>) => {
-      const [didDelete, setDidDelete] = React.useState(false);
-      React.useImperativeHandle(ref, () => ({ delete: () => setDidDelete(true) }));
-      return didDelete ? <div data-testid="delete-rate-invoked">Rate removed</div> : null;
+    DeleteRate: React.forwardRef((_props: unknown, ref: React.Ref<{ open: () => void }>) => {
+      const [isOpen, setIsOpen] = React.useState(false);
+      React.useImperativeHandle(ref, () => ({ open: () => setIsOpen(true) }));
+      return isOpen ? <div data-testid="delete-rate-dialog">Remove exchange rate</div> : null;
     }),
   };
 });
@@ -64,11 +64,12 @@ describe('RateActions', () => {
     expect(screen.getByText(/duplicate exchange rate/i)).toBeInTheDocument();
   });
 
-  test('kebab remove invokes delete', async () => {
+  test('kebab remove opens the delete dialog', async () => {
     renderActions(<RateActions canWrite settings={settings} uuid="rate-1" />);
     fireEvent.click(screen.getByRole('button', { name: /more options/i }));
     fireEvent.click(await screen.findByRole('menuitem', { name: /^remove$/i }));
-    await waitFor(() => expect(screen.getByTestId('delete-rate-invoked')).toBeInTheDocument());
+    expect(await screen.findByTestId('delete-rate-dialog')).toBeInTheDocument();
+    expect(screen.getByText(/remove exchange rate/i)).toBeInTheDocument();
   });
 
   test('disables menu items when canWrite is false', async () => {
