@@ -217,7 +217,7 @@ const PlatformProjects: React.FC<PlatformProjectsProps> = ({ canWrite }) => {
   const isDisabled = categories.length === 0;
 
   if (settingsError) {
-    return <NotAvailable />;
+    return <NotAvailable error={settingsError} />;
   }
   return (
     <Card>

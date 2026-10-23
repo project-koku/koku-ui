@@ -44,7 +44,7 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
   const project = report?.data?.[0]?.project;
 
   if (reportError) {
-    return <NotAvailable title={intl.formatMessage(messages.optimizations)} />;
+    return <NotAvailable error={reportError} title={intl.formatMessage(messages.optimizations)} />;
   }
 
   if (reportFetchStatus === FetchStatus.inProgress) {

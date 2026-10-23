@@ -234,7 +234,7 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   };
 
   if (settingsError) {
-    return <NotAvailable />;
+    return <NotAvailable error={settingsError} />;
   }
 
   return (

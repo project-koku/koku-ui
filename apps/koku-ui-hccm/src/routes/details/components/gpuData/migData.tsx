@@ -89,7 +89,7 @@ const MigData: React.FC<MigDataProps> = ({ gpu_model, gpu_vendor, node, querySta
   };
 
   if (reportError) {
-    return <NotAvailable />;
+    return <NotAvailable error={reportError} />;
   }
   return (
     <>
