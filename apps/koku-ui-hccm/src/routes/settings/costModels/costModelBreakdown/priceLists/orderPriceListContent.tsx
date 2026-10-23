@@ -337,7 +337,7 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
     }, [isFinish, costModel, costModelsUpdateError, costModelsUpdateStatus, onSave, payload]);
 
     if (costModelsUpdateError) {
-      return <NotAvailable />;
+      return <NotAvailable error={costModelsUpdateError} />;
     }
 
     return (

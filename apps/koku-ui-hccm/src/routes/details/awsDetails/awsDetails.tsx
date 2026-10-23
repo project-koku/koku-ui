@@ -399,7 +399,7 @@ class AwsDetails extends React.Component<AwsDetailsProps, AwsDetailsState> {
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
-      return <NotAvailable title={title} />;
+      return <NotAvailable error={reportError} title={title} />;
     } else if (providersFetchStatus === FetchStatus.inProgress) {
       return <Loading title={title} />;
     } else if (providersFetchStatus === FetchStatus.complete) {

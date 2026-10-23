@@ -111,7 +111,7 @@ const DataRetention: React.FC<DataRetentionProps> = ({ canWrite, isDisabled }) =
   }, [accountSettings, accountSettingsError]);
 
   if (accountSettingsError) {
-    return <NotAvailable />;
+    return <NotAvailable error={accountSettingsError} />;
   }
 
   // Only block the UI on the initial fetch — updates keep the current selection visible

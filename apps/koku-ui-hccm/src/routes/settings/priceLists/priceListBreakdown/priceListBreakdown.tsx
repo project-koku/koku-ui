@@ -232,7 +232,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
     );
   }
   if (priceListError) {
-    return <NotAvailable />;
+    return <NotAvailable error={priceListError} />;
   }
   return (
     <>

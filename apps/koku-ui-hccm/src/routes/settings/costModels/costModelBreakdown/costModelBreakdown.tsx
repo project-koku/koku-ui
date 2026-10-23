@@ -254,7 +254,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
         </>
       );
     } else {
-      return <NotAvailable title={intl.formatMessage(messages.costModels)} />;
+      return <NotAvailable error={costModelsFetchError} title={intl.formatMessage(messages.costModels)} />;
     }
   }
 

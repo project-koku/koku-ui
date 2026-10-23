@@ -43,7 +43,7 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
   if (providersError) {
-    return <NotAvailable />;
+    return <NotAvailable error={providersError} />;
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {

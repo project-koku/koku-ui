@@ -104,7 +104,7 @@ const CostModels: React.FC<CostModelsProps> = () => {
   };
 
   if (priceListError) {
-    return <NotAvailable />;
+    return <NotAvailable error={priceListError} />;
   }
   return (
     <>
