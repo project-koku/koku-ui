@@ -205,7 +205,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
 
   // Note: Providers are fetched via the AccountSettings component used by all routes
   if (providersError) {
-    return <NotAvailable title={title} />;
+    return <NotAvailable error={providersError} title={title} />;
   } else if (providersFetchStatus === FetchStatus.inProgress) {
     return <Loading title={title} />;
   } else if (providersFetchStatus === FetchStatus.complete) {

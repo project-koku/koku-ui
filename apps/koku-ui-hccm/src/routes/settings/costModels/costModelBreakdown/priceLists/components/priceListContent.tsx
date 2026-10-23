@@ -283,7 +283,7 @@ const PriceListContent = forwardRef<PriceListContentHandle, PriceListContentProp
     });
 
     if (priceListError) {
-      return <NotAvailable />;
+      return <NotAvailable error={priceListError} />;
     }
 
     return (

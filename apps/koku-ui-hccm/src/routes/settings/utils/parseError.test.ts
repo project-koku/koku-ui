@@ -52,3 +52,16 @@ test('parse errors without source', () => {
   };
   expect(parseApiError(axiosError)).toBe('Base currency cannot be modified.');
 });
+
+test('parse field validation errors', () => {
+  const axiosError = {
+    response: {
+      data: {
+        order_by: {
+          cost_total_distributed: ['"descxxx" is not a valid choice.'],
+        },
+      },
+    },
+  };
+  expect(parseApiError(axiosError)).toBe('order_by.cost_total_distributed: "descxxx" is not a valid choice.');
+});

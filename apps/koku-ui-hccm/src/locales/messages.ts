@@ -3834,6 +3834,13 @@ export default defineMessages({
     description: 'Not available',
     id: 'notAvailable',
   },
+  notAvailableDesc: {
+    defaultMessage:
+      'Try refreshing the page. If the problem persists, contact your organization administrator or visit our status page for known outages.',
+    description:
+      'Try refreshing the page. If the problem persists, contact your organization administrator or visit our status page for known outages.',
+    id: 'notAvailableDesc',
+  },
   ocp: {
     defaultMessage: 'OpenShift Container Platform',
     description: 'OpenShift Container Platform',

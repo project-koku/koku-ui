@@ -14,7 +14,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
 import { routes } from 'routes';
-import { getErrorNotification } from 'routes/settings/utils';
+import { getErrorNotification } from 'routes/utils/errorNotification';
 import type { ThunkAction } from 'store/common';
 import { createAction } from 'typesafe-actions';
 import { formatPath } from 'utils/paths';

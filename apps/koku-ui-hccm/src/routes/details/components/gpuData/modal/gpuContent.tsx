@@ -154,7 +154,7 @@ const GpuContent: React.FC<GpuContentProps> = ({ queryStateName, reportPathsType
   const isDisabled = itemsTotal === 0;
 
   if (reportError) {
-    return <NotAvailable />;
+    return <NotAvailable error={reportError} />;
   }
   return (
     <div ref={containerRef} style={styles.container}>

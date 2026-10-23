@@ -240,7 +240,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   const hasOptimizations = report?.meta && report.meta.count > 0;
 
   if (reportError) {
-    return <NotAvailable title={intl.formatMessage(messages.optimizations)} />;
+    return <NotAvailable error={reportError} title={intl.formatMessage(messages.optimizations)} />;
   }
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
     return <NotConfigured />;

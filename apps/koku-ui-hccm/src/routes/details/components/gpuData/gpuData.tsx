@@ -135,7 +135,7 @@ const GpuData: React.FC<GpuDataProps> = ({ queryStateName, reportPathsType, repo
   }, [containerRef, handleOnResize]);
 
   if (reportError) {
-    return <NotAvailable />;
+    return <NotAvailable error={reportError} />;
   }
   return (
     <>
