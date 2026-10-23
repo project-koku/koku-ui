@@ -1,16 +1,11 @@
 import type { SettingsData, SettingsRateData } from 'api/settings';
-import { SettingsType } from 'api/settings';
-import type { AxiosError } from 'axios';
-import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
-import type { RootState } from 'store';
-import { FetchStatus } from 'store/common';
-import { settingsActions, settingsSelectors } from 'store/settings';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+
+import { DeleteRateModal } from './deleteRateModal';
 
 export interface DeleteRateHandle {
-  delete: () => void;
+  /** Opens the delete confirmation modal. Same as the primary button. */
+  open: () => void;
 }
 
 interface DeleteRateOwnProps {
@@ -23,93 +18,39 @@ interface DeleteRateOwnProps {
   uuid?: string;
 }
 
-interface DeleteRateStateProps {
-  settingsError?: AxiosError;
-  settingsFetchStatus?: FetchStatus;
-}
-
 type DeleteRateProps = DeleteRateOwnProps;
 
-const findRateByUuid = (settings: SettingsData[] | undefined, uuid?: string) =>
-  settings?.flatMap(item => item.static_rates ?? []).find(item => item.uuid === uuid);
-
+/** Delete static exchange rate action; used by RateActions kebab. */
 const DeleteRate = forwardRef<DeleteRateHandle, DeleteRateProps>((props, ref) => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const { isDispatch, onClose, onDelete, settings, uuid } = props;
 
-  const { isDispatch = true, onDelete, settings, uuid } = props;
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [isFinish, setIsFinish] = useState(false);
-  const [rate, setRate] = useState<SettingsRateData>();
-
-  /** Latest delete handler for imperative `delete()` — updated in layout effect (not during render). */
-  const currentHandlerRef = useRef<() => void>(() => {});
-
-  const { settingsError, settingsFetchStatus } = useMapToProps();
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      delete: () => {
-        currentHandlerRef.current();
-      },
-    }),
-    []
-  );
+  useImperativeHandle(ref, () => ({ open: () => setIsDeleteModalOpen(true) }), []);
 
   // Handlers
 
-  const handleOnDelete = () => {
-    if (uuid && settingsFetchStatus !== FetchStatus.inProgress) {
-      const deletedRate = findRateByUuid(settings, uuid);
-
-      if (isDispatch) {
-        setIsFinish(true);
-        setRate(deletedRate);
-
-        dispatch(
-          settingsActions.updateCurrencySettings({
-            settingsType: SettingsType.currencyDelete,
-            uuid,
-          })
-        );
-      } else {
-        onDelete?.(deletedRate);
-      }
-    }
+  const handleOnDeleteModalClose = () => {
+    setIsDeleteModalOpen(false);
+    onClose?.();
   };
 
-  useLayoutEffect(() => {
-    currentHandlerRef.current = handleOnDelete;
-  });
+  const handleOnDeleteModalDelete = (rate: SettingsRateData) => {
+    setIsDeleteModalOpen(false);
+    onDelete?.(rate);
+  };
 
-  // Effects
-
-  useEffect(() => {
-    if (isFinish && settingsFetchStatus === FetchStatus.complete) {
-      setIsFinish(false);
-
-      if (!settingsError) {
-        onDelete?.(rate);
-      }
-    }
-  }, [isFinish, onDelete, settingsError, settingsFetchStatus, rate]);
-
-  return null;
+  return (
+    <DeleteRateModal
+      isDispatch={isDispatch}
+      isOpen={isDeleteModalOpen}
+      onClose={handleOnDeleteModalClose}
+      onDelete={handleOnDeleteModalDelete}
+      settings={settings}
+      uuid={uuid}
+    />
+  );
 });
-
-const useMapToProps = (): DeleteRateStateProps => {
-  const settingsError = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsError(state, SettingsType.currencyDelete, undefined)
-  );
-  const settingsFetchStatus = useSelector((state: RootState) =>
-    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currencyDelete, undefined)
-  );
-
-  return {
-    settingsError,
-    settingsFetchStatus,
-  };
-};
 
 DeleteRate.displayName = 'DeleteRate';
 
