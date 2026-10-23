@@ -150,7 +150,7 @@ const CostModel: React.FC<CostModelProps> = ({ canWrite }) => {
   };
 
   if (costModelsFetchError) {
-    return <NotAvailable />;
+    return <NotAvailable error={costModelsFetchError} />;
   }
   return (
     <>

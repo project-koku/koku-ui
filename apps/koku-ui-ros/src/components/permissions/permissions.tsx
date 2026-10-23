@@ -66,7 +66,7 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
   if (userAccessFetchStatus === FetchStatus.inProgress) {
     result = <Loading />;
   } else if (userAccessError) {
-    result = <NotAvailable />;
+    result = <NotAvailable error={userAccessError} />;
   } else if (hasPermissions(pathname)) {
     result = <>{children}</>;
   }

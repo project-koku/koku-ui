@@ -25,3 +25,8 @@ export const selectReportError = (
   reportType: ReportType,
   reportQueryString: string
 ) => selectReportState(state)?.errors.get(getFetchId(reportPathsType, reportType, reportQueryString));
+
+export const selectAnyReportError = (state: RootState) => {
+  const errors = selectReportState(state)?.errors;
+  return errors ? [...errors.values()].find(error => error) : undefined;
+};

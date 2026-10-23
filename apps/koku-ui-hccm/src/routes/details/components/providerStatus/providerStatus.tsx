@@ -37,7 +37,7 @@ const ProviderStatus: React.FC<ProviderStatusProps> = ({
 
   // Omit NotAvailable when used in combination with the noData empty state
   if (providersError) {
-    return showNotAvailable ? <NotAvailable /> : null;
+    return showNotAvailable ? <NotAvailable error={providersError} /> : null;
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {

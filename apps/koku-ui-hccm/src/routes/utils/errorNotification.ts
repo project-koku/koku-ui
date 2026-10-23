@@ -1,7 +1,6 @@
 import { AlertVariant } from '@patternfly/react-core';
 import type { AxiosError } from 'axios';
-
-import { parseApiError } from './parseError';
+import { parseApiError } from 'routes/settings/utils/parseError';
 
 export const getApiErrorDetail = (err: AxiosError): string | undefined => {
   const apiDetail = parseApiError(err);

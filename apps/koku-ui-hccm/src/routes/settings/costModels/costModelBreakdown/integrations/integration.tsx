@@ -167,7 +167,7 @@ const Integration: React.FC<IntegrationProps> = ({ canWrite, costModel, onAdd, o
   };
 
   if (providersError) {
-    return <NotAvailable />;
+    return <NotAvailable error={providersError} />;
   }
 
   return (
