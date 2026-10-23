@@ -283,6 +283,8 @@
   "dateRange": "{value, select, custom {Custom} six_months {6 months} three_months {3 months} twelve_months {12 months} other {}}",
   "default": "Default",
   "delete": "Delete",
+  "deleteExchangeRateDesc": "This action will remove the {base} to {target} exchange rate from {startDate} to {endDate}.",
+  "deleteExchangeRateTitle": "Remove exchange rate?",
   "deletePriceList": "Delete price list",
   "deletePriceListDesc": "Removing {value} will queue a resummarization. Changes will be reflected within 24 hours.",
   "deletePriceListTitle": "Remove price list?",

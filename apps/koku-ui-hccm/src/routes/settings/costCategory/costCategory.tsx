@@ -213,7 +213,7 @@ const CostCategory: React.FC<CostCategoryProps> = ({ canWrite }) => {
   const isDisabled = categories.length === 0;
 
   if (settingsError) {
-    return <NotAvailable />;
+    return <NotAvailable error={settingsError} />;
   }
   return (
     <Card>
