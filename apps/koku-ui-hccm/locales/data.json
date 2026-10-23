@@ -7778,6 +7778,50 @@
         "value": "Delete"
       }
     ],
+    "deleteExchangeRateDesc": [
+      {
+        "type": 0,
+        "value": "This action will remove the "
+      },
+      {
+        "type": 1,
+        "value": "base"
+      },
+      {
+        "type": 0,
+        "value": " to "
+      },
+      {
+        "type": 1,
+        "value": "target"
+      },
+      {
+        "type": 0,
+        "value": " exchange rate from "
+      },
+      {
+        "type": 1,
+        "value": "startDate"
+      },
+      {
+        "type": 0,
+        "value": " to "
+      },
+      {
+        "type": 1,
+        "value": "endDate"
+      },
+      {
+        "type": 0,
+        "value": "."
+      }
+    ],
+    "deleteExchangeRateTitle": [
+      {
+        "type": 0,
+        "value": "Remove exchange rate?"
+      }
+    ],
     "deletePriceList": [
       {
         "type": 0,

@@ -321,7 +321,7 @@ const Instances: React.FC<InstancesProps> = ({ costType, currency, queryStateNam
   const hasInstances = report?.meta?.count > 0;
 
   if (reportError) {
-    return <NotAvailable isPageSection={false} />;
+    return <NotAvailable error={reportError} isPageSection={false} />;
   }
   if (!query.filter_by && !query.exclude && !hasInstances && reportFetchStatus === FetchStatus.complete) {
     return <NoInstances isPageSection={false} />;

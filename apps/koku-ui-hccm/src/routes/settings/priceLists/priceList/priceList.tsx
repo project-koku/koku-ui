@@ -181,7 +181,7 @@ const PriceList: React.FC<PriceListProps> = ({ canWrite }) => {
   };
 
   if (priceListError) {
-    return <NotAvailable />;
+    return <NotAvailable error={priceListError} />;
   }
 
   return (

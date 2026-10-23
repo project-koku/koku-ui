@@ -42,14 +42,14 @@ const RateActions: React.FC<RateActionsProps> = ({
   const duplicateRateRef = useRef<DuplicateRateHandle>(null);
 
   /** Bridges imperative refs without closing over them in objects built during render (react-hooks/refs). */
-  const menuDispatchRef = useRef<{ delete: () => void; openDuplicate: () => void; openEdit: () => void }>({
-    delete: () => {},
+  const menuDispatchRef = useRef<{ openDelete: () => void; openDuplicate: () => void; openEdit: () => void }>({
+    openDelete: () => {},
     openDuplicate: () => {},
     openEdit: () => {},
   });
 
   useLayoutEffect(() => {
-    menuDispatchRef.current.delete = () => deleteRateRef.current?.delete();
+    menuDispatchRef.current.openDelete = () => deleteRateRef.current?.open();
     menuDispatchRef.current.openDuplicate = () => duplicateRateRef.current?.open();
     menuDispatchRef.current.openEdit = () => editRateRef.current?.open();
   });
@@ -76,7 +76,7 @@ const RateActions: React.FC<RateActionsProps> = ({
       },
       {
         isDisabled: isDisabled || !canWrite,
-        onClick: () => menuDispatchRef.current.delete(),
+        onClick: () => menuDispatchRef.current.openDelete(),
         toString: () => intl.formatMessage(messages.remove),
         ...(!canWrite && readOnlyTooltip),
       },

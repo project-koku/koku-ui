@@ -168,7 +168,7 @@ const Rate: React.FC<RateProps> = ({ canWrite, onAdd, onEdit, onDelete }) => {
   };
 
   if (priceListError) {
-    return <NotAvailable />;
+    return <NotAvailable error={priceListError} />;
   }
   return (
     <>
