@@ -40,7 +40,7 @@ const ProviderBreakdownContent: React.FC<ProviderDetailsContentProps> = ({
   const { providers, providersError, providersFetchStatus } = useMapToProps();
 
   if (providersError) {
-    return <NotAvailable />;
+    return <NotAvailable error={providersError} />;
   }
 
   if (providersFetchStatus === FetchStatus.inProgress) {

@@ -35,6 +35,7 @@ import { Currency } from 'routes/components/currency';
 import { Loading } from 'routes/components/page/loading';
 import NoData from 'routes/components/page/noData/noData';
 import { NoProviders } from 'routes/components/page/noProviders';
+import { NotAvailable } from 'routes/components/page/notAvailable';
 import { Perspective } from 'routes/components/perspective';
 import { AwsDashboard } from 'routes/overview/awsDashboard';
 import { AwsOcpDashboard } from 'routes/overview/awsOcpDashboard';
@@ -55,6 +56,7 @@ import {
 } from 'routes/utils/providers';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersQuery, providersSelectors } from 'store/providers';
+import { reportSelectors } from 'store/reports';
 import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getSinceDateRangeString } from 'utils/dates';
 import type { RouterComponentProps } from 'utils/router';
@@ -117,6 +119,7 @@ interface OverviewStateProps {
   providersError?: AxiosError;
   providersFetchStatus?: FetchStatus;
   perspective?: string;
+  reportError?: AxiosError;
   query: OverviewQuery;
   tabKey?: number;
   userAccess?: UserAccess;
@@ -548,7 +551,8 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
   };
 
   public render() {
-    const { providersFetchStatus, intl, userAccessFetchStatus } = this.props;
+    const { intl, providersError, providersFetchStatus, reportError, userAccessError, userAccessFetchStatus } =
+      this.props;
 
     // Note: No need to test OCP on cloud here, since that requires at least one provider
     const noProviders =
@@ -561,10 +565,13 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const isLoading =
       providersFetchStatus === FetchStatus.inProgress || userAccessFetchStatus === FetchStatus.inProgress;
 
+    const apiError = reportError || providersError || userAccessError;
     const availableTabs = this.getAvailableTabs();
     const title = intl.formatMessage(messages.overviewTitle);
 
-    if (isLoading) {
+    if (apiError) {
+      return <NotAvailable error={apiError} title={title} />;
+    } else if (isLoading) {
       return <Loading title={title} />;
     } else if (noProviders) {
       return <NoProviders />;
@@ -643,6 +650,8 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ...queryFromRoute,
   };
 
+  const reportError = reportSelectors.selectAnyReportError(state);
+
   const providersQueryString = getProvidersQuery(providersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.all, providersQueryString);
   const providersError = providersSelectors.selectProvidersError(state, ProviderType.all, providersQueryString);
@@ -673,6 +682,7 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     providersFetchStatus,
     perspective,
     query,
+    reportError,
     tabKey,
     userAccess,
     userAccessError,

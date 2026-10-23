@@ -148,7 +148,7 @@ const PvcContent: React.FC<PvcContentProps> = () => {
   const isDisabled = itemsTotal === 0;
 
   if (reportError) {
-    return <NotAvailable />;
+    return <NotAvailable error={reportError} />;
   }
   return (
     <div style={styles.container}>

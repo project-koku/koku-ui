@@ -324,7 +324,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
     // Note: Providers are fetched via the AccountSettings component used by all routes
     if (reportError) {
-      return <NotAvailable title={emptyStateTitle} />;
+      return <NotAvailable error={reportError} title={emptyStateTitle} />;
     } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
       return <Loading title={emptyStateTitle} />;
     } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {

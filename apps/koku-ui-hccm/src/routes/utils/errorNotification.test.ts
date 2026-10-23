@@ -12,6 +12,19 @@ describe('errorNotification', () => {
     expect(getApiErrorDetail({} as any)).toBeUndefined();
   });
 
+  test('returns nested field validation errors', () => {
+    const err = {
+      response: {
+        data: {
+          order_by: {
+            cost_total_distributed: ['"descxxx" is not a valid choice.'],
+          },
+        },
+      },
+    } as any;
+    expect(getApiErrorDetail(err)).toBe('order_by.cost_total_distributed: "descxxx" is not a valid choice.');
+  });
+
   test('builds a danger notification with optional detail', () => {
     const err = { response: { data: { errors: [{ detail: 'limit reached' }] } } } as any;
     expect(getErrorNotification(err, 'Could not update', 'Try again')).toEqual({

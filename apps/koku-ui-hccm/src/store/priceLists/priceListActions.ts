@@ -5,7 +5,7 @@ import { fetchPriceList as apiFetchPriceList, updatePriceList as apiUpdatePriceL
 import type { AxiosError, AxiosResponse } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
-import { getErrorNotification } from 'routes/settings/utils';
+import { getErrorNotification } from 'routes/utils/errorNotification';
 import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';

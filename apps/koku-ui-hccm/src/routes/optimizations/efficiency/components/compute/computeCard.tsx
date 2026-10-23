@@ -217,7 +217,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
   }, [groupBy, timeScopeValue]);
 
   if (reportError) {
-    return <NotAvailable title={intl.formatMessage(messages.ocpDetailsTitle)} />;
+    return <NotAvailable error={reportError} title={intl.formatMessage(messages.ocpDetailsTitle)} />;
   } else if (reportFetchStatus === FetchStatus.inProgress) {
     return <LoadingState />;
   }

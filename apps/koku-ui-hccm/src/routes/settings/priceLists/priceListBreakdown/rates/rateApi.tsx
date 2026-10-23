@@ -183,7 +183,7 @@ const RateApi: React.FC<RateApiProps> = ({ canWrite, onAdd, onEdit, onDelete, pr
   };
 
   if (priceListRatesError) {
-    return <NotAvailable />;
+    return <NotAvailable error={priceListRatesError} />;
   }
   return (
     <>
