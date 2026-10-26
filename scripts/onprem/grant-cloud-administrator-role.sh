@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Grant Sources administrator (Cloud administrator / sources:*:*) to admin and viewer.
+# Grant sources:*:* (Cloud administrator) to the Keycloak admin and viewer lab users.
 #
 # Usage (from koku-ui repo root):
 #   bash scripts/onprem/grant-cloud-administrator-role.sh
@@ -27,4 +27,4 @@ echo "Granting Cloud administrator (sources:*:*) to admin and viewer (namespace=
 oc exec -i -n "$NAMESPACE" "deployment/${RBAC_DEPLOY}" -- \
   python manage.py shell < "${SCRIPT_DIR}/onprem_grant_cloud_administrator_role.py"
 
-echo "  admin / admin and viewer / viewer now have Sources administrator (Cloud administrator)"
+echo "  admin / admin and viewer / viewer now have sources:*:* (Cloud administrator)"

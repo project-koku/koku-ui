@@ -283,6 +283,7 @@ PY
   ok "QE cluster setup finished (rbac_user / masu IQE_TEST_RUN / dynaconf)"
   sync_keycloak_realm_users
   grant_viewer_rbac_permissions
+  grant_cloud_administrator_role
 }
 
 sync_keycloak_realm_users() {
@@ -293,6 +294,11 @@ sync_keycloak_realm_users() {
 grant_viewer_rbac_permissions() {
   log "Granting IAM read RBAC permissions to viewer user"
   bash "${KOKU_ONPREM_DIR}/grant-viewer-rbac-permissions.sh"
+}
+
+grant_cloud_administrator_role() {
+  log "Granting sources:*:* to admin and viewer"
+  bash "${KOKU_ONPREM_DIR}/grant-cloud-administrator-role.sh"
 }
 
 # ---------------------------------------------------------------------------

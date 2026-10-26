@@ -1,4 +1,5 @@
 import { Bullseye, Spinner } from '@patternfly/react-core';
+import { isOnpremSourcesEnabled } from 'components/featureToggle/featureToggle';
 import { userAccess } from 'components/userAccess';
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
@@ -125,21 +126,30 @@ export const routes = {
   },
 };
 
-export const Routes = () => (
-  <Suspense
-    fallback={
-      <Bullseye>
-        <Spinner size="lg" />
-      </Bullseye>
-    }
-  >
-    <RouterRoutes>
-      {Object.keys(routes).map(key => {
-        const route = routes[key];
-        return <Route key={route.path} path={route.path} element={<route.element />} />;
-      })}
-      {/* Finally, catch all unmatched routes */}
-      <Route path="*" element={<NotFound />} />
-    </RouterRoutes>
-  </Suspense>
-);
+export const Routes = () => {
+  // Vendor Sources owns /settings/integrations/* under Settings (list in the tab;
+  // detail hides Settings chrome). koku-ui-sources keeps integrationBreakdown when
+  // KOKU_UI_ONPREM_SOURCES_ENABLED is false.
+
+  return (
+    <Suspense
+      fallback={
+        <Bullseye>
+          <Spinner size="lg" />
+        </Bullseye>
+      }
+    >
+      <RouterRoutes>
+        {Object.keys(routes)
+          .filter(key => !(isOnpremSourcesEnabled && key === 'integrationBreakdown'))
+          .map(key => {
+            const route = routes[key];
+            const path = isOnpremSourcesEnabled && key === 'settings' ? `${route.path}/*` : route.path;
+            return <Route key={path} path={path} element={<route.element />} />;
+          })}
+        {/* Finally, catch all unmatched routes */}
+        <Route path="*" element={<NotFound />} />
+      </RouterRoutes>
+    </Suspense>
+  );
+};

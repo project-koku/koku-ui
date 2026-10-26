@@ -4,13 +4,13 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import { isOnPremEnabled, useIsExchangeRateToggleEnabled } from 'components/featureToggle';
+import { isOnPremEnabled, isOnpremSourcesEnabled, useIsExchangeRateToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Route, Routes as NestedRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { routes } from 'routes';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -101,6 +101,8 @@ type SettingsProps = SettingsOwnProps;
 
 const Settings: React.FC<SettingsProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [activeTabKey, setActiveTabKey] = useState(0);
 
   const { activeTab, isExchangeRateToggleEnabled, userAccess, userAccessFetchStatus } = useMapToProps();
@@ -145,6 +147,7 @@ const Settings: React.FC<SettingsProps> = () => {
         contentRef: React.createRef(),
         tab: SettingsTab.display,
       },
+      // On-prem only. sources-ui-onprem fills this tab unless KOKU_UI_ONPREM_SOURCES_ENABLED=false.
       ...(isOnPremEnabled
         ? [
             {
@@ -184,6 +187,15 @@ const Settings: React.FC<SettingsProps> = () => {
     });
   };
 
+  const renderVendorIntegrations = () => (
+    <NestedRoutes>
+      <Route
+        path="integrations/*"
+        element={<ScalprumComponent scope="sources-ui-onprem" module="./RootApp" fallback={<LoadingState />} />}
+      />
+    </NestedRoutes>
+  );
+
   const getTabItem = (tab: SettingsTab, index: number) => {
     const notAuthorized = <NotAuthorized pathname={formatPath(routes.settings.path)} />;
     const emptyTab = <></>; // Lazily load tabs
@@ -220,15 +232,19 @@ const Settings: React.FC<SettingsProps> = () => {
     } else if (currentTab === SettingsTab.sources) {
       // On-prem only. The Integrations tab is gated by sources permissions
       // (e.g. the "Sources administrator" role), not settings permissions.
-      return hasSourcesAccess(userAccess) ? (
+      if (!hasSourcesAccess(userAccess)) {
+        return notAuthorized;
+      }
+      if (isOnpremSourcesEnabled) {
+        return renderVendorIntegrations();
+      }
+      return (
         <ScalprumComponent
-          scope="sources"
+          scope="koku-ui-sources"
           module="./SourcesPage"
           fallback={<LoadingState />}
           {...({ canWrite: canWriteSources } as Record<string, unknown>)}
         />
-      ) : (
-        notAuthorized
       );
     } else {
       return emptyTab;
@@ -267,20 +283,84 @@ const Settings: React.FC<SettingsProps> = () => {
 
   // Handlers
 
-  const handleTabClick = (event, tabIndex) => {
-    if (activeTabKey !== tabIndex) {
-      setActiveTabKey(tabIndex);
+  const availableTabs = getAvailableTabs();
+  const onVendorIntegrations = isOnpremSourcesEnabled && location.pathname.includes('/settings/integrations');
+  // Detail (and its child routes) leave the Settings chrome, same pattern as cost-model / price-list breakdown.
+  const onVendorIntegrationDetail =
+    isOnpremSourcesEnabled && /\/settings\/integrations\/detail(?:\/|$)/.test(location.pathname);
+
+  const handleTabClick = (_event, tabIndex) => {
+    if (activeTabKey === tabIndex) {
+      return;
     }
+    const tab = availableTabs[tabIndex]?.tab;
+    if (isOnpremSourcesEnabled && tab === SettingsTab.sources) {
+      setActiveTabKey(tabIndex);
+      navigate(
+        {
+          pathname: `${formatPath(routes.settings.path)}/integrations`,
+          search: '?category=Red%20Hat',
+        },
+        { state: { settingsState: { activeTab: SettingsTab.sources } } }
+      );
+      return;
+    }
+    if (isOnpremSourcesEnabled && location.pathname.includes('/settings/integrations')) {
+      navigate(formatPath(routes.settings.path), {
+        state: { settingsState: { activeTab: tab } },
+      });
+    }
+    setActiveTabKey(tabIndex);
   };
 
   // Effects
 
-  const availableTabs = getAvailableTabs();
-
   useEffect(() => {
+    if (onVendorIntegrations) {
+      const tabIndex = availableTabs.findIndex(val => val.tab === SettingsTab.sources);
+      if (tabIndex >= 0) {
+        setActiveTabKey(tabIndex);
+      }
+      return;
+    }
+    if (isOnpremSourcesEnabled && activeTab === SettingsTab.sources) {
+      navigate(
+        {
+          pathname: `${formatPath(routes.settings.path)}/integrations`,
+          search: '?category=Red%20Hat',
+        },
+        { replace: true, state: location.state }
+      );
+      return;
+    }
     const tabIndex = activeTab ? availableTabs.findIndex(val => val.tab === activeTab) : -1;
-    setActiveTabKey(tabIndex >= 0 ? tabIndex : 0);
-  }, [activeTab, isExchangeRateToggleEnabled]);
+    if (tabIndex >= 0) {
+      setActiveTabKey(tabIndex);
+    }
+    // availableTabs is derived from the same flags listed here.
+  }, [
+    activeTab,
+    isExchangeRateToggleEnabled,
+    location.pathname,
+    location.state,
+    onVendorIntegrations,
+    isOnpremSourcesEnabled,
+  ]);
+
+  if (onVendorIntegrationDetail) {
+    if (userAccessFetchStatus === FetchStatus.inProgress) {
+      return (
+        <LoadingState
+          body={intl.formatMessage(messages.userAccessLoadingStateDesc)}
+          heading={intl.formatMessage(messages.userAccessLoadingStateTitle)}
+        />
+      );
+    }
+    if (!hasSourcesAccess(userAccess)) {
+      return <NotAuthorized pathname={formatPath(routes.integrationBreakdown.basePath)} />;
+    }
+    return <PageSection>{renderVendorIntegrations()}</PageSection>;
+  }
 
   return (
     <>

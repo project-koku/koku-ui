@@ -8,6 +8,7 @@ import { FeatureToggleType } from './featureToggleType';
 
 // Build-time flags from webpack DefinePlugin (`fec.config.js` / `webpack-onprem.config.ts`). Not Unleash toggles.
 export const isOnPremEnabled = process.env.KOKU_UI_ONPREM_ENABLED === 'true';
+export const isOnpremSourcesEnabled = process.env.KOKU_UI_ONPREM_SOURCES_ENABLED === 'true';
 
 const useIsToggleEnabled = (toggle: FeatureToggleType) => {
   const client = useUnleashClient();

@@ -6,6 +6,9 @@ export interface NavRoute {
 export const COST_BASENAME = '/openshift/cost-management';
 export const IAM_BASENAME = '/iam';
 
+/** Settings Integrations list. The vendor app reads `category=Red Hat` from the query. */
+export const SETTINGS_INTEGRATIONS_PATH = `${COST_BASENAME}/settings/integrations`;
+
 export const isIamPath = (path: string): boolean => path.startsWith(IAM_BASENAME);
 export const stripIamBasename = (path: string): string => path.slice(IAM_BASENAME.length) || '/';
 

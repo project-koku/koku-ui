@@ -5,7 +5,7 @@ import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import type { AxiosError } from 'axios';
-import { isOnPremEnabled } from 'components/featureToggle/featureToggle';
+import { isOnPremEnabled, isOnpremSourcesEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -91,10 +91,12 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps, any> {
       return null; // Don't display alert
     }
 
-    // On-prem: SaaS /settings/integrations is outside the plugin mount (COST-7661).
-    const integrationsHref = isOnPremEnabled
-      ? formatPath(routes.settings.path, true)
-      : `${getReleasePath()}/settings/integrations`;
+    let integrationsHref = `${getReleasePath()}/settings/integrations`;
+    if (isOnPremEnabled && isOnpremSourcesEnabled) {
+      integrationsHref = `${formatPath(`${routes.settings.path}/integrations`, true)}?category=Red%20Hat`;
+    } else if (isOnPremEnabled) {
+      integrationsHref = formatPath(routes.settings.path, true);
+    }
 
     return (
       <div className="alert">

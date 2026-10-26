@@ -4,6 +4,7 @@ interface InsightsChrome {
   auth?: {
     getUser?: () => Promise<unknown>;
     getToken?: () => Promise<string>;
+    logout?: () => Promise<unknown> | void;
   };
   getUserPermissions?: (applicationName?: string, disableCache?: boolean) => Promise<unknown[]>;
   getEnvironment?: () => string;
@@ -34,7 +35,13 @@ const chromeApi = {
         identity: { user: { is_org_admin: false } },
       },
     getToken: async () => (await getInsightsChrome()?.auth?.getToken?.()) ?? '',
+    logout: async () => {
+      await getInsightsChrome()?.auth?.logout?.();
+    },
   },
+  isBeta: () => false,
+  isProd: () => true,
+  getApp: () => 'sources',
   getUserPermissions: async (applicationName?: string, disableCache?: boolean) =>
     (await getInsightsChrome()?.getUserPermissions?.(applicationName, disableCache)) ?? [],
   getEnvironment: () => getInsightsChrome()?.getEnvironment?.() ?? 'prod',

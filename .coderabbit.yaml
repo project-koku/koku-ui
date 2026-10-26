@@ -52,7 +52,7 @@ reviews:
     - "!**/.cache/**"
     - "!**/.swc/**"
     - "!.archive/**" # Retired legacy UI kept only for reference; not maintained
-    - "!vendor/**" # git submodule (insights-rbac-ui) — not owned/edited here
+    - "!vendor/**" # git submodules (insights-rbac-ui, sources-ui) — not owned/edited here
     - "!build-tools/**" # git submodule (insights-frontend-builder-common)
     - "!**/locales/data.json" # formatjs-generated i18n data file
     - "!**/locales/translations.json" # formatjs-generated i18n bundle
@@ -63,7 +63,7 @@ reviews:
     - path: "apps/**/src/**/*.{ts,tsx}"
       instructions: |
         This is a monorepo of federated React/TypeScript apps (koku-ui-hccm, koku-ui-ros,
-        koku-ui-sources, koku-ui-onprem, rbac-ui-onprem) sharing PatternFly 6, Redux Toolkit,
+        koku-ui-sources, koku-ui-onprem, rbac-ui-onprem, sources-ui-onprem) sharing PatternFly 6, Redux Toolkit,
         react-intl, and axios. Style/formatting is enforced by ESLint + Prettier — do not
         repeat those nits. Prefer fewer, high-signal comments.
         Flag (correctness / security):
@@ -113,6 +113,13 @@ reviews:
         the vendored insights-rbac-ui git submodule (vendor/insights-rbac-ui), not patch it.
         Flag any change that duplicates logic that belongs upstream, or that assumes a specific
         vendor submodule SHA without bumping/documenting the pin.
+
+    - path: "apps/sources-ui-onprem/**"
+      instructions: |
+        This package wraps the vendored sources-ui git submodule (vendor/sources-ui). Do not
+        ask for edits inside vendor/sources-ui. The Cost JSON translator and chrome shims
+        belong in this wrapper. koku-ui-sources stays in the image. Settings Integrations
+        loads this remote unless KOKU_UI_ONPREM_SOURCES_ENABLED is false.
 
     - path: "libs/onprem-cloud-deps/**"
       instructions: |

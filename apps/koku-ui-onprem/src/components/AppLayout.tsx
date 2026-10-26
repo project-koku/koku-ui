@@ -28,7 +28,7 @@ export const AppLayout = () => {
   const { isOnIamSection } = useIam();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
-  const handleLeaveIam = React.useCallback((to: string) => {
+  const handleLeaveSection = React.useCallback((to: string) => {
     window.location.assign(to);
   }, []);
 
@@ -66,13 +66,13 @@ export const AppLayout = () => {
         <Nav>
           <NavList>
             {costRoutes.map(route => (
-              <NavItem key={route.path} to={route.path} onLeaveIam={handleLeaveIam}>
+              <NavItem key={route.path} to={route.path} onLeaveSection={handleLeaveSection}>
                 {route.title}
               </NavItem>
             ))}
             <NavExpandable title="Identity and Access Management" isExpanded={isOnIamSection} isActive={isOnIamSection}>
               {iamRoutes.map(route => (
-                <NavItem key={route.path} to={route.path} onLeaveIam={handleLeaveIam}>
+                <NavItem key={route.path} to={route.path} onLeaveSection={handleLeaveSection}>
                   {route.title}
                 </NavItem>
               ))}

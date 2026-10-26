@@ -112,6 +112,9 @@ const config: Configuration = {
       'process.env.KOKU_UI_COMMITHASH': undefined,
       'process.env.KOKU_UI_PKGNAME': undefined,
       'process.env.KOKU_UI_ONPREM_ENABLED': JSON.stringify(process.env.KOKU_UI_ONPREM_ENABLED?.trim() || 'true'),
+      'process.env.KOKU_UI_ONPREM_SOURCES_ENABLED': JSON.stringify(
+        process.env.KOKU_UI_ONPREM_SOURCES_ENABLED?.trim() || 'true'
+      ),
       'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(
         process.env.ONPREM_UNLEASH_FLAGS?.trim() ||
           [

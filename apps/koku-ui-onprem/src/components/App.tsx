@@ -15,8 +15,9 @@ import { IamProvider } from './IamContext';
  *
  * ## Background
  *
- * This app serves two distinct URL spaces:
- * - **Cost Management** — routes under `/openshift/cost-management/*`
+ * This app serves two URL spaces:
+ * - **Cost Management** — routes under `/openshift/cost-management/*`. The Settings
+ *   Integrations tab loads `sources-ui-onprem` unless `KOKU_UI_ONPREM_SOURCES_ENABLED=false`.
  * - **IAM / RBAC** — routes under `/iam/*`, rendered by the `insights-rbac-ui`
  *   federated micro-frontend loaded via Scalprum.
  *
@@ -45,8 +46,16 @@ import { IamProvider } from './IamContext';
  * function returns `undefined` and `BrowserRouter` operates from the
  * document root.
  */
-const getBasename = (): string | undefined =>
-  window?.location.pathname && isIamPath(window.location.pathname) ? IAM_BASENAME : undefined;
+const getBasename = (): string | undefined => {
+  const pathname = window?.location.pathname;
+  if (!pathname) {
+    return undefined;
+  }
+  if (isIamPath(pathname)) {
+    return IAM_BASENAME;
+  }
+  return undefined;
+};
 
 export const App: React.FC = () => {
   return (

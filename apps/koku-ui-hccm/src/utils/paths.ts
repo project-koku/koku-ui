@@ -46,6 +46,8 @@ export const usePathname = () => {
     return priceListPath;
   } else if (location.pathname.startsWith(integrationBreakdownPath)) {
     return integrationBreakdownPath;
+  } else if (location.pathname.startsWith(`${formatPath(routes.settings.path)}/`)) {
+    return formatPath(routes.settings.path);
   } else {
     return location.pathname.replace(/\/$/, '');
   }
