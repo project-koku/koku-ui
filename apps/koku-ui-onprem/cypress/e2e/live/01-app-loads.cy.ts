@@ -15,9 +15,9 @@ describe('Live app loads', { testTimeout: 180_000 }, () => {
   });
 
   it('rbac-plugin-manifest', () => {
-    cy.request('/rbac/plugin-manifest.json').then((res) => {
+    cy.request('/rbac-ui-onprem/plugin-manifest.json').then((res) => {
       expect(res.status).to.eq(200);
-      expect(res.body).to.include({ name: 'insightsRbac', baseURL: '/rbac/' });
+      expect(res.body).to.include({ name: 'rbac-ui-onprem', baseURL: '/rbac-ui-onprem/' });
     });
   });
 

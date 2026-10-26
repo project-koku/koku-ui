@@ -31,3 +31,37 @@ describe('isOnPremEnabled', () => {
     expect(loadIsOnPremEnabled()).toBe(true);
   });
 });
+
+describe('isOnpremSourcesEnabled', () => {
+  const original = process.env.KOKU_UI_ONPREM_SOURCES_ENABLED;
+
+  const loadIsOnpremSourcesEnabled = (): boolean => {
+    jest.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    return require('./featureToggle').isOnpremSourcesEnabled;
+  };
+
+  afterEach(() => {
+    jest.resetModules();
+    if (original === undefined) {
+      delete process.env.KOKU_UI_ONPREM_SOURCES_ENABLED;
+    } else {
+      process.env.KOKU_UI_ONPREM_SOURCES_ENABLED = original;
+    }
+  });
+
+  it('is false when env is unset (e.g. Jest / local node)', () => {
+    delete process.env.KOKU_UI_ONPREM_SOURCES_ENABLED;
+    expect(loadIsOnpremSourcesEnabled()).toBe(false);
+  });
+
+  it('is false when env is not the string true', () => {
+    process.env.KOKU_UI_ONPREM_SOURCES_ENABLED = 'false';
+    expect(loadIsOnpremSourcesEnabled()).toBe(false);
+  });
+
+  it('is true when env is the string true', () => {
+    process.env.KOKU_UI_ONPREM_SOURCES_ENABLED = 'true';
+    expect(loadIsOnpremSourcesEnabled()).toBe(true);
+  });
+});

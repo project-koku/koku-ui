@@ -55,7 +55,7 @@ const IntegrationBreakdown: React.FC = () => {
 
   return (
     <ScalprumComponent
-      scope="sources"
+      scope="koku-ui-sources"
       module="./SourceDetail"
       fallback={<LoadingState />}
       {...({

@@ -283,6 +283,8 @@ PY
   ok "QE cluster setup finished (rbac_user / masu IQE_TEST_RUN / dynaconf)"
   sync_keycloak_realm_users
   grant_viewer_rbac_permissions
+  grant_cloud_administrator_role
+  grant_viewer_sources_role
 }
 
 sync_keycloak_realm_users() {
@@ -293,6 +295,16 @@ sync_keycloak_realm_users() {
 grant_viewer_rbac_permissions() {
   log "Granting IAM read RBAC permissions to viewer user"
   bash "${KOKU_ONPREM_DIR}/grant-viewer-rbac-permissions.sh"
+}
+
+grant_cloud_administrator_role() {
+  log "Granting sources:*:* to admin"
+  bash "${KOKU_ONPREM_DIR}/grant-cloud-administrator-role.sh"
+}
+
+grant_viewer_sources_role() {
+  log "Granting sources:*:read to viewer"
+  bash "${KOKU_ONPREM_DIR}/grant-viewer-sources-role.sh"
 }
 
 # ---------------------------------------------------------------------------
@@ -527,7 +539,7 @@ fi
 if [[ "$SETUP_ONLY" == "1" ]]; then
   echo ""
   echo "${C_BOLD}${C_GREEN}QE IQE cluster setup complete.${C_RESET}"
-  echo "  Keycloak UI users:  admin / admin (org-admin, Cloud administrator), viewer / viewer (IAM read, Cloud administrator)"
+  echo "  Keycloak UI users:  admin / admin (org-admin, Cloud administrator), viewer / viewer (IAM read, sources read)"
   echo "  Extra RBAC user:    rbac_user / rbac_user"
   keycloak_host="$(oc get route keycloak -n "$KEYCLOAK_NAMESPACE" -o jsonpath='{.spec.host}' 2>/dev/null || true)"
   [[ -n "$keycloak_host" ]] && echo "  Keycloak console:   https://${keycloak_host}/admin/"

@@ -45,6 +45,7 @@ export default [
       '**/.history',
       '**/.vscode',
       '**/*.swp',
+      '**/*.test.js',
       '**/*.test.ts',
       '**/*.test.tsx',
     ],

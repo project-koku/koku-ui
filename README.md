@@ -20,6 +20,8 @@ Then install dependencies from the repo root: `npm ci`.
 
 For RBAC submodule pin and bump steps, see [rbac-ui-onprem README](apps/rbac-ui-onprem/README.md).
 
+For the vendored Sources UI, see [sources-ui-onprem README](apps/sources-ui-onprem/README.md).
+
 For specific instructions look at app's README. Available apps:
 - [koku-ui-hccm][koku-ui-hccm-readme]
 - [koku-ui-onprem][koku-ui-onprem-readme]

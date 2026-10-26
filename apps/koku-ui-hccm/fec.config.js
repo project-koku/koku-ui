@@ -109,6 +109,7 @@ module.exports = {
       'process.env.KOKU_UI_PKGNAME': JSON.stringify(name),
       // Set to avoid potential runtime errors
       'process.env.KOKU_UI_ONPREM_ENABLED': JSON.stringify('false'),
+      'process.env.KOKU_UI_ONPREM_SOURCES_ENABLED': JSON.stringify('false'),
     }),
   ],
   resolve: {

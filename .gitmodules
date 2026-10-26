@@ -4,3 +4,7 @@
 [submodule "vendor/insights-rbac-ui"]
 	path = vendor/insights-rbac-ui
 	url = https://github.com/RedHatInsights/insights-rbac-ui.git
+[submodule "vendor/sources-ui"]
+	path = vendor/sources-ui
+	url = https://github.com/RedHatInsights/sources-ui.git
+	ignore = dirty

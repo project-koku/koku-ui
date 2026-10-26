@@ -6,10 +6,12 @@ import { SourceLink } from './sourceLink';
 
 jest.mock('components/featureToggle/featureToggle', () => ({
   isOnPremEnabled: false,
+  isOnpremSourcesEnabled: true,
 }));
 
 const featureToggle = require('components/featureToggle/featureToggle') as {
   isOnPremEnabled: boolean;
+  isOnpremSourcesEnabled: boolean;
 };
 
 const provider: Provider = {
@@ -29,6 +31,7 @@ const renderLink = (p: Provider = provider) =>
 describe('SourceLink', () => {
   beforeEach(() => {
     featureToggle.isOnPremEnabled = false;
+    featureToggle.isOnpremSourcesEnabled = true;
   });
 
   it('uses SaaS Integrations detail href when on-prem is disabled', () => {
@@ -37,13 +40,21 @@ describe('SourceLink', () => {
     expect(anchor).toHaveAttribute('href', '/settings/integrations/detail/42');
   });
 
-  it('uses on-prem integration detail path when on-prem is enabled', () => {
+  it('uses the vendor detail path and Red Hat category when on-prem is enabled', () => {
     featureToggle.isOnPremEnabled = true;
     renderLink();
     const anchor = screen.getByRole('link', { name: 'My Source' });
     expect(anchor).toHaveAttribute(
       'href',
-      '/openshift/cost-management/settings/integrations/detail/prov-uuid-1'
+      '/openshift/cost-management/settings/integrations/detail/prov-uuid-1?category=Red%20Hat'
     );
+  });
+
+  it('omits the Red Hat category when KOKU_UI_ONPREM_SOURCES_ENABLED is false', () => {
+    featureToggle.isOnPremEnabled = true;
+    featureToggle.isOnpremSourcesEnabled = false;
+    renderLink();
+    const anchor = screen.getByRole('link', { name: 'My Source' });
+    expect(anchor).toHaveAttribute('href', '/openshift/cost-management/settings/integrations/detail/prov-uuid-1');
   });
 });
