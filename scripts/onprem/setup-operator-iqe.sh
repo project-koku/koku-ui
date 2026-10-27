@@ -86,6 +86,8 @@ fail() {
 IQE_RERUN_HINT=0
 IQE_EXIT_STATUS=""
 IQE_COMMAND_FAILURE=""
+# Preserve caller flags (e.g. --keep-sources) for the failure rerun hint.
+IQE_ARGV=("$@")
 
 on_iqe_err() {
   IQE_EXIT_STATUS=$?
@@ -105,8 +107,14 @@ on_iqe_exit() {
     echo "${C_BOLD}${C_RED}✖ Error: ${IQE_COMMAND_FAILURE}${C_RESET}" >&2
   fi
   echo "The operator install is already complete." >&2
-  echo "Re-run the IQE step:" >&2
-  echo "  npm run setup:operator:iqe" >&2
+  echo "Re-run the IQE step with the same options:" >&2
+  if [[ ${#IQE_ARGV[@]} -eq 0 ]]; then
+    echo "  npm run setup:operator:iqe" >&2
+  else
+    local rerun_args
+    printf -v rerun_args ' %q' "${IQE_ARGV[@]}"
+    echo "  npm run setup:operator:iqe --${rerun_args}" >&2
+  fi
   exit "$status"
 }
 
@@ -479,7 +487,7 @@ iqe_ingest() {
   runner_status=0
   if (
     trap - ERR EXIT
-    cd "$NISE_OUTPUT_DIR"
+    cd "$NISE_OUTPUT_DIR" || exit 1
     PYTHON_BIN="$PYTHON_BIN" \
       IQE_CORE_PATH="$IQE_CORE_PATH" \
       IQE_PLUGIN_PATH="$IQE_PLUGIN_PATH" \
