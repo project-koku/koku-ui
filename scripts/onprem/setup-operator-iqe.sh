@@ -81,6 +81,48 @@ fail() {
   exit 1
 }
 
+# Set once the CostManagementServiceConfig exists. Earlier failures mean the
+# operator install itself did not finish, so they must not suggest an IQE rerun.
+IQE_RERUN_HINT=0
+IQE_EXIT_STATUS=""
+IQE_COMMAND_FAILURE=""
+
+on_iqe_err() {
+  IQE_EXIT_STATUS=$?
+  IQE_COMMAND_FAILURE="command failed (exit ${IQE_EXIT_STATUS}) at line ${BASH_LINENO[0]}: ${BASH_COMMAND}"
+}
+
+on_iqe_exit() {
+  local status=$?
+  if [[ -n "$IQE_EXIT_STATUS" ]]; then
+    status="$IQE_EXIT_STATUS"
+  fi
+  if [[ "$status" -eq 0 || "$IQE_RERUN_HINT" -ne 1 ]]; then
+    return 0
+  fi
+  echo "" >&2
+  if [[ -n "$IQE_COMMAND_FAILURE" ]]; then
+    echo "${C_BOLD}${C_RED}✖ Error: ${IQE_COMMAND_FAILURE}${C_RESET}" >&2
+  fi
+  echo "The operator install is already complete." >&2
+  echo "Re-run the IQE step:" >&2
+  echo "  npm run setup:operator:iqe" >&2
+  exit "$status"
+}
+
+join_failure_lines() {
+  local file="$1" line="" joined=""
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ -z "$line" ]] && continue
+    if [[ -n "$joined" ]]; then
+      joined="${joined}; ${line}"
+    else
+      joined="$line"
+    fi
+  done < "$file"
+  printf '%s' "$joined"
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --setup-only) SETUP_ONLY=1; shift ;;
@@ -114,6 +156,9 @@ ok "KEYCLOAK_NAMESPACE=${KEYCLOAK_NAMESPACE}"
 
 oc get cmsc "$CR_NAME" -n "$NAMESPACE" >/dev/null 2>&1 \
   || fail "CostManagementServiceConfig ${NAMESPACE}/${CR_NAME} not found — run npm run setup:operator:install first"
+IQE_RERUN_HINT=1
+trap on_iqe_err ERR
+trap on_iqe_exit EXIT
 
 ensure_clone() {
   local dir="$1" repo="$2" name="$3"
@@ -427,7 +472,13 @@ iqe_ingest() {
   # upload. Run from nise-output/ so leftovers never land in the repo root.
   mkdir -p "$NISE_OUTPUT_DIR"
   ok "NISE working directory: ${NISE_OUTPUT_DIR}"
-  (
+  local failure_file runner_status reason
+  failure_file="$(mktemp "${TMPDIR:-/tmp}/iqe-failure.XXXXXX")"
+  # Drop inherited ERR/EXIT traps. Otherwise a failing runner makes this
+  # subshell print the rerun hint before the parent can include the reason.
+  runner_status=0
+  if (
+    trap - ERR EXIT
     cd "$NISE_OUTPUT_DIR"
     PYTHON_BIN="$PYTHON_BIN" \
       IQE_CORE_PATH="$IQE_CORE_PATH" \
@@ -436,8 +487,25 @@ iqe_ingest() {
       NAMESPACE="$NAMESPACE" \
       HELM_RELEASE_NAME="$CR_NAME" \
       KEYCLOAK_NS="$KEYCLOAK_NAMESPACE" \
+      IQE_FAILURE_FILE="$failure_file" \
       "${OPERATOR_DIR}/scripts/run-iqe-tests-local.sh" "${extra[@]}"
-  )
+  ); then
+    runner_status=0
+  else
+    runner_status=$?
+  fi
+  if [[ "$runner_status" -ne 0 ]]; then
+    reason=""
+    if [[ -s "$failure_file" ]]; then
+      reason="$(join_failure_lines "$failure_file")"
+    fi
+    rm -f "$failure_file"
+    if [[ -n "$reason" ]]; then
+      fail "IQE ingest failed: ${reason}"
+    fi
+    fail "IQE ingest failed (exit ${runner_status}). See the [ERROR] lines above."
+  fi
+  rm -f "$failure_file"
 }
 
 iqe_venv_setup
@@ -451,7 +519,7 @@ fi
 if [[ "$SETUP_ONLY" == "1" ]]; then
   echo ""
   echo "${C_BOLD}${C_GREEN}QE IQE cluster setup complete.${C_RESET}"
-  echo "  Keycloak UI users:  admin / admin (org-admin), viewer / viewer (IAM read)"
+  echo "  Keycloak UI users:  admin / admin (org-admin, Cloud administrator), viewer / viewer (IAM read, Cloud administrator)"
   echo "  Extra RBAC user:    rbac_user / rbac_user"
   keycloak_host="$(oc get route keycloak -n "$KEYCLOAK_NAMESPACE" -o jsonpath='{.spec.host}' 2>/dev/null || true)"
   [[ -n "$keycloak_host" ]] && echo "  Keycloak console:   https://${keycloak_host}/admin/"

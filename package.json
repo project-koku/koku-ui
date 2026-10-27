@@ -38,6 +38,7 @@
     "setup:operator:reset": "bash scripts/onprem/setup-operator.sh --reset && bash scripts/onprem/setup-operator-iqe.sh",
     "setup:operator:dry-run": "bash scripts/onprem/setup-operator.sh --dry-run",
     "setup:operator:sync-images": "bash scripts/onprem/setup-operator.sh --sync-images",
+    "setup:operator:sync-images:tag": "KOKU_IMAGE_TAG=c249c99 npm run setup:operator:sync-images",
     "setup:operator:iqe": "bash scripts/onprem/setup-operator-iqe.sh",
     "setup:operator:iqe:setup": "bash scripts/onprem/setup-operator-iqe.sh --setup-only",
     "setup:operator:iqe:ingest": "bash scripts/onprem/setup-operator-iqe.sh --ingest-only",
@@ -47,6 +48,7 @@
     "start:onprem": "concurrently -k --names \"HOST,HCCM,ROS,SRCS,RBAC\" --prefix-colors \"yellow,cyan,magenta,green,blue\" \"npm run -w @koku-ui/koku-ui-onprem start\" \"npm run -w @koku-ui/koku-ui-hccm start:onprem\" \"npm run -w @koku-ui/koku-ui-ros start:onprem\" \"npm run -w @koku-ui/koku-ui-sources start:onprem\" \"npm run -w @koku-ui/rbac-ui-onprem start:onprem\"",
     "start:onprem:auth": ". scripts/onprem/setup-onprem-env.sh && scripts/onprem/start-onprem-auth.mts",
     "start:onprem:operator": "ONPREM_BACKEND=operator . scripts/onprem/setup-onprem-env.sh && scripts/onprem/start-onprem-auth.mts",
+    "start:onprem:operator:sources": "ONPREM_UNLEASH_FLAGS=cost-management.onprem.sources-ui npm run start:onprem:operator",
     "start:quick:start:koku": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 KOKU_UI_ONPREM_ENABLED=false npm run start:onprem",
     "start:quick:start:koku:onprem": "API_TOKEN=false API_PROXY_URL=http://localhost:8000/api/cost-management/v1 npm run start:onprem"
   },
