@@ -27,7 +27,7 @@ import { useIntl } from 'react-intl';
 import { CurrencySettingsWrapper } from 'routes/components/currency';
 import { SimpleInput } from 'routes/settings/components';
 import { formatDate } from 'utils/dates';
-import { formatCurrencyRateRaw } from 'utils/format';
+import { formatCurrencyRateRaw, unFormat } from 'utils/format';
 
 import { styles } from './rateContent.styles';
 import {
@@ -224,10 +224,17 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       setStartDateError(undefined);
     };
 
+    const handleOnExchangeRateBlur = () => {
+      // Show zero helper only after blur so typing "0.5" does not flash an error on "0"
+      setExchangeRateError(validateRate(exchangeRateInput) || undefined);
+    };
+
     const handleOnExchangeRateChange = (value: string) => {
       const error = validateRate(value);
+      // Defer positive-number helper for exactly 0 until blur (intermediate "0" / "0." while typing)
+      const deferZeroHelper = error === messages.priceListPosNumberRate && Number(unFormat(value)) === 0;
       setExchangeRate(error ? undefined : parseRateValue(value));
-      setExchangeRateError(error || undefined);
+      setExchangeRateError(deferZeroHelper ? undefined : error || undefined);
       setExchangeRateInput(value);
     };
 
@@ -322,6 +329,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
               helperTextInvalid={exchangeRateError}
               id="exchange-rate"
               isRequired
+              onBlur={handleOnExchangeRateBlur}
               onChange={(_evt, value) => handleOnExchangeRateChange(value)}
               validated={exchangeRateError ? 'error' : 'default'}
               value={exchangeRateInput}

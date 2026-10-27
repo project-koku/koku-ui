@@ -79,6 +79,10 @@ describe('details/utils', () => {
       expect(validateRate('-1')).toBe(messages.priceListPosNumberRate);
     });
 
+    test('returns positive-number error for zero', () => {
+      expect(validateRate('0')).toBe(messages.priceListPosNumberRate);
+    });
+
     test('returns too-long error when decimals exceed 10', () => {
       expect(validateRate('1.12345678901')).toBe(messages.costModelsRateTooLong);
     });
