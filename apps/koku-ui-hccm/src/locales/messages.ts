@@ -2625,6 +2625,11 @@ export default defineMessages({
     description: 'Swap currencies',
     id: 'exchangeRateSwapCurrency',
   },
+  exchangeRateTooLong: {
+    defaultMessage: 'Should not exceed 15 decimals',
+    description: 'Should not exceed 15 decimals',
+    id: 'exchangeRateTooLong',
+  },
   exchangeRateValidityPeriodDesc: {
     defaultMessage:
       "The start month is counted from the 1st; the end month includes every day through that month's last calendar day.",
