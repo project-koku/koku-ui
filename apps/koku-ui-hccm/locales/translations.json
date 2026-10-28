@@ -407,6 +407,7 @@
   "exchangeRateRequiresStatic": "Create a static exchange rate before enabling this currency.",
   "exchangeRateStatus": "{value, select, active {Active} expired {Expired} upcoming {Upcoming} other {}}",
   "exchangeRateSwapCurrency": "Swap currencies",
+  "exchangeRateTooLong": "Should not exceed 15 decimals",
   "exchangeRateValidityPeriodDesc": "The start month is counted from the 1st; the end month includes every day through that month's last calendar day.",
   "exchangeRateValidityPeriodOverlap": "This validity period overlaps another rate for the same currency pair. The other row is valid through {date}. Change your dates or edit that row.",
   "excludeLabel": "Excludes: {value}",
