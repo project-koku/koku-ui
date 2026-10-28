@@ -9918,6 +9918,12 @@
         "value": "Swap currencies"
       }
     ],
+    "exchangeRateTooLong": [
+      {
+        "type": 0,
+        "value": "Should not exceed 15 decimals"
+      }
+    ],
     "exchangeRateValidityPeriodDesc": [
       {
         "type": 0,
