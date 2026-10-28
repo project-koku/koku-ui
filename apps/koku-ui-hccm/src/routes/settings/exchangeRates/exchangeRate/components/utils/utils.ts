@@ -69,8 +69,8 @@ export const validateRate = (value: string): MessageDescriptor => {
   }
   // Test number of decimals
   const decimals = countDecimals(value);
-  if (decimals > 10) {
-    return messages.costModelsRateTooLong;
+  if (decimals > 15) {
+    return messages.exchangeRateTooLong;
   }
   return undefined;
 };
