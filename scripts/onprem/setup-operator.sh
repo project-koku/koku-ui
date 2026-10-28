@@ -534,7 +534,8 @@ if [[ -n "$KEYCLOAK_HOST" ]]; then
   echo "  Keycloak admin console: https://${KEYCLOAK_HOST}/admin/"
   echo "    credentials: oc get secret keycloak-initial-admin -n ${KEYCLOAK_NAMESPACE:-keycloak} -o jsonpath='{.data.password}' | base64 -d"
 fi
-echo "  Realm UI users: admin / admin (org-admin), viewer / viewer (IAM read after IQE setup)"
+echo "  Realm UI users: admin / admin (org-admin), viewer / viewer"
+echo "  After sync-users: Cloud administrator (both); IAM read (viewer)"
 echo "  Sync users:    npm run setup:operator:sync-users"
 echo ""
 echo "IQE ingest (sources + cost models) is not part of this script."
