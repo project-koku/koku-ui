@@ -19,8 +19,10 @@
     "build:onprem": "npm run -w @koku-ui/koku-ui-ros build:onprem && npm run -w @koku-ui/koku-ui-hccm build:onprem && npm run -w @koku-ui/koku-ui-sources build:onprem && npm run -w @koku-ui/rbac-ui-onprem build:onprem && npm run -w @koku-ui/koku-ui-onprem build",
     "check:dependencies": "ncu --workspaces",
     "check:dependencies:minor": "ncu --workspaces --target minor",
+    "check:dependencies:minor:skip-held": "ncu --workspaces --target minor --reject \"@patternfly/*,@redhat-cloud-services/frontend-components*,victory\"",
     "check:dependencies:update": "ncu --workspaces -u",
     "check:dependencies:update:minor": "ncu --workspaces -u --target minor",
+    "check:dependencies:update:minor:skip-held": "ncu --workspaces -u --target minor --reject \"@patternfly/*,@redhat-cloud-services/frontend-components*,victory\"",
     "clean": "npm exec --workspaces -- npm run clean",
     "install:lockfile:backfill": "node scripts/backfill-lockfile-resolved.mjs",
     "install:pkgs": "npm install",
@@ -54,6 +56,8 @@
   },
   "scripts-info": {
     "check:dependencies": "Checks for outdated dependencies in each workspace",
+    "check:dependencies:minor:skip-held": "Like check:dependencies:minor, but skips held packages (@patternfly/*, @redhat-cloud-services/frontend-components*, victory)",
+    "check:dependencies:update:minor:skip-held": "Like check:dependencies:update:minor, but skips held packages (@patternfly/*, @redhat-cloud-services/frontend-components*, victory)",
     "install:lockfile:backfill": "Backfill missing resolved URLs in package-lock.json for Konflux hermetic builds",
     "quick:start:koku": "Start Koku (ONPREM=False) and load all sample cost data",
     "quick:start:koku:onprem": "Start Koku (ONPREM=True) and load on-prem OCP sample data",
@@ -78,13 +82,13 @@
     "@eslint/compat": "^2.1.1",
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
-    "@formatjs/cli": "^6.16.35",
+    "@formatjs/cli": "^6.16.36",
     "@formatjs/ecma402-abstract": "^3.2.0",
     "@formatjs/fast-memoize": "^3.1.7",
     "@formatjs/icu-messageformat-parser": "^3.5.22",
     "@formatjs/intl": "^6.1.4",
     "@formatjs/intl-localematcher": "^0.9.0",
-    "@swc/core": "^1.16.18",
+    "@swc/core": "^1.16.20",
     "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -95,14 +99,14 @@
     "@types/react-dom": "^18.3.7",
     "@types/react-redux": "^7.1.35",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^8.72.0",
-    "@typescript-eslint/parser": "^8.72.0",
+    "@typescript-eslint/eslint-plugin": "^8.72.1",
+    "@typescript-eslint/parser": "^8.72.1",
     "concurrently": "^10.0.6",
     "copy-webpack-plugin": "^14.0.0",
     "eslint": "^10.13.0",
     "eslint-plugin-formatjs": "^8.1.2",
     "eslint-plugin-jest-dom": "^5.10.1",
-    "eslint-plugin-jsdoc": "^65.4.1",
+    "eslint-plugin-jsdoc": "^65.4.2",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.7",
     "eslint-plugin-react": "^7.37.5",
@@ -118,18 +122,18 @@
     "jest-mock-axios": "^4.9.1",
     "jest-transform-stub": "^2.0.0",
     "npm-check-updates": "^23.1.1",
-    "npm-run-all2": "^9.0.3",
+    "npm-run-all2": "^9.0.4",
     "prettier": "^3.9.10",
     "rimraf": "^6.1.3",
     "swc_mut_cjs_exports": "^10.7.0",
     "terser-webpack-plugin": "^5.6.1",
     "ts-jest": "^29.4.15",
-    "webpack": "5.112.0"
+    "webpack": "5.112.2"
   },
   "overrides": {
     "eslint": "^10.13.0",
     "nanoid": "^6.0.1",
-    "webpack": "5.112.0",
+    "webpack": "5.112.2",
     "zod@4": "4.6.7",
     "@patternfly/patternfly": "6.6.1",
     "@patternfly/react-charts": "8.6.1",
@@ -140,6 +144,6 @@
     "@patternfly/react-tokens": "6.6.1"
   },
   "dependencies": {
-    "qs": "^6.16.1"
+    "qs": "^6.17.0"
   }
 }
