@@ -19,7 +19,6 @@ const entitiesShim = path.join(srcDir, 'shims/entities.js');
 const tabNavigationShim = path.join(srcDir, 'shims/TabNavigation.tsx');
 const availabilityCheckerShim = path.join(srcDir, 'shims/AvailabilityChecker.tsx');
 const applicationsCardShim = path.join(srcDir, 'shims/ApplicationsCard.tsx');
-// const applicationResourcesCardShim = path.join(srcDir, 'shims/ApplicationResourcesCard.tsx');
 const utilsShim = path.join(srcDir, 'shims/utils.ts');
 const computeSourcesUrlShim = path.join(srcDir, 'shims/computeSourcesUrl.ts');
 
@@ -50,11 +49,6 @@ const moduleReplacements: readonly { match: RegExp; replacement: string }[] = [
     match: /[/\\]sources-ui[/\\]src[/\\]components[/\\]SourceDetail[/\\]ApplicationsCard\.js$/,
     replacement: applicationsCardShim,
   },
-  // Temporarily omitted so the upstream "Manage connected applications" card can be screenshotted.
-  // {
-  //   match: /[/\\]sources-ui[/\\]src[/\\]components[/\\]SourceDetail[/\\]ApplicationResourcesCard\.js$/,
-  //   replacement: applicationResourcesCardShim,
-  // },
   {
     match: /[/\\]sources-ui[/\\]src[/\\]utilities[/\\]utils\.js$/,
     replacement: utilsShim,
