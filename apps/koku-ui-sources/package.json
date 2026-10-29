@@ -38,11 +38,11 @@
     "@patternfly/react-tokens": "6.6.1",
     "@redhat-cloud-services/frontend-components-notifications": "^6.11.16",
     "@reduxjs/toolkit": "^2.13.0",
-    "axios": "^1.20.0",
+    "axios": "^1.21.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intl": "^7.1.14",
-    "react-redux": "^9.3.0",
+    "react-redux": "^9.3.1",
     "react-router-dom": "^6.30.6",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0"
@@ -50,9 +50,9 @@
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.3.0",
     "msw": "^3.0.3",
-    "tsconfig-paths-webpack-plugin": "^4.2.0",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths-webpack-plugin": "^4.2.0",
     "typescript": "^5.9.3"
   }
 }
