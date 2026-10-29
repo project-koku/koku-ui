@@ -64,13 +64,13 @@ export const validateRate = (value: string): MessageDescriptor => {
     return messages.priceListNumberRate;
   }
   // Normalize locale decimal/group separators before numeric checks (e.g. "0,25590" → "0.25590")
-  if (Number(unFormat(value)) < 0) {
+  if (Number(unFormat(value)) <= 0) {
     return messages.priceListPosNumberRate;
   }
   // Test number of decimals
   const decimals = countDecimals(value);
-  if (decimals > 10) {
-    return messages.costModelsRateTooLong;
+  if (decimals > 15) {
+    return messages.exchangeRateTooLong;
   }
   return undefined;
 };
