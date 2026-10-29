@@ -153,12 +153,70 @@ describe('cost sources api', () => {
     assert.equal(typeof calls[0].config.params._, 'number');
     const { _, ...params } = calls[0].config.params;
     assert.deepEqual(params, {
-      limit: 50,
+      limit: 1000,
       name: 'Nise',
       offset: 0,
-      ordering: '-created_timestamp',
       type: 'OCP',
     });
+  });
+
+  it('sorts and pages the list because the Cost API ignores ordering', async () => {
+    const older = {
+      ...costSource,
+      created_timestamp: '2024-01-01 00:00:00',
+      id: '1',
+      name: 'Zebra',
+      uuid: 'older',
+    };
+    const newer = {
+      ...costSource,
+      created_timestamp: '2026-01-01 00:00:00',
+      id: '2',
+      name: 'Alpha',
+      uuid: 'newer',
+    };
+    const localApi = createCostSourcesApi({
+      get: async url => {
+        if (String(url).endsWith('/sources/')) {
+          return { data: [older, newer], meta: { count: 2 } };
+        }
+        throw httpError(404, 'not found');
+      },
+    });
+
+    const byName = await localApi.doLoadEntities({
+      pageNumber: 1,
+      pageSize: 10,
+      sortBy: 'name',
+      sortDirection: 'asc',
+    });
+    assert.deepEqual(
+      byName.sources.map(source => source.name),
+      ['Alpha', 'Zebra']
+    );
+
+    const byDate = await localApi.doLoadEntities({
+      pageNumber: 1,
+      pageSize: 10,
+      sortBy: 'created_at',
+      sortDirection: 'desc',
+    });
+    assert.deepEqual(
+      byDate.sources.map(source => source.name),
+      ['Alpha', 'Zebra']
+    );
+
+    const secondPage = await localApi.doLoadEntities({
+      pageNumber: 2,
+      pageSize: 1,
+      sortBy: 'name',
+      sortDirection: 'desc',
+    });
+    assert.equal(secondPage.meta.count, 2);
+    assert.deepEqual(
+      secondPage.sources.map(source => source.name),
+      ['Alpha']
+    );
   });
 
   it('returns an empty catalog for the Cloud category', async () => {
