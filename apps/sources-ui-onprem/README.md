@@ -35,15 +35,14 @@ Pinned commit: `90d88126f671a407f230338e701ddce936d3ad39` (`fix(integrations): u
 
 ## What this wrapper changes
 
-Webpack replaces seven upstream modules. The screens stay upstream.
+Webpack replaces six upstream modules. The screens stay upstream.
 
 | Shim | Role |
 |------|------|
 | `src/shims/entities.js` | `getSourcesApi()` talks to `/api/cost-management/v1/sources` |
 | `src/shims/TabNavigation.tsx` | Renders nothing, so Cloud and Red Hat tabs are not shown |
 | `src/shims/AvailabilityChecker.tsx` | Reloads `GET /api/cost-management/v1/sources/{uuid}/` instead of the Insights availability check |
-| `src/shims/ApplicationsCard.tsx` | Shows the Applications card with the switch and kebab disabled |
-| `src/shims/ApplicationResourcesCard.tsx` | Shows a read-only Details card with the cluster identifier |
+| `src/shims/ApplicationsCard.tsx` | Renders nothing, so the Applications card is omitted and the summary keeps its column |
 | `src/shims/utils.ts` | `linkBasename` is `/openshift/cost-management/settings/integrations` |
 | `src/shims/computeSourcesUrl.ts` | Hardcoded Sources links point at that settings path |
 
