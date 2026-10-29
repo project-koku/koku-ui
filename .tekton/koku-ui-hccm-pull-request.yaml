@@ -86,6 +86,7 @@ spec:
     - default:
       - APP_BUILD_DIR=apps/koku-ui-hccm/dist
       - PACKAGE_JSON_PATH=apps/koku-ui-hccm/package.json
+      - NPM_VERSION=11
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
       type: array
