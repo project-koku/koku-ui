@@ -46,7 +46,7 @@ Webpack replaces six upstream modules. The screens stay upstream.
 | `src/shims/utils.ts` | `linkBasename` is `/openshift/cost-management/settings/integrations` |
 | `src/shims/computeSourcesUrl.ts` | Hardcoded Sources links point at that settings path |
 
-The Cost translator copies `name`, `source_ref`, and `created_timestamp` (as `created_at`). It stores the Cost `uuid` in `id`, uses source type id `5` and application type id `2`, and invents one Cost Management application plus empty endpoints and authentications. Pause and resume are `PATCH` `{ "paused": true \| false }`. Create posts `{ name, source_type: "OCP", authentication.credentials.cluster_id }` and then `/applications`. Koku's API is unchanged.
+The Cost translator copies `name`, `source_ref`, and `created_timestamp` (as `created_at`). It stores the Cost `uuid` in `id`, uses source type id `5` and application type id `2`, and invents one Cost Management application plus empty endpoints and authentications. Pause and resume are `PATCH` `{ "paused": true \| false }`. Create posts `{ name, source_type: "OCP", authentication.credentials.cluster_id }` and then `/applications`. Koku's API is unchanged. The sources list ignores `ordering`, so Name, Type, and Date added are sorted in this shim after the list is loaded.
 
 Aliases, not reimplementations: `useChrome`, `AsyncComponent`, and a local `useFlag` that defaults `platform.integrations.hcs-disable` to true. `PageHeader`, `PrimaryToolbar`, notifications, and Sentry stay the published packages. `@project-kessel/react-kessel-access-check` is a small stub because on-prem has no Kessel API.
 

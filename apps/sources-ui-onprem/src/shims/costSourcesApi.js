@@ -155,17 +155,52 @@ const toSourcesRecord = source => {
   };
 };
 
-const toOrdering = (sortBy, sortDirection) => {
-  let field;
+// Koku's sources list has no OrderingFilter, so `ordering` does not change the payload.
+const LIST_LIMIT = 1000;
+
+const sortValue = (record, sortBy) => {
+  if (!record) {
+    return null;
+  }
   if (sortBy === 'created_at') {
-    field = 'created_timestamp';
-  } else if (sortBy === 'name') {
-    field = 'name';
+    const parsed = Date.parse(String(record.created_at || '').replace(' ', 'T'));
+    return Number.isNaN(parsed) ? null : parsed;
   }
-  if (!field) {
-    return undefined;
+  if (sortBy === 'name') {
+    return record.name || '';
   }
-  return sortDirection === 'desc' ? `-${field}` : field;
+  if (sortBy === 'source_type_id') {
+    return record.source_type_id || '';
+  }
+  return null;
+};
+
+const comparePresent = (left, right) => {
+  if (typeof left === 'number' && typeof right === 'number') {
+    return left - right;
+  }
+  return String(left).localeCompare(String(right), undefined, { numeric: true, sensitivity: 'base' });
+};
+
+const sortRecords = (records, sortBy, sortDirection) => {
+  if (!sortBy) {
+    return records;
+  }
+  const direction = sortDirection === 'desc' ? -1 : 1;
+  return [...records].sort((leftRecord, rightRecord) => {
+    const left = sortValue(leftRecord, sortBy);
+    const right = sortValue(rightRecord, sortBy);
+    if (left == null && right == null) {
+      return 0;
+    }
+    if (left == null) {
+      return 1;
+    }
+    if (right == null) {
+      return -1;
+    }
+    return direction * comparePresent(left, right);
+  });
 };
 
 const matchesFilters = (record, filterValue = {}) => {
@@ -233,13 +268,10 @@ const createCostSourcesApi = http => {
     }
   };
 
-  const listCostSources = async ({ limit, offset, ordering, name } = {}) => {
+  const listCostSources = async ({ limit, offset, name } = {}) => {
     // The Cost list response is cached for an hour. A unique query keeps pause and
     // resume from being overwritten by that cached list.
     const params = { limit, offset, type: 'OCP', _: Date.now() };
-    if (ordering) {
-      params.ordering = ordering;
-    }
     if (name) {
       params.name = name;
     }
@@ -250,6 +282,32 @@ const createCostSourcesApi = http => {
     } catch (error) {
       throw apiError(detailOf(error));
     }
+  };
+
+  const listAllCostSources = async ({ name } = {}) => {
+    const rows = [];
+    const seen = new Set();
+    let offset = 0;
+    let count = Infinity;
+
+    while (offset < count && rows.length < LIST_LIMIT) {
+      const page = await listCostSources({ limit: LIST_LIMIT, name, offset });
+      count = page.count;
+      const fresh = page.rows.filter(row => {
+        if (!row || seen.has(row.id)) {
+          return false;
+        }
+        seen.add(row.id);
+        return true;
+      });
+      if (fresh.length === 0) {
+        break;
+      }
+      rows.push(...fresh);
+      offset += page.rows.length;
+    }
+
+    return rows;
   };
 
   const doLoadEntities = async ({
@@ -263,15 +321,11 @@ const createCostSourcesApi = http => {
     if (activeCategory === 'Cloud') {
       return { meta: { count: 0 }, sources: [] };
     }
-    const loaded = await listCostSources({
-      limit: pageSize,
-      name: filterValue.name,
-      offset: (pageNumber - 1) * pageSize,
-      ordering: toOrdering(sortBy, sortDirection),
-    });
-    const sources = loaded.rows.filter(record => matchesFilters(record, filterValue));
-    const filtered = sources.length !== loaded.rows.length;
-    return { meta: { count: filtered ? sources.length : loaded.count }, sources };
+    const loaded = await listAllCostSources({ name: filterValue.name });
+    const filtered = loaded.filter(record => matchesFilters(record, filterValue));
+    const sorted = sortRecords(filtered, sortBy, sortDirection);
+    const start = (pageNumber - 1) * pageSize;
+    return { meta: { count: sorted.length }, sources: sorted.slice(start, start + pageSize) };
   };
 
   const bulkCreate = async payload => {
