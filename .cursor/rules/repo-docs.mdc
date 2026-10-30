@@ -1,0 +1,16 @@
+---
+description: Save non-trivial Cursor plans and their specs under docs/. Write an RFE only for an unplanned proposal, and a decision only when a real alternative is rejected.
+alwaysApply: true
+---
+
+# Repo docs
+
+When you create a Cursor plan for a non-trivial change, read `docs/plans/AGENTS.md` and `docs/specs/AGENTS.md`. Write both files in that turn. They share the next `NNNN` and slug. Save the plan as written. The spec states what and why, not the task list.
+
+Read `docs/decisions/AGENTS.md`. Write a decision only when a real alternative was rejected. One fork, one file, named `NNNN-MMM-<slug>.md` with that plan's `NNNN` and the next `MMM`. A plan with no such fork gets no decision.
+
+Do not write an RFE for a plan. Read `docs/rfes/AGENTS.md` when the user asks to capture a proposal and is not asking for a plan.
+
+A one-step edit that never becomes a plan does not get files. Implementing a plan does not create a second spec or plan. If the user edits the plan before implementation, overwrite the plan file with the approved text and update the spec when the destination changed.
+
+Ids and folder roles: `docs/AGENTS.md`.
