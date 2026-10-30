@@ -55,7 +55,6 @@ report.*.json
 .vscode/
 .swc/
 .dccache
-/docs
 
 # NISE leftover monthly CSVs (IQE ingest uses nise-output/; nise writes to cwd)
 nise-output/
