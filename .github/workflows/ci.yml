@@ -13,10 +13,59 @@ env:
   NODEJS_VERSION: '22'
 
 jobs:
-  build:
-    # This job is run for PRs only, as a sanity check, to confirm ci.ext.devshift.net is working properly
-    if: ${{ github.event_name == 'pull_request' }}
-    name: Build
+  # Image builds run in .tekton, and lint runs in Tests. Commented out so the job is not executable.
+  # build:
+  #   if: ${{ github.event_name == 'pull_request' }}
+  #   name: Build
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v5
+  #       with:
+  #         submodules: recursive
+  #
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v6
+  #       with:
+  #         node-version: ${{ env.NODEJS_VERSION }}
+  #
+  #     # Node 22 ships npm 10; lockfile requires npm >=11.6.2 (see package.json engines)
+  #     - name: Upgrade npm
+  #       run: npm install -g npm@11
+  #
+  #     - name: Cache node modules
+  #       id: cache-npm
+  #       uses: actions/cache@v4
+  #       env:
+  #         cache-name: cache-node-modules
+  #       with:
+  #         path: ~/.npm
+  #         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-build-${{ env.cache-name }}-
+  #           ${{ runner.os }}-build-
+  #           ${{ runner.os }}-
+  #
+  #     - name: Install dependencies
+  #       run: npm ci
+  #
+  #     - name: Build
+  #       run: npm run build
+  #
+  #     - name: Build OnPrem
+  #       id: build-onprem
+  #       uses: redhat-actions/buildah-build@v2
+  #       with:
+  #         image: localhost/koku-ui-onprem
+  #         tags: latest
+  #         extra-args: |
+  #           --ulimit nofile=10000:10000
+  #         containerfiles: apps/koku-ui-onprem/Containerfile
+  #         context: .
+
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -50,59 +99,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Build
-        run: npm run build
 
       - name: Lint
         run: npm run lint
-
-      - name: Build OnPrem
-        id: build-onprem
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: localhost/koku-ui-onprem
-          tags: latest
-          extra-args: |
-            --ulimit nofile=10000:10000
-          containerfiles: apps/koku-ui-onprem/Containerfile
-          context: .
-
-  units:
-    name: Units
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-        with:
-          submodules: recursive
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ env.NODEJS_VERSION }}
-
-      # Node 22 ships npm 10; lockfile requires npm >=11.6.2 (see package.json engines)
-      - name: Upgrade npm
-        run: npm install -g npm@11
-
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-node-modules
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci
 
       - name: Test
         id: test_run
@@ -118,7 +117,7 @@ jobs:
 
   coverage:
     name: Coverage
-    needs: [units]
+    needs: [tests]
     runs-on: ubuntu-latest
 
     steps:
