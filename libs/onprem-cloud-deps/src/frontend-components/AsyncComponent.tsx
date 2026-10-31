@@ -21,4 +21,5 @@ const AsyncComponent: React.FC<AsyncComponentProps> = props => {
   );
 };
 
+export { AsyncComponent };
 export default AsyncComponent;

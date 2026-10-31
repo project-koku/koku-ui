@@ -94,7 +94,7 @@ npm run start:onprem:operator
 ```
 
 Open **http://localhost:9002** and sign in as `admin` / `admin`, `viewer` / `viewer`
-(non-org-admin with IAM read RBAC roles), or `rbac_user` / `rbac_user` (created by
+(non-org-admin with IAM read and sources read), or `rbac_user` / `rbac_user` (created by
 QE's `setup_onprem_cluster.sh`).
 
 #### `setup:operator` npm targets
@@ -113,7 +113,7 @@ depending on the target.
 | `npm run setup:operator:iqe` | Operator already installed. IQE venv + `setup_onprem_cluster.sh` + leftover-UI ingest. |
 | `npm run setup:operator:iqe:setup` | IQE venv + cluster setup only (`rbac_user`, masu `IQE_TEST_RUN`). |
 | `npm run setup:operator:iqe:ingest` | IQE leftover-UI ingest only. Add `-- --smoke` for the PR smoke suite (that suite deletes sources after tests). |
-| `npm run setup:operator:sync-users` | Re-sync Keycloak `admin`/`viewer` users and re-grant viewer IAM read RBAC roles. |
+| `npm run setup:operator:sync-users` | Re-sync Keycloak `admin`/`viewer` users, re-grant viewer IAM read and `sources:*:read`, and grant `sources:*:*` to admin. |
 
 Environment overrides (optional): `NAMESPACE`, `CR_NAME`, `KEYCLOAK_NAMESPACE`,
 `OPERATOR_DIR`, `CHART_ROOT`, `KOKU_IMAGE_TAG`, `IQE_CORE_PATH`, `IQE_PLUGIN_PATH`,
@@ -176,12 +176,23 @@ ONPREM_AUTH_PORT=9002 ONPREM_UI_PORT=9001 npm run start:onprem:auth
 
 | Item | Value |
 |------|--------|
-| Static assets | `/rbac/` (`apps/rbac-ui-onprem/dist`, webpack at image build; upstream from `vendor/insights-rbac-ui` submodule) |
-| Federated scope | `insightsRbac` / module `./Iam` |
+| Static assets | `/rbac-ui-onprem/` (`apps/rbac-ui-onprem/dist`, webpack at image build; upstream from `vendor/insights-rbac-ui` submodule) |
+| Federated scope | `rbac-ui-onprem` / module `./Iam` |
 | Host route | `/iam/*` (POC entry: `/iam/my-user-access`) |
 | API (dev proxy) | `/api/rbac` → gateway origin derived from `API_PROXY_URL` |
 
-Production image: `apps/koku-ui-onprem/Containerfile` runs `build:onprem` for RBAC and copies `apps/rbac-ui-onprem/dist` to nginx `./rbac`.
+Production image: `apps/koku-ui-onprem/Containerfile` runs `build:onprem` for RBAC and copies `apps/rbac-ui-onprem/dist` to nginx `./rbac-ui-onprem`.
+
+### Sources UI remote
+
+| Item | Value |
+|------|--------|
+| Static assets | `/sources-ui-onprem/` (`apps/sources-ui-onprem/dist`, upstream from `vendor/sources-ui`) |
+| Federated scope | `sources-ui-onprem` / module `./RootApp` |
+| Host route | Settings → Integrations at `/openshift/cost-management/settings/integrations?category=Red%20Hat` |
+| Backup | Set `KOKU_UI_ONPREM_SOURCES_ENABLED=false` to load `koku-ui-sources` in that tab. `/integrations` then redirects to Settings |
+
+`koku-ui-sources` stays in the image either way. Pin and bump steps: [`apps/sources-ui-onprem/README.md`](../sources-ui-onprem/README.md).
 
 ### Cypress E2E
 
@@ -207,6 +218,8 @@ comma-separated env before starting:
 export ONPREM_UNLEASH_FLAGS=some.flag.name,another.flag
 npm run start:onprem:auth
 ```
+
+Leave `KOKU_UI_ONPREM_SOURCES_ENABLED` unset and Settings → Integrations loads `sources-ui-onprem`. Set it to `false` to load `koku-ui-sources` (`npm run start:onprem:operator:sources`). That variable is a build-time switch, like `KOKU_UI_ONPREM_ENABLED`, and is separate from `ONPREM_UNLEASH_FLAGS`.
 
 The host wraps the app in `FlagProvider` from the stub so federated remotes share the same context.
 

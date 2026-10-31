@@ -85,7 +85,7 @@ const config: Configuration = {
   output: {
     filename: '[name].bundle-[contenthash].js',
     path: distDir,
-    publicPath: '/rbac/',
+    publicPath: '/rbac-ui-onprem/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
@@ -112,7 +112,7 @@ const config: Configuration = {
         // Do not share component-groups — historical PF chunk 6658 / SkeletonTable ThBase loop on cluster nginx.
       },
       pluginMetadata: {
-        name: 'insightsRbac',
+        name: 'rbac-ui-onprem',
         version: '0.0.1',
         exposedModules,
       },

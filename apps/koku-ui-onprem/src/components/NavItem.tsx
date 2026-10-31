@@ -11,17 +11,14 @@ import { useIam } from './IamContext';
 interface NavItemProps {
   to: string;
   children: React.ReactNode;
-  onLeaveIam: (to: string) => void;
+  onLeaveSection: (to: string) => void;
 }
 
 /**
  * Match active state against the current pathname.
  *
- * When the RBAC MFE is mounted its router uses `/iam` as a basename, so
- * `useLocation().pathname` is relative to that prefix (e.g. `/roles` instead
- * of `/iam/roles`). The IAM branch of this function strips the prefix before
- * comparing so the active highlight stays correct regardless of which router
- * owns the current URL.
+ * IAM sets the host basename, so `useLocation().pathname` is relative to `/iam`
+ * while the nav `to` values stay absolute.
  */
 const isNavActive = (pathname: string, to: string) => {
   const rel = isIamPath(to) ? stripIamBasename(to) : to;
@@ -29,41 +26,21 @@ const isNavActive = (pathname: string, to: string) => {
 };
 
 /**
- * Custom NavItem wrapper required because this app hosts two independent
- * React Router instances:
- *
- *   1. The **host (Cost Management) router** — handles all `/openshift/*` routes.
- *   2. The **RBAC MFE router** — mounted at `/iam`, uses `/iam` as its basename
- *      so its `useLocation` returns paths relative to that prefix.
- *
- * PatternFly's NavItem is used as-is only for plain Cost routes (the default
- * branch below). The two extra cases it cannot cover are:
- *
- *   • **Leave-IAM transition** — when the user is on an `/iam/*` page and
- *     clicks a Cost route, we cannot navigate with React Router's `<Link>`
- *     because the RBAC MFE router owns the current history. Instead we call
- *     `onLeaveIam()`, which unmounts the MFE and then navigates to the target.
- *
- *   • **Cross-MFE IAM links** — when navigating *into* `/iam/*` from a Cost
- *     page there is no shared router, so we use a full-page `<a href>`.
- *     Once the RBAC MFE is mounted (`isOnIamSection === true`) subsequent
- *     IAM-to-IAM navigation can use React Router's `<Link>` with the
- *     basename-relative path.
+ * Cost and IAM do not share one router basename. Leaving IAM is a full page load.
+ * Entering IAM from Cost is an `<a href>` so the next document picks up the basename.
  */
-export const NavItem: React.FC<NavItemProps> = ({ to, children, onLeaveIam }) => {
+export const NavItem: React.FC<NavItemProps> = ({ to, children, onLeaveSection }) => {
   const location = useLocation();
   const { isOnIamSection } = useIam();
   const isActive = isNavActive(location.pathname, to);
-  const leaveIamForCost = isOnIamSection && !isIamPath(to);
+  const stayingInIam = isOnIamSection && isIamPath(to);
+  const leaveSection = isOnIamSection && !stayingInIam;
+  const linkClassName = css(navStyles.navLink, isActive && navStyles.modifiers.current);
 
-  if (leaveIamForCost) {
+  if (leaveSection) {
     return (
       <li className={css(navStyles.navItem)}>
-        <button
-          type="button"
-          className={css(navStyles.navLink, isActive && navStyles.modifiers.current)}
-          onClick={() => onLeaveIam(to)}
-        >
+        <button type="button" className={linkClassName} onClick={() => onLeaveSection(to)}>
           {children}
         </button>
       </li>
@@ -71,8 +48,6 @@ export const NavItem: React.FC<NavItemProps> = ({ to, children, onLeaveIam }) =>
   }
 
   if (isIamPath(to)) {
-    const linkClassName = css(navStyles.navLink, isActive && navStyles.modifiers.current);
-
     return (
       <li className={css(navStyles.navItem)}>
         {isOnIamSection ? (
@@ -80,11 +55,6 @@ export const NavItem: React.FC<NavItemProps> = ({ to, children, onLeaveIam }) =>
             {children}
           </Link>
         ) : (
-          // `isOnIamSection === false` means the RBAC MFE is not yet mounted,
-          // so there is no MFE router to accept a `<Link>` push. A full-page
-          // navigation to `/iam/…` lets the browser bootstrap the MFE from
-          // scratch, after which `isOnIamSection` becomes true and subsequent
-          // clicks use the `<Link>` branch above.
           <a href={to} className={linkClassName}>
             {children}
           </a>

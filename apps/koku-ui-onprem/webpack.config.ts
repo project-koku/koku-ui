@@ -9,6 +9,7 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+
 import { isOrgAdminFromAuthHeaders, usernameFromAuthHeaders } from './src/utils/isOrgAdmin';
 
 const pacAgent = process.env.PAC_URL
@@ -68,6 +69,7 @@ if (!isOauth2ProxyMode && process.env.API_TOKEN !== 'false') {
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
 const rbacStaticDirectory = path.resolve(__dirname, '../rbac-ui-onprem/dist');
+const sourcesStaticDirectory = path.resolve(__dirname, '../sources-ui-onprem/dist');
 
 /** Gateway origin for `/api/rbac` when `API_PROXY_URL` targets Koku under `/api/cost-management/v1`. */
 const rbacProxyTarget = (() => {
@@ -128,12 +130,17 @@ const config: Configuration & {
       },
       {
         directory: path.resolve(__dirname, '../koku-ui-sources/dist'),
-        publicPath: '/sources/',
+        publicPath: '/koku-ui-sources/',
         watch: true,
       },
       {
         directory: rbacStaticDirectory,
-        publicPath: '/rbac/',
+        publicPath: '/rbac-ui-onprem/',
+        watch: true,
+      },
+      {
+        directory: sourcesStaticDirectory,
+        publicPath: '/sources-ui-onprem/',
         watch: true,
       },
     ],
@@ -252,10 +259,15 @@ const config: Configuration & {
           from: path.resolve(__dirname, 'src/assets/technology-icons'),
           to: path.resolve(__dirname, 'dist/apps/frontend-assets/technology-icons'),
         },
+        {
+          from: path.resolve(__dirname, 'src/assets/red-hat-logos'),
+          to: path.resolve(__dirname, 'dist/apps/frontend-assets/red-hat-logos'),
+        },
       ],
     }),
     new DefinePlugin({
       'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(process.env.ONPREM_UNLEASH_FLAGS ?? ''),
+      'process.env.KOKU_UI_ONPREM_SOURCES_ENABLED': JSON.stringify(process.env.KOKU_UI_ONPREM_SOURCES_ENABLED?.trim() || 'true'),
     }),
     new container.ModuleFederationPlugin({
       name: 'onprem',

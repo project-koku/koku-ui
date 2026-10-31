@@ -1,5 +1,5 @@
 import type { Provider } from 'api/providers';
-import { isOnPremEnabled } from 'components/featureToggle/featureToggle';
+import { isOnPremEnabled, isOnpremSourcesEnabled } from 'components/featureToggle/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -24,11 +24,15 @@ const SourceLink: React.FC<SourceLinkProps> = ({ provider, showLabel = true }: S
   }
 
   const label = provider.name || provider.uuid;
-  // On-prem: SaaS /settings/integrations/detail/<id> is outside the plugin mount (COST-7661).
-  // Stay under /openshift/cost-management and open koku-ui-sources via provider.uuid.
-  const href = isOnPremEnabled
-    ? `${formatPath(routes.integrationBreakdown.basePath, true)}/${provider.uuid}`
-    : `${getReleasePath()}/settings/integrations/detail/${provider.id}`;
+  // On-prem detail stays under Cost settings. The flag chooses which app renders it.
+  // The category keeps the vendor list on Red Hat when that app reads the query (COST-7661).
+  let href = `${getReleasePath()}/settings/integrations/detail/${provider.id}`;
+  if (isOnPremEnabled) {
+    href = `${formatPath(routes.integrationBreakdown.basePath, true)}/${provider.uuid}`;
+    if (isOnpremSourcesEnabled) {
+      href = `${href}?category=Red%20Hat`;
+    }
+  }
 
   return (
     <>

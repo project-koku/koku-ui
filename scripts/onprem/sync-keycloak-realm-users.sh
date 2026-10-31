@@ -64,10 +64,14 @@ echo "Granting IAM read RBAC permissions to viewer..."
 bash "${SCRIPT_DIR}/grant-viewer-rbac-permissions.sh"
 
 echo ""
-echo "Granting Cloud administrator (sources:*:*) to admin and viewer..."
+echo "Granting Cloud administrator (sources:*:*) to admin..."
 bash "${SCRIPT_DIR}/grant-cloud-administrator-role.sh"
+
+echo ""
+echo "Granting sources read (sources:*:read) to viewer..."
+bash "${SCRIPT_DIR}/grant-viewer-sources-role.sh"
 
 echo ""
 echo "Realm users synced. UI logins:"
 echo "  admin / admin   (org-admin, Cloud administrator)"
-echo "  viewer / viewer (non-org-admin, IAM read, Cloud administrator)"
+echo "  viewer / viewer (non-org-admin, IAM read, sources read)"

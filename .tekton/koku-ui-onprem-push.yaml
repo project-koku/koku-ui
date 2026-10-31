@@ -31,7 +31,8 @@ spec:
   - name: prefetch-input
     value: >-
       [{"type": "npm", "path": "."},
-       {"type": "npm", "path": "vendor/insights-rbac-ui"}]
+       {"type": "npm", "path": "vendor/insights-rbac-ui"},
+       {"type": "npm", "path": "vendor/sources-ui"}]
   - name: build-source-image
     value: "true"
   - name: build-args

@@ -521,6 +521,10 @@ fi
 if [[ "$DEMO_DRY_RUN" != "1" ]]; then
   sync_live_cmsc_koku_image
   wait_koku_image_ready
+  log "Granting sources:*:* to admin"
+  bash "${SCRIPT_DIR}/grant-cloud-administrator-role.sh"
+  log "Granting sources:*:read to viewer"
+  bash "${SCRIPT_DIR}/grant-viewer-sources-role.sh"
 fi
 
 DOMAIN="$(oc get ingress.config.openshift.io cluster -o jsonpath='{.spec.domain}')"
@@ -534,8 +538,8 @@ if [[ -n "$KEYCLOAK_HOST" ]]; then
   echo "  Keycloak admin console: https://${KEYCLOAK_HOST}/admin/"
   echo "    credentials: oc get secret keycloak-initial-admin -n ${KEYCLOAK_NAMESPACE:-keycloak} -o jsonpath='{.data.password}' | base64 -d"
 fi
-echo "  Realm UI users: admin / admin (org-admin), viewer / viewer"
-echo "  After sync-users: Cloud administrator (both); IAM read (viewer)"
+echo "  Realm UI users: admin / admin (org-admin, sources:*:*), viewer / viewer (sources:*:read)"
+echo "  After sync-users: IAM read (viewer); sources:*:* stays on admin; sources:*:read stays on viewer"
 echo "  Sync users:    npm run setup:operator:sync-users"
 echo ""
 echo "IQE ingest (sources + cost models) is not part of this script."

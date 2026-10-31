@@ -77,7 +77,7 @@ const config: Configuration = {
   output: {
     filename: '[name].bundle-[contenthash].js',
     path: distDir,
-    publicPath: '/sources/',
+    publicPath: '/koku-ui-sources/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
@@ -100,7 +100,7 @@ const config: Configuration = {
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
       },
       pluginMetadata: {
-        name: 'sources',
+        name: 'koku-ui-sources',
         version: '1.0.0',
         exposedModules,
       },

@@ -23,7 +23,9 @@ const IamContext = createContext<IamContextValue>({ isOnIamSection: false });
 export const IamProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { pathname } = useLocation();
   const value = useMemo(
-    () => ({ isOnIamSection: typeof window !== 'undefined' && isIamPath(window.location.pathname) }),
+    () => ({
+      isOnIamSection: typeof window !== 'undefined' && isIamPath(window.location.pathname),
+    }),
     // pathname drives re-evaluation; the actual check reads window.location
     [pathname]
   );
@@ -31,7 +33,8 @@ export const IamProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 };
 
 /**
- * Returns `{ isOnIamSection }` — true when the current page is under `/iam`.
+ * Returns section flags from the browser URL.
+ * `isOnIamSection` is true under `/iam`.
  *
  * Must be used inside `<IamProvider>`.
  */

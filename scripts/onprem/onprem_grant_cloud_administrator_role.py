@@ -1,37 +1,73 @@
-"""Grant Sources administrator (Cloud administrator) to admin and viewer lab users.
+"""Grant sources:*:* to the Keycloak admin lab user.
 
 Executed inside the rbac-api pod via ``manage.py shell``. Idempotent.
 
-Assigns the seeded ``Sources administrator`` role (``sources:*:*``), shown in
-the UI as Cloud administrator. Needed so viewer can create/manage sources;
-admin is included so the grant is explicit even when admin_default mapping
-has not run yet.
+Sources UI enables write controls only when /api/rbac/v1/access/?application=sources
+includes the exact string ``sources:*:*`` or ``sources:*:write``. This creates
+that permission instead of depending on a seeded role name.
+
+Earlier runs also added the viewer lab user to this group. Those memberships
+are removed so only admin keeps Cloud administrator.
 """
 from api.models import Tenant
 from django.core.cache import cache
-from management.models import Group, Policy, Principal, Role
+from management.models import Access, Group, Permission, Policy, Principal, Role
 from management.tenant_mapping.model import TenantMapping
 
-usernames = ("admin", "viewer")
+usernames = ("admin",)
+revoked_usernames = ("viewer",)
 org_id = "1234567"
 acct_number = "7890123"
-role_name = "Sources administrator"
+role_name = "On-Prem Cloud Administrator"
 group_name = "On-Prem Cloud Administrators"
 policy_name = "On-Prem Cloud Administrators Policy"
 
-public = Tenant.objects.get(tenant_name="public")
-role = Role.objects.filter(name=role_name, tenant=public).first()
-if role is None:
-    raise SystemExit(
-        f"role {role_name!r} not found on public tenant — "
-        "run RBAC seeding (operator/chart install) first"
+# sources-ui redux/user/actions.js loadWritePermissions
+SOURCES_WRITE_PERMISSIONS = (
+    ("sources", "*", "*", "sources:*:*", "All sources permissions"),
+)
+
+
+def ensure_permission(application, resource_type, verb, permission_string, description):
+    perm, _ = Permission.objects.get_or_create(
+        tenant=public,
+        application=application,
+        resource_type=resource_type,
+        verb=verb,
+        defaults={
+            "permission": permission_string,
+            "description": description,
+        },
     )
+    if perm.permission != permission_string:
+        perm.permission = permission_string
+        perm.save(update_fields=["permission"])
+    return perm
+
+
+public = Tenant.objects.get(tenant_name="public")
 
 org_ids = [org_id]
 if str(org_id).startswith("org"):
     org_ids.append(str(org_id)[3:])
 else:
     org_ids.append("org" + str(org_id))
+
+role, _ = Role.objects.get_or_create(
+    name=role_name,
+    tenant=public,
+    defaults={
+        "description": "Lab Cloud administrator (sources:*:*) access",
+        "system": False,
+        "version": 2,
+    },
+)
+Access.objects.filter(role=role).delete()
+granted_permissions = []
+for application, resource_type, verb, permission_string, description in SOURCES_WRITE_PERMISSIONS:
+    perm = ensure_permission(application, resource_type, verb, permission_string, description)
+    Access.objects.get_or_create(role=role, permission=perm, tenant=public)
+    granted_permissions.append(permission_string)
 
 for resolved_org_id in org_ids:
     tenant, _ = Tenant.objects.get_or_create(
@@ -66,11 +102,19 @@ for resolved_org_id in org_ids:
         )
         grp.principals.add(principal)
 
+    revoked = []
+    for username in revoked_usernames:
+        principal = Principal.objects.filter(username=username, tenant=tenant).first()
+        if principal is not None and grp.principals.filter(pk=principal.pk).exists():
+            grp.principals.remove(principal)
+            revoked.append(username)
+
     print(
         "cloud_administrator_granted",
         f"tenant={resolved_org_id}",
-        f"role={role.name}",
+        f"permissions={granted_permissions}",
         f"users={list(usernames)}",
+        f"revoked={revoked}",
     )
 
 cache.clear()

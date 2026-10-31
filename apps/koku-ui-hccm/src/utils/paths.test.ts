@@ -50,4 +50,10 @@ describe('utils/paths', () => {
     mockUseLocation.mockReturnValue({ pathname: `${base}/src-uuid` })
     expect(usePathname()).toBe(base)
   })
+
+  test('usePathname treats the vendor integrations list as the settings page', () => {
+    const settings = formatPath(routes.settings.path)
+    mockUseLocation.mockReturnValue({ pathname: `${settings}/integrations` })
+    expect(usePathname()).toBe(settings)
+  })
 })
