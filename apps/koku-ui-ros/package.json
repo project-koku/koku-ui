@@ -25,9 +25,7 @@
     "type-check": "tsc --noEmit",
     "patch:hosts": "fec patch-etc-hosts",
     "postinstall": "ts-patch install && rm -rf .cache",
-    "release:app-interface:stage": "sh ../../scripts/release/release-app-interface.sh -r",
-    "release:app-interface:prod": "sh ../../scripts/release/release-app-interface.sh -t",
-    "release:branch": "sh ../../scripts/release/release-branch.sh -r",
+    "release:app-interface": "sh ../../scripts/release/release-app-interface.sh -t",
     "start": "fec dev",
     "start:csb": "CLOUD_SERVICES_BACKEND_PORT=8000 npm start",
     "start:ephemeral": "EPHEMERAL_PORT=8000 npm start",
@@ -51,9 +49,7 @@
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "scripts-info": {
-    "release:app-interface:stage": "Creates an MR to deploy app-interface stage with the latest SHA ref from the release-ros branch",
-    "release:app-interface:prod": "Creates an MR to deploy app-interface prod with the latest SHA ref from the release-ros branch",
-    "release:branch": "Creates a PR to merge main to the release-ros branch",
+    "release:app-interface": "Creates an MR to deploy app-interface with the latest SHA on main",
     "start": "Run ROS UI",
     "start:csb": "Run ROS UI with local Cloud Services Backend",
     "start:ephemeral": "Run ROS UI with ephemeral env",

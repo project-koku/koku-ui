@@ -16,7 +16,6 @@
     "check:dependencies": "ncu",
     "check:dependencies:update": "ncu -u",
     "clean": "rimraf dist",
-    "release:branch": "sh ../../scripts/release/release-onprem.sh",
     "start": "npm run ts-webpack -- serve --mode=development --color --progress",
     "start:prod": "NODE_ENV=production npm run ts-webpack -- serve --mode=production --color --progress",
     "lint": "npm-run-all lint:*",
@@ -29,9 +28,6 @@
     "test:cypress:live": "cypress run --config-file ./cypress/cypress.config.ts --config specPattern='cypress/e2e/live/**/*.cy.ts'",
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'",
     "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"
-  },
-  "scripts-info": {
-    "release:branch": "Creates a PR to assemble release-onprem from main with HCCM/ROS UIs pinned to prod"
   },
   "dependencies": {
     "@patternfly/patternfly": "6.6.1",

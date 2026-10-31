@@ -135,7 +135,7 @@ npm start:csb:ros
 
 ## Releasing ROS UI
 
-This [RELEASE][release-doc] doc describes how to release ROS UI to stage and prod.
+This [RELEASE][release-doc] doc describes how to release ROS UI. Pushing to main updates stage. Prod is pinned in app-interface.
 
 [build-badge]: https://github.com/project-koku/koku-ui/actions/workflows/ci.yml/badge.svg?branch=main
 [codecov-badge]: https://codecov.io/gh/project-koku/koku-ui/graph/badge.svg?token=1hjFIy1cRe

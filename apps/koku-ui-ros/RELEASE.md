@@ -1,52 +1,24 @@
 # Releasing ROS UI
 
-This doc describes how to release ROS UI to stage and prod. Merge `main` to `release-ros` once, then deploy that SHA to app-interface stage, test, and deploy the same SHA to app-interface prod.
+Pushing to `main` builds the image and updates stage. Prod is pinned in app-interface to the latest SHA on `main`.
 
-## Merge branches
+## Stage
 
-The release-branch.sh script creates a koku-ui PR with a unique SHA, used for a namespace \`ref\` in app-interface. We always pull from main when pushing to release-ros.
+No branch merge and no app-interface MR. After a commit reaches `main`, Konflux builds the image and stage follows that branch.
 
-Please allow the PR to build successfully and merge before deploying to app-interface.
+Ensure a successful status by viewing [component activity][component-activity].
 
-### Merge main to release-ros
+## Deploy prod to app-interface
 
-```
-sh ../../scripts/release/release-branch.sh -r
-```
+`release-app-interface.sh` updates prod namespace refs from the latest SHA on `main`.
 
-### Wrapper for all merges
-
-```
-node ../../scripts/release/release-all.js
-```
-
-Follow the prompts below.
-
-* Are you deploying to app-interface? `N`
-* Which app do you want to release? `koku-ui-ros`
-
-The Chrome environment prompt is skipped when merging branches.
-
-## Deploy to app-interface
-
-The release-app-interface.sh script will update app-interface with the latest SHA ref from `release-ros`. Stage and prod both use that branch; choose which app-interface environment to update.
-
-1. Pull from release-ros when updating the stage deployment in app-interface
-2. Pull from release-ros when updating the prod deployment in app-interface
-
-### Deploy release-ros to app-interface stage
-
-```
-sh ../../scripts/release/release-app-interface.sh -r
-```
-
-### Deploy release-ros to app-interface prod
+### Deploy main to app-interface prod
 
 ```
 sh ../../scripts/release/release-app-interface.sh -t
 ```
 
-### Wrapper for all deployments
+### Wrapper
 
 ```
 node ../../scripts/release/release-all.js
@@ -54,17 +26,13 @@ node ../../scripts/release/release-all.js
 
 Follow the prompts below.
 
-* Are you deploying to app-interface? `Y`
 * Which app do you want to release? `koku-ui-ros`
-* Which Chrome environment do you want to release? `stage`
-
-Please allow Konflux to generate images from the previous branch merge, first. Ensure a successful status by viewing [component activity][component-activity].
 
 ### Manual deployment
 
-After all koku-ui PRs have been merged, update the \`koku-ui-ros\` resource in https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/hccm/deploy-clowder.yml
+Update the \`koku-ui-ros\` resource in https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/hccm/deploy-clowder.yml
 
-Use the latest commit of the \`release-ros\` branch to update namespaces \`ref\` in the app-interface repo. Don't use a merge commit.
+Use `main` for stage so it keeps auto-deploying. Use the latest SHA on `main` for prod.
 
 ```
 - name: koku-ui-ros
@@ -72,12 +40,12 @@ Use the latest commit of the \`release-ros\` branch to update namespaces \`ref\`
     # Stage Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/stage-frontends.yml
-    ref: 68ce48592f5222029f27f6fb708698013d2f0a58 // Replace with latest SHA for release-ros branch
+    ref: main // auto-deploy from main
     ...
     # Prod Deployment
   - namespace:
       $ref: /services/insights/frontend-operator/namespaces/prod-frontends.yml
-    ref: 68ce48592f5222029f27f6fb708698013d2f0a58 // Replace with latest SHA for release-ros branch
+    ref: c7f6c75fd1e895afbc05a2a6d26835fa16a0edfa // latest SHA on main
     ...
 ```
 
