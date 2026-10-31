@@ -212,7 +212,7 @@ The host wraps the app in `FlagProvider` from the stub so federated remotes shar
 
 ## Releasing Koku UI OnPrem
 
-This [RELEASE][release-doc] doc describes how to release Koku UI OnPrem.
+This [RELEASE][release-doc] doc describes how to release Koku UI OnPrem. Pushing to main builds the image.
 
 [Jira]: https://redhat.atlassian.net/projects/COST/
 [Patternfly]: https://www.patternfly.org/

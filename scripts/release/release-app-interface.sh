@@ -12,8 +12,8 @@ default()
 
   GITLAB_USER=${GITLAB_USER:-`whoami`}
   MAIN_BRANCH="main"
-  HCCM_BRANCH="release-hccm"
-  ROS_BRANCH="release-ros"
+  HCCM_BRANCH="main"
+  ROS_BRANCH="main"
   TARGET_BRANCH="master"
   TARGET_PROJECT="service/app-interface"
 
@@ -41,11 +41,14 @@ usage()
 {
 cat <<- EEOOFF
 
-    This script will deploy app-interface with the latest SHA refs from the koku-ui branches below. Then, it will
-    create an merge request. It's assumed SSH keys are in use.
+    This script deploys app-interface with the latest SHA on $MAIN_BRANCH, then creates a merge request.
+    SSH keys are assumed.
 
-    $HCCM_BRANCH
-    $ROS_BRANCH
+    Pushing to $MAIN_BRANCH builds images and updates stage. Prod (-s, -t) pins namespace refs to that SHA.
+    release:all deploys prod only. -p and -r remain so stage can be pinned by hand.
+
+    $HCCM_BRANCH (HCCM)
+    $ROS_BRANCH (ROS)
 
     sh [-x] $SCRIPT [-h|-p|-r|-s|-t|-u]
 
@@ -60,7 +63,7 @@ cat <<- EEOOFF
 
     u       Update fork master to match upstream before pushing the deploy branch
 
-    Note: This script does not support on-prem for app-interface deployments.
+    Note: Stage refs can stay on "$MAIN_BRANCH" for auto-deploy. This script does not support on-prem.
 
     This script lacks permission to push directly upstream, so commits will be pushed to this fork:
     $APP_INTERFACE_FORK -- override user via the GITLAB_USER env var.

@@ -3,7 +3,7 @@ name: Koku UI OnPrem - Push/tag
 on:
   push:
     branches:
-      - release-onprem
+      - main
     tags:
       - 'onprem-*'
 env:
