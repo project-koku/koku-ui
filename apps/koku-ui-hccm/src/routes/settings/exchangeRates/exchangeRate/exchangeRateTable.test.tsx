@@ -56,21 +56,36 @@ jest.mock('routes/components/dataTable', () => ({
           </span>
         ))}
       </div>
-      {props.rows?.map((row: { cells?: Array<{ value?: React.ReactNode }> }, rowIndex: number) => (
-        <div key={rowIndex} data-testid={`row-${rowIndex}`}>
-          {row.cells?.map((cell, cellIndex) => (
-            <span key={cellIndex} data-testid={`cell-${rowIndex}-${cellIndex}`}>
-              {cell.value}
-            </span>
-          ))}
-        </div>
-      ))}
+      {props.rows?.map(
+        (row: { cells?: Array<{ value?: React.ReactNode }>; children?: React.ReactNode }, rowIndex: number) => (
+          <div key={rowIndex} data-testid={`row-${rowIndex}`}>
+            {row.cells?.map((cell, cellIndex) => (
+              <span key={cellIndex} data-testid={`cell-${rowIndex}-${cellIndex}`}>
+                {cell.value}
+              </span>
+            ))}
+            {row.children}
+          </div>
+        )
+      )}
       <button type="button" onClick={() => props.onSort?.(props.columns?.[1]?.orderBy, false)}>
         sort-currency
       </button>
     </div>
   ),
-  DataTable: () => <div data-testid="mock-data-table" />,
+  DataTable: (props: { rows?: Array<{ cells?: Array<{ value?: React.ReactNode }> }> }) => (
+    <div data-testid="mock-data-table">
+      {props.rows?.map((row, rowIndex) => (
+        <div key={rowIndex} data-testid={`static-row-${rowIndex}`}>
+          {row.cells?.map((cell, cellIndex) => (
+            <span key={cellIndex} data-testid={`static-cell-${rowIndex}-${cellIndex}`}>
+              {cell.value}
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
 }));
 
 jest.mock('routes/settings/exchangeRates/exchangeRate/components/actions', () => ({
@@ -212,6 +227,41 @@ describe('ExchangeRateTable', () => {
       expect.objectContaining({ id: 'activeRate' }),
       expect.objectContaining({ value: 'none' })
     );
+  });
+
+  test('shows a blue outline label for an active rate', async () => {
+    const rated = {
+      ...settings,
+      data: [
+        {
+          ...settings.data[0],
+          static_rates: [
+            { ...settings.data[0].static_rates[0], uuid: 'active-rate', status: 'active' },
+            { ...settings.data[0].static_rates[0], uuid: 'upcoming-rate', status: 'upcoming' },
+            { ...settings.data[0].static_rates[0], uuid: 'expired-rate', status: 'expired' },
+          ],
+        },
+      ],
+    };
+
+    renderTable(<ExchangeRateTable canWrite filterBy={{}} isDisabled={false} isLoading={false} settings={rated} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('status:active')).toBeInTheDocument();
+    });
+
+    const active = screen.getByText('status:active').closest('.pf-v6-c-label');
+    const upcoming = screen.getByText('status:upcoming').closest('.pf-v6-c-label');
+    const expired = screen.getByText('status:expired').closest('.pf-v6-c-label');
+
+    expect(active).toHaveClass('pf-m-blue', 'pf-m-outline');
+    expect(active?.querySelector('svg')).toBeNull();
+    expect(upcoming).toHaveClass('pf-m-outline');
+    expect(upcoming).not.toHaveClass('pf-m-blue');
+    expect(upcoming?.querySelector('svg')).toBeNull();
+    expect(expired).toHaveClass('pf-m-outline');
+    expect(expired).not.toHaveClass('pf-m-blue');
+    expect(expired?.querySelector('svg')).toBeNull();
   });
 
   test('builds parent rows without children when there are no static rates', async () => {
