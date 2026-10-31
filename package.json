@@ -88,8 +88,8 @@
     "@formatjs/fast-memoize": "^3.1.7",
     "@formatjs/icu-messageformat-parser": "^3.5.22",
     "@formatjs/intl": "^6.1.4",
-    "@formatjs/intl-localematcher": "^0.9.0",
-    "@swc/core": "^1.16.20",
+    "@formatjs/intl-localematcher": "^0.10.0",
+    "@swc/core": "^1.16.21",
     "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -104,7 +104,7 @@
     "@typescript-eslint/parser": "^8.72.1",
     "concurrently": "^10.0.6",
     "copy-webpack-plugin": "^14.0.0",
-    "eslint": "^10.13.0",
+    "eslint": "^10.14.0",
     "eslint-plugin-formatjs": "^8.1.2",
     "eslint-plugin-jest-dom": "^5.10.1",
     "eslint-plugin-jsdoc": "^65.4.2",
@@ -132,7 +132,7 @@
     "webpack": "5.112.2"
   },
   "overrides": {
-    "eslint": "^10.13.0",
+    "eslint": "^10.14.0",
     "nanoid": "^6.0.1",
     "webpack": "5.112.2",
     "zod@4": "4.6.7",
@@ -145,6 +145,6 @@
     "@patternfly/react-tokens": "6.6.1"
   },
   "dependencies": {
-    "qs": "^6.17.0"
+    "qs": "^6.17.1"
   }
 }

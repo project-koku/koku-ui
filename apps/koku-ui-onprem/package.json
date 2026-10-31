@@ -49,11 +49,11 @@
     "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "css-minimizer-webpack-plugin": "^8.0.0",
     "cypress": "^16.2.1",
     "pac-proxy-agent": "^9.1.0",
-    "sass": "^1.106.1",
+    "sass": "^1.107.1",
     "sass-loader": "^17.1.0",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.6.2",
