@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Label } from '@patternfly/react-core';
+import { Label, LabelColor } from '@patternfly/react-core';
 import type { Settings, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -140,7 +140,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
             },
             {
               value: rate?.status ? (
-                <Label variant="outline">
+                <Label color={rate.status === 'active' ? LabelColor.blue : undefined} variant="outline">
                   {intl.formatMessage(messages.exchangeRateStatus, { value: rate.status })}
                 </Label>
               ) : (
