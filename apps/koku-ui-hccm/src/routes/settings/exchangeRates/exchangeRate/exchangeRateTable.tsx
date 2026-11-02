@@ -140,7 +140,7 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
             },
             {
               value: rate?.status ? (
-                <Label color={rate.status === 'active' ? LabelColor.blue : undefined} variant="outline">
+                <Label color={rate.status === 'active' ? LabelColor.green : undefined} variant="outline">
                   {intl.formatMessage(messages.exchangeRateStatus, { value: rate.status })}
                 </Label>
               ) : (

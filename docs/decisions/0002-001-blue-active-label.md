@@ -1,6 +1,7 @@
 ---
-status: accepted
+status: superseded
 date: 2026-10-30
+superseded-by: 0002-002-green-active-label.md
 ---
 
 # Use a blue outline for the active exchange rate
@@ -18,6 +19,8 @@ The exchange rate status column labels Active, Upcoming, and Expired. QE suggest
 ## Decision Outcome
 
 Chosen option: **nonstatus blue for Active only**. `color={LabelColor.blue}` with `variant="outline"`. Upcoming and Expired stay the default outline label. The label `status` prop stays unset, because `status="info"` would add an info icon and present the phase as a severity.
+
+Superseded by [0002-002-green-active-label.md](0002-002-green-active-label.md) after UX asked for light green on Active.
 
 Related plan: [0002-active-rate-label.md](../plans/0002-active-rate-label.md).
 

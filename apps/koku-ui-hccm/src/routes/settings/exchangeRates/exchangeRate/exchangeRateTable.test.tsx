@@ -229,7 +229,7 @@ describe('ExchangeRateTable', () => {
     );
   });
 
-  test('shows a blue outline label for an active rate', async () => {
+  test('shows a green outline label for an active rate', async () => {
     const rated = {
       ...settings,
       data: [
@@ -254,13 +254,13 @@ describe('ExchangeRateTable', () => {
     const upcoming = screen.getByText('status:upcoming').closest('.pf-v6-c-label');
     const expired = screen.getByText('status:expired').closest('.pf-v6-c-label');
 
-    expect(active).toHaveClass('pf-m-blue', 'pf-m-outline');
+    expect(active).toHaveClass('pf-m-green', 'pf-m-outline');
     expect(active?.querySelector('svg')).toBeNull();
     expect(upcoming).toHaveClass('pf-m-outline');
-    expect(upcoming).not.toHaveClass('pf-m-blue');
+    expect(upcoming).not.toHaveClass('pf-m-green');
     expect(upcoming?.querySelector('svg')).toBeNull();
     expect(expired).toHaveClass('pf-m-outline');
-    expect(expired).not.toHaveClass('pf-m-blue');
+    expect(expired).not.toHaveClass('pf-m-green');
     expect(expired?.querySelector('svg')).toBeNull();
   });
 
