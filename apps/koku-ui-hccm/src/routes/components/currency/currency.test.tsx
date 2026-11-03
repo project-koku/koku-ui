@@ -1,6 +1,7 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import { FetchStatus } from 'store/common';
 
 jest.mock('react-redux', () => ({
   __esModule: true,
@@ -12,6 +13,7 @@ jest.mock('react-redux', () => ({
 }));
 
 const mockSelectCurrency = jest.fn();
+const mockSelectCurrencyFetchStatus = jest.fn();
 
 jest.mock('store/currency', () => ({
   __esModule: true,
@@ -21,7 +23,17 @@ jest.mock('store/currency', () => ({
   currencySelectors: {
     selectCurrency: (...args: any[]) => mockSelectCurrency(...args),
     selectCurrencyError: () => undefined,
-    selectCurrencyFetchStatus: () => 'complete',
+    selectCurrencyFetchStatus: (...args: any[]) => mockSelectCurrencyFetchStatus(...args),
+  },
+}));
+
+jest.mock('store/settings', () => ({
+  __esModule: true,
+  settingsActions: {
+    fetchSettings: jest.fn(),
+  },
+  settingsSelectors: {
+    selectSettingsFetchStatus: () => FetchStatus.none,
   },
 }));
 
@@ -37,9 +49,13 @@ jest.mock('routes/components/selectWrapper', () => ({
   ),
 }));
 
+const getAccountCurrency = jest.fn();
+const getCurrency = jest.fn();
 const setCurrency = jest.fn();
 jest.mock('utils/sessionStorage', () => ({
   __esModule: true,
+  getAccountCurrency: (...args: any[]) => getAccountCurrency(...args),
+  getCurrency: (...args: any[]) => getCurrency(...args),
   setCurrency: (...args: any[]) => setCurrency(...args),
 }));
 
@@ -62,7 +78,12 @@ const defaultCurrency = {
 describe('Currency', () => {
   beforeEach(() => {
     setCurrency.mockClear();
+    getCurrency.mockReset();
+    getAccountCurrency.mockReset();
+    getCurrency.mockReturnValue('USD');
+    getAccountCurrency.mockReturnValue('USD');
     mockSelectCurrency.mockReturnValue(defaultCurrency);
+    mockSelectCurrencyFetchStatus.mockReturnValue(FetchStatus.complete);
   });
 
   test('builds options and renders select', () => {
@@ -100,4 +121,30 @@ describe('Currency', () => {
       expect(options[0].value).toBe('USD');
     }
   );
+
+  test('resets session currency and calls onSelect when selection is not enabled', async () => {
+    const onSelect = jest.fn();
+    getCurrency.mockReturnValue('AED');
+    getAccountCurrency.mockReturnValue('USD');
+
+    renderCurrency({ currency: 'AED', onSelect });
+
+    await waitFor(() => {
+      expect(setCurrency).toHaveBeenCalledWith('USD');
+      expect(onSelect).toHaveBeenCalledWith('USD');
+    });
+  });
+
+  test('does not reset when isSessionStorage is false even if selection is missing', async () => {
+    const onSelect = jest.fn();
+    getCurrency.mockReturnValue('AED');
+    getAccountCurrency.mockReturnValue('USD');
+
+    renderCurrency({ currency: 'AED', isSessionStorage: false, onSelect });
+
+    await waitFor(() => {
+      expect(setCurrency).not.toHaveBeenCalled();
+      expect(onSelect).not.toHaveBeenCalled();
+    });
+  });
 });
