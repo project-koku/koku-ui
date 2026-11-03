@@ -168,6 +168,22 @@ describe('RateContent', () => {
     expect(onSave.mock.calls[0][0].exchange_rate).toBeDefined();
   });
 
+  test('save() does not call onSave when the rate is invalid', async () => {
+    const onSave = jest.fn();
+    const ref = createRef<RateContentHandle>();
+    const { container } = renderContent(
+      <RateContent ref={ref} onSave={onSave} settings={sampleSettings} uuid="rate-1" />
+    );
+
+    fireEvent.change(getRateInput(container), { target: { value: 'abc' } });
+
+    await act(async () => {
+      ref.current?.save();
+    });
+
+    expect(onSave).not.toHaveBeenCalled();
+  });
+
   test('reports disabled state via onDisabled', async () => {
     const onDisabled = jest.fn();
     renderContent(<RateContent isAddRate onDisabled={onDisabled} />);

@@ -289,6 +289,11 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     };
 
     const handleOnSave = () => {
+      // Ref can update before startTransition flushes parent disabled state; do not submit an invalid rate
+      if (exchangeRateRef.current === undefined) {
+        return;
+      }
+
       onSave?.({
         base_currency: baseCurrency,
         ...(endDate !== undefined && {
