@@ -27,8 +27,12 @@ const getNarrowCurrencySymbol = (currency: string) => {
   return parts.find(part => part.type === 'currency')?.value || currency;
 };
 
-// Prefer narrowSymbol unless it collides with USD's narrow symbol (e.g., CAD → "$")
+// Prefer narrowSymbol unless it collides with USD's narrow symbol (e.g., CAD → "$").
+// SGD's narrow symbol is also "$"; formatSGD rewrites it to "S$" after formatting.
 const shouldUseNarrowSymbol = (currency: string) => {
+  if (currency === 'SGD') {
+    return true;
+  }
   return currency === 'USD' || getNarrowCurrencySymbol(currency) !== getNarrowCurrencySymbol('USD');
 };
 
@@ -385,13 +389,15 @@ export const formatCurrency: Formatter = (value: number, units: string, options:
 
   // Don't specify default fraction digits here, rely on react-intl instead.
   // Default to narrowSymbol unless it would collide with USD's narrow symbol.
+  const currencyDisplay = (options as FormatOptions & { currencyDisplay?: string }).currencyDisplay;
   const formattedValue = intl.formatNumber(fValue, {
     style: 'currency',
     currency,
     ...(shouldUseNarrowSymbol(currency) ? { currencyDisplay: 'narrowSymbol' } : {}),
     ...options,
   });
-  return currency === 'SGD' ? formatSGD(formattedValue) : formattedValue;
+  // Skip formatSGD for code display so formatCurrencyRaw can strip "SGD".
+  return currency === 'SGD' && currencyDisplay !== 'code' ? formatSGD(formattedValue) : formattedValue;
 };
 
 export const formatCurrencyAbbreviation: Formatter = (value, units = 'USD') => {
@@ -462,13 +468,14 @@ export const formatCurrencyRateRaw: Formatter = (
 
 // Formats without currency symbol
 export const formatCurrencyRaw: Formatter = (value: number, units: string, options: FormatOptions = {}) => {
+  const currency = units ? units.toUpperCase() : 'USD';
   return formatCurrency(value, units, {
     currencyDisplay: 'code',
     ...options,
   } as any)
     .toString()
     .trim()
-    .replace(units, '')
+    .replace(currency, '')
     .replace(/\u202f/g, '') // Small non-breaking space for group separator
     .replace(/\xa0/g, ''); // Non-breaking space before currency
 };
