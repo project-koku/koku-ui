@@ -21,7 +21,15 @@ import { ArrowsAltHIcon } from '@patternfly/react-icons';
 import type { SettingsData, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import { isEqual } from 'lodash';
-import React, { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  startTransition,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { CurrencySettingsWrapper } from 'routes/components/currency';
@@ -57,6 +65,54 @@ export interface RateContentHandle {
 
 type RateContentProps = RateContentOwnProps;
 
+interface ExchangeRateInputProps {
+  defaultValue: string;
+  onRateChange: (rate: number | undefined, error: MessageDescriptor | undefined) => void;
+}
+
+/** Rate text field with local value state so keystrokes stay responsive in RateContent. */
+const ExchangeRateInput: React.FC<ExchangeRateInputProps> = ({ defaultValue, onRateChange }) => {
+  const [value, setValue] = useState(defaultValue);
+  const [error, setError] = useState<MessageDescriptor>();
+
+  const handleOnBlur = () => {
+    // Show zero helper only after blur so typing "0.5" does not flash an error on "0"
+    const nextError = validateRate(value) || undefined;
+    setError(nextError);
+    onRateChange(nextError ? undefined : parseRateValue(value), nextError);
+  };
+
+  const handleOnChange = (_evt: unknown, newValue: string) => {
+    const validationError = validateRate(newValue);
+    // Defer positive-number helper for exactly 0 until blur (intermediate "0" / "0." while typing)
+    const deferZeroHelper = validationError === messages.priceListPosNumberRate && Number(unFormat(newValue)) === 0;
+    const nextError = deferZeroHelper ? undefined : validationError || undefined;
+    const rate = validationError ? undefined : parseRateValue(newValue);
+
+    setValue(newValue);
+    setError(nextError);
+
+    // Keep parent (calendars, currency selects) off the urgent path while typing
+    startTransition(() => {
+      onRateChange(rate, nextError);
+    });
+  };
+
+  // Render
+
+  return (
+    <SimpleInput
+      helperTextInvalid={error}
+      id="exchange-rate"
+      isRequired
+      onBlur={handleOnBlur}
+      onChange={handleOnChange}
+      validated={error ? 'error' : 'default'}
+      value={value}
+    />
+  );
+};
+
 const RateContent = forwardRef<RateContentHandle, RateContentProps>(
   ({ isAddRate, onDisabled, onSave, settings, uuid }, ref) => {
     const intl = useIntl();
@@ -76,17 +132,19 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const [endDate, setEndDate] = useState<Date>(effectiveEnd);
     const [endDateBaseline] = useState<Date>(effectiveEnd);
     const [endDateError, setEndDateError] = useState<MessageDescriptor>();
-    const [exchangeRateInput, setExchangeRateInput] = useState<string>(
-      rate?.exchange_rate != null ? formatCurrencyRateRaw(Number(rate?.exchange_rate), rate.target_currency) : ''
-    );
     const [exchangeRate, setExchangeRate] = useState<number>(rate?.exchange_rate);
     const [exchangeRateValueBaseline] = useState<number>(rate?.exchange_rate);
     const [exchangeRateError, setExchangeRateError] = useState<MessageDescriptor>();
+    /** Sync copy for save() — parent rate state may lag behind startTransition updates while typing. */
+    const exchangeRateRef = useRef(exchangeRate);
     const [startDate, setStartDate] = useState<Date>(effectiveStart);
     const [startDateBaseline] = useState<Date>(effectiveStart);
     const [startDateError, setStartDateError] = useState<MessageDescriptor>();
     const [targetCurrency, setTargetCurrency] = useState<string>(rate?.target_currency);
     const [targetCurrencyBaseline] = useState<string>(rate?.target_currency);
+
+    const exchangeRateInputDefault =
+      rate?.exchange_rate != null ? formatCurrencyRateRaw(Number(rate?.exchange_rate), rate.target_currency) : '';
 
     const isBaseCurrencyDirty = baseCurrency !== baseCurrencyBaseline;
     const isEndDateDirty = !isEqual(endDate, endDateBaseline);
@@ -224,18 +282,10 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
       setStartDateError(undefined);
     };
 
-    const handleOnExchangeRateBlur = () => {
-      // Show zero helper only after blur so typing "0.5" does not flash an error on "0"
-      setExchangeRateError(validateRate(exchangeRateInput) || undefined);
-    };
-
-    const handleOnExchangeRateChange = (value: string) => {
-      const error = validateRate(value);
-      // Defer positive-number helper for exactly 0 until blur (intermediate "0" / "0." while typing)
-      const deferZeroHelper = error === messages.priceListPosNumberRate && Number(unFormat(value)) === 0;
-      setExchangeRate(error ? undefined : parseRateValue(value));
-      setExchangeRateError(deferZeroHelper ? undefined : error || undefined);
-      setExchangeRateInput(value);
+    const handleOnExchangeRateChange = (rateValue: number | undefined, error: MessageDescriptor | undefined) => {
+      exchangeRateRef.current = rateValue;
+      setExchangeRate(rateValue);
+      setExchangeRateError(error);
     };
 
     const handleOnSave = () => {
@@ -244,7 +294,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
         ...(endDate !== undefined && {
           end_date: formatDate(endDate),
         }),
-        exchange_rate: exchangeRate,
+        exchange_rate: exchangeRateRef.current,
         ...(startDate !== undefined && {
           start_date: formatDate(startDate),
         }),
@@ -325,15 +375,7 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
             </StackItem>
           </Stack>
           <FormGroup isRequired fieldId="exchangeRate" label={intl.formatMessage(messages.exchangeRate, { count: 1 })}>
-            <SimpleInput
-              helperTextInvalid={exchangeRateError}
-              id="exchange-rate"
-              isRequired
-              onBlur={handleOnExchangeRateBlur}
-              onChange={(_evt, value) => handleOnExchangeRateChange(value)}
-              validated={exchangeRateError ? 'error' : 'default'}
-              value={exchangeRateInput}
-            />
+            <ExchangeRateInput defaultValue={exchangeRateInputDefault} onRateChange={handleOnExchangeRateChange} />
           </FormGroup>
           <FormGroup isRequired fieldId="start-date" label={intl.formatMessage(messages.validityPeriod)}>
             <div style={styles.validityPeriodDesc}>
