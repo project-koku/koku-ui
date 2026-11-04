@@ -33,11 +33,8 @@ interface AddRateStateProps {
 
 type AddRateProps = AddRateOwnProps;
 
-/** Own fetch for overlap validation: full enabled currency list (not the table page). */
+/** Own fetch for overlap validation: full currency list, including disabled (not the table page). */
 const baseQuery: Query = {
-  filter: {
-    enabled: true,
-  },
   limit: 1000,
   offset: 0,
   order_by: {

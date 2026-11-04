@@ -11,7 +11,7 @@ Creating a static exchange rate validates date-range overlaps against existing `
 
 ## Requirements
 
-- The create exchange rate flow has a complete enabled-currency settings payload (including `static_rates`) for overlap validation, independent of table pagination.
+- The create exchange rate flow has a complete currency settings payload (including disabled currencies and their `static_rates`) for overlap validation, independent of table pagination and the “show disabled” toggle.
 - `AddRate` owns that fetch via its own `useMapToProps`; the toolbar no longer supplies the paginated table `settings` for the modal.
 - The table continues to use its own paginated `limit=10` query; the two Redux cache keys stay separate.
 - Edit and duplicate flows are unchanged for this effort.
@@ -19,8 +19,8 @@ Creating a static exchange rate validates date-range overlaps against existing `
 ## Considered options
 
 - Refetch `settings/currency/` filtered by the selected base currency when the create modal opens or the base field changes (ticket suggestion).
-- Give `AddRate` a dedicated `useMapToProps` with `limit=1000` for the full enabled list (chosen; see decision).
+- Give `AddRate` a dedicated `useMapToProps` with `limit=1000` and no `filter[enabled]`, matching the table’s “show disabled” all-currencies query (chosen; see decision).
 
 ## Outcome
 
-`AddRate` fetches enabled currencies with `limit=1000` and passes `settings.data` into `AddRateModal` / `RateContent` for `findOverlappingRate`. Create-modal overlap checks no longer depend on which page of the settings table is loaded.
+`AddRate` fetches all currencies with `limit=1000` (no `enabled` filter) and passes `settings.data` into `AddRateModal` / `RateContent` for `findOverlappingRate`. Create-modal overlap checks no longer depend on which page of the settings table is loaded or whether disabled currencies are shown.
