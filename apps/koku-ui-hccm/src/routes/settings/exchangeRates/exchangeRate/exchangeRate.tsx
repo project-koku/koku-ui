@@ -162,7 +162,6 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
         onShowDeprecated={handleOnShowDeprecated}
         pagination={getPagination()}
         query={query}
-        settings={settings?.data}
       />
     );
   };

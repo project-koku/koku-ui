@@ -1,7 +1,7 @@
 import { Switch, Tooltip } from '@patternfly/react-core';
 import type { OcpQuery } from 'api/queries/ocpQuery';
 import { ResourcePathsType } from 'api/resources/resource';
-import type { SettingsData, SettingsRateData } from 'api/settings';
+import type { SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -27,7 +27,6 @@ interface ExchangeRateToolbarOwnProps {
   onShowDeprecated(checked: boolean);
   pagination?: React.ReactNode;
   query?: OcpQuery;
-  settings?: SettingsData[];
 }
 
 type ExchangeRateToolbarProps = ExchangeRateToolbarOwnProps;
@@ -48,16 +47,13 @@ const ExchangeRateToolbar: React.FC<ExchangeRateToolbarProps> = ({
   onShowDeprecated,
   pagination,
   query,
-  settings,
 }) => {
   const intl = useIntl();
 
   // Getters
 
   const getActions = () => {
-    const addRateAction = (
-      <AddRate canWrite={canWrite} isDisabled={isDisabled} onAdd={onAdd} onClose={onClose} settings={settings} />
-    );
+    const addRateAction = <AddRate canWrite={canWrite} isDisabled={isDisabled} onAdd={onAdd} onClose={onClose} />;
 
     return (
       <>
