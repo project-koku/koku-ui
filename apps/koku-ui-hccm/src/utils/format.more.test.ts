@@ -1,6 +1,14 @@
-import { countDecimals, formatCurrency, formatCurrencyAbbreviation, formatCurrencyRate, formatCurrencyRateRaw, formatCurrencyRaw, formatOptimization, formatPercentage, formatPercentageMarkup, formatUnits, formatUsage, isCurrencyFormatValid, isPercentageFormatValid, unFormat, unitsLookupKey } from './format';
+import { countDecimals, formatCurrency, formatCurrencyAbbreviation, formatCurrencyRate, formatCurrencyRateRaw, formatCurrencyRaw, formatOptimization, formatPercentage, formatPercentageMarkup, formatUnits, formatUsage, getCurrencySymbol, isCurrencyFormatValid, isPercentageFormatValid, unFormat, unitsLookupKey } from './format';
 
-jest.mock('components/i18n', () => ({ __esModule: true, getLocale: () => 'en', intl: { formatNumber: (v: number, opts?: any) => new Intl.NumberFormat('en', opts).format(v), formatMessage: (_m: any, v: any) => `${v.symbol || ''}${v.value || ''}` } }));
+jest.mock('components/i18n', () => ({
+	__esModule: true,
+	getLocale: () => 'en',
+	intl: {
+		formatNumber: (v: number, opts?: any) => new Intl.NumberFormat('en', opts).format(v),
+		formatNumberToParts: (v: number, opts?: any) => new Intl.NumberFormat('en', opts).formatToParts(v),
+		formatMessage: (_m: any, v: any) => `${v.symbol || ''}${v.value || ''}`,
+	},
+}));
 
 describe('utils/format', () => {
 	test('countDecimals supports locale and raw dot', () => {
@@ -26,6 +34,21 @@ describe('utils/format', () => {
 	test('formatCurrencyRate and raw variants', () => {
 		expect(formatCurrencyRate(1.23456789, 'USD')).toContain('1.23456789');
 		expect(formatCurrencyRateRaw(1.23456789, 'USD')).toContain('1.23456789');
+	});
+
+	test('formatCurrency SGD uses S$ without a space', () => {
+		expect(formatCurrency(2, 'SGD')).toBe('S$2.00');
+		expect(formatCurrencyRate(2, 'SGD')).toBe('S$2');
+	});
+
+	test('formatCurrencyRaw SGD strips code and symbol', () => {
+		expect(formatCurrencyRaw(2, 'SGD')).toBe('2.00');
+		expect(formatCurrencyRateRaw(2, 'SGD')).toBe('2');
+		expect(formatCurrencyRateRaw(2, 'sgd')).toBe('2');
+	});
+
+	test('getCurrencySymbol SGD returns S$', () => {
+		expect(getCurrencySymbol('SGD')).toBe('S$');
 	});
 
 	test('formatCurrencyRaw removes code and NBSPs', () => {
