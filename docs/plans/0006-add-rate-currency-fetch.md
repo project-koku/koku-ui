@@ -15,42 +15,32 @@ decisions:
 
 ## Approach
 
-Yes: give [`addRate.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/components/add/addRate.tsx) its own `useMapToProps`, shaped like [`exchangeRate.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/exchangeRate.tsx) lines 275–329, with a fixed query:
-
-- no `filter[enabled]` (same as the table’s “show disabled” toggle: all currencies, not only enabled)
-- `limit: 1000`, `offset: 0`
-- `order_by: { code: 'asc' }`
-
-No `filter[currency]` / base-currency refetch. Redux already keys cache by query string, so this does not collide with the table’s `limit=10` entry. Same `limit: 1000` pattern already exists in price-list fetch helpers.
+Reuse the existing dropdown fetch: [`useCurrencySettings`](../../apps/koku-ui-hccm/src/routes/components/currency/utils/hooks.ts) already requests `settings/currency/?limit=1000` (no `enabled` filter). Create-modal overlap checks use that same Redux cache entry instead of a second query with `offset` / `order_by`.
 
 ```mermaid
 flowchart LR
   ExchangeRate["ExchangeRate useMapToProps limit=10"] --> Table[Table / Toolbar]
-  AddRate["AddRate useMapToProps limit=1000"] --> Modal[AddRateModal]
-  Modal --> RateContent
-  RateContent --> Overlap[findOverlappingRate]
+  Modal[AddRateModal / RateContent]
+  Hook["useCurrencySettings limit=1000"] --> Dropdowns[CurrencySettingsWrapper]
+  Hook --> Overlap[findOverlappingRate]
+  Modal --> Hook
 ```
 
-Scope is **AddRate only**. Edit/duplicate operate on a row already present in the current page’s `settings`, so that currency’s `static_rates` are available; COST-8565’s repro is create with a base currency off page 1.
+Scope is **create flow**. Edit/duplicate still pass table `settings` for the row being edited; COST-8565’s repro is create with a base currency off page 1.
 
 ## Implementation
 
-1. **[`addRate.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/components/add/addRate.tsx)**  
-   - Add `useMapToProps` that dispatches `settingsActions.fetchSettings(SettingsType.currency, queryString)` and selects settings/error/status.  
-   - Pass `settings?.data` into `AddRateModal` (stop requiring parent-supplied list).  
-   - Drop `settings` from `AddRateOwnProps` (call sites no longer pass it).
+1. **[`rateContent.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/components/rateContent.tsx)**  
+   - Call `useCurrencySettings()` and use `settings ?? currencySettings?.data` for overlap (and rate lookup when props are omitted).
 
-2. **Call sites**  
-   - [`exchangeRateToolbar.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/exchangeRateToolbar.tsx): stop passing `settings` into `AddRate` (toolbar can keep `settings` for other uses if any; today it only forwards to AddRate).  
-   - [`noExchangeRateAssignedState.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/components/state/noExchangeRateAssignedState.tsx): unchanged props aside from no longer needing settings.
+2. **[`addRate.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/components/add/addRate.tsx)**  
+   - Do not fetch or pass `settings`; dropdowns and overlap share one `limit=1000` request when the modal mounts.
 
-3. **Tests**  
-   - Update [`addRate.test.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/components/add/addRate.test.tsx) to mock `react-redux` / settings selectors (or wrap with a store) so `useMapToProps` does not throw.  
-   - Adjust toolbar tests if they assert `settings` on `AddRate`.
+3. **Call sites**  
+   - Toolbar / empty state no longer pass table `settings` into `AddRate`.
 
-4. **Docs (on approval)**  
-   - Effort `0006`: `docs/plans/0006-add-rate-currency-fetch.md`, `docs/specs/0006-add-rate-currency-fetch.md`.  
-   - Decision `docs/decisions/0006-001-limit-over-base-filter.md`: choose full `limit=1000` list over the ticket’s per–base-currency filter refetch.
+4. **Docs**  
+   - Effort `0006` plan/spec/decision record the shared-query approach.
 
 ## Out of scope
 
