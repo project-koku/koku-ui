@@ -87,6 +87,60 @@ describe('ExpandTable', () => {
     expect(screen.getByText('child-a')).toBeInTheDocument();
   });
 
+  test('keeps a row expanded when item identity changes but the stable key matches', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const { rerender } = render(
+      <MemoryRouter>
+        <ExpandTable
+          columns={columns}
+          rows={[
+            {
+              item: { code: 'USD' },
+              cells: [{ value: '' }, { value: 'USD' }, { value: '$1' }],
+              children: [{ cells: [{ value: '' }, { value: 'static-rate' }, { value: '1.0' }] }],
+            },
+          ]}
+          orderBy={{ name: 'asc' }}
+          onSort={jest.fn()}
+        />
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /details/i }));
+    expect(screen.getByText('static-rate')).toBeInTheDocument();
+
+    rerender(
+      <MemoryRouter>
+        <ExpandTable
+          columns={columns}
+          isLoading
+          rows={[]}
+          orderBy={{ name: 'asc' }}
+          onSort={jest.fn()}
+        />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+
+    rerender(
+      <MemoryRouter>
+        <ExpandTable
+          columns={columns}
+          rows={[
+            {
+              item: { code: 'USD', name: 'US Dollar' },
+              cells: [{ value: '' }, { value: 'USD' }, { value: '$1' }],
+              children: [{ cells: [{ value: '' }, { value: 'static-rate' }, { value: '1.0' }] }],
+            },
+          ]}
+          orderBy={{ name: 'asc' }}
+          onSort={jest.fn()}
+        />
+      </MemoryRouter>
+    );
+    expect(screen.getByText('static-rate')).toBeInTheDocument();
+  });
+
   test('renders a non-array child when expanded by default', () => {
     renderTable({
       isAllExpanded: true,

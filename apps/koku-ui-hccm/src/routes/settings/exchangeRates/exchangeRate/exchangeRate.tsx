@@ -170,7 +170,6 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   // Handlers
 
   const handleOnAdd = () => {
-    handleOnSetPage(1);
     forceUpdate();
   };
 
@@ -182,12 +181,10 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
   };
 
   const handleOnDelete = () => {
-    handleOnSetPage(1);
     forceUpdate();
   };
 
   const handleOnDuplicate = () => {
-    handleOnSetPage(1);
     forceUpdate();
   };
 
@@ -237,12 +234,14 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
     return <NotAvailable error={settingsError} />;
   }
 
+  const isInitialLoading = isLoading && !settings;
+
   return (
     <>
       {!hasNoCurrency || isLoading ? (
         getCardLayout(
           <>
-            {isLoading ? (
+            {isInitialLoading ? (
               <LoadingState
                 body={intl.formatMessage(messages.exchangeRateLoadingStateDesc)}
                 heading={intl.formatMessage(messages.exchangeRateLoadingStateTitle)}

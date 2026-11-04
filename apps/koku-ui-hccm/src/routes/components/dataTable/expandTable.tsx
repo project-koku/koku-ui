@@ -100,15 +100,19 @@ class ExpandTable extends React.Component<ExpandTableProps, ExpandTableState> {
     }
   };
 
-  private handleOnToggle = (item: any) => {
-    const { expandedRows } = this.state;
+  private getExpandedRowKey = (item: any) => item?.uuid ?? item?.code ?? item?.id ?? item;
 
-    if (expandedRows.has(item)) {
-      expandedRows.delete(item);
-    } else {
-      expandedRows.add(item);
-    }
-    this.setState({ expandedRows });
+  private handleOnToggle = (item: any) => {
+    this.setState(prevState => {
+      const expandedRows = new Set(prevState.expandedRows);
+      const key = this.getExpandedRowKey(item);
+      if (expandedRows.has(key)) {
+        expandedRows.delete(key);
+      } else {
+        expandedRows.add(key);
+      }
+      return { expandedRows };
+    });
   };
 
   public render() {
@@ -160,7 +164,7 @@ class ExpandTable extends React.Component<ExpandTableProps, ExpandTableState> {
           ) : (
             rows.map((row, rowIndex) => {
               const rowId = `row-${rowIndex}`;
-              const isExpanded = isAllExpanded || expandedRows.has(row?.item);
+              const isExpanded = isAllExpanded || expandedRows.has(this.getExpandedRowKey(row?.item));
               const hasExpandableRow = row?.children;
               return (
                 <Tbody isExpanded={isExpanded} key={rowId}>
