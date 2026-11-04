@@ -11,7 +11,8 @@ function usage() {
   console.log(
     [
       'Pushing to main builds images and updates stage.',
-      'This script creates an MR that deploys app-interface prod from the latest SHA on main.',
+      'This script creates an MR that deploys app-interface prod from each app Quay latest SHA.',
+      'If Quay labels are unavailable, you will be asked whether to fall back to tip of main.',
       'MRs are created in your app-interface fork.\n',
     ].join('\n')
   );
