@@ -32,7 +32,7 @@ import React, {
 } from 'react';
 import type { MessageDescriptor } from 'react-intl';
 import { useIntl } from 'react-intl';
-import { CurrencySettingsWrapper } from 'routes/components/currency';
+import { CurrencySettingsWrapper, useCurrencySettings } from 'routes/components/currency';
 import { SimpleInput } from 'routes/settings/components';
 import { formatDate } from 'utils/dates';
 import { formatCurrencyRateRaw, unFormat } from 'utils/format';
@@ -53,7 +53,10 @@ interface RateContentOwnProps {
   isAddRate?: boolean;
   onDisabled?: (value: boolean) => void;
   onSave?: (payload: SettingsRateData) => void;
-  /** Currency settings rows (from settings/currency/) including static_rates for overlap checks. */
+  /**
+   * Currency settings rows (from settings/currency/) including static_rates for overlap checks.
+   * When omitted (create flow), uses {@link useCurrencySettings} — the same limit=1000 fetch as the dropdowns.
+   */
   settings?: SettingsData[];
   uuid?: string;
 }
@@ -120,7 +123,11 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     /** Latest save handler for imperative `save()` — updated in layout effect (not during render). */
     const currentHandlerRef = useRef<() => void>(() => {});
 
-    const rate = settings?.flatMap(item => item.static_rates ?? []).find(item => item.uuid === uuid);
+    // Same settings/currency?limit=1000 fetch as CurrencySettingsWrapper dropdowns (shared Redux cache).
+    const { settings: currencySettings } = useCurrencySettings();
+    const settingsData = settings ?? currencySettings?.data;
+
+    const rate = settingsData?.flatMap(item => item.static_rates ?? []).find(item => item.uuid === uuid);
 
     const effectiveEnd = getEffectiveEndDate(getEffectiveDate(rate?.end_date));
     const effectiveStart = getEffectiveStartDate(getEffectiveDate(rate?.start_date));
@@ -158,10 +165,10 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const isStartDateInvalid = (!startDate && isStartDateDirty) || startDateError !== undefined;
     const isTargetCurrencyInvalid = !targetCurrency && isTargetCurrencyDirty;
 
-    // Use the settings prop (settings/currency/), not the currency list API — that omits static_rates.
+    // settings/currency/ (not the currency list API) includes static_rates for overlap checks.
     // Edit excludes self; add/duplicate create a new rate so the source uuid must not be excluded.
     const overlappingRate = findOverlappingRate(
-      settings,
+      settingsData,
       baseCurrency,
       targetCurrency,
       startDate,

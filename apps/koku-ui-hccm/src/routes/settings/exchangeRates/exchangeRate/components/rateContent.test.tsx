@@ -47,6 +47,7 @@ jest.mock('routes/components/currency', () => ({
       </button>
     </div>
   ),
+  useCurrencySettings: () => ({ settings: undefined }),
 }));
 
 const noopStore = createStore(() => ({}));
