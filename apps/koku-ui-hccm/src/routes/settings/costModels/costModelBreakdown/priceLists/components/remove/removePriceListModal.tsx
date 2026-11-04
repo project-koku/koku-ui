@@ -51,23 +51,12 @@ const RemovePriceListModal: React.FC<RemovePriceListModalProps> = ({
         const selectedUuids = new Set((selectedItems ?? []).map(selected => selected.uuid));
         const newPriceLists = costModel?.price_lists?.filter(item => !selectedUuids.has(item.uuid));
 
-        // Workaround for cost models API's unsupported rate_id
-        const newCostModel = {
-          ...(costModel ?? {}),
-          ...(costModel?.rates && {
-            rates: costModel?.rates?.map(rate => ({
-              ...rate,
-              rate_id: undefined,
-            })),
-          }),
-        };
-
         dispatch(
-          costModelsActions.updateCostModel(newCostModel?.uuid, {
-            ...(newCostModel ?? {}),
+          costModelsActions.updateCostModel(costModel?.uuid, {
+            ...(costModel ?? {}),
             price_lists: undefined,
             price_list_uuids: newPriceLists?.map(item => item.uuid) ?? [],
-            source_type: getSourceType(newCostModel?.source_type),
+            source_type: getSourceType(costModel?.source_type),
             source_uuids: costModel?.sources?.map(cm => cm.uuid) ?? [],
           })
         );

@@ -260,20 +260,9 @@ const OrderPriceListContent = forwardRef<OrderPriceListContentHandle, OrderPrice
         if (costModel?.uuid && isDispatch) {
           setIsFinish(true);
 
-          // Workaround for cost models API's unsupported rate_id
-          const newCostModel = {
-            ...(costModel ?? {}),
-            ...(costModel?.rates && {
-              rates: costModel?.rates?.map(rate => ({
-                ...rate,
-                rate_id: undefined,
-              })),
-            }),
-          };
-
           dispatch(
             costModelsActions.updateCostModel(costModel?.uuid, {
-              ...(newCostModel ?? {}),
+              ...(costModel ?? {}),
               price_lists: undefined,
               price_list_uuids: itemsWithPriority.map(item => item.uuid) ?? [],
               source_type: getSourceType(costModel?.source_type),
