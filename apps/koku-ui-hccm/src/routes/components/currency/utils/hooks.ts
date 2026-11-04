@@ -41,11 +41,25 @@ export const useCurrency = (): CurrencyProps => {
     currencySelectors.selectCurrencyFetchStatus(state, CurrencyType.currency, currencyQueryString)
   );
 
+  // Refetch enabled options after enable/disable so dropdowns drop disabled currencies
+  const currencyDisableFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currencyDisable, undefined)
+  );
+  const currencyEnableFetchStatus = useSelector((state: RootState) =>
+    settingsSelectors.selectSettingsFetchStatus(state, SettingsType.currencyEnable, undefined)
+  );
+
   useEffect(() => {
     if (currencyFetchStatus !== FetchStatus.inProgress) {
       dispatch(currencyActions.fetchCurrency(CurrencyType.currency, currencyQueryString));
     }
   }, [dispatch, currencyQueryString]);
+
+  useEffect(() => {
+    if (currencyDisableFetchStatus === FetchStatus.complete || currencyEnableFetchStatus === FetchStatus.complete) {
+      dispatch(currencyActions.fetchCurrency(CurrencyType.currency, currencyQueryString));
+    }
+  }, [currencyDisableFetchStatus, currencyEnableFetchStatus, dispatch, currencyQueryString]);
 
   return {
     currency,

@@ -12,6 +12,7 @@ import type { ThunkDispatch } from 'redux-thunk';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { settingsActions, settingsSelectors } from 'store/settings';
+import { getAccountCurrency, getCurrency, setCurrency } from 'utils/sessionStorage';
 
 interface EnableRateOwnProps {
   canWrite?: boolean;
@@ -110,12 +111,15 @@ const EnableRate: React.FC<EnableRateProps> = ({ canWrite, isDisabled, isDispatc
       setIsFinish(false);
 
       if (!settingsError) {
+        if (!isEnabled && settings?.code === getCurrency()) {
+          setCurrency(getAccountCurrency());
+        }
         onEnable?.(isEnabled);
       } else {
         setEnabled(isEnabledBaseline); // Restore baseline upon failure
       }
     }
-  }, [isEnabled, isFinish, onEnable, settingsError, settingsFetchStatus]);
+  }, [isEnabled, isFinish, onEnable, settings?.code, settingsError, settingsFetchStatus]);
 
   return getEnableToggle();
 };

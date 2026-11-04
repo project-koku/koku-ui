@@ -3,6 +3,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { getCurrencySymbol } from 'utils/format';
+import { getAccountCurrency, getCurrency } from 'utils/sessionStorage';
 
 export const getCurrencyLabel = (units: string) => {
   const currency = units || 'USD';
@@ -10,6 +11,15 @@ export const getCurrencyLabel = (units: string) => {
     currency,
     symbol: getCurrencySymbol(currency),
   });
+};
+
+/** Returns the session currency when it is still enabled; otherwise the account default. */
+export const resolveEnabledCurrency = (enabledCodes: string[]) => {
+  const current = getCurrency();
+  if (enabledCodes.includes(current)) {
+    return current;
+  }
+  return getAccountCurrency();
 };
 
 /**

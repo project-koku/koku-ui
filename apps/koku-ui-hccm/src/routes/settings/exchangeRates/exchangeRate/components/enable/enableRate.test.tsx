@@ -25,6 +25,17 @@ jest.mock('api/settings', () => {
   };
 });
 
+const getAccountCurrency = jest.fn();
+const getCurrency = jest.fn();
+const setCurrency = jest.fn();
+
+jest.mock('utils/sessionStorage', () => ({
+  __esModule: true,
+  getAccountCurrency: (...args: any[]) => getAccountCurrency(...args),
+  getCurrency: (...args: any[]) => getCurrency(...args),
+  setCurrency: (...args: any[]) => setCurrency(...args),
+}));
+
 function makeStore(
   entries: Array<{ settingsType: SettingsType; status: FetchStatus; error?: unknown }> = [
     { settingsType: SettingsType.currencyEnable, status: FetchStatus.none },
@@ -93,6 +104,14 @@ const renderEnable = (ui: React.ReactElement, store = makeStore()) =>
   );
 
 describe('EnableRate', () => {
+  beforeEach(() => {
+    getAccountCurrency.mockReset();
+    getCurrency.mockReset();
+    setCurrency.mockReset();
+    getAccountCurrency.mockReturnValue('USD');
+    getCurrency.mockReturnValue('USD');
+  });
+
   test('renders enabled switch', () => {
     renderEnable(<EnableRate canWrite settings={currency} />);
     expect(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i })).toBeChecked();
@@ -166,6 +185,42 @@ describe('EnableRate', () => {
     fireEvent.click(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i }));
 
     await waitFor(() => expect(onEnable).toHaveBeenCalledWith(false));
+  });
+
+  test('resets session currency when disabling the current session currency', async () => {
+    const onEnable = jest.fn();
+    const store = makeStore();
+    mockThunkLifecycle(store, SettingsType.currencyDisable);
+    getCurrency.mockReturnValue('AED');
+    getAccountCurrency.mockReturnValue('USD');
+
+    renderEnable(
+      <EnableRate canWrite onEnable={onEnable} settings={{ ...currency, code: 'AED' }} />,
+      store
+    );
+    fireEvent.click(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i }));
+
+    await waitFor(() => {
+      expect(setCurrency).toHaveBeenCalledWith('USD');
+      expect(onEnable).toHaveBeenCalledWith(false);
+    });
+  });
+
+  test('does not reset session currency when disabling a different currency', async () => {
+    const onEnable = jest.fn();
+    const store = makeStore();
+    mockThunkLifecycle(store, SettingsType.currencyDisable);
+    getCurrency.mockReturnValue('EUR');
+    getAccountCurrency.mockReturnValue('USD');
+
+    renderEnable(
+      <EnableRate canWrite onEnable={onEnable} settings={{ ...currency, code: 'AED' }} />,
+      store
+    );
+    fireEvent.click(screen.getByRole('switch', { name: /toggle currency enabled or disabled/i }));
+
+    await waitFor(() => expect(onEnable).toHaveBeenCalledWith(false));
+    expect(setCurrency).not.toHaveBeenCalled();
   });
 
   test('restores baseline when disable request completes with an error', async () => {
