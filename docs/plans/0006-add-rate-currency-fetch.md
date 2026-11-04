@@ -17,7 +17,7 @@ decisions:
 
 Yes: give [`addRate.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/components/add/addRate.tsx) its own `useMapToProps`, shaped like [`exchangeRate.tsx`](../../apps/koku-ui-hccm/src/routes/settings/exchangeRates/exchangeRate/exchangeRate.tsx) lines 275–329, with a fixed query:
 
-- `filter: { enabled: true }` (same default as the table)
+- no `filter[enabled]` (same as the table’s “show disabled” toggle: all currencies, not only enabled)
 - `limit: 1000`, `offset: 0`
 - `order_by: { code: 'asc' }`
 
