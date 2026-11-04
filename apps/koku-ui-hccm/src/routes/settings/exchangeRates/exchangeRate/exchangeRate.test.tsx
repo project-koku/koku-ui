@@ -46,6 +46,7 @@ jest.mock('routes/settings/utils/filterBy', () => ({
 
 jest.mock('./exchangeRateTable', () => ({
   ExchangeRateTable: ({
+    isLoading,
     onDelete,
     onDuplicate,
     onEdit,
@@ -53,6 +54,7 @@ jest.mock('./exchangeRateTable', () => ({
     onSort,
     orderBy,
   }: {
+    isLoading?: boolean;
     onDelete?: () => void;
     onDuplicate?: () => void;
     onEdit?: () => void;
@@ -60,7 +62,11 @@ jest.mock('./exchangeRateTable', () => ({
     onSort?: (sortType: string, isSortAscending: boolean) => void;
     orderBy?: Record<string, string>;
   }) => (
-    <div data-testid="exchange-rate-table" data-order-by={JSON.stringify(orderBy ?? {})}>
+    <div
+      data-testid="exchange-rate-table"
+      data-loading={String(!!isLoading)}
+      data-order-by={JSON.stringify(orderBy ?? {})}
+    >
       <button type="button" onClick={() => onDelete?.()}>
         table-delete
       </button>
@@ -163,11 +169,19 @@ describe('ExchangeRate', () => {
     expect(screen.getByTestId('not-available')).toBeInTheDocument();
   });
 
-  test('shows loading state while fetch is in progress', () => {
+  test('shows full-page loading state only on initial fetch', () => {
+    mockSelectSettingsFetchStatus.mockReturnValue(FetchStatus.inProgress);
+    mockSelectSettings.mockReturnValue(undefined);
+    renderPage(<ExchangeRate canWrite />);
+    expect(screen.getByTestId('loading-state')).toBeInTheDocument();
+  });
+
+  test('keeps the table mounted and passes loading while refetching', () => {
     mockSelectSettingsFetchStatus.mockReturnValue(FetchStatus.inProgress);
     mockSelectSettings.mockReturnValue({ data: [{ code: 'USD' }], meta: { count: 1, limit: 10, offset: 0 } });
     renderPage(<ExchangeRate canWrite />);
-    expect(screen.getByTestId('loading-state')).toBeInTheDocument();
+    expect(screen.queryByTestId('loading-state')).not.toBeInTheDocument();
+    expect(screen.getByTestId('exchange-rate-table')).toHaveAttribute('data-loading', 'true');
   });
 
   test('shows empty state when there are no currencies', () => {
@@ -238,5 +252,34 @@ describe('ExchangeRate', () => {
     expect(latestQuery).toEqual(expect.stringContaining('filter%5Benabled%5D=true'));
     expect(latestQuery).toEqual(expect.stringContaining('limit=10'));
     expect(latestQuery).toEqual(expect.stringContaining('offset=0'));
+  });
+
+  test('keeps the current page after add, delete, or duplicate', () => {
+    mockSelectSettings.mockReturnValue({
+      data: [{ code: 'USD', enabled: true, static_rates: [] }],
+      meta: { count: 20, limit: 10, offset: 0 },
+    });
+    renderPage(<ExchangeRate canWrite />);
+
+    fireEvent.click(screen.getAllByRole('button', { name: /go to next page/i })[0]);
+    mockSelectSettings.mockReturnValue({
+      data: [{ code: 'EUR', enabled: true, static_rates: [] }],
+      meta: { count: 20, limit: 10, offset: 10 },
+    });
+
+    const offsetBeforeMutations = mockFetchSettings.mock.calls
+      .map(call => call[1] as string)
+      .filter(query => query.includes('offset=10'));
+    expect(offsetBeforeMutations.length).toBeGreaterThan(0);
+
+    mockFetchSettings.mockClear();
+    fireEvent.click(screen.getByRole('button', { name: /toolbar-add/i }));
+    fireEvent.click(screen.getByRole('button', { name: /table-delete/i }));
+    fireEvent.click(screen.getByRole('button', { name: /table-duplicate/i }));
+
+    expect(mockFetchSettings.mock.calls.length).toBeGreaterThan(0);
+    for (const [, query] of mockFetchSettings.mock.calls) {
+      expect(query as string).toContain('offset=10');
+    }
   });
 });

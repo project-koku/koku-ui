@@ -164,6 +164,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
   const mappings = getMappings();
   const isDisabled = mappings.length === 0;
   const hasMappings = mappings.length > 0 || Object.keys(query.filter_by || {}).length > 0; // filter may be applied
+  const isInitialLoading = settingsFetchStatus === FetchStatus.inProgress && !settings;
 
   return (
     <>
@@ -179,7 +180,7 @@ const TagMapping: React.FC<MappingsProps> = ({ canWrite }) => {
       </div>
       <div style={styles.tableContainer}>
         {hasMappings && getToolbar(mappings)}
-        {settingsFetchStatus === FetchStatus.inProgress ? (
+        {isInitialLoading ? (
           <LoadingState />
         ) : hasMappings ? (
           <>

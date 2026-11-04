@@ -107,10 +107,17 @@ describe('TagMapping', () => {
     expect(screen.getByRole('heading', { name: /temporarily unavailable/i })).toBeInTheDocument();
   });
 
-  test('shows a loading state', () => {
+  test('shows full-page loading only on initial fetch', () => {
     mockSettingsState.status = FetchStatus.inProgress;
+    mockSettingsState.settings = undefined;
     renderPage();
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  test('keeps the table mounted and passes loading while refetching', () => {
+    mockSettingsState.status = FetchStatus.inProgress;
+    renderPage();
+    expect(screen.getByText('table-loading')).toBeInTheDocument();
   });
 
   test('shows the empty state when there are no mappings', async () => {
