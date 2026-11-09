@@ -75,7 +75,7 @@
     "@redhat-cloud-services/frontend-components-notifications": "^6.11.16",
     "@redhat-cloud-services/frontend-components-utilities": "^7.5.11",
     "@redhat-cloud-services/rbac-client": "^9.0.17",
-    "@reduxjs/toolkit": "^2.13.0",
+    "@reduxjs/toolkit": "^2.14.0",
     "@unleash/proxy-client-react": "^6.0.1",
     "axios": "^1.21.0",
     "date-fns": "^4.4.0",
