@@ -117,6 +117,27 @@ describe('RateContent', () => {
     expect(screen.getByRole('button', { name: /swap currencies/i })).toHaveAttribute('aria-disabled', 'true');
   });
 
+  test('prefills the exchange rate input with up to 15 decimals in edit mode', () => {
+    const highPrecisionSettings = [
+      {
+        code: 'USD',
+        static_rates: [
+          {
+            uuid: 'rate-precision',
+            base_currency: 'USD',
+            target_currency: 'EUR',
+            start_date: '2026-08-01',
+            end_date: '2026-08-31',
+            exchange_rate: 0.123456789012346,
+          },
+        ],
+      },
+    ] as any;
+
+    const { container } = renderContent(<RateContent settings={highPrecisionSettings} uuid="rate-precision" />);
+    expect(getRateInput(container).value).toBe('0.123456789012346');
+  });
+
   test('enables swap when both currencies are selected in add mode', () => {
     renderContent(<RateContent isAddRate />);
     fireEvent.click(screen.getByTestId('base-currency'));

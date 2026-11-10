@@ -96,6 +96,14 @@ jest.mock('./components/enable', () => ({
   EnableRate: () => <span>enable</span>,
 }));
 
+jest.mock('@patternfly/react-core', () => {
+  const actual = jest.requireActual('@patternfly/react-core');
+  return {
+    ...actual,
+    Truncate: ({ content }: { content: string }) => <span data-testid="rate-truncate">{content}</span>,
+  };
+});
+
 describe('ExchangeRateTable', () => {
   const noopStore = createStore(() => ({}));
 
@@ -150,6 +158,37 @@ describe('ExchangeRateTable', () => {
       expect(table).toHaveAttribute('data-rows', '1');
       expect(table).toHaveAttribute('data-child-rows', '1');
       expect(Number(table.getAttribute('data-cols'))).toBeGreaterThan(0);
+    });
+  });
+
+  test('passes the full 15-decimal rate to Truncate in the rate cell', async () => {
+    const highPrecisionSettings = {
+      ...settings,
+      data: [
+        {
+          ...settings.data[0],
+          static_rates: [
+            {
+              ...settings.data[0].static_rates[0],
+              exchange_rate: 0.123456789012346,
+            },
+          ],
+        },
+      ],
+    };
+
+    renderTable(
+      <ExchangeRateTable
+        canWrite
+        filterBy={{}}
+        isDisabled={false}
+        isLoading={false}
+        settings={highPrecisionSettings}
+      />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('rate-truncate')).toHaveTextContent('0.123456789012346');
     });
   });
 

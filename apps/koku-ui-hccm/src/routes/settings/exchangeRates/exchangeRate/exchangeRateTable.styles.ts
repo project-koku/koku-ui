@@ -8,4 +8,9 @@ export const styles = {
   label: {
     marginLeft: t_global_spacer_sm.var,
   },
+  // Constrain the rate cell so PatternFly Truncate's width-based ellipsis can activate.
+  rateColumn: {
+    maxWidth: '8rem',
+    minWidth: 0,
+  },
 } as { [className: string]: React.CSSProperties };
