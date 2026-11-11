@@ -1,6 +1,6 @@
 # sources-ui-onprem
 
-On-prem federated remote for **sources-ui** (scope `sources-ui-onprem`, `/sources-ui-onprem/`, `./RootApp`). No upstream repo edits. `koku-ui-sources` stays at scope `koku-ui-sources` and `/koku-ui-sources/`.
+On-prem federated remote for **sources-ui** (scope `sources-ui-onprem`, `/sources/`, `./RootApp`). No upstream repo edits. `koku-ui-sources` stays at scope `koku-ui-sources` and `/koku-ui-sources/`.
 
 Settings Integrations loads this app. Set `KOKU_UI_ONPREM_SOURCES_ENABLED=false` to load `koku-ui-sources` instead.
 

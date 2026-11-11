@@ -120,7 +120,7 @@ const config: Configuration = {
   output: {
     filename: '[name].bundle-[contenthash].js',
     path: distDir,
-    publicPath: '/sources-ui-onprem/',
+    publicPath: '/sources/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [
