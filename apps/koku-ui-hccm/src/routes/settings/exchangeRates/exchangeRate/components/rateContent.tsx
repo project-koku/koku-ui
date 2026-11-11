@@ -150,8 +150,14 @@ const RateContent = forwardRef<RateContentHandle, RateContentProps>(
     const [targetCurrency, setTargetCurrency] = useState<string>(rate?.target_currency);
     const [targetCurrencyBaseline] = useState<string>(rate?.target_currency);
 
+    // Exchange rates allow up to 15 decimals; cost-model formatters default to 10 (COST-1884).
     const exchangeRateInputDefault =
-      rate?.exchange_rate != null ? formatCurrencyRateRaw(Number(rate?.exchange_rate), rate.target_currency) : '';
+      rate?.exchange_rate != null
+        ? formatCurrencyRateRaw(Number(rate?.exchange_rate), rate.target_currency, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 15,
+          })
+        : '';
 
     const isBaseCurrencyDirty = baseCurrency !== baseCurrencyBaseline;
     const isEndDateDirty = !isEqual(endDate, endDateBaseline);

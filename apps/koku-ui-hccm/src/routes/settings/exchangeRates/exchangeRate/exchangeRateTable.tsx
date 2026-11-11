@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Label, LabelColor } from '@patternfly/react-core';
+import { Label, LabelColor, Truncate } from '@patternfly/react-core';
 import type { Settings, SettingsRateData } from 'api/settings';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -120,7 +120,16 @@ const ExchangeRateTable: React.FC<ExchangeRateTableProps> = ({
               value: rate?.target_currency ?? '',
             },
             {
-              value: formatCurrencyRate(Number(rate?.exchange_rate || 0), rate.target_currency || 'USD'),
+              // Full precision for tooltip; Truncate ellipsizes under rateColumn maxWidth.
+              style: styles.rateColumn,
+              value: (
+                <Truncate
+                  content={formatCurrencyRate(Number(rate?.exchange_rate || 0), rate.target_currency || 'USD', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 15,
+                  })}
+                />
+              ),
             },
             {
               value: rate?.start_date

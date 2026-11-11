@@ -34,6 +34,15 @@ describe('utils/format', () => {
 	test('formatCurrencyRate and raw variants', () => {
 		expect(formatCurrencyRate(1.23456789, 'USD')).toContain('1.23456789');
 		expect(formatCurrencyRateRaw(1.23456789, 'USD')).toContain('1.23456789');
+		// Defaults cap at 10 decimals (cost models); callers can raise the limit (exchange rates).
+		expect(formatCurrencyRate(0.123456789012346, 'USD')).toContain('0.123456789');
+		expect(formatCurrencyRate(0.123456789012346, 'USD')).not.toContain('0.123456789012346');
+		expect(
+			formatCurrencyRate(0.123456789012346, 'USD', { minimumFractionDigits: 0, maximumFractionDigits: 15 })
+		).toContain('0.123456789012346');
+		expect(
+			formatCurrencyRateRaw(0.123456789012346, 'USD', { minimumFractionDigits: 0, maximumFractionDigits: 15 })
+		).toBe('0.123456789012346');
 	});
 
 	test('formatCurrency SGD uses S$ without a space', () => {
