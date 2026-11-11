@@ -176,18 +176,18 @@ ONPREM_AUTH_PORT=9002 ONPREM_UI_PORT=9001 npm run start:onprem:auth
 
 | Item | Value |
 |------|--------|
-| Static assets | `/rbac-ui-onprem/` (`apps/rbac-ui-onprem/dist`, webpack at image build; upstream from `vendor/insights-rbac-ui` submodule) |
+| Static assets | `/rbac/` (`apps/rbac-ui-onprem/dist`, webpack at image build; upstream from `vendor/insights-rbac-ui` submodule) |
 | Federated scope | `rbac-ui-onprem` / module `./Iam` |
 | Host route | `/iam/*` (POC entry: `/iam/my-user-access`) |
 | API (dev proxy) | `/api/rbac` → gateway origin derived from `API_PROXY_URL` |
 
-Production image: `apps/koku-ui-onprem/Containerfile` runs `build:onprem` for RBAC, Sources, and the legacy sources remote, then copies each `dist` under the host document root (`./onprem/rbac-ui-onprem`, `./onprem/sources-ui-onprem`, `./onprem/koku-ui-sources`). Cluster nginx only aliases `/costManagement/`, `/costManagementRos/`, `/sources/`, and `/rbac/`. Any other path is looked up in `/opt/app-root/src/onprem`, and a miss returns `index.html`. A sibling directory such as `./rbac-ui-onprem` is never served, so Scalprum receives HTML instead of `plugin-manifest.json`.
+Production image: `apps/koku-ui-onprem/Containerfile` copies `apps/rbac-ui-onprem/dist` to nginx `./rbac` and `apps/sources-ui-onprem/dist` to nginx `./sources`. Those match the cluster aliases `/rbac/` and `/sources/`. `koku-ui-sources` is copied to `./onprem/koku-ui-sources` and requested at `/koku-ui-sources/`, which the catch-all `location /` serves from the host document root.
 
 ### Sources UI remote
 
 | Item | Value |
 |------|--------|
-| Static assets | `/sources-ui-onprem/` (`apps/sources-ui-onprem/dist`, upstream from `vendor/sources-ui`) |
+| Static assets | `/sources/` (`apps/sources-ui-onprem/dist`, upstream from `vendor/sources-ui`) |
 | Federated scope | `sources-ui-onprem` / module `./RootApp` |
 | Host route | Settings → Integrations at `/openshift/cost-management/settings/integrations?category=Red%20Hat` |
 | Backup | Set `KOKU_UI_ONPREM_SOURCES_ENABLED=false` to load `koku-ui-sources` in that tab. `/integrations` then redirects to Settings |

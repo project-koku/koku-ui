@@ -85,7 +85,7 @@ const config: Configuration = {
   output: {
     filename: '[name].bundle-[contenthash].js',
     path: distDir,
-    publicPath: '/rbac-ui-onprem/',
+    publicPath: '/rbac/',
     chunkFilename: '[name].bundle-[contenthash].js',
   },
   plugins: [

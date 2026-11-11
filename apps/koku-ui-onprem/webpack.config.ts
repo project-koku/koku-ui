@@ -135,12 +135,12 @@ const config: Configuration & {
       },
       {
         directory: rbacStaticDirectory,
-        publicPath: '/rbac-ui-onprem/',
+        publicPath: '/rbac/',
         watch: true,
       },
       {
         directory: sourcesStaticDirectory,
-        publicPath: '/sources-ui-onprem/',
+        publicPath: '/sources/',
         watch: true,
       },
     ],

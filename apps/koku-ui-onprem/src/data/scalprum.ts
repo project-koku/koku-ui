@@ -28,12 +28,12 @@ export const scalprumConfig: ScalprumConfig = {
   },
   'rbac-ui-onprem': {
     name: 'rbac-ui-onprem',
-    manifestLocation: '/rbac-ui-onprem/plugin-manifest.json',
+    manifestLocation: '/rbac/plugin-manifest.json',
     module: './Iam',
   },
   'sources-ui-onprem': {
     name: 'sources-ui-onprem',
-    manifestLocation: '/sources-ui-onprem/plugin-manifest.json',
+    manifestLocation: '/sources/plugin-manifest.json',
     module: './RootApp',
   },
 };

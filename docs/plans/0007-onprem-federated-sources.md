@@ -18,7 +18,7 @@ This record was written after the work shipped. The change predates the docs tra
 
 ## Context
 
-On-prem Settings → Integrations used `koku-ui-sources`. The replacement is upstream [sources-ui](https://github.com/RedHatInsights/sources-ui), vendored at `vendor/sources-ui` and built as the federated remote `sources-ui-onprem` (`./RootApp`, `/sources-ui-onprem/`). The host is Cost Management. Koku's sources REST API is unchanged.
+On-prem Settings → Integrations used `koku-ui-sources`. The replacement is upstream [sources-ui](https://github.com/RedHatInsights/sources-ui), vendored at `vendor/sources-ui` and built as the federated remote `sources-ui-onprem` (`./RootApp`, `/sources/`). The host is Cost Management. Koku's sources REST API is unchanged.
 
 SaaS Insights appnames stay `cost-management` and `cost-management-ros`. Chrome module keys stay `costManagement` and `costManagementRos`.
 
