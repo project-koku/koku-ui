@@ -65,9 +65,13 @@ LABEL summary="Cost Management UI for on-premise deployments" \
 COPY --from=builder /app/apps/koku-ui-onprem/dist ./onprem
 COPY --from=builder /app/apps/koku-ui-hccm/dist ./costManagement
 COPY --from=builder /app/apps/koku-ui-ros/dist ./costManagementRos
-COPY --from=builder /app/apps/koku-ui-sources/dist ./koku-ui-sources
-COPY --from=builder /app/apps/rbac-ui-onprem/dist ./rbac-ui-onprem
-COPY --from=builder /app/apps/sources-ui-onprem/dist ./sources-ui-onprem
+# Cluster nginx only aliases /costManagement/, /costManagementRos/, /sources/, and /rbac/.
+# Every other URL is resolved under /opt/app-root/src/onprem and missing files become index.html.
+# Scalprum then parses that HTML as plugin-manifest.json. These remotes use URL prefixes
+# the aliases do not cover, so their files have to live inside the host document root.
+COPY --from=builder /app/apps/koku-ui-sources/dist ./onprem/koku-ui-sources
+COPY --from=builder /app/apps/rbac-ui-onprem/dist ./onprem/rbac-ui-onprem
+COPY --from=builder /app/apps/sources-ui-onprem/dist ./onprem/sources-ui-onprem
 
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

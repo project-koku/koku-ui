@@ -181,7 +181,7 @@ ONPREM_AUTH_PORT=9002 ONPREM_UI_PORT=9001 npm run start:onprem:auth
 | Host route | `/iam/*` (POC entry: `/iam/my-user-access`) |
 | API (dev proxy) | `/api/rbac` → gateway origin derived from `API_PROXY_URL` |
 
-Production image: `apps/koku-ui-onprem/Containerfile` runs `build:onprem` for RBAC and copies `apps/rbac-ui-onprem/dist` to nginx `./rbac-ui-onprem`.
+Production image: `apps/koku-ui-onprem/Containerfile` runs `build:onprem` for RBAC, Sources, and the legacy sources remote, then copies each `dist` under the host document root (`./onprem/rbac-ui-onprem`, `./onprem/sources-ui-onprem`, `./onprem/koku-ui-sources`). Cluster nginx only aliases `/costManagement/`, `/costManagementRos/`, `/sources/`, and `/rbac/`. Any other path is looked up in `/opt/app-root/src/onprem`, and a miss returns `index.html`. A sibling directory such as `./rbac-ui-onprem` is never served, so Scalprum receives HTML instead of `plugin-manifest.json`.
 
 ### Sources UI remote
 
