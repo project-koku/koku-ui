@@ -28,8 +28,8 @@
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
   },
   "dependencies": {
-    "@data-driven-forms/common": "^4.2.0",
-    "@data-driven-forms/react-form-renderer": "^4.2.0",
+    "@data-driven-forms/common": "^4.2.3",
+    "@data-driven-forms/react-form-renderer": "^4.2.3",
     "@patternfly/patternfly": "6.6.1",
     "@patternfly/react-component-groups": "6.7.0",
     "@patternfly/react-core": "6.6.2",
@@ -37,8 +37,8 @@
     "@patternfly/react-table": "6.6.2",
     "@patternfly/react-tokens": "6.6.1",
     "@redhat-cloud-services/frontend-components-notifications": "^6.11.16",
-    "@reduxjs/toolkit": "^2.14.0",
-    "axios": "^1.21.0",
+    "@reduxjs/toolkit": "^2.15.0",
+    "axios": "^1.21.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intl": "^7.1.14",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@openshift/dynamic-plugin-sdk-webpack": "^5.3.0",
-    "msw": "^3.0.3",
+    "msw": "^3.0.7",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
