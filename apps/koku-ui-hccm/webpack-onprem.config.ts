@@ -7,7 +7,7 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { DefinePlugin } from 'webpack';
 
-// import { FeatureToggleType } from './src/components/featureToggle/featureToggleType';
+import { FeatureToggleType } from './src/components/featureToggle/featureToggleType';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
 
@@ -118,7 +118,7 @@ const config: Configuration = {
       'process.env.ONPREM_UNLEASH_FLAGS': JSON.stringify(
         process.env.ONPREM_UNLEASH_FLAGS?.trim() ||
           [
-            // FeatureToggleType.exchangeRate, // In-progress...
+            FeatureToggleType.exchangeRate, // In-progress...
             // FeatureToggleType.priceListRates, // In-progress...
           ].join(',')
       ),
