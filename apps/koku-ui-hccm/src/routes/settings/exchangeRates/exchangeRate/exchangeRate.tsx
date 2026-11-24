@@ -172,10 +172,11 @@ const ExchangeRate: React.FC<ExchangeRateProps> = ({ canWrite }) => {
     forceUpdate();
   };
 
-  // Disabled currencies are removed from the paginated list of items, unless show disabled toggle is active
-  // When enabled, Currencies may appear in a different paginated order
+  // When show disabled is off, disabling removes the currency from the enabled-only list
   const handleOnEnable = () => {
-    handleOnSetPage(1);
+    if (!isShowDisabled) {
+      handleOnSetPage(1);
+    }
     forceUpdate();
   };
 

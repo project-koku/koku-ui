@@ -282,4 +282,49 @@ describe('ExchangeRate', () => {
       expect(query as string).toContain('offset=10');
     }
   });
+
+  test('keeps the current page after enable when show disabled is on', () => {
+    mockSelectSettings.mockReturnValue({
+      data: [{ code: 'USD', enabled: true, static_rates: [] }],
+      meta: { count: 20, limit: 10, offset: 0 },
+    });
+    renderPage(<ExchangeRate canWrite />);
+
+    fireEvent.click(screen.getByRole('button', { name: /toolbar-show-disabled/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /go to next page/i })[0]);
+    mockSelectSettings.mockReturnValue({
+      data: [{ code: 'EUR', enabled: false, static_rates: [] }],
+      meta: { count: 20, limit: 10, offset: 10 },
+    });
+
+    mockFetchSettings.mockClear();
+    fireEvent.click(screen.getByRole('button', { name: /table-enable/i }));
+
+    expect(mockFetchSettings.mock.calls.length).toBeGreaterThan(0);
+    for (const [, query] of mockFetchSettings.mock.calls) {
+      expect(query as string).toContain('offset=10');
+    }
+  });
+
+  test('resets to the first page after enable when show disabled is off', () => {
+    mockSelectSettings.mockReturnValue({
+      data: [{ code: 'USD', enabled: true, static_rates: [] }],
+      meta: { count: 20, limit: 10, offset: 0 },
+    });
+    renderPage(<ExchangeRate canWrite />);
+
+    fireEvent.click(screen.getAllByRole('button', { name: /go to next page/i })[0]);
+    mockSelectSettings.mockReturnValue({
+      data: [{ code: 'EUR', enabled: true, static_rates: [] }],
+      meta: { count: 20, limit: 10, offset: 10 },
+    });
+
+    mockFetchSettings.mockClear();
+    fireEvent.click(screen.getByRole('button', { name: /table-enable/i }));
+
+    expect(mockFetchSettings.mock.calls.length).toBeGreaterThan(0);
+    for (const [, query] of mockFetchSettings.mock.calls) {
+      expect(query as string).toContain('offset=0');
+    }
+  });
 });
